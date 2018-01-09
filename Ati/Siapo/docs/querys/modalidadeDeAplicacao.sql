@@ -1,0 +1,17 @@
+﻿insert into modalidadedeaplicacao (id, codigo, nome, ativo) values (20,'20','Transferências à União',true);
+insert into modalidadedeaplicacao (id, codigo, nome, ativo) values (22,'22','Execução Orçamentária Delegada a União',true);
+insert into modalidadedeaplicacao (id, codigo, nome, ativo) values (30,'30','Transferências a Estados e ao Distrito Federal',true);
+insert into modalidadedeaplicacao (id, codigo, nome, ativo) values (31,'31','Transferências a Estados e ao Distrito Federal - Fundo a Fundo',true);
+insert into modalidadedeaplicacao (id, codigo, nome, ativo) values (32,'32','Execução Orçamentária Delegada a Estados e ao Distrito Federal',true);
+insert into modalidadedeaplicacao (id, codigo, nome, ativo) values (40,'40','Transferências a Municípios',true);
+insert into modalidadedeaplicacao (id, codigo, nome, ativo) values (41,'41','Transferências a Municípios - Fundo a Fundo',true);
+insert into modalidadedeaplicacao (id, codigo, nome, ativo) values (42,'42','Execução Orçamentária Delegada a Municípios',true);
+insert into modalidadedeaplicacao (id, codigo, nome, ativo) values (50,'50','Transferências a Instituições Privadas sem Fins Lucrativos',true);
+insert into modalidadedeaplicacao (id, codigo, nome, ativo) values (60,'60','Transferências a Instituições Privadas com Fins Lucrativos',true);
+insert into modalidadedeaplicacao (id, codigo, nome, ativo) values (70,'70','Transferências a Instituições Multigovernamentais',true);
+insert into modalidadedeaplicacao (id, codigo, nome, ativo) values (71,'71','Consórios Públicos',true);
+insert into modalidadedeaplicacao (id, codigo, nome, ativo) values (72,'72','Execução Orçamentaria Delegada a Consórcios Públicos',true);
+insert into modalidadedeaplicacao (id, codigo, nome, ativo) values (80,'80','Transferências ao Exterior',true);
+insert into modalidadedeaplicacao (id, codigo, nome, ativo) values (90,'90','Aplicações Diretas',true);
+insert into modalidadedeaplicacao (id, codigo, nome, ativo) values (91,'91','Aplicação direta decorentes de operações entre órgãos, fundos e entidades',true);
+insert into modalidadedeaplicacao (id, codigo, nome, ativo) values (99,'99','Reserva de Contingência',true);

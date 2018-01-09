@@ -1,0 +1,50 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailArma" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['arma.tipo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{armaMB.entity.tipo}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['arma.nomeModelo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{armaMB.entity.nomeModelo}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['arma.marca']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{armaMB.entity.marca}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['arma.calibre']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{armaMB.entity.calibre}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['arma.capacidade']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{armaMB.entity.capacidade}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['arma.numeracao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{armaMB.entity.numeracao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['arma.armaDaPolicia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{armaMB.entity.armaDaPolicia}" styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetArmaDetail').hide()" />
+            <x:securityArea rolesAllowed="arma.audit">
+                <x:audit for="#{armaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

@@ -1,0 +1,77 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['teste.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuTeste.xhtml" />
+        <h:form id="formListTeste">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="teste_export" target=":formListTeste:dataTableTeste"
+                                     widgetVar="dataTableTesteWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="teste" rowIndexVar="index" id="dataTableTeste" widgetVar="dataTableTesteWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{testeMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{testeMB.dataModel.paginatorTemplate}"
+                         value="#{testeMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['teste.latitude']}" sortBy="#{teste.latitude}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['teste.latitude']}" />
+                    </f:facet>
+                    <h:outputText value="#{teste.latitude}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['teste.logitude']}" sortBy="#{teste.logitude}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['teste.logitude']}" />
+                    </f:facet>
+                    <h:outputText value="#{teste.logitude}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetTesteDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailTeste" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{teste}" target="#{testeMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="teste.create">
+                        <p:button icon="ui-icon-pencil" outcome="createTeste" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{teste.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="teste.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{testeMB.delete}" >
+                            <f:setPropertyActionListener value="#{teste.id}" target="#{testeMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{teste}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="teste.audit">
+                    <x:auditDelete for="#{testeMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetTesteDetail" header="#{msg['teste.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailTeste.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

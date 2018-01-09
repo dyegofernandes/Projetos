@@ -1,0 +1,94 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['assento.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuAssento.xhtml" />
+        <h:form id="formListAssento">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="assento_export" target=":formListAssento:dataTableAssento"
+                                     widgetVar="dataTableAssentoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="assento" rowIndexVar="index" id="dataTableAssento" widgetVar="dataTableAssentoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{assentoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{assentoMB.dataModel.paginatorTemplate}"
+                         value="#{assentoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['assento.linha']}" sortBy="#{assento.linha}"
+                    filterBy="#{assento.linha}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['assento.linha']}" />
+                    </f:facet>
+                    <h:outputText value="#{assento.linha}"/>
+                </p:column>
+                <p:column headerText="#{msg['assento.coluna']}" sortBy="#{assento.coluna}"
+                    filterBy="#{assento.coluna}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['assento.coluna']}" />
+                    </f:facet>
+                    <h:outputText value="#{assento.coluna}"/>
+                </p:column>
+                <p:column headerText="#{msg['assento.obeso']}" sortBy="#{assento.obeso}"
+                    filterBy="#{assento.obeso}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['assento.obeso']}" />
+                    </f:facet>
+                    <h:outputText value="#{assento.obeso}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['assento.deficiente']}" sortBy="#{assento.deficiente}"
+                    filterBy="#{assento.deficiente}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['assento.deficiente']}" />
+                    </f:facet>
+                    <h:outputText value="#{assento.deficiente}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['assento.ativo']}" sortBy="#{assento.ativo}"
+                    filterBy="#{assento.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['assento.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{assento.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetAssentoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailAssento" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{assento}" target="#{assentoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="assento.create">
+                        <p:button icon="ui-icon-pencil" outcome="createAssento" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{assento.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="assento.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{assentoMB.delete}" >
+                            <f:setPropertyActionListener value="#{assento.id}" target="#{assentoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{assento}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="assento.audit">
+                    <x:auditDelete for="#{assentoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetAssentoDetail" header="#{msg['assento.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailAssento.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

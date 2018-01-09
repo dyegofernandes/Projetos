@@ -1,0 +1,68 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailItemViatura" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['itemViatura.viatura']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{itemViaturaMB.entity.viatura}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['itemViatura.imei']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{itemViaturaMB.entity.imei}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['itemViatura.latitude']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{itemViaturaMB.entity.latitude}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['itemViatura.longitude']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{itemViaturaMB.entity.longitude}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['itemViatura.telefone']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{itemViaturaMB.entity.telefone}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['itemViatura.operacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{itemViaturaMB.entity.operacao}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['itemViatura.inicioTurno']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{itemViaturaMB.entity.inicioTurno}" styleClass="uix-content-detail">
+                        <f:convertDateTime pattern="HH:mm"/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['itemViatura.fimTurno']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{itemViaturaMB.entity.fimTurno}" styleClass="uix-content-detail">
+                        <f:convertDateTime pattern="HH:mm"/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['itemViatura.status']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{itemViaturaMB.entity.status}" styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetItemViaturaDetail').hide()" />
+            <x:securityArea rolesAllowed="itemViatura.audit">
+                <x:audit for="#{itemViaturaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

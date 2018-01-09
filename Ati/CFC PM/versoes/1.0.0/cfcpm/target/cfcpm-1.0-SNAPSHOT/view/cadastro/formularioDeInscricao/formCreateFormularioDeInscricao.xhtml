@@ -1,0 +1,124 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateFormularioDeInscricao" >
+        <x:modalMessages/>
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="* #{msg['formularioDeInscricao.nome']}:" />
+                        <p:inputText id="nome" value="#{formularioDeInscricaoMB.entity.nome}" maxlength="256"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="identidade" value="* #{msg['formularioDeInscricao.identidade']}:" />
+                        <p:inputText id="identidade" value="#{formularioDeInscricaoMB.entity.identidade}" maxlength="256"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cpf" value="* #{msg['formularioDeInscricao.cpf']}:" />
+                        <x:cpf id="cpf" value="#{formularioDeInscricaoMB.entity.cpf}"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataDeNascimento" value="* #{msg['formularioDeInscricao.dataDeNascimento']}:" />
+                        <p:calendar id="dataDeNascimento" value="#{formularioDeInscricaoMB.entity.dataDeNascimento}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataDeNomeacao" value="* #{msg['formularioDeInscricao.dataDeNomeacao']}:" />
+                        <p:calendar id="dataDeNomeacao" value="#{formularioDeInscricaoMB.entity.dataDeNomeacao}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="sexo" value="* #{msg['formularioDeInscricao.sexo']}:" />
+                        <h:selectOneMenu id="sexo" value="#{formularioDeInscricaoMB.entity.sexo}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.sexo)}" 
+                                           var="sexo"
+                                           itemLabel="#{sexo.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="lotacao" value="* #{msg['formularioDeInscricao.lotacao']}:" />
+                        <p:inputText id="lotacao" value="#{formularioDeInscricaoMB.entity.lotacao}" maxlength="256"  styleClass="form-control"  />
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="email" value="* #{msg['formularioDeInscricao.email']}:" />
+                        <p:inputText id="email" value="#{formularioDeInscricaoMB.entity.email}" maxlength="256"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="telefone" value="* #{msg['formularioDeInscricao.telefone']}:" />
+                        <p:inputMask id="telefone" value="#{formularioDeInscricaoMB.entity.telefone}" mask="(99) 9999-9999"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataInscricao" value="* #{msg['formularioDeInscricao.dataInscricao']}:" />
+                        <p:calendar id="dataInscricao" value="#{formularioDeInscricaoMB.entity.dataInscricao}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar" disabled="true" >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="situacao" value="* #{msg['formularioDeInscricao.situacao']}:" />
+                        <h:selectOneMenu id="situacao" value="#{formularioDeInscricaoMB.entity.situacao}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.situacao)}" 
+                                           var="situacao"
+                                           itemLabel="#{situacao.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+
+        <p:fieldset legend="Endereço">
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="endereco" value="* #{msg['formularioDeInscricao.endereco']}:" />
+                <p:inputText id="endereco" value="#{formularioDeInscricaoMB.entity.endereco}" maxlength="400"  styleClass="form-control"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="numero" value="* #{msg['formularioDeInscricao.numero']}:" />
+                <p:inputText id="numero" value="#{formularioDeInscricaoMB.entity.numero}" maxlength="256"  styleClass="form-control"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="bairro" value="* #{msg['formularioDeInscricao.bairro']}:" />
+                <p:inputText id="bairro" value="#{formularioDeInscricaoMB.entity.bairro}" maxlength="256"  styleClass="form-control"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="complemento" value="#{msg['formularioDeInscricao.complemento']}:" />
+                <p:inputText id="complemento" value="#{formularioDeInscricaoMB.entity.complemento}" maxlength="400"  styleClass="form-control"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="cidade" value="* #{msg['formularioDeInscricao.cidade']}:" />
+                <p:inputText id="cidade" value="#{formularioDeInscricaoMB.entity.cidade}" maxlength="256"  styleClass="form-control"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="estado" value="* #{msg['formularioDeInscricao.estado']}:" />
+                <p:inputText id="estado" value="#{formularioDeInscricaoMB.entity.estado}" maxlength="256"  styleClass="form-control"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="cep" value="#{msg['formularioDeInscricao.cep']}:" />
+                <p:inputMask id="cep" value="#{formularioDeInscricaoMB.entity.cep}" mask="99999-999"  styleClass="form-control"  />
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="formularioDeInscricao.create">
+                <p:commandButton process="@form" update="@form" action="#{formularioDeInscricaoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="formularioDeInscricao.audit">
+                <x:audit for="#{formularioDeInscricaoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

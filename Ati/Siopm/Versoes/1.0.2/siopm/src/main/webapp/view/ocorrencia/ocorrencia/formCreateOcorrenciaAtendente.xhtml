@@ -1,0 +1,562 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateOcorrencia" >
+        <x:modalMessages autoUpdate="true" />
+
+        <p:tabView  >
+            <p:tab title="Solicitantes">
+                <p:fieldset legend="Adicionar Solicitante" id="fieldSolicitante" >
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="numeroSolicitante" value="* #{msg['telefone.numero']}:" />
+                                <p:inputMask id="numeroSolicitante" value="#{atendimentoOcorrenciaMB.solicitanteAdd.telefone.numero}" mask="(99) 9999-9999"  styleClass="form-control" >
+                                </p:inputMask>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="anonimo" value="* Anonimo:" />
+                                <h:selectOneMenu id="anonimo" value="#{atendimentoOcorrenciaMB.solicitanteAdd.anonimo}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.anonimo)}" 
+                                                   var="anonimo"
+                                                   itemLabel="#{anonimo.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomeSolicitante" value="#{msg['solicitante.nome']}:" />
+                                <p:inputText id="nomeSolicitante" value="#{atendimentoOcorrenciaMB.solicitanteAdd.nome}" maxlength="260"  
+                                             styleClass="form-control" />
+                            </div>
+                        </div>
+                        <div class="uix-center">
+                            <p:commandButton process="@this fieldSolicitante" update="fieldSolicitante dataTableSolicitante" value="Adicionar" 
+                                             action="#{atendimentoOcorrenciaMB.addSolicitante()}" />
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Solicitantes" >
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="solicitante" rowIndexVar="index" id="dataTableSolicitante" widgetVar="dataTableSolicitanteWidget" styleClass="table-responsive"
+                                 value="#{atendimentoOcorrenciaMB.solicitantes}" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['solicitante.nome']}"  >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['solicitante.nome']}" />
+                            </f:facet>
+                            <h:outputText value="#{solicitante.nome}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg['solicitante.telefone']}" >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['solicitante.telefone']}" />
+                            </f:facet>
+                            <h:outputText value="#{solicitante.telefone}">
+                                <x:initializer/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Hora Solicitação" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['ocorrencia.horaOcorrencia']}" />
+                            </f:facet>
+                            <h:outputText value="#{solicitante.horarioSolicitacao}">
+                                <f:convertDateTime pattern="HH:mm"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{msg['solicitante.anonimo']}" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['solicitante.anonimo']}" />
+                            </f:facet>
+                            <h:outputText value="#{solicitante.anonimo}"  />
+                        </p:column>
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>
+
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableSolicitante" 
+                                             action="#{atendimentoOcorrenciaMB.removerSolicitante(solicitante)}" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                </p:fieldset>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="codigo" value="* #{msg['ocorrencia.codigo']}:" />
+                        <div class="input-group">
+                            <p:inputText id="codigo" value="#{atendimentoOcorrenciaMB.ocorrencia.ano}#{atendimentoOcorrenciaMB.ocorrencia.codigo}" styleClass="form-control" disabled="true"/>
+                            <span class="input-group-btn">
+                                <p:commandButton title="Gerar outro código" icon="ui-icon-refresh" 
+                                                 styleClass="pull-left" ajax="true"
+                                                 style="font-size: 17px;" action="#{atendimentoOcorrenciaMB.recarregarCodigo()}" process="@this"
+                                                 update="@this codigo">
+                                </p:commandButton>  
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataOcorrencia" value="* #{msg['ocorrencia.dataOcorrencia']}:" />
+                        <p:calendar id="dataOcorrencia" value="#{atendimentoOcorrenciaMB.ocorrencia.dataOcorrencia}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar" disabled="true" >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="classificacaoChamada" value="* #{msg['ocorrencia.classificacaoChamada']}:" />
+                        <h:selectOneMenu id="classificacaoChamada" value="#{atendimentoOcorrenciaMB.ocorrencia.classificacaoChamada}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.classificacaoChamada)}" 
+                                           var="classificacaoChamada"
+                                           itemLabel="#{classificacaoChamada.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="classificacaoOcorrencia" value="* #{msg['ocorrencia.classificacaoOcorrencia']}:" />
+                        <h:selectOneMenu id="classificacaoOcorrencia" value="#{atendimentoOcorrenciaMB.ocorrencia.classificacaoOcorrencia}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.classificacaoOcorrencia)}" 
+                                           var="classificacaoOcorrencia"
+                                           itemLabel="#{classificacaoOcorrencia.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="alerta" value="* Alerta para todas as Opms?" />
+                        <h:selectOneMenu id="alerta" value="#{atendimentoOcorrenciaMB.ocorrencia.alerta}"  styleClass="form-control" >
+                            <f:selectItems value="#{findAllBean.get(classMB.simOuNao)}" 
+                                           var="simOuNao"
+                                           itemLabel="#{simOuNao.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+
+                </div>
+
+            </p:tab>
+            <p:tab title="Dados complementares" id="tabDadosGerais">
+                <p:fieldset legend="Histórico Inicial" >           
+                    <div class="container-fluid">
+
+                        <div class="row">
+                            <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                                <p:inputTextarea id="historioInicial" value="#{atendimentoOcorrenciaMB.ocorrencia.historioInicial}" rows="10" styleClass="form-control"
+                                                 cols="50" required="true" requiredMessage="Histórico inicial é obrigatório!"/>
+                            </div>
+                        </div>
+
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Endereço" id="fieldSetEndereco" toggleable="true">
+                    <div class="row">
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="enderecoFormatado" value="Endereço Formatado:" />
+                            <p:inputText id="enderecoFormatado" value="#{atendimentoOcorrenciaMB.endereco.enderecoFormatado}" maxlength="260"  
+                                         styleClass="form-control" disabled="true">
+                            </p:inputText>
+                        </div>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="latitude" value="#{msg['endereco.latitude']}:" />
+                            <p:inputText id="latitude" value="#{atendimentoOcorrenciaMB.endereco.latitude}" maxlength="255"  styleClass="form-control" 
+                                         disabled="true"/>
+                        </div>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="longitude" value="#{msg['endereco.longitude']}:" />
+                            <p:inputText id="longitude" value="#{atendimentoOcorrenciaMB.endereco.longitude}" maxlength="255"  styleClass="form-control" 
+                                         disabled="true"/>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="complemento" value="#{msg['endereco.complemento']}:" />
+                            <p:inputText id="complemento" value="#{atendimentoOcorrenciaMB.endereco.complemento}" maxlength="260"  
+                                         styleClass="form-control">
+                            </p:inputText>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="referencia" value="#{msg['endereco.referencia']}:" />
+                            <p:inputText id="referencia" value="#{atendimentoOcorrenciaMB.endereco.referencia}" maxlength="260"  
+                                         styleClass="form-control">
+                            </p:inputText>
+                        </div>
+                    </div>
+
+
+                </p:fieldset>
+
+            </p:tab>
+            <p:tab title="Naturezas" >
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="naturezasAtivas" value="* Natureza:" />
+                        <div class="input-group">
+                            <p:autoComplete id="naturezasAtivas" value="#{atendimentoOcorrenciaMB.naturezaAdd}" 
+
+                                            completeMethod="#{naturezaOcorrenciaMB.autocomplete}" styleClass="uix-autocomplete" 
+
+                                            minQueryLength="3" forceSelection="true" dropdown="true"
+
+                                            var="p" itemLabel="#{p.nome}" itemValue="#{p}" converter="entityConverter"> 
+                                <x:initializer/>
+                                <p:column> 
+
+                                    <h:outputText value="#{p.codigo} - #{p.nome}"/>
+
+                                </p:column> 
+
+                            </p:autoComplete>
+                            <span class="input-group-btn">
+                                <p:commandButton title="Adicionar Natureza" icon="ui-icon-plusthick" 
+                                                 id="buttonNatureza" styleClass="pull-left" ajax="true"
+                                                 style="font-size: 17px;" action="#{atendimentoOcorrenciaMB.addNatureza()}" process="@this naturezasAtivas"
+                                                 update="naturezasAtivas dataTableNaturezaOcorrencia">
+                                </p:commandButton>  
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="naturezaOcorrencia" rowIndexVar="index" id="dataTableNaturezaOcorrencia" widgetVar="dataTableNaturezaOcorrenciaWidget" styleClass="table-responsive"
+                                 value="#{atendimentoOcorrenciaMB.naturezas}" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['naturezaOcorrencia.codigo']}" >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['naturezaOcorrencia.codigo']}" />
+                            </f:facet>
+                            <h:outputText value="#{naturezaOcorrencia.codigo}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['naturezaOcorrencia.nome']}"  >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['naturezaOcorrencia.nome']}" />
+                            </f:facet>
+                            <h:outputText value="#{naturezaOcorrencia.nome}"/>
+                        </p:column>
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" 
+                                             update="dataTableNaturezaOcorrencia" action="#{atendimentoOcorrenciaMB.removerNatueza(naturezaOcorrencia)}" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+
+            </p:tab>
+
+            <p:tab title="Pessoas Envolvidas" >
+
+                <p:fieldset legend="Adicionar Pessoa Envolvida" id="fieldPessoaAdd" collapsed="true" toggleable="true">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nome" value="#{msg['pessoaEnvolvida.nome']}:" />
+                                <p:inputText id="nome" value="#{atendimentoOcorrenciaMB.pessoaAdd.nome}" maxlength="260"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="rg" value="#{msg['pessoaEnvolvida.rg']}:" />
+                                <p:inputText id="rg" value="#{atendimentoOcorrenciaMB.pessoaAdd.rg}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cpfPessoa" value="CPF:" />
+                                <x:cpf id="cpfPessoa" value="#{atendimentoOcorrenciaMB.pessoaAdd.cpf}"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="descricaoPessoa" value="* Descrição:" />
+                                <p:inputText id="descricaoPessoa" value="#{atendimentoOcorrenciaMB.pessoaAdd.descricao}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomeDaMae" value="#{msg['pessoaEnvolvida.nomeDaMae']}:" />
+                                <p:inputText id="nomeDaMae" value="#{atendimentoOcorrenciaMB.pessoaAdd.nomeDaMae}" maxlength="260"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomeDoPai" value="#{msg['pessoaEnvolvida.nomeDoPai']}:" />
+                                <p:inputText id="nomeDoPai" value="#{atendimentoOcorrenciaMB.pessoaAdd.nomeDoPai}" maxlength="260"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="dataNascimento" value="#{msg['pessoaEnvolvida.dataNascimento']}:" />
+                                <p:calendar id="dataNascimento" value="#{atendimentoOcorrenciaMB.pessoaAdd.dataNascimento}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="naturalidade" value="#{msg['pessoaEnvolvida.naturalidade']}:" />
+                                <p:inputText id="naturalidade" value="#{atendimentoOcorrenciaMB.pessoaAdd.naturalidade}" maxlength="260"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="sexo" value="* #{msg['pessoaEnvolvida.sexo']}:" />
+                                <h:selectOneMenu id="sexo" value="#{atendimentoOcorrenciaMB.pessoaAdd.sexo}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.sexo)}" 
+                                                   var="sexo"
+                                                   itemLabel="#{sexo.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="corDosOlhos" value="#{msg['pessoaEnvolvida.corDosOlhos']}:" />
+                                <h:selectOneMenu id="corDosOlhos" value="#{atendimentoOcorrenciaMB.pessoaAdd.corDosOlhos}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.corOlho)}" 
+                                                   var="corOlho"
+                                                   itemLabel="#{corOlho.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="corDoCabelo" value="#{msg['pessoaEnvolvida.corDoCabelo']}:" />
+                                <h:selectOneMenu id="corDoCabelo" value="#{atendimentoOcorrenciaMB.pessoaAdd.corDoCabelo}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.corCabelo)}" 
+                                                   var="corCabelo"
+                                                   itemLabel="#{corCabelo.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="raca" value="Raça:" />
+                                <h:selectOneMenu id="raca" value="#{atendimentoOcorrenciaMB.pessoaAdd.raca}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.raca)}" 
+                                                   var="raca"
+                                                   itemLabel="#{raca.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="tipoPessoa" value="#{msg['pessoaEnvolvida.tipoPessoa']}:" />
+                                <h:selectOneMenu id="tipoPessoa" value="#{atendimentoOcorrenciaMB.pessoaAdd.tipoPessoa}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.tipoPessoa)}" 
+                                                   var="tipoPessoa"
+                                                   itemLabel="#{tipoPessoa.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="classificaoOcorrencia" value="#{msg['pessoaEnvolvida.classificaoOcorrencia']}:" />
+                                <h:selectOneMenu id="classificaoOcorrencia" value="#{atendimentoOcorrenciaMB.pessoaAdd.classificaoOcorrencia}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.classificacaoPessoaOcorrencia)}" 
+                                                   var="classificacaoPessoaOcorrencia"
+                                                   itemLabel="#{classificacaoPessoaOcorrencia.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="uix-center">
+                        <p:commandButton process="@this fieldPessoaAdd" update="fieldPessoaAdd dataTablePessoaEnvolvida" value="Adicionar" 
+                                         action="#{atendimentoOcorrenciaMB.addPessoas()}" />
+                    </div>
+                </p:fieldset>
+
+                <div class="row">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="pessoaEnvolvida" rowIndexVar="index" id="dataTablePessoaEnvolvida" widgetVar="dataTablePessoaEnvolvidaWidget" styleClass="table-responsive"
+                                 value="#{atendimentoOcorrenciaMB.pessoasEnvolvidas}" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['pessoaEnvolvida.nome']}"  >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['pessoaEnvolvida.nome']}" />
+                            </f:facet>
+                            <h:outputText value="#{pessoaEnvolvida.nome}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['pessoaEnvolvida.rg']}"  >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['pessoaEnvolvida.rg']}" />
+                            </f:facet>
+                            <h:outputText value="#{pessoaEnvolvida.rg}"/>
+                        </p:column>
+                        <p:column headerText="CPF"  >
+                            <f:facet name="header">
+                                <h:outputText value="CPF" />
+                            </f:facet>
+                            <h:outputText value="#{pessoaEnvolvida.cpf}"/>
+                        </p:column>
+                        <p:column headerText="Descrição"  >
+                            <f:facet name="header">
+                                <h:outputText value="Descrição" />
+                            </f:facet>
+                            <h:outputText value="#{pessoaEnvolvida.descricao}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['pessoaEnvolvida.dataNascimento']}" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['pessoaEnvolvida.dataNascimento']}" />
+
+                            </f:facet>
+                            <h:outputText value="#{pessoaEnvolvida.dataNascimento}">
+                                <f:convertDateTime />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="#{msg['pessoaEnvolvida.sexo']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['pessoaEnvolvida.sexo']}" />
+                            </f:facet>
+                            <h:outputText value="#{pessoaEnvolvida.sexo}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg['pessoaEnvolvida.tipoPessoa']}"  >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['pessoaEnvolvida.tipoPessoa']}" />
+                            </f:facet>
+                            <h:outputText value="#{pessoaEnvolvida.tipoPessoa}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['pessoaEnvolvida.classificaoOcorrencia']}" >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['pessoaEnvolvida.classificaoOcorrencia']}" />
+                            </f:facet>
+                            <h:outputText value="#{pessoaEnvolvida.classificaoOcorrencia}"/>
+                        </p:column>
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>
+
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTablePessoaEnvolvida" 
+                                             action="#{atendimentoOcorrenciaMB.removerPessoa(pessoaEnvolvida)}" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </p:tab>
+            <p:tab title="Veiculos Envolvidos" >
+                <p:fieldset legend="Adicionar Veiculo" id="fieldVeiculoAdd" collapsed="true" toggleable="true">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="placa" value="* #{msg['qualificacaoDeVeiculo.placa']}:" />
+                                <p:inputMask id="placa" value="#{atendimentoOcorrenciaMB.veiculoEnvolvidoAdd.placa}" mask="aaa-9999"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="chassi" value="#{msg['qualificacaoDeVeiculo.chassi']}:" />
+                                <p:inputText id="chassi" value="#{atendimentoOcorrenciaMB.veiculoEnvolvidoAdd.chassi}" maxlength="20"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="modelo" value="#{msg['qualificacaoDeVeiculo.modelo']}:" />
+                                <h:selectOneMenu id="modelo" value="#{atendimentoOcorrenciaMB.veiculoEnvolvidoAdd.modelo}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.modeloVeiculo)}" 
+                                                   var="modeloVeiculo"
+                                                   itemLabel="#{modeloVeiculo}">
+                                    </f:selectItems>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cor" value="#{msg['qualificacaoDeVeiculo.cor']}:" />
+                                <p:inputText id="cor" value="#{atendimentoOcorrenciaMB.veiculoEnvolvidoAdd.cor}" maxlength="10"  styleClass="form-control"  />
+
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="fabricacaoAno" value="#{msg['qualificacaoDeVeiculo.fabricacaoAno']}:" />
+                                <p:inputMask id="fabricacaoAno" mask="9?999999999"  value="#{atendimentoOcorrenciaMB.veiculoEnvolvidoAdd.fabricacaoAno}" styleClass="form-control" />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="modeloAno" value="#{msg['qualificacaoDeVeiculo.modeloAno']}:" />
+                                <p:inputMask id="modeloAno" mask="9?999999999"  value="#{atendimentoOcorrenciaMB.veiculoEnvolvidoAdd.modeloAno}" styleClass="form-control" />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="municipio" value="#{msg['qualificacaoDeVeiculo.municipio']}:" />
+                                <p:inputText id="municipio" value="#{atendimentoOcorrenciaMB.veiculoEnvolvidoAdd.municipio}" maxlength="260"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="proprietario" value="#{msg['qualificacaoDeVeiculo.proprietario']}:" />
+                                <p:inputText id="proprietario" value="#{atendimentoOcorrenciaMB.veiculoEnvolvidoAdd.proprietario}" maxlength="260"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="telefoneProprietario" value="#{msg['qualificacaoDeVeiculo.telefoneProprietario']}:" />
+                                <p:inputMask id="telefoneProprietario" value="#{atendimentoOcorrenciaMB.veiculoEnvolvidoAdd.telefoneProprietario}" mask="(99) 9999-9999"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="situacao" value="#{msg['qualificacaoDeVeiculo.situacao']}:" />
+                                <h:selectOneMenu id="situacao" value="#{atendimentoOcorrenciaMB.veiculoEnvolvidoAdd.situacao}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.situacaoVeiculo)}" 
+                                                   var="situacaoVeiculo"
+                                                   itemLabel="#{situacaoVeiculo.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="uix-center">
+                        <p:commandButton process="@this fieldVeiculoAdd" update="fieldVeiculoAdd dataTableQualificacaoDeVeiculo" value="Adicionar" 
+                                         action="#{atendimentoOcorrenciaMB.addVeiculos()}" />
+                    </div>
+                </p:fieldset>
+
+                <div class="row">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="qualificacaoDeVeiculo" rowIndexVar="index" id="dataTableQualificacaoDeVeiculo" widgetVar="dataTableQualificacaoDeVeiculoWidget" styleClass="table-responsive"
+                                 value="#{atendimentoOcorrenciaMB.qualificacoesVeiculos}"  >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['qualificacaoDeVeiculo.placa']}" >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['qualificacaoDeVeiculo.placa']}" />
+                            </f:facet>
+                            <h:outputText value="#{qualificacaoDeVeiculo.placa}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['qualificacaoDeVeiculo.modelo']}" >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['qualificacaoDeVeiculo.modelo']}" />
+                            </f:facet>
+                            <h:outputText value="#{qualificacaoDeVeiculo.modelo}">
+                                <x:initializer/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="#{msg['qualificacaoDeVeiculo.cor']}"  >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['qualificacaoDeVeiculo.cor']}" />
+                            </f:facet>
+                            <h:outputText value="#{qualificacaoDeVeiculo.cor}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['qualificacaoDeVeiculo.fabricacaoAno']}"   >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['qualificacaoDeVeiculo.fabricacaoAno']}" />
+                            </f:facet>
+                            <h:outputText value="#{qualificacaoDeVeiculo.fabricacaoAno}"/>
+                        </p:column>
+
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>
+
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableQualificacaoDeVeiculo" 
+                                             action="#{atendimentoOcorrenciaMB.removerVeiculo(qualificacaoDeVeiculo)}" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </p:tab>
+        </p:tabView>
+
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="ocorrencia.crieateAtendente">
+                <p:commandButton process="@form" update="@form" action="#{atendimentoOcorrenciaMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="ocorrencia.audit">
+                <x:audit for="#{atendimentoOcorrenciaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

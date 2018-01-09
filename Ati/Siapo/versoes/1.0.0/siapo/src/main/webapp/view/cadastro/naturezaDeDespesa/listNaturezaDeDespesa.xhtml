@@ -1,0 +1,82 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['naturezaDeDespesa.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuNaturezaDeDespesa.xhtml" />
+        <h:form id="formListNaturezaDeDespesa">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="naturezaDeDespesa_export" target=":formListNaturezaDeDespesa:dataTableNaturezaDeDespesa"
+                                     widgetVar="dataTableNaturezaDeDespesaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="naturezaDeDespesa" rowIndexVar="index" id="dataTableNaturezaDeDespesa" widgetVar="dataTableNaturezaDeDespesaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{naturezaDeDespesaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{naturezaDeDespesaMB.dataModel.paginatorTemplate}"
+                         value="#{naturezaDeDespesaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['naturezaDeDespesa.naturezaDeDespesaPai']}" sortBy="#{naturezaDeDespesa.naturezaDeDespesaPai}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['naturezaDeDespesa.naturezaDeDespesaPai']}" />
+                    </f:facet>
+                    <h:outputText value="#{naturezaDeDespesa.naturezaDeDespesaPai}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['naturezaDeDespesa.codigo']}" sortBy="#{naturezaDeDespesa.codigo}"
+                    filterBy="#{naturezaDeDespesa.codigo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['naturezaDeDespesa.codigo']}" />
+                    </f:facet>
+                    <h:outputText value="#{naturezaDeDespesa.codigo}"/>
+                </p:column>
+                <p:column headerText="#{msg['naturezaDeDespesa.nome']}" sortBy="#{naturezaDeDespesa.nome}"
+                    filterBy="#{naturezaDeDespesa.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['naturezaDeDespesa.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{naturezaDeDespesa.nome}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetNaturezaDeDespesaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailNaturezaDeDespesa" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{naturezaDeDespesa}" target="#{naturezaDeDespesaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="naturezaDeDespesa.create">
+                        <p:button icon="ui-icon-pencil" outcome="createNaturezaDeDespesa" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{naturezaDeDespesa.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="naturezaDeDespesa.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{naturezaDeDespesaMB.delete}" >
+                            <f:setPropertyActionListener value="#{naturezaDeDespesa.id}" target="#{naturezaDeDespesaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{naturezaDeDespesa}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="naturezaDeDespesa.audit">
+                    <x:auditDelete for="#{naturezaDeDespesaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetNaturezaDeDespesaDetail" header="#{msg['naturezaDeDespesa.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailNaturezaDeDespesa.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

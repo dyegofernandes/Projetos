@@ -1,0 +1,11 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formMapsComRota" styleClass="uix-form-detail">
+        <p:gmap center="#{monitoramentoMB.latitude},#{monitoramentoMB.longitude}" zoom="18" type="ROADMAP"
+                styleClass="gmap" style="width:100%;height:480px" widgetVar="mymap" model="#{monitoramentoMB.simpleModelRota}" />
+    </h:form>
+</ui:composition>

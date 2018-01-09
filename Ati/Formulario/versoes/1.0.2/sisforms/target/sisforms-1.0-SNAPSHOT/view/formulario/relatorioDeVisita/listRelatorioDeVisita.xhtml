@@ -1,0 +1,175 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['relatorioDeVisita.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuRelatorioDeVisita.xhtml" />
+        <h:form id="formListRelatorioDeVisita">
+            <x:modalMessages/>
+            <p:fieldset legend="Filtros de Busca" toggleable="true" id="fieldFiltros">
+                <x:securityArea rolesAllowed="campos.usuario">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="usuario" value="Usuario" />
+                        <h:selectOneMenu id="usuario" value="#{relatorioDeVisitaMB.filtros.usuario}" converter="entityConverter" 
+                                         styleClass="form-control" 
+                                         >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.usuario)}" 
+                                           var="usuario"
+                                           itemLabel="#{usuario.nome}"/>
+                        </h:selectOneMenu>
+                    </div>
+                </x:securityArea>
+                <x:securityArea rolesAllowed="campos.orgao">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="orgao" value="Órgão" />
+                        <h:selectOneMenu id="orgao" value="#{relatorioDeVisitaMB.filtros.orgao}" converter="entityConverter" 
+                                         styleClass="form-control" 
+                                         >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.orgao)}" 
+                                           var="orgao"
+                                           itemLabel="#{orgao.nome}"/>
+                        </h:selectOneMenu>
+                    </div>
+                </x:securityArea>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="numero" value="#{msg['relatorioDeVisita.numero']}:" />
+                    <p:inputMask id="numero" mask="9?999999999" value="#{relatorioDeVisitaMB.filtros.numero}" styleClass="form-control" />
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="ano" value="Ano:" />
+                    <p:inputMask id="ano" mask="9999" value="#{relatorioDeVisitaMB.filtros.ano}" styleClass="form-control" />
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="nome" value="Solicitado por:" />
+                    <p:inputText id="nome" value="#{relatorioDeVisitaMB.filtros.nome}" maxlength="255"  styleClass="form-control"  />
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="dataInicial" value="Data Inicial da Reunião" />
+                    <p:calendar id="dataInicial" value="#{relatorioDeVisitaMB.filtros.dataInicial}" 
+                                showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                        <x:mask/>
+                    </p:calendar>
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="dataFinal" value="Data Final da Reunião" />
+                    <p:calendar id="dataFinal" value="#{relatorioDeVisitaMB.filtros.dataFinal}" 
+                                showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                        <x:mask/>
+                    </p:calendar>
+                </div>
+
+            </p:fieldset>
+            <div class="uix-center">
+                <p:commandButton process="@this fieldFiltros" update="dataTableRelatorioDeVisita" action="#{relatorioDeVisitaMB.buscar()}" value="Buscar" />
+            </div>
+            <p:fieldset legend="Resultado da Busca">
+                <x:dataTableActions fileName="relatorioDeVisita_export" target=":formListRelatorioDeVisita:dataTableRelatorioDeVisita"
+                                    widgetVar="dataTableRelatorioDeVisitaWidget"  />
+
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="relatorioDeVisita" rowIndexVar="index" id="dataTableRelatorioDeVisita" widgetVar="dataTableRelatorioDeVisitaWidget" styleClass="table-responsive"
+                             value="#{relatorioDeVisitaMB.lista}" >
+                    <p:column styleClass="uix-datatable-index">
+                        <f:facet name="header">
+                            <h:outputText value="" />
+                        </f:facet>
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['relatorioDeVisita.usuario']}" rendered="#{x:hasRole('campos.usuario')}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['relatorioDeVisita.usuario']}" />
+                        </f:facet>
+                        <h:outputText value="#{relatorioDeVisita.usuario}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Órgão Solicitante"  >
+                        <f:facet name="header">
+                            <h:outputText value="Órgão Solicitante" />
+                        </f:facet>
+                        <h:outputText value="#{relatorioDeVisita.orgao}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Ano" >
+                        <f:facet name="header">
+                            <h:outputText value="Ano" />
+                        </f:facet>
+                        <h:outputText value="#{relatorioDeVisita.ano}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['relatorioDeVisita.numero']}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['relatorioDeVisita.numero']}" />
+                        </f:facet>
+                        <h:outputText value="#{relatorioDeVisita.numero}"/>
+                    </p:column>
+
+                    <p:column headerText="#{msg['relatorioDeVisita.solicitadoPor']}"  >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['relatorioDeVisita.solicitadoPor']}" />
+                        </f:facet>
+                        <h:outputText value="#{relatorioDeVisita.solicitadoPor}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['relatorioDeVisita.contato']}"  >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['relatorioDeVisita.contato']}" />
+                        </f:facet>
+                        <h:outputText value="#{relatorioDeVisita.contato}"/>
+                    </p:column>
+                    <p:column headerText="Data Emissão"  style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Data Emissão" />
+                        </f:facet>
+                        <h:outputText value="#{relatorioDeVisita.dataEmissao}">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </p:column>
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+                        <p:commandButton oncomplete="PF('widgetRelatorioDeVisitaDetail').show();"  icon="ui-icon-zoomin" 
+                                         process="@form" update=":formDetailRelatorioDeVisita" title="#{xmsg['detail']}" 
+                                         action="#{relatorioDeVisitaMB.listaDeArquivos(relatorioDeVisita)}">
+                            <f:setPropertyActionListener value="#{relatorioDeVisita}" target="#{relatorioDeVisitaMB.entity}" />
+                        </p:commandButton>
+                        <x:securityArea rolesAllowed="relatorioDeVisita.create">
+                            <p:button icon="ui-icon-pencil" outcome="createRelatorioDeVisita" title="#{xmsg['edit']}">
+                                <f:param name="id" value="#{relatorioDeVisita.id}" />
+                            </p:button>
+                        </x:securityArea>
+                        <x:securityArea rolesAllowed="relatorioDeVisita.delete">
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                             action="#{relatorioDeVisitaMB.delete}" >
+                                <f:setPropertyActionListener value="#{relatorioDeVisita.id}" target="#{relatorioDeVisitaMB.id}" />
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{relatorioDeVisita}" />
+                            </p:commandButton>
+                        </x:securityArea>
+                        <p:commandButton icon="ui-icon-document" title="Gerar PDF" ajax="false" action="#{relatorioDeVisitaMB.gerarPdf(relatorioDeVisita)}" 
+                                         process="@form" update="@form" >                         
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="relatorioDeVisita.audit">
+                    <x:auditDelete for="#{relatorioDeVisitaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetRelatorioDeVisitaDetail" header="#{msg['relatorioDeVisita.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailRelatorioDeVisita.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

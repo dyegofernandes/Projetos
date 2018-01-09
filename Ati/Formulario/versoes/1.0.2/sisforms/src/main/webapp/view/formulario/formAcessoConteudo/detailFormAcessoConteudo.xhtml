@@ -1,0 +1,94 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailFormAcessoConteudo" styleClass="uix-form-detail">
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['solicitacaoAcessoSFP.usuario']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formAcessoConteudoMB.entity.usuario}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Órgão:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formAcessoConteudoMB.entity.orgao}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formAcessoConteudo.nomeCompleto']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formAcessoConteudoMB.entity.nomeCompleto}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formAcessoConteudo.cargo']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formAcessoConteudoMB.entity.cargo}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formAcessoConteudo.matriculaEstado']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formAcessoConteudoMB.entity.matriculaEstado}" styleClass="uix-content-detail"/>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formAcessoConteudo.telefone']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formAcessoConteudoMB.entity.telefone}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formAcessoConteudo.emailCoorporativo']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formAcessoConteudoMB.entity.emailCoorporativo}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Data Emissão:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formAcessoConteudoMB.entity.dataCriacao}" styleClass="uix-content-detail">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Situação:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formAcessoConteudoMB.entity.situacao}" styleClass="uix-content-detail"/>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Lista de sites">
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="itemFormCriacaoEmail" rowIndexVar="index" id="dataTableItemFormCriacaoEmail" 
+                         widgetVar="dataTableItemFormCriacaoEmailWidget" styleClass="table-responsive"
+                         value="#{formAcessoConteudoMB.itens}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+
+                <p:column headerText="Site a ser Liberado" >
+                    <f:facet name="header">
+                        <h:outputText value="Site a ser Liberado" />
+                    </f:facet>
+                    <h:outputText value="#{itemFormCriacaoEmail.siteAserLiberado}"/>
+                </p:column>
+                <p:column headerText="Descrição do Motivo da Liberação"  >
+                    <f:facet name="header">
+                        <h:outputText value="Descrição do Motivo da Liberação" />
+                    </f:facet>
+                    <h:outputText value="#{itemFormCriacaoEmail.descricaoLiberacao}"/>
+                </p:column>
+
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+
+                    <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableItemFormCriacaoEmail" 
+                                     action="#{formAcessoConteudoMB.removerItem(itemFormCriacaoEmail)}" >
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </p:fieldset>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetFormAcessoConteudoDetail').hide()" />
+            <x:securityArea rolesAllowed="formAcessoConteudo.audit">
+                <x:audit for="#{formAcessoConteudoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

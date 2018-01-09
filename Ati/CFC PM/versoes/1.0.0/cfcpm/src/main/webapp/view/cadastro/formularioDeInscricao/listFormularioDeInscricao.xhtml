@@ -1,0 +1,159 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['formularioDeInscricao.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuFormularioDeInscricao.xhtml" />
+        <h:form id="formListFormularioDeInscricao">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="formularioDeInscricao_export" target=":formListFormularioDeInscricao:dataTableFormularioDeInscricao"
+                                widgetVar="dataTableFormularioDeInscricaoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="formularioDeInscricao" rowIndexVar="index" id="dataTableFormularioDeInscricao" widgetVar="dataTableFormularioDeInscricaoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{formularioDeInscricaoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{formularioDeInscricaoMB.dataModel.paginatorTemplate}"
+                         value="#{formularioDeInscricaoMB.dataModel}" lazy="true" >
+                <p:column headerText="Código" sortBy="#{formularioDeInscricao.id}"
+                          filterBy="#{formularioDeInscricao.id}" style="text-align: center;"  >
+                    <f:facet name="header">
+                        <h:outputText value="Código" />
+                    </f:facet>
+                    <h:outputText value="#{formularioDeInscricao.id}"/>
+                </p:column>
+                <p:column headerText="#{msg['formularioDeInscricao.nome']}" sortBy="#{formularioDeInscricao.nome}"
+                          filterBy="#{formularioDeInscricao.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formularioDeInscricao.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{formularioDeInscricao.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['formularioDeInscricao.identidade']}" sortBy="#{formularioDeInscricao.identidade}"
+                          filterBy="#{formularioDeInscricao.identidade}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formularioDeInscricao.identidade']}" />
+                    </f:facet>
+                    <h:outputText value="#{formularioDeInscricao.identidade}"/>
+                </p:column>
+                <p:column headerText="#{msg['formularioDeInscricao.cpf']}" sortBy="#{formularioDeInscricao.cpf}"
+                          filterBy="#{formularioDeInscricao.cpf}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formularioDeInscricao.cpf']}" />
+                    </f:facet>
+                    <h:outputText value="#{formularioDeInscricao.cpf}" converter="cpfConverter"/>
+                </p:column>
+
+                <p:column headerText="#{msg['formularioDeInscricao.dataDeNomeacao']}" sortBy="#{formularioDeInscricao.dataDeNomeacao}"
+                          filterBy="#{formularioDeInscricao.dataDeNomeacao}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formularioDeInscricao.dataDeNomeacao']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{formularioDeInscricao.dataDeNomeacao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['formularioDeInscricao.sexo']}" sortBy="#{formularioDeInscricao.sexo}"
+                          filterBy="#{formularioDeInscricao.sexo}"  filterOptions="#{findAllBean.getSelect(classMB.sexo)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formularioDeInscricao.sexo']}" />
+                    </f:facet>
+                    <h:outputText value="#{formularioDeInscricao.sexo.descricao}"/>
+                </p:column>
+                <p:column headerText="#{msg['formularioDeInscricao.lotacao']}" sortBy="#{formularioDeInscricao.lotacao}"
+                          filterBy="#{formularioDeInscricao.lotacao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formularioDeInscricao.lotacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{formularioDeInscricao.lotacao}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['formularioDeInscricao.cidade']}" sortBy="#{formularioDeInscricao.cidade}"
+                          filterBy="#{formularioDeInscricao.cidade}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formularioDeInscricao.cidade']}" />
+                    </f:facet>
+                    <h:outputText value="#{formularioDeInscricao.cidade}"/>
+                </p:column>
+                <p:column headerText="#{msg['formularioDeInscricao.estado']}" sortBy="#{formularioDeInscricao.estado}"
+                          filterBy="#{formularioDeInscricao.estado}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formularioDeInscricao.estado']}" />
+                    </f:facet>
+                    <h:outputText value="#{formularioDeInscricao.estado}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['formularioDeInscricao.email']}" sortBy="#{formularioDeInscricao.email}"
+                          filterBy="#{formularioDeInscricao.email}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formularioDeInscricao.email']}" />
+                    </f:facet>
+                    <h:outputText value="#{formularioDeInscricao.email}"/>
+                </p:column>
+                <p:column headerText="#{msg['formularioDeInscricao.telefone']}" sortBy="#{formularioDeInscricao.telefone}"
+                          filterBy="#{formularioDeInscricao.telefone}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formularioDeInscricao.telefone']}" />
+                    </f:facet>
+                    <h:outputText value="#{formularioDeInscricao.telefone}"/>
+                </p:column>
+                <p:column headerText="#{msg['formularioDeInscricao.dataInscricao']}" sortBy="#{formularioDeInscricao.dataInscricao}"
+                          filterBy="#{formularioDeInscricao.dataInscricao}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formularioDeInscricao.dataInscricao']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{formularioDeInscricao.dataInscricao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['formularioDeInscricao.situacao']}" sortBy="#{formularioDeInscricao.situacao}"
+                          filterBy="#{formularioDeInscricao.situacao}"  filterOptions="#{findAllBean.getSelect(classMB.situacao)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formularioDeInscricao.situacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{formularioDeInscricao.situacao.descricao}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetFormularioDeInscricaoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailFormularioDeInscricao" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{formularioDeInscricao}" target="#{formularioDeInscricaoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="formularioDeInscricao.create">
+                        <p:button icon="ui-icon-pencil" outcome="createFormularioDeInscricao" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{formularioDeInscricao.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="formularioDeInscricao.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{formularioDeInscricaoMB.delete}" >
+                            <f:setPropertyActionListener value="#{formularioDeInscricao.id}" target="#{formularioDeInscricaoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{formularioDeInscricao}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                    <p:commandButton icon="ui-icon-document" title="Gerar Comprovante" ajax="false" action="#{formularioDeInscricaoMB.gerarPdf(formularioDeInscricao)}" 
+                                     process="@form" update="@form" >                         
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="formularioDeInscricao.audit">
+                    <x:auditDelete for="#{formularioDeInscricaoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetFormularioDeInscricaoDetail" header="#{msg['formularioDeInscricao.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailFormularioDeInscricao.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

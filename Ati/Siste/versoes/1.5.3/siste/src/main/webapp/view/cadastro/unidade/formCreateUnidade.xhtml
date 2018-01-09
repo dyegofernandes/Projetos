@@ -1,0 +1,155 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateUnidade" >
+        <x:modalMessages/>
+        <p:fieldset legend="#{xmsg['generalData']}">
+
+
+            <div class="container-fluid">
+                <div class="row">
+                    <x:securityArea rolesAllowed="campos.orgao">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="orgao" value="* Órgão" />
+                            <h:selectOneMenu id="orgao" value="#{unidadeMB.entity.orgao}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.orgao)}" 
+                                               var="orgao"
+                                               itemLabel="#{orgao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </x:securityArea>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cnpj" value="* #{msg['orgao.cnpj']}:" />
+                        <x:cnpj id="cnpj" value="#{unidadeMB.entity.cnpj}" styleClass="form-control" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="codigo" value="* #{msg['unidade.codigo']}:" />
+                        <p:inputMask id="codigo" mask="9?999999999" slotChar="" value="#{unidadeMB.entity.codigo}"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="* #{msg['unidade.nome']}:" />
+                        <p:inputText id="nome" value="#{unidadeMB.entity.nome}" maxlength="260"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nomeContato" value="* #{msg['unidade.nomeContato']}:" />
+                        <p:inputText id="nomeContato" value="#{unidadeMB.entity.nomeContato}" maxlength="260"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="limite" value="* Valor Limite:" />
+                        <x:inputNumber id="limite" value="#{unidadeMB.entity.valorLimite}" styleClass="form-control"/>
+                    </div>
+                    
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="telefoneContato" value="* Telefone Contato Principal:" />
+                        <p:inputMask id="telefoneContato" value="#{unidadeMB.entity.telefoneContato}" mask="(99) 9999-9999" styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="telefoneContato2" value="Telefones contato:" />
+                        <p:inputText id="telefoneContato2" value="#{unidadeMB.entity.telefoneContato2}" maxlength="260" styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="emailContato" value="* #{msg['unidade.emailContato']}:" />
+                        <p:inputText id="emailContato" value="#{unidadeMB.entity.emailContato}" maxlength="260"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="emailContato2" value="#{msg['unidade.emailContato']} 2:" />
+                        <p:inputText id="emailContato2" value="#{unidadeMB.entity.emailContato2}" maxlength="260"  styleClass="form-control"  />
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Endereço">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tipoEndereco" value="* #{msg['endereco.tipo']}:" />
+                        <h:selectOneMenu id="tipoEndereco" value="#{unidadeMB.entity.endereco.tipo}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.tipoEndereco)}" 
+                                           var="tipoEndereco"
+                                           itemLabel="#{tipoEndereco.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="endereco" value="* #{msg['endereco.endereco']}:" />
+                        <p:inputText id="endereco" value="#{unidadeMB.entity.endereco.endereco}" maxlength="260"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="numeroEndereco" value="* #{msg['endereco.numero']}:" />
+                        <p:inputText id="numeroEndereco" value="#{unidadeMB.entity.endereco.numero}" maxlength="60"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="bairro" value="* #{msg['endereco.bairro']}:" />
+                        <p:inputText id="bairro" value="#{unidadeMB.entity.endereco.bairro}" maxlength="60"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="complemento" value="#{msg['endereco.complemento']}:" />
+                        <p:inputText id="complemento" value="#{unidadeMB.entity.endereco.complemento}" maxlength="260"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cep" value="* #{msg['endereco.cep']}:" />
+                        <p:inputMask id="cep" value="#{unidadeMB.entity.endereco.cep}" mask="99999-999"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cidadeEndereco" value="* #{msg['endereco.cidade']}:" />
+                        <h:selectOneMenu id="cidadeEndereco" value="#{unidadeMB.entity.endereco.cidade}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{unidadeMB.cidades}" 
+                                           var="cidade"
+                                           itemLabel="#{cidade}-#{cidade.estado}"/>
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="GFIP">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="codigoRecolhimento" value="Código de Recolhimento:" />
+                        <p:inputMask id="codigoRecolhimento" value="#{unidadeMB.entity.codigoRecolhimento}" mask="999"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="codigoCnae" value="Código de CNAE" />
+                        <p:inputMask id="codigoCnae" value="#{unidadeMB.entity.codigoCNAE}" mask="9999999"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="aliquotaRAT" value="Alíquota RAT:" />
+                        <x:inputNumber id="aliquotaRAT" value="#{unidadeMB.entity.aliquotaRAT}" limit="2" centsLimit="1" styleClass="form-control"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="codigoFPAS" value="Código FPAS" />
+                        <p:inputMask id="codigoFPAS" value="#{unidadeMB.entity.codigoFPAS}" mask="999"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="outraEntidade" value="Outra Entidade" />
+                        <p:inputMask id="outraEntidade" value="#{unidadeMB.entity.outraEntidade}" mask="9999"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="pagamentoGPS" value="Pagamento GPS" />
+                        <p:inputMask id="pagamentoGPS" value="#{unidadeMB.entity.pagamentoGPS}" mask="9999"  styleClass="form-control"  />
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="unidade.create">
+                <p:commandButton process="@form" update="@form" action="#{unidadeMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="unidade.audit">
+                <x:audit for="#{unidadeMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

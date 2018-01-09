@@ -1,0 +1,196 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateFormCriacaoEmail" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="usuario" value="* #{msg['solicitacaoAcessoSFP.usuario']}:" />
+                        <p:inputText id="usuario" value="#{formCriacaoEmailMB.entity.usuario.nome}" styleClass="form-control" disabled="true">
+                            <x:initializer/>
+                        </p:inputText>
+
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Orgão:" />
+
+                        <h:panelGroup layout="block" id="panelOrgaoPai" styleClass="form-control">
+                            <h:panelGroup id="conteudoPanelOrgaoPai" >
+                                <h:outputText value="#{formCriacaoEmailMB.entity.orgao.nome}" >
+                                    <x:initializer/>
+                                </h:outputText>
+                                <p:commandButton type="button" icon="ui-icon-carat-1-s" 
+                                                 id="buttonOrgaoPai" styleClass="pull-right"
+                                                 style="font-size: 10px;"/>
+                            </h:panelGroup>
+                        </h:panelGroup>
+
+                        <p:overlayPanel for="panelOrgaoPai" styleClass="w-100p" widgetVar="overlayOrgaoPai" >
+                            <p:tree value="#{orgaoMB.orgaos}" var="orgao" styleClass="w-100p"
+                                    selectionMode="single"  style="max-height: 400px; overflow-y: scroll" >
+                                <p:ajax event="select" update=":formCreateFormCriacaoEmail:conteudoPanelOrgaoPai @this"
+                                        listener="#{formCriacaoEmailMB.entity.setOrgao(orgao)}" oncomplete="PF('overlayOrgaoPai').hide()" />
+                                <p:treeNode collapsedIcon="ui-icon-folder-collapsed" >
+                                    <h:panelGroup styleClass="#{orgao == orgaoMB.entity.orgaoPai ? 'ui-state-highlight' : ''}">
+                                        <h:outputText value="#{orgao.sigla}" style="font-weight: bold"/>  
+                                        <h:outputText value=" (#{orgao.nome})" styleClass="font-8"  /> 
+                                    </h:panelGroup>
+                                </p:treeNode>
+                            </p:tree>
+                        </p:overlayPanel>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataEmissao" value="* Data Emissão:" />
+                        <p:calendar id="dataEmissao" value="#{formCriacaoEmailMB.entity.dataCriacao}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  disabled="true">
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <x:securityArea rolesAllowed="campos.situacao">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="situacao" value="* Situação:" />
+                            <h:selectOneMenu id="situacao" value="#{formCriacaoEmailMB.entity.situacao}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.situacao)}" 
+                                               var="situacao"
+                                               itemLabel="#{situacao.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </x:securityArea>
+
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Email a ser criado" id="fieldItem">
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="nome" value="* Nome Completo:" />
+                    <p:inputText id="nome" value="#{formCriacaoEmailMB.nomeCompleto}" maxlength="250"  styleClass="form-control"  />
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="cpf" value="* CPF:" />
+                    <x:cpf id="cpf" value="#{formCriacaoEmailMB.cpf}" styleClass="form-control"  />
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="rg" value="RG:" />
+                    <p:inputText id="rg" value="#{formCriacaoEmailMB.rg}" maxlength="250"  styleClass="form-control"  />
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="endereco" value="Endereço Completo" />
+                    <p:inputText id="endereco" value="#{formCriacaoEmailMB.endereco}" maxlength="250"  styleClass="form-control"  />
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="telefone" value="* Telefone:" />
+                    <p:inputMask id="telefone" value="#{formCriacaoEmailMB.telefone}" mask="(99) 9999-9999"  styleClass="form-control"  />
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="email" value="* Email:" />
+                    <p:inputText id="email" value="#{formCriacaoEmailMB.emailPessoal}" maxlength="250"  styleClass="form-control"  />
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="matrico" value="Matricula Estado:" />
+                    <p:inputText id="matrico" value="#{formCriacaoEmailMB.matriculaEstado}" maxlength="250"  styleClass="form-control"  />
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="cargo" value="Cargo:" />
+                    <p:inputText id="cargo" value="#{formCriacaoEmailMB.rg}" maxlength="250"  styleClass="form-control"  />
+                </div>
+            </div>
+
+        </p:fieldset>
+        <div class="uix-center">
+            <p:commandButton process="@this fieldItem" update="dataTableItemFormCriacaoEmail fieldItem" value="Adicionar" 
+                             action="#{formCriacaoEmailMB.addItem()}"/>
+        </div>
+        <p:fieldset legend="Lista de Emails">
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="itemFormCriacaoEmail" rowIndexVar="index" id="dataTableItemFormCriacaoEmail" 
+                         widgetVar="dataTableItemFormCriacaoEmailWidget" styleClass="table-responsive"
+                         value="#{formCriacaoEmailMB.itens}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['itemFormCriacaoEmail.nomeCompleto']}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemFormCriacaoEmail.nomeCompleto']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemFormCriacaoEmail.nomeCompleto}"/>
+                </p:column>
+                <p:column headerText="#{msg['itemFormCriacaoEmail.cpf']}"  >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemFormCriacaoEmail.cpf']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemFormCriacaoEmail.cpf}"/>
+                </p:column>
+                <p:column headerText="#{msg['itemFormCriacaoEmail.rg']}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemFormCriacaoEmail.rg']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemFormCriacaoEmail.rg}"/>
+                </p:column>
+                <p:column headerText="#{msg['itemFormCriacaoEmail.endereco']}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemFormCriacaoEmail.endereco']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemFormCriacaoEmail.endereco}"/>
+                </p:column>
+                <p:column headerText="#{msg['itemFormCriacaoEmail.telefone']}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemFormCriacaoEmail.telefone']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemFormCriacaoEmail.telefone}"/>
+                </p:column>
+                <p:column headerText="#{msg['itemFormCriacaoEmail.emailPessoal']}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemFormCriacaoEmail.emailPessoal']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemFormCriacaoEmail.emailPessoal}"/>
+                </p:column>
+                <p:column headerText="#{msg['itemFormCriacaoEmail.matriculaEstado']}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemFormCriacaoEmail.matriculaEstado']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemFormCriacaoEmail.matriculaEstado}"/>
+                </p:column>
+                <p:column headerText="#{msg['itemFormCriacaoEmail.cargo']}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemFormCriacaoEmail.cargo']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemFormCriacaoEmail.cargo}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+
+                    <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableItemFormCriacaoEmail" 
+                                     action="#{formCriacaoEmailMB.removerItem(itemFormCriacaoEmail)}" >
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="formCriacaoEmail.create">
+                <p:commandButton process="@form" update="@form" action="#{formCriacaoEmailMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="formCriacaoEmail.create">
+                <p:commandButton rendered="#{formCriacaoEmailMB.entity.id!=null}" process="@form" update="@form" action="#{formCriacaoEmailMB.gerarPdf(formCriacaoEmailMB.entity)}" value="Imprimir" ajax="false">
+                </p:commandButton>
+            </x:securityArea>
+            <x:securityArea rolesAllowed="formCriacaoEmail.audit">
+                <x:audit for="#{formCriacaoEmailMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

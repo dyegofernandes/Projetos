@@ -1,0 +1,110 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['arma.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuArma.xhtml" />
+        <h:form id="formListArma">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="arma_export" target=":formListArma:dataTableArma"
+                                     widgetVar="dataTableArmaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="arma" rowIndexVar="index" id="dataTableArma" widgetVar="dataTableArmaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{armaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{armaMB.dataModel.paginatorTemplate}"
+                         value="#{armaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['arma.tipo']}" sortBy="#{arma.tipo}"
+                    filterBy="#{arma.tipo}"  filterOptions="#{findAllBean.getSelect(classMB.tipoDeArma)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['arma.tipo']}" />
+                    </f:facet>
+                    <h:outputText value="#{arma.tipo}"/>
+                </p:column>
+                <p:column headerText="#{msg['arma.nomeModelo']}" sortBy="#{arma.nomeModelo}"
+                    filterBy="#{arma.nomeModelo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['arma.nomeModelo']}" />
+                    </f:facet>
+                    <h:outputText value="#{arma.nomeModelo}"/>
+                </p:column>
+                <p:column headerText="#{msg['arma.marca']}" sortBy="#{arma.marca}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['arma.marca']}" />
+                    </f:facet>
+                    <h:outputText value="#{arma.marca}"/>
+                </p:column>
+                <p:column headerText="#{msg['arma.calibre']}" sortBy="#{arma.calibre}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['arma.calibre']}" />
+                    </f:facet>
+                    <h:outputText value="#{arma.calibre}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['arma.capacidade']}" sortBy="#{arma.capacidade}"
+                    filterBy="#{arma.capacidade}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['arma.capacidade']}" />
+                    </f:facet>
+                    <h:outputText value="#{arma.capacidade}"/>
+                </p:column>
+                <p:column headerText="#{msg['arma.numeracao']}" sortBy="#{arma.numeracao}"
+                    filterBy="#{arma.numeracao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['arma.numeracao']}" />
+                    </f:facet>
+                    <h:outputText value="#{arma.numeracao}"/>
+                </p:column>
+                <p:column headerText="#{msg['arma.armaDaPolicia']}" sortBy="#{arma.armaDaPolicia}"
+                    filterBy="#{arma.armaDaPolicia}"  filterOptions="#{findAllBean.getSelect(classMB.armaPolicia)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['arma.armaDaPolicia']}" />
+                    </f:facet>
+                    <h:outputText value="#{arma.armaDaPolicia}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetArmaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailArma" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{arma}" target="#{armaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="arma.create">
+                        <p:button icon="ui-icon-pencil" outcome="createArma" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{arma.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="arma.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{armaMB.delete}" >
+                            <f:setPropertyActionListener value="#{arma.id}" target="#{armaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{arma}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="arma.audit">
+                    <x:auditDelete for="#{armaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetArmaDetail" header="#{msg['arma.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailArma.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

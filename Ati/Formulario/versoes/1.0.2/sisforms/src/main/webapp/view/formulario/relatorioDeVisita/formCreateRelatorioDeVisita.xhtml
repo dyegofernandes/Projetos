@@ -1,0 +1,200 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateRelatorioDeVisita" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:tabView id="tabGeral">
+            <p:tab title="#{xmsg['generalData']}" >
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="usuario" value="* #{msg['relatorioDeVisita.usuario']}:" />
+                            <p:inputText id="usuario" value="#{relatorioDeVisitaMB.entity.usuario.nome}" styleClass="form-control" disabled="true">
+                                <x:initializer/>
+                            </p:inputText>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="Orgão:" />
+
+                            <h:panelGroup layout="block" id="panelOrgaoPai" styleClass="form-control">
+                                <h:panelGroup id="conteudoPanelOrgaoPai" >
+                                    <h:outputText value="#{relatorioDeVisitaMB.entity.orgao.nome}" >
+                                        <x:initializer/>
+                                    </h:outputText>
+                                    <p:commandButton type="button" icon="ui-icon-carat-1-s" 
+                                                     id="buttonOrgaoPai" styleClass="pull-right"
+                                                     style="font-size: 10px;"/>
+                                </h:panelGroup>
+                            </h:panelGroup>
+
+                            <p:overlayPanel for="panelOrgaoPai" styleClass="w-100p" widgetVar="overlayOrgaoPai" >
+                                <p:tree value="#{orgaoMB.orgaos}" var="orgao" styleClass="w-100p"
+                                        selectionMode="single"  style="max-height: 400px; overflow-y: scroll" >
+                                    <p:ajax event="select" update=":formCreateRelatorioDeVisita:tabGeral:conteudoPanelOrgaoPai @this"
+                                            listener="#{relatorioDeVisitaMB.entity.setOrgao(orgao)}" oncomplete="PF('overlayOrgaoPai').hide()" />
+                                    <p:treeNode collapsedIcon="ui-icon-folder-collapsed" >
+                                        <h:panelGroup styleClass="#{orgao == orgaoMB.entity.orgaoPai ? 'ui-state-highlight' : ''}">
+                                            <h:outputText value="#{orgao.sigla}" style="font-weight: bold"/>  
+                                            <h:outputText value=" (#{orgao.nome})" styleClass="font-8"  /> 
+                                        </h:panelGroup>
+                                    </p:treeNode>
+                                </p:tree>
+                            </p:overlayPanel>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="numero" value="* #{msg['relatorioDeVisita.numero']}:" />
+                            <p:inputMask id="numero" mask="9?999999999"  value="#{relatorioDeVisitaMB.entity.numero}" styleClass="form-control" disabled="true"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="ano" value="* Ano:" />
+                            <p:inputMask id="ano" mask="9?999999999" value="#{relatorioDeVisitaMB.entity.ano}" styleClass="form-control" disabled="true"/>
+                        </div>
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="solicitadoPor" value="* #{msg['relatorioDeVisita.solicitadoPor']}:" />
+                            <p:inputText id="solicitadoPor" value="#{relatorioDeVisitaMB.entity.solicitadoPor}" maxlength="255"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="contato" value="* #{msg['relatorioDeVisita.contato']}:" />
+                            <p:inputText id="contato" value="#{relatorioDeVisitaMB.entity.contato}" maxlength="255"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="telefone" value="#{msg['relatorioDeVisita.telefone']}:" />
+                            <p:inputMask id="telefone" value="#{relatorioDeVisitaMB.entity.telefone}" mask="(99) 9999-9999"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="email" value="#{msg['relatorioDeVisita.email']}:" />
+                            <p:inputText id="email" value="#{relatorioDeVisitaMB.entity.email}" maxlength="255"  styleClass="form-control"  />
+                        </div>
+
+                    </div>
+                    <div class="row">
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="resumo" value="#{msg['relatorioDeVisita.resumo']}:" />
+                            <p:inputTextarea id="resumo" value="#{relatorioDeVisitaMB.entity.resumo}" rows="10" styleClass="form-control"
+                                             cols="50"/>
+                        </div>
+                    </div>
+                </div>
+            </p:tab>
+            <p:tab title="Visita" >
+                <p:fieldset legend="Visita">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataInicioVisita" value="#{msg['relatorioDeVisita.dataInicioVisita']}:" />
+                        <p:calendar id="dataInicioVisita" value="#{relatorioDeVisitaMB.entity.dataInicioVisita}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="horaInicioVisita" value="#{msg['relatorioDeVisita.horaInicioVisita']}:" />
+                        <p:calendar id="horaInicioVisita" value="#{relatorioDeVisitaMB.entity.horaInicioVisita}" 
+                                    showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataConclusaoVisita" value="#{msg['relatorioDeVisita.dataConclusaoVisita']}:" />
+                        <p:calendar id="dataConclusaoVisita" value="#{relatorioDeVisitaMB.entity.dataConclusaoVisita}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="horaConclusaoVisita" value="#{msg['relatorioDeVisita.horaConclusaoVisita']}:" />
+                        <p:calendar id="horaConclusaoVisita" value="#{relatorioDeVisitaMB.entity.horaConclusaoVisita}" 
+                                    showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Detalhamento da Visita" >
+                <p:fieldset legend="Detalhamento da Visita">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="solicitacao" value="#{msg['relatorioDeVisita.solicitacao']}:" />
+                        <p:inputTextarea id="solicitacao" value="#{relatorioDeVisitaMB.entity.solicitacao}" rows="10" styleClass="form-control"
+                                         cols="50"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="constatacaoTecnica" value="#{msg['relatorioDeVisita.constatacaoTecnica']}:" />
+                        <p:inputTextarea id="constatacaoTecnica" value="#{relatorioDeVisitaMB.entity.constatacaoTecnica}" rows="10" styleClass="form-control"
+                                         cols="50"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="observacaoCliente" value="#{msg['relatorioDeVisita.observacaoCliente']}:" />
+                        <p:inputTextarea id="observacaoCliente" value="#{relatorioDeVisitaMB.entity.observacaoCliente}" rows="10" styleClass="form-control"
+                                         cols="50"/>
+                    </div>
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Arquivos">
+                <p:fieldset legend="Adicionar Arquivo">
+                    <p:fileUpload id="arquivo" mode="advanced" requiredMessage="É necessário o envio de pelo menos um arquivo!"
+                                  allowTypes="/(\.|\/)(gif|jpeg|jpg|rtf|odt|ods|png|doc|docx|xls|xlsx|pps|ppsx|ppt|pptx|pdf|jpg|zip|txt|7z|rar|dcm|mp4)$/"
+                                  invalidFileMessage="Tipo de arquivo não permitido" invalidSizeMessage="Arquivo com tamanho acima do permitido" 
+                                  uploadLabel="Carregar" update="dataTableArquivo" cancelLabel="Cancelar" label="Selecionar" multiple="false" 
+                                  sizeLimit="10485760" fileUploadListener="#{relatorioDeVisitaMB.upload}" styleClass="grid_9" />
+                </p:fieldset>
+                <p:fieldset legend="Listagem de Arquivos">
+                    <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="arquivo" rowIndexVar="index" id="dataTableArquivo" widgetVar="dataTableArquivoWidget" styleClass="table-responsive"
+                                 value="#{relatorioDeVisitaMB.arquivos}" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg['arquivo.nome']}" width="80%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['arquivo.nome']}" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.nome}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['arquivo.extensao']}" width="20%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['arquivo.extensao']}" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.extensao}"/>
+                        </p:column>
+
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>          
+                            <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Download" ajax="false" immediate="true" update="formCreateDenuncia">
+                                <p:fileDownload value="#{relatorioDeVisitaMB.download(arquivo)}" />
+                            </p:commandButton>
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableArquivo" 
+                                             action="#{relatorioDeVisitaMB.removerArquivo(arquivo)}" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </p:tab>
+
+
+        </p:tabView>
+
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="relatorioDeVisita.create">
+                <p:commandButton process="@form" update="@form" action="#{relatorioDeVisitaMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="relatorioDeVisita.create">
+                <p:commandButton rendered="#{relatorioDeVisitaMB.entity.id!=null}" process="@form" update="@form" 
+                                 action="#{relatorioDeVisitaMB.gerarPdf(relatorioDeVisitaMB.entity)}" value="Imprimir" ajax="false">
+                </p:commandButton>
+            </x:securityArea>
+            <x:securityArea rolesAllowed="relatorioDeVisita.audit">
+                <x:audit for="#{relatorioDeVisitaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,66 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['marcaDeArma.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuMarcaDeArma.xhtml" />
+        <h:form id="formListMarcaDeArma">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="marcaDeArma_export" target=":formListMarcaDeArma:dataTableMarcaDeArma"
+                                     widgetVar="dataTableMarcaDeArmaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="marcaDeArma" rowIndexVar="index" id="dataTableMarcaDeArma" widgetVar="dataTableMarcaDeArmaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{marcaDeArmaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{marcaDeArmaMB.dataModel.paginatorTemplate}"
+                         value="#{marcaDeArmaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['marcaDeArma.nome']}" sortBy="#{marcaDeArma.nome}"
+                    filterBy="#{marcaDeArma.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['marcaDeArma.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{marcaDeArma.nome}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetMarcaDeArmaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailMarcaDeArma" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{marcaDeArma}" target="#{marcaDeArmaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="marcaDeArma.create">
+                        <p:button icon="ui-icon-pencil" outcome="createMarcaDeArma" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{marcaDeArma.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="marcaDeArma.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{marcaDeArmaMB.delete}" >
+                            <f:setPropertyActionListener value="#{marcaDeArma.id}" target="#{marcaDeArmaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{marcaDeArma}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="marcaDeArma.audit">
+                    <x:auditDelete for="#{marcaDeArmaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetMarcaDeArmaDetail" header="#{msg['marcaDeArma.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailMarcaDeArma.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

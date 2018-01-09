@@ -1,0 +1,75 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['logradouro.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuLogradouro.xhtml" />
+        <h:form id="formListLogradouro">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="logradouro_export" target=":formListLogradouro:dataTableLogradouro"
+                                     widgetVar="dataTableLogradouroWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="logradouro" rowIndexVar="index" id="dataTableLogradouro" widgetVar="dataTableLogradouroWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{logradouroMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{logradouroMB.dataModel.paginatorTemplate}"
+                         value="#{logradouroMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['logradouro.logradouro']}" sortBy="#{logradouro.logradouro}"
+                    filterBy="#{logradouro.logradouro}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['logradouro.logradouro']}" />
+                    </f:facet>
+                    <h:outputText value="#{logradouro.logradouro}"/>
+                </p:column>
+                <p:column headerText="Cidade" sortBy="#{logradouro.bairro}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="Cidade" />
+                    </f:facet>
+                    <h:outputText value="#{logradouro.cidade}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetLogradouroDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailLogradouro" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{logradouro}" target="#{logradouroMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="logradouro.create">
+                        <p:button icon="ui-icon-pencil" outcome="createLogradouro" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{logradouro.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="logradouro.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{logradouroMB.delete}" >
+                            <f:setPropertyActionListener value="#{logradouro.id}" target="#{logradouroMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{logradouro}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="logradouro.audit">
+                    <x:auditDelete for="#{logradouroMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetLogradouroDetail" header="#{msg['logradouro.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailLogradouro.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

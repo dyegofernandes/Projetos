@@ -1,0 +1,66 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['especie.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuEspecie.xhtml" />
+        <h:form id="formListEspecie">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="especie_export" target=":formListEspecie:dataTableEspecie"
+                                     widgetVar="dataTableEspecieWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="especie" rowIndexVar="index" id="dataTableEspecie" widgetVar="dataTableEspecieWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{especieMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{especieMB.dataModel.paginatorTemplate}"
+                         value="#{especieMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['especie.nome']}" sortBy="#{especie.nome}"
+                    filterBy="#{especie.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['especie.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{especie.nome}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetEspecieDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailEspecie" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{especie}" target="#{especieMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="especie.create">
+                        <p:button icon="ui-icon-pencil" outcome="createEspecie" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{especie.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="especie.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{especieMB.delete}" >
+                            <f:setPropertyActionListener value="#{especie.id}" target="#{especieMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{especie}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="especie.audit">
+                    <x:auditDelete for="#{especieMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetEspecieDetail" header="#{msg['especie.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailEspecie.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

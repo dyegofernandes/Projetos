@@ -1,0 +1,66 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['setor.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuSetor.xhtml" />
+        <h:form id="formListSetor">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="setor_export" target=":formListSetor:dataTableSetor"
+                                     widgetVar="dataTableSetorWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="setor" rowIndexVar="index" id="dataTableSetor" widgetVar="dataTableSetorWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{setorMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{setorMB.dataModel.paginatorTemplate}"
+                         value="#{setorMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['setor.nome']}" sortBy="#{setor.nome}"
+                    filterBy="#{setor.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['setor.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{setor.nome}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetSetorDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailSetor" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{setor}" target="#{setorMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="setor.create">
+                        <p:button icon="ui-icon-pencil" outcome="createSetor" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{setor.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="setor.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{setorMB.delete}" >
+                            <f:setPropertyActionListener value="#{setor.id}" target="#{setorMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{setor}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="setor.audit">
+                    <x:auditDelete for="#{setorMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetSetorDetail" header="#{msg['setor.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailSetor.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

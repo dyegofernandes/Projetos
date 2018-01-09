@@ -1,0 +1,87 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['tipoCertificado.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuTipoCertificado.xhtml" />
+        <h:form id="formListTipoCertificado">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="tipoCertificado_export" target=":formListTipoCertificado:dataTableTipoCertificado"
+                                     widgetVar="dataTableTipoCertificadoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="tipoCertificado" rowIndexVar="index" id="dataTableTipoCertificado" widgetVar="dataTableTipoCertificadoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{tipoCertificadoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{tipoCertificadoMB.dataModel.paginatorTemplate}"
+                         value="#{tipoCertificadoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['tipoCertificado.sigla']}" sortBy="#{tipoCertificado.sigla}"
+                    filterBy="#{tipoCertificado.sigla}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['tipoCertificado.sigla']}" />
+                    </f:facet>
+                    <h:outputText value="#{tipoCertificado.sigla}"/>
+                </p:column>
+                <p:column headerText="#{msg['tipoCertificado.nome']}" sortBy="#{tipoCertificado.nome}"
+                    filterBy="#{tipoCertificado.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['tipoCertificado.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{tipoCertificado.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['tipoCertificado.validade']}" sortBy="#{tipoCertificado.validade}"
+                    filterBy="#{tipoCertificado.validade}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['tipoCertificado.validade']}" />
+                    </f:facet>
+                    <h:outputText value="#{tipoCertificado.validade}"/>
+                </p:column>
+                <p:column headerText="#{msg['tipoCertificado.ativo']}" sortBy="#{tipoCertificado.ativo}"
+                    filterBy="#{tipoCertificado.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['tipoCertificado.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{tipoCertificado.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetTipoCertificadoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailTipoCertificado" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{tipoCertificado}" target="#{tipoCertificadoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="tipoCertificado.create">
+                        <p:button icon="ui-icon-pencil" outcome="createTipoCertificado" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{tipoCertificado.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="tipoCertificado.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{tipoCertificadoMB.delete}" >
+                            <f:setPropertyActionListener value="#{tipoCertificado.id}" target="#{tipoCertificadoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{tipoCertificado}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="tipoCertificado.audit">
+                    <x:auditDelete for="#{tipoCertificadoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetTipoCertificadoDetail" header="#{msg['tipoCertificado.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailTipoCertificado.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

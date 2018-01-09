@@ -1,0 +1,68 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['ocorrencia.list']}" />
+    <h:form id="formListOcorrenciaList">
+        <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                     var="ocorrencia" rowIndexVar="index" id="dataTableOcorrencia" widgetVar="dataTableOcorrenciaWidget" styleClass="table-responsive"
+                     value="#{despachoOcorrenciaMB.ocorrenciasMesma}">
+            <p:column headerText="#{msg['ocorrencia.codigo']}">
+                <f:facet name="header">
+                    <h:outputText value="#{msg['ocorrencia.codigo']}" />
+                </f:facet>
+                <h:outputText value="#{ocorrencia.codigo}/#{ocorrencia.ano}"/>
+            </p:column>
+            <p:column headerText="#{msg['ocorrencia.endereco']}">
+                <f:facet name="header">
+                    <h:outputText value="#{msg['ocorrencia.endereco']}" />
+                </f:facet>
+                <h:outputText value="#{ocorrencia.endereco.enderecoFormatado}">
+                    <x:initializer/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="#{msg['ocorrencia.dataOcorrencia']}" style="text-align: center;">
+                <f:facet name="header">
+                    <h:outputText value="#{msg['ocorrencia.dataOcorrencia']}" />
+                </f:facet>
+                <h:outputText value="#{ocorrencia.dataOcorrencia}">
+                    <f:convertDateTime />
+                </h:outputText>
+            </p:column>
+
+            <p:column headerText="#{msg['ocorrencia.situacao']}" sortBy="#{ocorrencia.situacao}" style="text-align: center;">
+                <f:facet name="header">
+                    <h:outputText value="#{msg['ocorrencia.situacao']}" />
+                </f:facet>
+                <h:outputText value="#{ocorrencia.situacao.descricao}"/>
+            </p:column>
+
+            <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                <f:facet name="header">
+                    <h:outputText value="#{xmsg['actions']}"/>
+                </f:facet>
+                <p:commandButton oncomplete="PF('widgetOcorrenciaUpdate').show();"  icon="ui-icon-pencil" 
+                                 process="@form" update=":formCreateOcorrenciaUpdate" title="Atualizar Ocorrência" 
+                                 actionListener="#{despachoOcorrenciaMB.carregarListas(ocorrencia)}">
+                </p:commandButton>
+            </p:column>
+        </p:dataTable>
+        <div class="uix-center">
+            <p:commandButton oncomplete="PF('widgetOcorrenciaUpdate').show();"  icon="ui-icon-circle-plus" 
+                             process="@form" update=":formCreateOcorrenciaUpdate" value="Novo" 
+                             actionListener="#{despachoOcorrenciaMB.novaOcorrenciaList()}">
+            </p:commandButton>
+        </div>
+
+    </h:form>
+
+    <p:dialog widgetVar="widgetOcorrenciaUpdate" header="Atualizar de Ocorrência" appendTo="@(body)" 
+              modal="true" styleClass="uix-dialog-fluid" >
+        <ui:include src="/view/ocorrencia/ocorrencia/formCreateOcorrenciaDespachanteUpdate.xhtml" />
+        <p:ajax event="close" update=":formDespachanteOcorrencia" listener="#{findAllBean.setReload(true)}"
+                />
+        <p:ajax event="close" update=":formDespachanteOcorrencia" listener="#{despachoOcorrenciaMB.limparCampos()}"/>
+    </p:dialog>
+</ui:composition>

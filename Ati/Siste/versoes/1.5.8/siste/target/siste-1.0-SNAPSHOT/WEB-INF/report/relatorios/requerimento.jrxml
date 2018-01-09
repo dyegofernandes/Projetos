@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="requerimento" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="URL_IMG_ICON_PI" class="java.lang.String"/>
+	<parameter name="URL_IMG_ICON_ATI" class="java.lang.String"/>
+	<parameter name="URL_IMG_ICON_FACE" class="java.lang.String"/>
+	<parameter name="URL_IMG_ICON_INSTAGRAM" class="java.lang.String"/>
+	<parameter name="URL_IMG_ICON_TWITTER" class="java.lang.String"/>
+	<field name="destinatario" class="java.lang.String"/>
+	<field name="requerente" class="java.lang.String"/>
+	<field name="matricula" class="java.lang.String"/>
+	<field name="cpf" class="java.lang.String"/>
+	<field name="telefone" class="java.lang.String"/>
+	<field name="cargo" class="java.lang.String"/>
+	<field name="area" class="java.lang.String"/>
+	<field name="assuntoFerias" class="java.lang.String"/>
+	<field name="assuntoComp" class="java.lang.String"/>
+	<field name="assuntoSolic" class="java.lang.String"/>
+	<field name="assuntoJust" class="java.lang.String"/>
+	<field name="assuntoOutros" class="java.lang.String"/>
+	<field name="solicitacao" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="68" splitType="Stretch">
+			<staticText>
+				<reportElement x="168" y="12" width="224" height="39"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[GOVERNO DO ESTADO DO PIAUÍ
+AGÊNCIA DE TECNOLOGIA DA INFORMAÇÃO]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="680" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="34" forecolor="#FFFFFF" backcolor="#0066FF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[REQUERIMENTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="56" width="100" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Destinatário]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="15" width="270" height="24"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Av. Pedro Freitas, 1900 Centro Administrativo CEP: 64.018-900
+Fone: (86) 3216-1784 / 1785   CNPJ: 08.839.135/0001-57]]></text>
+			</staticText>
+			<line>
+				<reportElement x="3" y="2" width="552" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="3" width="270" height="12"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ATI Agência de Tecnologia da Informação do Estado do Piauí]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="288" y="3" width="267" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[www.ati.pi.gov.br   e-mail: contato@ati.pi.gov.br]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

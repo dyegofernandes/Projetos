@@ -1,0 +1,156 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailDenuncia" styleClass="uix-form-detail">
+        <p:tabView id="tabGeral">
+            <p:tab title="Informações Gerais">
+                <p:fieldset legend="#{xmsg['generalData']}">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="Unidade:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{denunciaMB.entity.unidade}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['denuncia.descricao']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{denunciaMB.entity.descricao}" styleClass="uix-content-detail"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['denuncia.observacao']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{denunciaMB.entity.observacao}" styleClass="uix-content-detail"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['denuncia.dataDenuncia']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{denunciaMB.entity.dataDenuncia}" styleClass="uix-content-detail">
+                                    <f:convertDateTime />
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['denuncia.horaDenuncia']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{denunciaMB.entity.horaDenuncia}" styleClass="uix-content-detail">
+                                    <f:convertDateTime pattern="HH:mm"/>
+                                </h:outputText>
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['denuncia.formaDeViolencia']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{denunciaMB.entity.formaDeViolencia}" styleClass="uix-content-detail"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['denuncia.situacao']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{denunciaMB.entity.situacao}" styleClass="uix-content-detail"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['denuncia.descricaoAtendimento']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{denunciaMB.entity.descricaoAtendimento}" styleClass="uix-content-detail"/>
+                            </div>
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Dados Vítima">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Nome:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{denunciaMB.entity.vitima}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Idade:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{denunciaMB.entity.idadeVitima}" styleClass="uix-content-detail"/>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Dados Agressor">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Nome:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{denunciaMB.entity.agressor}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Idade:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{denunciaMB.entity.idadeAgressor}" styleClass="uix-content-detail"/>
+                    </div>
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Endereço">
+                <p:fieldset legend="Endereço">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['endereco.endereco']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{denunciaMB.entity.endereco.endereco}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['endereco.numero']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{denunciaMB.entity.endereco.numero}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['endereco.completo']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{denunciaMB.entity.endereco.complemento}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['endereco.cep']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{denunciaMB.entity.endereco.cep}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Bairro:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{denunciaMB.entity.endereco.bairro}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Coordenadas">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Latitude:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{denunciaMB.entity.endereco.latitude}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Longitude:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{denunciaMB.entity.endereco.longitude}" styleClass="uix-content-detail"/>
+                    </div>
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Arquivos">
+                <p:fieldset legend="Listagem de Arquivos">
+                    <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="arquivo" rowIndexVar="index" id="dataTableArquivo" widgetVar="dataTableArquivoWidget" styleClass="table-responsive"
+                                 value="#{denunciaMB.arquivos}" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg['arquivo.nome']}" width="80%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['arquivo.nome']}" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.nome}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['arquivo.extensao']}" width="20%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['arquivo.extensao']}" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.extensao}"/>
+                        </p:column>
+
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>          
+                            <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Download" ajax="false" immediate="true" update="formCreateDenuncia">
+                                <p:fileDownload value="#{denunciaMB.download(arquivo)}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </p:tab>
+
+        </p:tabView>
+
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetDenunciaDetail').hide()" />
+            <x:securityArea rolesAllowed="denuncia.audit">
+                <x:audit for="#{denunciaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

@@ -1,0 +1,140 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['requerimento.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuRequerimento.xhtml" />
+        <h:form id="formListRequerimento">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="requerimento_export" target=":formListRequerimento:dataTableRequerimento"
+                                widgetVar="dataTableRequerimentoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="requerimento" rowIndexVar="index" id="dataTableRequerimento" widgetVar="dataTableRequerimentoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{requerimentoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{requerimentoMB.dataModel.paginatorTemplate}"
+                         value="#{requerimentoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">
+                        <h:outputText value="" />
+                    </f:facet>
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoSFP.usuario']}" sortBy="#{requerimento.usuario}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoSFP.usuario']}" />
+                    </f:facet>
+                    <h:outputText value="#{requerimento.usuario}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['requerimento.destinatario']}" sortBy="#{requerimento.destinatario}"
+                          filterBy="#{requerimento.destinatario}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['requerimento.destinatario']}" />
+                    </f:facet>
+                    <h:outputText value="#{requerimento.destinatario}"/>
+                </p:column>
+                <p:column headerText="#{msg['requerimento.requerente']}" sortBy="#{requerimento.requerente}"
+                          filterBy="#{requerimento.requerente}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['requerimento.requerente']}" />
+                    </f:facet>
+                    <h:outputText value="#{requerimento.requerente}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['requerimento.cpf']}" sortBy="#{requerimento.cpf}"
+                          filterBy="#{requerimento.cpf}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['requerimento.cpf']}" />
+                    </f:facet>
+                    <h:outputText value="#{requerimento.cpf}" converter="cpfConverter"/>
+                </p:column>
+
+                <p:column headerText="#{msg['requerimento.cargo']}" sortBy="#{requerimento.cargo}"
+                          filterBy="#{requerimento.cargo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['requerimento.cargo']}" />
+                    </f:facet>
+                    <h:outputText value="#{requerimento.cargo}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['requerimento.solicitacao']}" sortBy="#{requerimento.solicitacao}"
+                          filterBy="#{requerimento.solicitacao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['requerimento.solicitacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{requerimento.solicitacao}"/>
+                </p:column>
+                <p:column headerText="#{msg['requerimento.assuntoRequerimento']}" sortBy="#{requerimento.assuntoRequerimento}"
+                          filterBy="#{requerimento.assuntoRequerimento.descricao}"  filterOptions="#{findAllBean.getSelect(classMB.assuntoRequerimento)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['requerimento.assuntoRequerimento']}" />
+                    </f:facet>
+                    <h:outputText value="#{requerimento.assuntoRequerimento.descricao}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['requerimento.dataSolicitacao']}" sortBy="#{requerimento.dataSolicitacao}"
+                          filterBy="#{requerimento.dataSolicitacao}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['requerimento.dataSolicitacao']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{requerimento.dataSolicitacao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['requerimento.situacao']}" sortBy="#{requerimento.situacao}"
+                          filterBy="#{requerimento.situacao}"  filterOptions="#{findAllBean.getSelect(classMB.situacao)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['requerimento.situacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{requerimento.situacao.descricao}"/>
+                </p:column>
+
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetRequerimentoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailRequerimento" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{requerimento}" target="#{requerimentoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="requerimento.create">
+                        <p:button icon="ui-icon-pencil" outcome="createRequerimento" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{requerimento.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="requerimento.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{requerimentoMB.delete}" >
+                            <f:setPropertyActionListener value="#{requerimento.id}" target="#{requerimentoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{requerimento}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="requerimento.create">
+                        <p:commandButton icon="ui-icon-document" title="Gerar PDF" ajax="false" action="#{requerimentoMB.gerarPdf(requerimento)}" 
+                                         process="@form" update="@form" >                         
+                        </p:commandButton>  
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="requerimento.audit">
+                    <x:auditDelete for="#{requerimentoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetRequerimentoDetail" header="#{msg['requerimento.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailRequerimento.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

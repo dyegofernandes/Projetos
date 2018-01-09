@@ -1,0 +1,165 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateFormRegistroDominio" >
+        <x:modalMessages/>
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="entidade" value="* #{msg['formRegistroDominio.entidade']}:" />
+                        <p:inputText id="entidade" value="#{formRegistroDominioMB.entity.entidade}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cnpj" value="* #{msg['formRegistroDominio.cnpj']}:" />
+                        <x:cnpj id="cnpj" value="#{formRegistroDominioMB.entity.cnpj}" styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="enderecoEntidade" value="#{msg['formRegistroDominio.enderecoEntidade']}:" />
+                        <p:inputText id="enderecoEntidade" value="#{formRegistroDominioMB.entity.enderecoEntidade}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dominio" value="#{msg['formRegistroDominio.dominio']}:" />
+                        <p:inputText id="dominio" value="#{formRegistroDominioMB.entity.dominio}" maxlength="100"  styleClass="form-control"  />
+                    </div>
+                    <x:securityArea rolesAllowed="campos.situacao">
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="status" value="* Status" />
+                            <h:selectOneMenu id="status" value="#{formRegistroDominioMB.entity.status}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.statusDominio)}" 
+                                               var="status"
+                                               itemLabel="#{status.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="numeroContrato" value="Numero contrato:" />
+                            <p:inputText id="numeroContrato" value="#{formRegistroDominioMB.entity.numeroContrato}" maxlength="255"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="situacao" value="* Situação:" />
+                            <h:selectOneMenu id="situacao" value="#{formRegistroDominioMB.entity.situacao}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.situacao)}" 
+                                               var="situacao"
+                                               itemLabel="#{situacao.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+
+                    </x:securityArea>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataEmissao" value="* Data Emissão:" />
+                        <p:calendar id="dataEmissao" value="#{formRegistroDominioMB.entity.dataCriacao}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  disabled="true">
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Responsável Legal">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="responsavelLegal" value="#{msg['formRegistroDominio.responsavelLegal']}:" />
+                        <p:inputText id="responsavelLegal" value="#{formRegistroDominioMB.entity.responsavelLegal}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cpfRespLegal" value="#{msg['formRegistroDominio.cpfRespLegal']}:" />
+                        <x:cpf id="cpfRespLegal" value="#{formRegistroDominioMB.entity.cpfRespLegal}" styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="rgRespLegal" value="#{msg['formRegistroDominio.rgRespLegal']}:" />
+                        <p:inputText id="rgRespLegal" value="#{formRegistroDominioMB.entity.rgRespLegal}" maxlength="50"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="telefonesRespLegal" value="#{msg['formRegistroDominio.telefonesRespLegal']}:" />
+                        <p:inputMask id="telefonesRespLegal" value="#{formRegistroDominioMB.entity.telefonesRespLegal}" mask="(99) 9 9999-9999"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="emailRespLegal" value="#{msg['formRegistroDominio.emailRespLegal']}:" />
+                        <p:inputText id="emailRespLegal" value="#{formRegistroDominioMB.entity.emailRespLegal}" maxlength="50"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cargoRespLegal" value="Cargo:" />
+                        <p:inputText id="cargoRespLegal" value="#{formRegistroDominioMB.entity.cargoRespLegal}" maxlength="50"  styleClass="form-control"  />
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Responsável Técnico">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="responsavelTecnico" value="#{msg['formRegistroDominio.responsavelTecnico']}:" />
+                        <p:inputText id="responsavelTecnico" value="#{formRegistroDominioMB.entity.responsavelTecnico}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cpfRespTecnico" value="#{msg['formRegistroDominio.cpfRespTecnico']}:" />
+                        <x:cpf id="cpfRespTecnico" value="#{formRegistroDominioMB.entity.cpfRespTecnico}" styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="rgRespTecnico" value="#{msg['formRegistroDominio.rgRespTecnico']}:" />
+                        <p:inputText id="rgRespTecnico" value="#{formRegistroDominioMB.entity.rgRespTecnico}" maxlength="50"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="telefonesRespTecnico" value="#{msg['formRegistroDominio.telefonesRespTecnico']}:" />
+                        <p:inputMask id="telefonesRespTecnico" value="#{formRegistroDominioMB.entity.telefonesRespTecnico}" mask="(99) 9 9999-9999"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="emailRespTecnico" value="#{msg['formRegistroDominio.emailRespTecnico']}:" />
+                        <p:inputText id="emailRespTecnico" value="#{formRegistroDominioMB.entity.emailRespTecnico}" maxlength="50"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cargoRespTecnico" value="Cargo:" />
+                        <p:inputText id="cargoRespTecnico" value="#{formRegistroDominioMB.entity.cargoRespTecnico}" maxlength="50"  styleClass="form-control"  />
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Servidores de DNS do Provedor">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="servidorDNS1" value="#{msg['formRegistroDominio.servidorDNS1']}:" />
+                        <p:inputText id="servidorDNS1" value="#{formRegistroDominioMB.entity.servidorDNS1}" maxlength="100"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="servidorDNS2" value="#{msg['formRegistroDominio.servidorDNS2']}:" />
+                        <p:inputText id="servidorDNS2" value="#{formRegistroDominioMB.entity.servidorDNS2}" maxlength="100"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="servidorDNS3" value="#{msg['formRegistroDominio.servidorDNS3']}:" />
+                        <p:inputText id="servidorDNS3" value="#{formRegistroDominioMB.entity.servidorDNS3}" maxlength="100"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="servidorDNS4" value="#{msg['formRegistroDominio.servidorDNS4']}:" />
+                        <p:inputText id="servidorDNS4" value="#{formRegistroDominioMB.entity.servidorDNS4}" maxlength="100"  styleClass="form-control"  />
+                    </div>
+                </div>
+            </div>
+
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="formRegistroDominio.create">
+                <p:commandButton process="@form" update="@form" action="#{formRegistroDominioMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="formRegistroDominio.create">
+                <p:commandButton rendered="#{formRegistroDominioMB.entity.id!=null}" process="@form" update="@form" action="#{formRegistroDominioMB.gerarPdf(formRegistroDominioMB.entity)}" value="Imprimir" ajax="false">
+                </p:commandButton>
+            </x:securityArea>
+            <x:securityArea rolesAllowed="formRegistroDominio.audit">
+                <x:audit for="#{formRegistroDominioMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,209 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailLocalEvento" styleClass="uix-form-detail">
+        <p:tabView>
+            <p:tab title="#{xmsg['generalData']}">
+                <p:fieldset legend="#{xmsg['generalData']}">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="Tipo:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{localEventoMB.entity.tipo.descricao}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['localEvento.nome']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{localEventoMB.entity.nome}" styleClass="uix-content-detail"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['localEvento.dataConstrucao']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{localEventoMB.entity.dataConstrucao}" styleClass="uix-content-detail">
+                                    <f:convertDateTime />
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['localEvento.estiloArquitetonico']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{localEventoMB.entity.estiloArquitetonico}" styleClass="uix-content-detail"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['localEvento.endereco']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{localEventoMB.entity.endereco}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['localEvento.tomabamento']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{localEventoMB.entity.tomabamento}" styleClass="uix-content-detail"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['localEvento.quantidadeLugares']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{localEventoMB.entity.quantidadeLugares}" styleClass="uix-content-detail"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['localEvento.quantidadeVendasOnline']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{localEventoMB.entity.quantidadeVendasOnline}" styleClass="uix-content-detail"/>
+                            </div>
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Endereço">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['portfolio.logradouro']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{localEventoMB.entity.endereco.endereco}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['portfolio.numero']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{localEventoMB.entity.endereco.numero}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['portfolio.complemento']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{localEventoMB.entity.endereco.complemento}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['portfolio.bairro']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{localEventoMB.entity.endereco.bairro}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['portfolio.cidade']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{localEventoMB.entity.endereco.cidade}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['portfolio.cep']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{localEventoMB.entity.endereco.cep}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="Latitude:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{localEventoMB.entity.endereco.latitude}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="Longitude:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{localEventoMB.entity.endereco.longitude}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Horário Funcionamento">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="dia" rowIndexVar="index" id="dataTableDia" widgetVar="dataTableDiaWidget" styleClass="table-responsive"
+                                 value="#{localEventoMB.entity.diaHoraVisitacao}" >
+                        <x:initializer/>
+                        <p:column headerText="Dia" width="50%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Dia" />
+                            </f:facet>
+                            <h:outputText value="#{dia.diaSemana.descricao}"/>
+                        </p:column>
+                        <p:column headerText="Hora Inicial" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Hora Inicial" />
+                            </f:facet>
+                            <h:outputText value="#{dia.horarioInicial}">
+                                <f:convertDateTime pattern="HH:mm"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Hora Final" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Hora Final" />
+                            </f:facet>
+                            <h:outputText value="#{dia.horarioFinal}">
+                                <f:convertDateTime pattern="HH:mm"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+                <p:fieldset legend="Telefones">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="fone" rowIndexVar="index" id="dataTableTelefone" widgetVar="dataTableTelefoneWidget" styleClass="table-responsive"
+                                 value="#{localEventoMB.entity.fones}" >
+                        <x:initializer/>
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="DDD" >
+                            <f:facet name="header">
+                                <h:outputText value="DDD" />
+                            </f:facet>
+                            <h:outputText value="#{fone.ddd}"/>
+                        </p:column>
+                        <p:column headerText="Número" >
+                            <f:facet name="header">
+                                <h:outputText value="Número" />
+                            </f:facet>
+                            <h:outputText value="#{fone.numero}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Setores" >
+                <p:fieldset legend="Setores">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="setor" rowIndexVar="index" id="dataTableSetor" widgetVar="dataTableSetorWidget" styleClass="table-responsive"
+                                 value="#{localEventoMB.entity.setores}" >
+                        <x:initializer/>
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['setor.nome']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['setor.nome']}" />
+                            </f:facet>
+                            <h:outputText value="#{setor.nome}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['setor.quantidadeLinhas']}" >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['setor.quantidadeLinhas']}" />
+                            </f:facet>
+                            <h:outputText value="#{setor.quantidadeLinhas}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['setor.quantidadeColunas']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['setor.quantidadeColunas']}" />
+                            </f:facet>
+                            <h:outputText value="#{setor.quantidadeColunas}"/>
+                        </p:column>
+                        <p:column headerText="Total Cadeiras">
+                            <f:facet name="header">
+                                <h:outputText value="Total Cadeiras" />
+                            </f:facet>
+                            <h:outputText value="#{setor.quantidadeCadeiras}"/>
+                        </p:column>
+
+                    </p:dataTable>
+                </p:fieldset>
+
+            </p:tab>
+        </p:tabView>
+
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetLocalEventoDetail').hide()" />
+            <x:securityArea rolesAllowed="localEvento.audit">
+                <x:audit for="#{localEventoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

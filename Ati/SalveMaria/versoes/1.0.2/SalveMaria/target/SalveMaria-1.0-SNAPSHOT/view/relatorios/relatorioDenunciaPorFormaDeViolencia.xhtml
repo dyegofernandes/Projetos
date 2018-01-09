@@ -1,0 +1,103 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+
+    <ui:param name="title" value="Relatório de Quantidade de Denúncias por Forma de Violência" />
+    <ui:define name="body">
+        <h:form id="formCreateRelatorio" >
+            <p:fieldset legend="Campos de Busca">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="formaDeViolencia" value="#{msg['denuncia.formaDeViolencia']}:" />
+                        <h:selectOneMenu id="formaDeViolencia" value="#{qtdDenunciaPorFormaDeViolenciaMB.forma}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.formasDeViolencia)}" 
+                                           var="formasDeViolencia"
+                                           itemLabel="#{formasDeViolencia.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataInicial" value="Data Inicial:" />
+                        <p:calendar id="dataInicial" value="#{qtdDenunciaPorFormaDeViolenciaMB.dataInicial}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataFinal" value="Data Final" />
+                        <p:calendar id="dataFinal" value="#{qtdDenunciaPorFormaDeViolenciaMB.dataFinal}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                </div>
+
+            </p:fieldset>
+            <div class="uix-center">
+                <p:commandButton process="formaDeViolencia dataInicial dataFinal" update="results" value="Buscar" action="#{qtdDenunciaPorFormaDeViolenciaMB.buscar()}"
+                                 ajax="false"/>
+            </div>
+            <p:fieldset id="results" legend="Resultados">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <x:dataTableActions fileName="Quantidade_DenunciaPorUnidade" target=":formCreateRelatorio:dataTableRelatorio"
+                                                widgetVar="dataTableRelatorioWidget"  />
+
+                            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                         var="denuncia" rowIndexVar="index" id="dataTableRelatorio" widgetVar="dataTableRelatorioWidget" styleClass="table-responsive"
+                                         value="#{qtdDenunciaPorFormaDeViolenciaMB.denuncias}"  >
+                                <f:facet name="header">
+                                    <h:outputText value="Quantidade de Denúncias por Unidade #{qtdDenunciaPorFormaDeViolenciaMB.periodo}" />
+                                </f:facet>
+                                <p:column styleClass="uix-datatable-index">
+                                    <h:outputText value="#{index+1}"/>
+                                </p:column>
+                                <p:column headerText="Nome">
+                                    <f:facet name="header">
+                                        <h:outputText value="Nome" />
+                                    </f:facet>
+                                    <h:outputText value="#{denuncia.nomeFormaViolencia}"/>
+                                    <f:facet name="footer">
+                                        <h:outputText value="Total" style="font-weight:bold"/>
+                                    </f:facet>
+                                </p:column>
+
+                                <p:column headerText="Quantidade" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Quantidade" />
+                                    </f:facet>
+                                    <h:outputText value="#{denuncia.quantidade}"/>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{qtdDenunciaPorFormaDeViolenciaMB.total}" style="font-weight:bold"/>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Percentual" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Percentual" />
+                                    </f:facet>
+                                    <h:outputText value="#{utilsMB.porcengatemPeloValor(qtdDenunciaPorFormaDeViolenciaMB.total, denuncia.quantidade)}%">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{utilsMB.porcengatemPeloValor(qtdDenunciaPorFormaDeViolenciaMB.total, qtdDenunciaPorFormaDeViolenciaMB.total)}%" 
+                                                      style="font-weight:bold"/>
+                                    </f:facet>
+                                </p:column>
+
+                            </p:dataTable>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <p:chart type="pie" model="#{qtdDenunciaPorFormaDeViolenciaMB.graficoPizza1}" style="width:400px;height:300px" />
+                        </div>
+
+                    </div>
+                </div>
+            </p:fieldset>
+        </h:form>
+    </ui:define>
+</ui:composition>

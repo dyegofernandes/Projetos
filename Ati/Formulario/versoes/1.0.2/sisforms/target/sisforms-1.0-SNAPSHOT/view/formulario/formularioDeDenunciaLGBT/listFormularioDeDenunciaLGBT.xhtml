@@ -1,0 +1,108 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['formularioDeDenunciaLGBT.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuFormularioDeDenunciaLGBT.xhtml" />
+        <h:form id="formListFormularioDeDenunciaLGBT">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="formularioDeDenunciaLGBT_export" target=":formListFormularioDeDenunciaLGBT:dataTableFormularioDeDenunciaLGBT"
+                                widgetVar="dataTableFormularioDeDenunciaLGBTWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="formularioDeDenunciaLGBT" rowIndexVar="index" id="dataTableFormularioDeDenunciaLGBT" widgetVar="dataTableFormularioDeDenunciaLGBTWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{formularioDeDenunciaLGBTMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{formularioDeDenunciaLGBTMB.dataModel.paginatorTemplate}"
+                         value="#{formularioDeDenunciaLGBTMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">
+                        <h:outputText value="" />
+                    </f:facet>
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['formularioDeDenunciaLGBT.dataDenuncia']}" sortBy="#{formularioDeDenunciaLGBT.dataDenuncia}"
+                          filterBy="#{formularioDeDenunciaLGBT.dataDenuncia}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formularioDeDenunciaLGBT.dataDenuncia']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{formularioDeDenunciaLGBT.dataDenuncia}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['formularioDeDenunciaLGBT.horaDenuncia']}" sortBy="#{formularioDeDenunciaLGBT.horaDenuncia}"
+                          style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formularioDeDenunciaLGBT.horaDenuncia']}" />
+                    </f:facet>
+                    <h:outputText value="#{formularioDeDenunciaLGBT.horaDenuncia}">
+                        <f:convertDateTime pattern="HH:mm"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Nome Social" sortBy="#{formularioDeDenunciaLGBT.nomeSocial}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="Nome Social" />
+                    </f:facet>
+                    <h:outputText value="#{formularioDeDenunciaLGBT.nomeSocial}">
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['formularioDeDenunciaLGBT.identificacaoVitima']}" sortBy="#{formularioDeDenunciaLGBT.identificacaoVitima}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formularioDeDenunciaLGBT.identificacaoVitima']}" />
+                    </f:facet>
+                    <h:outputText value="#{formularioDeDenunciaLGBT.identificacaoVitima.nome}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column headerText="#{msg['formularioDeDenunciaLGBT.lGBtSituacaoViolencia']}" sortBy="#{formularioDeDenunciaLGBT.lGBtSituacaoViolencia}"
+                          filterBy="#{formularioDeDenunciaLGBT.lGBtSituacaoViolencia}"  filterOptions="#{findAllBean.getSelect(classMB.lgbtSituacaoViolencia)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formularioDeDenunciaLGBT.lGBtSituacaoViolencia']}" />
+                    </f:facet>
+                    <h:outputText value="#{formularioDeDenunciaLGBT.lGBtSituacaoViolencia}"/>
+                </p:column> 
+
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetFormularioDeDenunciaLGBTDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailFormularioDeDenunciaLGBT" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{formularioDeDenunciaLGBT}" target="#{formularioDeDenunciaLGBTMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="formularioDeDenunciaLGBT.create">
+                        <p:button icon="ui-icon-pencil" outcome="createFormularioDeDenunciaLGBT" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{formularioDeDenunciaLGBT.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="formularioDeDenunciaLGBT.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{formularioDeDenunciaLGBTMB.delete}" >
+                            <f:setPropertyActionListener value="#{formularioDeDenunciaLGBT.id}" target="#{formularioDeDenunciaLGBTMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{formularioDeDenunciaLGBT}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="formularioDeDenunciaLGBT.audit">
+                    <x:auditDelete for="#{formularioDeDenunciaLGBTMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetFormularioDeDenunciaLGBTDetail" header="#{msg['formularioDeDenunciaLGBT.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailFormularioDeDenunciaLGBT.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

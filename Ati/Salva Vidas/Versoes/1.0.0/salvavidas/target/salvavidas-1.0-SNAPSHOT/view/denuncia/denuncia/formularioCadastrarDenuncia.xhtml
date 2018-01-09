@@ -1,0 +1,288 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateDenuncia" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:tabView id="tabGeral" >
+            <p:tab title="#{xmsg['generalData']}" id="tabDadosGerais">
+                <p:fieldset legend="Autor da Denúncia" id="fieldSetAutorDenuncia">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="anonimo" value="* Anonimo:" />
+                        <h:selectOneMenu id="anonimo" value="#{fazerDenunciaMB.denuncia.anomino}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.anonimo)}" 
+                                           var="anonimo"
+                                           itemLabel="#{anonimo.descricao}"/>
+                            <p:ajax process="@this" update="panelAutor" listener="#{fazerDenunciaMB.limparAutor()}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <h:panelGroup id="panelAutor">
+                        <h:panelGroup rendered="#{fazerDenunciaMB.denuncia.anomino.num eq 2}">
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cpfAutor" value="CPF:" />
+                                <x:cpf id="cpfAutor" value="#{fazerDenunciaMB.autorDenuncia.cpf}"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomeAutor" value="* Nome:" />
+                                <p:inputText id="nomeAutor" value="#{fazerDenunciaMB.autorDenuncia.nome}" maxlength="255"  styleClass="form-control"  
+                                             required="true" requiredMessage="Nome do Autor é obrigatório!"/>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="telefoneAutor" value="Fone:" />
+                                <p:inputMask id="telefoneAutor" value="#{fazerDenunciaMB.autorDenuncia.telefone}" mask="(99) 9999-9999"  styleClass="form-control"  />
+                            </div>
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+                </p:fieldset>
+                <p:fieldset legend="#{xmsg['generalData']}" id="fielSetDadosGerais">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="descricao" value="#{msg['denuncia.descricao']}:" />
+                                <p:inputText id="descricao" value="#{fazerDenunciaMB.denuncia.descricao}" maxlength="480"  styleClass="form-control"  />
+                            </div>
+
+                            <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="dataDenuncia" value="* #{msg['denuncia.dataDenuncia']}:" />
+                                <p:calendar id="dataDenuncia" value="#{fazerDenunciaMB.denuncia.dataDenuncia}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  disabled="true">
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="horaDenuncia" value="* #{msg['denuncia.horaDenuncia']}:" />
+                                <p:calendar id="horaDenuncia" value="#{fazerDenunciaMB.denuncia.horaDenuncia}" 
+                                            showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar" disabled="true"> 
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="observacao" value="#{msg['denuncia.observacao']}:" />
+                                <p:inputTextarea id="observacao" value="#{fazerDenunciaMB.denuncia.observacao}" rows="10" styleClass="form-control"
+                                                 cols="50"/>
+                            </div>
+                        </div>
+
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Local da Denúncia" id="fieldSetEndereco" toggleable="true">
+                    <div class="row">
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="enderecoFormatado" value="Endereço Formatado:" />
+                            <p:inputText id="enderecoFormatado" value="#{fazerDenunciaMB.endereco.enderecoFormatado}" maxlength="260"  
+                                         styleClass="form-control" disabled="true">
+                            </p:inputText>
+                        </div>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="latitude" value="Latitude:" />
+                            <p:inputText id="latitude" value="#{fazerDenunciaMB.endereco.latitude}" maxlength="255"  styleClass="form-control" 
+                                         disabled="true"/>
+                        </div>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="longitude" value="Longitude:" />
+                            <p:inputText id="longitude" value="#{fazerDenunciaMB.endereco.longitude}" maxlength="255"  styleClass="form-control" 
+                                         disabled="true"/>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="complemento" value="#{msg['endereco.complemento']}:" />
+                            <p:inputText id="complemento" value="#{fazerDenunciaMB.endereco.complemento}" maxlength="260"  
+                                         styleClass="form-control">
+                            </p:inputText>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="referencia" value="Referência:" />
+                            <p:inputText id="referencia" value="#{fazerDenunciaMB.endereco.referencia}" maxlength="260"  
+                                         styleClass="form-control">
+                            </p:inputText>
+                        </div>
+                    </div>
+
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Dados denunciado (s) e vítima (s)">
+                <p:fieldset legend="Vitima (s)" id="fieldSetVitima">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cpfVitima" value="CPF:" />
+                            <x:cpf id="cpfVitima" value="#{fazerDenunciaMB.vitimaAdd.cpf}"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="nomeVitima" value="* Nome:" />
+                            <p:inputText id="nomeVitima" value="#{fazerDenunciaMB.vitimaAdd.nome}" maxlength="255"  styleClass="form-control"  
+                                         />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="caracteristicaVitima" value="Caracteristica:" />
+                            <p:inputText id="caracteristicaVitima" value="#{fazerDenunciaMB.vitimaAdd.caracteristica}" maxlength="255"  styleClass="form-control"  />
+                        </div>
+                    </div>
+                    <div class="uix-center">
+                        <p:commandButton process="@this fieldSetVitima" update="fieldSetVitima" value="Adicionar" 
+                                         action="#{fazerDenunciaMB.addVitima()}" />
+                    </div>
+                    <div class="row">
+                        <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                     var="vitima" rowIndexVar="index" id="dataTableVitima" widgetVar="dataTableVitimaWidget" styleClass="table-responsive"
+                                     value="#{fazerDenunciaMB.vitimas}" >
+                            <p:column styleClass="uix-datatable-index">
+                                <h:outputText value="#{index+1}"/>
+                            </p:column>
+                            <p:column headerText="CPF" width="20%" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="CPF" />
+                                </f:facet>
+                                <h:outputText value="#{vitima.cpf}"/>
+                            </p:column>
+                            <p:column headerText="Nome" style="text-align: left;">
+                                <f:facet name="header">
+                                    <h:outputText value="Nome" />
+                                </f:facet>
+                                <h:outputText value="#{vitima.nome}"/>
+                            </p:column>
+                            <p:column headerText="Caracteristica" style="text-align: left;">
+                                <f:facet name="header">
+                                    <h:outputText value="Caracteristica" />
+                                </f:facet>
+                                <h:outputText value="#{vitima.caracteristica}"/>
+                            </p:column>
+                            <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{xmsg['actions']}"/>
+                                </f:facet>
+                                <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableVitima" 
+                                                 action="#{fazerDenunciaMB.removerVitima(vitima)}" >
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+
+                </p:fieldset>
+                <p:fieldset legend="Denunciado (s)" id="fieldSetDenunciado">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cpfDenunciado" value="CPF:" />
+                            <x:cpf id="cpfDenunciado" value="#{fazerDenunciaMB.denunciadoAdd.cpf}"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="nomeDenunciado" value="* Nome:" />
+                            <p:inputText id="nomeDenunciado" value="#{fazerDenunciaMB.denunciadoAdd.nome}" maxlength="255"  styleClass="form-control" 
+                                         />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="caracteristicaDenuncia" value="Caracteristica:" />
+                            <p:inputText id="caracteristicaDenuncia" value="#{fazerDenunciaMB.denunciadoAdd.caracteristica}" maxlength="255"  styleClass="form-control"  />
+                        </div>
+                    </div>
+                    <div class="uix-center">
+                        <p:commandButton process="@this fieldSetDenunciado" update="fieldSetDenunciado" value="Adicionar" 
+                                         action="#{fazerDenunciaMB.addDenunciado()}" />
+                    </div>
+                    <div class="row">
+                        <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                     var="denunciado" rowIndexVar="index" id="dataTableDenunciado" widgetVar="dataTableDenunciadoWidget" styleClass="table-responsive"
+                                     value="#{fazerDenunciaMB.denunciados}" >
+                            <p:column styleClass="uix-datatable-index">
+                                <h:outputText value="#{index+1}"/>
+                            </p:column>
+                            <p:column headerText="CPF" width="20%" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="CPF" />
+                                </f:facet>
+                                <h:outputText value="#{denunciado.cpf}"/>
+                            </p:column>
+                            <p:column headerText="Nome" style="text-align: left;">
+                                <f:facet name="header">
+                                    <h:outputText value="Nome" />
+                                </f:facet>
+                                <h:outputText value="#{denunciado.nome}"/>
+                            </p:column>
+                            <p:column headerText="Caracteristica" style="text-align: left;">
+                                <f:facet name="header">
+                                    <h:outputText value="Caracteristica" />
+                                </f:facet>
+                                <h:outputText value="#{denunciado.caracteristica}"/>
+                            </p:column>
+                            <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{xmsg['actions']}"/>
+                                </f:facet>
+                                <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableDenunciado" 
+                                                 action="#{fazerDenunciaMB.removerDenunciado(denunciado)}" >
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Arquivos">
+                <p:fieldset legend="Adicionar Arquivo">
+                    <p:fileUpload id="arquivo" mode="advanced" requiredMessage="É necessário o envio de pelo menos um arquivo!"
+                                  allowTypes="/(\.|\/)(gif|jpeg|jpg|rtf|odt|ods|png|doc|docx|xls|xlsx|pps|ppsx|ppt|pptx|pdf|jpg|zip|txt|7z|rar|dcm|mp4)$/"
+                                  invalidFileMessage="Tipo de arquivo não permitido" invalidSizeMessage="Arquivo com tamanho acima do permitido" 
+                                  uploadLabel="Carregar" update="dataTableArquivo" cancelLabel="Cancelar" label="Selecionar" multiple="false" 
+                                  sizeLimit="10485760" fileUploadListener="#{fazerDenunciaMB.upload}" styleClass="grid_9" />
+                </p:fieldset>
+                <p:fieldset legend="Listagem de Arquivos">
+                    <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="arquivo" rowIndexVar="index" id="dataTableArquivo" widgetVar="dataTableArquivoWidget" styleClass="table-responsive"
+                                 value="#{fazerDenunciaMB.arquivos}" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg['arquivo.nome']}" width="80%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['arquivo.nome']}" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.nome}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['arquivo.extensao']}" width="20%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['arquivo.extensao']}" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.extensao}"/>
+                        </p:column>
+
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>          
+                            <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Download" ajax="false" immediate="true" update="formCreateDenuncia">
+                                <p:fileDownload value="#{fazerDenunciaMB.download(arquivo)}" />
+                            </p:commandButton>
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableArquivo" 
+                                             action="#{fazerDenunciaMB.removerArquivo(arquivo)}" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </p:tab>
+
+        </p:tabView>
+
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="denuncia.create">
+                <p:commandButton process="@form" update="@form" action="#{fazerDenunciaMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="denuncia.audit">
+                <x:audit for="#{fazerDenunciaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

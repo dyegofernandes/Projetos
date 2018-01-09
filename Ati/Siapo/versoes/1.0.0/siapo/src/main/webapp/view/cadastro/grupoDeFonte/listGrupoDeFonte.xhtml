@@ -1,0 +1,78 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['grupoDeFonte.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuGrupoDeFonte.xhtml" />
+        <h:form id="formListGrupoDeFonte">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="grupoDeFonte_export" target=":formListGrupoDeFonte:dataTableGrupoDeFonte"
+                                     widgetVar="dataTableGrupoDeFonteWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="grupoDeFonte" rowIndexVar="index" id="dataTableGrupoDeFonte" widgetVar="dataTableGrupoDeFonteWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{grupoDeFonteMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{grupoDeFonteMB.dataModel.paginatorTemplate}"
+                         value="#{grupoDeFonteMB.dataModel}" lazy="true" >
+            
+                <p:column headerText="Código" sortBy="#{grupoDeFonte.codigo}"
+                    filterBy="#{grupoDeFonte.codigo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Código" />
+                    </f:facet>
+                    <h:outputText value="#{grupoDeFonte.codigo}"/>
+                </p:column>
+                <p:column headerText="#{msg['grupoDeFonte.nome']}" sortBy="#{grupoDeFonte.nome}"
+                    filterBy="#{grupoDeFonte.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['grupoDeFonte.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{grupoDeFonte.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['grupoDeFonte.uso']}" sortBy="#{grupoDeFonte.uso}"
+                    filterBy="#{grupoDeFonte.uso}"  filterOptions="#{findAllBean.getSelect(classMB.tipoGrupoFonte)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['grupoDeFonte.uso']}" />
+                    </f:facet>
+                    <h:outputText value="#{grupoDeFonte.uso.descricao}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetGrupoDeFonteDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailGrupoDeFonte" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{grupoDeFonte}" target="#{grupoDeFonteMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="grupoDeFonte.create">
+                        <p:button icon="ui-icon-pencil" outcome="createGrupoDeFonte" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{grupoDeFonte.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="grupoDeFonte.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{grupoDeFonteMB.delete}" >
+                            <f:setPropertyActionListener value="#{grupoDeFonte.id}" target="#{grupoDeFonteMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{grupoDeFonte}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="grupoDeFonte.audit">
+                    <x:auditDelete for="#{grupoDeFonteMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetGrupoDeFonteDetail" header="#{msg['grupoDeFonte.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailGrupoDeFonte.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,73 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['programaDeGoverno.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuProgramaDeGoverno.xhtml" />
+        <h:form id="formListProgramaDeGoverno">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="programaDeGoverno_export" target=":formListProgramaDeGoverno:dataTableProgramaDeGoverno"
+                                     widgetVar="dataTableProgramaDeGovernoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="programaDeGoverno" rowIndexVar="index" id="dataTableProgramaDeGoverno" widgetVar="dataTableProgramaDeGovernoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{programaDeGovernoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{programaDeGovernoMB.dataModel.paginatorTemplate}"
+                         value="#{programaDeGovernoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['programaDeGoverno.codigo']}" sortBy="#{programaDeGoverno.codigo}"
+                    filterBy="#{programaDeGoverno.codigo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['programaDeGoverno.codigo']}" />
+                    </f:facet>
+                    <h:outputText value="#{programaDeGoverno.codigo}"/>
+                </p:column>
+                <p:column headerText="#{msg['programaDeGoverno.nome']}" sortBy="#{programaDeGoverno.nome}"
+                    filterBy="#{programaDeGoverno.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['programaDeGoverno.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{programaDeGoverno.nome}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetProgramaDeGovernoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailProgramaDeGoverno" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{programaDeGoverno}" target="#{programaDeGovernoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="programaDeGoverno.create">
+                        <p:button icon="ui-icon-pencil" outcome="createProgramaDeGoverno" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{programaDeGoverno.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="programaDeGoverno.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{programaDeGovernoMB.delete}" >
+                            <f:setPropertyActionListener value="#{programaDeGoverno.id}" target="#{programaDeGovernoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{programaDeGoverno}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="programaDeGoverno.audit">
+                    <x:auditDelete for="#{programaDeGovernoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetProgramaDeGovernoDetail" header="#{msg['programaDeGoverno.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailProgramaDeGoverno.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

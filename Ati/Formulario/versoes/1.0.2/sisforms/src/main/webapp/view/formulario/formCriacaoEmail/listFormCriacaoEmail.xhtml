@@ -1,0 +1,172 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['formCriacaoEmail.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuFormCriacaoEmail.xhtml" />
+        <h:form id="formListFormCriacaoEmail">
+            <x:modalMessages/>
+            <p:fieldset legend="Filtros de Busca" toggleable="true" id="fieldFiltros">
+                <x:securityArea rolesAllowed="campos.usuario">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="usuario" value="Usuario" />
+                        <h:selectOneMenu id="usuario" value="#{formCriacaoEmailMB.filtros.usuario}" converter="entityConverter" 
+                                         styleClass="form-control" 
+                                         >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.usuario)}" 
+                                           var="orgao"
+                                           itemLabel="#{orgao.nome}"/>
+                        </h:selectOneMenu>
+                    </div>
+                </x:securityArea>
+                <x:securityArea rolesAllowed="campos.orgao">
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Orgão:" />
+
+                        <h:panelGroup layout="block" id="panelOrgaoPendencia" styleClass="form-control">
+                            <h:panelGroup id="conteudoPanelOrgaoPendencia" >
+                                <h:outputText value="#{ataDeReuniaoMB.filtros.orgao.nome}" >
+                                    <x:initializer/>
+                                </h:outputText>
+                                <p:commandButton type="button" icon="ui-icon-carat-1-s" 
+                                                 id="buttonOrgaoPendencia" styleClass="pull-right"
+                                                 style="font-size: 10px;"/>
+                            </h:panelGroup>
+                        </h:panelGroup>
+
+                        <p:overlayPanel for="panelOrgaoPendencia" styleClass="w-100p" widgetVar="overlayOrgaoPendencia" >
+                            <p:tree value="#{orgaoMB.orgaos}" var="orgao" styleClass="w-100p"
+                                    selectionMode="single"  style="max-height: 400px; overflow-y: scroll" >
+                                <p:ajax event="select" update=":formListFormCriacaoEmail:panelOrgaoPendencia @this"
+                                        listener="#{ataDeReuniaoMB.filtros.setOrgao(orgao)}" oncomplete="PF('overlayOrgaoPendencia').hide()" />
+                                <p:treeNode collapsedIcon="ui-icon-folder-collapsed" >
+                                    <h:panelGroup styleClass="#{orgao == orgaoMB.entity.orgaoPai ? 'ui-state-highlight' : ''}">
+                                        <h:outputText value="#{orgao.sigla}" style="font-weight: bold"/>  
+                                        <h:outputText value=" (#{orgao.nome})" styleClass="font-8"  /> 
+                                    </h:panelGroup>
+                                </p:treeNode>
+                            </p:tree>
+                        </p:overlayPanel>
+                    </div>
+                </x:securityArea>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="dataInicial" value="Data Inicial da Emissão" />
+                    <p:calendar id="dataInicial" value="#{formCriacaoEmailMB.filtros.dataInicial}" 
+                                showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                        <x:mask/>
+                    </p:calendar>
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="dataFinal" value="Data Final da Emissão" />
+                    <p:calendar id="dataFinal" value="#{formCriacaoEmailMB.filtros.dataFinal}" 
+                                showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                        <x:mask/>
+                    </p:calendar>
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="situacao" value="Situação:" />
+                    <h:selectOneMenu id="situacao" value="#{formCriacaoEmailMB.filtros.situacao}"  styleClass="form-control" >
+                        <f:selectItem itemLabel="#{xmsg['select']}" />
+                        <f:selectItems value="#{findAllBean.get(classMB.situacao)}" 
+                                       var="situacao"
+                                       itemLabel="#{situacao.descricao}"/>
+                    </h:selectOneMenu>
+                </div>
+
+            </p:fieldset>
+            <div class="uix-center">
+                <p:commandButton process="@this fieldFiltros" update="dataTableFormCriacaoEmail" action="#{formCriacaoEmailMB.buscar()}" value="Buscar" />
+            </div>
+            <p:fieldset legend="Resultado da Busca">
+                <x:dataTableActions fileName="formCriacaoEmail_export" target=":formListFormCriacaoEmail:dataTableFormCriacaoEmail"
+                                    widgetVar="dataTableFormCriacaoEmailWidget"  />
+
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="formCriacaoEmail" rowIndexVar="index" id="dataTableFormCriacaoEmail" widgetVar="dataTableFormCriacaoEmailWidget" styleClass="table-responsive"
+                             value="#{formCriacaoEmailMB.lista}" lazy="true" >
+                    <p:column styleClass="uix-datatable-index">
+                        <f:facet name="header">
+                            <h:outputText value="" />
+                        </f:facet>
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['solicitacaoAcessoSFP.usuario']}"
+                              rendered="#{x:hasRole('campos.usuario')}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['solicitacaoAcessoSFP.usuario']}" />
+                        </f:facet>
+                        <h:outputText value="#{formCriacaoEmail.usuario}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Órgão" >
+                        <f:facet name="header">
+                            <h:outputText value="Órgão" />
+                        </f:facet>
+                        <h:outputText value="#{formCriacaoEmail.orgao}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Data" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Data" />
+                        </f:facet>
+                        <h:outputText value="#{formCriacaoEmail.dataCriacao}">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Situação" style="text-align: center;" >
+                        <f:facet name="header">
+                            <h:outputText value="Situação" />
+                        </f:facet>
+                        <h:outputText value="#{formCriacaoEmail.situacao.descricao}"/>
+                    </p:column>
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+                        <p:commandButton oncomplete="PF('widgetFormCriacaoEmailDetail').show();"  icon="ui-icon-zoomin" 
+                                         process="@form" update=":formDetailFormCriacaoEmail" title="#{xmsg['detail']}" 
+                                         action="#{formCriacaoEmailMB.carregarItens(formCriacaoEmail)}">
+                            <f:setPropertyActionListener value="#{formCriacaoEmail}" target="#{formCriacaoEmailMB.entity}" />
+                        </p:commandButton>
+                        <x:securityArea rolesAllowed="formCriacaoEmail.create">
+                            <p:button icon="ui-icon-pencil" outcome="createFormCriacaoEmail" title="#{xmsg['edit']}">
+                                <f:param name="id" value="#{formCriacaoEmail.id}" />
+                            </p:button>
+                        </x:securityArea>
+                        <x:securityArea rolesAllowed="formCriacaoEmail.delete">
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                             action="#{formCriacaoEmailMB.delete}" >
+                                <f:setPropertyActionListener value="#{formCriacaoEmail.id}" target="#{formCriacaoEmailMB.id}" />
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{formCriacaoEmail}" />
+                            </p:commandButton>
+                        </x:securityArea>
+                        <p:commandButton icon="ui-icon-document" title="Gerar PDF" ajax="false" action="#{formCriacaoEmailMB.gerarPdf(formCriacaoEmail)}" 
+                                         process="@form" update="@form" >                         
+                        </p:commandButton>  
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+
+
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="formCriacaoEmail.audit">
+                    <x:auditDelete for="#{formCriacaoEmailMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetFormCriacaoEmailDetail" header="#{msg['formCriacaoEmail.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailFormCriacaoEmail.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

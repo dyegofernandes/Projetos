@@ -1,0 +1,44 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailFornecedor" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.autoridadeCertificadora']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.autoridadeCertificadora}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.emailAutoridadeCertificadora']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.emailAutoridadeCertificadora}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.autoridadeRegistro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.autoridadeRegistro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.emailAutoridadeRegistro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.emailAutoridadeRegistro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.telefoneAutoridadeRegistro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.telefoneAutoridadeRegistro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.ativo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.ativo}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetFornecedorDetail').hide()" />
+            <x:securityArea rolesAllowed="fornecedor.audit">
+                <x:audit for="#{fornecedorMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

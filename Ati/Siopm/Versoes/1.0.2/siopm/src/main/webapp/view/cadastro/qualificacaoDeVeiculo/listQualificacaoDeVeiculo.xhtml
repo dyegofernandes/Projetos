@@ -1,0 +1,134 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['qualificacaoDeVeiculo.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuQualificacaoDeVeiculo.xhtml" />
+        <h:form id="formListQualificacaoDeVeiculo">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="qualificacaoDeVeiculo_export" target=":formListQualificacaoDeVeiculo:dataTableQualificacaoDeVeiculo"
+                                     widgetVar="dataTableQualificacaoDeVeiculoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="qualificacaoDeVeiculo" rowIndexVar="index" id="dataTableQualificacaoDeVeiculo" widgetVar="dataTableQualificacaoDeVeiculoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{qualificacaoDeVeiculoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{qualificacaoDeVeiculoMB.dataModel.paginatorTemplate}"
+                         value="#{qualificacaoDeVeiculoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['qualificacaoDeVeiculo.placa']}" sortBy="#{qualificacaoDeVeiculo.placa}"
+                    filterBy="#{qualificacaoDeVeiculo.placa}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['qualificacaoDeVeiculo.placa']}" />
+                    </f:facet>
+                    <h:outputText value="#{qualificacaoDeVeiculo.placa}"/>
+                </p:column>
+                <p:column headerText="#{msg['qualificacaoDeVeiculo.chassi']}" sortBy="#{qualificacaoDeVeiculo.chassi}"
+                    filterBy="#{qualificacaoDeVeiculo.chassi}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['qualificacaoDeVeiculo.chassi']}" />
+                    </f:facet>
+                    <h:outputText value="#{qualificacaoDeVeiculo.chassi}"/>
+                </p:column>
+                
+                <p:column headerText="#{msg['qualificacaoDeVeiculo.modelo']}" sortBy="#{qualificacaoDeVeiculo.modelo}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['qualificacaoDeVeiculo.modelo']}" />
+                    </f:facet>
+                    <h:outputText value="#{qualificacaoDeVeiculo.modelo}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['qualificacaoDeVeiculo.cor']}" sortBy="#{qualificacaoDeVeiculo.cor}"
+                    filterBy="#{qualificacaoDeVeiculo.cor}"  filterOptions="#{findAllBean.getSelect(classMB.corVeiculo)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['qualificacaoDeVeiculo.cor']}" />
+                    </f:facet>
+                    <h:outputText value="#{qualificacaoDeVeiculo.cor}"/>
+                </p:column>
+                <p:column headerText="#{msg['qualificacaoDeVeiculo.fabricacaoAno']}" sortBy="#{qualificacaoDeVeiculo.fabricacaoAno}"
+                    filterBy="#{qualificacaoDeVeiculo.fabricacaoAno}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['qualificacaoDeVeiculo.fabricacaoAno']}" />
+                    </f:facet>
+                    <h:outputText value="#{qualificacaoDeVeiculo.fabricacaoAno}"/>
+                </p:column>
+                <p:column headerText="#{msg['qualificacaoDeVeiculo.modeloAno']}" sortBy="#{qualificacaoDeVeiculo.modeloAno}"
+                    filterBy="#{qualificacaoDeVeiculo.modeloAno}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['qualificacaoDeVeiculo.modeloAno']}" />
+                    </f:facet>
+                    <h:outputText value="#{qualificacaoDeVeiculo.modeloAno}"/>
+                </p:column>
+                <p:column headerText="#{msg['qualificacaoDeVeiculo.municipio']}" sortBy="#{qualificacaoDeVeiculo.municipio}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['qualificacaoDeVeiculo.municipio']}" />
+                    </f:facet>
+                    <h:outputText value="#{qualificacaoDeVeiculo.municipio}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['qualificacaoDeVeiculo.proprietario']}" sortBy="#{qualificacaoDeVeiculo.proprietario}"
+                    filterBy="#{qualificacaoDeVeiculo.proprietario}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['qualificacaoDeVeiculo.proprietario']}" />
+                    </f:facet>
+                    <h:outputText value="#{qualificacaoDeVeiculo.proprietario}"/>
+                </p:column>
+                <p:column headerText="#{msg['qualificacaoDeVeiculo.telefoneProprietario']}" sortBy="#{qualificacaoDeVeiculo.telefoneProprietario}"
+                    filterBy="#{qualificacaoDeVeiculo.telefoneProprietario}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['qualificacaoDeVeiculo.telefoneProprietario']}" />
+                    </f:facet>
+                    <h:outputText value="#{qualificacaoDeVeiculo.telefoneProprietario}"/>
+                </p:column>
+                <p:column headerText="#{msg['qualificacaoDeVeiculo.situacao']}" sortBy="#{qualificacaoDeVeiculo.situacao}"
+                    filterBy="#{qualificacaoDeVeiculo.situacao}"  filterOptions="#{findAllBean.getSelect(classMB.situacaoVeiculo)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['qualificacaoDeVeiculo.situacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{qualificacaoDeVeiculo.situacao}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetQualificacaoDeVeiculoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailQualificacaoDeVeiculo" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{qualificacaoDeVeiculo}" target="#{qualificacaoDeVeiculoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="qualificacaoDeVeiculo.create">
+                        <p:button icon="ui-icon-pencil" outcome="createQualificacaoDeVeiculo" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{qualificacaoDeVeiculo.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="qualificacaoDeVeiculo.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{qualificacaoDeVeiculoMB.delete}" >
+                            <f:setPropertyActionListener value="#{qualificacaoDeVeiculo.id}" target="#{qualificacaoDeVeiculoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{qualificacaoDeVeiculo}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="qualificacaoDeVeiculo.audit">
+                    <x:auditDelete for="#{qualificacaoDeVeiculoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetQualificacaoDeVeiculoDetail" header="#{msg['qualificacaoDeVeiculo.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailQualificacaoDeVeiculo.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

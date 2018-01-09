@@ -1,0 +1,73 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['poligono.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuPoligono.xhtml" />
+        <h:form id="formListPoligono">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="poligono_export" target=":formListPoligono:dataTablePoligono"
+                                widgetVar="dataTablePoligonoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="poligono" rowIndexVar="index" id="dataTablePoligono" widgetVar="dataTablePoligonoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{poligonoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{poligonoMB.dataModel.paginatorTemplate}"
+                         value="#{poligonoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['poligono.nome']}" sortBy="#{poligono.nome}"
+                          filterBy="#{poligono.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['poligono.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{poligono.nome}"/>
+                </p:column>
+                <p:column headerText="Tipo" sortBy="#{poligono.tipo}"
+                          filterBy="#{poligono.tipo}">
+                    <f:facet name="header">
+                        <h:outputText value="Tipo" />
+                    </f:facet>
+                    <h:outputText value="#{poligono.tipo.descricao}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetPoligonoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailPoligono" title="#{xmsg['detail']}" action="#{poligonoMB.carregarPontosPoligono(poligono)}">
+                        <f:setPropertyActionListener value="#{poligono}" target="#{poligonoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="poligono.create">
+                        <p:button icon="ui-icon-pencil" outcome="createPoligono" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{poligono.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="poligono.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{poligonoMB.delete}" >
+                            <f:setPropertyActionListener value="#{poligono.id}" target="#{poligonoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{poligono}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="poligono.audit">
+                    <x:auditDelete for="#{poligonoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetPoligonoDetail" header="#{msg['poligono.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailPoligono.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

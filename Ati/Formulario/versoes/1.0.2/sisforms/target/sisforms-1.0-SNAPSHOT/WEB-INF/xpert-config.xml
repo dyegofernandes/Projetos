@@ -1,0 +1,12 @@
+<xpert-config>
+
+    <auditing>
+        <auditing-impl>br.gov.pi.ati.sisforms.modelo.audit.Auditing</auditing-impl>
+        <metadata-impl>br.gov.pi.ati.sisforms.modelo.audit.Metadata</metadata-impl>
+        <auditing-listener>br.gov.pi.ati.sisforms.application.AuditingListenerImpl</auditing-listener>
+    </auditing>
+    
+    <entity-manager-factory>br.gov.pi.ati.sisforms.application.EntityManagerFactoryImpl</entity-manager-factory>
+    <resource-bundle>bundles.messages</resource-bundle>
+
+</xpert-config>

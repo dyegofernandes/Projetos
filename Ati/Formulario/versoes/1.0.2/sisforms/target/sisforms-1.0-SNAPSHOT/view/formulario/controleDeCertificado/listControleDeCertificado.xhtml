@@ -1,0 +1,216 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['controleDeCertificado.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuControleDeCertificado.xhtml" />
+        <h:form id="formListControleDeCertificado">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="controleDeCertificado_export" target=":formListControleDeCertificado:dataTableControleDeCertificado"
+                                widgetVar="dataTableControleDeCertificadoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="controleDeCertificado" rowIndexVar="index" id="dataTableControleDeCertificado" widgetVar="dataTableControleDeCertificadoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{controleDeCertificadoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{controleDeCertificadoMB.dataModel.paginatorTemplate}"
+                         value="#{controleDeCertificadoMB.dataModel}" lazy="true" >
+                <p:column headerText="Tipo Pessoa" sortBy="#{controleDeCertificado.tipoPessoaß}"
+                          filterBy="#{controleDeCertificado.tipoPessoa}"  filterOptions="#{findAllBean.getSelect(classMB.tipoPessoa)}" >
+                    <f:facet name="header">
+                        <h:outputText value="Tipo Pessoa" />
+                    </f:facet>
+                    <h:outputText value="#{controleDeCertificado.tipoPessoa.descricao}"/>
+                </p:column>
+                <p:column headerText="#{msg['controleDeCertificado.numeroSolicitacao']}" sortBy="#{controleDeCertificado.numeroSolicitacao}"
+                          filterBy="#{controleDeCertificado.numeroSolicitacao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['controleDeCertificado.numeroSolicitacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{controleDeCertificado.numeroSolicitacao}"/>
+                </p:column>
+                <p:column headerText="#{msg['controleDeCertificado.cnpj']}" sortBy="#{controleDeCertificado.cnpj}"
+                          filterBy="#{controleDeCertificado.cnpj}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['controleDeCertificado.cnpj']}" />
+                    </f:facet>
+                    <h:outputText value="#{controleDeCertificado.cnpj}" converter="cnpjConverter"/>
+                </p:column>
+                <p:column headerText="#{msg['controleDeCertificado.cpfSolicitante']}" sortBy="#{controleDeCertificado.cpf}"
+                          filterBy="#{controleDeCertificado.cpf}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['controleDeCertificado.cpfSolicitante']}" />
+                    </f:facet>
+                    <h:outputText value="#{controleDeCertificado.cpf}" converter="cpfConverter"/>
+                </p:column>
+                <p:column headerText="Endereço Web" sortBy="#{controleDeCertificado.enderecoWeb}"
+                          filterBy="#{controleDeCertificado.enderecoWeb}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Endereço Web" />
+                    </f:facet>
+                    <h:outputText value="#{controleDeCertificado.enderecoWeb}" />
+                </p:column>
+                <p:column headerText="Email" sortBy="#{controleDeCertificado.email}"
+                          filterBy="#{controleDeCertificado.email}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Email" />
+                    </f:facet>
+                    <h:outputText value="#{controleDeCertificado.email}" />
+                </p:column>
+                
+                <p:column headerText="Solicitante" sortBy="#{controleDeCertificado.solicitante}"
+                          filterBy="#{controleDeCertificado.solicitante}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Solicitante" />
+                    </f:facet>
+                    <h:outputText value="#{controleDeCertificado.solicitante}" />
+                </p:column>
+                <p:column headerText="Titular" sortBy="#{controleDeCertificado.titular}"
+                          filterBy="#{controleDeCertificado.titular}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Titular" />
+                    </f:facet>
+                    <h:outputText value="#{controleDeCertificado.titular}" />
+                </p:column>
+                <p:column headerText="#{msg['controleDeCertificado.orga']}" sortBy="#{controleDeCertificado.orgao.nome}"
+                          filterBy="#{controleDeCertificado.orgao.nome}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['controleDeCertificado.orga']}" />
+                    </f:facet>
+                    <h:outputText value="#{controleDeCertificado.orgao}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['controleDeCertificado.protocoloAti']}" sortBy="#{controleDeCertificado.protocoloAti}"
+                          filterBy="#{controleDeCertificado.protocoloAti}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['controleDeCertificado.protocoloAti']}" />
+                    </f:facet>
+                    <h:outputText value="#{controleDeCertificado.protocoloAti}"/>
+                </p:column>
+
+                <p:column headerText="AC" sortBy="#{controleDeCertificado.ac}"
+                          filterBy="#{controleDeCertificado.ac}"  filterOptions="#{findAllBean.getSelect(classMB.autoridadeCertificadora)}" >
+                    <f:facet name="header">
+                        <h:outputText value="AC" />
+                    </f:facet>
+                    <h:outputText value="#{controleDeCertificado.ac.descricao}"/>
+                </p:column>
+
+                <p:column headerText="Tipo" sortBy="#{controleDeCertificado.tipoCertificado.sigla}"
+                          filterBy="#{controleDeCertificado.tipoCertificado.sigla}" >
+                    <f:facet name="header">
+                        <h:outputText value="Tipo" />
+                    </f:facet>
+                    <h:outputText value="#{controleDeCertificado.tipoCertificado}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column headerText="#{msg['controleDeCertificado.dataAprovacao']}" sortBy="#{controleDeCertificado.dataAprovacao}"
+                          filterBy="#{controleDeCertificado.dataAprovacao}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['controleDeCertificado.dataAprovacao']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{controleDeCertificado.dataAprovacao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="#{msg['controleDeCertificado.armario']}" sortBy="#{controleDeCertificado.armario}"
+                          filterBy="#{controleDeCertificado.armario}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['controleDeCertificado.armario']}" />
+                    </f:facet>
+                    <h:outputText value="#{controleDeCertificado.armario}"/>
+                </p:column>
+                <p:column headerText="#{msg['controleDeCertificado.caixa']}" sortBy="#{controleDeCertificado.caixa}"
+                          filterBy="#{controleDeCertificado.caixa}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['controleDeCertificado.caixa']}" />
+                    </f:facet>
+                    <h:outputText value="#{controleDeCertificado.caixa}"/>
+                </p:column>
+                <p:column headerText="#{msg['controleDeCertificado.sequencial']}" sortBy="#{controleDeCertificado.sequencial}"
+                          filterBy="#{controleDeCertificado.sequencial}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['controleDeCertificado.sequencial']}" />
+                    </f:facet>
+                    <h:outputText value="#{controleDeCertificado.sequencial}"/>
+                </p:column>
+                <p:column headerText="#{msg['controleDeCertificado.baixa']}" sortBy="#{controleDeCertificado.baixa}"
+                          filterBy="#{controleDeCertificado.baixa}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['controleDeCertificado.baixa']}" />
+                    </f:facet>
+                    <h:outputText value="#{controleDeCertificado.baixa}">
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Doc Revogado" sortBy="#{controleDeCertificado.documentoRevogacao}"
+                          filterBy="#{controleDeCertificado.documentoRevogacao}"  >
+                    <f:facet name="header">
+                        <h:outputText value="Doc Revogado" />
+                    </f:facet>
+                    <h:outputText value="#{controleDeCertificado.documentoRevogacao}">
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Data Revogação" sortBy="#{controleDeCertificado.dataRevogacao}"
+                          filterBy="#{controleDeCertificado.dataRevogacao}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Data Revogação" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{controleDeCertificado.dataRevogacao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Obs" sortBy="#{controleDeCertificado.observacao}"
+                          filterBy="#{controleDeCertificado.observacao}"  >
+                    <f:facet name="header">
+                        <h:outputText value="Obs" />
+                    </f:facet>
+                    <h:outputText value="#{controleDeCertificado.observacao}">
+                    </h:outputText>
+                </p:column>
+
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetControleDeCertificadoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailControleDeCertificado" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{controleDeCertificado}" target="#{controleDeCertificadoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="controleDeCertificado.create">
+                        <p:button icon="ui-icon-pencil" outcome="createControleDeCertificado" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{controleDeCertificado.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="controleDeCertificado.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{controleDeCertificadoMB.delete}" >
+                            <f:setPropertyActionListener value="#{controleDeCertificado.id}" target="#{controleDeCertificadoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{controleDeCertificado}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="controleDeCertificado.audit">
+                    <x:auditDelete for="#{controleDeCertificadoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetControleDeCertificadoDetail" header="#{msg['controleDeCertificado.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailControleDeCertificado.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,135 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['viatura.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuViatura.xhtml" />
+        <h:form id="formListViatura">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="viatura_export" target=":formListViatura:dataTableViatura"
+                                widgetVar="dataTableViaturaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="viatura" rowIndexVar="index" id="dataTableViatura" widgetVar="dataTableViaturaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{viaturaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{viaturaMB.dataModel.paginatorTemplate}"
+                         value="#{viaturaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+
+                <p:column headerText="Modelo" sortBy="#{viatura.marcaModelo.nome}"
+                          filterBy="#{viatura.marcaModelo.nome}"  >
+                    <f:facet name="header">
+                        <h:outputText value="Modelo" />
+                    </f:facet>
+                    <h:outputText value="#{viatura.marcaModelo} - #{viatura.marcaModelo.marca}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column headerText="Prefixo" sortBy="#{viatura.prefixo}"
+                          filterBy="#{viatura.prefixo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Prefixo" />
+                    </f:facet>
+                    <h:outputText value="#{viatura.prefixo}"/>
+                </p:column>
+                <p:column headerText="Placa" sortBy="#{viatura.placa}"
+                          filterBy="#{viatura.placa}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Placa" />
+                    </f:facet>
+                    <h:outputText value="#{viatura.placa}"/>
+                </p:column>
+                <p:column headerText="Ano" sortBy="#{viatura.ano}"
+                          filterBy="#{viatura.ano}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Ano" />
+                    </f:facet>
+                    <h:outputText value="#{viatura.ano}"/>
+                </p:column>
+
+                <p:column headerText="Renavan" sortBy="#{viatura.renavan}"
+                          filterBy="#{viatura.renavan}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Renavan" />
+                    </f:facet>
+                    <h:outputText value="#{viatura.renavan}"/>
+                </p:column>
+                <p:column headerText="Chassi" sortBy="#{viatura.chassi}"
+                          filterBy="#{viatura.chassi}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Chassi" />
+                    </f:facet>
+                    <h:outputText value="#{viatura.chassi}"/>
+                </p:column>
+                <p:column headerText="Km/L" sortBy="#{viatura.kmPorLitro}"
+                          filterBy="#{viatura.kmPorLitro}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Km/L" />
+                    </f:facet>
+                    <h:outputText value="#{viatura.kmPorLitro}"/>
+                </p:column>
+                <p:column headerText="Lotação" sortBy="#{viatura.lotacao}"
+                          filterBy="#{viatura.lotacao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Lotação" />
+                    </f:facet>
+                    <h:outputText value="#{viatura.lotacao}"/>
+                </p:column>
+                <p:column headerText="Icone" sortBy="#{viatura.icone}"
+                          filterBy="#{viatura.icone}"  filterOptions="#{findAllBean.getSelect(classMB.iconeViatura)}" >
+                    <f:facet name="header">
+                        <h:outputText value="Icone" />
+                    </f:facet>
+                    <h:outputText value="#{viatura.icone}"/>
+                </p:column>
+                <p:column headerText="#{msg['viatura.ativo']}" sortBy="#{viatura.ativo}"
+                          filterBy="#{viatura.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['viatura.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{viatura.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetViaturaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailViatura" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{viatura}" target="#{viaturaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="viatura.create">
+                        <p:button icon="ui-icon-pencil" outcome="createViatura" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{viatura.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="viatura.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{viaturaMB.delete}" >
+                            <f:setPropertyActionListener value="#{viatura.id}" target="#{viaturaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{viatura}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="viatura.audit">
+                    <x:auditDelete for="#{viaturaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetViaturaDetail" header="#{msg['viatura.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailViatura.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

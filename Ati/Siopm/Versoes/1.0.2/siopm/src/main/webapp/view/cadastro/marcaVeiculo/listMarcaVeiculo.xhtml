@@ -1,0 +1,66 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['marcaVeiculo.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuMarcaVeiculo.xhtml" />
+        <h:form id="formListMarcaVeiculo">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="marcaVeiculo_export" target=":formListMarcaVeiculo:dataTableMarcaVeiculo"
+                                     widgetVar="dataTableMarcaVeiculoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="marcaVeiculo" rowIndexVar="index" id="dataTableMarcaVeiculo" widgetVar="dataTableMarcaVeiculoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{marcaVeiculoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{marcaVeiculoMB.dataModel.paginatorTemplate}"
+                         value="#{marcaVeiculoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['marcaVeiculo.nome']}" sortBy="#{marcaVeiculo.nome}"
+                    filterBy="#{marcaVeiculo.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['marcaVeiculo.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{marcaVeiculo.nome}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetMarcaVeiculoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailMarcaVeiculo" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{marcaVeiculo}" target="#{marcaVeiculoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="marcaVeiculo.create">
+                        <p:button icon="ui-icon-pencil" outcome="createMarcaVeiculo" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{marcaVeiculo.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="marcaVeiculo.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{marcaVeiculoMB.delete}" >
+                            <f:setPropertyActionListener value="#{marcaVeiculo.id}" target="#{marcaVeiculoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{marcaVeiculo}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="marcaVeiculo.audit">
+                    <x:auditDelete for="#{marcaVeiculoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetMarcaVeiculoDetail" header="#{msg['marcaVeiculo.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailMarcaVeiculo.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

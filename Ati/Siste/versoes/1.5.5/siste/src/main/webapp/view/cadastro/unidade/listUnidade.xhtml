@@ -1,0 +1,171 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['unidade.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuUnidade.xhtml" />
+        <h:form id="formListUnidade">
+            <p:fieldset legend="Filtros de Busca" toggleable="true">
+                <div class="row">
+                    <h:panelGroup id="panel0">
+                        <x:securityArea rolesAllowed="campos.orgao">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="orgao" value="Órgão"  />
+                                <h:selectOneMenu id="orgao" value="#{unidadeMB.filtros.orgao}" converter="entityConverter" styleClass="form-control" 
+                                                 >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.orgao)}" 
+                                                   var="orgao"
+                                                   itemLabel="#{orgao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                        </x:securityArea>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="codigo" value="Código:" />
+                            <p:inputMask id="codigo" value="#{unidadeMB.filtros.codigoUnidade}" mask="9?9999999999" styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cnpj" value="Cnpj:" />
+                            <x:cnpj id="cnpj" value="#{unidadeMB.filtros.cnpjUnidade}" styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="nome" value="#{msg['servidor.nome']}:" />
+                            <p:inputText id="nome" value="#{unidadeMB.filtros.unidadeNome}" maxlength="260"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cidade" value="Cidade" />
+                            <h:selectOneMenu id="cidade" value="#{unidadeMB.filtros.cidade}" converter="entityConverter" styleClass="form-control" 
+                                             >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.cidade)}" 
+                                               var="cidade"
+                                               itemLabel="#{cidade}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </h:panelGroup>
+                </div>
+                <div class="uix-center">
+                    <p:commandButton process="@this panel0" update="dataTableUnidade" action="#{unidadeMB.buscar()}" value="Buscar" />
+                </div>
+            </p:fieldset>
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="unidade_export" target=":formListUnidade:dataTableUnidade"
+                                widgetVar="dataTableUnidadeWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="unidade" rowIndexVar="index" id="dataTableUnidade" widgetVar="dataTableUnidadeWidget" styleClass="table-responsive"
+                         value="#{unidadeMB.unidades}" >
+                <f:facet name="header">
+                    <h:outputLabel value="Relação de Unidades por Órgãos"/>
+                </f:facet>
+                <p:column headerText="Órgão" sortBy="#{unidade.orgao.nome}" rendered="#{x:hasRole('campos.orgao')}">
+                    <f:facet name="header">
+                        <h:outputText value="Órgão" />
+                    </f:facet>
+                    <h:outputText value="#{unidade.orgao}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['orgao.cnpj']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['orgao.cnpj']}" />
+                    </f:facet>
+                    <h:outputText value="#{unidade.cnpj}" converter="cnpjConverter"/>
+                </p:column>
+                <p:column headerText="#{msg['unidade.codigo']}" sortBy="#{unidade.codigo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['unidade.codigo']}" />
+                    </f:facet>
+                    <h:outputText value="#{unidade.codigo}"/>
+                </p:column>
+                <p:column headerText="Sigla" sortBy="#{unidade.nome}">
+                    <f:facet name="header">
+                        <h:outputText value="Sigla" />
+                    </f:facet>
+                    <h:outputText value="#{unidade.sigla}"/>
+                </p:column>
+                <p:column headerText="#{msg['unidade.nome']}" sortBy="#{unidade.nome}">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['unidade.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{unidade.nome}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['unidade.nomeContato']}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['unidade.nomeContato']}" />
+                    </f:facet>
+                    <h:outputText value="#{unidade.nomeContato}"/>
+                </p:column>
+                <p:column headerText="#{msg['unidade.telefoneContato']}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['unidade.telefoneContato']}" />
+                    </f:facet>
+                    <h:outputText value="#{unidade.telefoneContato}"/>
+                </p:column>
+                <p:column headerText="#{msg['unidade.emailContato']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['unidade.emailContato']}" />
+                    </f:facet>
+                    <h:outputText value="#{unidade.emailContato}"/>
+                </p:column>
+                <p:column headerText="Cidade" sortBy="#{unidade.endereco.cidade}">
+                    <f:facet name="header">
+                        <h:outputText value="Cidade" />
+                    </f:facet>
+                    <h:outputText value="#{unidade.endereco.cidade}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Valor Limite" style="text-align: right;" sortBy="#{unidade.valorLimite}">
+                    <f:facet name="header">
+                        <h:outputText value="Valor Limite" />
+                    </f:facet>
+                    <h:outputText value="#{unidade.valorLimite}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetUnidadeDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailUnidade" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{unidade}" target="#{unidadeMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="unidade.create">
+                        <p:button icon="ui-icon-pencil" outcome="createUnidade" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{unidade.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="unidade.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{unidadeMB.delete}" >
+                            <f:setPropertyActionListener value="#{unidade.id}" target="#{unidadeMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{unidade}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="unidade.audit">
+                    <x:auditDelete for="#{unidadeMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetUnidadeDetail" header="#{msg['unidade.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailUnidade.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

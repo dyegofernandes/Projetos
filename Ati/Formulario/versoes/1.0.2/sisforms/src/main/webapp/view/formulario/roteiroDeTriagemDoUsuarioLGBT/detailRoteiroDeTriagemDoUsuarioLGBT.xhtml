@@ -1,0 +1,301 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailRoteiroDeTriagemDoUsuarioLGBT" styleClass="uix-form-detail">
+        <p:tabView id="tabGeral">
+            <p:tab title="Dados Gerais" id="tabDadosGerais">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="Código:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.codigo}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="Ano:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.ano}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.dataEmissao']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.dataEmissao}" styleClass="uix-content-detail">
+                                <f:convertDateTime />
+                            </h:outputText>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.nome']} Social:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.nomeSocial}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.nome']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.nome}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.rg']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.rg}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.cpf']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.cpf}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.filiacao']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.filiacao}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.sexo']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.sexo}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.dataNascimento']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.dataNascimento}" styleClass="uix-content-detail">
+                                <f:convertDateTime />
+                            </h:outputText>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.estadoCivil']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.estadoCivil}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.escolaridade']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.escolaridade}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.profissao']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.profissao}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.endereco']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.endereco}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.bairro']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.bairro}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.cidade']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.cidade}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.cep']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.cep}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.telefone']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.telefone}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.email']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.email}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.todosDocumentos']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.todosDocumentos}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.orientacaoSexual']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.orientacaoSexual}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.identidadeGenero']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.identidadeGenero}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.comQuemMora']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.comQuemMora}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.grupoFamiliar']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.grupoFamiliar}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.resideEm']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.resideEm}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.tipoMoradia']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.tipoMoradia}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.rendaFamiliar']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.rendaFamiliar}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.etnia']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.etnia}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.religiao']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.religiao}" styleClass="uix-content-detail"/>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.encaminhado']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.encaminhado}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.atementoAnterior']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.atementoAnterior}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.motivoConsulta']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.motivoConsulta}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.expectativasAtendimento']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.expectativasAtendimento}" styleClass="uix-content-detail"/>
+                        </div>
+                    </div>
+                </div>
+            </p:tab>
+            <p:tab title="Acolhimento" >
+                <p:fieldset legend="Acolhimentos">
+                    <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="acolhimento" rowIndexVar="index" id="dataTableAcolhimento" widgetVar="dataTableAcolhimentoWidget" styleClass="table-responsive"
+                                 value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.acolhimentos}" >
+                        <x:initializer/>
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+
+                        <p:column headerText="Tipo Profissional" style="text-align: left;">
+                            <f:facet name="header">
+                                <h:outputText value="Tipo Profissional" />
+                            </f:facet>
+                            <h:outputText value="#{acolhimento.tipoProfissional.descricao}"/>
+                        </p:column>
+                        <p:column headerText="Área de Atuação"  style="text-align: left;">
+                            <f:facet name="header">
+                                <h:outputText value="Área de Atuação" />
+                            </f:facet>
+                            <h:outputText value="#{acolhimento.areaAtuacao.descricao}"/>
+                        </p:column>
+                        <p:column headerText="Nome profissional"  style="text-align: left;">
+                            <f:facet name="header">
+                                <h:outputText value="Nome do Profissional" />
+                            </f:facet>
+                            <h:outputText value="#{acolhimento.nome}"/>
+                        </p:column>
+
+
+                    </p:dataTable>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Data Encaminhamento:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.dataEncaminhamento}" styleClass="uix-content-detail">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['roteiroDeTriagemDoUsuarioLGBT.observacao']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.observacao}" styleClass="uix-content-detail"/>
+                    </div>
+                </p:fieldset>
+            </p:tab>
+
+            <p:tab title="Agendamentos" >
+                <p:fieldset legend="Agendamentos">
+                    <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="agendamento" rowIndexVar="index" id="dataTableAgendamento" widgetVar="dataTableAgendamentoWidget" 
+                                 styleClass="table-responsive"
+                                 value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.agendamentos}" >
+                        <x:initializer/>
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="Data" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Data" />
+                            </f:facet>
+                            <h:outputText value="#{agendamento.dataAgend}">
+                                <f:convertDateTime />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Hora" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Hora" />
+                            </f:facet>
+                            <h:outputText value="#{agendamento.hora}">
+                                <f:convertDateTime pattern="HH:mm"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Tipo Serviço" style="text-align: left;">
+                            <f:facet name="header">
+                                <h:outputText value="Tipo Serviço" />
+                            </f:facet>
+                            <h:outputText value="#{agendamento.tipoDeServico.descricao}"/>
+                        </p:column>
+                        <p:column headerText="Área de Atuação"  style="text-align: left;">
+                            <f:facet name="header">
+                                <h:outputText value="Área de Atuação" />
+                            </f:facet>
+                            <h:outputText value="#{agendamento.area.descricao}"/>
+                        </p:column>
+                        <p:column headerText="Efetivado?" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Efetivado?" />
+                            </f:facet>
+                            <h:outputText value="#{agendamento.efetivado.descricao}"/>
+                        </p:column>
+                        <p:column headerText="Nome"  style="text-align: left;">
+                            <f:facet name="header">
+                                <h:outputText value="Nome" />
+                            </f:facet>
+                            <h:outputText value="#{agendamento.nomeEfetivado}"/>
+                        </p:column>
+                        <p:column headerText="Descrição"  style="text-align: left;">
+                            <f:facet name="header">
+                                <h:outputText value="Descrição" />
+                            </f:facet>
+                            <h:outputText value="#{agendamento.descricao}"/>
+                        </p:column>
+
+                    </p:dataTable>
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Arquivos" >
+                <p:fieldset legend="Listagem de Arquivos">
+                    <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="arquivo" rowIndexVar="index" id="dataTableArquivo" widgetVar="dataTableArquivoWidget" styleClass="table-responsive"
+                                 value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.arquivos}" >
+                        <x:initializer/>
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg['arquivo.nome']}" width="80%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['arquivo.nome']}" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.nome}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['arquivo.extensao']}" width="20%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['arquivo.extensao']}" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.extensao}"/>
+                        </p:column>
+
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>          
+                            <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Download" ajax="false" immediate="true" update="formCreateDenuncia">
+                                <p:fileDownload value="#{roteiroDeTriagemDoUsuarioLGBTMB.download(arquivo)}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </p:tab>
+        </p:tabView>
+
+
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetRoteiroDeTriagemDoUsuarioLGBTDetail').hide()" />
+            <x:securityArea rolesAllowed="roteiroDeTriagemDoUsuarioLGBT.audit">
+                <x:audit for="#{roteiroDeTriagemDoUsuarioLGBTMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

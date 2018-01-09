@@ -1,0 +1,145 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['ocorrencia.list']}" />
+    <ui:define name="body">
+        <h:form id="formListOcorrencia">
+            <x:modalMessages autoUpdate="true"/>
+
+            <p:fieldset legend="Filtros de Busca" toggleable="true" id="fieldFiltros">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="opms" value="Opms:" />
+                        <p:selectCheckboxMenu id="opms" value="#{relatorioMB.filtrosDeBusca.opms}" label="Selecione"
+                                              filter="true" filterMatchMode="startsWith" converter="entityConverter" styleClass="form-control"
+                                              >
+                            <x:initializer/>
+                            <f:selectItems value="#{findAllBean.get(classMB.opm)}"
+                                           var="opm"
+                                           itemLabel="#{opm.sigla}"/>
+                        </p:selectCheckboxMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataInicial" value="Data Inicial:" />
+                        <p:calendar id="dataInicial" value="#{relatorioMB.filtrosDeBusca.dataInicial}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar" >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataFinal" value="Data Final:" />
+                        <p:calendar id="dataFinal" value="#{relatorioMB.filtrosDeBusca.dataFinal}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar" >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="horaInicial" value="Hora Inicial:" />
+                        <p:calendar id="horaInicial" value="#{relatorioMB.filtrosDeBusca.horaInicial}" 
+                                    showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar" >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="horaFinal" value="Hora Final:" />
+                        <p:calendar id="horaFinal" value="#{relatorioMB.filtrosDeBusca.horaFinal}" 
+                                    showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar" >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="codigo" value="Códico:" />
+                        <p:inputMask id="codigo" value="#{relatorioMB.filtrosDeBusca.codigo}" mask="99999?999999"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="logradouro" value="Logradouro:" />
+                        <p:inputText id="logradouro" value="#{relatorioMB.filtrosDeBusca.logradouro}" maxlength="260"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="bairro" value="Bairro:" />
+                        <p:inputText id="bairro" value="#{relatorioMB.filtrosDeBusca.bairro}" maxlength="260"  styleClass="form-control"  />
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cidade" value="Cidade:" />
+                        <p:inputText id="cidade" value="#{relatorioMB.filtrosDeBusca.cidade}" maxlength="260"  styleClass="form-control"  />
+                    </div>
+
+                </div>
+
+                <div class="uix-center">
+                    <p:commandButton process="@this fieldFiltros" update="@form" 
+                                     value="Buscar" action="#{relatorioMB.relatorioPorOpm()}" />
+                </div>
+            </p:fieldset>
+            <p:fieldset legend="Resultado da Busca" >
+                <x:dataTableActions fileName="ocorrencia_export" target=":formListOcorrencia:dataTableOcorrencia"
+                                    widgetVar="dataTableOcorrenciaWidget"  />
+
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="ocorrencia" rowIndexVar="index" id="dataTableOcorrencia" widgetVar="dataTableOcorrenciaWidget" styleClass="table-responsive"
+                             value="#{relatorioMB.ocorrencias}" >
+
+                    <p:column headerText="#{msg['ocorrencia.codigo']}"  style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['ocorrencia.codigo']}" />
+                        </f:facet>
+                        <h:outputText value="#{ocorrencia.codigo}"/>
+                    </p:column>
+
+                    <p:column headerText="Data Ocorrencia"  style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Data Ocorrencia" />
+                        </f:facet>
+                        <h:outputText value="#{ocorrencia.dataOcorrencia}"/>
+                    </p:column>
+                    <p:column headerText="Hora Ocorrencia" style="text-align: center;" >
+                        <f:facet name="header">
+                            <h:outputText value="Hora Ocorrencia" />
+                        </f:facet>
+                        <h:outputText value="#{ocorrencia.horaOcorrencia}"/>
+                    </p:column>
+                    <p:column headerText="Logradouro"  >
+                        <f:facet name="header">
+                            <h:outputText value="Logradouro" />
+                        </f:facet>
+                        <h:outputText value="#{ocorrencia.logradouro}"/>
+                    </p:column>
+                    <p:column headerText="Número"  >
+                        <f:facet name="header">
+                            <h:outputText value="Número" />
+                        </f:facet>
+                        <h:outputText value="#{ocorrencia.numero}"/>
+                    </p:column>
+                    <p:column headerText="Bairro"  >
+                        <f:facet name="header">
+                            <h:outputText value="Bairro" />
+                        </f:facet>
+                        <h:outputText value="#{ocorrencia.bairro}"/>
+                    </p:column>
+                    <p:column headerText="Cidade"  >
+                        <f:facet name="header">
+                            <h:outputText value="Cidade" />
+                        </f:facet>
+                        <h:outputText value="#{ocorrencia.cidade}"/>
+                    </p:column>
+                    <p:column headerText="Situação" style="text-align: center;" >
+                        <f:facet name="header">
+                            <h:outputText value="Situação" />
+                        </f:facet>
+                        <h:outputText value="#{ocorrencia.situacao}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+
+
+
+        </h:form>
+
+
+    </ui:define>
+</ui:composition>

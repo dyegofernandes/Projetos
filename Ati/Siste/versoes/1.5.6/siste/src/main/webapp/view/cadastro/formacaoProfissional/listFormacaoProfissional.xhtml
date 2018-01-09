@@ -1,0 +1,73 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['formacaoProfissional.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuFormacaoProfissional.xhtml" />
+        <h:form id="formListFormacaoProfissional">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="formacaoProfissional_export" target=":formListFormacaoProfissional:dataTableFormacaoProfissional"
+                                     widgetVar="dataTableFormacaoProfissionalWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="formacaoProfissional" rowIndexVar="index" id="dataTableFormacaoProfissional" widgetVar="dataTableFormacaoProfissionalWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{formacaoProfissionalMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{formacaoProfissionalMB.dataModel.paginatorTemplate}"
+                         value="#{formacaoProfissionalMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['formacaoProfissional.codigo']}" sortBy="#{formacaoProfissional.codigo}"
+                    filterBy="#{formacaoProfissional.codigo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formacaoProfissional.codigo']}" />
+                    </f:facet>
+                    <h:outputText value="#{formacaoProfissional.codigo}"/>
+                </p:column>
+                <p:column headerText="#{msg['formacaoProfissional.nome']}" sortBy="#{formacaoProfissional.nome}"
+                    filterBy="#{formacaoProfissional.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formacaoProfissional.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{formacaoProfissional.nome}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetFormacaoProfissionalDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailFormacaoProfissional" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{formacaoProfissional}" target="#{formacaoProfissionalMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="formacaoProfissional.create">
+                        <p:button icon="ui-icon-pencil" outcome="createFormacaoProfissional" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{formacaoProfissional.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="formacaoProfissional.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{formacaoProfissionalMB.delete}" >
+                            <f:setPropertyActionListener value="#{formacaoProfissional.id}" target="#{formacaoProfissionalMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{formacaoProfissional}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="formacaoProfissional.audit">
+                    <x:auditDelete for="#{formacaoProfissionalMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetFormacaoProfissionalDetail" header="#{msg['formacaoProfissional.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailFormacaoProfissional.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

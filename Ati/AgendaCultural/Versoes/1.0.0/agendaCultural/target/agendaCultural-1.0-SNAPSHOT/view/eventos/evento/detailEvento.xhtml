@@ -1,0 +1,188 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailEvento" styleClass="uix-form-detail">
+        <p:tabView id="tabGeral">
+            <p:tab title="Informações Gerais">
+                <p:fieldset legend="#{xmsg['generalData']}" toggleable="true">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['evento.titulo']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{eventoMB.entity.titulo}" styleClass="uix-content-detail"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['evento.localDoEvento']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{eventoMB.entity.localEvento.nome}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['evento.descricao']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{eventoMB.entity.descricao}" styleClass="uix-content-detail"/>
+                            </div>
+                        </div>
+                    </div>
+
+                </p:fieldset>
+                <p:fieldset legend="Endereço" toggleable="true">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['evento.logradouro']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{eventoMB.entity.localEvento.endereco.endereco}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['evento.numero']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{eventoMB.entity.localEvento.endereco.numero}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['evento.complemento']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{eventoMB.entity.localEvento.endereco.complemento}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['evento.bairro']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{eventoMB.entity.localEvento.endereco.bairro}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['evento.cidade']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{eventoMB.entity.localEvento.endereco.cidade}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['evento.cep']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{eventoMB.entity.localEvento.endereco.cep}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="Latitude:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{eventoMB.entity.localEvento.endereco.latitude}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="Longitude:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{eventoMB.entity.localEvento.endereco.longitude}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Período do Evento" toggleable="true">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['evento.dataInicio']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{eventoMB.entity.dataInicio}" styleClass="uix-content-detail">
+                                    <f:convertDateTime />
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['evento.horaInicio']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{eventoMB.entity.horaInicio}" styleClass="uix-content-detail">
+                                    <f:convertDateTime pattern="HH:mm"/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['evento.dataFim']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{eventoMB.entity.dataFim}" styleClass="uix-content-detail">
+                                    <f:convertDateTime />
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['evento.horaFim']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{eventoMB.entity.horaFim}" styleClass="uix-content-detail">
+                                    <f:convertDateTime pattern="HH:mm"/>
+                                </h:outputText>
+                            </div>
+                        </div>
+                    </div>
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Agenda Evento">
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="agenda" rowIndexVar="index" id="dataTableAgenda" widgetVar="dataTableAgendaWidget" styleClass="table-responsive"
+                             value="#{eventoMB.entity.agenda}" >
+                    <x:initializer/>
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column headerText="Data Inicio" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Data Inicio" />
+                        </f:facet>
+                        <h:outputText value="#{agenda.dataInicio}">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Hora Inicio" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Hora Inicio" />
+                        </f:facet>
+                        <h:outputText value="#{agenda.horaInicio}">
+                            <f:convertDateTime pattern="HH:mm"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Data Fim" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Data Fim" />
+                        </f:facet>
+                        <h:outputText value="#{agenda.dataFim}">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Hora Fim" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Hora Fim" />
+                        </f:facet>
+                        <h:outputText value="#{agenda.horaFim}">
+                            <f:convertDateTime pattern="HH:mm"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Descrição" width="50%">
+                        <f:facet name="header">
+                            <h:outputText value="Descrição" />
+                        </f:facet>
+                        <h:outputText value="#{agenda.descricao}"/>
+                    </p:column>
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableAgenda" 
+                                         action="#{eventoMB.removerAgenda(agenda)}" >
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:tab>
+        </p:tabView>
+
+
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetEventoDetail').hide()" />
+            <x:securityArea rolesAllowed="evento.audit">
+                <x:audit for="#{eventoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

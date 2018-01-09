@@ -1,0 +1,133 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['cabina.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuCabina.xhtml" />
+        <h:form id="formListCabina">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="cabina_export" target=":formListCabina:dataTableCabina"
+                                     widgetVar="dataTableCabinaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="cabina" rowIndexVar="index" id="dataTableCabina" widgetVar="dataTableCabinaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{cabinaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{cabinaMB.dataModel.paginatorTemplate}"
+                         value="#{cabinaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['cabina.cidade']}" sortBy="#{cabina.cidade}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cabina.cidade']}" />
+                    </f:facet>
+                    <h:outputText value="#{cabina.cidade}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['cabina.numero']}" sortBy="#{cabina.numero}"
+                    filterBy="#{cabina.numero}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cabina.numero']}" />
+                    </f:facet>
+                    <h:outputText value="#{cabina.numero}"/>
+                </p:column>
+                <p:column headerText="#{msg['cabina.descricao']}" sortBy="#{cabina.descricao}"
+                    filterBy="#{cabina.descricao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cabina.descricao']}" />
+                    </f:facet>
+                    <h:outputText value="#{cabina.descricao}"/>
+                </p:column>
+                <p:column headerText="#{msg['cabina.tipo']}" sortBy="#{cabina.tipo}"
+                    filterBy="#{cabina.tipo}"  filterOptions="#{findAllBean.getSelect(classMB.tipoCabine)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cabina.tipo']}" />
+                    </f:facet>
+                    <h:outputText value="#{cabina.tipo}"/>
+                </p:column>
+                <p:column headerText="#{msg['cabina.operacao']}" sortBy="#{cabina.operacao}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cabina.operacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{cabina.operacao}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['cabina.receberAltertas']}" sortBy="#{cabina.receberAltertas}"
+                    filterBy="#{cabina.receberAltertas}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cabina.receberAltertas']}" />
+                    </f:facet>
+                    <h:outputText value="#{cabina.receberAltertas}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['cabina.bloqueioAlertaRoubo']}" sortBy="#{cabina.bloqueioAlertaRoubo}"
+                    filterBy="#{cabina.bloqueioAlertaRoubo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cabina.bloqueioAlertaRoubo']}" />
+                    </f:facet>
+                    <h:outputText value="#{cabina.bloqueioAlertaRoubo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['cabina.bloqueioAlertaPessoa']}" sortBy="#{cabina.bloqueioAlertaPessoa}"
+                    filterBy="#{cabina.bloqueioAlertaPessoa}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cabina.bloqueioAlertaPessoa']}" />
+                    </f:facet>
+                    <h:outputText value="#{cabina.bloqueioAlertaPessoa}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['cabina.bloqueioAlertaFurto']}" sortBy="#{cabina.bloqueioAlertaFurto}"
+                    filterBy="#{cabina.bloqueioAlertaFurto}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cabina.bloqueioAlertaFurto']}" />
+                    </f:facet>
+                    <h:outputText value="#{cabina.bloqueioAlertaFurto}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['cabina.bloqueioAlertaOutros']}" sortBy="#{cabina.bloqueioAlertaOutros}"
+                    filterBy="#{cabina.bloqueioAlertaOutros}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cabina.bloqueioAlertaOutros']}" />
+                    </f:facet>
+                    <h:outputText value="#{cabina.bloqueioAlertaOutros}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetCabinaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailCabina" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{cabina}" target="#{cabinaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="cabina.create">
+                        <p:button icon="ui-icon-pencil" outcome="createCabina" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{cabina.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="cabina.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{cabinaMB.delete}" >
+                            <f:setPropertyActionListener value="#{cabina.id}" target="#{cabinaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{cabina}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="cabina.audit">
+                    <x:auditDelete for="#{cabinaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetCabinaDetail" header="#{msg['cabina.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailCabina.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

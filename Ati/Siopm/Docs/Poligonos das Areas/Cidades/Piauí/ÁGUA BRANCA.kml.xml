@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>ÁGUA BRANCA.kmz</name>
+    <Style id="line-0000FF-3000-nodesc-normal">
+      <LineStyle>
+        <color>ffff0000</color>
+        <width>3</width>
+      </LineStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="line-0000FF-3000-nodesc-highlight">
+      <LineStyle>
+        <color>ffff0000</color>
+        <width>4.5</width>
+      </LineStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="line-0000FF-3000-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#line-0000FF-3000-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#line-0000FF-3000-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Placemark>
+      <name>ÁGUA BRANCA</name>
+      <styleUrl>#line-0000FF-3000-nodesc</styleUrl>
+      <LineString>
+        <tessellate>1</tessellate>
+        <coordinates>
+              -42.67827,-5.907612,0
+              -42.686178,-5.958698,0
+              -42.662254,-5.952378,0
+              -42.635845,-5.950886,0
+              -42.579897,-5.947723,0
+              -42.547825,-5.943798,0
+              -42.54809,-5.933042,0
+              -42.584682,-5.920332,0
+              -42.585855,-5.903335,0
+              -42.586911,-5.902988,0
+              -42.58907,-5.90185,0
+              -42.590912,-5.900636,0
+              -42.593569,-5.897787,0
+              -42.594693,-5.897109,0
+              -42.596474,-5.896653,0
+              -42.597664,-5.895789,0
+              -42.600136,-5.893203,0
+              -42.601642,-5.892234,0
+              -42.602892,-5.891431,0
+              -42.604355,-5.890259,0
+              -42.606376,-5.888641,0
+              -42.607871,-5.888051,0
+              -42.608851,-5.887885,0
+              -42.610903,-5.888102,0
+              -42.613009,-5.887626,0
+              -42.610882,-5.88219,0
+              -42.610344,-5.879739,0
+              -42.607917,-5.870898,0
+              -42.603944,-5.860313,0
+              -42.601034,-5.853328,0
+              -42.614955,-5.852424,0
+              -42.626185,-5.861561,0
+              -42.62631,-5.861663,0
+              -42.659478,-5.864284,0
+              -42.661789,-5.894594,0
+              -42.67657,-5.896638,0
+              -42.678242,-5.907433,0
+              -42.67827,-5.907612,0                  
+	</coordinates>
+      </LineString>
+    </Placemark>
+  </Document>
+</kml>

@@ -1,0 +1,101 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailRelatorioDeViagem" styleClass="uix-form-detail">
+        <p:tabView id="tabGeral">
+            <p:tab title="Informações Gerais" >
+                <p:fieldset legend="#{xmsg['generalData']}" id="fieldGeral">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['relatorioDeViagem.usuario']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{relatorioDeViagemMB.entity.usuario}" styleClass="uix-content-detail"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['relatorioDeViagem.nome']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{relatorioDeViagemMB.entity.nome}" styleClass="uix-content-detail"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['relatorioDeViagem.lotacao']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{relatorioDeViagemMB.entity.lotacao}" styleClass="uix-content-detail"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['relatorioDeViagem.cargoOuFuncao']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{relatorioDeViagemMB.entity.cargoOuFuncao}" styleClass="uix-content-detail"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['relatorioDeViagem.cpf']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{relatorioDeViagemMB.entity.cpf}" styleClass="uix-content-detail"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['relatorioDeViagem.matricula']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{relatorioDeViagemMB.entity.matricula}" styleClass="uix-content-detail"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['relatorioDeViagem.trajeto']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{relatorioDeViagemMB.entity.trajeto}" styleClass="uix-content-detail"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['relatorioDeViagem.dataSaida']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{relatorioDeViagemMB.entity.dataSaida}" styleClass="uix-content-detail">
+                                    <f:convertDateTime />
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['relatorioDeViagem.dataChegada']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{relatorioDeViagemMB.entity.dataChegada}" styleClass="uix-content-detail">
+                                    <f:convertDateTime />
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['relatorioDeViagem.duracaoAfastamento']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{relatorioDeViagemMB.entity.duracaoAfastamento}" styleClass="uix-content-detail"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['relatorioDeViagem.modalidadeDoTransporte']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{relatorioDeViagemMB.entity.modalidadeDoTransporte}" styleClass="uix-content-detail"/>
+                            </div>
+                        </div>
+                    </div>
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Atividades" >
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="atividadeRelatorioViagem" rowIndexVar="index" id="dataTableAtividadeRelatorioViagem" widgetVar="dataTableAtividadeRelatorioViagemWidget" styleClass="table-responsive"
+                                 value="#{relatorioDeViagemMB.atividades}" lazy="false" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg['atividadeRelatorioViagem.descricao']}"  >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['atividadeRelatorioViagem.descricao']}" />
+                            </f:facet>
+                            <h:outputText value="#{atividadeRelatorioViagem.descricao}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['atividadeRelatorioViagem.dataAtividade']}" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['atividadeRelatorioViagem.dataAtividade']}" />
+
+                            </f:facet>
+                            <h:outputText value="#{atividadeRelatorioViagem.dataAtividade}">
+                                <f:convertDateTime />
+                            </h:outputText>
+                        </p:column>
+                        
+                    </p:dataTable>
+            </p:tab>
+        </p:tabView>
+
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetRelatorioDeViagemDetail').hide()" />
+            <x:securityArea rolesAllowed="relatorioDeViagem.audit">
+                <x:audit for="#{relatorioDeViagemMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

@@ -1,0 +1,168 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateControleDeCertificado" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages autoUpdate="true"/>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tipo" value="* Tipo Pessoa:" />
+                        <h:selectOneMenu id="tipo" value="#{controleDeCertificadoMB.entity.tipoPessoa}"  styleClass="form-control" >
+                            <f:selectItems value="#{findAllBean.get(classMB.tipoPessoa)}" 
+                                           var="tipo"
+                                           itemLabel="#{tipo.descricao}"/>
+                            <p:ajax process="@this" update="panelPessoa" />
+
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="numeroSolicitacao" value="* #{msg['controleDeCertificado.numeroSolicitacao']}:" />
+                        <p:inputMask id="numeroSolicitacao" mask="9?999999999999999999999"  value="#{controleDeCertificadoMB.entity.numeroSolicitacao}" styleClass="form-control" />
+                    </div>
+                    <h:panelGroup id="panelPessoa">
+                        <h:panelGroup rendered="#{controleDeCertificadoMB.entity.tipoPessoa.num eq 1}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cpf" value="* #{msg['controleDeCertificado.cpfSolicitante']}:" />
+                                <x:cpf id="cpf" value="#{controleDeCertificadoMB.entity.cpf}" styleClass="form-control" required="true" 
+                                       requiredMessage="Cpf é obrigatório!"/>
+                            </div>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{controleDeCertificadoMB.entity.tipoPessoa.num eq 2}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cnpj" value="* #{msg['controleDeCertificado.cnpj']}:" />
+                                <x:cnpj id="cnpj" value="#{controleDeCertificadoMB.entity.cnpj}" styleClass="form-control"  required="true" 
+                                        requiredMessage="CNPJ é obrigatório!"/>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cpfSolicitante" value="* #{msg['controleDeCertificado.cpfSolicitante']}:" />
+                                <x:cpf id="cpfSolicitante" value="#{controleDeCertificadoMB.entity.cpf}" styleClass="form-control" required="true" 
+                                       requiredMessage="Cpf é obrigatório!"/>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="solicitante" value="* Solicitante:" />
+                                <p:inputText id="solicitante" value="#{controleDeCertificadoMB.entity.solicitante}" maxlength="255"  styleClass="form-control" 
+                                             required="true" requiredMessage="Nome do Solicitante é obrigatório!"/>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="enderecoWeb" value="#{msg['controleDeCertificado.enderecoWeb']}:" />
+                                <p:inputText id="enderecoWeb" value="#{controleDeCertificadoMB.entity.enderecoWeb}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="enderecoEmail" value="Endereço de Email:" />
+                        <p:inputText id="enderecoEmail" value="#{controleDeCertificadoMB.entity.email}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="titular" value="* #{msg['controleDeCertificado.titular']}:" />
+                        <p:inputText id="titular" value="#{controleDeCertificadoMB.entity.titular}" maxlength="255"  styleClass="form-control" 
+                                     required="true" requiredMessage="Titular é obrigatório!"/>
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="orgao" value="* Órgão:" />
+                        <h:selectOneMenu id="orgao" value="#{controleDeCertificadoMB.entity.orgao}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.orgaoCertificado)}" 
+                                           var="orgao"
+                                           itemLabel="#{orgao}"/>
+                        </h:selectOneMenu>
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="protocoloAti" value="#{msg['controleDeCertificado.protocoloAti']}:" />
+                        <p:inputText id="protocoloAti" value="#{controleDeCertificadoMB.entity.protocoloAti}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="ac" value="#{msg['controleDeCertificado.ac']}:" />
+                        <h:selectOneMenu id="ac" value="#{controleDeCertificadoMB.entity.ac}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.autoridadeCertificadora)}" 
+                                           var="autoridadeCertificadora"
+                                           itemLabel="#{autoridadeCertificadora.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tipoCertificado" value="* Tipo de Certificado:" />
+                        <h:selectOneMenu id="tipoCertificado" value="#{controleDeCertificadoMB.entity.tipoCertificado}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.tipoCertificado)}" 
+                                           var="certificado"
+                                           itemLabel="#{certificado.nome}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataAprovacao" value="* #{msg['controleDeCertificado.dataAprovacao']}:" />
+                        <p:calendar id="dataAprovacao" value="#{controleDeCertificadoMB.entity.dataAprovacao}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="documento" value="Documento" />
+                        <p:inputText id="documento" value="#{controleDeCertificadoMB.entity.documento}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="armario" value="* #{msg['controleDeCertificado.armario']}:" />
+                        <p:inputMask id="armario" mask="9?99999"  value="#{controleDeCertificadoMB.entity.armario}" styleClass="form-control" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="caixa" value="* #{msg['controleDeCertificado.caixa']}:" />
+                        <p:inputMask id="caixa" mask="9?99999"  value="#{controleDeCertificadoMB.entity.caixa}" styleClass="form-control" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="sequencial" value="* #{msg['controleDeCertificado.sequencial']}:" />
+                        <p:inputMask id="sequencial" mask="9?99999"  value="#{controleDeCertificadoMB.entity.sequencial}" styleClass="form-control" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="baixa" value="Baixa" />
+                        <p:inputText id="baixa" value="#{controleDeCertificadoMB.entity.baixa}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="documentoRevogacao" value="Documento Revogado" />
+                        <p:inputText id="documentoRevogacao" value="#{controleDeCertificadoMB.entity.documentoRevogacao}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataRevogacao" value="#{msg['controleDeCertificado.dataRevogacao']}:" />
+                        <p:calendar id="dataRevogacao" value="#{controleDeCertificadoMB.entity.dataRevogacao}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="observacao" value="#{msg['controleDeCertificado.observacao']}:" />
+                        <p:inputText id="observacao" value="#{controleDeCertificadoMB.entity.observacao}" styleClass="form-control"  />
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="controleDeCertificado.create">
+                <p:commandButton process="@form" update="@form" action="#{controleDeCertificadoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="controleDeCertificado.audit">
+                <x:audit for="#{controleDeCertificadoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

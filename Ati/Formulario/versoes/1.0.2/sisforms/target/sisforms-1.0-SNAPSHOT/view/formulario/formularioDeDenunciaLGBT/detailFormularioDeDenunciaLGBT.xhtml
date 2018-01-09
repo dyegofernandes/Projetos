@@ -1,0 +1,321 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailFormularioDeDenunciaLGBT" styleClass="uix-form-detail">
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.dataDenuncia']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.dataDenuncia}" styleClass="uix-content-detail">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.horaDenuncia']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.horaDenuncia}" styleClass="uix-content-detail">
+                            <f:convertDateTime pattern="HH:mm"/>
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.denunciaReincidente']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.denunciaReincidente}" styleClass="uix-content-detail"/>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Identificação da Vítima">
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.identificacaoVitima']}:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.identificacaoVitima.nome}" styleClass="uix-content-detail">
+                    <x:initializer/>
+                </h:outputText>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.identificacaoVitima']}:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.identificacaoVitima.nome}" styleClass="uix-content-detail">
+                    <x:initializer/>
+                </h:outputText>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="Nome Social:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.nomeSocial}" styleClass="uix-content-detail">
+                    <x:initializer/>
+                </h:outputText>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="#{msg['pessoaDenuncia.nome']}:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.identificacaoVitima.nome}" styleClass="uix-content-detail">
+                    <x:initializer/>
+                </h:outputText>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="#{msg['pessoaDenuncia.idade']}:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.identificacaoVitima.idade}" styleClass="uix-content-detail">
+                    <x:initializer/>
+                </h:outputText>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="#{msg['pessoaDenuncia.endereco']}:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.identificacaoVitima.endereco}" styleClass="uix-content-detail">
+                    <x:initializer/>
+                </h:outputText>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="#{msg['pessoaDenuncia.bairro']}:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.identificacaoVitima.bairro}" styleClass="uix-content-detail">
+                    <x:initializer/>
+                </h:outputText>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="#{msg['pessoaDenuncia.pontoDeReferencia']}:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.identificacaoVitima.pontoDeReferencia}" styleClass="uix-content-detail">
+                    <x:initializer/>
+                </h:outputText>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="#{msg['pessoaDenuncia.telefone']}:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.identificacaoVitima.telefone}" styleClass="uix-content-detail">
+                    <x:initializer/>
+                </h:outputText>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.localDaViolacao']}:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.localDaViolacao}" styleClass="uix-content-detail"/>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.tempoQueOcorreViolacao']}:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.tempoQueOcorreViolacao}" styleClass="uix-content-detail"/>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.perfilPessoaDenunciada']}:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.perfilPessoaDenunciada.descricao}" styleClass="uix-content-detail">
+                </h:outputText>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.ocupacao']}:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.ocupacao}" styleClass="uix-content-detail">
+                </h:outputText>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.escolaridade']}:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.escolaridade}" styleClass="uix-content-detail">
+                </h:outputText>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.parentescoComAVitima']}:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.parentescoComAVitima}" styleClass="uix-content-detail"/>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.antecedentesCriminais']}:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.antecedentesCriminais}" styleClass="uix-content-detail">
+                </h:outputText>
+            </div>
+
+        </p:fieldset>
+        <p:fieldset legend="Segmento e Situação de Violação de Direitos Humanos" toggleable="true">
+            <p:fieldset legend="Pessoa e/ou família em situação de rua:">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.situacaoDeRua']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.situacaoDeRua}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.situacaoDeRuaOutros']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.situacaoDeRuaOutros}" styleClass="uix-content-detail"/>
+                </div>
+            </p:fieldset>
+            <p:fieldset legend="Idoso em situação de violência:" >
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.idosoTipoViolencia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.idosoTipoViolencia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.idosoFormaViolencia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.idosoFormaViolencia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.idosoFormaViolenciaOutros']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.idosoFormaViolenciaOutros}" styleClass="uix-content-detail"/>
+                </div>
+
+            </p:fieldset>
+            <p:fieldset legend="Criança em situação de violência:">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.criancaTipoViolencia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.criancaTipoViolencia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.criancaFormaViolencia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.criancaFormaViolencia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.criancaFormaViolenciaOutros']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.criancaFormaViolenciaOutros}" styleClass="uix-content-detail"/>
+                </div>
+            </p:fieldset>
+            <p:fieldset legend="Adolescente em situação de violência:">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.adolescenteTipoViolencia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.adolescenteTipoViolencia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.adolescenteFormaViolencia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.adolescenteFormaViolencia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.adolescenteFormaViolenciaOutros']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.adolescenteFormaViolenciaOutros}" styleClass="uix-content-detail"/>
+                </div>
+
+            </p:fieldset>
+            <p:fieldset legend="Jovem em situação de violência:">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.jovemTipoViolencia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.jovemTipoViolencia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.jovemFormaViolencia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.jovemFormaViolencia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.jovemFormaViolenciaOutros']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.jovemFormaViolenciaOutros}" styleClass="uix-content-detail"/>
+                </div>
+
+            </p:fieldset>
+            <p:fieldset legend="Adulto em situação de violência:">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.adulto']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.adulto}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.adultoTipoViolencia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.adultoTipoViolencia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.adultoFormaViolencia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.adultoFormaViolencia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.adultoFormaViolenciaOutros']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.adultoFormaViolenciaOutros}" styleClass="uix-content-detail"/>
+                </div>
+            </p:fieldset>
+            <p:fieldset legend="PCD em situação de violência:">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.pCDTipoViolencia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.pCDTipoViolencia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.pCDFormaViolencia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.pCDFormaViolencia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.pCDFormaViolenciaOutros']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.pCDFormaViolenciaOutros}" styleClass="uix-content-detail"/>
+                </div> </p:fieldset>
+            <p:fieldset legend="Pessoa em uso de substância psicoativa:">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.usoSubstanciaPsicoativa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.usoSubstanciaPsicoativa}" styleClass="uix-content-detail"/>
+                </div>
+            </p:fieldset>
+            <p:fieldset legend="LGBT em situação de violência:">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.lGBtSituacaoViolencia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.lGBtSituacaoViolencia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.lGBtSituacaoViolenciaOutros']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.lGBtSituacaoViolenciaOutros}" styleClass="uix-content-detail"/>
+                </div>
+
+            </p:fieldset>
+            <p:fieldset legend="Outras violações de Direitos Humanos:">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.outrasViolacoesDireitosHumanos']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.outrasViolacoesDireitosHumanos}" styleClass="uix-content-detail"/>
+                </div>
+            </p:fieldset>
+        </p:fieldset>
+        <p:fieldset legend="Pessoa Denúnciada">
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.pessoaDenunciada']}:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.pessoaDenunciada.nome}" styleClass="uix-content-detail">
+                    <x:initializer/>
+                </h:outputText>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.idade']}:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.pessoaDenunciada.idade}" styleClass="uix-content-detail">
+                    <x:initializer/>
+                </h:outputText>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.endereco']}:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.pessoaDenunciada.endereco}" styleClass="uix-content-detail">
+                    <x:initializer/>
+                </h:outputText>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.bairro']}:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.pessoaDenunciada.bairro}" styleClass="uix-content-detail">
+                    <x:initializer/>
+                </h:outputText>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.pontoDeReferencia']}:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.pessoaDenunciada.pontoDeReferencia}" styleClass="uix-content-detail">
+                    <x:initializer/>
+                </h:outputText>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.telefone']}:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.pessoaDenunciada.telefone}" styleClass="uix-content-detail">
+                    <x:initializer/>
+                </h:outputText>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Relato da Denúncia">
+            <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.relatoDaDenuncia}" styleClass="uix-content-detail"/>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Pessoa Denunciante">
+
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.anonimo']}:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.anonimo}" styleClass="uix-content-detail"/>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="#{msg['formularioDeDenunciaLGBT.pessoaDenunciante']}:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.pessoaDenunciante.nome}" styleClass="uix-content-detail">
+                    <x:initializer/>
+                </h:outputText>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Providências">
+            <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.providencias}" styleClass="uix-content-detail"/>
+            </div>
+
+        </p:fieldset>
+        <p:fieldset legend="Contra-Referência">
+            <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                <h:outputText value="#{formularioDeDenunciaLGBTMB.entity.contraReferencia}" styleClass="uix-content-detail"/>
+            </div>
+        </p:fieldset>
+
+
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetFormularioDeDenunciaLGBTDetail').hide()" />
+            <x:securityArea rolesAllowed="formularioDeDenunciaLGBT.audit">
+                <x:audit for="#{formularioDeDenunciaLGBTMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

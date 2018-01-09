@@ -1,0 +1,147 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailMovimento" styleClass="uix-form-detail">
+        <p:fieldset legend="Informações Financeiras" toggleable="true">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['movimento.servidor']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{movimentoMB.entity.servidor}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Unidade:" /><br/>
+                        <h:outputText value="#{movimentoMB.unidade}" styleClass="uix-content-detail"/>                          
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Cargo:" /><br/>
+                        <h:outputText value="#{movimentoMB.cargo}" styleClass="uix-content-detail"/>                          
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="ocorrencia" value="Ocorrência" /><br/>
+                        <h:outputText id="ocorrencia" value="#{movimentoMB.entity.ocorrencia}" styleClass="uix-content-detail" />                          
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Competência" styleClass="control-label" /><br/>
+                        <h:outputText value="#{movimentoMB.entity.referencia}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Nota de Empenho:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{movimentoMB.entity.neMov}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Nota de Liquidação:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{movimentoMB.entity.nlMov}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Data Pagamento:" /><br/>
+                        <h:outputText value="#{movimentoMB.entity.dataPagamento}" 
+                                      styleClass="uix-content-detail"  >
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Descrição do Serviço:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{movimentoMB.entity.observacao}" styleClass="uix-content-detail"/>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Movimento Financeiro de #{movimentoMB.referenciaAnterior}" toggleable="true">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Financeiro:" /><br/>
+                        <h:outputText value="#{movimentoMB.financeiroAnt}" styleClass="uix-content-detail" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Fonte:" /><br/>
+                        <h:outputText value="#{movimentoMB.fonteA}" styleClass="uix-content-detail" >
+                            <x:initializer/>                        
+                        </h:outputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['movimento.valor']}:" /><br/>
+                        <h:outputText value="#{movimentoMB.valorAnt}" styleClass="uix-content-detail">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Base de Calculo:" /><br/>
+                        <h:outputText value="#{movimentoMB.valorBCalcAnt}" styleClass="uix-content-detail">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Desconto Inss:" /><br/>
+                        <h:outputText value="#{movimentoMB.desconto1Ant}" styleClass="uix-content-detail">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Valor Total:" /><br/>
+                        <h:outputText value="#{movimentoMB.valorTotalAnt}" styleClass="uix-content-detail" />
+                    </div>
+                </div>
+            </div>      
+        </p:fieldset>
+        <p:fieldset legend="Movimento Financeiro para #{movimentoMB.entity.referencia}" toggleable="true">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['movimento.financeiro']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{movimentoMB.entity.financeiro}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Fonte Pagador:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{movimentoMB.entity.fonte}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['movimento.valor']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{movimentoMB.entity.valor}" styleClass="uix-content-detail">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Base de Cálculo:" /><br/>
+                        <h:outputText value="#{movimentoMB.entity.valorBCalc}" styleClass="uix-content-detail">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Desconto Inss:" /><br/>
+                        <h:outputText value="#{movimentoMB.entity.desconto1}" styleClass="uix-content-detail" >
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Valor Total:" /><br/>
+                        <h:outputText value="#{movimentoMB.entity.valorTotalDos11BCalc}" styleClass="uix-content-detail">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </div>
+                </div>
+            </div> 
+        </p:fieldset>
+
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetMovimentoDetail').hide()" />
+            <x:securityArea rolesAllowed="movimento.audit">
+                <x:audit for="#{movimentoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

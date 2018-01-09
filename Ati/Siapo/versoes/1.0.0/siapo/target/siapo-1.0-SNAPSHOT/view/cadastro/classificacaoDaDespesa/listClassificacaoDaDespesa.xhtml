@@ -1,0 +1,80 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['classificacaoDaDespesa.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuClassificacaoDaDespesa.xhtml" />
+        <h:form id="formListClassificacaoDaDespesa">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="classificacaoDaDespesa_export" target=":formListClassificacaoDaDespesa:dataTableClassificacaoDaDespesa"
+                                     widgetVar="dataTableClassificacaoDaDespesaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="classificacaoDaDespesa" rowIndexVar="index" id="dataTableClassificacaoDaDespesa" widgetVar="dataTableClassificacaoDaDespesaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{classificacaoDaDespesaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{classificacaoDaDespesaMB.dataModel.paginatorTemplate}"
+                         value="#{classificacaoDaDespesaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['classificacaoDaDespesa.codigo']}" sortBy="#{classificacaoDaDespesa.codigo}"
+                    filterBy="#{classificacaoDaDespesa.codigo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['classificacaoDaDespesa.codigo']}" />
+                    </f:facet>
+                    <h:outputText value="#{classificacaoDaDespesa.codigo}"/>
+                </p:column>
+                <p:column headerText="#{msg['classificacaoDaDespesa.nome']}" sortBy="#{classificacaoDaDespesa.nome}"
+                    filterBy="#{classificacaoDaDespesa.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['classificacaoDaDespesa.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{classificacaoDaDespesa.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['classificacaoDaDespesa.tipoDePoder']}" sortBy="#{classificacaoDaDespesa.tipoDePoder}"
+                    filterBy="#{classificacaoDaDespesa.tipoDePoder}"  filterOptions="#{findAllBean.getSelect(classMB.tipoDePoder)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['classificacaoDaDespesa.tipoDePoder']}" />
+                    </f:facet>
+                    <h:outputText value="#{classificacaoDaDespesa.tipoDePoder.descricao}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetClassificacaoDaDespesaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailClassificacaoDaDespesa" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{classificacaoDaDespesa}" target="#{classificacaoDaDespesaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="classificacaoDaDespesa.create">
+                        <p:button icon="ui-icon-pencil" outcome="createClassificacaoDaDespesa" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{classificacaoDaDespesa.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="classificacaoDaDespesa.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{classificacaoDaDespesaMB.delete}" >
+                            <f:setPropertyActionListener value="#{classificacaoDaDespesa.id}" target="#{classificacaoDaDespesaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{classificacaoDaDespesa}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="classificacaoDaDespesa.audit">
+                    <x:auditDelete for="#{classificacaoDaDespesaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetClassificacaoDaDespesaDetail" header="#{msg['classificacaoDaDespesa.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailClassificacaoDaDespesa.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

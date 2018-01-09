@@ -1,0 +1,87 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['arquivoPublico.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuArquivoPublico.xhtml" />
+        <h:form id="formListArquivoPublico">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="arquivoPublico_export" target=":formListArquivoPublico:dataTableArquivoPublico"
+                                widgetVar="dataTableArquivoPublicoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="arquivoPublico" rowIndexVar="index" id="dataTableArquivoPublico" widgetVar="dataTableArquivoPublicoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{arquivoPublicoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{arquivoPublicoMB.dataModel.paginatorTemplate}"
+                         value="#{arquivoPublicoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">
+                        <h:outputText value="" />
+                    </f:facet>
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['arquivoPublico.nome']}" sortBy="#{arquivoPublico.nome}"
+                          filterBy="#{arquivoPublico.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['arquivoPublico.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{arquivoPublico.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['arquivoPublico.extensao']}" sortBy="#{arquivoPublico.extensao}"
+                          filterBy="#{arquivoPublico.extensao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['arquivoPublico.extensao']}" />
+                    </f:facet>
+                    <h:outputText value="#{arquivoPublico.extensao}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['arquivoPublico.tipo']}" sortBy="#{arquivoPublico.tipo}"
+                          filterBy="#{arquivoPublico.tipo}"  filterOptions="#{findAllBean.getSelect(classMB.tipoFormulario)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['arquivoPublico.tipo']}" />
+                    </f:facet>
+                    <h:outputText value="#{arquivoPublico.tipo}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetArquivoPublicoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailArquivoPublico" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{arquivoPublico}" target="#{arquivoPublicoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="arquivoPublico.create">
+                        <p:button icon="ui-icon-pencil" outcome="createArquivoPublico" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{arquivoPublico.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="arquivoPublico.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{arquivoPublicoMB.delete}" >
+                            <f:setPropertyActionListener value="#{arquivoPublico.id}" target="#{arquivoPublicoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{arquivoPublico}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                    <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Download" ajax="false" immediate="true" update="formCreateDenuncia">
+                        <p:fileDownload value="#{arquivoPublicoMB.download(arquivoPublico)}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="arquivoPublico.audit">
+                    <x:auditDelete for="#{arquivoPublicoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetArquivoPublicoDetail" header="#{msg['arquivoPublico.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailArquivoPublico.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

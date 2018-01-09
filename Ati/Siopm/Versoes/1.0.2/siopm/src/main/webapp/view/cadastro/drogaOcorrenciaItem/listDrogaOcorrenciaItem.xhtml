@@ -1,0 +1,84 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['drogaOcorrenciaItem.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuDrogaOcorrenciaItem.xhtml" />
+        <h:form id="formListDrogaOcorrenciaItem">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="drogaOcorrenciaItem_export" target=":formListDrogaOcorrenciaItem:dataTableDrogaOcorrenciaItem"
+                                     widgetVar="dataTableDrogaOcorrenciaItemWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="drogaOcorrenciaItem" rowIndexVar="index" id="dataTableDrogaOcorrenciaItem" widgetVar="dataTableDrogaOcorrenciaItemWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{drogaOcorrenciaItemMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{drogaOcorrenciaItemMB.dataModel.paginatorTemplate}"
+                         value="#{drogaOcorrenciaItemMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['drogaOcorrenciaItem.droga']}" sortBy="#{drogaOcorrenciaItem.droga}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['drogaOcorrenciaItem.droga']}" />
+                    </f:facet>
+                    <h:outputText value="#{drogaOcorrenciaItem.droga}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['drogaOcorrenciaItem.unidade']}" sortBy="#{drogaOcorrenciaItem.unidade}"
+                    filterBy="#{drogaOcorrenciaItem.unidade}"  filterOptions="#{findAllBean.getSelect(classMB.unidadeDeMedida)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['drogaOcorrenciaItem.unidade']}" />
+                    </f:facet>
+                    <h:outputText value="#{drogaOcorrenciaItem.unidade}"/>
+                </p:column>
+                <p:column headerText="#{msg['drogaOcorrenciaItem.quantidade']}" sortBy="#{drogaOcorrenciaItem.quantidade}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['drogaOcorrenciaItem.quantidade']}" />
+                    </f:facet>
+                    <h:outputText value="#{drogaOcorrenciaItem.quantidade}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetDrogaOcorrenciaItemDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailDrogaOcorrenciaItem" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{drogaOcorrenciaItem}" target="#{drogaOcorrenciaItemMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="drogaOcorrenciaItem.create">
+                        <p:button icon="ui-icon-pencil" outcome="createDrogaOcorrenciaItem" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{drogaOcorrenciaItem.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="drogaOcorrenciaItem.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{drogaOcorrenciaItemMB.delete}" >
+                            <f:setPropertyActionListener value="#{drogaOcorrenciaItem.id}" target="#{drogaOcorrenciaItemMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{drogaOcorrenciaItem}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="drogaOcorrenciaItem.audit">
+                    <x:auditDelete for="#{drogaOcorrenciaItemMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetDrogaOcorrenciaItemDetail" header="#{msg['drogaOcorrenciaItem.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailDrogaOcorrenciaItem.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

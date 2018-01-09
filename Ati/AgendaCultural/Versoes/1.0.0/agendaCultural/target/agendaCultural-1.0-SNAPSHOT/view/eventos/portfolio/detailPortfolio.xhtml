@@ -1,0 +1,215 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailPortfolio" styleClass="uix-form-detail">
+        <p:tabView id="tabGeral">
+            <p:tab title="Informações Gerais">
+                <p:fieldset legend="#{xmsg['generalData']}">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="Tipo:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{portfolioMB.entity.tipo.descricao}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['portfolio.localPortfolio']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{portfolioMB.entity.localPortfolio}" styleClass="uix-content-detail"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['portfolio.logradouro']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{portfolioMB.entity.endereco.endereco}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['portfolio.numero']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{portfolioMB.entity.endereco.numero}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['portfolio.complemento']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{portfolioMB.entity.endereco.complemento}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['portfolio.bairro']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{portfolioMB.entity.endereco.bairro}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['portfolio.cidade']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{portfolioMB.entity.endereco.cidade}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['portfolio.cep']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{portfolioMB.entity.endereco.cep}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="Latitude:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{portfolioMB.entity.endereco.latitude}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="Longitude:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{portfolioMB.entity.endereco.longitude}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Adicionar Telefone" toggleable="true">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="fone" rowIndexVar="index" id="dataTableTelefone" widgetVar="dataTableTelefoneWidget" styleClass="table-responsive"
+                                 value="#{portfolioMB.entity.fones}" >
+                        <x:initializer/>
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="DDD" >
+                            <f:facet name="header">
+                                <h:outputText value="DDD" />
+                            </f:facet>
+                            <h:outputText value="#{fone.ddd}"/>
+                        </p:column>
+                        <p:column headerText="Número" >
+                            <f:facet name="header">
+                                <h:outputText value="Número" />
+                            </f:facet>
+                            <h:outputText value="#{fone.numero}"/>
+                        </p:column>
+                        
+                    </p:dataTable>
+
+                </p:fieldset>
+
+
+                <p:fieldset legend="Horários de Visitação" toggleable="true" >
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="dia" rowIndexVar="index" id="dataTableDia" widgetVar="dataTableDiaWidget" styleClass="table-responsive"
+                                 value="#{portfolioMB.entity.diaHoraVisitacao}" >
+                        <x:initializer/>
+                        <p:column headerText="Dia" width="50%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Dia" />
+                            </f:facet>
+                            <h:outputText value="#{dia.diaSemana.descricao}"/>
+                        </p:column>
+                        <p:column headerText="Hora Inicial" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Hora Inicial" />
+                            </f:facet>
+                            <h:outputText value="#{dia.horarioInicial}">
+                                <f:convertDateTime pattern="HH:mm"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Hora Final" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Hora Final" />
+                            </f:facet>
+                            <h:outputText value="#{dia.horarioFinal}">
+                                <f:convertDateTime pattern="HH:mm"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+                <p:fieldset legend="Histórico" toggleable="true" >
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="historico" rowIndexVar="index" id="dataTableHistorico" widgetVar="dataTableHistoricoWidget" styleClass="table-responsive"
+                                 value="#{portfolioMB.entity.historicos}" >
+                        <x:initializer/>
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="Histórico">
+                            <f:facet name="header">
+                                <h:outputText value="Histórico" />
+                            </f:facet>
+                            <h:outputText value="#{historico.historico}"/>
+                        </p:column>
+
+                    </p:dataTable>
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Fotos e Videos">
+                <p:fieldset legend="Galeria de Fotos" id="fieldSetArquivo">
+                    <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="arquivo" rowIndexVar="index" id="dataTableArquivo" widgetVar="dataTableArquivoWidget" styleClass="table-responsive"
+                                 value="#{portfolioMB.entity.arquivos}" >
+                        <x:initializer/>
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+
+                        <p:column headerText="Nome" width="80%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Nome" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.nome}"/>
+                        </p:column>
+                        <p:column headerText="Extensão" width="20%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Extensão" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.extensao}"/>
+                        </p:column>
+
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>          
+                            <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Download" ajax="false" immediate="true" update="formCreateDenuncia">
+                                <p:fileDownload value="#{portfolioMB.download(arquivo)}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+                <p:fieldset legend="Link de Vídeos" id="fieldSetTableLink">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="link" rowIndexVar="index" id="dataTableLink" widgetVar="dataTableLinkWidget" styleClass="table-responsive"
+                                 value="#{portfolioMB.entity.links}" >
+                        <x:initializer/>
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="Descrição" width="50%">
+                            <f:facet name="header">
+                                <h:outputText value="Descrição" />
+                            </f:facet>
+                            <h:outputText value="#{link.descricaoLink}"/>
+                        </p:column>
+                        <p:column headerText="Link" width="50%">
+                            <f:facet name="header">
+                                <h:outputText value="Link" />
+                            </f:facet>
+                            <h:outputText value="#{link.link}"/>
+                        </p:column>
+
+                    </p:dataTable>
+                </p:fieldset>
+            </p:tab>
+        </p:tabView>
+
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetPortfolioDetail').hide()" />
+            <x:securityArea rolesAllowed="portfolio.audit">
+                <x:audit for="#{portfolioMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

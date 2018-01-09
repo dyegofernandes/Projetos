@@ -1,0 +1,83 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateBairro" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cidade" value="* #{msg['bairro.cidade']}:" />
+                        <h:selectOneMenu id="cidade" value="#{bairroMB.entity.cidade}" converter="entityConverter" styleClass="form-control" 
+                                         disabled="true">
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.cidade)}" 
+                                           var="cidade"
+                                           itemLabel="#{cidade}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="* #{msg['bairro.nome']}:" />
+                        <p:inputText id="nome" value="#{bairroMB.entity.nome}" maxlength="150"  styleClass="form-control"  disabled="true"/>
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Setor">
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="setor" value="Setor:" />
+                    <div class="input-group">
+                        <p:inputText id="setor" value="#{bairroMB.setor.nome}" maxlength="150"  styleClass="form-control"  />
+                        <span class="input-group-btn">
+                            <p:commandButton icon="ui-icon-plusthick"  id="buttonAddSetor" styleClass="pull-left" ajax="true"
+                                             style="font-size: 18px;" action="#{bairroMB.addSetor()}" process="@this setor"
+                                             update="setor dataTableSetor" />    
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="setor" rowIndexVar="index" id="dataTableSetor" widgetVar="dataTableSetorWidget" styleClass="table-responsive"
+                             value="#{bairroMB.setores}" >
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['setor.nome']}"  >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['setor.nome']}" />
+                        </f:facet>
+                        <h:outputText value="#{setor.nome}"/>
+                    </p:column>
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableSetor" 
+                                         action="#{bairroMB.removerSetor(setor)}" >
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="bairro.create">
+                <p:commandButton process="@form" update="@form" action="#{bairroMB.save}" value="#{xmsg['save']}" 
+                                 oncomplete="PF('widgetSetorPorBairro').hide()"/>
+            </x:securityArea>
+            <x:securityArea rolesAllowed="bairro.audit">
+                <x:audit for="#{bairroMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

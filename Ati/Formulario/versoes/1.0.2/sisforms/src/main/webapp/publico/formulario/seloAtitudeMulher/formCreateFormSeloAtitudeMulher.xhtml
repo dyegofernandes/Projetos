@@ -1,0 +1,157 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateFormSeloAtitudeMulher" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:fieldset legend="Arquivos" toggleable="true">
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="arquivoPublico" rowIndexVar="index" id="dataTableArquivoPublico" widgetVar="dataTableArquivoPublicoWidget" styleClass="table-responsive"
+                         value="#{formSeloAtitudeMulherMB.listaArquivos}">
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['arquivoPublico.nome']}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['arquivoPublico.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{arquivoPublico.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['arquivoPublico.extensao']}"  >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['arquivoPublico.extensao']}" />
+                    </f:facet>
+                    <h:outputText value="#{arquivoPublico.extensao}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Download" ajax="false" immediate="true" update="formCreateDenuncia">
+                        <p:fileDownload value="#{formSeloAtitudeMulherMB.download(arquivoPublico)}" />
+                    </p:commandButton>
+
+                </p:column>
+            </p:dataTable>
+
+        </p:fieldset>
+        <p:fieldset legend="Identificação Empresa" toggleable="true">   
+            <p:fieldset legend="Dados Gerais">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="razaoSocial" value="* #{msg['formSeloAtitudeMulher.razaoSocial']}:" />
+                            <p:inputText id="razaoSocial" value="#{formSeloAtitudeMulherMB.entity.razaoSocial}" maxlength="255"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cnpj" value="* #{msg['formSeloAtitudeMulher.cnpj']}:" />
+                            <x:cnpj id="cnpj" value="#{formSeloAtitudeMulherMB.entity.cnpj}"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="municipio" value="* #{msg['formSeloAtitudeMulher.municipio']}:" />
+                            <p:inputText id="municipio" value="#{formSeloAtitudeMulherMB.entity.municipio}" maxlength="255"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="endereco" value="Endereço:" />
+                            <p:inputText id="endereco" value="#{formSeloAtitudeMulherMB.entity.endereco}" maxlength="255"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="paginaWeb" value="Página na web:" />
+                            <p:inputText id="paginaWeb" value="#{formSeloAtitudeMulherMB.entity.paginaWeb}" maxlength="255"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="email" value="#{msg['formSeloAtitudeMulher.email']}:" />
+                            <p:inputText id="email" value="#{formSeloAtitudeMulherMB.entity.email}" maxlength="255"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="telefone" value="#{msg['formSeloAtitudeMulher.telefone']}:" />
+                            <p:inputMask id="telefone" value="#{formSeloAtitudeMulherMB.entity.telefone}" 
+                                         mask="(99) 9999-9999"  styleClass="form-control"  />
+                        </div>
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="natureza" value="* #{msg['formSeloAtitudeMulher.natureza']}:" />
+                            <h:selectOneMenu id="natureza" value="#{formSeloAtitudeMulherMB.entity.natureza}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.naturezaEmpresa)}" 
+                                               var="naturezaEmpresa"
+                                               itemLabel="#{naturezaEmpresa.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dataEmissao" value="#{msg['formSeloAtitudeMulher.dataEmissao']}:" />
+                            <p:calendar id="dataEmissao" value="#{formSeloAtitudeMulherMB.entity.dataEmissao}" 
+                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  disabled="true">
+                                <x:mask/>
+                            </p:calendar>
+                        </div>
+
+                    </div>
+                </div>
+            </p:fieldset>
+            <p:fieldset legend="Responsável">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="responsavel" value="Nome:" />
+                    <p:inputText id="responsavel" value="#{formSeloAtitudeMulherMB.entity.responsavel}" maxlength="255"  styleClass="form-control"  />
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="cpf" value="#{msg['formSeloAtitudeMulher.cpf']}:" />
+                    <x:cpf id="cpf" value="#{formSeloAtitudeMulherMB.entity.cpf}"  styleClass="form-control"  />
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="funcao" value="#{msg['formSeloAtitudeMulher.funcao']}:" />
+                    <p:inputText id="funcao" value="#{formSeloAtitudeMulherMB.entity.funcao}" maxlength="255"  styleClass="form-control"  />
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="emailResponsavel" value="Email:" />
+                    <p:inputText id="emailResponsavel" value="#{formSeloAtitudeMulherMB.entity.emailResponsavel}" maxlength="255"  styleClass="form-control"  />
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="telefoneResponsavel" value="Telefone:" />
+                    <p:inputMask id="telefoneResponsavel" value="#{formSeloAtitudeMulherMB.entity.telefoneResponsavel}" 
+                                 mask="(99) 9999-9999"  styleClass="form-control"  />
+                </div>
+            </p:fieldset>
+
+        </p:fieldset>
+
+        <p:fieldset legend="Dados representante legal da Empresa" toggleable="true">
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="nomeRep" value="Nome:" />
+                <p:inputText id="nomeRep" value="#{formSeloAtitudeMulherMB.entity.nomeRepresentante}" maxlength="255"  styleClass="form-control"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="cargoRep" value="Cargo:" />
+                <p:inputText id="cargoRep" value="#{formSeloAtitudeMulherMB.entity.cargoRepresentante}" maxlength="255"  styleClass="form-control"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="foneRep" value="Telefone" />
+                <p:inputMask id="foneRep" value="#{formSeloAtitudeMulherMB.entity.cargoRepresentante}" 
+                             mask="(99) 9999-9999"  styleClass="form-control"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="emailRep" value="Cargo:" />
+                <p:inputText id="emailRep" value="#{formSeloAtitudeMulherMB.entity.emailRepresentante}" maxlength="255"  styleClass="form-control"  />
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Justificativa para indicação da Empresa">
+            <h:outputLabel for="descricao" value="Descrição:" />
+            <p:inputTextarea id="descricao" value="#{formSeloAtitudeMulherMB.entity.justificativa}" rows="10" styleClass="form-control"
+                             cols="50"/>
+        </p:fieldset>
+
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <p:commandButton process="@form" update="@form" action="#{formSeloAtitudeMulherMB.save}" value="#{xmsg['save']}" />
+            <p:commandButton rendered="#{formSeloAtitudeMulherMB.entity.id!=null}" process="@form" update="@form" action="#{formSeloAtitudeMulherMB.gerarPdf(formSeloAtitudeMulherMB.entity)}" value="Imprimir" ajax="false">
+            </p:commandButton>
+            <p:commandButton id="comeBack" value="Voltar" process="@this" action="#{formSeloAtitudeMulherMB.voltar}" />
+
+        </div>
+    </h:form>
+
+</ui:composition>

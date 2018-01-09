@@ -1,0 +1,75 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['animal.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuAnimal.xhtml" />
+        <h:form id="formListAnimal">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="animal_export" target=":formListAnimal:dataTableAnimal"
+                                     widgetVar="dataTableAnimalWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="animal" rowIndexVar="index" id="dataTableAnimal" widgetVar="dataTableAnimalWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{animalMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{animalMB.dataModel.paginatorTemplate}"
+                         value="#{animalMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['animal.nome']}" sortBy="#{animal.nome}"
+                    filterBy="#{animal.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['animal.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{animal.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['animal.especie']}" sortBy="#{animal.especie}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['animal.especie']}" />
+                    </f:facet>
+                    <h:outputText value="#{animal.especie}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetAnimalDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailAnimal" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{animal}" target="#{animalMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="animal.create">
+                        <p:button icon="ui-icon-pencil" outcome="createAnimal" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{animal.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="animal.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{animalMB.delete}" >
+                            <f:setPropertyActionListener value="#{animal.id}" target="#{animalMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{animal}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="animal.audit">
+                    <x:auditDelete for="#{animalMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetAnimalDetail" header="#{msg['animal.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailAnimal.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

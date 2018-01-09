@@ -1,0 +1,209 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['formAcessoConteudo.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuFormAcessoConteudo.xhtml" />
+        <h:form id="formListFormAcessoConteudo">
+            <x:modalMessages/>
+            <p:fieldset legend="Filtros de Busca" toggleable="true" id="fieldFiltros">
+
+                <x:securityArea rolesAllowed="campos.usuario">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="usuario" value="Usuario" />
+                        <h:selectOneMenu id="usuario" value="#{formAcessoConteudoMB.filtros.usuario}" converter="entityConverter" 
+                                         styleClass="form-control" 
+                                         >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.usuario)}" 
+                                           var="orgao"
+                                           itemLabel="#{orgao.nome}"/>
+                        </h:selectOneMenu>
+                    </div>
+                </x:securityArea>
+                <x:securityArea rolesAllowed="campos.orgao">
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Orgão:" />
+
+                        <h:panelGroup layout="block" id="panelOrgaoPendencia" styleClass="form-control">
+                            <h:panelGroup id="conteudoPanelOrgaoPendencia" >
+                                <h:outputText value="#{formAcessoConteudoMB.filtros.orgao.nome}" >
+                                    <x:initializer/>
+                                </h:outputText>
+                                <p:commandButton type="button" icon="ui-icon-carat-1-s" 
+                                                 id="buttonOrgaoPendencia" styleClass="pull-right"
+                                                 style="font-size: 10px;"/>
+                            </h:panelGroup>
+                        </h:panelGroup>
+
+                        <p:overlayPanel for="panelOrgaoPendencia" styleClass="w-100p" widgetVar="overlayOrgaoPendencia" >
+                            <p:tree value="#{orgaoMB.orgaos}" var="orgao" styleClass="w-100p"
+                                    selectionMode="single"  style="max-height: 400px; overflow-y: scroll" >
+                                <p:ajax event="select" update=":formListFormAcessoConteudo:panelOrgaoPendencia @this"
+                                        listener="#{formAcessoConteudoMB.filtros.setOrgao(orgao)}" oncomplete="PF('overlayOrgaoPendencia').hide()" />
+                                <p:treeNode collapsedIcon="ui-icon-folder-collapsed" >
+                                    <h:panelGroup styleClass="#{orgao == orgaoMB.entity.orgaoPai ? 'ui-state-highlight' : ''}">
+                                        <h:outputText value="#{orgao.sigla}" style="font-weight: bold"/>  
+                                        <h:outputText value=" (#{orgao.nome})" styleClass="font-8"  /> 
+                                    </h:panelGroup>
+                                </p:treeNode>
+                            </p:tree>
+                        </p:overlayPanel>
+                    </div>
+                </x:securityArea>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="nomeCompleto" value="#{msg['formAcessoConteudo.nomeCompleto']}:" />
+                    <p:inputText id="nomeCompleto" value="#{formAcessoConteudoMB.filtros.nome}" maxlength="255"  styleClass="form-control"  />
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="situacao" value="Situação:" />
+                    <h:selectOneMenu id="situacao" value="#{formAcessoConteudoMB.filtros.situacao}"  styleClass="form-control" >
+                        <f:selectItem itemLabel="#{xmsg['select']}" />
+                        <f:selectItems value="#{findAllBean.get(classMB.situacao)}" 
+                                       var="situacao"
+                                       itemLabel="#{situacao.descricao}"/>
+                    </h:selectOneMenu>
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="dataInicial" value="Data Inicial da Emissão" />
+                    <p:calendar id="dataInicial" value="#{formAcessoConteudoMB.filtros.dataInicial}" 
+                                showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                        <x:mask/>
+                    </p:calendar>
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="dataFinal" value="Data Final da Emissão" />
+                    <p:calendar id="dataFinal" value="#{formAcessoConteudoMB.filtros.dataFinal}" 
+                                showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                        <x:mask/>
+                    </p:calendar>
+                </div>
+
+            </p:fieldset>
+            <div class="uix-center">
+                <p:commandButton process="@this fieldFiltros" update="dataTableFormAcessoConteudo" action="#{formAcessoConteudoMB.buscar()}" value="Buscar" />
+            </div>
+            <p:fieldset legend="Resultado da Busca">
+                <x:dataTableActions fileName="formAcessoConteudo_export" target=":formListFormAcessoConteudo:dataTableFormAcessoConteudo"
+                                    widgetVar="dataTableFormAcessoConteudoWidget"  />
+
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="formAcessoConteudo" rowIndexVar="index" id="dataTableFormAcessoConteudo" widgetVar="dataTableFormAcessoConteudoWidget" styleClass="table-responsive"
+                             value="#{formAcessoConteudoMB.acessos}" >
+                    <p:column styleClass="uix-datatable-index">
+                        <f:facet name="header">
+                            <h:outputText value="" />
+                        </f:facet>
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['solicitacaoAcessoSFP.usuario']}" rendered="#{x:hasRole('campos.usuario')}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['solicitacaoAcessoSFP.usuario']}" />
+                        </f:facet>
+                        <h:outputText value="#{formAcessoConteudo.usuario}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Órgão" >
+                        <f:facet name="header">
+                            <h:outputText value="Órgão" />
+                        </f:facet>
+                        <h:outputText value="#{formAcessoConteudo.orgao}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['formAcessoConteudo.nomeCompleto']}"  >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['formAcessoConteudo.nomeCompleto']}" />
+                        </f:facet>
+                        <h:outputText value="#{formAcessoConteudo.nomeCompleto}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['formAcessoConteudo.cargo']}"  >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['formAcessoConteudo.cargo']}" />
+                        </f:facet>
+                        <h:outputText value="#{formAcessoConteudo.cargo}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['formAcessoConteudo.matriculaEstado']}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['formAcessoConteudo.matriculaEstado']}" />
+                        </f:facet>
+                        <h:outputText value="#{formAcessoConteudo.matriculaEstado}"/>
+                    </p:column>
+
+
+                    <p:column headerText="#{msg['formAcessoConteudo.telefone']}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['formAcessoConteudo.telefone']}" />
+                        </f:facet>
+                        <h:outputText value="#{formAcessoConteudo.telefone}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['formAcessoConteudo.emailCoorporativo']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['formAcessoConteudo.emailCoorporativo']}" />
+                        </f:facet>
+                        <h:outputText value="#{formAcessoConteudo.emailCoorporativo}"/>
+                    </p:column>
+
+
+                    <p:column headerText="Data" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Data" />
+                        </f:facet>
+                        <h:outputText value="#{formAcessoConteudo.dataCriacao}">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Situação" style="text-align: center;" >
+                        <f:facet name="header">
+                            <h:outputText value="Situação" />
+                        </f:facet>
+                        <h:outputText value="#{formAcessoConteudo.situacao.descricao}"/>
+                    </p:column>
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+                        <p:commandButton oncomplete="PF('widgetFormAcessoConteudoDetail').show();"  icon="ui-icon-zoomin" 
+                                         process="@form" update=":formDetailFormAcessoConteudo" title="#{xmsg['detail']}" 
+                                         action="#{formAcessoConteudoMB.carregarItens(formAcessoConteudo)}">
+                            <f:setPropertyActionListener value="#{formAcessoConteudo}" target="#{formAcessoConteudoMB.entity}" />
+                        </p:commandButton>
+                        <x:securityArea rolesAllowed="formAcessoConteudo.create">
+                            <p:button icon="ui-icon-pencil" outcome="createFormAcessoConteudo" title="#{xmsg['edit']}">
+                                <f:param name="id" value="#{formAcessoConteudo.id}" />
+                            </p:button>
+                        </x:securityArea>
+                        <x:securityArea rolesAllowed="formAcessoConteudo.delete">
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                             action="#{formAcessoConteudoMB.delete}" >
+                                <f:setPropertyActionListener value="#{formAcessoConteudo.id}" target="#{formAcessoConteudoMB.id}" />
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{formAcessoConteudo}" />
+                            </p:commandButton>
+                        </x:securityArea>
+                        <p:commandButton icon="ui-icon-document" title="Gerar PDF" ajax="false" action="#{formAcessoConteudoMB.gerarPdf(formAcessoConteudo)}" 
+                                         process="@form" update="@form" >                         
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="formAcessoConteudo.audit">
+                    <x:auditDelete for="#{formAcessoConteudoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetFormAcessoConteudoDetail" header="#{msg['formAcessoConteudo.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailFormAcessoConteudo.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

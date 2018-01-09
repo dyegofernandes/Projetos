@@ -1,0 +1,57 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+    <script type='text/javascript' src='http://maps.google.com/maps/api/js?sensor=false&amp;key=#{constantesMB.chaveApiGoogleMaps}'/>
+
+    <h:form id="formCreatePoligono" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="#{msg['poligono.nome']}:" />
+                        <p:inputText id="nome" value="#{poligonoMB.entity.nome}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tipo" value="* Tipo:" />
+                        <h:selectOneMenu id="tipo" value="#{poligonoMB.entity.tipo}"  styleClass="form-control" 
+                                         required="true" requiredMessage="Tipo do Polígono é obrigatório!">
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.tipoPoligono)}" 
+                                           var="tipo"
+                                           itemLabel="#{tipo.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Carregar Poligonos com arquivo KML/XML">
+            <p:fileUpload id="arquivo" mode="advanced" requiredMessage="É necessário o envio de pelo menos um arquivo!"
+                          allowTypes="/(\.|\/)(kml|xml)$/"
+                          invalidFileMessage="Tipo de arquivo não permitido" invalidSizeMessage="Arquivo com tamanho acima do permitido" 
+                          uploadLabel="Carregar" update="@form" cancelLabel="Cancelar" label="Selecionar" multiple="false" 
+                          sizeLimit="10485760" fileUploadListener="#{poligonoMB.upload}" styleClass="grid_9" />
+
+        </p:fieldset>
+        <p:fieldset legend="Maps">
+            <p:gmap id="idGmap" widgetVar="w_gmap" center="#{poligonoMB.latLong}" zoom="#{poligonoMB.zoom}" type="HYBRID" styleClass="gmap" 
+                    style="width:100%;height:480px" model="#{poligonoMB.polygonModel}">
+            </p:gmap>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="poligono.create">
+                <p:commandButton process="@form" update="@form" action="#{poligonoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="poligono.audit">
+                <x:audit for="#{poligonoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

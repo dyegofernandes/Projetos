@@ -1,0 +1,200 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreatePatrulha" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:fieldset legend="Dados Gerais" id="patrulha">
+            <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                <h:outputLabel value="* #{msg['viatura.opm']}:" />
+
+                <h:panelGroup layout="block" id="panelOPM" styleClass="form-control">
+                    <h:panelGroup id="conteudoPanelOPM" >
+                        <h:outputText value="#{patrulhaMB.entity.opm.sigla}" >
+                            <x:initializer/> 
+                        </h:outputText>
+                        <p:commandButton type="button" icon="ui-icon-carat-1-s" 
+                                         id="buttonOPM" styleClass="pull-right"
+                                         style="font-size: 10px;"/>
+                    </h:panelGroup>
+                </h:panelGroup>
+
+                <p:overlayPanel for="panelOPM" styleClass="w-100p" widgetVar="overlayOPM" >
+                    <p:tree value="#{opmMB.opms}" var="opm" styleClass="w-100p"
+                            selectionMode="single"  style="max-height: 400px; overflow-y: scroll" >
+                        <p:ajax event="select" update=":formCreatePatrulha:conteudoPanelOPM @this"
+                                listener="#{patrulhaMB.entity.setOpm(opm)}" oncomplete="PF('overlayOPM').hide()" 
+                                />
+
+                        <p:treeNode collapsedIcon="ui-icon-folder-collapsed" >
+                            <h:panelGroup styleClass="#{opm == opmMB.entity.organizacaoPai ? 'ui-state-highlight' : ''}">
+                                <h:outputText value="#{opm.nome}" style="font-weight: bold"/>  
+                                <h:outputText value=" (#{opm.sigla})" styleClass="font-11"  /> 
+                            </h:panelGroup>
+                        </p:treeNode>
+                    </p:tree>
+                </p:overlayPanel>
+
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="viatura" value="* #{msg['itemViatura.viatura']} (Prefixo):" />
+
+                <p:autoComplete id="viatura" value="#{patrulhaMB.entity.viatura}" 
+
+                                completeMethod="#{viaturaMB.autocompletePeloNome}" styleClass="uix-autocomplete" 
+
+                                minQueryLength="3" forceSelection="true" dropdown="true"
+
+                                var="p" itemLabel="#{p.prefixo}" itemValue="#{p}" converter="entityConverter" scrollHeight="400"> 
+
+                    <x:initializer/>
+                    <p:ajax event="itemSelect" process="@this" update="nome" />
+
+                    <p:column> 
+                        <h:outputText value="#{p.prefixo} - #{p.marcaModelo}"/>
+                    </p:column> 
+
+                </p:autoComplete>
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="nome" value="* Nome" />
+                <h:selectOneMenu id="nome" value="#{patrulhaMB.entity.nome}" styleClass="form-control" >
+                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                    <f:selectItems value="#{patrulhaMB.apelidosViatura()}" 
+                                   var="nome"
+                                   itemLabel="#{nome}">
+                    </f:selectItems>
+                </h:selectOneMenu>
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="telefone" value="#{msg['itemViatura.telefone']}:" />
+                <p:inputMask id="telefone" value="#{patrulhaMB.entity.telefone}" mask="(99) 9999-9999"  styleClass="form-control"  />
+            </div>
+            <h:panelGroup rendered="#{sessaoUsuarioMB.user.superUsuario}" >
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div class="checkbox">
+                        <label>
+                            <h:selectBooleanCheckbox value="#{patrulhaMB.entity.ativo}" />
+                            Ativo
+                        </label>
+                    </div>
+                    <h:outputText value="Ao marcar uma patrulha como Ativa a mesma estará apta a ser vinculada a uma Ocorrência" styleClass="help-block"/>
+                </div>
+            </h:panelGroup>
+        </p:fieldset>
+        <p:fieldset legend="Turno" id="dadosGerais">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dateInicial" value="* Data Inicio do Turno:" />
+                        <p:calendar id="dateInicial" value="#{patrulhaMB.entity.inicioTurno}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar">
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dateHoraInicial" value="* Horário de Inicio do Turno:" />
+                        <p:calendar id="dateHoraInicial" value="#{patrulhaMB.entity.inicioHoraTurno}" 
+                                    showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dateFinal" value="* Data Fim do Turno:" />
+                        <p:calendar id="dateFinal" value="#{patrulhaMB.entity.fimTurno}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar">
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dateHoraFinal" value="* Horário de Fim do Turno:" />
+                        <p:calendar id="dateHoraFinal" value="#{patrulhaMB.entity.fimHoraTurno}" 
+                                    showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Componentes">
+            <p:fieldset legend="Componente" id="fieldComponente">
+
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="matricula" value="* Matricula:" />
+                    <div class="input-group">
+                        <p:inputText id="matricula" value="#{patrulhaMB.matricula}"   styleClass="form-control"  
+                                     />
+
+                        <span class="input-group-btn">
+                            <p:commandButton title="Adicionar Compontente" icon="ui-icon-plusthick" 
+                                             id="buttonNatureza" styleClass="pull-left" ajax="true"
+                                             style="font-size: 18px;" action="#{patrulhaMB.addComponenteGuarnicao()}" 
+                                             process="@this matricula" update="matricula fieldDataTableComponentes">
+                            </p:commandButton>  
+                        </span>
+                    </div>
+                </div>
+            </p:fieldset>
+
+            <p:fieldset legend="Lista de Componentes da Guarnição" id="fieldDataTableComponentes">
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="componenteViatura" rowIndexVar="index" id="dataTableComponenteViatura" widgetVar="dataTableComponenteViaturaWidget" styleClass="table-responsive"
+                             value="#{patrulhaMB.guarnicoes}" >
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+
+                    <p:column headerText="#{msg['componenteViatura.matricula']}" style="text-align: center;" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['componenteViatura.matricula']}" />
+                        </f:facet>
+                        <h:outputText value="#{componenteViatura.matricula}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['componenteViatura.nome']}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['componenteViatura.nome']}" />
+                        </f:facet>
+                        <h:outputText value="#{componenteViatura.nome}"/>
+                    </p:column>
+                    <p:column headerText="Função/Cargo" >
+                        <f:facet name="header">
+                            <h:outputText value="Função/Cargo" />
+                        </f:facet>
+                        <h:outputText value="#{componenteViatura.cargoFuncao}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['componenteViatura.telefone']}" style="text-align: center;" >
+                        <f:facet name="header">
+                            <h:outputText value="Telefone" />
+                        </f:facet>
+                        <h:outputText value="#{componenteViatura.telefone}"/>
+                    </p:column>
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableComponenteViatura" 
+                                         action="#{patrulhaMB.removerComponenteGuarnicao(componenteViatura)}" >
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+
+            </p:fieldset>
+        </p:fieldset>
+
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="patrulha.create">
+                <p:commandButton process="@form" update="@form" action="#{patrulhaMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="patrulha.audit">
+                <x:audit for="#{patrulhaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,123 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateInterrupcaoPontoAcesso" >
+        <x:modalMessages/>
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="indentificacao" value="* #{msg['interrupcaoPontoAcesso.indentificacao']}:" />
+                        <h:selectOneMenu id="indentificacao" value="#{interrupcaoPontoAcessoMB.entity.indentificacao}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.pontoAcesso)}" 
+                                           var="pontoAcesso"
+                                           itemLabel="#{pontoAcesso} - #{pontoAcesso.tipoAcesso.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataInicial" value="* #{msg['interrupcaoPontoAcesso.dataInicial']}:" />
+                        <p:calendar id="dataInicial" value="#{interrupcaoPontoAcessoMB.entity.dataInicial}" 
+                                    showOn="button" pattern="dd/MM/yyyy HH:mm" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataFinal" value="#{msg['interrupcaoPontoAcesso.dataFinal']}:" />
+                        <p:calendar id="dataFinal" value="#{interrupcaoPontoAcessoMB.entity.dataFinal}" 
+                                    showOn="button" pattern="dd/MM/yyyy HH:mm" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="numeroOrdemServico" value="#{msg['interrupcaoPontoAcesso.numeroOrdemServico']}:" />
+                        <p:inputText id="numeroOrdemServico" value="#{interrupcaoPontoAcessoMB.entity.numeroOrdemServico}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="numeroSysaid" value="#{msg['interrupcaoPontoAcesso.numeroSysaid']}:" />
+                        <p:inputText id="numeroSysaid" value="#{interrupcaoPontoAcessoMB.entity.numeroSysaid}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    
+
+                </div>
+                <div class="row">
+
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="observacoes" value="#{msg['interrupcaoPontoAcesso.observacoes']}:" />
+                        <p:inputTextarea id="observacoes" value="#{interrupcaoPontoAcessoMB.entity.observacoes}" rows="5" styleClass="form-control"
+                                         cols="50"/>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="comentarios" value="#{msg['interrupcaoPontoAcesso.comentario']}:" />
+                        <p:inputTextarea id="comentarios" value="#{interrupcaoPontoAcessoMB.entity.comentarios}" rows="5" styleClass="form-control"
+                                         cols="50"/>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Anexos">
+            <p:fieldset legend="Adicionar Arquivo">
+                <p:fileUpload id="arquivo" mode="advanced" requiredMessage="É necessário o envio de pelo menos um arquivo!"
+                              allowTypes="/(\.|\/)(gif|jpeg|jpg|rtf|odt|ods|png|doc|docx|xls|xlsx|pps|ppsx|ppt|pptx|pdf|jpg|zip|txt|7z|rar|dcm|mp4)$/"
+                              invalidFileMessage="Tipo de arquivo não permitido" invalidSizeMessage="Arquivo com tamanho acima do permitido" 
+                              uploadLabel="Carregar" update="formCreateInterrupcaoPontoAcesso:dataTableArquivo" cancelLabel="Cancelar" label="Selecionar" multiple="false" 
+                              sizeLimit="10485760" fileUploadListener="#{interrupcaoPontoAcessoMB.upload}" styleClass="grid_9" />
+            </p:fieldset>
+            <p:fieldset legend="Listagem de Arquivos">
+                <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                             var="arquivo" rowIndexVar="index" id="dataTableArquivo" widgetVar="dataTableArquivoWidget" styleClass="table-responsive"
+                             value="#{interrupcaoPontoAcessoMB.arquivos}" >
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+
+                    <p:column headerText="#{msg['arquivo.nome']}" width="80%" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['arquivo.nome']}" />
+                        </f:facet>
+                        <h:outputText value="#{arquivo.nome}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['arquivo.extensao']}" width="20%" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['arquivo.extensao']}" />
+                        </f:facet>
+                        <h:outputText value="#{arquivo.extensao}"/>
+                    </p:column>
+
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>          
+                        <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Download" ajax="false" immediate="true" update="formCreateInterrupcaoPontoAcesso">
+                            <p:fileDownload value="#{interrupcaoPontoAcessoMB.download(arquivo)}" />
+                        </p:commandButton>
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="formCreateInterrupcaoPontoAcesso:dataTableArquivo" 
+                                         action="#{interrupcaoPontoAcessoMB.removerArquivo(arquivo)}" >
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+
+        </p:fieldset>
+
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="interrupcaoPontoAcesso.create">
+                <p:commandButton process="@form" update="@form" action="#{interrupcaoPontoAcessoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="interrupcaoPontoAcesso.audit">
+                <x:audit for="#{interrupcaoPontoAcessoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,103 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateLogradouro" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:fieldset legend="#{xmsg['generalData']}">
+
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="logradouro" value="* #{msg['logradouro.logradouro']}:" />
+                        <p:inputText id="logradouro" value="#{logradouroMB.entity.logradouro}" maxlength="260"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cidade" value="* Cidade:" />
+                        <h:selectOneMenu id="cidade" value="#{logradouroMB.entity.cidade}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{logradouroMB.cidades}" 
+                                           var="cidade"
+                                           itemLabel="#{cidade}"/>
+                            <p:ajax process="@this" update="bairro" />
+                        </h:selectOneMenu>
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Bairros">
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="bairro" value="* #{msg['logradouro.bairro']}:" />
+                    <div class="input-group">                                            
+                        <h:selectOneMenu id="bairro" value="#{logradouroMB.bairroAdd}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{logradouroMB.bairros}" 
+                                           var="bairro"
+                                           itemLabel="#{bairro}"/>
+                        </h:selectOneMenu>
+                        <span class="input-group-btn">
+                            <p:commandButton icon="ui-icon-plusthick"  id="buttonAddBairro" styleClass="pull-left" ajax="true"
+                                             style="font-size: 18px;" action="#{logradouroMB.addBairro()}" process="@this bairro"
+                                             update="dataTableBairro bairro" />    
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="bairro" rowIndexVar="index" id="dataTableBairro" widgetVar="dataTableBairroWidget" styleClass="table-responsive"
+                             value="#{logradouroMB.bairrosLogradouro}" >
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+
+                    <p:column headerText="#{msg['bairro.nome']}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['bairro.nome']}" />
+                        </f:facet>
+                        <h:outputText value="#{bairro.nome}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['bairro.cidade']}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['bairro.cidade']}" />
+                        </f:facet>
+                        <h:outputText value="#{bairro.cidade}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableBairro" 
+                                         action="#{logradouroMB.removerBairro(bairro)}" >
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </div>
+
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="logradouro.create">
+                <p:commandButton process="@form" update="@form" action="#{logradouroMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="logradouro.audit">
+                <x:audit for="#{logradouroMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

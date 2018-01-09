@@ -1,0 +1,108 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailPatrulha" styleClass="uix-form-detail">
+        <p:fieldset legend="Dados Gerais" id="patrulha">
+
+            <div class="row">
+                <div class="container-fluid">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['itemViatura.viatura']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{patrulhaMB.entity.viatura}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>
+                    </div>
+                
+                   
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Situação:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{patrulhaMB.entity.status.descricao}" styleClass="uix-content-detail">
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Modalidade:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{patrulhaMB.entity.modalidadePoliciamento.descricao}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Turno" id="dadosGerais">
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="Data Inicio Turno:" styleClass="control-label" /><br/>
+                <h:outputText value="#{patrulhaMB.entity.inicioTurno}" styleClass="uix-content-detail">
+                    <f:convertDateTime />
+                </h:outputText>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="Horário Inicio Turno:" styleClass="control-label" /><br/>
+                <h:outputText value="#{patrulhaMB.entity.inicioHoraTurno}" styleClass="uix-content-detail">
+                    <f:convertDateTime pattern="HH:mm"/>
+                </h:outputText>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="Data Final:" styleClass="control-label" /><br/>
+                <h:outputText value="#{patrulhaMB.entity.fimTurno}" styleClass="uix-content-detail">
+                    <f:convertDateTime />
+                </h:outputText>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="Horário Fim Turno:" styleClass="control-label" /><br/>
+                <h:outputText value="#{patrulhaMB.entity.fimHoraTurno}" styleClass="uix-content-detail">
+                    <f:convertDateTime pattern="HH:mm"/>
+                </h:outputText>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Guarnição">
+            <p:fieldset legend="Lista de Componentes da Guarnição" id="fieldDataTableComponentes">
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="componenteViatura" rowIndexVar="index" id="dataTableComponenteViatura" widgetVar="dataTableComponenteViaturaWidget" styleClass="table-responsive"
+                             value="#{patrulhaMB.entity.guarnicoes}" lazy="true" >
+                    <x:initializer/>
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column headerText="CPF" >
+                        <f:facet name="header">
+                            <h:outputText value="CPF" />
+                        </f:facet>
+                        <h:outputText value="#{componenteViatura.cpf}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['componenteViatura.matricula']}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['componenteViatura.matricula']}" />
+                        </f:facet>
+                        <h:outputText value="#{componenteViatura.matricula}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['componenteViatura.nome']}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['componenteViatura.nome']}" />
+                        </f:facet>
+                        <h:outputText value="#{componenteViatura.nome}"/>
+                    </p:column>
+                    <p:column headerText="Função/Cargo" >
+                        <f:facet name="header">
+                            <h:outputText value="Função/Cargo" />
+                        </f:facet>
+                        <h:outputText value="#{componenteViatura.cargoFuncao}"/>
+                    </p:column>
+
+                </p:dataTable>
+
+            </p:fieldset>
+        </p:fieldset>
+
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetPatrulhaDetail').hide()" />
+            <x:securityArea rolesAllowed="patrulha.audit">
+                <x:audit for="#{patrulhaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

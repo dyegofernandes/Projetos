@@ -1,0 +1,77 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateNotificacao" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="anonimo" value="* #{msg['notificacao.anonimo']}:" />
+                         <h:selectOneMenu id="anonimo" value="#{notificacaoMB.entity.anonimo}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.simOuNao)}" 
+                                            var="simOuNao"
+                                            itemLabel="#{simOuNao}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="responsavelNotificacao" value="#{msg['notificacao.responsavelNotificacao']}:" />
+                         <h:selectOneMenu id="responsavelNotificacao" value="#{notificacaoMB.entity.responsavelNotificacao}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.responsavelNotificacao)}" 
+                                            var="responsavelNotificacao"
+                                            itemLabel="#{responsavelNotificacao}"/>
+                         </h:selectOneMenu>
+                     </div>
+                     
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="nomeEstabelecimento" value="* #{msg['notificacao.nomeEstabelecimento']}:" />
+                         <p:inputText id="nomeEstabelecimento" value="#{notificacaoMB.entity.nomeEstabelecimento}" maxlength="260"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="endereco" value="* #{msg['notificacao.endereco']}:" />
+                         <h:selectOneMenu id="endereco" value="#{notificacaoMB.entity.endereco}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.endereco)}" 
+                                            var="endereco"
+                                            itemLabel="#{endereco}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="observacao" value="#{msg['notificacao.observacao']}:" />
+                         <p:inputText id="observacao" value="#{notificacaoMB.entity.observacao}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel value="#{msg['notificacao.sinaisClinicos']}:" />
+                         <h:selectManyCheckbox id="sinaisClinicos" value="#{notificacaoMB.entity.sinaisClinicos}" converter="entityConverter" >
+                             <x:initializer/>
+                             <f:selectItems value="#{findAllBean.get(classMB.sinalClinico)}" 
+                                            var="sinalClinico"
+                                            itemLabel="#{sinalClinico}"/>
+                         </h:selectManyCheckbox>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="notificacao.create">
+                <p:commandButton process="@form" update="@form" action="#{notificacaoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="notificacao.audit">
+                <x:audit for="#{notificacaoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

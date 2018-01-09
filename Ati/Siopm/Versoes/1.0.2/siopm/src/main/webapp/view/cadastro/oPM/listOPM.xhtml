@@ -1,0 +1,84 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['opm.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuOPM.xhtml" />
+        <h:form id="formListOPM">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="opm_export" target=":formListOPM:dataTableOPM"
+                                widgetVar="dataTableOPMWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="opm" rowIndexVar="index" id="dataTableOPM" widgetVar="dataTableOPMWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{opmMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{opmMB.dataModel.paginatorTemplate}"
+                         value="#{opmMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                
+                <p:column headerText="#{msg['opm.nome']}" sortBy="#{opm.nome}"
+                          filterBy="#{opm.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['opm.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{opm.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['opm.endereco']}" sortBy="#{opm.endereco}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['opm.endereco']}" />
+                    </f:facet>
+                    <h:outputText value="#{opm.endereco}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['opm.sigla']}" sortBy="#{opm.sigla}"
+                          filterBy="#{opm.sigla}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['opm.sigla']}" />
+                    </f:facet>
+                    <h:outputText value="#{opm.sigla}"/>
+                </p:column>
+
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetOPMDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailOPM" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{opm}" target="#{opmMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="oPM.create">
+                        <p:button icon="ui-icon-pencil" outcome="createOPM" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{opm.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="oPM.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{opmMB.delete}" >
+                            <f:setPropertyActionListener value="#{opm.id}" target="#{opmMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{opm}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="oPM.audit">
+                    <x:auditDelete for="#{opmMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetOPMDetail" header="#{msg['opm.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailOPM.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

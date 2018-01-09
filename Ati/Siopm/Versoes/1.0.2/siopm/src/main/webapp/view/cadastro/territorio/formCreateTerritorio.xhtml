@@ -1,0 +1,134 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateTerritorio" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages autoUpdate="true"/>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                        <h:outputLabel value="Território Pai:" />
+
+                        <h:panelGroup layout="block" id="panelOPMPai" styleClass="form-control">
+                            <h:panelGroup id="conteudoPanelOPMPai" >
+                                <h:outputText value="#{territorioMB.entity.territorioPai.nome}" >
+                                    <x:initializer/> 
+
+                                </h:outputText>
+                                <p:commandButton type="button" icon="ui-icon-carat-1-s" 
+                                                 id="buttonOPMPai" styleClass="pull-right"
+                                                 style="font-size: 10px;"/>
+                            </h:panelGroup>
+                        </h:panelGroup>
+
+                        <p:overlayPanel for="panelOPMPai" styleClass="w-100p" widgetVar="overlayOPMPai" >
+                            <p:tree value="#{territorioMB.territorios}" var="territorio" styleClass="w-100p"
+                                    selectionMode="single"  style="max-height: 400px; overflow-y: scroll" >
+                                <p:ajax event="select" update=":formCreateTerritorio:conteudoPanelOPMPai @this"
+                                        listener="#{territorioMB.setarPai(territorio)}" oncomplete="PF('overlayOPMPai').hide()" 
+                                        />
+
+                                <p:treeNode collapsedIcon="ui-icon-folder-collapsed" >
+                                    <h:panelGroup styleClass="#{territorio == territorioMB.entity.territorioPai ? 'ui-state-highlight' : ''}">
+                                        <h:outputText value="#{territorio.nome}" style="font-weight: bold"/>  
+                                    </h:panelGroup>
+                                </p:treeNode>
+                            </p:tree>
+                        </p:overlayPanel>
+
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="* #{msg['territorio.nome']}:" />
+                        <p:inputText id="nome" value="#{territorioMB.entity.nome}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="ativo" value="#{territorioMB.entity.ativo}" />
+                                #{msg['territorio.ativo']}
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Territórios">
+            <p:fieldset legend="Adicionar Polígono Territórial">
+               
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="poligono" value="* Poligono:" />
+                        <div class="input-group">
+                            <h:selectOneMenu id="poligono" value="#{territorioMB.poligonoAdd}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.poligono)}" 
+                                               var="poligono"
+                                               itemLabel="#{poligono}"/>
+                            </h:selectOneMenu>
+                            <span class="input-group-btn">
+                                <p:commandButton title="Adicionar Poligono" icon="ui-icon-plusthick" 
+                                                 id="buttonPoligono" styleClass="pull-left" ajax="true"
+                                                 style="font-size: 18px;" action="#{territorioMB.addPoligono()}" process="@this poligono"
+                                                 update="poligono dataTablePoligono">
+                                </p:commandButton>  
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+            </p:fieldset>
+
+            <p:fieldset legend="Lista de Polígono Territóriais">
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="poligono" rowIndexVar="index" id="dataTablePoligono" widgetVar="dataTablePoligonoWidget" styleClass="table-responsive"
+                             value="#{territorioMB.poligonos}"  >
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['poligono.nome']}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['poligono.nome']}" />
+                        </f:facet>
+                        <h:outputText value="#{poligono.nome}"/>
+                    </p:column>
+                    <p:column headerText="Tipo" >
+                        <f:facet name="header">
+                            <h:outputText value="Tipo" />
+                        </f:facet>
+                        <h:outputText value="#{poligono.tipo.descricao}"/>
+                    </p:column>
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTablePoligono" 
+                                         action="#{territorioMB.removerPoligono(poligono)}" >
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+
+        </p:fieldset>
+
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="territorio.create">
+                <p:commandButton process="@form" update="@form" action="#{territorioMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="territorio.audit">
+                <x:audit for="#{territorioMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

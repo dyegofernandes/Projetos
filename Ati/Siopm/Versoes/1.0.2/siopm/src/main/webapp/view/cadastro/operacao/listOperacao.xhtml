@@ -1,0 +1,73 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['operacao.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuOperacao.xhtml" />
+        <h:form id="formListOperacao">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="operacao_export" target=":formListOperacao:dataTableOperacao"
+                                     widgetVar="dataTableOperacaoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="operacao" rowIndexVar="index" id="dataTableOperacao" widgetVar="dataTableOperacaoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{operacaoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{operacaoMB.dataModel.paginatorTemplate}"
+                         value="#{operacaoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['operacao.codigo']}" sortBy="#{operacao.codigo}"
+                    filterBy="#{operacao.codigo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['operacao.codigo']}" />
+                    </f:facet>
+                    <h:outputText value="#{operacao.codigo}"/>
+                </p:column>
+                <p:column headerText="#{msg['operacao.nome']}" sortBy="#{operacao.nome}"
+                    filterBy="#{operacao.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['operacao.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{operacao.nome}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetOperacaoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailOperacao" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{operacao}" target="#{operacaoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="operacao.create">
+                        <p:button icon="ui-icon-pencil" outcome="createOperacao" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{operacao.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="operacao.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{operacaoMB.delete}" >
+                            <f:setPropertyActionListener value="#{operacao.id}" target="#{operacaoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{operacao}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="operacao.audit">
+                    <x:auditDelete for="#{operacaoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetOperacaoDetail" header="#{msg['operacao.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailOperacao.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

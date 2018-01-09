@@ -1,0 +1,639 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailOcorrencia" styleClass="uix-form-detail">
+        <p:tabView >
+            <p:tab title="Dados Iniciais">
+                <p:tabView  >
+                    <p:tab title="Dados Básicos">
+                        <p:fieldset legend="Solicitantes" >
+                            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                         var="solicitante" rowIndexVar="index" id="dataTableSolicitante" widgetVar="dataTableSolicitanteWidget" styleClass="table-responsive"
+                                         value="#{ocorrenciaMB.entity.solicitantes}" >
+                                <x:initializer/>
+                                <p:column styleClass="uix-datatable-index">
+                                    <h:outputText value="#{index+1}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['solicitante.nome']}"  >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['solicitante.nome']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{solicitante.nome}"/>
+                                </p:column>
+
+                                <p:column headerText="#{msg['solicitante.telefone']}" >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['solicitante.telefone']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{solicitante.telefone}">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Hora Solicitação" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['ocorrencia.horaOcorrencia']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{solicitante.horarioSolicitacao}">
+                                        <f:convertDateTime pattern="HH:mm"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="#{msg['solicitante.anonimo']}" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['solicitante.anonimo']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{solicitante.anonimo.descricao}"  />
+                                </p:column>
+
+                            </p:dataTable>
+                        </p:fieldset>
+                        <p:fieldset legend="Endereço" toggleable="true">
+                            <div class="row">
+                                <div class="form-group col-lg-8 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="enderecoFormatado" value="Endereço Formatado:" styleClass="control-label" /><br/>
+                                    <h:outputText id="enderecoFormatado" value="#{ocorrenciaMB.entity.endereco.enderecoFormatado}" 
+                                                  styleClass="uix-content-detail">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </div>
+                                <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="latitude" value="#{msg['endereco.latitude']}:" styleClass="control-label" /><br/>
+                                    <h:outputText id="latitude" value="#{ocorrenciaMB.entity.endereco.latitude}" styleClass="uix-content-detail">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </div>
+                                <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="longitude" value="#{msg['endereco.longitude']}:" styleClass="control-label" /><br/>
+                                    <h:outputText id="longitude" value="#{ocorrenciaMB.entity.endereco.longitude}" styleClass="uix-content-detail">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="complemento" value="#{msg['endereco.complemento']}:" styleClass="control-label" /><br/>
+                                    <h:outputText id="complemento" value="#{ocorrenciaMB.entity.endereco.complemento}" styleClass="uix-content-detail">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </div>
+                                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="referencia" value="#{msg['endereco.referencia']}:" styleClass="control-label" /><br/>
+                                    <h:outputText id="referencia" value="#{ocorrenciaMB.entity.endereco.referencia}" styleClass="uix-content-detail">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </div>
+                            </div>
+
+                        </p:fieldset>
+                        <p:fieldset legend="#{xmsg['generalData']}" >           
+                            <div class="container-fluid">
+                                <div class="row">
+
+                                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                        <h:outputLabel for="codigo" value="#{msg['ocorrencia.codigo']}:" styleClass="control-label" /><br/>
+                                        <h:outputText id="codigo" value="#{ocorrenciaMB.entity.ano}#{ocorrenciaMB.entity.codigo}" 
+                                                      styleClass="uix-content-detai"/>
+                                    </div>
+
+                                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                        <h:outputLabel for="dataOcorrencia" value="#{msg['ocorrencia.dataOcorrencia']}:" styleClass="control-label" /><br/>
+                                        <h:outputText id="dataOcorrencia" value="#{ocorrenciaMB.entity.dataOcorrencia}" styleClass="uix-content-detai">
+                                            <f:convertDateTime />
+                                        </h:outputText>
+                                    </div>
+                                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                        <h:outputLabel for="classificacaoOcorrencia" value="#{msg['ocorrencia.classificacaoOcorrencia']}:" styleClass="control-label" /><br/>
+                                        <h:outputText id="classificacaoOcorrencia" value="#{ocorrenciaMB.entity.classificacaoOcorrencia.descricao}" styleClass="uix-content-detail"/>
+
+
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                                        <h:outputLabel for="historioInicial" value="#{msg['ocorrencia.historioInicial']}:" styleClass="control-label" /><br/>
+                                        <h:outputText id="historioInicial" value="#{ocorrenciaMB.entity.historioInicial}" styleClass="uix-content-detail"/>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </p:fieldset>
+                    </p:tab>
+                    <p:tab title="Naturezas" >
+
+                        <div class="row">
+                            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                         var="naturezaOcorrencia" rowIndexVar="index" id="dataTableNaturezaOcorrencia" widgetVar="dataTableNaturezaOcorrenciaWidget" styleClass="table-responsive"
+                                         value="#{ocorrenciaMB.entity.naturezas}" >
+                                <x:initializer/>
+                                <p:column styleClass="uix-datatable-index">
+                                    <h:outputText value="#{index+1}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['naturezaOcorrencia.codigo']}" >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['naturezaOcorrencia.codigo']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{naturezaOcorrencia.codigo}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['naturezaOcorrencia.nome']}"  >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['naturezaOcorrencia.nome']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{naturezaOcorrencia.nome}"/>
+                                </p:column>
+
+                            </p:dataTable>
+                        </div>
+
+                    </p:tab>
+
+                    <p:tab title="Pessoas" >
+                        <div class="row">
+                            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                         var="pessoaEnvolvida" rowIndexVar="index" id="dataTablePessoaEnvolvida" widgetVar="dataTablePessoaEnvolvidaWidget" styleClass="table-responsive"
+                                         value="#{ocorrenciaMB.entity.pessoasEnvolvidas}" >
+                                <x:initializer/>
+                                <p:column styleClass="uix-datatable-index">
+                                    <h:outputText value="#{index+1}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['pessoaEnvolvida.nome']}"  >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['pessoaEnvolvida.nome']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{pessoaEnvolvida.nome}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['pessoaEnvolvida.rg']}"  >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['pessoaEnvolvida.rg']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{pessoaEnvolvida.rg}"/>
+                                </p:column>
+                                <p:column headerText="CPF"  >
+                                    <f:facet name="header">
+                                        <h:outputText value="CPF" />
+                                    </f:facet>
+                                    <h:outputText value="#{pessoaEnvolvida.cpf}"/>
+                                </p:column>
+                                <p:column headerText="Descrição"  >
+                                    <f:facet name="header">
+                                        <h:outputText value="Descrição" />
+                                    </f:facet>
+                                    <h:outputText value="#{pessoaEnvolvida.descricao}"/>
+                                </p:column>
+
+                                <p:column headerText="#{msg['pessoaEnvolvida.dataNascimento']}" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['pessoaEnvolvida.dataNascimento']}" />
+
+                                    </f:facet>
+                                    <h:outputText value="#{pessoaEnvolvida.dataNascimento}">
+                                        <f:convertDateTime />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="#{msg['pessoaEnvolvida.sexo']}">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['pessoaEnvolvida.sexo']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{pessoaEnvolvida.sexo}"/>
+                                </p:column>
+
+                                <p:column headerText="#{msg['pessoaEnvolvida.tipoPessoa']}"  >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['pessoaEnvolvida.tipoPessoa']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{pessoaEnvolvida.tipoPessoa}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['pessoaEnvolvida.classificaoOcorrencia']}" >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['pessoaEnvolvida.classificaoOcorrencia']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{pessoaEnvolvida.classificaoOcorrencia}"/>
+                                </p:column>
+
+                            </p:dataTable>
+                        </div>
+                    </p:tab>
+                    <p:tab title="Veiculos" >
+                        <div class="row">
+                            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                         var="qualificacaoDeVeiculo" rowIndexVar="index" id="dataTableQualificacaoDeVeiculo" widgetVar="dataTableQualificacaoDeVeiculoWidget" styleClass="table-responsive"
+                                         value="#{ocorrenciaMB.entity.qualificacoesVeiculos}"  >
+                                <x:initializer/>
+                                <p:column styleClass="uix-datatable-index">
+                                    <h:outputText value="#{index+1}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['qualificacaoDeVeiculo.placa']}" >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['qualificacaoDeVeiculo.placa']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{qualificacaoDeVeiculo.placa}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['qualificacaoDeVeiculo.modelo']}" >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['qualificacaoDeVeiculo.modelo']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{qualificacaoDeVeiculo.modelo}">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="#{msg['qualificacaoDeVeiculo.cor']}"  >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['qualificacaoDeVeiculo.cor']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{qualificacaoDeVeiculo.cor}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['qualificacaoDeVeiculo.fabricacaoAno']}"   >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['qualificacaoDeVeiculo.fabricacaoAno']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{qualificacaoDeVeiculo.fabricacaoAno}"/>
+                                </p:column>
+
+                            </p:dataTable>
+                        </div>
+                    </p:tab>
+
+                </p:tabView>
+            </p:tab>
+            <p:tab title="Dados Finais">
+                <p:tabView >
+                    <p:tab title="Despacho" >
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="tipoChamada" value="Tipo Chamada:" styleClass="control-label" /><br/>
+                                    <h:outputText id="tipoChamada" value="#{ocorrenciaMB.entity.tipoChamada.descricao}"  
+                                                  styleClass="uix-content-detail">
+                                    </h:outputText>
+
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="classificacaoChamada" value="#{msg['ocorrencia.classificacaoChamada']}:" styleClass="control-label" /><br/>
+                                    <h:outputText id="classificacaoChamada" value="#{ocorrenciaMB.entity.classificacaoChamada.descricao}"  
+                                                  styleClass="uix-content-detail">
+                                    </h:outputText>
+                                </div>
+
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="situacaoOcorrencia" value="Situação" styleClass="control-label" /><br/>
+                                    <h:outputText id="situacaoOcorrencia" value="#{ocorrenciaMB.entity.situacao.descricao}"  styleClass="uix-content-detail" 
+                                                  >
+                                    </h:outputText>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="dataAtendimento" value="Data Atendimento:" styleClass="control-label" /><br/>
+                                    <h:outputText id="dataAtendimento" value="#{ocorrenciaMB.entity.dataAtendimento}" 
+                                                  styleClass="uix-content-detail" >
+                                        <f:convertDateTime />
+                                    </h:outputText>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="horaAtendimento" value="Hora Atendimento:" styleClass="control-label" /><br/>
+                                    <h:outputText id="horaAtendimento" value="#{ocorrenciaMB.entity.horaAtendimento}" 
+                                                  styleClass="uix-content-detail" >
+                                        <f:convertDateTime pattern="HH:mm" />
+                                    </h:outputText>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="dataEncerramento" value="Data Encerramento:" styleClass="control-label" /><br/>
+                                    <h:outputText id="dataEncerramento" value="#{ocorrenciaMB.entity.dataEncerramento}" 
+                                                  styleClass="uix-content-detail"  >
+                                        <f:convertDateTime />
+                                    </h:outputText>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="horaEncerramento" value="Hora Encerramento:" styleClass="control-label" /><br/>
+                                    <h:outputText id="horaEncerramento" value="#{ocorrenciaMB.entity.horaEncerramento}" 
+                                                  styleClass="uix-content-detail">
+                                        <f:convertDateTime pattern="HH:mm" />
+                                    </h:outputText>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="historioFinal" value="#{msg['ocorrencia.historioFinal']}:" styleClass="control-label" /><br/>
+                                    <h:outputText id="historioFinal" value="#{ocorrenciaMB.entity.historioFinal}" styleClass="uix-content-detail"
+                                                  />
+                                </div>
+                            </div>
+                        </div>
+                    </p:tab>
+
+                    <p:tab title="Patrulhas" >
+
+                        <p:fieldset legend="Patrulhas" >
+                            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                         var="patrulha" rowIndexVar="index" id="dataTablePatrulha" widgetVar="dataTablePatrulhaWidget" styleClass="table-responsive"
+                                         value="#{ocorrenciaMB.entity.patrulhas}" >
+                                <x:initializer/>
+                                <p:column styleClass="uix-datatable-index">
+                                    <h:outputText value="#{index+1}"/>
+                                </p:column>
+                                <p:column headerText="Patrulha">
+                                    <f:facet name="header">
+                                        <h:outputText value="Patrulha" />
+                                    </f:facet>
+                                    <h:outputText value="#{patrulha.patrulha.viatura}">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Data Despacho" style="text-align: center;" width="15%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Data Despacho" />
+                                    </f:facet>
+                                    <h:outputText value="#{patrulha.dataDespacho}">
+                                        <f:convertDateTime />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Horário Despacho" style="text-align: center;" width="15%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Horário Despacho" />
+                                    </f:facet>
+                                    <h:outputText value="#{patrulha.horaDespacho}">
+                                        <f:convertDateTime pattern="HH:mm"/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Chegada Local" style="text-align: center;" width="15%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Chegada Local" />
+                                    </f:facet>
+                                    <h:outputText value="#{patrulha.horaChegadaLocal}" 
+                                                  styleClass="uix-calendar">
+                                        <f:convertDateTime pattern="HH:mm"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Saída Local" style="text-align: center;" width="15%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Saída Local" />
+                                    </f:facet>
+                                    <h:outputText value="#{patrulha.horaSaidaLocal}" 
+                                                  styleClass="uix-calendar">
+                                        <f:convertDateTime pattern="HH:mm"/>
+                                    </h:outputText>
+
+                                </p:column>
+
+
+                            </p:dataTable>
+                        </p:fieldset>
+                    </p:tab>
+                    <p:tab title="Armas" >
+
+                        <p:fieldset legend="Armas" >
+                            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                         var="arma" rowIndexVar="index" id="dataTableArma" widgetVar="dataTableArmaWidget" styleClass="table-responsive"
+                                         value="#{ocorrenciaMB.entity.armas}" >
+                                <x:initializer/>
+                                <p:column styleClass="uix-datatable-index">
+                                    <h:outputText value="#{index+1}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['arma.tipo']}" style="text-align: center;" >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['arma.tipo']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{arma.tipo.descricao}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['arma.nomeModelo']}"  >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['arma.nomeModelo']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{arma.nomeModelo}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['arma.marca']}">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['arma.marca']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{arma.marca}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['arma.calibre']}" style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['arma.calibre']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{arma.calibre}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="#{msg['arma.capacidade']}" style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['arma.capacidade']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{arma.capacidade}"/>
+                                </p:column>
+                                <p:column headerText="Qtd Deflagrada" style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Qtd Deflagrada" />
+                                    </f:facet>
+                                    <h:outputText value="#{arma.quantidadeDeflagrada}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['arma.numeracao']}"  >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['arma.numeracao']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{arma.numeracao}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['arma.armaDaPolicia']}" style="text-align: center;" >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['arma.armaDaPolicia']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{arma.armaDaPolicia.descricao}"/>
+                                </p:column>
+                                
+                            </p:dataTable>
+                        </p:fieldset>
+
+                    </p:tab>
+                    <p:tab title="Drogas" >
+
+                        <p:fieldset legend="Drogas" >
+                            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                         var="drogaOcorrenciaItem" rowIndexVar="index" id="dataTableDrogaOcorrenciaItem" widgetVar="dataTableDrogaOcorrenciaItemWidget" styleClass="table-responsive"
+                                         value="#{ocorrenciaMB.entity.drogas}" >
+                                <x:initializer/>
+                                <p:column styleClass="uix-datatable-index">
+                                    <h:outputText value="#{index+1}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['drogaOcorrenciaItem.droga']}" sortBy="#{drogaOcorrenciaItem.droga}"
+                                          >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['drogaOcorrenciaItem.droga']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{drogaOcorrenciaItem.droga}">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="#{msg['drogaOcorrenciaItem.unidade']}"  >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['drogaOcorrenciaItem.unidade']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{drogaOcorrenciaItem.unidade}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['drogaOcorrenciaItem.quantidade']}" sortBy="#{drogaOcorrenciaItem.quantidade}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['drogaOcorrenciaItem.quantidade']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{drogaOcorrenciaItem.quantidade}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                
+                            </p:dataTable>
+                        </p:fieldset>
+                    </p:tab>
+                    <p:tab title="Intermediários" >
+
+                        <p:fieldset legend="Locais Intermediários" >
+                            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                         var="local" rowIndexVar="index" id="dataTableLocal" widgetVar="dataTableLocalWidget" styleClass="table-responsive"
+                                         value="#{ocorrenciaMB.entity.locaisIntermediarios}" >
+                                <x:initializer/>
+                                <p:column styleClass="uix-datatable-index">
+                                    <h:outputText value="#{index+1}"/>
+                                </p:column>
+                                <p:column headerText="Local">
+                                    <f:facet name="header">
+                                        <h:outputText value="Local" />
+                                    </f:facet>
+                                    <h:outputText value="#{local.local.nome}">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Hora chegada" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Hora chegada" />
+                                    </f:facet>
+                                    <h:outputText value="#{local.horaChegada}">
+                                        <f:convertDateTime pattern="HH:mm"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Hora saída" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Hora saída" />
+                                    </f:facet>
+                                    <h:outputText value="#{local.horaSaida}">
+                                        <f:convertDateTime pattern="HH:mm"/>
+                                    </h:outputText>
+                                </p:column>
+
+                            </p:dataTable>
+                        </p:fieldset>
+
+                    </p:tab>
+                    <p:tab title="Apoio">
+                        <p:fieldset legend="Apoios" >
+
+                        </p:fieldset>
+
+                    </p:tab>
+                    <p:tab title="Objetos" >
+                        <p:fieldset legend="Objetos Apreendidos" >
+                            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                         var="objeto" rowIndexVar="index" id="dataTableObjetos" widgetVar="dataTableObjetosWidget" styleClass="table-responsive"
+                                         value="#{ocorrenciaMB.entity.objetos}" >
+                                <x:initializer/>
+                                <p:column styleClass="uix-datatable-index">
+                                    <h:outputText value="#{index+1}"/>
+                                </p:column>
+                                <p:column headerText="Descrição">
+                                    <f:facet name="header">
+                                        <h:outputText value="Descrição" />
+                                    </f:facet>
+                                    <h:outputText value="#{objeto.descricao}"/>
+                                </p:column>
+                                <p:column headerText="Quantidade">
+                                    <f:facet name="header">
+                                        <h:outputText value="Quantidade" />
+                                    </f:facet>
+                                    <h:outputText value="#{objeto.quantidade}"/>
+                                </p:column>
+                                <p:column headerText="Destino">
+                                    <f:facet name="header">
+                                        <h:outputText value="Destino" />
+                                    </f:facet>
+                                    <h:outputText value="#{objeto.destino}"/>
+                                </p:column>
+
+                            </p:dataTable>
+                        </p:fieldset>
+
+                    </p:tab>
+                    <p:tab title="Resultado" >
+                        <p:fieldset legend="Resultados" >
+                            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                         var="resultadoOcorrencia" rowIndexVar="index" id="dataTableResultadoOcorrencia" widgetVar="dataTableResultadoOcorrenciaWidget" styleClass="table-responsive"
+                                         value="#{ocorrenciaMB.entity.resultados}" lazy="true" >
+                                <x:initializer/>
+                                <p:column styleClass="uix-datatable-index">
+                                    <h:outputText value="#{index+1}"/>
+                                </p:column>
+                                <p:column headerText="Órgão Recebedor" >
+                                    <f:facet name="header">
+                                        <h:outputText value="Órgão Recebedor" />
+                                    </f:facet>
+                                    <h:outputText value="#{resultadoOcorrencia.orgaoRecebedor}">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="#{msg['resultadoOcorrencia.codigo']}">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['resultadoOcorrencia.codigo']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{resultadoOcorrencia.codigo}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['resultadoOcorrencia.nome']}"  >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['resultadoOcorrencia.nome']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{resultadoOcorrencia.nome}"/>
+                                </p:column>
+
+                            </p:dataTable>
+                        </p:fieldset>
+
+                    </p:tab>
+                    <p:tab title="Arquivos" >
+                        <p:fieldset legend="Listagem de Arquivos">
+                            <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                         var="arquivo" rowIndexVar="index" id="dataTableArquivo" widgetVar="dataTableArquivoWidget" styleClass="table-responsive"
+                                         value="#{ocorrenciaMB.entity.arquivos}" >
+                                <x:initializer/>
+                                <p:column styleClass="uix-datatable-index">
+                                    <h:outputText value="#{index+1}"/>
+                                </p:column>
+
+                                <p:column headerText="#{msg['arquivo.nome']}" width="80%" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['arquivo.nome']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{arquivo.nome}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['arquivo.extensao']}" width="20%" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['arquivo.extensao']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{arquivo.extensao}"/>
+                                </p:column>
+
+                            </p:dataTable>
+                        </p:fieldset>
+                    </p:tab>
+                </p:tabView>
+            </p:tab>
+        </p:tabView>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetOcorrenciaDetail').hide()" />
+            <x:securityArea rolesAllowed="ocorrencia.audit">
+                <x:audit for="#{ocorrenciaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

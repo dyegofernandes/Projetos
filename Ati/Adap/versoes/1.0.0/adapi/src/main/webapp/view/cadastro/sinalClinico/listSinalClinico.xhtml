@@ -1,0 +1,73 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['sinalClinico.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuSinalClinico.xhtml" />
+        <h:form id="formListSinalClinico">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="sinalClinico_export" target=":formListSinalClinico:dataTableSinalClinico"
+                                     widgetVar="dataTableSinalClinicoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="sinalClinico" rowIndexVar="index" id="dataTableSinalClinico" widgetVar="dataTableSinalClinicoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{sinalClinicoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{sinalClinicoMB.dataModel.paginatorTemplate}"
+                         value="#{sinalClinicoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['sinalClinico.termoTecnico']}" sortBy="#{sinalClinico.termoTecnico}"
+                    filterBy="#{sinalClinico.termoTecnico}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['sinalClinico.termoTecnico']}" />
+                    </f:facet>
+                    <h:outputText value="#{sinalClinico.termoTecnico}"/>
+                </p:column>
+                <p:column headerText="#{msg['sinalClinico.termoPopular']}" sortBy="#{sinalClinico.termoPopular}"
+                    filterBy="#{sinalClinico.termoPopular}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['sinalClinico.termoPopular']}" />
+                    </f:facet>
+                    <h:outputText value="#{sinalClinico.termoPopular}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetSinalClinicoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailSinalClinico" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{sinalClinico}" target="#{sinalClinicoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="sinalClinico.create">
+                        <p:button icon="ui-icon-pencil" outcome="createSinalClinico" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{sinalClinico.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="sinalClinico.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{sinalClinicoMB.delete}" >
+                            <f:setPropertyActionListener value="#{sinalClinico.id}" target="#{sinalClinicoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{sinalClinico}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="sinalClinico.audit">
+                    <x:auditDelete for="#{sinalClinicoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetSinalClinicoDetail" header="#{msg['sinalClinico.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailSinalClinico.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,102 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateQualificacaoDeVeiculo" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="placa" value="* #{msg['qualificacaoDeVeiculo.placa']}:" />
+                         <p:inputText id="placa" value="#{qualificacaoDeVeiculoMB.entity.placa}" maxlength="10"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="chassi" value="#{msg['qualificacaoDeVeiculo.chassi']}:" />
+                         <p:inputText id="chassi" value="#{qualificacaoDeVeiculoMB.entity.chassi}" maxlength="20"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="tipo" value="* #{msg['qualificacaoDeVeiculo.tipo']}:" />
+                         <h:selectOneMenu id="tipo" value="#{qualificacaoDeVeiculoMB.entity.tipo}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.tipoVeiculo)}" 
+                                            var="tipoVeiculo"
+                                            itemLabel="#{tipoVeiculo.descricao}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="modelo" value="#{msg['qualificacaoDeVeiculo.modelo']}:" />
+                         <h:selectOneMenu id="modelo" value="#{qualificacaoDeVeiculoMB.entity.modelo}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.modeloVeiculo)}" 
+                                            var="modeloVeiculo"
+                                            itemLabel="#{modeloVeiculo} - #{modeloVeiculo.marca}">
+                             </f:selectItems>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="cor" value="#{msg['qualificacaoDeVeiculo.cor']}:" />
+                         <h:selectOneMenu id="cor" value="#{qualificacaoDeVeiculoMB.entity.cor}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.corVeiculo)}" 
+                                            var="corVeiculo"
+                                            itemLabel="#{corVeiculo.descricao}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="fabricacaoAno" value="#{msg['qualificacaoDeVeiculo.fabricacaoAno']}:" />
+                         <p:inputMask id="fabricacaoAno" mask="9?999999999" value="#{qualificacaoDeVeiculoMB.entity.fabricacaoAno}" styleClass="form-control" />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="modeloAno" value="#{msg['qualificacaoDeVeiculo.modeloAno']}:" />
+                         <p:inputMask id="modeloAno" mask="9?999999999" value="#{qualificacaoDeVeiculoMB.entity.modeloAno}" styleClass="form-control" />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="municipio" value="#{msg['qualificacaoDeVeiculo.municipio']}:" />
+                         <h:selectOneMenu id="municipio" value="#{qualificacaoDeVeiculoMB.entity.municipio}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.cidade)}" 
+                                            var="cidade"
+                                            itemLabel="#{cidade}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="proprietario" value="#{msg['qualificacaoDeVeiculo.proprietario']}:" />
+                         <p:inputText id="proprietario" value="#{qualificacaoDeVeiculoMB.entity.proprietario}" maxlength="260"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="telefoneProprietario" value="#{msg['qualificacaoDeVeiculo.telefoneProprietario']}:" />
+                         <p:inputText id="telefoneProprietario" value="#{qualificacaoDeVeiculoMB.entity.telefoneProprietario}" maxlength="20"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="situacao" value="#{msg['qualificacaoDeVeiculo.situacao']}:" />
+                         <h:selectOneMenu id="situacao" value="#{qualificacaoDeVeiculoMB.entity.situacao}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.situacaoVeiculo)}" 
+                                            var="situacaoVeiculo"
+                                            itemLabel="#{situacaoVeiculo.descricao}"/>
+                         </h:selectOneMenu>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="qualificacaoDeVeiculo.create">
+                <p:commandButton process="@form" update="@form" action="#{qualificacaoDeVeiculoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="qualificacaoDeVeiculo.audit">
+                <x:audit for="#{qualificacaoDeVeiculoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

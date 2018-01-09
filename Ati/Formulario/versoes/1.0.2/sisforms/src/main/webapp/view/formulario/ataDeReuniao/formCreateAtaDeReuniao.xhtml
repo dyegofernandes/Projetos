@@ -1,0 +1,441 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateAtaDeReuniao" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:tabView id="tabGeral">
+            <p:tab title="Informações Sobre a Reunião" >
+                <p:fieldset legend="#{xmsg['generalData']}">
+                    <p:poll id="pool" interval="30" update="horaTermino" process="@this" listener="#{ataDeReuniaoMB.updateHoraTermino()}"/>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="usuario" value="* #{msg['ataDeReuniao.usuario']}:" />
+                                <p:inputText id="usuario" value="#{ataDeReuniaoMB.entity.usuario.nome}" styleClass="form-control" disabled="true">
+                                    <x:initializer/>
+                                </p:inputText>
+
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="Orgão:" />
+
+                                <h:panelGroup layout="block" id="panelOrgaoPai" styleClass="form-control">
+                                    <h:panelGroup id="conteudoPanelOrgaoPai" >
+                                        <h:outputText value="#{ataDeReuniaoMB.entity.orgao.sigla}" >
+                                            <x:initializer/>
+                                        </h:outputText>
+                                        <p:commandButton type="button" icon="ui-icon-carat-1-s" 
+                                                         id="buttonOrgaoPai" styleClass="pull-right"
+                                                         style="font-size: 10px;"/>
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <p:overlayPanel for="panelOrgaoPai" styleClass="w-100p" widgetVar="overlayOrgaoPai" >
+                                    <p:tree value="#{orgaoMB.orgaos}" var="orgao" styleClass="w-100p"
+                                            selectionMode="single"  style="max-height: 400px; overflow-y: scroll" >
+                                        <p:ajax event="select" update=":formCreateAtaDeReuniao:tabGeral:conteudoPanelOrgaoPai @this"
+                                                listener="#{ataDeReuniaoMB.entity.setOrgao(orgao)}" oncomplete="PF('overlayOrgaoPai').hide()" />
+                                        <p:treeNode collapsedIcon="ui-icon-folder-collapsed" >
+                                            <h:panelGroup styleClass="#{orgao == orgaoMB.entity.orgaoPai ? 'ui-state-highlight' : ''}">
+                                                <h:outputText value="#{orgao.sigla}" style="font-weight: bold"/>  
+                                                <h:outputText value=" (#{orgao.nome})" styleClass="font-8"  /> 
+                                            </h:panelGroup>
+                                        </p:treeNode>
+                                    </p:tree>
+                                </p:overlayPanel>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="assuntoReuniao" value="* Assunto Reunião:" />
+                                <p:inputText id="assuntoReuniao" value="#{ataDeReuniaoMB.entity.assunto}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="dataDaReuniao" value="* #{msg['ataDeReuniao.dataDaReuniao']}:" />
+                                <p:calendar id="dataDaReuniao" value="#{ataDeReuniaoMB.entity.dataDaReuniao}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  disabled="true">
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="horaInicio" value="* #{msg['ataDeReuniao.horaInicio']}:" />
+                                <p:calendar id="horaInicio" value="#{ataDeReuniaoMB.entity.horaInicio}" disabled="true"
+                                            showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="horaTermino" value="* #{msg['ataDeReuniao.horaTermino']}:" />
+                                <p:calendar id="horaTermino" value="#{ataDeReuniaoMB.entity.horaTermino}" disabled="true"
+                                            showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="local" value="* #{msg['ataDeReuniao.local']}:" />
+                                <p:inputText id="local" value="#{ataDeReuniaoMB.entity.localReuniao}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="redator" value="#{msg['ataDeReuniao.redator']}:" />
+                                <p:inputText id="redator" value="#{ataDeReuniaoMB.entity.redator}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+
+
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Participantes">
+                    <p:fieldset legend="Adicionar Participante" id="fieldParticipante">
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="Orgão:" />
+
+                            <h:panelGroup layout="block" id="panelOrgaoParticipante" styleClass="form-control">
+                                <h:panelGroup id="conteudoPanelOrgaoParticipante" >
+                                    <h:outputText value="#{ataDeReuniaoMB.orgaoParticipante.nome}" >
+                                        <x:initializer/>
+                                    </h:outputText>
+                                    <p:commandButton type="button" icon="ui-icon-carat-1-s" 
+                                                     id="buttonOrgaoParticipante" styleClass="pull-right"
+                                                     style="font-size: 10px;"/>
+                                </h:panelGroup>
+                            </h:panelGroup>
+
+                            <p:overlayPanel for="panelOrgaoParticipante" styleClass="w-100p" widgetVar="overlayOrgaoParticipante" >
+                                <p:tree value="#{orgaoMB.orgaos}" var="orgao" styleClass="w-100p"
+                                        selectionMode="single"  style="max-height: 400px; overflow-y: scroll" >
+                                    <p:ajax event="select" update=":formCreateAtaDeReuniao:tabGeral:conteudoPanelOrgaoParticipante @this"
+                                            listener="#{ataDeReuniaoMB.setOrgaoParticipante(orgao)}" oncomplete="PF('overlayOrgaoParticipante').hide()" />
+                                    <p:treeNode collapsedIcon="ui-icon-folder-collapsed" >
+                                        <h:panelGroup styleClass="#{orgao == orgaoMB.entity.orgaoPai ? 'ui-state-highlight' : ''}">
+                                            <h:outputText value="#{orgao.sigla}" style="font-weight: bold"/>  
+                                            <h:outputText value=" (#{orgao.nome})" styleClass="font-8"  /> 
+                                        </h:panelGroup>
+                                    </p:treeNode>
+                                </p:tree>
+                            </p:overlayPanel>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="nomeParticipante" value="* Nome" />
+                            <p:inputText id="nomeParticipante" value="#{ataDeReuniaoMB.nomeParticipante}" maxlength="255"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="areaFuncao" value="* Área/Função:" />
+                            <p:inputText id="areaFuncao" value="#{ataDeReuniaoMB.areaFuncaoParticipante}" maxlength="255"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="telefoneParticipante" value="* Telefone:" />
+                            <p:inputMask id="telefoneParticipante" value="#{ataDeReuniaoMB.telefoneParticipante}" mask="(99) 9999-9999"  
+                                         styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="emailParticipante" value="Email" />
+                            <p:inputText id="emailParticipante" value="#{ataDeReuniaoMB.emailParticipante}" maxlength="255"  styleClass="form-control"  />
+                        </div>
+                    </p:fieldset>
+                    <div class="uix-center">
+                        <p:commandButton process="@this fieldParticipante" update="fieldParticipante dataTableParticipante" value="Adicionar" 
+                                         action="#{ataDeReuniaoMB.addParticipante()}"/>
+                    </div>
+                    <p:fieldset legend="Participantes">
+                        <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                     var="participante" rowIndexVar="index" id="dataTableParticipante" widgetVar="dataTableParticipanteWidget" styleClass="table-responsive"
+                                     value="#{ataDeReuniaoMB.participantes}" lazy="true" >
+                            <p:column styleClass="uix-datatable-index">
+                                <h:outputText value="#{index+1}"/>
+                            </p:column>
+                            <p:column headerText="Órgão" >
+                                <f:facet name="header">
+                                    <h:outputText value="Órgão" />
+                                </f:facet>
+                                <h:outputText value="#{participante.orgao}">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{msg['participante.nome']}" >
+                                <f:facet name="header">
+                                    <h:outputText value="#{msg['participante.nome']}" />
+                                </f:facet>
+                                <h:outputText value="#{participante.nome}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['participante.areaFuncao']}"  >
+                                <f:facet name="header">
+                                    <h:outputText value="#{msg['participante.areaFuncao']}" />
+                                </f:facet>
+                                <h:outputText value="#{participante.areaFuncao}"/>
+                            </p:column>
+
+                            <p:column headerText="Telefone"  >
+                                <f:facet name="header">
+                                    <h:outputText value="Telefone" />
+                                </f:facet>
+                                <h:outputText value="#{participante.telefone}"/>
+                            </p:column>
+                            <p:column headerText="Email"  >
+                                <f:facet name="header">
+                                    <h:outputText value="Email:" />
+                                </f:facet>
+                                <h:outputText value="#{participante.email}"/>
+                            </p:column>
+                            <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{xmsg['actions']}"/>
+                                </f:facet>
+                                <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableParticipante" 
+                                                 action="#{ataDeReuniaoMB.removerParticipante(participante)}" >
+                                </p:commandButton>
+
+                            </p:column>
+                        </p:dataTable>
+                    </p:fieldset>
+                </p:fieldset>
+                <p:fieldset legend="Data da Próxima Reunião">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataDaProximaReuniao" value="#{msg['ataDeReuniao.dataDaProximaReuniao']}:" />
+                        <p:calendar id="dataDaProximaReuniao" value="#{ataDeReuniaoMB.entity.dataDaProximaReuniao}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="horaDaProximaReuniao" value="#{msg['ataDeReuniao.horaDaProximaReuniao']}:" />
+                        <p:calendar id="horaDaProximaReuniao" value="#{ataDeReuniaoMB.entity.horaDaProximaReuniao}" 
+                                    showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="localProximaReuniao" value="#{msg['ataDeReuniao.localProximaReuniao']}:" />
+                        <p:inputText id="localProximaReuniao" value="#{ataDeReuniaoMB.entity.localProximaReuniao}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                </p:fieldset>
+            </p:tab>
+
+            <p:tab title="Pauta da Reunião" >
+                <p:fieldset legend="Adicionar Pauta da Reunião" id="fieldPauta">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="assuntoPauta" value="* Assunto:" />
+                        <p:inputText id="assuntoPauta" value="#{ataDeReuniaoMB.assuntoPauta}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="resumoPauta" value="* Resumo Assunto:" />
+                        <p:inputTextarea id="resumoPauta" value="#{ataDeReuniaoMB.resumoPauta}" rows="10" styleClass="form-control"
+                                         cols="50"/>
+                    </div>
+                </p:fieldset>
+                <div class="uix-center">
+                    <p:commandButton process="@this fieldPauta" update="fieldPauta dataTablePautaDaReuniao" value="Adicionar" 
+                                     action="#{ataDeReuniaoMB.addPautaDaReuniao()}"/>
+                </div>
+                <p:fieldset legend="Pautas da Reunião">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="pautaDaReuniao" rowIndexVar="index" id="dataTablePautaDaReuniao" widgetVar="dataTablePautaDaReuniaoWidget" styleClass="table-responsive"
+                                 value="#{ataDeReuniaoMB.pautasReuniao}" lazy="true" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg['pautaDaReuniao.assunto']}"  >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['pautaDaReuniao.assunto']}" />
+                            </f:facet>
+                            <h:outputText value="#{pautaDaReuniao.assunto}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['pautaDaReuniao.resumoAssunto']}" >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['pautaDaReuniao.resumoAssunto']}" />
+                            </f:facet>
+                            <h:outputText value="#{pautaDaReuniao.resumoAssunto}"/>
+                        </p:column>
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>
+
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTablePautaDaReuniao" 
+                                             action="#{ataDeReuniaoMB.removerPautaDaReuniao(pautaDaReuniao)}" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Deliberações" >
+                <p:fieldset legend="Adicionar Deliberação" id="fieldDeliberacao">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="assuntoDeliberacao" value="* Assunto:" />
+                        <p:inputText id="assuntoDeliberacao" value="#{ataDeReuniaoMB.assuntoDeliberacao}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="deliberacao" value="* Resumo Assunto:" />
+                        <p:inputTextarea id="deliberacao" value="#{ataDeReuniaoMB.deliberacao}" rows="10" styleClass="form-control"
+                                         cols="50"/>
+                    </div>
+                </p:fieldset>
+                <div class="uix-center">
+                    <p:commandButton process="@this fieldDeliberacao" update="fieldDeliberacao dataTableDeliberacao" value="Adicionar" 
+                                     action="#{ataDeReuniaoMB.addDeliberacao()}"/>
+                </div>
+                <p:fieldset legend="Deliberações">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="deliberacao" rowIndexVar="index" id="dataTableDeliberacao" widgetVar="dataTableDeliberacaoWidget" styleClass="table-responsive"
+                                 value="#{ataDeReuniaoMB.deliberacoes}" lazy="true" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg['deliberacao.assunto']}" >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['deliberacao.assunto']}" />
+                            </f:facet>
+                            <h:outputText value="#{deliberacao.assunto}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['deliberacao.deliberacao']}" >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['deliberacao.deliberacao']}" />
+                            </f:facet>
+                            <h:outputText value="#{deliberacao.deliberacao}"/>
+                        </p:column>
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>
+
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableDeliberacao" 
+                                             action="#{ataDeReuniaoMB.removerDeliberacao(deliberacao)}" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Resumo da Reunião" >
+                <p:fieldset legend="Editor de Texto">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <p:editor id="resumoReuniao" widgetVar="editorWidget" value="#{ataDeReuniaoMB.entity.resumoReuniao}" width="800" />
+                    </div>
+                </p:fieldset>
+
+            </p:tab>
+            <p:tab title="Encaminhamentos" >
+                <p:fieldset legend="Adicionar Pendências" id="fieldPendencia">
+                   
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Orgão:" />
+
+                        <h:panelGroup layout="block" id="panelOrgaoPendencia" styleClass="form-control">
+                            <h:panelGroup id="conteudoPanelOrgaoPendencia" >
+                                <h:outputText value="#{ataDeReuniaoMB.orgaoPendencia.nome}" >
+                                    <x:initializer/>
+                                </h:outputText>
+                                <p:commandButton type="button" icon="ui-icon-carat-1-s" 
+                                                 id="buttonOrgaoPendencia" styleClass="pull-right"
+                                                 style="font-size: 10px;"/>
+                            </h:panelGroup>
+                        </h:panelGroup>
+
+                        <p:overlayPanel for="panelOrgaoPendencia" styleClass="w-100p" widgetVar="overlayOrgaoPendencia" >
+                            <p:tree value="#{orgaoMB.orgaos}" var="orgao" styleClass="w-100p"
+                                    selectionMode="single"  style="max-height: 400px; overflow-y: scroll" >
+                                <p:ajax event="select" update=":formCreateAtaDeReuniao:tabGeral:conteudoPanelOrgaoPendencia @this"
+                                        listener="#{ataDeReuniaoMB.setOrgaoPendencia(orgao)}" oncomplete="PF('overlayOrgaoPendencia').hide()" />
+                                <p:treeNode collapsedIcon="ui-icon-folder-collapsed" >
+                                    <h:panelGroup styleClass="#{orgao == orgaoMB.entity.orgaoPai ? 'ui-state-highlight' : ''}">
+                                        <h:outputText value="#{orgao.sigla}" style="font-weight: bold"/>  
+                                        <h:outputText value=" (#{orgao.nome})" styleClass="font-8"  /> 
+                                    </h:panelGroup>
+                                </p:treeNode>
+                            </p:tree>
+                        </p:overlayPanel>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="pendencia" value="* Encaminhamento" />
+                        <p:inputText id="pendencia" value="#{ataDeReuniaoMB.pendencia}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="responsavelPendencia" value="* Responsável" />
+                        <p:inputText id="responsavelPendencia" value="#{ataDeReuniaoMB.responsavelPendencia}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataPrevista" value="* #{msg['pendenciaIdentificada.dataPrevista']}:" />
+                        <p:calendar id="dataPrevista" value="#{ataDeReuniaoMB.dataPendencia}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                </p:fieldset>
+                <div class="uix-center">
+                    <p:commandButton process="@this fieldPendencia" update="fieldPendencia dataTablePendenciaIdentificada" value="Adicionar" 
+                                     action="#{ataDeReuniaoMB.addPendencia()}"/>
+                </div>
+                <p:fieldset legend="Encaminhamentos">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="pendenciaIdentificada" rowIndexVar="index" id="dataTablePendenciaIdentificada" widgetVar="dataTablePendenciaIdentificadaWidget" styleClass="table-responsive"
+                                 value="#{ataDeReuniaoMB.pendencias}" lazy="true" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="Órgão" >
+                            <f:facet name="header">
+                                <h:outputText value="Órgão" />
+                            </f:facet>
+                            <h:outputText value="#{pendenciaIdentificada.orgao}">
+                                <x:initializer/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Encaminhamento" >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['pendenciaIdentificada.pendencia']}" />
+                            </f:facet>
+                            <h:outputText value="#{pendenciaIdentificada.pendencia}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['pendenciaIdentificada.responsavel']}" >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['pendenciaIdentificada.responsavel']}" />
+                            </f:facet>
+                            <h:outputText value="#{pendenciaIdentificada.responsavel}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['pendenciaIdentificada.dataPrevista']}" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['pendenciaIdentificada.dataPrevista']}" />
+                            </f:facet>
+                            <h:outputText value="#{pendenciaIdentificada.dataPrevista}">
+                                <f:convertDateTime />
+                            </h:outputText>
+                        </p:column>
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>
+
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTablePendenciaIdentificada" 
+                                             action="#{ataDeReuniaoMB.removerPendencia(pendenciaIdentificada)}" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </p:tab>
+
+        </p:tabView>
+
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="ataDeReuniao.create">
+                <p:commandButton process="@form" update="@form" action="#{ataDeReuniaoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="ataDeReuniao.create">
+                <p:commandButton rendered="#{ataDeReuniaoMB.entity.id!=null}" process="@form" update="@form" 
+                                 action="#{ataDeReuniaoMB.gerarPdf(ataDeReuniaoMB.entity)}" value="Imprimir" ajax="false">
+                </p:commandButton>
+            </x:securityArea>
+            <x:securityArea rolesAllowed="ataDeReuniao.audit">
+                <x:audit for="#{ataDeReuniaoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

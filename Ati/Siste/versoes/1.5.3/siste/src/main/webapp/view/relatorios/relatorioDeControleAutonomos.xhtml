@@ -1,0 +1,171 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="Relatório de Controle de Autônomos" />
+    <ui:define name="body">       
+        <h:form id="formRelatorioAutonomo">
+            <p:fieldset legend="Filtros" toggleable="true">
+                <div class="row">
+                    <h:panelGroup id="panel0">
+                        <x:securityArea rolesAllowed="campos.orgao">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="orgao" value="* Órgão" />
+                                <h:selectOneMenu id="orgao" value="#{relatorioMB.filtros.orgao}" converter="entityConverter" styleClass="form-control" 
+                                                 required="true" requiredMessage="Órgão é obrigatório!">
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.orgao)}" 
+                                                   var="orgao"
+                                                   itemLabel="#{orgao}"/>
+                                    <p:ajax process="@this" update="unidade" listener="#{relatorioMB.carregarUnidadesPorOrgao()}"/>
+                                </h:selectOneMenu>
+                            </div>
+                        </x:securityArea>
+                        <x:securityArea rolesAllowed="campos.unidade">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="unidade" value="#{msg['dadosFuncionais.unidade']}:" />
+                                <h:selectOneMenu id="unidade" value="#{relatorioMB.filtros.unidade}" converter="entityConverter" styleClass="form-control">
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{relatorioMB.unidades}" 
+                                                   var="unidade"
+                                                   itemLabel="#{unidade}"/>
+                                </h:selectOneMenu>
+                            </div>
+                        </x:securityArea>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="referencia" value="* Competência:" />
+                            <h:selectOneMenu id="referencia" value="#{relatorioMB.filtros.referencia}" converter="entityConverter" styleClass="form-control"
+                                             required="true" requiredMessage="Competência é obrigatória!">
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.referencia)}" 
+                                               var="referencia"
+                                               itemLabel="#{referencia}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="elemento" value="* Elemento:" />
+                            <p:inputMask id="elemento" value="#{relatorioMB.filtros.elementoDespesa}" mask="9.9.99.99.99"  styleClass="form-control"  
+                                         required="true" requiredMessage="Elemento de Despesa é obrigatório!"/>
+                        </div>
+                    </h:panelGroup>
+
+                </div>
+                <div class="uix-center">
+                    <p:commandButton process="@this panel0" update="dataTableAutonomos" action="#{relatorioMB.gerarListaAutonomos()}" value="Visualizar" />
+                    <p:commandButton process="@this panel0" action="#{relatorioMB.gerarRelatorioDeAutonomos()}" value="Gerar" ajax="false" />
+                </div>
+            </p:fieldset>
+            <p:fieldset legend="Pre-Visualização do Relatório" toggleable="true">
+                <x:modalMessages autoUpdate="true"/>
+
+                <x:dataTableActions fileName="Relatorio_Controle_Autonomos" target=":formRelatorioAutonomo:dataTableAutonomos"
+                                    widgetVar="dataTableAutonomosWidget"  />
+
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="autonomo" rowIndexVar="index" id="dataTableAutonomos" widgetVar="dataTableAutonomosWidget" styleClass="table-responsive"            
+                             value="#{relatorioMB.planilha}" >
+                    <f:facet name="header">
+                            <h:outputText value="RELAÇÃO DE CONTROLE DE AUTONÔMOS NA COMPETÊNCIA: #{relatorioMB.filtros.referencia}" />
+                        </f:facet>
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column headerText="NÚMERO" style="text-align: right;" >
+                        <f:facet name="header">
+                            <h:outputText value="NÚMERO" />
+                        </f:facet>
+                        <h:outputText value="#{autonomo.numeroNota}"/>
+                        
+                    </p:column>
+
+                    <p:column headerText="DATA" style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="DATA" />
+                        </f:facet>
+                        <h:outputText value="#{autonomo.dataPagamento}"/>
+                    </p:column>
+                    <p:column headerText="ELEMENTO DE DESPESA" style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="ELEMENTO DE DESPESA" />
+                        </f:facet>
+                        <h:outputText value="#{autonomo.elementoDespesa}"/>
+                    </p:column>
+                    <p:column headerText="NIT/PIS/PASEP" style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="NIT/PIS/PASEP" />
+                        </f:facet>
+                        <h:outputText value="#{autonomo.nitPisPasep}"/>
+                    </p:column>
+                    <p:column headerText="NOME" style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="NOME" />
+                        </f:facet>
+                        <h:outputText value="#{autonomo.nome}"/>
+                    </p:column>
+                    <p:column headerText="VALOR BRUTO" style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="VALOR BRUTO" />
+                        </f:facet>
+                        <h:outputText value="#{autonomo.valorBruto}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                        
+                    </p:column>
+                    <p:column headerText="INSS" style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="INSS" />
+                        </f:facet>
+                        <h:outputText value="#{autonomo.inss}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                        
+                    </p:column>
+                    <p:column headerText="IRRF" style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="IRRF" />
+                        </f:facet>
+                        <h:outputText value="#{autonomo.irrf}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                        
+                    </p:column>
+                    <p:column headerText="ISS" style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="ISS" />
+                        </f:facet>
+                        <h:outputText value="#{autonomo.iss}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                        
+                    </p:column>
+                    <p:column headerText="SEST-SENAT" style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="SEST-SENAT" />
+                        </f:facet>
+                        <h:outputText value="#{autonomo.sestSenat}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                        
+                    </p:column>
+                    <p:column headerText="VALOR LÍQUIDO" style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="VALOR LÍQUIDO" />
+                        </f:facet>
+                        <h:outputText value="#{autonomo.valorLiquido}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                        
+                    </p:column>
+                </p:dataTable>
+
+            </p:fieldset>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

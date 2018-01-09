@@ -1,0 +1,535 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateFormularioDeDenunciaLGBT" >
+        <x:modalMessages/>
+        <p:fieldset legend="#{xmsg['generalData']}">
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataDenuncia" value="* #{msg['formularioDeDenunciaLGBT.dataDenuncia']}:" />
+                        <p:calendar id="dataDenuncia" value="#{formularioDeDenunciaLGBTMB.entity.dataDenuncia}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="horaDenuncia" value="* #{msg['formularioDeDenunciaLGBT.horaDenuncia']}:" />
+                        <p:calendar id="horaDenuncia" value="#{formularioDeDenunciaLGBTMB.entity.horaDenuncia}" 
+                                    showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="denunciaReincidente" value="#{msg['formularioDeDenunciaLGBT.denunciaReincidente']}:" />
+                        <p:inputText id="denunciaReincidente" value="#{formularioDeDenunciaLGBTMB.entity.denunciaReincidente}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Identificação da Vítima">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nomeSocial" value="Nome Social:" />
+                        <p:inputText id="nomeSocial" value="#{formularioDeDenunciaLGBTMB.entity.nomeSocial}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="#{msg['pessoaDenuncia.nome']}:" />
+                        <p:inputText id="nome" value="#{formularioDeDenunciaLGBTMB.identificacaoVitima.nome}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="idade" value="#{msg['pessoaDenuncia.idade']}:" />
+                        <p:inputMask id="idade" mask="9?999" value="#{formularioDeDenunciaLGBTMB.identificacaoVitima.idade}" styleClass="form-control" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="endereco" value="#{msg['pessoaDenuncia.endereco']}:" />
+                        <p:inputText id="endereco" value="#{formularioDeDenunciaLGBTMB.identificacaoVitima.endereco}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="bairro" value="#{msg['pessoaDenuncia.bairro']}:" />
+                        <p:inputText id="bairro" value="#{formularioDeDenunciaLGBTMB.identificacaoVitima.bairro}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="pontoDeReferencia" value="#{msg['pessoaDenuncia.pontoDeReferencia']}:" />
+                        <p:inputText id="pontoDeReferencia" value="#{formularioDeDenunciaLGBTMB.identificacaoVitima.pontoDeReferencia}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="telefone" value="#{msg['pessoaDenuncia.telefone']}:" />
+                        <p:inputMask id="telefone" value="#{formularioDeDenunciaLGBTMB.identificacaoVitima.telefone}" mask="(99) 9999-9999"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="localDaViolacao" value="#{msg['formularioDeDenunciaLGBT.localDaViolacao']}:" />
+                        <p:inputText id="localDaViolacao" value="#{formularioDeDenunciaLGBTMB.entity.localDaViolacao}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tempoQueOcorreViolacao" value="Há quanto tempo ocorre a violação?:" />
+                        <p:inputText id="tempoQueOcorreViolacao" value="#{formularioDeDenunciaLGBTMB.entity.tempoQueOcorreViolacao}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="perfilPessoaDenunciada" value="#{msg['formularioDeDenunciaLGBT.perfilPessoaDenunciada']}:" />
+                        <h:selectOneMenu id="perfilPessoaDenunciada" value="#{formularioDeDenunciaLGBTMB.entity.perfilPessoaDenunciada}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.usoDeDrogas)}" 
+                                           var="usoDeDrogas"
+                                           itemLabel="#{usoDeDrogas.descricao}"/>
+                            <p:ajax process="@this" update="perfilPessoaDenunciadaPanel" />
+                        </h:selectOneMenu>
+                    </div>
+                    <h:panelGroup id="perfilPessoaDenunciadaPanel">
+                        <h:panelGroup rendered="#{formularioDeDenunciaLGBTMB.entity.perfilPessoaDenunciada.num eq 2}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="perfilPessoaDenunciadaOutras" value="Outras Drogas:" />
+                                <p:inputText id="perfilPessoaDenunciadaOutras" value="#{formularioDeDenunciaLGBTMB.entity.perfilPessoaDenunciadaOutras}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="ocupacao" value="#{msg['formularioDeDenunciaLGBT.ocupacao']}:" />
+                        <p:inputText id="ocupacao" value="#{formularioDeDenunciaLGBTMB.entity.ocupacao}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="escolaridade" value="#{msg['formularioDeDenunciaLGBT.escolaridade']}:" />
+                        <p:inputText id="escolaridade" value="#{formularioDeDenunciaLGBTMB.entity.escolaridade}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="parentescoComAVitima" value="#{msg['formularioDeDenunciaLGBT.parentescoComAVitima']}:" />
+                        <p:inputText id="parentescoComAVitima" value="#{formularioDeDenunciaLGBTMB.entity.parentescoComAVitima}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="antecedentesCriminais" value="#{msg['formularioDeDenunciaLGBT.antecedentesCriminais']}:" />
+                        <h:selectOneMenu id="antecedentesCriminais" value="#{formularioDeDenunciaLGBTMB.entity.antecedentesCriminais}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.simOuNao)}" 
+                                           var="simOuNao"
+                                           itemLabel="#{simOuNao.descricao}"/>
+                            <p:ajax process="@this" update="antecedentesCriminaisPanel" />
+                        </h:selectOneMenu>
+                    </div>
+                    <h:panelGroup id="antecedentesCriminaisPanel">
+                        <h:panelGroup rendered="#{formularioDeDenunciaLGBTMB.entity.antecedentesCriminais.num eq 1}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="antecedentesCriminaisSim" value="Antecedentes criminais:" />
+                                <p:inputText id="antecedentesCriminaisSim" value="#{formularioDeDenunciaLGBTMB.entity.antecedentesCriminaisSim}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                        </h:panelGroup>
+                    </h:panelGroup>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Segmento e Situação de Violação de Direitos Humanos" toggleable="true">
+            <p:fieldset legend="Pessoa e/ou família em situação de rua:">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="situacaoDeRua" value="#{msg['formularioDeDenunciaLGBT.situacaoDeRua']}:" />
+                            <h:selectOneMenu id="situacaoDeRua" value="#{formularioDeDenunciaLGBTMB.entity.situacaoDeRua}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.situacaoDeRua)}" 
+                                               var="situacao"
+                                               itemLabel="#{situacao.descricao}"/>
+                                <p:ajax process="@this" update="situacaoDeRuaPanel" />
+                            </h:selectOneMenu>
+                        </div>
+                        <h:panelGroup id="situacaoDeRuaPanel">
+                            <h:panelGroup rendered="#{formularioDeDenunciaLGBTMB.entity.situacaoDeRua.num eq 4}">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="situacaoDeRuaOutros" value="Outros:" />
+                                    <p:inputText id="situacaoDeRuaOutros" value="#{formularioDeDenunciaLGBTMB.entity.situacaoDeRuaOutros}" maxlength="255"  styleClass="form-control"  />
+                                </div>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </p:fieldset>
+            <p:fieldset legend="Idoso em situação de violência:" >
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="idosoTipoViolencia" value="Tipo de Violência:" />
+                            <h:selectOneMenu id="idosoTipoViolencia" value="#{formularioDeDenunciaLGBTMB.entity.idosoTipoViolencia}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.tipoViolencia)}" 
+                                               var="tipoViolencia"
+                                               itemLabel="#{tipoViolencia.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="idosoFormaViolencia" value="Formas de Violência:" />
+                            <h:selectOneMenu id="idosoFormaViolencia" value="#{formularioDeDenunciaLGBTMB.entity.idosoFormaViolencia}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.formasDeViolencia)}" 
+                                               var="formasDeViolencia"
+                                               itemLabel="#{formasDeViolencia.descricao}"/>
+                                <p:ajax process="@this" update="idosoFormaViolenciaPanel" />
+                            </h:selectOneMenu>
+                        </div>
+                        <h:panelGroup id="idosoFormaViolenciaPanel">
+                            <h:panelGroup rendered="#{formularioDeDenunciaLGBTMB.entity.idosoFormaViolencia.num eq 5}">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="idosoFormaViolenciaOutros" value="Outros:" />
+                                    <p:inputText id="idosoFormaViolenciaOutros" value="#{formularioDeDenunciaLGBTMB.entity.idosoFormaViolenciaOutros}" maxlength="255"  styleClass="form-control"  />
+                                </div>
+                            </h:panelGroup>
+                        </h:panelGroup>
+
+                    </div>
+                </div>
+            </p:fieldset>
+            <p:fieldset legend="Criança em situação de violência::">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="criancaTipoViolencia" value="Tipo de Violência:" />
+                            <h:selectOneMenu id="criancaTipoViolencia" value="#{formularioDeDenunciaLGBTMB.entity.criancaTipoViolencia}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.tipoViolencia)}" 
+                                               var="tipoViolencia"
+                                               itemLabel="#{tipoViolencia.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="criancaFormaViolencia" value="Forma de Violência:" />
+                            <h:selectOneMenu id="criancaFormaViolencia" value="#{formularioDeDenunciaLGBTMB.entity.criancaFormaViolencia}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.formasDeViolencia)}" 
+                                               var="formasDeViolencia"
+                                               itemLabel="#{formasDeViolencia.descricao}"/>
+                                <p:ajax process="@this" update="criancaFormaViolenciaPanel" />
+                            </h:selectOneMenu>
+                        </div>
+                        <h:panelGroup id="criancaFormaViolenciaPanel">
+                            <h:panelGroup rendered="#{formularioDeDenunciaLGBTMB.entity.criancaFormaViolencia.num eq 5}">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="criancaFormaViolenciaOutros" value="Outros:" />
+                                    <p:inputText id="criancaFormaViolenciaOutros" value="#{formularioDeDenunciaLGBTMB.entity.criancaFormaViolenciaOutros}" maxlength="255"  styleClass="form-control"  />
+                                </div>
+                            </h:panelGroup>
+                        </h:panelGroup>
+
+                    </div>
+                </div>
+            </p:fieldset>
+            <p:fieldset legend="Adolescente em situação de violência:">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="adolescenteTipoViolencia" value="Tipo de Violência:" />
+                            <h:selectOneMenu id="adolescenteTipoViolencia" value="#{formularioDeDenunciaLGBTMB.entity.adolescenteTipoViolencia}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.tipoViolencia)}" 
+                                               var="tipoViolencia"
+                                               itemLabel="#{tipoViolencia.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="adolescenteFormaViolencia" value="Forma de Violência:" />
+                            <h:selectOneMenu id="adolescenteFormaViolencia" value="#{formularioDeDenunciaLGBTMB.entity.adolescenteFormaViolencia}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.formasDeViolencia)}" 
+                                               var="formasDeViolencia"
+                                               itemLabel="#{formasDeViolencia.descricao}"/>
+                                <p:ajax process="@this" update="adolescenteFormaViolenciaPanel" />
+                            </h:selectOneMenu>
+                        </div>
+                        <h:panelGroup id="adolescenteFormaViolenciaPanel">
+                            <h:panelGroup rendered="#{formularioDeDenunciaLGBTMB.entity.adolescenteFormaViolencia.num eq 5}">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="adolescenteFormaViolenciaOutros" value="Outros:" />
+                                    <p:inputText id="adolescenteFormaViolenciaOutros" value="#{formularioDeDenunciaLGBTMB.entity.adolescenteFormaViolenciaOutros}" maxlength="255"  styleClass="form-control"  />
+                                </div>
+                            </h:panelGroup>
+                        </h:panelGroup>
+
+                    </div>
+                </div>
+            </p:fieldset>
+            <p:fieldset legend="Jovem em situação de violência:">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="jovemTipoViolencia" value="Tipo de Violência:" />
+                            <h:selectOneMenu id="jovemTipoViolencia" value="#{formularioDeDenunciaLGBTMB.entity.jovemTipoViolencia}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.tipoViolencia)}" 
+                                               var="tipoViolencia"
+                                               itemLabel="#{tipoViolencia.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="jovemFormaViolencia" value="Forma de Violência:" />
+                            <h:selectOneMenu id="jovemFormaViolencia" value="#{formularioDeDenunciaLGBTMB.entity.jovemFormaViolencia}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.formasDeViolencia)}" 
+                                               var="formasDeViolencia"
+                                               itemLabel="#{formasDeViolencia.descricao}"/>
+                                <p:ajax process="@this" update="jovemFormaViolenciaPanel" />
+                            </h:selectOneMenu>
+                        </div>
+                        <h:panelGroup id="jovemFormaViolenciaPanel">
+                            <h:panelGroup rendered="#{formularioDeDenunciaLGBTMB.entity.jovemFormaViolencia.num eq 5}">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="jovemFormaViolenciaOutros" value="Outros:" />
+                                    <p:inputText id="jovemFormaViolenciaOutros" value="#{formularioDeDenunciaLGBTMB.entity.jovemFormaViolenciaOutros}" maxlength="255"  styleClass="form-control"  />
+                                </div>
+                            </h:panelGroup>
+                        </h:panelGroup>
+
+                    </div>
+                </div>
+            </p:fieldset>
+            <p:fieldset legend="Adulto em situação de violência:">
+                <div class="container-fluid">
+                    <div class="row">
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="adultoTipoViolencia" value="Tipo de Violência:" />
+                            <h:selectOneMenu id="adultoTipoViolencia" value="#{formularioDeDenunciaLGBTMB.entity.adultoTipoViolencia}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.tipoViolencia)}" 
+                                               var="tipoViolencia"
+                                               itemLabel="#{tipoViolencia.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="adultoFormaViolencia" value="Forma de Violência:" />
+                            <h:selectOneMenu id="adultoFormaViolencia" value="#{formularioDeDenunciaLGBTMB.entity.adultoFormaViolencia}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.formasDeViolencia)}" 
+                                               var="formasDeViolencia"
+                                               itemLabel="#{formasDeViolencia.descricao}"/>
+                                <p:ajax process="@this" update="adultoFormaViolenciaPanel" />
+                            </h:selectOneMenu>
+                        </div>
+                        <h:panelGroup id="adultoFormaViolenciaPanel">
+                            <h:panelGroup rendered="#{formularioDeDenunciaLGBTMB.entity.adultoFormaViolencia.num eq 5}">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="adultoFormaViolenciaOutros" value="Outros:" />
+                                    <p:inputText id="adultoFormaViolenciaOutros" value="#{formularioDeDenunciaLGBTMB.entity.adultoFormaViolenciaOutros}" maxlength="255"  styleClass="form-control"  />
+                                </div>
+                            </h:panelGroup>
+                        </h:panelGroup>
+
+                    </div>
+                </div>
+            </p:fieldset>
+            <p:fieldset legend="PCD em situação de violência:">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="pCDTipoViolencia" value="Tipo Violência:" />
+                            <h:selectOneMenu id="pCDTipoViolencia" value="#{formularioDeDenunciaLGBTMB.entity.pCDTipoViolencia}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.tipoViolencia)}" 
+                                               var="tipoViolencia"
+                                               itemLabel="#{tipoViolencia.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="pCDFormaViolencia" value="Forma de Violência:" />
+                            <h:selectOneMenu id="pCDFormaViolencia" value="#{formularioDeDenunciaLGBTMB.entity.pCDFormaViolencia}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.formasDeViolencia)}" 
+                                               var="formasDeViolencia"
+                                               itemLabel="#{formasDeViolencia.descricao}"/>
+                                <p:ajax process="@this" update="pCDFormaViolenciaPanel" />
+                            </h:selectOneMenu>
+                        </div>
+                        <h:panelGroup id="pCDFormaViolenciaPanel">
+                            <h:panelGroup rendered="#{formularioDeDenunciaLGBTMB.entity.pCDFormaViolencia.num eq 5}">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="pCDFormaViolenciaOutros" value="Outros:" />
+                                    <p:inputText id="pCDFormaViolenciaOutros" value="#{formularioDeDenunciaLGBTMB.entity.pCDFormaViolenciaOutros}" maxlength="255"  styleClass="form-control"  />
+                                </div>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </p:fieldset>
+            <p:fieldset legend="Pessoa em uso de substância psicoativa:">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="usoSubstanciaPsicoativa" value="Substância:" />
+                            <h:selectOneMenu id="usoSubstanciaPsicoativa" value="#{formularioDeDenunciaLGBTMB.entity.usoSubstanciaPsicoativa}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.usoDeDrogas)}" 
+                                               var="usoDeDrogas"
+                                               itemLabel="#{usoDeDrogas.descricao}"/>
+                                <p:ajax process="@this usoSubstanciaPsicoativa" update="usoSubstanciaPsicoativaPanel" />
+                            </h:selectOneMenu>
+                        </div>
+                        <h:panelGroup id="usoSubstanciaPsicoativaPanel">
+                            <h:panelGroup rendered="#{formularioDeDenunciaLGBTMB.entity.usoSubstanciaPsicoativa.num eq 2}">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="usoSubstanciaPsicoativaOutros" value="Outros:" />
+                                    <p:inputText id="usoSubstanciaPsicoativaOutros" value="#{formularioDeDenunciaLGBTMB.entity.usoSubstanciaPsicoativaOutros}" 
+                                                 maxlength="255"  styleClass="form-control"  />
+                                </div>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </p:fieldset>
+            <p:fieldset legend="LGBT em situação de violência:">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="lGBtSituacaoViolencia" value="Situação Violência:" />
+                            <h:selectOneMenu id="lGBtSituacaoViolencia" value="#{formularioDeDenunciaLGBTMB.entity.lGBtSituacaoViolencia}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.lgbtSituacaoViolencia)}" 
+                                               var="lgbtSituacaoViolencia"
+                                               itemLabel="#{lgbtSituacaoViolencia.descricao}"/>
+                                <p:ajax process="@this" update="lGBtSituacaoViolenciaPanel" />
+                            </h:selectOneMenu>
+                        </div>
+                        <h:panelGroup id="lGBtSituacaoViolenciaPanel">
+                            <h:panelGroup rendered="#{formularioDeDenunciaLGBTMB.entity.lGBtSituacaoViolencia.num eq 4}">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="lGBtSituacaoViolenciaOutros" value="Outros:" />
+                                    <p:inputText id="lGBtSituacaoViolenciaOutros" value="#{formularioDeDenunciaLGBTMB.entity.lGBtSituacaoViolenciaOutros}" maxlength="255"  styleClass="form-control"  />
+                                </div>
+                            </h:panelGroup>
+                        </h:panelGroup>
+
+                    </div>
+                </div>
+            </p:fieldset>
+            <p:fieldset legend="Outras violações de Direitos Humanos:">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="outrasViolacoesDireitosHumanos" value="Descrição:" />
+                            <p:inputText id="outrasViolacoesDireitosHumanos" value="#{formularioDeDenunciaLGBTMB.entity.outrasViolacoesDireitosHumanos}" maxlength="255"  styleClass="form-control"  />
+                        </div>
+                    </div>
+                </div>
+            </p:fieldset>
+        </p:fieldset>
+        <p:fieldset legend="Pessoa Denúnciada">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nomeDenuciada" value="#{msg['pessoaDenuncia.nome']}:" />
+                        <p:inputText id="nomeDenuciada" value="#{formularioDeDenunciaLGBTMB.pessoaDenunciada.nome}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="idadeDenuciada" value="#{msg['pessoaDenuncia.idade']}:" />
+                        <p:inputMask id="idadeDenuciada" mask="9?999" value="#{formularioDeDenunciaLGBTMB.pessoaDenunciada.idade}" styleClass="form-control" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="enderecoDenuciada" value="#{msg['pessoaDenuncia.endereco']}:" />
+                        <p:inputText id="enderecoDenuciada" value="#{formularioDeDenunciaLGBTMB.pessoaDenunciada.endereco}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="bairroDenuciada" value="#{msg['pessoaDenuncia.bairro']}:" />
+                        <p:inputText id="bairroDenuciada" value="#{formularioDeDenunciaLGBTMB.pessoaDenunciada.bairro}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="pontoDeReferenciaDenuciada" value="#{msg['pessoaDenuncia.pontoDeReferencia']}:" />
+                        <p:inputText id="pontoDeReferenciaDenuciada" value="#{formularioDeDenunciaLGBTMB.pessoaDenunciada.pontoDeReferencia}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="telefoneDenuciada" value="#{msg['pessoaDenuncia.telefone']}:" />
+                        <p:inputMask id="telefoneDenuciada" value="#{formularioDeDenunciaLGBTMB.pessoaDenunciada.telefone}" mask="(99) 9999-9999"  styleClass="form-control"  />
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Relato da Denúncia">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="relatoDenuncia" value="Evolução:" />
+                        <p:inputTextarea id="relatoDenuncia" value="#{formularioDeDenunciaLGBTMB.entity.relatoDaDenuncia}" rows="5" styleClass="form-control"
+                                         cols="50"/>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Pessoa Denunciante">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="denuncianteAnonimo" value="Anônimo:" />
+                        <h:selectOneMenu id="denuncianteAnonimo" value="#{formularioDeDenunciaLGBTMB.entity.anonimo}"  styleClass="form-control" >
+                            <f:selectItems value="#{findAllBean.get(classMB.simOuNao)}" 
+                                           var="simOuNao"
+                                           itemLabel="#{simOuNao.descricao}"/>
+                            <p:ajax process="@this" update="panelDenunciante" />
+                        </h:selectOneMenu>
+                    </div>
+                    <h:panelGroup id="panelDenunciante">
+                        <h:panelGroup  rendered="#{formularioDeDenunciaLGBTMB.entity.anonimo.num eq 2}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomeDenunciante" value="* #{msg['pessoaDenuncia.nome']}:" />
+                                <p:inputText id="nomeDenunciante" value="#{formularioDeDenunciaLGBTMB.pessoaDenunciante.nome}" maxlength="255"  styleClass="form-control"  
+                                             required="true" requiredMessage="Nome do Denunciante é obrigatório!"/>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="idadeDenuciante" value="#{msg['pessoaDenuncia.idade']}:" />
+                                <p:inputMask id="idadeDenuciante" mask="9?999" value="#{formularioDeDenunciaLGBTMB.pessoaDenunciante.idade}" styleClass="form-control" />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="enderecoDenuciante" value="#{msg['pessoaDenuncia.endereco']}:" />
+                                <p:inputText id="enderecoDenuciante" value="#{formularioDeDenunciaLGBTMB.pessoaDenunciante.endereco}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="bairroDenuciante" value="#{msg['pessoaDenuncia.bairro']}:" />
+                                <p:inputText id="bairroDenuciante" value="#{formularioDeDenunciaLGBTMB.pessoaDenunciante.bairro}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="pontoDeReferenciaDenuciante" value="#{msg['pessoaDenuncia.pontoDeReferencia']}:" />
+                                <p:inputText id="pontoDeReferenciaDenuciante" value="#{formularioDeDenunciaLGBTMB.pessoaDenunciante.pontoDeReferencia}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="telefoneDenuciante" value="#{msg['pessoaDenuncia.telefone']}:" />
+                                <p:inputMask id="telefoneDenuciante" value="#{formularioDeDenunciaLGBTMB.pessoaDenunciante.telefone}" mask="(99) 9999-9999"  styleClass="form-control"  />
+                            </div>
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Providências">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <p:inputTextarea id="providendiaDenuncia" value="#{formularioDeDenunciaLGBTMB.entity.providencias}" rows="5" styleClass="form-control"
+                                         cols="50"/>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Contra-Referência">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <p:inputTextarea id="contraReferenciaDenuncia" value="#{formularioDeDenunciaLGBTMB.entity.contraReferencia}" rows="5" styleClass="form-control"
+                                         cols="50"/>
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="formularioDeDenunciaLGBT.create">
+                <p:commandButton process="@form" update="@form" action="#{formularioDeDenunciaLGBTMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="formularioDeDenunciaLGBT.audit">
+                <x:audit for="#{formularioDeDenunciaLGBTMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

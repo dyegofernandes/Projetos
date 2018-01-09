@@ -1,0 +1,162 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateRequisicaoDeMaterial" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:tabView id="tabGeral">
+            <p:tab title="Informações Gerais" >
+                <p:fieldset legend="#{xmsg['generalData']}" id="fieldGeral">            
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="usuario" value="* #{msg['solicitacaoAcessoSFP.usuario']}:" />
+                                <p:inputText id="usuario" value="#{requisicaoDeMaterialMB.entity.usuario.nome}" styleClass="form-control" disabled="true">
+                                    <x:initializer/>
+                                </p:inputText>
+
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="gerencia" value="* #{msg['requisicaoDeMaterial.gerencia']}:" />
+                                <p:inputText id="gerencia" value="#{requisicaoDeMaterialMB.entity.gerencia}" maxlength="250"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="coordenadoria" value="* #{msg['requisicaoDeMaterial.coordenadoria']}:" />
+                                <p:inputText id="coordenadoria" value="#{requisicaoDeMaterialMB.entity.coordenadoria}" maxlength="250"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="dataDaEmissao" value="* #{msg['requisicaoDeMaterial.dataDaEmissao']}:" />
+                                <p:calendar id="dataDaEmissao" value="#{requisicaoDeMaterialMB.entity.dataDaEmissao}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  disabled="true">
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <x:securityArea rolesAllowed="campos.situacao">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="situacao" value="* Situação:" />
+                                    <h:selectOneMenu id="situacao" value="#{requisicaoDeMaterialMB.entity.situacao}"  styleClass="form-control" >
+                                        <f:selectItem itemLabel="#{xmsg['select']}" />
+                                        <f:selectItems value="#{findAllBean.get(classMB.situacao)}" 
+                                                       var="situacao"
+                                                       itemLabel="#{situacao.descricao}"/>
+                                    </h:selectOneMenu>
+                                </div>
+                            </x:securityArea>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="requisitado" value="Requisitado por:" />
+                                <p:inputText id="requisitado" value="#{requisicaoDeMaterialMB.entity.requisitadoPor}" maxlength="250"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="autorizado" value="Autorizado por:" />
+                                <p:inputText id="autorizado" value="#{requisicaoDeMaterialMB.entity.autorizadoPor}" maxlength="250"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="visto" value="Visto:" />
+                                <p:inputText id="visto" value="#{requisicaoDeMaterialMB.entity.visto}" maxlength="250"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="atendido" value="Atendido em:" />
+                                <p:calendar id="atendido" value="#{requisicaoDeMaterialMB.entity.atendido}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar" disabled="true">
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                        </div>
+                    </div>
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Materiais" >
+                <p:fieldset legend="Item" id="fieldItem">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="discriminacao" value="* Discriminação:" />
+                        <p:inputText id="discriminacao" value="#{requisicaoDeMaterialMB.discriminacao}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="quantidade" value="* Quantidade:" />
+                        <x:inputNumber id="quantidade" value="#{requisicaoDeMaterialMB.quantidade}" styleClass="form-control" centsLimit="2"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="valor" value="Valor:" />
+                        <x:inputNumber id="valor" value="#{requisicaoDeMaterialMB.valor}" styleClass="form-control" centsLimit="2"/>
+                    </div>
+                </p:fieldset>
+                <div class="uix-center">
+                    <p:commandButton process="@this fieldItem" update="dataTableItemDaRequisicaoDeMaterial fieldItem" value="Adicionar" 
+                                     action="#{requisicaoDeMaterialMB.addItem()}" />
+                </div>
+                <p:fieldset legend="Tabela de Itens" id="fieldTabela">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="itemDaRequisicaoDeMaterial" rowIndexVar="index" id="dataTableItemDaRequisicaoDeMaterial" widgetVar="dataTableItemDaRequisicaoDeMaterialWidget" styleClass="table-responsive"
+                                 value="#{requisicaoDeMaterialMB.itens}" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg['itemDaRequisicaoDeMaterial.discriminacao']}"  >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['itemDaRequisicaoDeMaterial.discriminacao']}" />
+                            </f:facet>
+                            <h:outputText value="#{itemDaRequisicaoDeMaterial.discriminacao}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['itemDaRequisicaoDeMaterial.quantidade']}" style="text-align: right;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['itemDaRequisicaoDeMaterial.quantidade']}" />
+                            </f:facet>
+                            <h:outputText value="#{itemDaRequisicaoDeMaterial.quantidade}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>
+                            <f:facet name="footer">
+                                <h:outputText value="Total" style="font-weight:bold"/>
+                            </f:facet>
+                        </p:column>
+                        <p:column headerText="#{msg['itemDaRequisicaoDeMaterial.valor']}" style="text-align: right;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['itemDaRequisicaoDeMaterial.valor']}" />
+                            </f:facet>
+                            <h:outputText value="#{itemDaRequisicaoDeMaterial.valor}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>
+                            <f:facet name="footer">
+                                <h:outputText value="#{requisicaoDeMaterialMB.total}" style="font-weight:bold">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText><br/>
+                            </f:facet>
+                        </p:column>
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>
+
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableItemDaRequisicaoDeMaterial" 
+                                             action="#{requisicaoDeMaterialMB.removerItem(itemDaRequisicaoDeMaterial)}" >
+                            </p:commandButton>
+
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </p:tab>
+
+        </p:tabView>
+
+
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="requisicaoDeMaterial.create">
+                <p:commandButton process="@this tabGeral:fieldGeral" update="@form" action="#{requisicaoDeMaterialMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="requisicaoDeMaterial.create">
+                <p:commandButton rendered="#{requisicaoDeMaterialMB.entity.id!=null}" process="@form" update="@form" 
+                                 action="#{requisicaoDeMaterialMB.gerarPdf(requisicaoDeMaterialMB.entity)}" value="Imprimir" ajax="false">
+                </p:commandButton>
+            </x:securityArea>
+            <x:securityArea rolesAllowed="requisicaoDeMaterial.audit">
+                <x:audit for="#{requisicaoDeMaterialMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,76 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['circunscricao_Bairro.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuCircunscricao_Bairro.xhtml" />
+        <h:form id="formListCircunscricao_Bairro">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="circunscricao_Bairro_export" target=":formListCircunscricao_Bairro:dataTableCircunscricao_Bairro"
+                                widgetVar="dataTableCircunscricao_BairroWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="circunscricao_Bairro" rowIndexVar="index" id="dataTableCircunscricao_Bairro" widgetVar="dataTableCircunscricao_BairroWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{circunscricao_BairroMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{circunscricao_BairroMB.dataModel.paginatorTemplate}"
+                         value="#{circunscricao_BairroMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['cidade.nome']}" sortBy="#{circunscricao_Bairro.nome}"
+                          filterBy="#{circunscricao_Bairro.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cidade.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{circunscricao_Bairro.nome}"/>
+                </p:column>
+
+                <p:column headerText="Cidade" sortBy="#{circunscricao_Bairro.cidade}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="Cidade" />
+                    </f:facet>
+                    <h:outputText value="#{circunscricao_Bairro.cidade}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetCircunscricao_BairroDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailCircunscricao_Bairro" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{circunscricao_Bairro}" target="#{circunscricao_BairroMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="circunscricao_Bairro.create">
+                        <p:button icon="ui-icon-pencil" outcome="createCircunscricao_Bairro" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{circunscricao_Bairro.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="circunscricao_Bairro.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{circunscricao_BairroMB.delete}" >
+                            <f:setPropertyActionListener value="#{circunscricao_Bairro.id}" target="#{circunscricao_BairroMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{circunscricao_Bairro}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="circunscricao_Bairro.audit">
+                    <x:auditDelete for="#{circunscricao_BairroMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetCircunscricao_BairroDetail" header="#{msg['circunscricao_Bairro.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailCircunscricao_Bairro.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

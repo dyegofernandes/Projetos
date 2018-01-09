@@ -1,0 +1,529 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateSolicitacaoAcessoSFP" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:tabView id="tabGeral">
+            <p:tab title="Informações Gerais">
+                <p:fieldset legend="#{xmsg['generalData']}">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="usuario" value="* #{msg['solicitacaoAcessoSFP.usuario']}:" />
+                                <p:inputText id="usuario" value="#{solicitacaoAcessoSFPMB.entity.usuario.nome}" styleClass="form-control" disabled="true" >
+                                    <x:initializer/>
+                                </p:inputText>
+
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="tipo" value="* Tipo Trabalhador:" />
+                                <h:selectOneMenu id="tipo" value="#{solicitacaoAcessoSFPMB.entity.tipo}"  styleClass="form-control" >
+                                    <f:selectItems value="#{findAllBean.get(classMB.trabalhadorTipo)}" 
+                                                   var="tipo"
+                                                   itemLabel="#{tipo.descricao}"/>
+                                    <p:ajax process="@this" update="@form" listener="#{solicitacaoAcessoSFPMB.limparCampos()}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cpf" value="* #{msg['solicitacaoAcessoSFP.cpf']}:" />
+                                <x:cpf id="cpf" value="#{solicitacaoAcessoSFPMB.entity.cpf}" styleClass="form-control"  >
+                                    <p:ajax event="blur" process="@this" update="@form" listener="#{solicitacaoAcessoSFPMB.carregarDadosServidor()}"/>
+                                </x:cpf>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="Orgão:" />
+
+                                <h:panelGroup layout="block" id="panelOrgaoPai" styleClass="form-control" >
+                                    <h:panelGroup id="conteudoPanelOrgaoPai">
+                                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.orgao.nome}" 
+                                                      >
+                                            <x:initializer/>
+                                        </h:outputText>
+                                        <p:commandButton type="button" icon="ui-icon-carat-1-s" 
+                                                         id="buttonOrgaoPai" styleClass="pull-right"
+                                                         style="font-size: 10px;" rendered="#{solicitacaoAcessoSFPMB.entity.tipo.num eq 2}"/>
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <p:overlayPanel for="panelOrgaoPai" styleClass="w-100p" widgetVar="overlayOrgaoPai" 
+                                                rendered="#{solicitacaoAcessoSFPMB.entity.tipo.num eq 2}" >
+                                    <p:tree value="#{orgaoMB.orgaos}" var="orgao" styleClass="w-100p"
+                                            selectionMode="single"  style="max-height: 400px; overflow-y: scroll" >
+                                        <p:ajax event="select" update=":formCreateSolicitacaoAcessoSFP:tabGeral:conteudoPanelOrgaoPai @this"
+                                                listener="#{solicitacaoAcessoSFPMB.entity.setOrgao(orgao)}" oncomplete="PF('overlayOrgaoPai').hide()" />
+                                        <p:treeNode collapsedIcon="ui-icon-folder-collapsed" >
+                                            <h:panelGroup styleClass="#{orgao == orgaoMB.entity.orgaoPai ? 'ui-state-highlight' : ''}">
+                                                <h:outputText value="#{orgao.codigo} - " style="font-weight: bold"/>  
+                                                <h:outputText value="#{orgao.sigla}" style="font-weight: bold"/>  
+                                                <h:outputText value=" (#{orgao.nome})" styleClass="font-8"  /> 
+                                            </h:panelGroup>
+                                        </p:treeNode>
+                                    </p:tree>
+                                </p:overlayPanel>
+                            </div>
+                            <h:panelGroup rendered="#{solicitacaoAcessoSFPMB.entity.tipo.num eq 1}">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="matricula" value="#{msg['solicitacaoAcessoSFP.matricula']}:" />
+                                    <p:inputText id="matricula" value="#{solicitacaoAcessoSFPMB.entity.matricula}" maxlength="255"  styleClass="form-control" 
+                                                 disabled="#{solicitacaoAcessoSFPMB.entity.tipo.num eq 1}" >
+
+                                    </p:inputText>
+                                </div>
+                            </h:panelGroup>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="telefone" value="#{msg['solicitacaoAcessoSFP.telefone']}:" />
+                                <p:inputMask id="telefone" value="#{solicitacaoAcessoSFPMB.entity.telefone}" mask="(99) 9999-9999"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nome" value="* #{msg['solicitacaoAcessoSFP.nome']}:" />
+                                <p:inputText id="nome" value="#{solicitacaoAcessoSFPMB.entity.nome}" maxlength="150"  styleClass="form-control"  
+                                             disabled="#{solicitacaoAcessoSFPMB.entity.tipo.num eq 1}"/>
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cargoFuncao" value="#{msg['solicitacaoAcessoSFP.cargoFuncao']}:" />
+                                <p:inputText id="cargoFuncao" value="#{solicitacaoAcessoSFPMB.entity.cargoFuncao}" maxlength="255"  styleClass="form-control" 
+                                             disabled="#{solicitacaoAcessoSFPMB.entity.tipo.num eq 1}"/>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="email" value="* #{msg['solicitacaoAcessoSFP.email']}:" />
+                                <p:inputText id="email" value="#{solicitacaoAcessoSFPMB.entity.email}" maxlength="150"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="dataEmissao" value="#{msg['solicitacaoAcessoSFP.dataEmissao']}:" />
+                                <p:calendar id="dataEmissao" value="#{solicitacaoAcessoSFPMB.entity.dataEmissao}" disabled="true"
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="dataAtendimento" value="#{msg['solicitacaoAcessoSFP.dataAtendimento']}:" />
+                                <p:calendar id="dataAtendimento" value="#{solicitacaoAcessoSFPMB.entity.dataAtendimento}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="observacao" value="#{msg['solicitacaoAcessoSFP.observacao']}:" />
+                                <p:inputText id="observacao" value="#{solicitacaoAcessoSFPMB.entity.observacao}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <x:securityArea rolesAllowed="campos.situacao">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="situacao" value="* Situação:" />
+                                    <h:selectOneMenu id="situacao" value="#{solicitacaoAcessoSFPMB.entity.situacao}"  styleClass="form-control" >
+                                        <f:selectItem itemLabel="#{xmsg['select']}" />
+                                        <f:selectItems value="#{findAllBean.get(classMB.situacao)}" 
+                                                       var="situacao"
+                                                       itemLabel="#{situacao.descricao}"/>
+                                    </h:selectOneMenu>
+                                </div>
+                            </x:securityArea>
+
+                        </div>
+                    </div>
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Órgãos de Acesso">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Orgão:" />
+                        <div class="input-group">
+                            <h:panelGroup layout="block" id="panelOrgaoAdd" styleClass="form-control">
+                                <h:panelGroup id="conteudoPanelOrgaoAdd" >
+                                    <h:outputText value="#{solicitacaoAcessoSFPMB.orgaoAdd.codigo} - #{solicitacaoAcessoSFPMB.orgaoAdd.sigla}" >
+                                        <x:initializer/>
+                                    </h:outputText>
+                                    <p:commandButton type="button" icon="ui-icon-carat-1-s" 
+                                                     id="buttonOrgaoAdd" styleClass="pull-right"
+                                                     style="font-size: 10px;"/>
+                                </h:panelGroup>
+                            </h:panelGroup>
+
+                            <p:overlayPanel for="panelOrgaoAdd" styleClass="w-100p" widgetVar="overlayOrgaoAdd" >
+                                <p:tree value="#{orgaoMB.orgaos}" var="orgao" styleClass="w-100p"
+                                        selectionMode="single"  style="max-height: 400px; overflow-y: scroll" >
+                                    <p:ajax event="select" update=":formCreateSolicitacaoAcessoSFP:tabGeral:conteudoPanelOrgaoAdd @this"
+                                            listener="#{solicitacaoAcessoSFPMB.setOrgaoAdd(orgao)}" oncomplete="PF('overlayOrgaoAdd').hide()" />
+                                    <p:treeNode collapsedIcon="ui-icon-folder-collapsed" >
+                                        <h:panelGroup styleClass="#{orgao == orgaoMB.entity.orgaoPai ? 'ui-state-highlight' : ''}">
+                                            <h:outputText value="#{orgao.codigo} - " style="font-weight: bold"/>  
+                                            <h:outputText value="#{orgao.sigla}" style="font-weight: bold"/>  
+                                            <h:outputText value=" (#{orgao.nome})" styleClass="font-8"  /> 
+                                        </h:panelGroup>
+                                    </p:treeNode>
+                                </p:tree>
+                            </p:overlayPanel>
+                            <span class="input-group-btn">
+
+                                <p:commandButton icon="ui-icon-plusthick" 
+                                                 id="buttonAddTelefone" styleClass="pull-left"
+                                                 style="font-size: 18px;" actionListener="#{solicitacaoAcessoSFPMB.addOrgao()}" process="@this panelOrgaoAdd"
+                                                 update="conteudoPanelOrgaoAdd dataTableOrgao" />    
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="orgao" rowIndexVar="index" id="dataTableOrgao" widgetVar="dataTableOrgaoWidget" styleClass="table-responsive"
+                                 value="#{solicitacaoAcessoSFPMB.orgaosAcesso}" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="Código" >
+                            <f:facet name="header">
+                                <h:outputText value="Código" />
+                            </f:facet>
+                            <h:outputText value="#{orgao.codigo}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['orgao.cnpj']}"  >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['orgao.cnpj']}" />
+                            </f:facet>
+                            <h:outputText value="#{orgao.cnpj}" converter="cnpjConverter"/>
+                        </p:column>
+                        <p:column headerText="#{msg['orgao.nome']}" >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['orgao.nome']}" />
+                            </f:facet>
+                            <h:outputText value="#{orgao.nome}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['orgao.sigla']}" >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['orgao.sigla']}" />
+                            </f:facet>
+                            <h:outputText value="#{orgao.sigla}"/>
+                        </p:column>
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableOrgao" 
+                                             action="#{solicitacaoAcessoSFPMB.removerOrgao(orgao)}" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </p:tab>
+            <p:tab title="Operação Desejada">
+                <p:fieldset legend="Cadastro">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.cadastro.inclusao}" />
+                                Cadastro
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.cadastro.alteracao}" />
+                                Alteração
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.cadastro.consulta}" />
+                                Consulta
+                            </label>
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Financeiro">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.financeiro.inclusao}" />
+                                Cadastro
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.financeiro.alteracao}" />
+                                Alteração
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.financeiro.consulta}" />
+                                Consulta
+                            </label>
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Dependente">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.dependente.inclusao}" />
+                                Cadastro
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.dependente.alteracao}" />
+                                Alteração
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.dependente.consulta}" />
+                                Consulta
+                            </label>
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Pensão Judicial">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.pensaoJudicial.inclusao}" />
+                                Cadastro
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.pensaoJudicial.alteracao}" />
+                                Alteração
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.pensaoJudicial.consulta}" />
+                                Consulta
+                            </label>
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Ocorrência">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.ocorrencia.afastamentoLicenca}" />
+                                Afastamentos/Licenças
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.ocorrencia.exoneracao}" />
+                                Exonerações
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.ocorrencia.aposentadoria}" />
+                                Aposentadorias
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.ocorrencia.disposicao}" />
+                                Disposições
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.ocorrencia.enquadramento}" />
+                                Enquadramento/Promoções
+                            </label>
+                        </div>
+                    </div>
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Área restrita a SEAD">
+                <p:fieldset legend="Cadastro">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.cadastroSEAD.inclusao}" />
+                                Cadastro
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.cadastroSEAD.alteracao}" />
+                                Alteração
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.cadastroSEAD.consulta}" />
+                                Consulta
+                            </label>
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Financeiro">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.financeiroSEAD.inclusao}" />
+                                Cadastro
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.financeiroSEAD.alteracao}" />
+                                Alteração
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.financeiroSEAD.consulta}" />
+                                Consulta
+                            </label>
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Dependente">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.dependenteSEAD.inclusao}" />
+                                Cadastro
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.dependenteSEAD.alteracao}" />
+                                Alteração
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.dependenteSEAD.consulta}" />
+                                Consulta
+                            </label>
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Pensão Judicial">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.pensaoJudicialSEAD.inclusao}" />
+                                Cadastro
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.pensaoJudicialSEAD.alteracao}" />
+                                Alteração
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.pensaoJudicialSEAD.consulta}" />
+                                Consulta
+                            </label>
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Ocorrência">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.ocorrenciaSEAD.afastamentoLicenca}" />
+                                Afastamentos/Licenças
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.ocorrenciaSEAD.exoneracao}" />
+                                Exonerações
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.ocorrenciaSEAD.aposentadoria}" />
+                                Aposentadorias
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.ocorrenciaSEAD.disposicao}" />
+                                Disposições
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{solicitacaoAcessoSFPMB.ocorrenciaSEAD.enquadramento}" />
+                                Enquadramento/Promoções
+                            </label>
+                        </div>
+                    </div>
+                </p:fieldset>
+            </p:tab>
+        </p:tabView>
+
+
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="solicitacaoAcessoSFP.create">
+                <p:commandButton process="@form" update="@form" action="#{solicitacaoAcessoSFPMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="solicitacaoAcessoSFP.create">
+                <p:commandButton rendered="#{solicitacaoAcessoSFPMB.entity.id!=null}" process="@form" update="@form" action="#{solicitacaoAcessoSFPMB.gerarPdf(solicitacaoAcessoSFPMB.entity)}" value="Imprimir" ajax="false">
+                </p:commandButton>
+            </x:securityArea>
+            <x:securityArea rolesAllowed="solicitacaoAcessoSFP.audit">
+                <x:audit for="#{solicitacaoAcessoSFPMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

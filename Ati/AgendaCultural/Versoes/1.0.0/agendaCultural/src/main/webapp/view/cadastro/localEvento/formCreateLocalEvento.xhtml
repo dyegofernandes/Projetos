@@ -1,0 +1,408 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateLocalEvento" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:tabView id="tabGeral">
+            <p:tab title="#{xmsg['generalData']}" id="tabDadosBasicos">
+                <p:fieldset legend="#{xmsg['generalData']}">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="tipoLocal" value="* Tipo Local:" />
+                                <h:selectOneMenu id="tipoLocal" value="#{localEventoMB.entity.tipo}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.tipoLocal)}" 
+                                                   var="tipo"
+                                                   itemLabel="#{tipo}"/>
+                                    <p:ajax process="@this" update="@form"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nome" value="* #{msg['localEvento.nome']}:" />
+                                <p:inputText id="nome" value="#{localEventoMB.entity.nome}" maxlength="250"  styleClass="form-control"  />
+                            </div>
+                            <h:panelGroup id="panel1">
+                                <h:panelGroup rendered ="#{localEventoMB.flagAssento}">
+                                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                        <h:outputLabel for="dataConstrucao" value="#{msg['localEvento.dataConstrucao']}:" />
+                                        <p:calendar id="dataConstrucao" value="#{localEventoMB.entity.dataConstrucao}" 
+                                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                            <x:mask/>
+                                        </p:calendar>
+                                    </div>
+                                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                        <h:outputLabel for="estiloArquitetonico" value="#{msg['localEvento.estiloArquitetonico']}:" />
+                                        <h:selectOneMenu id="estiloArquitetonico" value="#{localEventoMB.entity.estiloArquitetonico}"  styleClass="form-control" >
+                                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                                            <f:selectItems value="#{findAllBean.get(classMB.estiloArquitetonico)}" 
+                                                           var="estiloArquitetonico"
+                                                           itemLabel="#{estiloArquitetonico.descricao}"/>
+                                        </h:selectOneMenu>
+                                    </div>
+
+                                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                        <h:outputLabel for="tomabamento" value="#{msg['localEvento.tomabamento']}:" />
+                                        <p:inputText id="tomabamento" value="#{localEventoMB.entity.tomabamento}" maxlength="255"  styleClass="form-control"  />
+                                    </div>
+                                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                        <h:outputLabel for="quantidadeLugares" value="* #{msg['localEvento.quantidadeLugares']}:" />
+                                        <p:inputMask id="quantidadeLugares" mask="9?999999999"  value="#{localEventoMB.entity.quantidadeLugares}" styleClass="form-control" />
+                                    </div>
+                                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                        <h:outputLabel for="quantidadeVendasOnline" value="* #{msg['localEvento.quantidadeVendasOnline']}:" />
+                                        <p:inputMask id="quantidadeVendasOnline" mask="9?999999999"  value="#{localEventoMB.entity.quantidadeVendasOnline}" styleClass="form-control" />
+                                    </div>
+                                </h:panelGroup>
+                            </h:panelGroup>
+
+
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Endereço">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="endereco" value="* #{msg['endereco.endereco']}:" />
+                            <p:inputText id="endereco" value="#{localEventoMB.endereco.endereco}" maxlength="260"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="numero" value="* #{msg['endereco.numero']}:" />
+                            <p:inputText id="numero" value="#{localEventoMB.endereco.numero}" maxlength="60"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="bairro" value="* #{msg['endereco.bairro']}:" />
+                            <p:inputText id="bairro" value="#{localEventoMB.endereco.bairro}" maxlength="60"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cidade" value="* Cidade:" />
+                            <p:inputText id="cidade" value="#{localEventoMB.endereco.cidade}" maxlength="60"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="complemento" value="#{msg['endereco.complemento']}:" />
+                            <p:inputText id="complemento" value="#{localEventoMB.endereco.complemento}" maxlength="260"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cep" value="* #{msg['endereco.cep']}:" />
+                            <p:inputMask id="cep" value="#{localEventoMB.endereco.cep}" mask="99999-999"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="ltd" value="Latitude:" />
+                            <p:inputText id="ltd" value="#{localEventoMB.endereco.latitude}" maxlength="260"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="lgd" value="Longitude:" />
+                            <p:inputText id="lgd" value="#{localEventoMB.endereco.longitude}" maxlength="260"  styleClass="form-control"  />
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Adicionar Horário Funcionamento" toggleable="true" collapsed="#{localEventoMB.diasVisitacao.size() eq 0}" id="fieldAddHorario">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <p:selectManyCheckbox id="grid3" value="#{localEventoMB.diasSelected}" layout="grid" columns="4" converter="omnifaces.GenericEnumConverter">
+                                <f:selectItems value="#{localEventoMB.dias}" var="dia" itemLabel="#{dia.sigla}" itemValue="#{dia}" />
+                            </p:selectManyCheckbox>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="horaInicio" value="Hora Inicial:" />
+                            <p:calendar id="horaInicio" value="#{localEventoMB.horaInicial}" 
+                                        showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                                <x:mask/>
+                            </p:calendar>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="horaFim" value="Hora Final:" />
+                            <p:calendar id="horaFim" value="#{localEventoMB.horaFinal}" 
+                                        showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                                <x:mask/>
+                            </p:calendar>
+                        </div>
+                    </div>
+                    <div class="uix-center">
+                        <p:commandButton process="@this fieldAddHorario" update="dataTableDia fieldAddHorario" value="Adicionar" 
+                                         action="#{localEventoMB.addDias()}"/>
+                    </div>
+                    <div class="row">
+                        <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                     var="dia" rowIndexVar="index" id="dataTableDia" widgetVar="dataTableDiaWidget" styleClass="table-responsive"
+                                     value="#{localEventoMB.diasVisitacao}" >
+                            <p:column headerText="Dia" width="50%" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="Dia" />
+                                </f:facet>
+                                <h:outputText value="#{dia.diaSemana.descricao}"/>
+                            </p:column>
+                            <p:column headerText="Hora Inicial" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="Hora Inicial" />
+                                </f:facet>
+                                <h:outputText value="#{dia.horarioInicial}">
+                                    <f:convertDateTime pattern="HH:mm"/>
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column headerText="Hora Final" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="Hora Final" />
+                                </f:facet>
+                                <h:outputText value="#{dia.horarioFinal}">
+                                    <f:convertDateTime pattern="HH:mm"/>
+                                </h:outputText>
+                            </p:column>
+
+
+                            <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{xmsg['actions']}"/>
+                                </f:facet>
+
+                                <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableDia" 
+                                                 action="#{localEventoMB.removerDia(dia)}" >
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+
+
+                </p:fieldset>
+
+                <p:fieldset legend="Telefones">
+                    <p:fieldset legend="Adicionar Telefone" id="foneAddId">
+                        <div class="form-group col-lg-1 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dddFone" value="* DDD:" />
+                            <p:inputMask id="dddFone" value="#{localEventoMB.foneAdd.ddd}" mask="99"  styleClass="form-control"  />
+                        </div>
+                        <div class="col-lg-2">
+                            <h:outputLabel for="telefone" value="* Telefone:" />
+                            <div class="input-group">
+
+                                <p:inputMask id="telefone" value="#{localEventoMB.foneAdd.numero}" mask="9999-9999" styleClass="form-control"
+                                             />
+                                <span class="input-group-btn">
+
+                                    <p:commandButton icon="ui-icon-plusthick" 
+                                                     id="buttonAddTelefone" styleClass="pull-left"
+                                                     style="font-size: 17px;" actionListener="#{localEventoMB.addFones()}" process="foneAddId @this"
+                                                     update="formCreateLocalEvento:tabGeral:dataTableTelefone foneAddId" />    
+                                </span>
+                            </div><!-- /input-group -->
+                        </div><!-- /.col-lg-6 -->
+                    </p:fieldset>
+                    <p:fieldset legend="Telefones">
+                        <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                     var="fone" rowIndexVar="index" id="dataTableTelefone" widgetVar="dataTableTelefoneWidget" styleClass="table-responsive"
+                                     value="#{localEventoMB.fones}" >
+                            <p:column styleClass="uix-datatable-index">
+                                <h:outputText value="#{index+1}"/>
+                            </p:column>
+                            <p:column headerText="DDD" >
+                                <f:facet name="header">
+                                    <h:outputText value="DDD" />
+                                </f:facet>
+                                <h:outputText value="#{fone.ddd}"/>
+                            </p:column>
+                            <p:column headerText="Número" >
+                                <f:facet name="header">
+                                    <h:outputText value="Número" />
+                                </f:facet>
+                                <h:outputText value="#{fone.numero}"/>
+                            </p:column>
+                            <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{xmsg['actions']}"/>
+                                </f:facet>
+
+                                <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableTelefone" 
+                                                 action="#{localEventoMB.removerFone(fone)}" >
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </p:fieldset>
+
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Setores e Assentos" rendered ="#{localEventoMB.flagAssento}">
+                <p:fieldset legend="Adicionar Setor">
+                    <p:fieldset legend="Dados Básicos" id="fieldSetorId">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="nomeSetor" value="* #{msg['setor.nome']}:" />
+                                    <p:inputText id="nomeSetor" value="#{localEventoMB.setorAdd.nome}" maxlength="50"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="quantidadeLinhas" value="* #{msg['setor.quantidadeLinhas']}:" />
+                                    <p:inputMask id="quantidadeLinhas" mask="9?999999999"  value="#{localEventoMB.setorAdd.quantidadeLinhas}" styleClass="form-control" />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="quantidadeColunas" value="* #{msg['setor.quantidadeColunas']}:" />
+                                    <p:inputMask id="quantidadeColunas" mask="9?999999999"  value="#{localEventoMB.setorAdd.quantidadeColunas}" styleClass="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </p:fieldset>
+                    <p:fieldset legend="Assentos" id="fieldAssentoId">
+                        <p:fieldset legend="#{xmsg['generalData']}">
+
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
+                                        <h:outputLabel for="linha" value="* #{msg['assento.linha']}:" />
+                                        <p:inputText id="linha" value="#{localEventoMB.assentoAdd.linha}" maxlength="2"  styleClass="form-control"  />
+                                    </div>
+                                    <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
+                                        <h:outputLabel for="coluna" value="* #{msg['assento.coluna']}:" />
+                                        <p:inputText id="coluna" value="#{localEventoMB.assentoAdd.coluna}" maxlength="2"  styleClass="form-control"  />
+                                    </div>
+                                    <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="checkbox">
+                                            <label>
+                                                <h:selectBooleanCheckbox id="obeso" value="#{localEventoMB.assentoAdd.obeso}" />
+                                                #{msg['assento.obeso']}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="checkbox">
+                                            <label>
+                                                <h:selectBooleanCheckbox id="deficiente" value="#{localEventoMB.assentoAdd.deficiente}" />
+                                                #{msg['assento.deficiente']}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="checkbox">
+                                            <label>
+                                                <h:selectBooleanCheckbox id="ativo" value="#{localEventoMB.assentoAdd.ativo}" />
+                                                #{msg['assento.ativo']}
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </p:fieldset>
+                        <div class="uix-center">
+                            <p:commandButton process="@this fieldAssentoId" update="dataTableAssento fieldAssentoId" value="Adicionar" 
+                                             action="#{localEventoMB.addAssentos()}"/>
+                        </div>
+                        <p:fieldset legend="Assentos">
+                            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                         var="assento" rowIndexVar="index" id="dataTableAssento" widgetVar="dataTableAssentoWidget" styleClass="table-responsive"
+                                         value="#{localEventoMB.setorAdd.assentos}" >
+                                <p:column styleClass="uix-datatable-index">
+                                    <h:outputText value="#{index+1}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['assento.linha']}">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['assento.linha']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{assento.linha}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['assento.coluna']}" >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['assento.coluna']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{assento.coluna}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['assento.obeso']}"  style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['assento.obeso']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{assento.obeso}" converter ="yesNoConverter" />
+                                </p:column>
+                                <p:column headerText="#{msg['assento.deficiente']}"  style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['assento.deficiente']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{assento.deficiente}" converter ="yesNoConverter" />
+                                </p:column>
+                                <p:column headerText="#{msg['assento.ativo']}"  style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['assento.ativo']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{assento.ativo}" converter ="yesNoConverter" />
+                                </p:column>
+                                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{xmsg['actions']}"/>
+                                    </f:facet>
+                                    <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableAssento" 
+                                                     action="#{localEventoMB.removerAssento(assento)}" >
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+
+                        </p:fieldset>
+
+                    </p:fieldset>
+
+                </p:fieldset>
+                <div class="uix-center">
+                    <p:commandButton process="@this fieldSetorId" update="dataTableSetor fieldSetorId" value="Adicionar" 
+                                     action="#{localEventoMB.addSetores()}"/>
+                </div>
+                <p:fieldset legend="Setores">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="setor" rowIndexVar="index" id="dataTableSetor" widgetVar="dataTableSetorWidget" styleClass="table-responsive"
+                                 value="#{localEventoMB.setores}" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['setor.nome']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['setor.nome']}" />
+                            </f:facet>
+                            <h:outputText value="#{setor.nome}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['setor.quantidadeLinhas']}" >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['setor.quantidadeLinhas']}" />
+                            </f:facet>
+                            <h:outputText value="#{setor.quantidadeLinhas}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['setor.quantidadeColunas']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['setor.quantidadeColunas']}" />
+                            </f:facet>
+                            <h:outputText value="#{setor.quantidadeColunas}"/>
+                        </p:column>
+                        <p:column headerText="Total Cadeiras">
+                            <f:facet name="header">
+                                <h:outputText value="Total Cadeiras" />
+                            </f:facet>
+                            <h:outputText value="#{setor.quantidadeCadeiras}"/>
+                        </p:column>
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>
+
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableSetor" 
+                                             action="#{localEventoMB.removerSetor(setor)}" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </p:tab>
+
+        </p:tabView>
+
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="localEvento.create">
+                <p:commandButton process="@form" update="@form" action="#{localEventoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="localEvento.audit">
+                <x:audit for="#{localEventoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

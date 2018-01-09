@@ -1,0 +1,112 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['portfolio.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuPortfolio.xhtml" />
+        <h:form id="formListPortfolio">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="portfolio_export" target=":formListPortfolio:dataTablePortfolio"
+                                widgetVar="dataTablePortfolioWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="portfolio" rowIndexVar="index" id="dataTablePortfolio" widgetVar="dataTablePortfolioWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{portfolioMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{portfolioMB.dataModel.paginatorTemplate}"
+                         value="#{portfolioMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="Tipo" sortBy="#{portfolio.tipo.descricao}"
+                          filterBy="#{portfolio.tipo.descricao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Tipo" />
+                    </f:facet>
+                    <h:outputText value="#{portfolio.tipo.descricao}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['portfolio.localPortfolio']}" sortBy="#{portfolio.localPortfolio}"
+                          filterBy="#{portfolio.localPortfolio}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['portfolio.localPortfolio']}" />
+                    </f:facet>
+                    <h:outputText value="#{portfolio.localPortfolio}"/>
+                </p:column>
+                <p:column headerText="#{msg['portfolio.logradouro']}" sortBy="#{portfolio.endereco.logradouro}"
+                          filterBy="#{portfolio.endereco.logradouro}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['portfolio.logradouro']}" />
+                    </f:facet>
+                    <h:outputText value="#{portfolio.endereco.endereco}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['portfolio.numero']}" sortBy="#{portfolio.endereco.numero}"
+                          filterBy="#{portfolio.endereco.numero}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['portfolio.numero']}" />
+                    </f:facet>
+                    <h:outputText value="#{portfolio.endereco.numero}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="#{msg['portfolio.bairro']}" sortBy="#{portfolio.endereco.bairro}"
+                          filterBy="#{portfolio.endereco.bairro}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['portfolio.bairro']}" />
+                    </f:facet>
+                    <h:outputText value="#{portfolio.endereco.bairro}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['portfolio.cidade']}" sortBy="#{portfolio.endereco.cidade}"
+                          filterBy="#{portfolio.endereco.cidade}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['portfolio.cidade']}" />
+                    </f:facet>
+                    <h:outputText value="#{portfolio.endereco.cidade}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetPortfolioDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailPortfolio" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{portfolio}" target="#{portfolioMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="portfolio.create">
+                        <p:button icon="ui-icon-pencil" outcome="createPortfolio" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{portfolio.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="portfolio.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{portfolioMB.delete}" >
+                            <f:setPropertyActionListener value="#{portfolio.id}" target="#{portfolioMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{portfolio}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="portfolio.audit">
+                    <x:auditDelete for="#{portfolioMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetPortfolioDetail" header="#{msg['portfolio.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailPortfolio.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

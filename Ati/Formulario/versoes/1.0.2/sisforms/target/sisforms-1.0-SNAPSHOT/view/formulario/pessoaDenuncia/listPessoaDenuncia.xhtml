@@ -1,0 +1,104 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['pessoaDenuncia.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuPessoaDenuncia.xhtml" />
+        <h:form id="formListPessoaDenuncia">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="pessoaDenuncia_export" target=":formListPessoaDenuncia:dataTablePessoaDenuncia"
+                                widgetVar="dataTablePessoaDenunciaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="pessoaDenuncia" rowIndexVar="index" id="dataTablePessoaDenuncia" widgetVar="dataTablePessoaDenunciaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{pessoaDenunciaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{pessoaDenunciaMB.dataModel.paginatorTemplate}"
+                         value="#{pessoaDenunciaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">
+                        <h:outputText value="" />
+                    </f:facet>
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['pessoaDenuncia.nome']}" sortBy="#{pessoaDenuncia.nome}"
+                          filterBy="#{pessoaDenuncia.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pessoaDenuncia.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{pessoaDenuncia.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['pessoaDenuncia.idade']}" sortBy="#{pessoaDenuncia.idade}"
+                          filterBy="#{pessoaDenuncia.idade}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pessoaDenuncia.idade']}" />
+                    </f:facet>
+                    <h:outputText value="#{pessoaDenuncia.idade}"/>
+                </p:column>
+                <p:column headerText="#{msg['pessoaDenuncia.endereco']}" sortBy="#{pessoaDenuncia.endereco}"
+                          filterBy="#{pessoaDenuncia.endereco}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pessoaDenuncia.endereco']}" />
+                    </f:facet>
+                    <h:outputText value="#{pessoaDenuncia.endereco}"/>
+                </p:column>
+                <p:column headerText="#{msg['pessoaDenuncia.bairro']}" sortBy="#{pessoaDenuncia.bairro}"
+                          filterBy="#{pessoaDenuncia.bairro}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pessoaDenuncia.bairro']}" />
+                    </f:facet>
+                    <h:outputText value="#{pessoaDenuncia.bairro}"/>
+                </p:column>
+                <p:column headerText="#{msg['pessoaDenuncia.pontoDeReferencia']}" sortBy="#{pessoaDenuncia.pontoDeReferencia}"
+                          filterBy="#{pessoaDenuncia.pontoDeReferencia}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pessoaDenuncia.pontoDeReferencia']}" />
+                    </f:facet>
+                    <h:outputText value="#{pessoaDenuncia.pontoDeReferencia}"/>
+                </p:column>
+                <p:column headerText="#{msg['pessoaDenuncia.telefone']}" sortBy="#{pessoaDenuncia.telefone}"
+                          filterBy="#{pessoaDenuncia.telefone}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pessoaDenuncia.telefone']}" />
+                    </f:facet>
+                    <h:outputText value="#{pessoaDenuncia.telefone}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetPessoaDenunciaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailPessoaDenuncia" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{pessoaDenuncia}" target="#{pessoaDenunciaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="pessoaDenuncia.create">
+                        <p:button icon="ui-icon-pencil" outcome="createPessoaDenuncia" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{pessoaDenuncia.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="pessoaDenuncia.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{pessoaDenunciaMB.delete}" >
+                            <f:setPropertyActionListener value="#{pessoaDenuncia.id}" target="#{pessoaDenunciaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{pessoaDenuncia}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="pessoaDenuncia.audit">
+                    <x:auditDelete for="#{pessoaDenunciaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetPessoaDenunciaDetail" header="#{msg['pessoaDenuncia.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailPessoaDenuncia.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

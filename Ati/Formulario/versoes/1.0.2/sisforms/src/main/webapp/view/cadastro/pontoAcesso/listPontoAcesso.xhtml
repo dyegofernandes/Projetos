@@ -1,0 +1,146 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['pontoAcesso.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuPontoAcesso.xhtml" />
+        <h:form id="formListPontoAcesso">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="pontoAcesso_export" target=":formListPontoAcesso:dataTablePontoAcesso"
+                                widgetVar="dataTablePontoAcessoWidget"  />
+
+            <p:dataTable paginator="true" rows="30" rowsPerPageTemplate="30,60,90" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="pontoAcesso" rowIndexVar="index" id="dataTablePontoAcesso" widgetVar="dataTablePontoAcessoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{pontoAcessoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{pontoAcessoMB.dataModel.paginatorTemplate}"
+                         value="#{pontoAcessoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index" >
+                    <f:facet name="header">
+                        <h:outputText value="" />
+                    </f:facet>
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['pontoAcesso.local']}" sortBy="#{pontoAcesso.local}"
+                          filterBy="#{pontoAcesso.local}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pontoAcesso.local']}" />
+                    </f:facet>
+                    <h:outputText value="#{pontoAcesso.local}"/>
+                </p:column>
+                <p:column headerText="#{msg['pontoAcesso.serialNumer']}" sortBy="#{pontoAcesso.serialNumer}"
+                          filterBy="#{pontoAcesso.serialNumer}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pontoAcesso.serialNumer']}" />
+                    </f:facet>
+                    <h:outputText value="#{pontoAcesso.serialNumer}"/>
+                </p:column>
+                <p:column headerText="#{msg['pontoAcesso.modelo']}" sortBy="#{pontoAcesso.modelo}"
+                          filterBy="#{pontoAcesso.modelo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pontoAcesso.modelo']}" />
+                    </f:facet>
+                    <h:outputText value="#{pontoAcesso.modelo}"/>
+                </p:column>
+                <p:column headerText="Data Instalação" sortBy="#{pontoAcesso.dataInstalacao}"
+                          filterBy="#{pontoAcesso.dataInstalacao}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Data Instalação" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{pontoAcesso.dataInstalacao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Municipio" sortBy="#{pontoAcesso.municipio}"
+                          filterBy="#{pontoAcesso.municipio}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Municipio" />
+                    </f:facet>
+                    <h:outputText value="#{pontoAcesso.municipio}"/>
+                </p:column>
+                <p:column headerText="#{msg['pontoAcesso.tombo']}" sortBy="#{pontoAcesso.tombo}"
+                          filterBy="#{pontoAcesso.tombo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pontoAcesso.tombo']}" />
+                    </f:facet>
+                    <h:outputText value="#{pontoAcesso.tombo}"/>
+                </p:column>
+                <p:column headerText="#{msg['pontoAcesso.latidude']}" sortBy="#{pontoAcesso.latidude}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pontoAcesso.latidude']}" />
+                    </f:facet>
+                    <h:outputText value="#{pontoAcesso.latidude}">
+                        <f:convertNumber minFractionDigits="15" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['pontoAcesso.longitude']}" sortBy="#{pontoAcesso.longitude}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pontoAcesso.longitude']}" />
+                    </f:facet>
+                    <h:outputText value="#{pontoAcesso.longitude}">
+                        <f:convertNumber minFractionDigits="15" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['pontoAcesso.endereco']}" sortBy="#{pontoAcesso.endereco}"
+                          filterBy="#{pontoAcesso.endereco}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pontoAcesso.endereco']}" />
+                    </f:facet>
+                    <h:outputText value="#{pontoAcesso.endereco}"/>
+                </p:column>
+                <p:column headerText="#{msg['pontoAcesso.tipoDeAcesso']}" sortBy="#{pontoAcesso.tipoAcesso}"
+                          filterBy="#{pontoAcesso.tipoAcesso}"  filterOptions="#{findAllBean.getSelect(classMB.tipoDeAcesso)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pontoAcesso.tipoAcesso']}" />
+                    </f:facet>
+                    <h:outputText value="#{pontoAcesso.tipoAcesso.descricao}"/>
+                </p:column>
+                <p:column headerText="#{msg['pontoAcesso.status']}" sortBy="#{pontoAcesso.status}"
+                          filterBy="#{pontoAcesso.status}"  filterOptions="#{findAllBean.getSelect(classMB.statusPontoAcesso)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pontoAcesso.status']}" />
+                    </f:facet>
+                    <h:outputText value="#{pontoAcesso.status.descricao}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetPontoAcessoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailPontoAcesso" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{pontoAcesso}" target="#{pontoAcessoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="pontoAcesso.create">
+                        <p:button icon="ui-icon-pencil" outcome="createPontoAcesso" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{pontoAcesso.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="pontoAcesso.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{pontoAcessoMB.delete}" >
+                            <f:setPropertyActionListener value="#{pontoAcesso.id}" target="#{pontoAcessoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{pontoAcesso}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="pontoAcesso.audit">
+                    <x:auditDelete for="#{pontoAcessoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetPontoAcessoDetail" header="#{msg['pontoAcesso.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailPontoAcesso.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,119 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateTabelaInss" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:fieldset legend="#{xmsg['generalData']}">
+
+
+            <div class="container-fluid">
+                <h:panelGroup id="panel0">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="anoDeVingencia" value="* #{msg['tabelaInss.anoDeVingencia']}:" />
+                            <p:inputMask id="anoDeVingencia" mask="9999" slotChar="" value="#{tabelaInssMB.entity.anoDeVingencia}" styleClass="form-control" />
+                        </div>
+
+                    </div>
+                </h:panelGroup>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Aliquotas" toggleable="true">
+
+            <div class="container-fluid">
+                <h:panelGroup id="panel1">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="salarioInicial" value="* #{msg['aliquotaInss.salarioInicial']}:" />
+                            <x:inputNumber id="salarioInicial" value="#{tabelaInssMB.aliquotaAdd.salarioInicial}" styleClass="form-control"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="salarioFinal" value="* #{msg['aliquotaInss.salarioFinal']}:" />
+                            <x:inputNumber id="salarioFinal" value="#{tabelaInssMB.aliquotaAdd.salarioFinal}" styleClass="form-control"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="valor" value="* Alíquota (%):" />
+                            <x:inputNumber id="valor" value="#{tabelaInssMB.aliquotaAdd.valor}" styleClass="form-control"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="valorFixo" value="* Valor Fixo:" />
+                            <x:inputNumber id="valorFixo" value="#{tabelaInssMB.aliquotaAdd.valorFixo}" styleClass="form-control"/>
+                        </div>
+                        
+                    </div>
+                    <div class="uix-center">
+                        <p:commandButton ajax="true" value="Adicionar" action="#{tabelaInssMB.addItem()}" 
+                                         process="panel1" update="dataTableAliquotaInss panel1"/>
+
+                    </div>
+                </h:panelGroup>
+                <div class="row">
+                    <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="aliquotaInss" id="dataTableAliquotaInss" widgetVar="dataTableAliquotaInssWidget" styleClass="table-responsive"                        
+                                 value="#{tabelaInssMB.listaInss}">                
+                        <p:column headerText="#{msg['aliquotaInss.salarioInicial']}" style="text-align: right;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['aliquotaInss.salarioInicial']}" />
+                            </f:facet>
+                            <h:outputText value="#{aliquotaInss.salarioInicial}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{msg['aliquotaInss.salarioFinal']}" style="text-align: right;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['aliquotaInss.salarioFinal']}" />
+                            </f:facet>
+                            <h:outputText value="#{aliquotaInss.salarioFinal}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Alíquota (%)" style="text-align: right;">
+                            <f:facet name="header">
+                                <h:outputText value="Alíquota (%)" />
+                            </f:facet>
+                            <h:outputText value="#{aliquotaInss.valor}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Valor Fixo" style="text-align: right;">
+                            <f:facet name="header">
+                                <h:outputText value="Valor Fixo" />
+                            </f:facet>
+                            <h:outputText value="#{aliquotaInss.valorFixo}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>
+
+
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" update="dataTableAliquotaInss" 
+                                             process="dataTableAliquotaInss" action="#{tabelaInssMB.removerItem(aliquotaInss)}" >
+                            </p:commandButton>
+
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </div>
+
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="tabelaInss.create">
+                <p:commandButton ajax="false" process="panel0" update="@form" action="#{tabelaInssMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="tabelaInss.audit">
+                <x:audit for="#{tabelaInssMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

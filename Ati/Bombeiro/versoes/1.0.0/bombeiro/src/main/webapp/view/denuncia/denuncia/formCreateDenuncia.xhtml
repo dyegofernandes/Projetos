@@ -1,0 +1,148 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateDenuncia" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="descricao" value="#{msg['denuncia.descricao']}:" />
+                         <p:inputText id="descricao" value="#{denunciaMB.entity.descricao}" maxlength="480"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="observacao" value="#{msg['denuncia.observacao']}:" />
+                         <p:inputText id="observacao" value="#{denunciaMB.entity.observacao}" maxlength="400"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="dataDenuncia" value="* #{msg['denuncia.dataDenuncia']}:" />
+                         <p:calendar id="dataDenuncia" value="#{denunciaMB.entity.dataDenuncia}" 
+                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                             <x:mask/>
+                         </p:calendar>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="horaDenuncia" value="* #{msg['denuncia.horaDenuncia']}:" />
+                         <p:calendar id="horaDenuncia" value="#{denunciaMB.entity.horaDenuncia}" 
+                                     showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                             <x:mask/>
+                         </p:calendar>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="dataAtendimento" value="#{msg['denuncia.dataAtendimento']}:" />
+                         <p:calendar id="dataAtendimento" value="#{denunciaMB.entity.dataAtendimento}" 
+                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                             <x:mask/>
+                         </p:calendar>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="horaAtendimento" value="#{msg['denuncia.horaAtendimento']}:" />
+                         <p:calendar id="horaAtendimento" value="#{denunciaMB.entity.horaAtendimento}" 
+                                     showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                             <x:mask/>
+                         </p:calendar>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="dataDeFechamento" value="#{msg['denuncia.dataDeFechamento']}:" />
+                         <p:calendar id="dataDeFechamento" value="#{denunciaMB.entity.dataDeFechamento}" 
+                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                             <x:mask/>
+                         </p:calendar>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="horaDeFechamento" value="#{msg['denuncia.horaDeFechamento']}:" />
+                         <p:calendar id="horaDeFechamento" value="#{denunciaMB.entity.horaDeFechamento}" 
+                                     showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                             <x:mask/>
+                         </p:calendar>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="endereco" value="* #{msg['denuncia.endereco']}:" />
+                         <h:selectOneMenu id="endereco" value="#{denunciaMB.entity.endereco}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.endereco)}" 
+                                            var="endereco"
+                                            itemLabel="#{endereco}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="descricaoAtendimento" value="#{msg['denuncia.descricaoAtendimento']}:" />
+                         <p:inputText id="descricaoAtendimento" value="#{denunciaMB.entity.descricaoAtendimento}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="imei" value="#{msg['denuncia.imei']}:" />
+                         <p:inputText id="imei" value="#{denunciaMB.entity.imei}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="cpfUsuario" value="#{msg['denuncia.cpfUsuario']}:" />
+                         <p:inputText id="cpfUsuario" value="#{denunciaMB.entity.cpfUsuario}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="nomeDenunciado" value="#{msg['denuncia.nomeDenunciado']}:" />
+                         <p:inputText id="nomeDenunciado" value="#{denunciaMB.entity.nomeDenunciado}" maxlength="100"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="idadeDenunciado" value="#{msg['denuncia.idadeDenunciado']}:" />
+                         <p:inputMask id="idadeDenunciado" mask="9?999999999" placeHolder="" value="#{denunciaMB.entity.idadeDenunciado}" styleClass="form-control" />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="cpfDenunciado" value="#{msg['denuncia.cpfDenunciado']}:" />
+                         <p:inputText id="cpfDenunciado" value="#{denunciaMB.entity.cpfDenunciado}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="rgDenunciado" value="#{msg['denuncia.rgDenunciado']}:" />
+                         <p:inputText id="rgDenunciado" value="#{denunciaMB.entity.rgDenunciado}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="cnhDenunciado" value="#{msg['denuncia.cnhDenunciado']}:" />
+                         <p:inputText id="cnhDenunciado" value="#{denunciaMB.entity.cnhDenunciado}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="caracteristicasDenunciado" value="#{msg['denuncia.caracteristicasDenunciado']}:" />
+                         <p:inputText id="caracteristicasDenunciado" value="#{denunciaMB.entity.caracteristicasDenunciado}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="racaDenunciado" value="#{msg['denuncia.racaDenunciado']}:" />
+                         <p:inputText id="racaDenunciado" value="#{denunciaMB.entity.racaDenunciado}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel value="#{msg['denuncia.arquivos']}:" />
+                         <h:selectManyCheckbox id="arquivos" value="#{denunciaMB.entity.arquivos}" converter="entityConverter" >
+                             <x:initializer/>
+                             <f:selectItems value="#{findAllBean.get(classMB.arquivo)}" 
+                                            var="arquivo"
+                                            itemLabel="#{arquivo}"/>
+                         </h:selectManyCheckbox>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="situacao" value="* #{msg['denuncia.situacao']}:" />
+                         <h:selectOneMenu id="situacao" value="#{denunciaMB.entity.situacao}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.situacao)}" 
+                                            var="situacao"
+                                            itemLabel="#{situacao}"/>
+                         </h:selectOneMenu>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="denuncia.create">
+                <p:commandButton process="@form" update="@form" action="#{denunciaMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="denuncia.audit">
+                <x:audit for="#{denunciaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

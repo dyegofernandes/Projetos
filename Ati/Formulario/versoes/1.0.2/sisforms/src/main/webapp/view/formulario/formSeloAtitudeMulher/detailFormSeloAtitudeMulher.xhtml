@@ -1,0 +1,110 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailFormSeloAtitudeMulher" styleClass="uix-form-detail">
+        <p:fieldset legend="Identificação Empresa" toggleable="true">   
+            <p:fieldset legend="Dados Gerais">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['formSeloAtitudeMulher.razaoSocial']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{formSeloAtitudeMulherMB.entity.razaoSocial}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['formSeloAtitudeMulher.cnpj']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{formSeloAtitudeMulherMB.entity.cnpj}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['formSeloAtitudeMulher.municipio']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{formSeloAtitudeMulherMB.entity.municipio}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="Endereço:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{formSeloAtitudeMulherMB.entity.endereco}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['formSeloAtitudeMulher.email']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{formSeloAtitudeMulherMB.entity.email}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['formSeloAtitudeMulher.telefone']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{formSeloAtitudeMulherMB.entity.telefone}" styleClass="uix-content-detail"/>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['formSeloAtitudeMulher.natureza']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{formSeloAtitudeMulherMB.entity.natureza}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['formSeloAtitudeMulher.dataEmissao']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{formSeloAtitudeMulherMB.entity.dataEmissao}" styleClass="uix-content-detail">
+                                <f:convertDateTime />
+                            </h:outputText>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Situação:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formSeloAtitudeMulherMB.entity.situacao}" styleClass="uix-content-detail"/>
+                    </div>
+                    </div>
+                </div>
+            </p:fieldset>
+            <p:fieldset legend="Responsável">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formSeloAtitudeMulher.responsavel']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formSeloAtitudeMulherMB.entity.responsavel}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formSeloAtitudeMulher.cpf']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formSeloAtitudeMulherMB.entity.cpf}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formSeloAtitudeMulher.funcao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formSeloAtitudeMulherMB.entity.funcao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formSeloAtitudeMulher.emailResponsavel']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formSeloAtitudeMulherMB.entity.emailResponsavel}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formSeloAtitudeMulher.telefoneResponsavel']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formSeloAtitudeMulherMB.entity.telefoneResponsavel}" styleClass="uix-content-detail"/>
+                </div>
+            </p:fieldset>
+        </p:fieldset>
+        <p:fieldset legend="Dados representante legal da Empresa" toggleable="true">
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="Nome:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formSeloAtitudeMulherMB.entity.nomeRepresentante}" styleClass="uix-content-detail"/>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="Cargo:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formSeloAtitudeMulherMB.entity.cargoRepresentante}" styleClass="uix-content-detail"/>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="Fone:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formSeloAtitudeMulherMB.entity.telefoneRepresentante}" styleClass="uix-content-detail"/>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="Email:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formSeloAtitudeMulherMB.entity.emailRepresentante}" styleClass="uix-content-detail"/>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Justificativa para indicação da Empresa">
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="Descrição:" styleClass="control-label" /><br/>
+                <h:outputText value="#{formSeloAtitudeMulherMB.entity.justificativa}" styleClass="uix-content-detail"/>
+            </div>
+        </p:fieldset>
+
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetFormSeloAtitudeMulherDetail').hide()" />
+            <x:securityArea rolesAllowed="formSeloAtitudeMulher.audit">
+                <x:audit for="#{formSeloAtitudeMulherMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

@@ -1,0 +1,194 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateRelatorioDeViagem" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:tabView id="tabGeral">
+            <p:tab title="Informações Gerais" >
+                <p:fieldset legend="#{xmsg['generalData']}" id="fieldGeral">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="usuario" value="* #{msg['relatorioDeViagem.usuario']}:" />
+
+                                <p:inputText id="usuario" value="#{relatorioDeViagemMB.entity.usuario.nome}" styleClass="form-control" disabled="true">
+                                    <x:initializer/>
+                                </p:inputText>
+
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nome" value="* #{msg['relatorioDeViagem.nome']}:" />
+                                <p:inputText id="nome" value="#{relatorioDeViagemMB.entity.nome}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="lotacao" value="* #{msg['relatorioDeViagem.lotacao']}:" />
+                                <p:inputText id="lotacao" value="#{relatorioDeViagemMB.entity.lotacao}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cargoOuFuncao" value="* #{msg['relatorioDeViagem.cargoOuFuncao']}:" />
+                                <p:inputText id="cargoOuFuncao" value="#{relatorioDeViagemMB.entity.cargoOuFuncao}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cpf" value="* #{msg['relatorioDeViagem.cpf']}:" />
+                                <x:cpf id="cpf" value="#{relatorioDeViagemMB.entity.cpf}" styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="matricula" value="#{msg['relatorioDeViagem.matricula']}:" />
+                                <p:inputText id="matricula" value="#{relatorioDeViagemMB.entity.matricula}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="trajeto" value="* #{msg['relatorioDeViagem.trajeto']}:" />
+                                <p:inputText id="trajeto" value="#{relatorioDeViagemMB.entity.trajeto}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="dataSaida" value="* #{msg['relatorioDeViagem.dataSaida']}:" />
+                                <p:calendar id="dataSaida" value="#{relatorioDeViagemMB.entity.dataSaida}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="dataChegada" value="* #{msg['relatorioDeViagem.dataChegada']}:" />
+                                <p:calendar id="dataChegada" value="#{relatorioDeViagemMB.entity.dataChegada}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="duracaoAfastamento" value="#{msg['relatorioDeViagem.duracaoAfastamento']}:" />
+                                <p:inputMask id="duracaoAfastamento" mask="9?999999999" slotChar="" value="#{relatorioDeViagemMB.entity.duracaoAfastamento}" styleClass="form-control" />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="modalidadeDoTransporte" value="#{msg['relatorioDeViagem.modalidadeDoTransporte']}:" />
+                                <p:inputText id="modalidadeDoTransporte" value="#{relatorioDeViagemMB.entity.modalidadeDoTransporte}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+
+                        </div>
+                    </div>
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Atividades">
+                <p:fieldset legend="Atividade" id="fieldAtividade">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="descricao" value="* #{msg['atividadeRelatorioViagem.descricao']}:" />
+                        <p:inputTextarea id="descricao" value="#{relatorioDeViagemMB.descricao}" rows="10" styleClass="form-control"
+                                         cols="50"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataAtividade" value="* #{msg['atividadeRelatorioViagem.dataAtividade']}:" />
+                        <p:calendar id="dataAtividade" value="#{relatorioDeViagemMB.dataAtividade}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                </p:fieldset>
+                <div class="uix-center">
+                    <p:commandButton process="@this fieldAtividade" update="fieldAtividade dataTableAtividadeRelatorioViagem" value="Adicionar" 
+                                     action="#{relatorioDeViagemMB.addAtividade()}"/>
+                </div>
+                <p:fieldset legend="Tabela de Atividades">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="atividadeRelatorioViagem" rowIndexVar="index" id="dataTableAtividadeRelatorioViagem" widgetVar="dataTableAtividadeRelatorioViagemWidget" styleClass="table-responsive"
+                                 value="#{relatorioDeViagemMB.atividades}" lazy="false" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg['atividadeRelatorioViagem.descricao']}"  >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['atividadeRelatorioViagem.descricao']}" />
+                            </f:facet>
+                            <h:outputText value="#{atividadeRelatorioViagem.descricao}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['atividadeRelatorioViagem.dataAtividade']}" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['atividadeRelatorioViagem.dataAtividade']}" />
+
+                            </f:facet>
+                            <h:outputText value="#{atividadeRelatorioViagem.dataAtividade}">
+                                <f:convertDateTime />
+                            </h:outputText>
+                        </p:column>
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" 
+                                             update="dataTableAtividadeRelatorioViagem" 
+                                             action="#{relatorioDeViagemMB.removerAtividade(atividadeRelatorioViagem)}" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Arquivos">
+                <p:fieldset legend="Adicionar Arquivo">
+                    <p:fileUpload id="arquivo" mode="advanced" requiredMessage="É necessário o envio de pelo menos um arquivo!"
+                                  allowTypes="/(\.|\/)(gif|jpeg|jpg|rtf|odt|ods|png|doc|docx|xls|xlsx|pps|ppsx|ppt|pptx|pdf|jpg|zip|txt|7z|rar|dcm|mp4)$/"
+                                  invalidFileMessage="Tipo de arquivo não permitido" invalidSizeMessage="Arquivo com tamanho acima do permitido" 
+                                  uploadLabel="Carregar" update="dataTableArquivo" cancelLabel="Cancelar" label="Selecionar" multiple="false" 
+                                  sizeLimit="10485760" fileUploadListener="#{relatorioDeViagemMB.upload}" styleClass="grid_9" />
+                </p:fieldset>
+                <p:fieldset legend="Listagem de Arquivos">
+                    <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="arquivo" rowIndexVar="index" id="dataTableArquivo" widgetVar="dataTableArquivoWidget" styleClass="table-responsive"
+                                 value="#{relatorioDeViagemMB.arquivos}" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg['arquivo.nome']}" width="80%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['arquivo.nome']}" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.nome}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['arquivo.extensao']}" width="20%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['arquivo.extensao']}" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.extensao}"/>
+                        </p:column>
+
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>          
+                            <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Download" ajax="false" immediate="true" update="formCreateDenuncia">
+                                <p:fileDownload value="#{relatorioDeViagemMB.download(arquivo)}" />
+                            </p:commandButton>
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableArquivo" 
+                                             action="#{relatorioDeViagemMB.removerArquivo(arquivo)}" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </p:tab>
+
+        </p:tabView>
+
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="relatorioDeViagem.create">
+                <p:commandButton process="@form" 
+                                 update="@form" action="#{relatorioDeViagemMB.save}" value="#{xmsg['save']}" 
+                                 />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="relatorioDeViagem.create">
+                <p:commandButton rendered="#{relatorioDeViagemMB.entity.id!=null}" process="@form" update="@form" 
+                                 action="#{relatorioDeViagemMB.gerarPdf(relatorioDeViagemMB.entity)}" value="Imprimir" ajax="false">
+                </p:commandButton>
+            </x:securityArea>
+            <x:securityArea rolesAllowed="relatorioDeViagem.audit">
+                <x:audit for="#{relatorioDeViagemMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

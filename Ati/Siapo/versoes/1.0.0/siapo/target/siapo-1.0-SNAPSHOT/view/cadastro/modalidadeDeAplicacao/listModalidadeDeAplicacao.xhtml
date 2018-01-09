@@ -1,0 +1,80 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['modalidadeDeAplicacao.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuModalidadeDeAplicacao.xhtml" />
+        <h:form id="formListModalidadeDeAplicacao">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="modalidadeDeAplicacao_export" target=":formListModalidadeDeAplicacao:dataTableModalidadeDeAplicacao"
+                                     widgetVar="dataTableModalidadeDeAplicacaoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="modalidadeDeAplicacao" rowIndexVar="index" id="dataTableModalidadeDeAplicacao" widgetVar="dataTableModalidadeDeAplicacaoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{modalidadeDeAplicacaoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{modalidadeDeAplicacaoMB.dataModel.paginatorTemplate}"
+                         value="#{modalidadeDeAplicacaoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['modalidadeDeAplicacao.codigo']}" sortBy="#{modalidadeDeAplicacao.codigo}"
+                    filterBy="#{modalidadeDeAplicacao.codigo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['modalidadeDeAplicacao.codigo']}" />
+                    </f:facet>
+                    <h:outputText value="#{modalidadeDeAplicacao.codigo}"/>
+                </p:column>
+                <p:column headerText="#{msg['modalidadeDeAplicacao.nome']}" sortBy="#{modalidadeDeAplicacao.nome}"
+                    filterBy="#{modalidadeDeAplicacao.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['modalidadeDeAplicacao.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{modalidadeDeAplicacao.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['modalidadeDeAplicacao.ativo']}" sortBy="#{modalidadeDeAplicacao.ativo}"
+                    filterBy="#{modalidadeDeAplicacao.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['modalidadeDeAplicacao.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{modalidadeDeAplicacao.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetModalidadeDeAplicacaoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailModalidadeDeAplicacao" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{modalidadeDeAplicacao}" target="#{modalidadeDeAplicacaoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="modalidadeDeAplicacao.create">
+                        <p:button icon="ui-icon-pencil" outcome="createModalidadeDeAplicacao" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{modalidadeDeAplicacao.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="modalidadeDeAplicacao.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{modalidadeDeAplicacaoMB.delete}" >
+                            <f:setPropertyActionListener value="#{modalidadeDeAplicacao.id}" target="#{modalidadeDeAplicacaoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{modalidadeDeAplicacao}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="modalidadeDeAplicacao.audit">
+                    <x:auditDelete for="#{modalidadeDeAplicacaoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetModalidadeDeAplicacaoDetail" header="#{msg['modalidadeDeAplicacao.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailModalidadeDeAplicacao.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

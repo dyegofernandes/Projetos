@@ -1,0 +1,80 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['parametroSistema.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuParametroSistema.xhtml" />
+        <h:form id="formListParametroSistema">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="parametroSistema_export" target=":formListParametroSistema:dataTableParametroSistema"
+                                     widgetVar="dataTableParametroSistemaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="parametroSistema" rowIndexVar="index" id="dataTableParametroSistema" widgetVar="dataTableParametroSistemaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{parametroSistemaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{parametroSistemaMB.dataModel.paginatorTemplate}"
+                         value="#{parametroSistemaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['parametroSistema.urlSistema']}" sortBy="#{parametroSistema.urlSistema}"
+                    filterBy="#{parametroSistema.urlSistema}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['parametroSistema.urlSistema']}" />
+                    </f:facet>
+                    <h:outputText value="#{parametroSistema.urlSistema}"/>
+                </p:column>
+                <p:column headerText="#{msg['parametroSistema.urlImagens']}" sortBy="#{parametroSistema.urlImagens}"
+                    filterBy="#{parametroSistema.urlImagens}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['parametroSistema.urlImagens']}" />
+                    </f:facet>
+                    <h:outputText value="#{parametroSistema.urlImagens}"/>
+                </p:column>
+                <p:column headerText="#{msg['parametroSistema.ativo']}" sortBy="#{parametroSistema.ativo}"
+                    filterBy="#{parametroSistema.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['parametroSistema.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{parametroSistema.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetParametroSistemaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailParametroSistema" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{parametroSistema}" target="#{parametroSistemaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="parametroSistema.create">
+                        <p:button icon="ui-icon-pencil" outcome="createParametroSistema" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{parametroSistema.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="parametroSistema.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{parametroSistemaMB.delete}" >
+                            <f:setPropertyActionListener value="#{parametroSistema.id}" target="#{parametroSistemaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{parametroSistema}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="parametroSistema.audit">
+                    <x:auditDelete for="#{parametroSistemaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetParametroSistemaDetail" header="#{msg['parametroSistema.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailParametroSistema.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,120 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['reservaLocal.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuReservaLocal.xhtml" />
+        <h:form id="formListReservaLocal">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="reservaLocal_export" target=":formListReservaLocal:dataTableReservaLocal"
+                                     widgetVar="dataTableReservaLocalWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="reservaLocal" rowIndexVar="index" id="dataTableReservaLocal" widgetVar="dataTableReservaLocalWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{reservaLocalMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{reservaLocalMB.dataModel.paginatorTemplate}"
+                         value="#{reservaLocalMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['reservaLocal.localReserva']}" sortBy="#{reservaLocal.localReserva}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['reservaLocal.localReserva']}" />
+                    </f:facet>
+                    <h:outputText value="#{reservaLocal.localReserva}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['reservaLocal.nomeSolicitante']}" sortBy="#{reservaLocal.nomeSolicitante}"
+                    filterBy="#{reservaLocal.nomeSolicitante}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['reservaLocal.nomeSolicitante']}" />
+                    </f:facet>
+                    <h:outputText value="#{reservaLocal.nomeSolicitante}"/>
+                </p:column>
+                <p:column headerText="#{msg['reservaLocal.dataInicio']}" sortBy="#{reservaLocal.dataInicio}"
+                    filterBy="#{reservaLocal.dataInicio}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['reservaLocal.dataInicio']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{reservaLocal.dataInicio}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['reservaLocal.horaInicio']}" sortBy="#{reservaLocal.horaInicio}"
+                       style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['reservaLocal.horaInicio']}" />
+                    </f:facet>
+                    <h:outputText value="#{reservaLocal.horaInicio}">
+                        <f:convertDateTime pattern="HH:mm"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['reservaLocal.dataFinal']}" sortBy="#{reservaLocal.dataFinal}"
+                    filterBy="#{reservaLocal.dataFinal}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['reservaLocal.dataFinal']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{reservaLocal.dataFinal}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['reservaLocal.horaFinal']}" sortBy="#{reservaLocal.horaFinal}"
+                       style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['reservaLocal.horaFinal']}" />
+                    </f:facet>
+                    <h:outputText value="#{reservaLocal.horaFinal}">
+                        <f:convertDateTime pattern="HH:mm"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['reservaLocal.observacao']}" sortBy="#{reservaLocal.observacao}"
+                    filterBy="#{reservaLocal.observacao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['reservaLocal.observacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{reservaLocal.observacao}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetReservaLocalDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailReservaLocal" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{reservaLocal}" target="#{reservaLocalMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="reservaLocal.create">
+                        <p:button icon="ui-icon-pencil" outcome="createReservaLocal" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{reservaLocal.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="reservaLocal.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{reservaLocalMB.delete}" >
+                            <f:setPropertyActionListener value="#{reservaLocal.id}" target="#{reservaLocalMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{reservaLocal}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="reservaLocal.audit">
+                    <x:auditDelete for="#{reservaLocalMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetReservaLocalDetail" header="#{msg['reservaLocal.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailReservaLocal.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

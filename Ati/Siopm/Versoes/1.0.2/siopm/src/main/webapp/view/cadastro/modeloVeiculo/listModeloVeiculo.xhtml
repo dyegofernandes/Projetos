@@ -1,0 +1,82 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['modeloVeiculo.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuModeloVeiculo.xhtml" />
+        <h:form id="formListModeloVeiculo">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="modeloVeiculo_export" target=":formListModeloVeiculo:dataTableModeloVeiculo"
+                                widgetVar="dataTableModeloVeiculoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="modeloVeiculo" rowIndexVar="index" id="dataTableModeloVeiculo" widgetVar="dataTableModeloVeiculoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{modeloVeiculoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{modeloVeiculoMB.dataModel.paginatorTemplate}"
+                         value="#{modeloVeiculoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['modeloVeiculo.nome']}" sortBy="#{modeloVeiculo.nome}"
+                          filterBy="#{modeloVeiculo.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['modeloVeiculo.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{modeloVeiculo.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['qualificacaoDeVeiculo.tipo']}" sortBy="#{modeloVeiculo.tipo}"
+                          filterBy="#{modeloVeiculo.tipo}"  filterOptions="#{findAllBean.getSelect(classMB.tipoVeiculo)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['qualificacaoDeVeiculo.tipo']}" />
+                    </f:facet>
+                    <h:outputText value="#{modeloVeiculo.tipo.descricao}"/>
+                </p:column>
+                <p:column headerText="#{msg['modeloVeiculo.marca']}" sortBy="#{modeloVeiculo.marca}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['modeloVeiculo.marca']}" />
+                    </f:facet>
+                    <h:outputText value="#{modeloVeiculo.marca}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetModeloVeiculoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailModeloVeiculo" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{modeloVeiculo}" target="#{modeloVeiculoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="modeloVeiculo.create">
+                        <p:button icon="ui-icon-pencil" outcome="createModeloVeiculo" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{modeloVeiculo.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="modeloVeiculo.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{modeloVeiculoMB.delete}" >
+                            <f:setPropertyActionListener value="#{modeloVeiculo.id}" target="#{modeloVeiculoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{modeloVeiculo}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="modeloVeiculo.audit">
+                    <x:auditDelete for="#{modeloVeiculoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetModeloVeiculoDetail" header="#{msg['modeloVeiculo.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailModeloVeiculo.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

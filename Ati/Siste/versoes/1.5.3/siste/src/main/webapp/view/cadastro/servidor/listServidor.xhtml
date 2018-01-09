@@ -1,0 +1,166 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['servidor.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuServidor.xhtml" />
+        <h:form id="formListServidor">
+
+            <p:fieldset legend="Filtros de Busca" toggleable="true">
+                <div class="row">
+                    <h:panelGroup id="panel0">
+                        <x:securityArea rolesAllowed="campos.orgao">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="orgao" value="Órgão" />
+                                <h:selectOneMenu id="orgao" value="#{servidorMB.filtros.orgao}" converter="entityConverter" styleClass="form-control" 
+                                                 >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.orgao)}" 
+                                                   var="orgao"
+                                                   itemLabel="#{orgao}"/>
+                                    <p:ajax process="@this" update="unidade cargo" listener="#{servidorMB.carregarUnidadesECargosPorOrgao(servidorMB.filtros.orgao)}"/>
+                                </h:selectOneMenu>
+                            </div>
+                        </x:securityArea>
+                        <x:securityArea rolesAllowed="campos.unidade">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="unidade" value="#{msg['dadosFuncionais.unidade']}:" />
+                                <h:selectOneMenu id="unidade" value="#{servidorMB.filtros.unidade}" converter="entityConverter" styleClass="form-control" 
+                                                 >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{servidorMB.unidades}" 
+                                                   var="unidade"
+                                                   itemLabel="#{unidade}"/>
+                                </h:selectOneMenu>
+                            </div>
+                        </x:securityArea>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cargo" value="#{msg['dadosFuncionais.cargo']}:" />
+                            <h:selectOneMenu id="cargo" value="#{servidorMB.filtros.cargo}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{servidorMB.cargos}" 
+                                               var="cargo"
+                                               itemLabel="#{cargo}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="pisPasepNit" value="Pis/Pasep:" />
+                            <p:inputMask id="pisPasepNit" value="#{servidorMB.filtros.pis}" mask="999.99999.99-9"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cpf" value="#{msg['servidor.cpf']}:" />
+                            <x:cpf id="cpf" value="#{servidorMB.filtros.cpf}" styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="nome" value="#{msg['servidor.nome']}:" />
+                            <p:inputText id="nome" value="#{servidorMB.filtros.nome}" maxlength="260"  styleClass="form-control"  />
+                        </div>
+                    </h:panelGroup>
+                </div>
+                <div class="uix-center">
+                    <p:commandButton process="@this panel0" update="dataTableServidor" action="#{servidorMB.buscarServidor()}" value="Buscar" />
+                </div>
+            </p:fieldset>
+
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="Relatorio_de_Trabalhadores" target=":formListServidor:dataTableServidor"
+                                widgetVar="dataTableServidorWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="servidor" rowIndexVar="index" id="dataTableServidor" widgetVar="dataTableServidorWidget" styleClass="table-responsive"
+                         value="#{servidorMB.servidores}" >
+                <f:facet name="header">
+                    <h:outputLabel value="Relação de Trabalhadores Eventuais"/>
+                </f:facet>
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+
+                </p:column>
+                <p:column headerText="Órgão" rendered="#{x:hasRole('campos.orgao')}">
+                    <f:facet name="header">
+                        <h:outputText value="Órgão" />
+                    </f:facet>
+                    <h:outputText value="#{servidor.dadosFuncionais.unidade.orgao}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Unidade" rendered="#{x:hasRole('campos.unidade')}">
+                    <f:facet name="header">
+                        <h:outputText value="Unidade" />
+                    </f:facet>
+                    <h:outputText value="#{servidor.dadosFuncionais.unidade}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>    
+                <p:column headerText="#{msg['servidor.nome']}" sortBy="#{servidor.nome}">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['servidor.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{servidor.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['servidor.cpf']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['servidor.cpf']}"/>
+                    </f:facet>
+                    <h:outputText value="#{servidor.cpf}" converter="cpfConverter"/>
+                </p:column>
+
+                <p:column headerText="Pis/Pasep">
+                    <f:facet name="header">
+                        <h:outputText value="Pis/Pasep" />
+                    </f:facet>
+                    <h:outputText value="#{servidor.carteiraDeTrabalho.pisPasepNit}"/>
+                </p:column>
+
+                <p:column headerText="Cargo" sortBy="#{servidor.dadosFuncionais.cargo.nome}">
+                    <f:facet name="header">
+                        <h:outputText value="Cargo" />
+                    </f:facet>
+                    <h:outputText value="#{servidor.dadosFuncionais.cargo}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>   
+
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetServidorDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailServidor" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{servidor}" target="#{servidorMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="servidor.create">
+                        <p:button icon="ui-icon-pencil" outcome="createServidor" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{servidor.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="servidor.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{servidorMB.remove}" >
+                            <f:setPropertyActionListener value="#{servidor}" target="#{servidorMB.entity}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{servidor}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="servidor.audit">
+                    <x:auditDelete for="#{servidorMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetServidorDetail" header="#{msg['servidor.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailServidor.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

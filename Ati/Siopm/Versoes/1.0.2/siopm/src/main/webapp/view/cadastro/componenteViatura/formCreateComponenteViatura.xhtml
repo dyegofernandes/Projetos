@@ -1,0 +1,49 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateComponenteViatura" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="matricula" value="* #{msg['componenteViatura.matricula']}:" />
+                        <p:inputMask id="matricula" value="#{componenteViaturaMB.entity.matricula}" maxlength="8" mask="999999-X" 
+                                     validatorMessage="O ultimo digito deve conter um numero ou X" styleClass="form-control" >
+                            <f:validateRegex pattern="^\d{6}-[\dX]$"/>
+                        </p:inputMask>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="* #{msg['componenteViatura.nome']}:" />
+                        <p:inputText id="nome" value="#{componenteViaturaMB.entity.nome}" maxlength="100"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="patente" value="* #{msg['componenteViatura.patente']}:" />
+                        <h:selectOneMenu id="patente" value="#{componenteViaturaMB.entity.patente}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.patentePM)}" 
+                                           var="patentePM"
+                                           itemLabel="#{patentePM}"/>
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="componentesViatura.create">
+                <p:commandButton process="@form" update="@form" action="#{componenteViaturaMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="componentesViatura.audit">
+                <x:audit for="#{componenteViaturaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

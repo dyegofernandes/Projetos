@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="formularioRegistroDominio" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="464"/>
+	<parameter name="LOGO_PI" class="java.lang.String"/>
+	<parameter name="LOGO_ATI" class="java.lang.String"/>
+	<field name="entidade" class="java.lang.String"/>
+	<field name="cnpj" class="java.lang.String"/>
+	<field name="enderecoEntidade" class="java.lang.String"/>
+	<field name="responsavelLegal" class="java.lang.String"/>
+	<field name="cpfRespLegal" class="java.lang.String"/>
+	<field name="rgRespLegal" class="java.lang.String"/>
+	<field name="telefonesRespLegal" class="java.lang.String"/>
+	<field name="emailRespLegal" class="java.lang.String"/>
+	<field name="responsavelTecnico" class="java.lang.String"/>
+	<field name="cpfRespTecnico" class="java.lang.String"/>
+	<field name="rgRespTecnico" class="java.lang.String"/>
+	<field name="telefonesRespTecnico" class="java.lang.String"/>
+	<field name="emailRespTecnico" class="java.lang.String"/>
+	<field name="dominio" class="java.lang.String"/>
+	<field name="servidorDNS1" class="java.lang.String"/>
+	<field name="servidorDNS2" class="java.lang.String"/>
+	<field name="servidorDNS3" class="java.lang.String"/>
+	<field name="servidorDNS4" class="java.lang.String"/>
+	<pageHeader>
+		<band height="80" splitType="Stretch">
+			<image>
+				<reportElement x="179" y="5" width="204" height="67"/>
+				<imageExpression><![CDATA[$P{LOGO_PI}]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="654" splitType="Stretch">
+			<staticText>
+				<reportElement x="4" y="7" width="551" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FORMULÁRIO REGISTRO DE DOMÍNIO - ATI]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="35" width="555" height="619"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="191" y="582" width="50" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[(dia)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="257" y="582" width="117" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[(mês)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="562" width="552" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[_______________,_________,______________________de _________.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="105" y="582" width="74" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[(cidade)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="107" y="626" width="337" height="20"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Assinatura]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="402" y="582" width="50" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[(ano)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="43" width="87" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[1. ENTIDADE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="68" width="50" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[2. CNPJ:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="93" width="87" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[3. ENDEREÇO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="130" width="145" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[4. RESPONSÁVEL LEGAL:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="157" width="43" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[5. CPF:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="183" width="39" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[6. RG:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="209" width="87" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[7. TELEFONES:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="285" y="209" width="50" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[E-MAIL:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="299" width="50" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[10. RG:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="285" y="324" width="50" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[E-MAIL:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="273" width="43" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[9. CPF:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="247" width="161" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[8. RESPONSÁVEL TÉCNICO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="324" width="99" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[11. TELEFONES:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="360" width="161" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[12. DOMÍNIO (.PI.GOV.BR):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="384" width="239" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[13. SERVIDORES DE DNS DO PROVEDOR:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="51" y="408" width="105" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[a Servidor DNS 1:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="51" y="435" width="105" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[b Servidor DNS 2:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="51" y="461" width="105" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[c Servidor DNS 3:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="51" y="487" width="105" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[d Servidor DNS 4:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="107" y="43" width="433" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{entidade}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="18" y="511" width="522" height="16"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[14. ESPECIFICAR VALOR REFERENTE À MANUTENÇÃO DO DOMÍNIO E VIGÊNCIA
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="527" width="88" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[CONTRATUAL:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="68" y="68" width="472" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cnpj}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="105" y="93" width="435" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{enderecoEntidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="163" y="130" width="377" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{responsavelLegal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="63" y="157" width="477" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cpfRespLegal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="57" y="183" width="483" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rgRespLegal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="107" y="209" width="178" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefonesRespLegal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="335" y="209" width="205" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{emailRespLegal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="179" y="247" width="361" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{responsavelTecnico}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="61" y="273" width="479" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cpfRespTecnico}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="68" y="299" width="472" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rgRespTecnico}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="117" y="324" width="168" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefonesRespTecnico}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="335" y="324" width="205" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{emailRespTecnico}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="179" y="360" width="361" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dominio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="157" y="408" width="383" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{servidorDNS1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="156" y="435" width="384" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{servidorDNS2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="157" y="461" width="383" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{servidorDNS3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="157" y="487" width="383" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{servidorDNS4}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="107" y="527" width="433" height="18"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="68" splitType="Stretch">
+			<staticText>
+				<reportElement x="4" y="5" width="331" height="55"/>
+				<text><![CDATA[AGÊNCIA DE TECNOLOGIA DA INFORMAÇÃO DO ESTADO DO PIAUI
+Av. Pedro Freitas, 1900 - Centro Administrativo - Bairro São Pedro
+Teresina-PI - CEP: 64.018-900
+Fone: 86 - 3216 1781/1785 Fax: 86 - 3216 1783]]></text>
+			</staticText>
+			<image>
+				<reportElement x="416" y="5" width="153" height="55"/>
+				<imageExpression><![CDATA[$P{LOGO_ATI}]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="-18" y="0" width="592" height="2" forecolor="#339900"/>
+			</line>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,140 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateContratoFornecedor" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="fornecedor" value="* #{msg['contratoFornecedor.fornecedor']}:" />
+                        <h:selectOneMenu id="fornecedor" value="#{contratoFornecedorMB.entity.fornecedor}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.fornecedor)}" 
+                                           var="fornecedor"
+                                           itemLabel="#{fornecedor}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="numeroContrato" value="* #{msg['contratoFornecedor.numeroContrato']}:" />
+                        <p:inputText id="numeroContrato" value="#{contratoFornecedorMB.entity.numeroContrato}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataInicio" value="* #{msg['contratoFornecedor.dataInicio']}:" />
+                        <p:calendar id="dataInicio" value="#{contratoFornecedorMB.entity.dataInicio}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataFinal" value="* #{msg['contratoFornecedor.dataFinal']}:" />
+                        <p:calendar id="dataFinal" value="#{contratoFornecedorMB.entity.dataFinal}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+
+
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Certificados" id="fieldSetCertificados">
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="tipo" value="* Tipo certificado:" />
+                    <h:selectOneMenu id="tipo" value="#{contratoFornecedorMB.certificadoAdd.tipo}" converter="entityConverter" styleClass="form-control" >
+                        <x:initializer/>
+                        <f:selectItem itemLabel="#{xmsg['select']}" />
+                        <f:selectItems value="#{findAllBean.get(classMB.tipoCertificado)}" 
+                                       var="tipo"
+                                       itemLabel="#{tipo}"/>
+                    </h:selectOneMenu>
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="quantidade" value="* Quantidade:" />
+                    <x:inputNumber id="quantidade" value="#{contratoFornecedorMB.certificadoAdd.quantidade}" styleClass="form-control" 
+                                   centsLimit="0" limit="6"/>
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="valor" value="* Valor:" />
+                    <x:inputNumber id="valor" value="#{contratoFornecedorMB.certificadoAdd.valor}" styleClass="form-control" 
+                                   />
+                </div>
+            </div>
+            <div class="uix-center">
+                <p:commandButton process="@this fieldSetCertificados" update="fieldSetCertificados dataTableCertificado" value="Adicionar" 
+                                 action="#{contratoFornecedorMB.addCertificado()}" />
+            </div>
+            <div class="row">
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="certificado" rowIndexVar="index" id="dataTableCertificado" widgetVar="dataTableCertificadoWidget" styleClass="table-responsive"
+                             value="#{contratoFornecedorMB.certificados}"  >
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column headerText="Tipo Certificado" >
+                        <f:facet name="header">
+                            <h:outputText value="Tipo Certificado" />
+                        </f:facet>
+                        <h:outputText value="#{certificado.tipo}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Quantidade" style="text-align: right;" >
+                        <f:facet name="header">
+                            <h:outputText value="Quantidade" />
+                        </f:facet>
+                        <h:outputText value="#{certificado.quantidade}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="0" />
+                        </h:outputText>
+
+                    </p:column>
+                    <p:column headerText="Valor" style="text-align: right;" >
+                        <f:facet name="header">
+                            <h:outputText value="Valor" />
+                        </f:facet>
+                        <h:outputText value="#{certificado.valor}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+
+                    </p:column>
+                    <p:column headerText="Total" style="text-align: right;" >
+                        <f:facet name="header">
+                            <h:outputText value="Total" />
+                        </f:facet>
+                        <h:outputText value="#{certificado.total}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+
+                    </p:column>
+
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableCertificado" 
+                                         action="#{contratoFornecedorMB.removerCertificado(certificado)}" >
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="contratoFornecedor.create">
+                <p:commandButton process="@form" update="@form" action="#{contratoFornecedorMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="contratoFornecedor.audit">
+                <x:audit for="#{contratoFornecedorMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

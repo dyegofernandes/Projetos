@@ -1,0 +1,118 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreatePessoaEnvolvida" >
+         <x:modalMessages/>
+        <p:fieldset legend="#{xmsg['generalData']}">
+           
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="nome" value="* #{msg['pessoaEnvolvida.nome']}:" />
+                         <p:inputText id="nome" value="#{pessoaEnvolvidaMB.entity.nome}" maxlength="260"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="rg" value="#{msg['pessoaEnvolvida.rg']}:" />
+                         <p:inputText id="rg" value="#{pessoaEnvolvidaMB.entity.rg}" maxlength="60"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="nomeDaMae" value="#{msg['pessoaEnvolvida.nomeDaMae']}:" />
+                         <p:inputText id="nomeDaMae" value="#{pessoaEnvolvidaMB.entity.nomeDaMae}" maxlength="260"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="nomeDoPai" value="#{msg['pessoaEnvolvida.nomeDoPai']}:" />
+                         <p:inputText id="nomeDoPai" value="#{pessoaEnvolvidaMB.entity.nomeDoPai}" maxlength="260"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="dataNascimento" value="#{msg['pessoaEnvolvida.dataNascimento']}:" />
+                         <p:calendar id="dataNascimento" value="#{pessoaEnvolvidaMB.entity.dataNascimento}" 
+                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                             <x:mask/>
+                         </p:calendar>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="naturalidade" value="#{msg['pessoaEnvolvida.naturalidade']}:" />
+                         <h:selectOneMenu id="naturalidade" value="#{pessoaEnvolvidaMB.entity.naturalidade}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.cidade)}" 
+                                            var="cidade"
+                                            itemLabel="#{cidade}"/>
+                         </h:selectOneMenu>
+                     </div>
+                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="sexo" value="* #{msg['pessoaEnvolvida.sexo']}:" />
+                         <h:selectOneMenu id="sexo" value="#{pessoaEnvolvidaMB.entity.sexo}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.sexo)}" 
+                                            var="sexo"
+                                            itemLabel="#{sexo.descricao}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="corDosOlhos" value="#{msg['pessoaEnvolvida.corDosOlhos']}:" />
+                         <h:selectOneMenu id="corDosOlhos" value="#{pessoaEnvolvidaMB.entity.corDosOlhos}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.corOlho)}" 
+                                            var="corOlho"
+                                            itemLabel="#{corOlho.descricao}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="corDoCabelo" value="#{msg['pessoaEnvolvida.corDoCabelo']}:" />
+                         <h:selectOneMenu id="corDoCabelo" value="#{pessoaEnvolvidaMB.entity.corDoCabelo}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.corCabelo)}" 
+                                            var="corCabelo"
+                                            itemLabel="#{corCabelo.descricao}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="raca" value="Raça:" />
+                         <h:selectOneMenu id="raca" value="#{pessoaEnvolvidaMB.entity.raca}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.raca)}" 
+                                            var="raca"
+                                            itemLabel="#{raca.descricao}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="tipoPessoa" value="#{msg['pessoaEnvolvida.tipoPessoa']}:" />
+                         <h:selectOneMenu id="tipoPessoa" value="#{pessoaEnvolvidaMB.entity.tipoPessoa}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.tipoPessoa)}" 
+                                            var="tipoPessoa"
+                                            itemLabel="#{tipoPessoa.descricao}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="classificaoOcorrencia" value="#{msg['pessoaEnvolvida.classificaoOcorrencia']}:" />
+                         <h:selectOneMenu id="classificaoOcorrencia" value="#{pessoaEnvolvidaMB.entity.classificaoOcorrencia}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.classificacaoPessoaOcorrencia)}" 
+                                            var="classificacaoPessoaOcorrencia"
+                                            itemLabel="#{classificacaoPessoaOcorrencia.descricao}"/>
+                         </h:selectOneMenu>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="pessoaEnvolvida.create">
+                <p:commandButton process="@form" update="@form" action="#{pessoaEnvolvidaMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="pessoaEnvolvida.audit">
+                <x:audit for="#{pessoaEnvolvidaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

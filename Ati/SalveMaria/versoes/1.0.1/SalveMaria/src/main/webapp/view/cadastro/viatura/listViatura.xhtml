@@ -1,0 +1,107 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['viatura.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuViatura.xhtml" />
+        <h:form id="formListViatura">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="viatura_export" target=":formListViatura:dataTableViatura"
+                                     widgetVar="dataTableViaturaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="viatura" rowIndexVar="index" id="dataTableViatura" widgetVar="dataTableViaturaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{viaturaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{viaturaMB.dataModel.paginatorTemplate}"
+                         value="#{viaturaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['viatura.unidade']}" sortBy="#{viatura.unidade}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['viatura.unidade']}" />
+                    </f:facet>
+                    <h:outputText value="#{viatura.unidade}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['viatura.codigo']}" sortBy="#{viatura.codigo}"
+                    filterBy="#{viatura.codigo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['viatura.codigo']}" />
+                    </f:facet>
+                    <h:outputText value="#{viatura.codigo}"/>
+                </p:column>
+                <p:column headerText="#{msg['viatura.imei']}" sortBy="#{viatura.imei}"
+                    filterBy="#{viatura.imei}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['viatura.imei']}" />
+                    </f:facet>
+                    <h:outputText value="#{viatura.imei}"/>
+                </p:column>
+                <p:column headerText="#{msg['viatura.telefone']}" sortBy="#{viatura.telefone}"
+                    filterBy="#{viatura.telefone}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['viatura.telefone']}" />
+                    </f:facet>
+                    <h:outputText value="#{viatura.telefone}"/>
+                </p:column>
+                <p:column headerText="#{msg['viatura.latitude']}" sortBy="#{viatura.latitude}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['viatura.latitude']}" />
+                    </f:facet>
+                    <h:outputText value="#{viatura.latitude}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="10" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['viatura.longitude']}" sortBy="#{viatura.longitude}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['viatura.longitude']}" />
+                    </f:facet>
+                    <h:outputText value="#{viatura.longitude}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="10" />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetViaturaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailViatura" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{viatura}" target="#{viaturaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="viatura.create">
+                        <p:button icon="ui-icon-pencil" outcome="createViatura" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{viatura.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="viatura.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{viaturaMB.delete}" >
+                            <f:setPropertyActionListener value="#{viatura.id}" target="#{viaturaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{viatura}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="viatura.audit">
+                    <x:auditDelete for="#{viaturaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetViaturaDetail" header="#{msg['viatura.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailViatura.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

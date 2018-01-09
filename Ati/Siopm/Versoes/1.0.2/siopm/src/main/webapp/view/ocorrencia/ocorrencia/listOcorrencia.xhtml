@@ -1,0 +1,264 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['ocorrencia.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuOcorrencia.xhtml" />
+        <h:form id="formListOcorrencia">
+            <x:modalMessages autoUpdate="true"/>
+
+            <p:fieldset legend="Filtros de Busca" toggleable="true" id="fieldBusca">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="opms" value="Opms:" />
+                        <p:selectCheckboxMenu id="opms" value="#{ocorrenciaMB.filtros.opms}" label="Selecione"
+                                              filter="true" filterMatchMode="startsWith" converter="entityConverter" styleClass="form-control"
+                                              required="true" requiredMessage="Selecione uma ou mais Opms!">
+                            <x:initializer/>
+                            <f:selectItems value="#{findAllBean.get(classMB.opm)}"
+                                           var="opm"
+                                           itemLabel="#{opm.sigla}"/>
+                        </p:selectCheckboxMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="naturezas" value="Naturezas da Ocorrência:" />
+                        <p:selectCheckboxMenu id="naturezas" value="#{ocorrenciaMB.filtros.naturezas}" label="Selecione"
+                                              filter="true" filterMatchMode="startsWith" converter="entityConverter" styleClass="form-control"
+                                              >
+                            <x:initializer/>
+                            <f:selectItems value="#{findAllBean.get(classMB.naturezaOcorrencia)}"
+                                           var="natureza"
+                                           itemLabel="#{natureza.nome}"/>
+                        </p:selectCheckboxMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="resultados" value="Resultados da Ocorrência:" />
+                        <p:selectCheckboxMenu id="resultados" value="#{ocorrenciaMB.filtros.resultados}" label="Selecione"
+                                              filter="true" filterMatchMode="startsWith" converter="entityConverter" styleClass="form-control"
+                                              >
+                            <x:initializer/>
+                            <f:selectItems value="#{findAllBean.get(classMB.resultadoOcorrencia)}"
+                                           var="resultado"
+                                           itemLabel="#{resultado.nome}"/>
+                        </p:selectCheckboxMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataInicial" value="Data Inicial:" />
+                        <p:calendar id="dataInicial" value="#{ocorrenciaMB.filtros.dataInicial}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar" >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataFinal" value="Data Final:" />
+                        <p:calendar id="dataFinal" value="#{ocorrenciaMB.filtros.dataFinal}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar" >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="horaInicial" value="Hora Inicial:" />
+                        <p:calendar id="horaInicial" value="#{ocorrenciaMB.filtros.horaInicial}" 
+                                    showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar" >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="horaFinal" value="Hora Final:" />
+                        <p:calendar id="horaFinal" value="#{ocorrenciaMB.filtros.horaFinal}" 
+                                    showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar" >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="codigo" value="Códico:" />
+                        <p:inputMask id="codigo" value="#{ocorrenciaMB.filtros.codigo}" mask="99999?999999"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="logradouro" value="Logradouro:" />
+                        <p:inputText id="logradouro" value="#{ocorrenciaMB.filtros.logradouro}" maxlength="260"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="bairro" value="Bairro:" />
+                        <p:inputText id="bairro" value="#{ocorrenciaMB.filtros.bairro}" maxlength="260"  styleClass="form-control"  />
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cidade" value="Cidade:" />
+                        <p:inputText id="cidade" value="#{ocorrenciaMB.filtros.cidade}" maxlength="260"  styleClass="form-control"  />
+                    </div>
+
+                </div>
+
+                <div class="uix-center">
+                    <p:commandButton process="@this fieldBusca" update="@form" 
+                                     value="Buscar" action="#{ocorrenciaMB.buscar()}" />
+                </div>
+            </p:fieldset>
+            <p:fieldset legend="Resultado da Busca" >
+                <x:dataTableActions fileName="ocorrencia_export" target=":formListOcorrencia:dataTableOcorrencia"
+                                    widgetVar="dataTableOcorrenciaWidget"  />
+
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="ocorrencia" rowIndexVar="index" id="dataTableOcorrencia" widgetVar="dataTableOcorrenciaWidget" styleClass="table-responsive"
+                             value="#{ocorrenciaMB.ocorrencias}" >
+
+                    <p:column headerText="Código"  >
+                        <f:facet name="header">
+                            <h:outputText value="Código" />
+                        </f:facet>
+                        <h:outputText value="#{ocorrencia.codigo}"/>
+                    </p:column>
+                    <p:column headerText="Opm" >
+                        <f:facet name="header">
+                            <h:outputText value="Opm" />
+                        </f:facet>
+                        <h:outputText value="#{ocorrencia.opm}">
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['ocorrencia.dataOcorrencia']}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['ocorrencia.dataOcorrencia']}" />
+                        </f:facet>
+                        <h:outputText value="#{ocorrencia.dataOcorrencia}">
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Hora ocorrencia" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Hora ocorrencia" />
+                        </f:facet>
+                        <h:outputText value="#{ocorrencia.horaOcorrencia}">
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Natureza" >
+                        <f:facet name="header">
+                            <h:outputText value="Natureza" />
+                        </f:facet>
+                        <h:outputText value="#{ocorrencia.natureza}">
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Logradouro" >
+                        <f:facet name="header">
+                            <h:outputText value="Logradouro" />
+                        </f:facet>
+                        <h:outputText value="#{ocorrencia.logradouro}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Bairro" >
+                        <f:facet name="header">
+                            <h:outputText value="Bairro" />
+                        </f:facet>
+                        <h:outputText value="#{ocorrencia.bairro}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Cidade" >
+                        <f:facet name="header">
+                            <h:outputText value="Cidade" />
+                        </f:facet>
+                        <h:outputText value="#{ocorrencia.cidade}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Data Atendimento" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Data Atendimento" />
+                        </f:facet>
+                        <h:outputText value="#{ocorrencia.dataAtendimento}">
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Hora Atendimento" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Hora Atendimento" />
+                        </f:facet>
+                        <h:outputText value="#{ocorrencia.horaAtendimento}">
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Data Encerramento" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Data Encerramento" />
+                        </f:facet>
+                        <h:outputText value="#{ocorrencia.dataEncerramento}">
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Hora Encerramento" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Hora Encerramento" />
+                        </f:facet>
+                        <h:outputText value="#{ocorrencia.horaEncerramento}">
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="#{msg['ocorrencia.classificacaoOcorrencia']}"  >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['ocorrencia.classificacaoOcorrencia']}" />
+                        </f:facet>
+                        <h:outputText value="#{ocorrencia.classificacaoOcorrencia}"/>
+                    </p:column>
+                    <p:column headerText="Resultado" >
+                        <f:facet name="header">
+                            <h:outputText value="Resultado" />
+                        </f:facet>
+                        <h:outputText value="#{ocorrencia.resultado}">
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="#{msg['ocorrencia.situacao']}"  >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['ocorrencia.situacao']}" />
+                        </f:facet>
+                        <h:outputText value="#{ocorrencia.situacao}"/>
+                    </p:column>
+
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+                        <p:commandButton icon="ui-icon-zoomin" 
+                                         process="@form" update=":formDetailOcorrencia" title="#{xmsg['detail']}" 
+                                         action="#{ocorrenciaMB.visualizarOcorrencia(ocorrencia.id)}">
+                        </p:commandButton>
+                        <x:securityArea rolesAllowed="ocorrencia.create">
+                            <p:commandButton icon="ui-icon-pencil" 
+                                             process="@form" update=":formCreateOcorrencia" title="#{xmsg['edit']}" 
+                                             action="#{ocorrenciaMB.editarOcorrencia(ocorrencia.id)}">
+                            </p:commandButton>
+                        </x:securityArea>
+                        <x:securityArea rolesAllowed="ocorrencia.delete">
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                             action="#{ocorrenciaMB.delete}" oncomplete="#{ocorrenciaMB.buscar()}">
+                                <f:setPropertyActionListener value="#{ocorrencia.id}" target="#{ocorrenciaMB.id}" />
+                                <x:confirmation message="#{xmsg['confirmDelete']} Ocorrência código: #{ocorrencia.codigo}" />
+                            </p:commandButton>
+                        </x:securityArea>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+
+
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="ocorrencia.audit">
+                    <x:auditDelete for="#{ocorrenciaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetOcorrenciaDetail" header="#{msg['ocorrencia.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailOcorrencia.xhtml" />
+        </p:dialog>
+        <p:dialog widgetVar="widgetOcorrencia" header="Cadastrar Ocorrência" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="/view/ocorrencia/ocorrencia/formCreateOcorrencia.xhtml" />
+            <p:ajax event="close" update=":formListOcorrencia" listener="#{findAllBean.setReload(true)}"
+                    />
+            <p:ajax event="close" update=":formListOcorrencia" listener="#{ocorrenciaMB.buscar()}"/>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

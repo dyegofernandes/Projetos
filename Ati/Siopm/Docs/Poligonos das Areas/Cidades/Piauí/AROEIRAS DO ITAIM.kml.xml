@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>AROEIRAS DO ITAIM.kmz</name>
+    <Style id="line-0000FF-3000-nodesc-normal">
+      <LineStyle>
+        <color>ffff0000</color>
+        <width>3</width>
+      </LineStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="line-0000FF-3000-nodesc-highlight">
+      <LineStyle>
+        <color>ffff0000</color>
+        <width>4.5</width>
+      </LineStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="line-0000FF-3000-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#line-0000FF-3000-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#line-0000FF-3000-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Placemark>
+      <name>AROEIRAS DO ITAIM</name>
+      <styleUrl>#line-0000FF-3000-nodesc</styleUrl>
+      <LineString>
+        <tessellate>1</tessellate>
+        <coordinates>
+              -41.559507,-7.179826,0
+              -41.569746,-7.190027,0
+              -41.604959,-7.225108,0
+              -41.616146,-7.241575,0
+              -41.617023,-7.242867,0
+              -41.654613,-7.298209,0
+              -41.593923,-7.291281,0
+              -41.565246,-7.288005,0
+              -41.551524,-7.292862,0
+              -41.550795,-7.29312,0
+              -41.510082,-7.307519,0
+              -41.478184,-7.318801,0
+              -41.47279,-7.314208,0
+              -41.454816,-7.299407,0
+              -41.44816,-7.293925,0
+              -41.441639,-7.289562,0
+              -41.438375,-7.286859,0
+              -41.434635,-7.282848,0
+              -41.428965,-7.275471,0
+              -41.427857,-7.274691,0
+              -41.426755,-7.274174,0
+              -41.424762,-7.273714,0
+              -41.422062,-7.272822,0
+              -41.430903,-7.250727,0
+              -41.443348,-7.219607,0
+              -41.446195,-7.218624,0
+              -41.449024,-7.217281,0
+              -41.45387,-7.211887,0
+              -41.454967,-7.209823,0
+              -41.457737,-7.19909,0
+              -41.458313,-7.196314,0
+              -41.458933,-7.194369,0
+              -41.461346,-7.189219,0
+              -41.462445,-7.187898,0
+              -41.462455,-7.18705,0
+              -41.477336,-7.187504,0
+              -41.506372,-7.161152,0
+              -41.548121,-7.168472,0
+              -41.559423,-7.179966,0
+              -41.559507,-7.179826,0
+	</coordinates>
+      </LineString>
+    </Placemark>
+  </Document>
+</kml>

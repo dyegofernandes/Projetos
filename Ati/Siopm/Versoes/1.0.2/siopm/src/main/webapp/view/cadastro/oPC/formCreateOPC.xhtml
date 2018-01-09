@@ -1,0 +1,245 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces"
+                 xmlns:custom="http://java.sun.com/jsf/composite/components"
+                 >
+
+
+    <h:form id="formCreateopc" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:tabView id="tabGeral">
+            <p:tab title="#{xmsg['generalData']}" id="tabInforGerais">
+                <p:fieldset legend="#{xmsg['generalData']}">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                <h:outputLabel value="OPC Pai:" />
+
+                                <h:panelGroup layout="block" id="panelopcPai" styleClass="form-control">
+                                    <h:panelGroup id="conteudoPanelopcPai" >
+                                        <h:outputText value="#{opcMB.entity.organizacaoPai}" >
+                                            <x:initializer/>
+                                        </h:outputText>
+                                        <p:commandButton type="button" icon="ui-icon-carat-1-s" 
+                                                         id="buttonopcPai" styleClass="pull-right"
+                                                         style="font-size: 10px;"/>
+                                    </h:panelGroup>
+                                </h:panelGroup>
+
+                                <p:overlayPanel for="panelopcPai" styleClass="w-100p" widgetVar="overlayopcPai" >
+                                    <p:tree value="#{opcMB.opcs}" var="opc" styleClass="w-100p"
+                                            selectionMode="single"  style="max-height: 400px; overflow-y: scroll" >
+                                        <p:ajax event="select" update=":formCreateopc:tabGeral:conteudoPanelopcPai @this"
+                                                listener="#{opcMB.setarPai(opc)}" oncomplete="PF('overlayopcPai').hide()" 
+                                                />
+                                        <p:treeNode collapsedIcon="ui-icon-folder-collapsed" >
+                                            <h:panelGroup styleClass="#{opc == opcMB.entity.organizacaoPai ? 'ui-state-highlight' : ''}">
+                                                <h:outputText value="#{opc.nome}" style="font-weight: bold"/>  
+                                                <h:outputText value=" (#{opc.sigla})" styleClass="font-11"  /> 
+                                            </h:panelGroup>
+                                        </p:treeNode>
+                                    </p:tree>
+                                </p:overlayPanel>
+
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nome" value="* #{msg['oPC.nome']}:" />
+                                <p:inputText id="nome" value="#{opcMB.entity.nome}" maxlength="250"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="sigla" value="* #{msg['oPC.sigla']}:" />
+                                <p:inputText id="sigla" value="#{opcMB.entity.sigla}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Endereço">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="endereco" value="* #{msg['endereco.enderecoFormatado']}:" />
+                                <p:inputText id="endereco" value="#{opcMB.endereco.enderecoFormatado}" maxlength="260"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="numero" value="* #{msg['endereco.numero']}:" />
+                                <p:inputText id="numero" value="#{opcMB.endereco.numero}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="bairro" value="* #{msg['endereco.bairro']}:" />
+                                <p:inputText id="bairro" value="#{opcMB.endereco.bairro}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cidade" value="* #{msg['endereco.cidade']}:" />
+                                <p:inputText id="cidade" value="#{opcMB.endereco.cidade}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="estado" value="* #{msg['endereco.estado']}:" />
+                                <p:inputText id="estado" value="#{opcMB.endereco.estado}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="pais" value="* #{msg['endereco.pais']}:" />
+                                <p:inputText id="pais" value="#{opcMB.endereco.pais}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cep" value="* #{msg['endereco.cep']}:" />
+                                <p:inputText id="cep" value="#{opcMB.endereco.cep}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="complemento" value="#{msg['endereco.complemento']}:" />
+                                <p:inputText id="complemento" value="#{opcMB.endereco.complemento}" maxlength="260"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="referencia" value="* #{msg['endereco.referencia']}:" />
+                                <p:inputText id="referencia" value="#{opcMB.endereco.referencia}" maxlength="260"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="latitude" value="* #{msg['endereco.latitude']}:" />
+                                <p:inputText id="latitude" value="#{opcMB.endereco.latitude}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="longitude" value="* #{msg['endereco.longitude']}:" />
+                                <p:inputText id="longitude" value="#{opcMB.endereco.longitude}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                        </div>
+                    </div>
+
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Informações Territoriais" >
+                <p:fieldset legend="Adicionar Territorório">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="territorioAdd" value="* Território:" />
+                            <div class="input-group">
+                                <h:selectOneMenu id="territorioAdd" value="#{opcMB.territorioAdd}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.territorio)}" 
+                                                   var="territorio"
+                                                   itemLabel="#{territorio}"/>
+                                </h:selectOneMenu>
+                                <span class="input-group-btn">
+                                    <p:commandButton title="Adicionar Território" icon="ui-icon-plusthick" 
+                                                     styleClass="pull-left" ajax="true" style="font-size: 18px;" action="#{opcMB.addTerritorio()}" 
+                                                     process="@this territorioAdd"
+                                                     update="territorioAdd dataTableTerritorio">
+                                    </p:commandButton>  
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </p:fieldset>
+                <p:fieldset legend="Lista de Territórios">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="territorio" rowIndexVar="index" id="dataTableTerritorio" widgetVar="dataTableTerritorioWidget" styleClass="table-responsive"
+                                 value="#{opcMB.territorios}" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['territorio.nome']}"  >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['territorio.nome']}" />
+                            </f:facet>
+                            <h:outputText value="#{territorio.nome}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['territorio.ativo']}"  style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['territorio.ativo']}" />
+                            </f:facet>
+                            <h:outputText value="#{territorio.ativo}" converter ="yesNoConverter" />
+                        </p:column>
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>
+
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                             action="#{opcMB.removerTerritorio(territorio)}" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+
+            </p:tab>
+
+            <p:tab title="Lista de Telefones" id="tabTelefones">
+                <p:fieldset legend="Adicionar Telefone" id="fieldTelefone">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="numeroTelefone" value="* #{msg['telefone.numero']}:" />
+                            <p:inputMask id="numeroTelefone" value="#{opcMB.numeroTelefone}" mask="(99) 9999-9999"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="tipoTelefone" value="* #{msg['telefone.tipo']}:" />
+                            <h:selectOneMenu id="tipoTelefone" value="#{opcMB.tipoTelefone}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.tipoTelefone)}" 
+                                               var="tipoTelefone"
+                                               itemLabel="#{tipoTelefone.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+
+                    </div>
+                    <div class="uix-center">
+                        <p:commandButton process="@this fieldTelefone" update="dataTableTelefone fieldTelefone" value="Adicionar" 
+                                         action="#{opcMB.addTelefone()}" />
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Telefones">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="telefone" rowIndexVar="index" id="dataTableTelefone" styleClass="table-responsive"                     
+                                 value="#{opcMB.entity.telefones}"  >
+                        <x:initializer/>
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['telefone.numero']}"  >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['telefone.numero']}" />
+                            </f:facet>
+                            <h:outputText value="#{telefone.numero}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['telefone.tipo']}" >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['telefone.tipo']}" />
+                            </f:facet>
+                            <h:outputText value="#{telefone.tipo.descricao}"/>
+                        </p:column>
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>                       
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableTelefone" 
+                                             action="#{opcMB.removerTelefone(telefone)}" >
+                            </p:commandButton>
+
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+
+            </p:tab>
+        </p:tabView>
+
+
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="oPC.create">
+                <p:commandButton process="@form" update="@form" action="#{opcMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="oPC.audit">
+                <x:audit for="#{opcMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

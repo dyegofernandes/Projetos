@@ -1,0 +1,36 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailLocalReserva" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['localReserva.nome']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{localReservaMB.entity.nome}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['localReserva.tipo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{localReservaMB.entity.tipo}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['localReserva.quantidadeLugares']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{localReservaMB.entity.quantidadeLugares}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['localReserva.ativo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{localReservaMB.entity.ativo}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetLocalReservaDetail').hide()" />
+            <x:securityArea rolesAllowed="localReserva.audit">
+                <x:audit for="#{localReservaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

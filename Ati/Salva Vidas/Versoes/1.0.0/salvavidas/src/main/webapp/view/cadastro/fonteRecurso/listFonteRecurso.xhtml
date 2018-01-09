@@ -1,0 +1,73 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['fonteRecurso.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuFonteRecurso.xhtml" />
+        <h:form id="formListFonteRecurso">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="fonteRecurso_export" target=":formListFonteRecurso:dataTableFonteRecurso"
+                                     widgetVar="dataTableFonteRecursoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="fonteRecurso" rowIndexVar="index" id="dataTableFonteRecurso" widgetVar="dataTableFonteRecursoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{fonteRecursoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{fonteRecursoMB.dataModel.paginatorTemplate}"
+                         value="#{fonteRecursoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['fonteRecurso.codigo']}" sortBy="#{fonteRecurso.codigo}"
+                    filterBy="#{fonteRecurso.codigo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fonteRecurso.codigo']}" />
+                    </f:facet>
+                    <h:outputText value="#{fonteRecurso.codigo}"/>
+                </p:column>
+                <p:column headerText="#{msg['fonteRecurso.nome']}" sortBy="#{fonteRecurso.nome}"
+                    filterBy="#{fonteRecurso.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fonteRecurso.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{fonteRecurso.nome}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetFonteRecursoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailFonteRecurso" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{fonteRecurso}" target="#{fonteRecursoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="fonteRecurso.create">
+                        <p:button icon="ui-icon-pencil" outcome="createFonteRecurso" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{fonteRecurso.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="fonteRecurso.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{fonteRecursoMB.delete}" >
+                            <f:setPropertyActionListener value="#{fonteRecurso.id}" target="#{fonteRecursoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{fonteRecurso}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="fonteRecurso.audit">
+                    <x:auditDelete for="#{fonteRecursoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetFonteRecursoDetail" header="#{msg['fonteRecurso.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailFonteRecurso.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,112 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['policiaRodoviariaFederal.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuPoliciaRodoviariaFederal.xhtml" />
+        <h:form id="formListPoliciaRodoviariaFederal">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="policiaRodoviariaFederal_export" target=":formListPoliciaRodoviariaFederal:dataTablePoliciaRodoviariaFederal"
+                                     widgetVar="dataTablePoliciaRodoviariaFederalWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="policiaRodoviariaFederal" rowIndexVar="index" id="dataTablePoliciaRodoviariaFederal" widgetVar="dataTablePoliciaRodoviariaFederalWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{policiaRodoviariaFederalMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{policiaRodoviariaFederalMB.dataModel.paginatorTemplate}"
+                         value="#{policiaRodoviariaFederalMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['policiaRodoviariaFederal.organizacaoPai']}" sortBy="#{policiaRodoviariaFederal.organizacaoPai}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['policiaRodoviariaFederal.organizacaoPai']}" />
+                    </f:facet>
+                    <h:outputText value="#{policiaRodoviariaFederal.organizacaoPai}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['policiaRodoviariaFederal.codigo']}" sortBy="#{policiaRodoviariaFederal.codigo}"
+                    filterBy="#{policiaRodoviariaFederal.codigo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['policiaRodoviariaFederal.codigo']}" />
+                    </f:facet>
+                    <h:outputText value="#{policiaRodoviariaFederal.codigo}"/>
+                </p:column>
+                <p:column headerText="#{msg['policiaRodoviariaFederal.nome']}" sortBy="#{policiaRodoviariaFederal.nome}"
+                    filterBy="#{policiaRodoviariaFederal.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['policiaRodoviariaFederal.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{policiaRodoviariaFederal.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['policiaRodoviariaFederal.endereco']}" sortBy="#{policiaRodoviariaFederal.endereco}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['policiaRodoviariaFederal.endereco']}" />
+                    </f:facet>
+                    <h:outputText value="#{policiaRodoviariaFederal.endereco}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['policiaRodoviariaFederal.sigla']}" sortBy="#{policiaRodoviariaFederal.sigla}"
+                    filterBy="#{policiaRodoviariaFederal.sigla}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['policiaRodoviariaFederal.sigla']}" />
+                    </f:facet>
+                    <h:outputText value="#{policiaRodoviariaFederal.sigla}"/>
+                </p:column>
+                <p:column headerText="#{msg['policiaRodoviariaFederal.ordenacao']}" sortBy="#{policiaRodoviariaFederal.ordenacao}"
+                    filterBy="#{policiaRodoviariaFederal.ordenacao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['policiaRodoviariaFederal.ordenacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{policiaRodoviariaFederal.ordenacao}"/>
+                </p:column>
+                <p:column headerText="#{msg['policiaRodoviariaFederal.ativo']}" sortBy="#{policiaRodoviariaFederal.ativo}"
+                    filterBy="#{policiaRodoviariaFederal.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['policiaRodoviariaFederal.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{policiaRodoviariaFederal.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetPoliciaRodoviariaFederalDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailPoliciaRodoviariaFederal" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{policiaRodoviariaFederal}" target="#{policiaRodoviariaFederalMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="policiaRodoviariaFederal.create">
+                        <p:button icon="ui-icon-pencil" outcome="createPoliciaRodoviariaFederal" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{policiaRodoviariaFederal.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="policiaRodoviariaFederal.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{policiaRodoviariaFederalMB.delete}" >
+                            <f:setPropertyActionListener value="#{policiaRodoviariaFederal.id}" target="#{policiaRodoviariaFederalMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{policiaRodoviariaFederal}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="policiaRodoviariaFederal.audit">
+                    <x:auditDelete for="#{policiaRodoviariaFederalMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetPoliciaRodoviariaFederalDetail" header="#{msg['policiaRodoviariaFederal.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailPoliciaRodoviariaFederal.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

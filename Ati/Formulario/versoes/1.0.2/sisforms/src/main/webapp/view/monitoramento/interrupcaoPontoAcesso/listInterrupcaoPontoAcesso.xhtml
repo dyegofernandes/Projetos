@@ -1,0 +1,163 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['interrupcaoPontoAcesso.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuInterrupcaoPontoAcesso.xhtml" />
+        <h:form id="formListInterrupcaoPontoAcesso">
+            <x:modalMessages autoUpdate="true"/>
+
+            <p:fieldset legend="Filtros de Busca" toggleable="true" id="fieldFiltros">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="indentificacao" value="#{msg['interrupcaoPontoAcesso.indentificacao']}:" />
+                        <h:selectOneMenu id="indentificacao" value="#{interrupcaoPontoAcessoMB.ponto}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.pontoAcesso)}" 
+                                           var="pontoAcesso"
+                                           itemLabel="#{pontoAcesso}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tipo" value="#{msg['pontoAcesso.tipoAcesso']}:" />
+                        <h:selectOneMenu id="tipo" value="#{interrupcaoPontoAcessoMB.tipo}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.tipoDeAcesso)}" 
+                                           var="tipo"
+                                           itemLabel="#{tipo.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataInicial" value="#{msg['interrupcaoPontoAcesso.dataInicial']}:" />
+                        <p:calendar id="dataInicial" value="#{interrupcaoPontoAcessoMB.dataInicial}"
+                                    showOn="button" pattern="dd/MM/yyyy HH:mm" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataFinal" value="#{msg['interrupcaoPontoAcesso.dataFinal']}:" />
+                        <p:calendar id="dataFinal" value="#{interrupcaoPontoAcessoMB.dataFinal}" 
+                                    showOn="button" pattern="dd/MM/yyyy HH:mm" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="numeroOrdemServico" value="#{msg['interrupcaoPontoAcesso.numeroOrdemServico']}:" />
+                        <p:inputText id="numeroOrdemServico" value="#{interrupcaoPontoAcessoMB.numOs}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="numeroSysaid" value="#{msg['interrupcaoPontoAcesso.numeroSysaid']}:" />
+                        <p:inputText id="numeroSysaid" value="#{interrupcaoPontoAcessoMB.numeroSysaid}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+
+
+                </div>
+            </p:fieldset>
+            <div class="uix-center">
+                <p:commandButton process="@this fieldFiltros" update="dataTableInterrupcaoPontoAcesso" 
+                                 action="#{interrupcaoPontoAcessoMB.buscar()}" value="Buscar" />
+                <p:commandButton process="@this fieldFiltros" update="@form" ajax="false"
+                                 action="#{interrupcaoPontoAcessoMB.gerarRelatorioInterrupcoes()}" value="Relatório" title="Gerar relatório de Interrupções"/>
+            </div>
+
+            <p:fieldset legend="Resultado">
+                <x:dataTableActions fileName="interrupcaoPontoAcesso_export" target=":formListInterrupcaoPontoAcesso:dataTableInterrupcaoPontoAcesso"
+                                    widgetVar="dataTableInterrupcaoPontoAcessoWidget"  />
+
+                <p:dataTable paginator="true" rows="30" rowsPerPageTemplate="30,60,90" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="interrupcaoPontoAcesso" rowIndexVar="index" id="dataTableInterrupcaoPontoAcesso" widgetVar="dataTableInterrupcaoPontoAcessoWidget" styleClass="table-responsive"
+                             value="#{interrupcaoPontoAcessoMB.interrupcoes}">
+                    <p:column styleClass="uix-datatable-index">
+                        <f:facet name="header">
+                            <h:outputText value="" />
+                        </f:facet>
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['interrupcaoPontoAcesso.indentificacao']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['interrupcaoPontoAcesso.indentificacao']}" />
+                        </f:facet>
+                        <h:outputText value="#{interrupcaoPontoAcesso.indentificacao} - #{interrupcaoPontoAcesso.indentificacao.tipoAcesso.descricao}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['interrupcaoPontoAcesso.dataInicial']}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['interrupcaoPontoAcesso.dataInicial']}" />
+                        </f:facet>
+                        <h:outputText value="#{interrupcaoPontoAcesso.dataInicial}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['interrupcaoPontoAcesso.dataFinal']}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['interrupcaoPontoAcesso.dataFinal']}" />
+                        </f:facet>
+                        <h:outputText value="#{interrupcaoPontoAcesso.dataFinal}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Tempo (Hora)" style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="Tempo (Hora)" />
+                        </f:facet>
+                        <h:outputText value="#{interrupcaoPontoAcesso.tempoInterrupcao}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="#{msg['interrupcaoPontoAcesso.numeroOrdemServico']}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['interrupcaoPontoAcesso.numeroOrdemServico']}" />
+                        </f:facet>
+                        <h:outputText value="#{interrupcaoPontoAcesso.numeroOrdemServico}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['interrupcaoPontoAcesso.numeroSysaid']}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['interrupcaoPontoAcesso.numeroSysaid']}" />
+                        </f:facet>
+                        <h:outputText value="#{interrupcaoPontoAcesso.numeroSysaid}"/>
+                    </p:column>
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+                        <p:commandButton oncomplete="PF('widgetInterrupcaoPontoAcessoDetail').show();"  icon="ui-icon-zoomin" 
+                                         process="@form" update=":formDetailInterrupcaoPontoAcesso" title="#{xmsg['detail']}" >
+                            <f:setPropertyActionListener value="#{interrupcaoPontoAcesso}" target="#{interrupcaoPontoAcessoMB.entity}" />
+                        </p:commandButton>
+                        <x:securityArea rolesAllowed="interrupcaoPontoAcesso.create">
+                            <p:button icon="ui-icon-pencil" outcome="createInterrupcaoPontoAcesso" title="#{xmsg['edit']}">
+                                <f:param name="id" value="#{interrupcaoPontoAcesso.id}" />
+                            </p:button>
+                        </x:securityArea>
+                        <x:securityArea rolesAllowed="interrupcaoPontoAcesso.delete">
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                             action="#{interrupcaoPontoAcessoMB.delete}" >
+                                <f:setPropertyActionListener value="#{interrupcaoPontoAcesso.id}" target="#{interrupcaoPontoAcessoMB.id}" />
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{interrupcaoPontoAcesso}" />
+                            </p:commandButton>
+                        </x:securityArea>
+                    </p:column>
+                </p:dataTable>
+
+            </p:fieldset>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="interrupcaoPontoAcesso.audit">
+                    <x:auditDelete for="#{interrupcaoPontoAcessoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+
+        </h:form>
+
+        <p:dialog widgetVar="widgetInterrupcaoPontoAcessoDetail" header="#{msg['interrupcaoPontoAcesso.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailInterrupcaoPontoAcesso.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

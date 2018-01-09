@@ -1,0 +1,106 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['localEvento.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuLocalEvento.xhtml" />
+        <h:form id="formListLocalEvento">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="localEvento_export" target=":formListLocalEvento:dataTableLocalEvento"
+                                widgetVar="dataTableLocalEventoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="localEvento" rowIndexVar="index" id="dataTableLocalEvento" widgetVar="dataTableLocalEventoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{localEventoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{localEventoMB.dataModel.paginatorTemplate}"
+                         value="#{localEventoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="Tipo" sortBy="#{localEvento.tipo.descricao}"
+                          filterBy="#{localEvento.tipo.descricao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Tipo" />
+                    </f:facet>
+                    <h:outputText value="#{localEvento.tipo.descricao}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['localEvento.nome']}" sortBy="#{localEvento.nome}"
+                          filterBy="#{localEvento.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['localEvento.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{localEvento.nome}">
+
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="#{msg['localEvento.endereco']}" sortBy="#{localEvento.endereco.endereco}"
+                          filterBy="#{localEvento.endereco.endereco}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['localEvento.endereco']}" />
+                    </f:facet>
+                    <h:outputText value="#{localEvento.endereco.endereco}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Bairro" sortBy="#{localEvento.endereco.bairro}"
+                          filterBy="#{localEvento.endereco.bairro}">
+                    <f:facet name="header">
+                        <h:outputText value="Bairro" />
+                    </f:facet>
+                    <h:outputText value="#{localEvento.endereco.bairro}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Cidade" sortBy="#{localEvento.endereco.cidade}"
+                          filterBy="#{localEvento.endereco.cidade}">
+                    <f:facet name="header">
+                        <h:outputText value="Cidade" />
+                    </f:facet>
+                    <h:outputText value="#{localEvento.endereco.cidade}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetLocalEventoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailLocalEvento" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{localEvento}" target="#{localEventoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="localEvento.create">
+                        <p:button icon="ui-icon-pencil" outcome="createLocalEvento" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{localEvento.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="localEvento.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{localEventoMB.delete}" >
+                            <f:setPropertyActionListener value="#{localEvento.id}" target="#{localEventoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{localEvento}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="localEvento.audit">
+                    <x:auditDelete for="#{localEventoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetLocalEventoDetail" header="#{msg['localEvento.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailLocalEvento.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

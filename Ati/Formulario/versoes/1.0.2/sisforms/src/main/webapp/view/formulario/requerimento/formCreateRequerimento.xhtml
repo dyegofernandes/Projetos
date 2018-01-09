@@ -1,0 +1,120 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateRequerimento" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="usuario" value="* #{msg['solicitacaoAcessoSFP.usuario']}:" />
+                        <p:inputText id="usuario" value="#{requerimentoMB.entity.usuario.nome}" styleClass="form-control" disabled="true">
+                            <x:initializer/>
+                        </p:inputText>
+
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="destinatario" value="* #{msg['requerimento.destinatario']}:" />
+                        <p:inputText id="destinatario" value="#{requerimentoMB.entity.destinatario}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="requerente" value="* #{msg['requerimento.requerente']}:" />
+                        <p:inputText id="requerente" value="#{requerimentoMB.entity.requerente}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="matricula" value="#{msg['requerimento.matricula']}:" />
+                        <p:inputText id="matricula" value="#{requerimentoMB.entity.matricula}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cpf" value="* #{msg['requerimento.cpf']}:" />
+                        <x:cpf id="cpf" value="#{requerimentoMB.entity.cpf}" styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="telefone" value="* #{msg['requerimento.telefone']}:" />
+                        <p:inputMask id="telefone" value="#{requerimentoMB.entity.telefone}" mask="(99) 99999-9999"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cargo" value="* #{msg['requerimento.cargo']}:" />
+                        <p:inputText id="cargo" value="#{requerimentoMB.entity.cargo}" maxlength="100"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="area" value="* #{msg['requerimento.area']}:" />
+                        <p:inputText id="area" value="#{requerimentoMB.entity.area}" maxlength="100"  styleClass="form-control"  />
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="assuntoRequerimento" value="* #{msg['requerimento.assuntoRequerimento']}:" />
+                        <h:selectOneMenu id="assuntoRequerimento" value="#{requerimentoMB.entity.assuntoRequerimento}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.assuntoRequerimento)}" 
+                                           var="assuntoRequerimento"
+                                           itemLabel="#{assuntoRequerimento.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <x:securityArea rolesAllowed="campos.situacao">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="situacao" value="* #{msg['requerimento.situacao']}:" />
+                            <h:selectOneMenu id="situacao" value="#{requerimentoMB.entity.situacao}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.situacao)}" 
+                                               var="situacao"
+                                               itemLabel="#{situacao.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </x:securityArea>
+                    <!--
+                     
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataSolicitacao" value="* #{msg['requerimento.dataSolicitacao']}:" />
+                        <p:calendar id="dataSolicitacao" value="#{requerimentoMB.entity.dataSolicitacao}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataAtendimento" value="#{msg['requerimento.dataAtendimento']}:" />
+                        <p:calendar id="dataAtendimento" value="#{requerimentoMB.entity.dataAtendimento}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="observacaoAtendimento" value="#{msg['requerimento.observacaoAtendimento']}:" />
+                        <p:inputText id="observacaoAtendimento" value="#{requerimentoMB.entity.observacaoAtendimento}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    -->
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="solicitacao" value="#{msg['requerimento.solicitacao']}:" />
+                        <p:inputTextarea id="solicitacao" value="#{requerimentoMB.entity.solicitacao}" styleClass="form-control"  
+                                         rows="10" cols="50" queryDelay="750" minQueryLength="4"/>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="requerimento.create">
+                <p:commandButton process="@form" update="@form" action="#{requerimentoMB.save}" value="#{xmsg['save']}">
+                </p:commandButton>
+
+            </x:securityArea>
+            <x:securityArea rolesAllowed="requerimento.create">
+                <p:commandButton rendered="#{requerimentoMB.entity.id!=null}" process="@form" update="@form" action="#{requerimentoMB.gerarPdf(requerimentoMB.entity)}" value="Imprimir" ajax="false">
+                </p:commandButton>
+            </x:securityArea>
+            <x:securityArea rolesAllowed="requerimento.audit">
+                <x:audit for="#{requerimentoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

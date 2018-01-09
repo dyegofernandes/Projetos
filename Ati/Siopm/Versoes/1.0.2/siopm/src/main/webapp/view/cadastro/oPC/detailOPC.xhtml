@@ -1,0 +1,47 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailOPC" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['oPC.organizacaoPolicialPai']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{opcMB.entity.organizacaoPai}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['oPC.nome']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{opcMB.entity.nome}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['oPC.endereco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{opcMB.entity.endereco}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['oPC.sigla']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{opcMB.entity.sigla}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['oPC.ordenacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{opcMB.entity.ordenacao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['oPC.ativo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{opcMB.entity.ativo}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetOPCDetail').hide()" />
+            <x:securityArea rolesAllowed="oPC.audit">
+                <x:audit for="#{opcMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

@@ -1,0 +1,59 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="Atendimento de Ocorrência" />
+
+    <ui:define name="body">
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&amp;key=#{constantesMB.chaveApiAtendimentoGoogleMaps}"></script>
+
+        <h:form id="formAtendimentoOcorrencia">
+            <x:modalMessages/>
+
+           
+            <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                <div class="input-group">
+                    <p:inputText value="#{atendimentoOcorrenciaMB.logradouro}" maxlength="400" styleClass="form-control"
+                                 id="inputLogradouro" placeholder="Informe o endereço da Ocorrência"/>
+                    <span class="input-group-btn">
+                        <p:commandButton title="Pesquisar endereço" icon="ui-icon-search" 
+                                         id="buttonNatureza" styleClass="pull-left" ajax="true"
+                                         style="font-size: 18px;" action="#{atendimentoOcorrenciaMB.zoomMaps}" process="@this inputLogradouro"
+                                         update="@form">
+                        </p:commandButton>  
+                    </span>
+                </div>
+
+            </div>
+            <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                <p:gmap id="idGmap" widgetVar="w_gmap" center="#{atendimentoOcorrenciaMB.latLong}" zoom="#{atendimentoOcorrenciaMB.zoom}" type="ROADMAP" styleClass="gmap" 
+                        style="width:100%;height:480px" model="#{atendimentoOcorrenciaMB.simpleModel}" >
+                    <p:ajax event="pointSelect" process="idGmap" update="@form" listener="#{atendimentoOcorrenciaMB.nova}">
+                    </p:ajax>
+                    <p:ajax event="overlaySelect" process="idGmap" update=":formCreateOcorrencia :formListOcorrenciaList" listener="#{atendimentoOcorrenciaMB.atualizar}">
+                    </p:ajax>
+
+                    <p:ajax event="markerDrag" process="@this idGmap" listener="#{atendimentoOcorrenciaMB.moverPonto}" update="@form" />
+                </p:gmap>
+            </div>
+
+        </h:form>
+        <p:dialog widgetVar="widgetOcorrencia" header="Cadastro de Ocorrência" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="/view/ocorrencia/ocorrencia/formCreateOcorrenciaAtendente.xhtml" />
+            <p:ajax event="close" update=":formAtendimentoOcorrencia" listener="#{findAllBean.setReload(true)}"
+                    />
+            <p:ajax event="close" update=":formAtendimentoOcorrencia" listener="#{atendimentoOcorrenciaMB.limparCampos()}"/>
+        </p:dialog>
+        <p:dialog widgetVar="widgetListarOcorrencia" header="Lista de Ocorrências na Área" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="/view/ocorrencia/ocorrencia/listOcorrenciaExistenteAtendente.xhtml" />
+            <p:ajax event="close" update=":formAtendimentoOcorrencia" listener="#{findAllBean.setReload(true)}"
+                    />
+            <p:ajax event="close" update=":formAtendimentoOcorrencia" listener="#{atendimentoOcorrenciaMB.limparCampos()}"/>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

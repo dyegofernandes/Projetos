@@ -1,0 +1,155 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateFormAcessoConteudo" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:fieldset legend="#{xmsg['generalData']}">
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="usuario" value="* #{msg['solicitacaoAcessoSFP.usuario']}:" />
+                        <p:inputText id="usuario" value="#{formAcessoConteudoMB.entity.usuario.nome}" styleClass="form-control" disabled="true">
+                            <x:initializer/>
+                        </p:inputText>
+
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Orgão:" />
+
+                        <h:panelGroup layout="block" id="panelOrgaoPai" styleClass="form-control">
+                            <h:panelGroup id="conteudoPanelOrgaoPai" >
+                                <h:outputText value="#{formAcessoConteudoMB.entity.orgao.nome}" >
+                                    <x:initializer/>
+                                </h:outputText>
+                                <p:commandButton type="button" icon="ui-icon-carat-1-s" 
+                                                 id="buttonOrgaoPai" styleClass="pull-right"
+                                                 style="font-size: 10px;"/>
+                            </h:panelGroup>
+                        </h:panelGroup>
+
+                        <p:overlayPanel for="panelOrgaoPai" styleClass="w-100p" widgetVar="overlayOrgaoPai" >
+                            <p:tree value="#{orgaoMB.orgaos}" var="orgao" styleClass="w-100p"
+                                    selectionMode="single"  style="max-height: 400px; overflow-y: scroll" >
+                                <p:ajax event="select" update=":formCreateFormAcessoConteudo:conteudoPanelOrgaoPai @this"
+                                        listener="#{formAcessoConteudoMB.entity.setOrgao(orgao)}" oncomplete="PF('overlayOrgaoPai').hide()" />
+                                <p:treeNode collapsedIcon="ui-icon-folder-collapsed" >
+                                    <h:panelGroup styleClass="#{orgao == orgaoMB.entity.orgaoPai ? 'ui-state-highlight' : ''}">
+                                        <h:outputText value="#{orgao.sigla}" style="font-weight: bold"/>  
+                                        <h:outputText value=" (#{orgao.nome})" styleClass="font-8"  /> 
+                                    </h:panelGroup>
+                                </p:treeNode>
+                            </p:tree>
+                        </p:overlayPanel>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nomeCompleto" value="* #{msg['formAcessoConteudo.nomeCompleto']}:" />
+                        <p:inputText id="nomeCompleto" value="#{formAcessoConteudoMB.entity.nomeCompleto}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cargo" value="#{msg['formAcessoConteudo.cargo']}:" />
+                        <p:inputText id="cargo" value="#{formAcessoConteudoMB.entity.cargo}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="matriculaEstado" value="#{msg['formAcessoConteudo.matriculaEstado']}:" />
+                        <p:inputText id="matriculaEstado" value="#{formAcessoConteudoMB.entity.matriculaEstado}" maxlength="50"  styleClass="form-control"  />
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="telefone" value="#{msg['formAcessoConteudo.telefone']}:" />
+                        <p:inputMask id="telefone" value="#{formAcessoConteudoMB.entity.telefone}" mask="(99) 9999-9999"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="emailCoorporativo" value="#{msg['formAcessoConteudo.emailCoorporativo']}:" />
+                        <p:inputText id="emailCoorporativo" value="#{formAcessoConteudoMB.entity.emailCoorporativo}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataEmissao" value="* Data Emissão:" />
+                        <p:calendar id="dataEmissao" value="#{formAcessoConteudoMB.entity.dataCriacao}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  disabled="true">
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <x:securityArea rolesAllowed="campos.situacao">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="situacao" value="* Situação:" />
+                            <h:selectOneMenu id="situacao" value="#{formAcessoConteudoMB.entity.situacao}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.situacao)}" 
+                                               var="situacao"
+                                               itemLabel="#{situacao.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </x:securityArea>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Site a ser Liberado" id="fieldItem">
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="siteAserLiberado" value="* #{msg['formAcessoConteudo.siteAserLiberado']}:" />
+                <p:inputText id="siteAserLiberado" value="#{formAcessoConteudoMB.siteAserLiberado}" maxlength="255"  styleClass="form-control"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="descricaoLiberacao" value="* Descrião do Motivo da Liberação:" />
+                <p:inputTextarea id="descricaoLiberacao" value="#{formAcessoConteudoMB.descricaoLiberacao}" rows="10" styleClass="form-control"
+                                 cols="50"/>
+            </div>
+        </p:fieldset>
+        <div class="uix-center">
+            <p:commandButton process="@this fieldItem" update="dataTableItemFormCriacaoEmail fieldItem" value="Adicionar" 
+                             action="#{formAcessoConteudoMB.addItem()}" />
+        </div>
+        <p:fieldset legend="Lista de sites">
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="itemFormCriacaoEmail" rowIndexVar="index" id="dataTableItemFormCriacaoEmail" 
+                         widgetVar="dataTableItemFormCriacaoEmailWidget" styleClass="table-responsive"
+                         value="#{formAcessoConteudoMB.itens}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+
+                <p:column headerText="Site a ser Liberado" >
+                    <f:facet name="header">
+                        <h:outputText value="Site a ser Liberado" />
+                    </f:facet>
+                    <h:outputText value="#{itemFormCriacaoEmail.siteAserLiberado}"/>
+                </p:column>
+                <p:column headerText="Descrição do Motivo da Liberação"  >
+                    <f:facet name="header">
+                        <h:outputText value="Descrição do Motivo da Liberação" />
+                    </f:facet>
+                    <h:outputText value="#{itemFormCriacaoEmail.descricaoLiberacao}"/>
+                </p:column>
+
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+
+                    <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableItemFormCriacaoEmail" 
+                                     action="#{formAcessoConteudoMB.removerItem(itemFormCriacaoEmail)}" >
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="formAcessoConteudo.create">
+                <p:commandButton process="@form" update="@form" action="#{formAcessoConteudoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="formAcessoConteudo.create">
+                <p:commandButton rendered="#{formAcessoConteudoMB.entity.id!=null}" process="@form" update="@form" action="#{formAcessoConteudoMB.gerarPdf(formAcessoConteudoMB.entity)}" value="Imprimir" ajax="false">
+                </p:commandButton>
+            </x:securityArea>
+            <x:securityArea rolesAllowed="formAcessoConteudo.audit">
+                <x:audit for="#{formAcessoConteudoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

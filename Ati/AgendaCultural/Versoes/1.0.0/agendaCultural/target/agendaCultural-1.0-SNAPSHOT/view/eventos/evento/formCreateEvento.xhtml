@@ -1,0 +1,317 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateEvento" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:tabView id="tabGeral">
+            <p:tab title="Informações Gerais">
+                <p:fieldset legend="#{xmsg['generalData']}" toggleable="true">
+                    <div class="container-fluid">
+                        <div class="row">
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="localDoEvento" value="* #{msg['evento.localDoEvento']}:" />
+                                <h:selectOneMenu id="localDoEvento" value="#{eventoMB.entity.localEvento}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.localEvento)}" 
+                                                   var="evento"
+                                                   itemLabel="#{evento}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="titulo" value="* #{msg['evento.titulo']}:" />
+                                <p:inputText id="titulo" value="#{eventoMB.entity.titulo}" maxlength="256"  styleClass="form-control"  />
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="descricao" value="* #{msg['evento.descricao']}:" />
+
+                                <p:inputTextarea id="descricao" value="#{eventoMB.entity.descricao}" rows="10" styleClass="form-control"
+                                                 cols="50"/>
+                            </div>
+                        </div>
+                    </div>
+                </p:fieldset>
+
+
+                <p:fieldset legend="Período do Evento" toggleable="true" collapsed="true">
+                    <div class="container-fluid">
+                        <div class="row">
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="dataInicio" value="* #{msg['evento.dataInicio']}:" />
+                                <p:calendar id="dataInicio" value="#{eventoMB.entity.dataInicio}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="horaInicio" value="#{msg['evento.horaInicio']}:" />
+                                <p:calendar id="horaInicio" value="#{eventoMB.entity.horaInicio}" 
+                                            showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="dataFim" value="* #{msg['evento.dataFim']}:" />
+                                <p:calendar id="dataFim" value="#{eventoMB.entity.dataFim}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="horaFim" value="#{msg['evento.horaFim']}:" />
+                                <p:calendar id="horaFim" value="#{eventoMB.entity.horaFim}" 
+                                            showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </p:fieldset>
+                <p:fieldset legend="Valores do Evento" toggleable="true" id="fieldSetValores" collapsed="true">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="descricaoValor" value="* Descrição Valor:" />
+                                <p:inputText id="descricaoValor" value="#{eventoMB.valorAdd.descricao}" maxlength="256"  styleClass="form-control" >
+                                </p:inputText>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="valor" value="* Valor:" />
+                                <x:inputNumber id="valor" value="#{eventoMB.valorAdd.valor}" styleClass="form-control">
+                                </x:inputNumber>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox value="#{eventoMB.valorAdd.meia}" />
+                                        Meia entrada?
+                                    </label>
+                                </div>
+                                <h:outputText value="Ingresso para espetáculos (cinema, teatro etc.) vendido pela metade do preço, gerados para menores, estudantes e idosos." styleClass="help-block"/>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="uix-center">
+                        <p:commandButton process="@this fieldSetValores" update="fieldSetValores" value="Adicionar" 
+                                         action="#{eventoMB.addValorEvento()}"/>
+                        <div class="row">
+                            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                         var="valor" rowIndexVar="index" id="dataTableValor" widgetVar="dataTableValorWidget" styleClass="table-responsive"
+                                         value="#{eventoMB.valores}" lazy="true" >
+                                <p:column styleClass="uix-datatable-index">
+                                    <h:outputText value="#{index+1}"/>
+                                </p:column>
+                                <p:column headerText="Descrição">
+                                    <f:facet name="header">
+                                        <h:outputText value="Descrição" />
+                                    </f:facet>
+                                    <h:outputText value="#{valor.descricao}"/>
+                                </p:column>
+                                <p:column headerText="Valor">
+                                    <f:facet name="header">
+                                        <h:outputText value="Valor" />
+                                    </f:facet>
+                                    <h:outputText value="#{valor.valor}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Meia">
+                                    <f:facet name="header">
+                                        <h:outputText value="Meia" />
+                                    </f:facet>
+                                    <h:outputText value="#{valor.meiaEntrada}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{xmsg['actions']}"/>
+                                    </f:facet>
+
+                                    <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableValor" 
+                                                     action="#{eventoMB.removerValor(valor)}" >
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                    </div>
+
+                </p:fieldset>
+                <p:fieldset legend="Categorias do Evento" toggleable="true" id="fieldSetCategoria" collapsed="true">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="categoria" value="* Categoria:" />
+                                <h:selectOneMenu id="categoria" value="#{eventoMB.categoriaAdd}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.categoriaEvento)}" 
+                                                   var="categoria"
+                                                   itemLabel="#{categoria}"/>
+                                </h:selectOneMenu>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uix-center">
+                        <p:commandButton process="@this fieldSetCategoria" update="fieldSetCategoria" value="Adicionar" 
+                                         action="#{eventoMB.addCategoria()}"/>
+                    </div>
+                    <div class="row">
+                        <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                     var="categoria" rowIndexVar="index" id="dataTableCategoria" widgetVar="dataTableCategoriaWidget" styleClass="table-responsive"
+                                     value="#{eventoMB.categorias}" lazy="true" >
+                            <p:column styleClass="uix-datatable-index">
+                                <h:outputText value="#{index+1}"/>
+                            </p:column>
+                            <p:column headerText="Categoria">
+                                <f:facet name="header">
+                                    <h:outputText value="Categoria" />
+                                </f:facet>
+                                <h:outputText value="#{categoria.descricao}">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{xmsg['actions']}"/>
+                                </f:facet>
+
+                                <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableCategoria" 
+                                                 action="#{eventoMB.removerCategoria(categoria)}" >
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Agenda Evento">
+                <p:fieldset legend="Adicionar Agenda" id="fieldAddAgenda" toggleable="true">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="dataInicioAgenda" value="* #{msg['evento.dataInicio']}:" />
+                                <p:calendar id="dataInicioAgenda" value="#{eventoMB.agendaAdd.dataInicio}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="horaInicioAgenda" value="#{msg['evento.horaInicio']}:" />
+                                <p:calendar id="horaInicioAgenda" value="#{eventoMB.agendaAdd.horaInicio}" 
+                                            showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="dataFimAgenda" value="* #{msg['evento.dataFim']}:" />
+                                <p:calendar id="dataFimAgenda" value="#{eventoMB.agendaAdd.dataFim}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="horaFimAgenda" value="#{msg['evento.horaFim']}:" />
+                                <p:calendar id="horaFimAgenda" value="#{eventoMB.agendaAdd.horaFim}" 
+                                            showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="descricaoAgenda" value="* Descrição:" />
+                                <p:inputText id="descricaoAgenda" value="#{eventoMB.agendaAdd.descricao}" maxlength="256"  styleClass="form-control"  />
+                            </div>
+                        </div>
+                    </div>
+                </p:fieldset>
+                <div class="uix-center">
+                    <p:commandButton process="@this dataInicio dataFim fieldAddAgenda" update="tabGeral:dataTableAgenda fieldAddAgenda" value="Adicionar" 
+                                     action="#{eventoMB.addAgenda()}"/>
+                </div>
+                <p:fieldset legend="Agenda do Evento">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="agenda" rowIndexVar="index" id="dataTableAgenda" widgetVar="dataTableAgendaWidget" styleClass="table-responsive"
+                                 value="#{eventoMB.agendas}" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="Data Inicio" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Data Inicio" />
+                            </f:facet>
+                            <h:outputText value="#{agenda.dataInicio}">
+                                <f:convertDateTime />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Hora Inicio" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Hora Inicio" />
+                            </f:facet>
+                            <h:outputText value="#{agenda.horaInicio}">
+                                <f:convertDateTime pattern="HH:mm"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Data Fim" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Data Fim" />
+                            </f:facet>
+                            <h:outputText value="#{agenda.dataFim}">
+                                <f:convertDateTime />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Hora Fim" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Hora Fim" />
+                            </f:facet>
+                            <h:outputText value="#{agenda.horaFim}">
+                                <f:convertDateTime pattern="HH:mm"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Descrição" width="50%">
+                            <f:facet name="header">
+                                <h:outputText value="Descrição" />
+                            </f:facet>
+                            <h:outputText value="#{agenda.descricao}"/>
+                        </p:column>
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>
+
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableAgenda" 
+                                             action="#{eventoMB.removerAgenda(agenda)}" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </p:tab>
+        </p:tabView>
+
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="evento.create">
+                <p:commandButton process="@form" update="@form" action="#{eventoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="evento.audit">
+                <x:audit for="#{eventoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

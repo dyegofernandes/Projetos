@@ -1,0 +1,48 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="Fazer Denúncia" />
+
+    <ui:define name="body">
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&amp;key=#{constantesMB.chaveApiGoogleMaps}"></script>
+
+        <h:form id="formFazerDenuncia">
+            <x:modalMessages/>
+
+            <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                <p:autoComplete id="nome" value="#{fazerDenunciaMB.logradouro}" completeMethod="#{fazerDenunciaMB.completeText}"
+                                styleClass="uix-autocomplete" minQueryLength="3" forceSelection="true"
+                                placeholder="Informe o endereço da Denúncia"
+                                >
+                    <p:ajax event="itemSelect" listener="#{fazerDenunciaMB.zoomMaps}" process="@this" update="@form"
+                            >
+
+                    </p:ajax>
+                </p:autoComplete>
+            </div>
+            <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                <p:gmap id="idGmap" widgetVar="w_gmap" center="#{fazerDenunciaMB.latLong}" zoom="#{fazerDenunciaMB.zoom}" type="ROADMAP" styleClass="gmap" 
+                        style="width:100%;height:480px" model="#{fazerDenunciaMB.simpleModel}" >
+                    <p:ajax event="pointSelect" process="idGmap" update=":formCreateDenuncia" listener="#{fazerDenunciaMB.novaOcorrencia}">
+                        <f:setPropertyActionListener value="widgetDenuncia" target="#{fazerDenunciaMB.dialog}" />
+                    </p:ajax>
+                    <p:ajax event="overlaySelect" process="idGmap" update=":formCreateDenuncia" listener="#{fazerDenunciaMB.atualizar}">
+                        <f:setPropertyActionListener value="widgetDenuncia" target="#{fazerDenunciaMB.dialog}" />
+                    </p:ajax>
+                </p:gmap>
+            </div>
+
+        </h:form>
+        <p:dialog widgetVar="widgetDenuncia" header="Cadastro de Denúncia" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="/view/denuncia/denuncia/formularioCadastrarDenuncia.xhtml" />
+            <p:ajax event="close" update=":formFazerDenuncia" listener="#{findAllBean.setReload(true)}"
+                    />
+            <p:ajax event="close" update=":formFazerDenuncia" listener="#{fazerDenunciaMB.limparCampos()}"/>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

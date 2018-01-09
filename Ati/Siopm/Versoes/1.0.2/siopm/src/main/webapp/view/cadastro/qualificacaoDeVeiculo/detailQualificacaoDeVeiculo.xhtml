@@ -1,0 +1,68 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailQualificacaoDeVeiculo" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['qualificacaoDeVeiculo.placa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{qualificacaoDeVeiculoMB.entity.placa}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['qualificacaoDeVeiculo.chassi']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{qualificacaoDeVeiculoMB.entity.chassi}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['qualificacaoDeVeiculo.tipo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{qualificacaoDeVeiculoMB.entity.tipo}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['qualificacaoDeVeiculo.modelo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{qualificacaoDeVeiculoMB.entity.modelo}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['qualificacaoDeVeiculo.cor']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{qualificacaoDeVeiculoMB.entity.cor}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['qualificacaoDeVeiculo.fabricacaoAno']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{qualificacaoDeVeiculoMB.entity.fabricacaoAno}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['qualificacaoDeVeiculo.modeloAno']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{qualificacaoDeVeiculoMB.entity.modeloAno}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['qualificacaoDeVeiculo.municipio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{qualificacaoDeVeiculoMB.entity.municipio}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['qualificacaoDeVeiculo.proprietario']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{qualificacaoDeVeiculoMB.entity.proprietario}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['qualificacaoDeVeiculo.telefoneProprietario']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{qualificacaoDeVeiculoMB.entity.telefoneProprietario}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['qualificacaoDeVeiculo.situacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{qualificacaoDeVeiculoMB.entity.situacao}" styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetQualificacaoDeVeiculoDetail').hide()" />
+            <x:securityArea rolesAllowed="qualificacaoDeVeiculo.audit">
+                <x:audit for="#{qualificacaoDeVeiculoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

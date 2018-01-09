@@ -1,0 +1,413 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateMovimento" >
+        <h:panelGroup rendered="#{movimentoMB.entity.id==null}" >
+            <p:fieldset legend="Trabalhador" toggleable="true">
+                <div class="container-fluid">
+                    <div class="row">
+                        <h:panelGroup id="panel0">
+
+                            <x:securityArea rolesAllowed="campos.orgao">
+                                <h:panelGroup rendered="#{x:hasRole('campos.orgao')}">
+                                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                        <h:outputLabel for="orgao" value="* Órgão" />
+                                        <h:selectOneMenu id="orgao" value="#{movimentoMB.filtros.orgao}" converter="entityConverter" styleClass="form-control"
+                                                         required="true" requiredMessage="Orgão é obrigatório!" rendered="#{movimentoMB.entity.id==null}">
+                                            <x:initializer/>
+                                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                                            <f:selectItems value="#{findAllBean.get(classMB.orgao)}" 
+                                                           var="orgao"
+                                                           itemLabel="#{orgao}"/>
+                                            <p:ajax process="@this" update="unidadeFiltro" listener="#{movimentoMB.carregarUnidadesPorOrgao()}"/>
+                                        </h:selectOneMenu>
+                                    </div>
+                                </h:panelGroup>
+                            </x:securityArea>
+                            <x:securityArea rolesAllowed="campos.unidade">
+                                <h:panelGroup rendered="#{x:hasRole('campos.unidade')}">
+                                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                        <h:outputLabel for="unidadeFiltro" value="* #{msg['dadosFuncionais.unidade']}:" />
+                                        <h:selectOneMenu id="unidadeFiltro" value="#{movimentoMB.filtros.unidade}" converter="entityConverter" styleClass="form-control"
+                                                         required="true" requiredMessage="Unidade é obrigatória!" rendered="#{movimentoMB.entity.id==null}">
+                                            <x:initializer/>
+                                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                                            <f:selectItems value="#{movimentoMB.unidades}" 
+                                                           var="unidade"
+                                                           itemLabel="#{unidade}"/>
+                                            <p:ajax listener="#{movimentoMB.buscarServidor()}" process="panel0" update="tabGeral"/>
+                                        </h:selectOneMenu>
+                                    </div>
+                                </h:panelGroup>
+                            </x:securityArea>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cpf" value="Pesquisar Trabalhador pelo CPF:" />
+                                <x:cpf id="cpf" value="#{movimentoMB.filtros.cpf}" styleClass="form-control" rendered="#{movimentoMB.entity.id==null}"
+                                       required="true" requiredMessage="Cpf é obrigatório!">
+                                    <p:ajax listener="#{movimentoMB.buscarServidor()}" process="panel0" update="tabGeral"/>
+                                </x:cpf>
+                            </div>
+                        </h:panelGroup>
+
+                    </div>
+                </div>
+            </p:fieldset>
+        </h:panelGroup>
+        <p:tabView id="tabGeral">
+            <p:tab title="Informações Financeiras" id="tabInfor">
+                <p:fieldset legend="Trabalhador">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <h:panelGroup id="panel1">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel  value="* Nome/CPF:" /><br/>
+                                    <h:outputText value="#{movimentoMB.entity.servidor}" styleClass="uix-content-detail">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel value="* Unidade:" /><br/>
+                                    <h:outputText value="#{movimentoMB.unidade}" styleClass="uix-content-detail">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel  value="* Cargo:" /><br/>
+                                    <h:outputText value="#{movimentoMB.cargo}" styleClass="uix-content-detail">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                    <p:inputText id="cargo" value="#{movimentoMB.cargo}" styleClass="form-control" disabled="true"/>                          
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="ocorrencia" value="Ocorrência:" /><br/>
+                                    <p:inputText id="ocorrencia" value="#{movimentoMB.entity.ocorrencia}" styleClass="form-control" disabled="true">
+
+                                    </p:inputText>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="referencia" value="* Competência:" /><br/>
+                                    <p:inputText id="referencia" value="#{movimentoMB.entity.referencia}" styleClass="form-control" disabled="true">
+                                        <x:initializer/>
+                                    </p:inputText>
+                                </div>
+                                <h:panelGroup rendered="#{movimentoMB.entity.travado}">                       
+                                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                        <h:outputLabel for="ne" value="Nota de Empenho:" />
+                                        <p:inputText id="ne" value="#{movimentoMB.entity.neMov}" size="7"  styleClass="form-control"  />
+                                    </div>
+                                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                        <h:outputLabel for="nl" value="Nota de Liquidação:" />
+                                        <p:inputText id="nl" value="#{movimentoMB.entity.nlMov}" size="7"  styleClass="form-control"  />
+                                    </div>
+                                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                        <h:outputLabel for="dataPagamento" value="Data Pagamento:" />
+                                        <p:calendar id="dataPagamento" value="#{movimentoMB.entity.dataPagamento}" 
+                                                    showOn="dataPagamento" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                            <x:mask/>
+                                        </p:calendar>
+                                    </div>
+                                </h:panelGroup>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="observacao" value="* Descrição do Serviço:" />
+                                    <p:inputText id="observacao" value="#{movimentoMB.entity.observacao}" maxlength="400" 
+                                                 styleClass="form-control" disabled="#{movimentoMB.entity.travado}"/>
+                                </div>
+
+                            </h:panelGroup>
+                        </div>
+                    </div>
+                </p:fieldset>
+            </p:tab>
+
+            <p:tab title="Movimento Financeiro de #{movimentoMB.referenciaAnterior}" id="tabMoviAnt">
+                <p:fieldset legend="Financeiro">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <h:panelGroup id="panel2">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="financeiroAnt" value="Financeiro:" />
+                                    <p:inputText id="financeiroAnt" value="#{movimentoMB.financeiroAnt}" maxlength="60"  styleClass="form-control" disabled="true" />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="fonteAnt" value="Fonte:" />
+                                    <p:inputText id="fonteAnt" value="#{movimentoMB.fonteA}" maxlength="60"  styleClass="form-control" disabled="true" />                          
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="tipoPessoaAnt" value="Tipo Pessoa" />
+                                    <p:inputText id="tipoPessoaAnt" value="#{movimentoMB.tipoPessoaAnt}" maxlength="60"  styleClass="form-control" disabled="true" />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="valorAnt" value="Valor Bruto:" />
+                                    <x:inputNumber id="valorAnt" value="#{movimentoMB.valorAnt}" styleClass="form-control" disabled="true"/>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="pensaoAnt" value="Pensão:" />
+                                    <x:inputNumber id="pensaoAnt" value="#{movimentoMB.pensaoAnt}" styleClass="form-control" disabled="true"/>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="valorLiquidoAnt" value="Valor Liquido:" />
+                                    <x:inputNumber id="valorLiquidoAnt" value="#{movimentoMB.valorLiquidoAnt}" styleClass="form-control" disabled="true"/>
+                                </div>
+                            </h:panelGroup>
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="ISS">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="baseIssAnt" value="Base de Calculo:" />
+                        <x:inputNumber id="baseIssAnt" value="#{movimentoMB.baseIssAnt}" styleClass="form-control" disabled="true"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="valorPorcIssAnt" value="Porcentagem do Desconto:" />
+                        <x:inputNumber id="valorPorcIssAnt" value="#{movimentoMB.util.calcularPorcPeloValor(movimentoMB.baseIssAnt,movimentoMB.issAnt)}" 
+                                       styleClass="form-control" disabled="true" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="issAnt" value="Valor Desconto:" />
+                        <x:inputNumber id="issAnt" value="#{movimentoMB.issAnt}" styleClass="form-control" disabled="true"/>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="SEST/SENAT">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="baseSestSenatAnt" value="Base de Calculo:" />
+                        <x:inputNumber id="baseSestSenatAnt" value="#{movimentoMB.baseSestSenatAnt}" styleClass="form-control" disabled="true"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="valorPorcSestSenatAnt" value="Porcentagem do Desconto:" />
+                        <x:inputNumber id="valorPorcSestSenatAnt" value="#{movimentoMB.util.calcularPorcPeloValor(movimentoMB.baseSestSenatAnt,movimentoMB.sestSenatAnt)}" 
+                                       styleClass="form-control" disabled="true" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="sestSenatAnt" value="Valor Desconto:" />
+                        <x:inputNumber id="sestSenatAnt" value="#{movimentoMB.sestSenatAnt}" styleClass="form-control" disabled="true"/>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="INSS">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="baseInssAnt" value="Base de Calculo:" />
+                        <x:inputNumber id="baseInssAnt" value="#{movimentoMB.valorBCalcAnt}" styleClass="form-control" disabled="true"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="valorPorcInssAnt" value="Porcentagem do Desconto:" />
+                        <x:inputNumber id="valorPorcInssAnt" value="#{movimentoMB.util.calcularPorcPeloValor(movimentoMB.valorBCalcAnt,movimentoMB.desconto1Ant)}" 
+                                       styleClass="form-control" disabled="true" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="inssAnt" value="Valor do desconto:" />
+                        <x:inputNumber id="inssAnt" value="#{movimentoMB.desconto1Ant}" styleClass="form-control" disabled="true"/>
+                    </div>
+
+                </p:fieldset>
+                <p:fieldset legend="IRRF">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="baseIrrfAnt" value="Base de Calculo:" />
+                        <x:inputNumber id="baseIrrfAnt" value="#{movimentoMB.baseIrrfAnt}" styleClass="form-control" disabled="true"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="valorPorcIrrfAnt" value="Porcentagem do Desconto:" />
+                        <x:inputNumber id="valorPorcIrrfAnt" value="#{movimentoMB.util.calcularPorcPeloValor(movimentoMB.baseIrrfAnt,movimentoMB.irrfAnt)}" 
+                                       styleClass="form-control" disabled="true" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="irrfAnt" value="Valor do desconto:" />
+                        <x:inputNumber id="irrfAnt" value="#{movimentoMB.irrfAnt}" styleClass="form-control" disabled="true"/>
+                    </div>
+
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Movimento Financeiro para #{movimentoMB.referenciaAtual}" id="tabFinAtual" titleStyle="font-weight:bold" titleStyleClass="">
+                <p:fieldset legend="Financeiro" toggleable="true">
+                    <div class="container-fluid">
+                        <div class="row">
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="financeiro" value="* #{msg['movimento.financeiro']}:" />
+                                <p:inputText id="financeiro" value="#{movimentoMB.entity.financeiro}" maxlength="60"  styleClass="form-control" disabled="true"/>                                                 
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="fonte" value="* Fonte:" />
+                                <h:selectOneMenu id="fonte" value="#{movimentoMB.entity.fonte}" converter="entityConverter" styleClass="form-control" 
+                                                 disabled="#{movimentoMB.entity.travado}">
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.fontePagador)}" 
+                                                   var="fonte"
+                                                   itemLabel="#{fonte}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="tipo" value="* Tipo de Pessoa:" />
+                                <h:selectOneMenu id="tipo" value="#{movimentoMB.entity.tipo}"  styleClass="form-control" >
+                                    <f:selectItems value="#{findAllBean.get(classMB.tipoPessoa)}" 
+                                                   var="tipo"
+                                                   itemLabel="#{tipo.descricao}"/>
+                                    <p:ajax process="@this" update="panelPJ panelTabs valorLiquido" listener="#{movimentoMB.limparIrrfEInss()}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <h:panelGroup id="panelPJ" >
+                                <p:outputPanel rendered="#{movimentoMB.entity.tipo.num ==2}">
+                                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                        <h:outputLabel for="cnpj" value="* CNPJ:" />
+                                        <x:cnpj id="cnpj" value="#{movimentoMB.entity.cnpj}" styleClass="form-control"  
+                                                required="true" requiredMessage="CNPJ é obrigatório para Pessoa Jurídica"/>
+                                    </div>
+                                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                        <h:outputLabel for="razaoSocial" value="* Razão Social:" />
+                                        <p:inputText id="razaoSocial" value="#{movimentoMB.entity.razaoSocial}" maxlength="260"  
+                                                     required="true" requiredMessage="Razão Social é obrigatória para Pessoa Jurídica" styleClass="form-control"  />
+                                    </div>
+                                </p:outputPanel>
+                                <p:outputPanel rendered="#{movimentoMB.entity.tipo.num ==1}">
+                                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                        <h:outputLabel for="pensao" value="Pensão Alimento:" />
+                                        <x:inputNumber id="pensao" value="#{movimentoMB.entity.pensao}" styleClass="form-control" >
+                                            <p:ajax event="blur" listener="#{movimentoMB.calcularBases()}" process="@this" update="panelTabs valorLiquido"/>
+                                        </x:inputNumber>
+                                    </div>
+                                </p:outputPanel>
+                            </h:panelGroup>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="valor" value="* Valor Bruto:" />
+                                <x:inputNumber id="valor" value="#{movimentoMB.entity.valor}" styleClass="form-control" disabled="#{movimentoMB.entity.travado}">
+                                    <p:ajax event="blur" listener="#{movimentoMB.calcularBases()}" process="@this" update="panelTabs valorLiquido"/>
+                                </x:inputNumber>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="valorLiquido" value="Valor Liquido:" />
+                                <x:inputNumber id="valorLiquido" value="#{movimentoMB.entity.valorLiquido}" styleClass="form-control" disabled="true"/>
+                            </div>
+
+                        </div>
+                    </div>
+                </p:fieldset>
+                <h:panelGroup id="panelTabs" >
+                    <p:fieldset legend="ISS">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="baseIss" value="Base de Cálculo:" />
+                            <x:inputNumber id="baseIss" value="#{movimentoMB.entity.baseIss}" styleClass="form-control" disabled="true"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="porcIss" value="Porcentagem do Desconto:" />
+                            <x:inputNumber id="porcIss" value="#{movimentoMB.porcIss}" styleClass="form-control" >
+                                <p:ajax event="blur" listener="#{movimentoMB.calcularValorIssPelaPorc()}" process="baseIss @this" update="iss valorLiquido"/>
+                            </x:inputNumber>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="iss" value="Valor Desconto:" />
+                            <x:inputNumber id="iss" value="#{movimentoMB.entity.iss}" styleClass="form-control" >
+                                <p:ajax event="blur" listener="#{movimentoMB.calculaPorcPeloValorIss()}" process="@this" update="porcIss valorLiquido"/>
+                            </x:inputNumber>
+                        </div>
+                    </p:fieldset>
+                    <p:fieldset legend="SEST/SENAT">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="baseSestSenat" value="Base de Cálculo:" />
+                            <x:inputNumber id="baseSestSenat" value="#{movimentoMB.entity.baseSestSenat}" styleClass="form-control" disabled="true" />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="porcSestSenat" value="Porcentagem do Desconto:" />
+                            <x:inputNumber id="porcSestSenat" value="#{movimentoMB.porcSestSenat}" styleClass="form-control">
+                                <p:ajax event="blur" listener="#{movimentoMB.calcularValorPelaPorcSestSenat()}" process="@this" update="sestSenat valorLiquido"/>
+                            </x:inputNumber>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="sestSenat" value="Valor Desconto:" />
+                            <x:inputNumber id="sestSenat" value="#{movimentoMB.entity.sestSenat}" styleClass="form-control" >
+                                <p:ajax event="blur" listener="#{movimentoMB.calcularPorcPeloValorSestSenat()}" process="@this" update="porcSestSenat valorLiquido"/>
+                            </x:inputNumber>
+                        </div>
+                    </p:fieldset>
+                    <p:fieldset legend="INSS">
+                        <h:panelGroup id="panel3">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="baseInss" value="Base de Cálculo:" />
+                                <x:inputNumber id="baseInss" value="#{movimentoMB.entity.valorBCalc}" styleClass="form-control" disabled="true" />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="porcInss" value="Porcentagem do Desconto:" />
+                                <x:inputNumber id="porcInss" value="#{movimentoMB.porcInss}" styleClass="form-control" >
+                                    <p:ajax event="blur" process="@this" update="desconto1 panelIR" listener="#{movimentoMB.calcularValorPelaPorcInss()}"/>
+                                </x:inputNumber>
+
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="desconto1" value="Valor Desconto:" />
+                                <x:inputNumber id="desconto1" value="#{movimentoMB.entity.desconto1}" styleClass="form-control" disabled="#{movimentoMB.entity.travado}">
+                                    <p:ajax event="blur" process="@this" update="porcInss" listener="#{movimentoMB.calcularPorcPeloValorInss()}"/>
+                                    <p:ajax event="blur" listener="#{movimentoMB.calcularIrrfEBase()}" process="@this" update="panelIR"/>
+                                </x:inputNumber>
+                            </div>
+
+
+                        </h:panelGroup>
+                    </p:fieldset>
+                    <h:panelGroup id="panelIR" >
+                        <p:fieldset legend="IR#{movimentoMB.entity.tipo}" rendered="#{movimentoMB.entity.tipo.num ==1}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="baseIr" value="Base de Cálculo:" />
+                                <x:inputNumber id="baseIr" value="#{movimentoMB.entity.baseIrrf}" styleClass="form-control" disabled="true" />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="porcIrrf" value="Alíquota:" />
+                                <x:inputNumber id="porcIrrf" value="#{movimentoMB.aliquotaIrrf}" 
+                                               styleClass="form-control" disabled="true" />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="valorComAliquota" value="Valor com Alíquota:" />
+                                <x:inputNumber id="valorComAliquota" value="#{movimentoMB.util.calcularPorcentagem(movimentoMB.aliquotaIrrf, movimentoMB.entity.baseIrrf)}" 
+                                               styleClass="form-control" disabled="true" />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="deducaoIrrf" value="Dedução:" />
+                                <x:inputNumber id="deducaoIrrf" value="#{movimentoMB.deducaoIrrf}" 
+                                               styleClass="form-control" disabled="true" />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="irrf" value="Valor do Desconto:" />
+                                <x:inputNumber id="irrf" value="#{movimentoMB.entity.irrf}" styleClass="form-control" disabled="true">
+                                    <p:ajax event="blur" process="@this" update="valorLiquido"/>
+                                </x:inputNumber>
+
+                            </div>
+                        </p:fieldset>
+
+                        <p:fieldset legend="IR#{movimentoMB.entity.tipo}" rendered="#{movimentoMB.entity.tipo.num ==2}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="baseIrPj" value="Base de Cálculo:" />
+                                <x:inputNumber id="baseIrPj" value="#{movimentoMB.entity.baseIrrf}" styleClass="form-control" disabled="true" />
+                            </div> 
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="valorPorcIrrfPj" value="Porcentagem do Desconto:" />
+                                <x:inputNumber id="valorPorcIrrfPj" value="#{movimentoMB.porcIrrf}" styleClass="form-control" >
+                                    <p:ajax event="blur" process="@this" update="irrfPj" listener="#{movimentoMB.calcularValorPelaPorcIrrf()}"/>
+                                </x:inputNumber>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="irrfPj" value="Valor do Desconto:" />
+                                <x:inputNumber id="irrfPj" value="#{movimentoMB.entity.irrf}" styleClass="form-control">
+                                    <p:ajax event="blur" process="@this" update="valorLiquido valorPorcIrrfPj" listener="#{movimentoMB.calcularPorcPeloValorIrrf()}"/>
+                                </x:inputNumber>
+                            </div>
+
+                        </p:fieldset>
+                    </h:panelGroup>
+                </h:panelGroup>
+            </p:tab>
+        </p:tabView>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="movimento.create">
+                <p:commandButton process="@form" update="@form" action="#{movimentoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="movimento.audit">
+                <x:audit for="#{movimentoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+    <x:modalMessages autoUpdate="true"/>
+</ui:composition>

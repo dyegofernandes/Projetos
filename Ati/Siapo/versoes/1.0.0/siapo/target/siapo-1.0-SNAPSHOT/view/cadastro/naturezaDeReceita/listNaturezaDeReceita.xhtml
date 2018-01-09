@@ -1,0 +1,94 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['naturezaDeReceita.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuNaturezaDeReceita.xhtml" />
+        <h:form id="formListNaturezaDeReceita">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="naturezaDeReceita_export" target=":formListNaturezaDeReceita:dataTableNaturezaDeReceita"
+                                     widgetVar="dataTableNaturezaDeReceitaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="naturezaDeReceita" rowIndexVar="index" id="dataTableNaturezaDeReceita" widgetVar="dataTableNaturezaDeReceitaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{naturezaDeReceitaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{naturezaDeReceitaMB.dataModel.paginatorTemplate}"
+                         value="#{naturezaDeReceitaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['naturezaDeReceita.codigo']}" sortBy="#{naturezaDeReceita.codigo}"
+                    filterBy="#{naturezaDeReceita.codigo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['naturezaDeReceita.codigo']}" />
+                    </f:facet>
+                    <h:outputText value="#{naturezaDeReceita.codigo}"/>
+                </p:column>
+                <p:column headerText="#{msg['naturezaDeReceita.nome']}" sortBy="#{naturezaDeReceita.nome}"
+                    filterBy="#{naturezaDeReceita.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['naturezaDeReceita.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{naturezaDeReceita.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['naturezaDeReceita.tipo']}" sortBy="#{naturezaDeReceita.tipo}"
+                    filterBy="#{naturezaDeReceita.tipo}"  filterOptions="#{findAllBean.getSelect(classMB.tipoDeNaturezaReceita)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['naturezaDeReceita.tipo']}" />
+                    </f:facet>
+                    <h:outputText value="#{naturezaDeReceita.tipo}"/>
+                </p:column>
+                <p:column headerText="#{msg['naturezaDeReceita.indicadorDeResultado']}" sortBy="#{naturezaDeReceita.indicadorDeResultado}"
+                    filterBy="#{naturezaDeReceita.indicadorDeResultado}"  filterOptions="#{findAllBean.getSelect(classMB.indicadorResultado)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['naturezaDeReceita.indicadorDeResultado']}" />
+                    </f:facet>
+                    <h:outputText value="#{naturezaDeReceita.indicadorDeResultado}"/>
+                </p:column>
+                <p:column headerText="#{msg['naturezaDeReceita.ativo']}" sortBy="#{naturezaDeReceita.ativo}"
+                    filterBy="#{naturezaDeReceita.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['naturezaDeReceita.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{naturezaDeReceita.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetNaturezaDeReceitaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailNaturezaDeReceita" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{naturezaDeReceita}" target="#{naturezaDeReceitaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="naturezaDeReceita.create">
+                        <p:button icon="ui-icon-pencil" outcome="createNaturezaDeReceita" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{naturezaDeReceita.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="naturezaDeReceita.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{naturezaDeReceitaMB.delete}" >
+                            <f:setPropertyActionListener value="#{naturezaDeReceita.id}" target="#{naturezaDeReceitaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{naturezaDeReceita}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="naturezaDeReceita.audit">
+                    <x:auditDelete for="#{naturezaDeReceitaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetNaturezaDeReceitaDetail" header="#{msg['naturezaDeReceita.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailNaturezaDeReceita.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

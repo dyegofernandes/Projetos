@@ -1,0 +1,532 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateRoteiroDeTriagemDoUsuarioLGBT" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:tabView id="tabGeral">
+            <p:tab title="Dados Gerais" id="tabDadosGerais">
+                <p:fieldset legend="#{xmsg['generalData']}">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="controleNum" value="* Número controle:" />
+                                <p:inputMask id="controleNum" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.codigo}" 
+                                             mask="9?999999999"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="codigoAno" value="* Ano controle:" />
+                                <p:inputMask id="codigoAno" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.ano}" 
+                                             mask="9999"  styleClass="form-control" />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="dataEmissao" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.dataEmissao']}:" />
+                                <p:calendar id="dataEmissao" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.dataEmissao}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomeSocial" value="* #{msg['roteiroDeTriagemDoUsuarioLGBT.nome']} Social:" />
+                                <p:inputText id="nomeSocial" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.nomeSocial}" maxlength="120"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nome" value="* #{msg['roteiroDeTriagemDoUsuarioLGBT.nome']}:" />
+                                <p:inputText id="nome" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.nome}" maxlength="120"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="rg" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.rg']}:" />
+                                <p:inputText id="rg" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.rg}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cpf" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.cpf']}:" />
+                                <x:cpf id="cpf" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.cpf}" styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filiacao" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.filiacao']}:" />
+                                <p:inputText id="filiacao" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.filiacao}" maxlength="250"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="naturalidade" value="Naturalidade:" />
+                                <p:inputText id="naturalidade" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.naturalidade}" maxlength="150"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="sexo" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.sexo']}:" />
+                                <h:selectOneMenu id="sexo" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.sexo}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.sexo)}" 
+                                                   var="sexo"
+                                                   itemLabel="#{sexo.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="dataNascimento" value="* #{msg['roteiroDeTriagemDoUsuarioLGBT.dataNascimento']}:" />
+                                <p:calendar id="dataNascimento" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.dataNascimento}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="estadoCivil" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.estadoCivil']}:" />
+                                <h:selectOneMenu id="estadoCivil" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.estadoCivil}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.estadoCivil)}" 
+                                                   var="estadoCivil"
+                                                   itemLabel="#{estadoCivil.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="escolaridade" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.escolaridade']}:" />
+                                <p:inputText id="escolaridade" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.escolaridade}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="profissao" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.profissao']}:" />
+                                <p:inputText id="profissao" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.profissao}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="telefone" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.telefone']}:" />
+                                <p:inputMask id="telefone" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.telefone}" mask="(99) 9999-9999"  styleClass="form-control"  />
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="telefone2" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.telefone']} 2:" />
+                                <p:inputMask id="telefone2" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.telefone2}" mask="(99) 9999-9999"  styleClass="form-control"  />
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="email" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.email']}:" />
+                                <p:inputText id="email" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.email}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="todosDocumentos" value="* #{msg['roteiroDeTriagemDoUsuarioLGBT.todosDocumentos']}:" />
+                                <h:selectOneMenu id="todosDocumentos" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.todosDocumentos}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.todosDocumento)}" 
+                                                   var="todosDocumento"
+                                                   itemLabel="#{todosDocumento.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="orientacaoSexual" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.orientacaoSexual']}:" />
+                                <h:selectOneMenu id="orientacaoSexual" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.orientacaoSexual}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.orientacaoSexual)}" 
+                                                   var="orientacaoSexual"
+                                                   itemLabel="#{orientacaoSexual.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="identidadeGenero" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.identidadeGenero']}:" />
+                                <h:selectOneMenu id="identidadeGenero" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.identidadeGenero}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.identidadeGenero)}" 
+                                                   var="identidadeGenero"
+                                                   itemLabel="#{identidadeGenero.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="comQuemMora" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.comQuemMora']}:" />
+                                <h:selectOneMenu id="comQuemMora" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.comQuemMora}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.comQuemMora)}" 
+                                                   var="comQuemMora"
+                                                   itemLabel="#{comQuemMora.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="grupoFamiliar" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.grupoFamiliar']}:" />
+                                <p:inputText id="grupoFamiliar" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.grupoFamiliar}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="resideEm" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.resideEm']}:" />
+                                <h:selectOneMenu id="resideEm" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.resideEm}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.resideEm)}" 
+                                                   var="resideEm"
+                                                   itemLabel="#{resideEm.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="tipoMoradia" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.tipoMoradia']}:" />
+                                <h:selectOneMenu id="tipoMoradia" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.tipoMoradia}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.tipoMoradia)}" 
+                                                   var="tipoMoradia"
+                                                   itemLabel="#{tipoMoradia.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="rendaFamiliar" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.rendaFamiliar']}:" />
+                                <h:selectOneMenu id="rendaFamiliar" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.rendaFamiliar}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.rendaFamiliar)}" 
+                                                   var="rendaFamiliar"
+                                                   itemLabel="#{rendaFamiliar.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="etnia" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.etnia']}:" />
+                                <h:selectOneMenu id="etnia" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.etnia}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.etnia)}" 
+                                                   var="etnia"
+                                                   itemLabel="#{etnia.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="religiao" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.religiao']}:" />
+                                <h:selectOneMenu id="religiao" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.religiao}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.religiao)}" 
+                                                   var="religiao"
+                                                   itemLabel="#{religiao.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="registroNum" value="Número registro Social" />
+                                <p:inputMask id="registroNum" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.registroSocialNum}" 
+                                             mask="9?999999999"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="registroAno" value="Ano registro Social" />
+                                <p:inputMask id="registroAno" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.registroSocialAno}" 
+                                             mask="9999"  styleClass="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Endereço">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="endereco" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.endereco']}:" />
+                                <p:inputText id="endereco" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.endereco}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="bairro" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.bairro']}:" />
+                                <p:inputText id="bairro" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.bairro}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cidade" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.cidade']}:" />
+                                <p:inputText id="cidade" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.cidade}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cep" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.cep']}:" />
+                                <p:inputMask id="cep" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.cep}" mask="99999-999"  styleClass="form-control"  />
+                            </div>
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Dados complementares">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="observacao" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.observacao']}:" />
+                                <p:inputText id="observacao" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.observacao}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="encaminhado" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.encaminhado']}:" />
+                                <p:inputText id="encaminhado" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.encaminhado}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="atementoAnterior" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.atementoAnterior']}:" />
+                                <p:inputText id="atementoAnterior" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.atementoAnterior}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="motivoConsulta" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.motivoConsulta']}:" />
+                                <p:inputText id="motivoConsulta" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.motivoConsulta}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="expectativasAtendimento" value="#{msg['roteiroDeTriagemDoUsuarioLGBT.expectativasAtendimento']}:" />
+                                <p:inputText id="expectativasAtendimento" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.expectativasAtendimento}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="evolucao" value="Evolução:" />
+                                <p:inputTextarea id="evolucao" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.evolucao}" rows="5" styleClass="form-control"
+                                                 cols="50"/>
+                            </div>
+                        </div>
+                    </div>
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Acolhimento" >
+                <p:fieldset legend="Acolhimento" id="fieldAcolhimento">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="areaAtuacao" value="Área Atuação:" />
+                                <h:selectOneMenu id="areaAtuacao" value="#{roteiroDeTriagemDoUsuarioLGBTMB.acolhimento.areaAtuacao}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.areaAtuacao)}" 
+                                                   var="area"
+                                                   itemLabel="#{area.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="tipoProfissional" value="Tipo Profissional:" />
+                                <h:selectOneMenu id="tipoProfissional" value="#{roteiroDeTriagemDoUsuarioLGBTMB.acolhimento.tipoProfissional}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.tipoProfissional)}" 
+                                                   var="tipoProf"
+                                                   itemLabel="#{tipoProf.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomeAcolhid" value="Nome:" />
+                                <p:inputText id="nomeAcolhid" value="#{roteiroDeTriagemDoUsuarioLGBTMB.acolhimento.nome}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                        </div>
+                    </div>
+                </p:fieldset>
+                <div class="uix-center">
+                    <p:commandButton process="@this tabGeral:fieldAcolhimento" update="tabGeral:fieldAcolhimento formCreateRoteiroDeTriagemDoUsuarioLGBT:tabGeral:dataTableAcolhimento" value="Adicionar" 
+                                     action="#{roteiroDeTriagemDoUsuarioLGBTMB.addAcolhimento()}"/>
+                </div>
+                <p:fieldset legend="Acolhimentos">
+                    <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="acolhimento" rowIndexVar="index" id="dataTableAcolhimento" widgetVar="dataTableAcolhimentoWidget" styleClass="table-responsive"
+                                 value="#{roteiroDeTriagemDoUsuarioLGBTMB.acolhimentos}" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+
+                        <p:column headerText="Tipo Profissional" style="text-align: left;">
+                            <f:facet name="header">
+                                <h:outputText value="Tipo Profissional" />
+                            </f:facet>
+                            <h:outputText value="#{acolhimento.tipoProfissional.descricao}"/>
+                        </p:column>
+                        <p:column headerText="Área de Atuação"  style="text-align: left;">
+                            <f:facet name="header">
+                                <h:outputText value="Área de Atuação" />
+                            </f:facet>
+                            <h:outputText value="#{acolhimento.areaAtuacao.descricao}"/>
+                        </p:column>
+                        <p:column headerText="Nome profissional"  style="text-align: left;">
+                            <f:facet name="header">
+                                <h:outputText value="Nome do Profissional" />
+                            </f:facet>
+                            <h:outputText value="#{acolhimento.nome}"/>
+                        </p:column>
+
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet> 
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="formCreateRoteiroDeTriagemDoUsuarioLGBT:tabGeral:dataTableAcolhimento" 
+                                             action="#{roteiroDeTriagemDoUsuarioLGBTMB.removerAcolhimento(acolhimento)}" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataEncaminha" value="Data do Encaminhamento:" />
+                        <p:calendar id="dataEncaminha" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.dataEncaminhamento}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="obsEncaminhamento" value="Observação:" />
+                        <p:inputTextarea id="obsEncaminhamento" value="#{roteiroDeTriagemDoUsuarioLGBTMB.entity.observacaoEncaminhamento}" rows="5" styleClass="form-control"
+                                         cols="50"/>
+                    </div>
+                </div>
+            </p:tab>
+            <p:tab title="Agendamentos" >
+                <p:fieldset legend="Agendamento" id="fieldAgendamento">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="dataAgend" value="Data" />
+                                <p:calendar id="dataAgend" value="#{roteiroDeTriagemDoUsuarioLGBTMB.agendamento.dataAgend}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="horaAgend" value="Hora" />
+                                <p:calendar id="horaAgend" value="#{roteiroDeTriagemDoUsuarioLGBTMB.agendamento.hora}" 
+                                            showOn="button" pattern="hh:mm" timeOnly="true" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="tipoServico" value="Tipo Profissional:" />
+                                <h:selectOneMenu id="tipoServico" value="#{roteiroDeTriagemDoUsuarioLGBTMB.agendamento.tipoDeServico}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.tipoDeServicoLgbt)}" 
+                                                   var="tipoServico"
+                                                   itemLabel="#{tipoServico.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="areaAgend" value="Area Atuação:" />
+                                <h:selectOneMenu id="areaAgend" value="#{roteiroDeTriagemDoUsuarioLGBTMB.agendamento.area}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.areaAtuacao)}" 
+                                                   var="area"
+                                                   itemLabel="#{area.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="efetivado" value="Efetivado:" />
+                                <h:selectOneMenu id="efetivado" value="#{roteiroDeTriagemDoUsuarioLGBTMB.agendamento.efetivado}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.simOuNao)}" 
+                                                   var="simNao"
+                                                   itemLabel="#{simNao.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomeEfetivado" value="Nome:" />
+                                <p:inputText id="nomeEfetivado" value="#{roteiroDeTriagemDoUsuarioLGBTMB.agendamento.nomeEfetivado}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="descricao" value="* Descrição Agendamento:" />
+                                <p:inputTextarea id="descricao" value="#{roteiroDeTriagemDoUsuarioLGBTMB.agendamento.descricao}" rows="5" styleClass="form-control"
+                                                 cols="50"/>
+                            </div>
+                        </div>
+                    </div>
+                </p:fieldset>
+                <div class="uix-center">
+                    <p:commandButton process="@this tabGeral:fieldAgendamento" update="tabGeral:fieldAgendamento formCreateRoteiroDeTriagemDoUsuarioLGBT:tabGeral:dataTableAgendamento" value="Adicionar" 
+                                     action="#{roteiroDeTriagemDoUsuarioLGBTMB.addAgendamento()}"/>
+                </div>
+                <p:fieldset legend="Agendamentos">
+                    <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="agendamento" rowIndexVar="index" id="dataTableAgendamento" widgetVar="dataTableAgendamentoWidget" 
+                                 styleClass="table-responsive"
+                                 value="#{roteiroDeTriagemDoUsuarioLGBTMB.agendamentos}" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="Data" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Data" />
+                            </f:facet>
+                            <h:outputText value="#{agendamento.dataAgend}">
+                                <f:convertDateTime />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Hora" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Hora" />
+                            </f:facet>
+                            <h:outputText value="#{agendamento.hora}">
+                                <f:convertDateTime pattern="HH:mm"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Tipo Serviço" style="text-align: left;">
+                            <f:facet name="header">
+                                <h:outputText value="Tipo Serviço" />
+                            </f:facet>
+                            <h:outputText value="#{agendamento.tipoDeServico.descricao}"/>
+                        </p:column>
+                        <p:column headerText="Área de Atuação"  style="text-align: left;">
+                            <f:facet name="header">
+                                <h:outputText value="Área de Atuação" />
+                            </f:facet>
+                            <h:outputText value="#{agendamento.area.descricao}"/>
+                        </p:column>
+                        <p:column headerText="Efetivado?" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Efetivado?" />
+                            </f:facet>
+                            <h:outputText value="#{agendamento.efetivado.descricao}"/>
+                        </p:column>
+                        <p:column headerText="Nome"  style="text-align: left;">
+                            <f:facet name="header">
+                                <h:outputText value="Nome" />
+                            </f:facet>
+                            <h:outputText value="#{agendamento.nomeEfetivado}"/>
+                        </p:column>
+                        <p:column headerText="Descrição"  style="text-align: left;">
+                            <f:facet name="header">
+                                <h:outputText value="Descrição" />
+                            </f:facet>
+                            <h:outputText value="#{agendamento.descricao}"/>
+                        </p:column>
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet> 
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="formCreateRoteiroDeTriagemDoUsuarioLGBT:tabGeral:dataTableAgendamento" 
+                                             action="#{roteiroDeTriagemDoUsuarioLGBTMB.removerAgendamento(agendamento)}" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Arquivos" >
+                <p:fieldset legend="Adicionar Arquivo">
+                    <p:fileUpload id="arquivo" mode="advanced" requiredMessage="É necessário o envio de pelo menos um arquivo!"
+                                  allowTypes="/(\.|\/)(gif|jpeg|jpg|rtf|odt|ods|png|doc|docx|xls|xlsx|pps|ppsx|ppt|pptx|pdf|jpg|zip|txt|7z|rar|dcm|mp4)$/"
+                                  invalidFileMessage="Tipo de arquivo não permitido" invalidSizeMessage="Arquivo com tamanho acima do permitido" 
+                                  uploadLabel="Carregar" update="formCreateRoteiroDeTriagemDoUsuarioLGBT:tabGeral:dataTableArquivo" cancelLabel="Cancelar" label="Selecionar" multiple="false" 
+                                  sizeLimit="10485760" fileUploadListener="#{roteiroDeTriagemDoUsuarioLGBTMB.upload}" styleClass="grid_9" />
+                </p:fieldset>
+                <p:fieldset legend="Listagem de Arquivos">
+                    <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="arquivo" rowIndexVar="index" id="dataTableArquivo" widgetVar="dataTableArquivoWidget" styleClass="table-responsive"
+                                 value="#{roteiroDeTriagemDoUsuarioLGBTMB.arquivos}" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg['arquivo.nome']}" width="80%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['arquivo.nome']}" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.nome}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['arquivo.extensao']}" width="20%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['arquivo.extensao']}" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.extensao}"/>
+                        </p:column>
+
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>          
+                            <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Download" ajax="false" immediate="true" update="formCreateDenuncia">
+                                <p:fileDownload value="#{roteiroDeTriagemDoUsuarioLGBTMB.download(arquivo)}" />
+                            </p:commandButton>
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="formCreateRoteiroDeTriagemDoUsuarioLGBT:tabGeral:dataTableArquivo" 
+                                             action="#{roteiroDeTriagemDoUsuarioLGBTMB.removerArquivo(arquivo)}" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </p:tab>
+        </p:tabView>
+
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="roteiroDeTriagemDoUsuarioLGBT.create">
+                <p:commandButton process="@this tabGeral:tabDadosGerais" update="@form" action="#{roteiroDeTriagemDoUsuarioLGBTMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="roteiroDeTriagemDoUsuarioLGBT.audit">
+                <x:audit for="#{roteiroDeTriagemDoUsuarioLGBTMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

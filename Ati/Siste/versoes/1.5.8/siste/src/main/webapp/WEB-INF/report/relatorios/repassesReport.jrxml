@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="repassesReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="CAMINHO_IMAGEM" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String"/>
+	<parameter name="DATA_ATUAL" class="java.lang.String"/>
+	<parameter name="HORA_ATUAL" class="java.lang.String"/>
+	<parameter name="USUARIO" class="java.lang.String"/>
+	<parameter name="VERSAO" class="java.lang.String"/>
+	<parameter name="COMPETENCIA" class="java.lang.String"/>
+	<parameter name="NOME_SISTEMA" class="java.lang.String"/>
+	<field name="cnpj" class="java.lang.String"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="unidades" class="java.util.List"/>
+	<field name="cnpjENome" class="java.lang.String"/>
+	<field name="totalSalarioBrutoOrgao" class="java.math.BigDecimal"/>
+	<field name="totalBcalcOrgao" class="java.math.BigDecimal"/>
+	<field name="totalDescontoInssOrgao" class="java.math.BigDecimal"/>
+	<field name="totalDesconto20Orgao" class="java.math.BigDecimal"/>
+	<field name="totalValorTotalOrgao" class="java.math.BigDecimal"/>
+	<field name="registroPorOrgaos" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="90" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="178" height="87"/>
+				<imageExpression><![CDATA[$P{CAMINHO_IMAGEM}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="178" y="70" width="445" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{COMPETENCIA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="492" y="0" width="309" height="14"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DATA_ATUAL} +" | " + $P{HORA_ATUAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="492" y="14" width="309" height="14"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{USUARIO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="492" y="28" width="309" height="14"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{VERSAO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="178" y="50" width="445" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RELATÓRIO DE REPASSES FINANCEIROS]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="81" splitType="Stretch">
+			<subreport>
+				<reportElement positionType="Float" x="0" y="0" width="801" height="54"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{unidades})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "/UnidadesVOReport.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement positionType="Float" x="456" y="58" width="63" height="14"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Desconto Inss:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="175" y="58" width="55" height="14"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor Bruto:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="311" y="58" width="60" height="14"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Base Cálculo:]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="Float" x="658" y="58" width="70" height="14"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalValorTotalOrgao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="52" y="58" width="57" height="14"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Movimentos:]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="Float" x="233" y="58" width="70" height="14"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalSalarioBrutoOrgao}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="Float" x="373" y="58" width="70" height="14"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalBcalcOrgao}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement positionType="Float" x="111" y="58" width="50" height="14"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{registroPorOrgaos}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="Float" x="521" y="58" width="70" height="14"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalDescontoInssOrgao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="601" y="58" width="55" height="14"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor Total:]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="18">
+			<staticText>
+				<reportElement x="340" y="0" width="124" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RepassesReport.jrml]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="0" width="161" height="18"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NOME_SISTEMA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="571" y="0" width="146" height="18"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="717" y="0" width="85" height="18"/>
+				<textFieldExpression><![CDATA["/" + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

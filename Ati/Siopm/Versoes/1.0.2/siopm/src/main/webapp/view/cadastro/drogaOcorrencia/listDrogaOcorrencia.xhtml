@@ -1,0 +1,66 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['drogaOcorrencia.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuDrogaOcorrencia.xhtml" />
+        <h:form id="formListDrogaOcorrencia">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="drogaOcorrencia_export" target=":formListDrogaOcorrencia:dataTableDrogaOcorrencia"
+                                     widgetVar="dataTableDrogaOcorrenciaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="drogaOcorrencia" rowIndexVar="index" id="dataTableDrogaOcorrencia" widgetVar="dataTableDrogaOcorrenciaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{drogaOcorrenciaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{drogaOcorrenciaMB.dataModel.paginatorTemplate}"
+                         value="#{drogaOcorrenciaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['drogaOcorrencia.nome']}" sortBy="#{drogaOcorrencia.nome}"
+                    filterBy="#{drogaOcorrencia.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['drogaOcorrencia.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{drogaOcorrencia.nome}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetDrogaOcorrenciaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailDrogaOcorrencia" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{drogaOcorrencia}" target="#{drogaOcorrenciaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="drogaOcorrencia.create">
+                        <p:button icon="ui-icon-pencil" outcome="createDrogaOcorrencia" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{drogaOcorrencia.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="drogaOcorrencia.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{drogaOcorrenciaMB.delete}" >
+                            <f:setPropertyActionListener value="#{drogaOcorrencia.id}" target="#{drogaOcorrenciaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{drogaOcorrencia}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="drogaOcorrencia.audit">
+                    <x:auditDelete for="#{drogaOcorrenciaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetDrogaOcorrenciaDetail" header="#{msg['drogaOcorrencia.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailDrogaOcorrencia.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

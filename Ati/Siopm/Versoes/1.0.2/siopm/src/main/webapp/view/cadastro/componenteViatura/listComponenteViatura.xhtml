@@ -1,0 +1,80 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['componenteViatura.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuComponenteViatura.xhtml" />
+        <h:form id="formListComponenteViatura">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="componenteViatura_export" target=":formListComponenteViatura:dataTableComponenteViatura"
+                                     widgetVar="dataTableComponenteViaturaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="componenteViatura" rowIndexVar="index" id="dataTableComponenteViatura" widgetVar="dataTableComponenteViaturaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{componenteViaturaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{componenteViaturaMB.dataModel.paginatorTemplate}"
+                         value="#{componenteViaturaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['componenteViatura.matricula']}" sortBy="#{componenteViatura.matricula}"
+                    filterBy="#{componenteViatura.matricula}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['componenteViatura.matricula']}" />
+                    </f:facet>
+                    <h:outputText value="#{componenteViatura.matricula}"/>
+                </p:column>
+                <p:column headerText="#{msg['componenteViatura.nome']}" sortBy="#{componenteViatura.nome}"
+                    filterBy="#{componenteViatura.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['componenteViatura.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{componenteViatura.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['componenteViatura.patente']}" sortBy="#{componenteViatura.patente}"
+                    filterBy="#{componenteViatura.patente}"  filterOptions="#{findAllBean.getSelect(classMB.patentePM)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['componenteViatura.patente']}" />
+                    </f:facet>
+                    <h:outputText value="#{componenteViatura.patente}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetComponenteViaturaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailComponenteViatura" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{componenteViatura}" target="#{componenteViaturaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="componentesViatura.create">
+                        <p:button icon="ui-icon-pencil" outcome="createComponenteViatura" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{componenteViatura.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="componentesViatura.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{componenteViaturaMB.delete}" >
+                            <f:setPropertyActionListener value="#{componenteViatura.id}" target="#{componenteViaturaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{componenteViatura}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="componentesViatura.audit">
+                    <x:auditDelete for="#{componenteViaturaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetComponenteViaturaDetail" header="#{msg['componenteViatura.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailComponenteViatura.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

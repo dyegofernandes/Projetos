@@ -1,0 +1,124 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formCreateViatura" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages autoUpdate="true"/>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="modelo" value="* #{msg['qualificacaoDeVeiculo.modelo']}:" />
+                        <h:selectOneMenu id="modelo" value="#{viaturaMB.entity.marcaModelo}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.modeloVeiculo)}" 
+                                           var="modeloVeiculo"
+                                           itemLabel="#{modeloVeiculo}">
+                            </f:selectItems>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="prefixo" value="* Prefixo:" />
+                        <p:inputMask id="prefixo" value="#{viaturaMB.entity.prefixo}" mask="99-9999"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="placa" value="Placa:" />
+                        <p:inputMask id="placa" value="#{viaturaMB.entity.placa}" mask="aaa-9999"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="ano" value="Ano:" />
+                        <p:inputMask id="ano" value="#{viaturaMB.entity.ano}" mask="9999"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="kmLitro" value="Km/Litro:" />
+                        <p:inputMask id="kmLitro" value="#{viaturaMB.entity.kmPorLitro}"  mask="9?999" styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="lotacao" value="* Lotação:" />
+                        <p:inputMask id="lotacao" value="#{viaturaMB.entity.lotacao}"  mask="9?999" styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="chassi" value="* Chassi:" />
+                        <p:inputText id="chassi" value="#{viaturaMB.entity.chassi}" maxlength="50"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="icone" value="Icone" />
+                        <h:selectOneMenu id="icone" value="#{viaturaMB.entity.icone}"  styleClass="form-control">
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.iconeViatura)}" 
+                                           var="icone"
+                                           itemLabel="#{icone}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="ativo" value="#{viaturaMB.entity.ativo}" />
+                                #{msg['viatura.ativo']}
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Lista de Codinomes usados para Viatura">
+            <p:fieldset legend="Adicionar">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="codenome" value="* Nome Codinome" />
+                    <div class="input-group">
+                        <p:inputText id="codenome" value="#{viaturaMB.apelidoAdd}"  maxlength="50"  styleClass="form-control"  />
+
+                        <span class="input-group-btn">
+                            <p:commandButton title="Adicionar Codenome" icon="ui-icon-plusthick" 
+                                             styleClass="pull-left" ajax="true"
+                                             style="font-size: 17px;" action="#{viaturaMB.addApelido()}" process="@this codenome"
+                                             update="codenome dataTableApelidos">
+                            </p:commandButton>  
+                        </span>
+                    </div>
+                </div>
+            </p:fieldset>
+            <p:fieldset legend="Listagem">
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="apelido" rowIndexVar="index" id="dataTableApelidos" widgetVar="dataTableApelidosWidget" styleClass="table-responsive"
+                             value="#{viaturaMB.apelidos}" lazy="true" >
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+
+                    <p:column headerText="CodiNome" >
+                        <f:facet name="header">
+                            <h:outputText value="CodiNome" />
+                        </f:facet>
+                        <h:outputText value="#{apelido.nome}"/>
+                    </p:column>
+
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{viaturaMB.removerApelido(apelido)}" >
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="viatura.create">
+                <p:commandButton process="@form" update="@form" action="#{viaturaMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="viatura.audit">
+                <x:audit for="#{viaturaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

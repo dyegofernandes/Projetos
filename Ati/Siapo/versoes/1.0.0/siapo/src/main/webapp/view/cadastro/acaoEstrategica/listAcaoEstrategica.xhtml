@@ -1,0 +1,89 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['acaoEstrategica.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuAcaoEstrategica.xhtml" />
+        <h:form id="formListAcaoEstrategica">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="acaoEstrategica_export" target=":formListAcaoEstrategica:dataTableAcaoEstrategica"
+                                     widgetVar="dataTableAcaoEstrategicaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="acaoEstrategica" rowIndexVar="index" id="dataTableAcaoEstrategica" widgetVar="dataTableAcaoEstrategicaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{acaoEstrategicaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{acaoEstrategicaMB.dataModel.paginatorTemplate}"
+                         value="#{acaoEstrategicaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['acaoEstrategica.orgao']}" sortBy="#{acaoEstrategica.orgao.codigo}"
+                       filterBy="#{acaoEstrategica.orgao.codigo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['acaoEstrategica.orgao']}" />
+                    </f:facet>
+                    <h:outputText value="#{acaoEstrategica.orgao}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Código" sortBy="#{acaoEstrategica.id}"
+                    filterBy="#{acaoEstrategica.id}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Código" />
+                    </f:facet>
+                    <h:outputText value="#{acaoEstrategica.id}"/>
+                </p:column>
+                <p:column headerText="#{msg['acaoEstrategica.nome']}" sortBy="#{acaoEstrategica.nome}"
+                    filterBy="#{acaoEstrategica.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['acaoEstrategica.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{acaoEstrategica.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['acaoEstrategica.ativo']}" sortBy="#{acaoEstrategica.ativo}"
+                    filterBy="#{acaoEstrategica.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['acaoEstrategica.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{acaoEstrategica.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetAcaoEstrategicaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailAcaoEstrategica" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{acaoEstrategica}" target="#{acaoEstrategicaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="acaoEstrategica.create">
+                        <p:button icon="ui-icon-pencil" outcome="createAcaoEstrategica" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{acaoEstrategica.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="acaoEstrategica.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{acaoEstrategicaMB.delete}" >
+                            <f:setPropertyActionListener value="#{acaoEstrategica.id}" target="#{acaoEstrategicaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{acaoEstrategica}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="acaoEstrategica.audit">
+                    <x:auditDelete for="#{acaoEstrategicaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetAcaoEstrategicaDetail" header="#{msg['acaoEstrategica.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailAcaoEstrategica.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,87 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['localReserva.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuLocalReserva.xhtml" />
+        <h:form id="formListLocalReserva">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="localReserva_export" target=":formListLocalReserva:dataTableLocalReserva"
+                                     widgetVar="dataTableLocalReservaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="localReserva" rowIndexVar="index" id="dataTableLocalReserva" widgetVar="dataTableLocalReservaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{localReservaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{localReservaMB.dataModel.paginatorTemplate}"
+                         value="#{localReservaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['localReserva.nome']}" sortBy="#{localReserva.nome}"
+                    filterBy="#{localReserva.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['localReserva.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{localReserva.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['localReserva.tipo']}" sortBy="#{localReserva.tipo}"
+                    filterBy="#{localReserva.tipo}"  filterOptions="#{findAllBean.getSelect(classMB.tipoLocal)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['localReserva.tipo']}" />
+                    </f:facet>
+                    <h:outputText value="#{localReserva.tipo}"/>
+                </p:column>
+                <p:column headerText="#{msg['localReserva.quantidadeLugares']}" sortBy="#{localReserva.quantidadeLugares}"
+                    filterBy="#{localReserva.quantidadeLugares}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['localReserva.quantidadeLugares']}" />
+                    </f:facet>
+                    <h:outputText value="#{localReserva.quantidadeLugares}"/>
+                </p:column>
+                <p:column headerText="#{msg['localReserva.ativo']}" sortBy="#{localReserva.ativo}"
+                    filterBy="#{localReserva.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['localReserva.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{localReserva.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetLocalReservaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailLocalReserva" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{localReserva}" target="#{localReservaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="localReserva.create">
+                        <p:button icon="ui-icon-pencil" outcome="createLocalReserva" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{localReserva.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="localReserva.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{localReservaMB.delete}" >
+                            <f:setPropertyActionListener value="#{localReserva.id}" target="#{localReservaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{localReserva}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="localReserva.audit">
+                    <x:auditDelete for="#{localReservaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetLocalReservaDetail" header="#{msg['localReserva.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailLocalReserva.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

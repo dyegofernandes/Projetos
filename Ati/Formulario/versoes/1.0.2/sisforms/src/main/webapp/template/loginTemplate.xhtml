@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      dir="ltr" lang="en-US" xml:lang="en"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:x="http://xpert.com/faces"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:xc="http://java.sun.com/jsf/composite/xpert/components">
+
+    <f:view locale="#{localeBean.locale}">
+        <h:head>
+            <ui:include src="imports.xhtml"/>
+        </h:head>
+        <h:body>
+            <ui:include src="/template/ajaxStatus.xhtml" /> 
+            <p:layout style="min-width:100%;min-height:100%">
+
+                <p:layoutUnit position="center" >
+                    <f:facet name="header">
+                        <h:outputText value="Formulários Externos" />
+                    </f:facet>
+                    <div class="row">
+                        <div class="panel panel-default panel-permissao">
+                            <div class="panel-body">
+                                <h:link outcome="/publico/formulario/registroDominio/formularioRegistroDominio.jsf"
+                                        styleClass="link-permissao">
+                                    <h:outputText value="Formulário" class="caminho-permissao"/>
+                                    <span class="nome-permissao">
+                                        <h:outputText value="Formulário de Registro Dominio"/>
+                                    </span>
+                                </h:link>
+                            </div>
+                            <p:separator/>
+                            <div class="panel-body">
+                                <h:link outcome="/publico/formulario/seloAtitudeMulher/formularioSeloAtitudeMulher.jsf"
+                                        styleClass="link-permissao">
+                                    <h:outputText value="Formulário" class="caminho-permissao"/>
+                                    <span class="nome-permissao">
+                                        <h:outputText value="Formulário de Selo Atitude Mulher"/>
+                                    </span>
+                                </h:link>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                </p:layoutUnit>
+
+                <p:layoutUnit position="east" size="500">
+                    <section class="container">  
+                        <f:facet name="header">
+                            <h:outputText value="Formulários Internos Ati" />
+                        </f:facet>
+                        <div class="row">
+                            <div class="col-xs-12">                        
+                                <div class="login-wraper">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="text-center">
+                                                <IMG SRC="#{request.contextPath}/images/brasao.png" WIDTH="30" HEIGHT="30" />
+                                            </div>
+                                            <div class="text-center">
+                                                SisForms
+                                            </div>
+                                            <h1 class="page-header">
+                                                #{title}
+                                            </h1>
+                                        </div>
+                                    </div>
+                                    <div class="login-body">
+                                        <ui:insert name="body"/>       
+                                    </div>
+                                    <div class="text-center">
+                                        <IMG SRC="#{request.contextPath}/images/ati.jpg" WIDTH="30" HEIGHT="20" />
+                                    </div>
+                                    <div class="text-center">
+
+                                        <small>@2017 ATI. Todos os direitos reservados.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>    
+                </p:layoutUnit>
+            </p:layout>
+
+        </h:body>
+    </f:view>
+
+</html>

@@ -1,0 +1,96 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['diretrizeDeGoverno.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuDiretrizeDeGoverno.xhtml" />
+        <h:form id="formListDiretrizeDeGoverno">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="diretrizeDeGoverno_export" target=":formListDiretrizeDeGoverno:dataTableDiretrizeDeGoverno"
+                                     widgetVar="dataTableDiretrizeDeGovernoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="diretrizeDeGoverno" rowIndexVar="index" id="dataTableDiretrizeDeGoverno" widgetVar="dataTableDiretrizeDeGovernoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{diretrizeDeGovernoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{diretrizeDeGovernoMB.dataModel.paginatorTemplate}"
+                         value="#{diretrizeDeGovernoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['diretrizeDeGoverno.unidadeOrcamentaria']}" sortBy="#{diretrizeDeGoverno.unidadeOrcamentaria}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['diretrizeDeGoverno.unidadeOrcamentaria']}" />
+                    </f:facet>
+                    <h:outputText value="#{diretrizeDeGoverno.unidadeOrcamentaria}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['diretrizeDeGoverno.codigo']}" sortBy="#{diretrizeDeGoverno.codigo}"
+                    filterBy="#{diretrizeDeGoverno.codigo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['diretrizeDeGoverno.codigo']}" />
+                    </f:facet>
+                    <h:outputText value="#{diretrizeDeGoverno.codigo}"/>
+                </p:column>
+                <p:column headerText="#{msg['diretrizeDeGoverno.nome']}" sortBy="#{diretrizeDeGoverno.nome}"
+                    filterBy="#{diretrizeDeGoverno.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['diretrizeDeGoverno.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{diretrizeDeGoverno.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['diretrizeDeGoverno.descricao']}" sortBy="#{diretrizeDeGoverno.descricao}"
+                    filterBy="#{diretrizeDeGoverno.descricao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['diretrizeDeGoverno.descricao']}" />
+                    </f:facet>
+                    <h:outputText value="#{diretrizeDeGoverno.descricao}"/>
+                </p:column>
+                <p:column headerText="#{msg['diretrizeDeGoverno.ativo']}" sortBy="#{diretrizeDeGoverno.ativo}"
+                    filterBy="#{diretrizeDeGoverno.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['diretrizeDeGoverno.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{diretrizeDeGoverno.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetDiretrizeDeGovernoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailDiretrizeDeGoverno" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{diretrizeDeGoverno}" target="#{diretrizeDeGovernoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="diretrizeDeGoverno.create">
+                        <p:button icon="ui-icon-pencil" outcome="createDiretrizeDeGoverno" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{diretrizeDeGoverno.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="diretrizeDeGoverno.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{diretrizeDeGovernoMB.delete}" >
+                            <f:setPropertyActionListener value="#{diretrizeDeGoverno.id}" target="#{diretrizeDeGovernoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{diretrizeDeGoverno}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="diretrizeDeGoverno.audit">
+                    <x:auditDelete for="#{diretrizeDeGovernoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetDiretrizeDeGovernoDetail" header="#{msg['diretrizeDeGoverno.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailDiretrizeDeGoverno.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

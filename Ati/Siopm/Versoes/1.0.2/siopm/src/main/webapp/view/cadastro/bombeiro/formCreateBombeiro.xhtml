@@ -1,0 +1,75 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateBombeiro" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="organizacaoPai" value="#{msg['bombeiro.organizacaoPai']}:" />
+                        <h:selectOneMenu id="organizacaoPai" value="#{bombeiroMB.entity.organizacaoPai}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.organizacao)}" 
+                                           var="organizacao"
+                                           itemLabel="#{organizacao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="codigo" value="#{msg['bombeiro.codigo']}:" />
+                        <p:inputMask id="codigo" mask="9?999999999" value="#{bombeiroMB.entity.codigo}" styleClass="form-control" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="* #{msg['bombeiro.nome']}:" />
+                        <p:inputText id="nome" value="#{bombeiroMB.entity.nome}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="endereco" value="* #{msg['bombeiro.endereco']}:" />
+                        <h:selectOneMenu id="endereco" value="#{bombeiroMB.entity.endereco}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.endereco)}" 
+                                           var="endereco"
+                                           itemLabel="#{endereco}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="sigla" value="* #{msg['bombeiro.sigla']}:" />
+                        <p:inputText id="sigla" value="#{bombeiroMB.entity.sigla}" maxlength="50"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="ordenacao" value="#{msg['bombeiro.ordenacao']}:" />
+                        <p:inputMask id="ordenacao" mask="9?999999999" value="#{bombeiroMB.entity.ordenacao}" styleClass="form-control" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="ativo" value="#{bombeiroMB.entity.ativo}" />
+                                #{msg['bombeiro.ativo']}
+                            </label>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="bombeiro.create">
+                <p:commandButton process="@form" update="@form" action="#{bombeiroMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="bombeiro.audit">
+                <x:audit for="#{bombeiroMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

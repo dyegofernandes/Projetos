@@ -1,0 +1,78 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces"
+                 xmlns:custom="http://java.sun.com/jsf/composite/components"
+                 >
+
+
+    <h:form id="formCreateOrgao" >
+        <x:modalMessages/>
+        <p:fieldset legend="#{xmsg['generalData']}">
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="codigo" value="* Código:" />
+                        <p:inputMask id="codigo" mask="9?999999999" value="#{orgaoMB.entity.codigo}" styleClass="form-control"
+                                     required="true" requiredMessage="Código é obrigatório!!"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                        <h:outputLabel value="Orgão Pai:" />
+
+                        <h:panelGroup layout="block" id="panelOrgaoPai" styleClass="form-control">
+                            <h:panelGroup id="conteudoPanelOrgaoPai" >
+                                <h:outputText value="#{orgaoMB.entity.orgaoPai.nome}" >
+                                    <x:initializer/>
+                                </h:outputText>
+                                <p:commandButton type="button" icon="ui-icon-carat-1-s" 
+                                                 id="buttonOrgaoPai" styleClass="pull-right"
+                                                 style="font-size: 10px;"/>
+                            </h:panelGroup>
+                        </h:panelGroup>
+
+                        <p:overlayPanel for="panelOrgaoPai" styleClass="w-100p" widgetVar="overlayOrgaoPai" >
+                            <p:tree value="#{orgaoMB.orgaos}" var="orgao" styleClass="w-100p"
+                                    selectionMode="single"  style="max-height: 400px; overflow-y: scroll" >
+                                <p:ajax event="select" update=":formCreateOrgao:conteudoPanelOrgaoPai @this"
+                                        listener="#{orgaoMB.entity.setOrgaoPai(orgao)}" oncomplete="PF('overlayOrgaoPai').hide()" />
+                                <p:treeNode collapsedIcon="ui-icon-folder-collapsed" >
+                                    <h:panelGroup styleClass="#{orgao == orgaoMB.entity.orgaoPai ? 'ui-state-highlight' : ''}">
+                                        <h:outputText value="#{orgao.sigla}" style="font-weight: bold"/>  
+                                        <h:outputText value=" (#{orgao.nome})" styleClass="font-8"  /> 
+                                    </h:panelGroup>
+                                </p:treeNode>
+                            </p:tree>
+                        </p:overlayPanel>
+
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cnpj" value="#{msg['orgao.cnpj']}:" />
+                        <x:cnpj id="cnpj" value="#{orgaoMB.entity.cnpj}"   styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="* #{msg['orgao.nome']}:" />
+                        <p:inputText id="nome" value="#{orgaoMB.entity.nome}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="sigla" value="* #{msg['orgao.sigla']}:" />
+                        <p:inputText id="sigla" value="#{orgaoMB.entity.sigla}" maxlength="50"  styleClass="form-control"  />
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="orgao.create">
+                <p:commandButton process="@form" update="@form" action="#{orgaoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="orgao.audit">
+                <x:audit for="#{orgaoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

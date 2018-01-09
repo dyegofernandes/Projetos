@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>CAMPINAS DO PIAUÍ</name>
+    <Style id="line-0000FF-3000-nodesc-normal">
+      <LineStyle>
+        <color>ffff0000</color>
+        <width>3</width>
+      </LineStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="line-0000FF-3000-nodesc-highlight">
+      <LineStyle>
+        <color>ffff0000</color>
+        <width>4.5</width>
+      </LineStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="line-0000FF-3000-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#line-0000FF-3000-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#line-0000FF-3000-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Placemark>
+      <name>CAMPINAS DO PIAUÍ</name>
+      <styleUrl>#line-0000FF-3000-nodesc</styleUrl>
+      <LineString>
+        <tessellate>1</tessellate>
+        <coordinates>
+              -41.919429,-7.539183,0
+              -41.923594,-7.539127,0
+              -41.993958,-7.53818,0
+              -42.017734,-7.537857,0
+              -42.038087,-7.576124,0
+              -42.057355,-7.612473,0
+              -42.000391,-7.67314,0
+              -41.965426,-7.709646,0
+              -41.965239,-7.70994,0
+              -41.936902,-7.754532,0
+              -41.935118,-7.75734,0
+              -41.889418,-7.758666,0
+              -41.886102,-7.772631,0
+              -41.865291,-7.79125,0
+              -41.855691,-7.799833,0
+              -41.832891,-7.820223,0
+              -41.821644,-7.830277,0
+              -41.774364,-7.821481,0
+              -41.774323,-7.821254,0
+              -41.757454,-7.728896,0
+              -41.750955,-7.71744,0
+              -41.750749,-7.717078,0
+              -41.721973,-7.666365,0
+              -41.710177,-7.645582,0
+              -41.712159,-7.63492,0
+              -41.731517,-7.530771,0
+              -41.775025,-7.530113,0
+              -41.831718,-7.529248,0
+              -41.861814,-7.536035,0
+              -41.892692,-7.537722,0
+              -41.919429,-7.539183,0
+	</coordinates>
+      </LineString>
+    </Placemark>
+  </Document>
+</kml>

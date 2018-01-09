@@ -1,0 +1,91 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailDenuncia" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['denuncia.descricao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{denunciaMB.entity.descricao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['denuncia.observacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{denunciaMB.entity.observacao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['denuncia.dataDenuncia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{denunciaMB.entity.dataDenuncia}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['denuncia.horaDenuncia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{denunciaMB.entity.horaDenuncia}" styleClass="uix-content-detail">
+                        <f:convertDateTime pattern="HH:mm"/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['denuncia.dataAtendimento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{denunciaMB.entity.dataAtendimento}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['denuncia.horaAtendimento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{denunciaMB.entity.horaAtendimento}" styleClass="uix-content-detail">
+                        <f:convertDateTime pattern="HH:mm"/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['denuncia.dataDeFechamento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{denunciaMB.entity.dataDeFechamento}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['denuncia.horaDeFechamento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{denunciaMB.entity.horaDeFechamento}" styleClass="uix-content-detail">
+                        <f:convertDateTime pattern="HH:mm"/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['denuncia.endereco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{denunciaMB.entity.endereco}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['denuncia.descricaoAtendimento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{denunciaMB.entity.descricaoAtendimento}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['denuncia.imei']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{denunciaMB.entity.imei}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['denuncia.cpfUsuario']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{denunciaMB.entity.cpfUsuario}" styleClass="uix-content-detail"/>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['denuncia.tipo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{denunciaMB.entity.tipo}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['denuncia.situacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{denunciaMB.entity.situacao}" styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetDenunciaDetail').hide()" />
+            <x:securityArea rolesAllowed="denuncia.audit">
+                <x:audit for="#{denunciaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

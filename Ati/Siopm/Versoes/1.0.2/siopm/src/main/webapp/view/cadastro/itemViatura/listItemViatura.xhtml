@@ -1,0 +1,134 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['itemViatura.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuItemViatura.xhtml" />
+        <h:form id="formListItemViatura">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="itemViatura_export" target=":formListItemViatura:dataTableItemViatura"
+                                     widgetVar="dataTableItemViaturaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="itemViatura" rowIndexVar="index" id="dataTableItemViatura" widgetVar="dataTableItemViaturaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{itemViaturaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{itemViaturaMB.dataModel.paginatorTemplate}"
+                         value="#{itemViaturaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['itemViatura.viatura']}" sortBy="#{itemViatura.viatura}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemViatura.viatura']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemViatura.viatura}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['itemViatura.imei']}" sortBy="#{itemViatura.imei}"
+                    filterBy="#{itemViatura.imei}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemViatura.imei']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemViatura.imei}"/>
+                </p:column>
+                <p:column headerText="#{msg['itemViatura.latitude']}" sortBy="#{itemViatura.latitude}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemViatura.latitude']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemViatura.latitude}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['itemViatura.longitude']}" sortBy="#{itemViatura.longitude}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemViatura.longitude']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemViatura.longitude}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['itemViatura.telefone']}" sortBy="#{itemViatura.telefone}"
+                    filterBy="#{itemViatura.telefone}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemViatura.telefone']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemViatura.telefone}"/>
+                </p:column>
+                <p:column headerText="#{msg['itemViatura.operacao']}" sortBy="#{itemViatura.operacao}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemViatura.operacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemViatura.operacao}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['itemViatura.inicioTurno']}" sortBy="#{itemViatura.inicioTurno}"
+                       style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemViatura.inicioTurno']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemViatura.inicioTurno}">
+                        <f:convertDateTime pattern="HH:mm"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['itemViatura.fimTurno']}" sortBy="#{itemViatura.fimTurno}"
+                       style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemViatura.fimTurno']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemViatura.fimTurno}">
+                        <f:convertDateTime pattern="HH:mm"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['itemViatura.status']}" sortBy="#{itemViatura.status}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemViatura.status']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemViatura.status}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetItemViaturaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailItemViatura" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{itemViatura}" target="#{itemViaturaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="itemViatura.create">
+                        <p:button icon="ui-icon-pencil" outcome="createItemViatura" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{itemViatura.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="itemViatura.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{itemViaturaMB.delete}" >
+                            <f:setPropertyActionListener value="#{itemViatura.id}" target="#{itemViaturaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{itemViatura}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="itemViatura.audit">
+                    <x:auditDelete for="#{itemViaturaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetItemViaturaDetail" header="#{msg['itemViatura.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailItemViatura.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

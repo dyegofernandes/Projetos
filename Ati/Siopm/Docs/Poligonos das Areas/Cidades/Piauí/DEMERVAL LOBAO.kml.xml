@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>DEMERVAL LOBÃO.kmz</name>
+    <Style id="line-0000FF-3000-nodesc-normal">
+      <LineStyle>
+        <color>ffff0000</color>
+        <width>3</width>
+      </LineStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="line-0000FF-3000-nodesc-highlight">
+      <LineStyle>
+        <color>ffff0000</color>
+        <width>4.5</width>
+      </LineStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="line-0000FF-3000-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#line-0000FF-3000-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#line-0000FF-3000-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Placemark>
+      <name>DEMERVAL LOBÃO</name>
+      <styleUrl>#line-0000FF-3000-nodesc</styleUrl>
+      <LineString>
+        <tessellate>1</tessellate>
+        <coordinates>
+              -42.660146,-5.276347,0
+              -42.661048,-5.276174,0
+              -42.676933,-5.273122,0
+              -42.679098,-5.272705,0
+              -42.707977,-5.300184,0
+              -42.708456,-5.300641,0
+              -42.708617,-5.300794,0
+              -42.708622,-5.300798,0
+              -42.71399,-5.305907,0
+              -42.715401,-5.307251,0
+              -42.74886,-5.339094,0
+              -42.748696,-5.371597,0
+              -42.748424,-5.424225,0
+              -42.726637,-5.427847,0
+              -42.713403,-5.420302,0
+              -42.662767,-5.391439,0
+              -42.662463,-5.391266,0
+              -42.631466,-5.391942,0
+              -42.598886,-5.350424,0
+              -42.600103,-5.31063,0
+              -42.600348,-5.285258,0
+              -42.600932,-5.268722,0
+              -42.601526,-5.25188,0
+              -42.630149,-5.247388,0
+              -42.633724,-5.246826,0
+              -42.659586,-5.275722,0
+              -42.660146,-5.276347,0
+	</coordinates>
+      </LineString>
+    </Placemark>
+  </Document>
+</kml>

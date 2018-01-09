@@ -1,0 +1,333 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreatePortfolio" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:tabView id="tabGeral">
+            <p:tab title="Informações Gerais">
+                <p:fieldset legend="#{xmsg['generalData']}">
+                    <div class="container-fluid">
+
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="tipoLocal" value="* Tipo Local:" />
+                                <h:selectOneMenu id="tipoLocal" value="#{portfolioMB.entity.tipo}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.tipoLocal)}" 
+                                                   var="tipo"
+                                                   itemLabel="#{tipo}">
+                                    </f:selectItems>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="localPortfolio" value="* #{msg['portfolio.localPortfolio']}:" />
+                                <p:inputText id="localPortfolio" value="#{portfolioMB.entity.localPortfolio}" maxlength="256"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="logradouro" value="* #{msg['portfolio.logradouro']}:" />
+                                <p:inputText id="logradouro" value="#{portfolioMB.endereco.endereco}" maxlength="256"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="numero" value="* #{msg['portfolio.numero']}:" />
+                                <p:inputText id="numero" value="#{portfolioMB.endereco.numero}" maxlength="20"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="complemento" value="#{msg['portfolio.complemento']}:" />
+                                <p:inputText id="complemento" value="#{portfolioMB.endereco.complemento}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="bairro" value="* #{msg['portfolio.bairro']}:" />
+                                <p:inputText id="bairro" value="#{portfolioMB.endereco.bairro}" maxlength="256"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cidade" value="* #{msg['portfolio.cidade']}:" />
+                                <p:inputText id="cidade" value="#{portfolioMB.endereco.cidade}" maxlength="256"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cep" value="#{msg['portfolio.cep']}:" />
+                                <p:inputMask id="cep" value="#{portfolioMB.endereco.cep}" mask="99999-999"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="ltd" value="Latitude:" />
+                                <p:inputText id="ltd" value="#{portfolioMB.endereco.latitude}" maxlength="260"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="lgd" value="Longitude:" />
+                                <p:inputText id="lgd" value="#{portfolioMB.endereco.longitude}" maxlength="260"  styleClass="form-control"  />
+                            </div>
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Adicionar Telefone" toggleable="true" collapsed="#{portfolioMB.fones.size() eq 0}" id="fieldAddTelefone">
+                    <p:fieldset legend="Adicionar Telefone" id="foneAddId">
+                        <div class="form-group col-lg-1 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dddFone" value="* DDD:" />
+                            <p:inputMask id="dddFone" value="#{portfolioMB.foneAdd.ddd}" mask="99"  styleClass="form-control"  />
+                        </div>
+                        <div class="col-lg-2">
+                            <h:outputLabel for="telefone" value="* Telefone:" />
+                            <div class="input-group">
+
+                                <p:inputMask id="telefone" value="#{portfolioMB.foneAdd.numero}" mask="9999-9999" styleClass="form-control"
+                                             />
+                                <span class="input-group-btn">
+
+                                    <p:commandButton icon="ui-icon-plusthick" 
+                                                     id="buttonAddTelefone" styleClass="pull-left"
+                                                     style="font-size: 17px;" actionListener="#{portfolioMB.addFones()}" process="foneAddId @this"
+                                                     update="dataTableTelefone foneAddId" />    
+                                </span>
+                            </div><!-- /input-group -->
+                        </div><!-- /.col-lg-6 -->
+                    </p:fieldset>
+                    <p:fieldset legend="Telefones">
+                        <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                     var="fone" rowIndexVar="index" id="dataTableTelefone" widgetVar="dataTableTelefoneWidget" styleClass="table-responsive"
+                                     value="#{portfolioMB.fones}" >
+                            <p:column styleClass="uix-datatable-index">
+                                <h:outputText value="#{index+1}"/>
+                            </p:column>
+                            <p:column headerText="DDD" >
+                                <f:facet name="header">
+                                    <h:outputText value="DDD" />
+                                </f:facet>
+                                <h:outputText value="#{fone.ddd}"/>
+                            </p:column>
+                            <p:column headerText="Número" >
+                                <f:facet name="header">
+                                    <h:outputText value="Número" />
+                                </f:facet>
+                                <h:outputText value="#{fone.numero}"/>
+                            </p:column>
+                            <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{xmsg['actions']}"/>
+                                </f:facet>
+
+                                <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableTelefone" 
+                                                 action="#{portfolioMB.removerFone(fone)}" >
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </p:fieldset>
+
+                </p:fieldset>
+                <p:fieldset legend="Adicionar Horário" toggleable="true" collapsed="#{portfolioMB.diasVisitacao.size() eq 0}" id="fieldAddHorario">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <p:selectManyCheckbox id="grid3" value="#{portfolioMB.diasSelected}" layout="grid" columns="4" converter="omnifaces.GenericEnumConverter">
+                                <f:selectItems value="#{portfolioMB.dias}" var="dia" itemLabel="#{dia.sigla}" itemValue="#{dia}" />
+                            </p:selectManyCheckbox>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="horaInicio" value="Hora Inicial:" />
+                            <p:calendar id="horaInicio" value="#{portfolioMB.horaInicial}" 
+                                        showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                                <x:mask/>
+                            </p:calendar>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="horaFim" value="Hora Final:" />
+                            <p:calendar id="horaFim" value="#{portfolioMB.horaFinal}" 
+                                        showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                                <x:mask/>
+                            </p:calendar>
+                        </div>
+                    </div>
+                    <div class="uix-center">
+                        <p:commandButton process="@this fieldAddHorario" update="dataTableDia fieldAddHorario" value="Adicionar" 
+                                         action="#{portfolioMB.addDias()}"/>
+                    </div>
+                    <div class="row">
+                        <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                     var="dia" rowIndexVar="index" id="dataTableDia" widgetVar="dataTableDiaWidget" styleClass="table-responsive"
+                                     value="#{portfolioMB.diasVisitacao}" >
+                            <p:column headerText="Dia" width="50%" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="Dia" />
+                                </f:facet>
+                                <h:outputText value="#{dia.diaSemana.descricao}"/>
+                            </p:column>
+                            <p:column headerText="Hora Inicial" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="Hora Inicial" />
+                                </f:facet>
+                                <h:outputText value="#{dia.horarioInicial}">
+                                    <f:convertDateTime pattern="HH:mm"/>
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column headerText="Hora Final" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="Hora Final" />
+                                </f:facet>
+                                <h:outputText value="#{dia.horarioFinal}">
+                                    <f:convertDateTime pattern="HH:mm"/>
+                                </h:outputText>
+                            </p:column>
+
+
+                            <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{xmsg['actions']}"/>
+                                </f:facet>
+
+                                <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableDia" 
+                                                 action="#{portfolioMB.removerDia(dia)}" >
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+
+
+                </p:fieldset>
+                <p:fieldset legend="Adicionar Histórico" toggleable="true" collapsed="#{portfolioMB.historicos.size() eq 0}" id="fieldAddHistorico">
+                    <div class="row">
+                        <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="historico" value="Histórico:" />
+                            <p:inputTextarea id="historico" value="#{portfolioMB.historicoAdd.historico}" rows="10" styleClass="form-control"
+                                             cols="50"/>
+                        </div>
+
+                    </div>
+                    <div class="uix-center">
+                        <p:commandButton process="@this fieldAddHistorico" update="dataTableHistorico fieldAddHistorico" value="Adicionar" 
+                                         action="#{portfolioMB.addHistorico()}"/>
+                    </div>
+                    <div class="row">
+                        <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                     var="historico" rowIndexVar="index" id="dataTableHistorico" widgetVar="dataTableHistoricoWidget" styleClass="table-responsive"
+                                     value="#{portfolioMB.historicos}" >
+                            <p:column styleClass="uix-datatable-index">
+                                <h:outputText value="#{index+1}"/>
+                            </p:column>
+                            <p:column headerText="Histórico">
+                                <f:facet name="header">
+                                    <h:outputText value="Histórico" />
+                                </f:facet>
+                                <h:outputText value="#{historico.historico}"/>
+                            </p:column>
+                            <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{xmsg['actions']}"/>
+                                </f:facet>
+
+                                <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableHistorico" 
+                                                 action="#{portfolioMB.removerHistorico(historico)}" >
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+
+                </p:fieldset>
+
+
+            </p:tab>
+            <p:tab title="Fotos e Videos">
+                <p:fieldset legend="Adicionar Fotos" toggleable="true" collapsed="true">
+                    <p:fileUpload id="arquivo" mode="advanced" requiredMessage="É necessário o envio de pelo menos um arquivo!"
+                                  allowTypes="/(\.|\/)(jpeg|jpg|png)$/"
+                                  invalidFileMessage="Tipo de arquivo não permitido" invalidSizeMessage="Arquivo com tamanho acima do permitido" 
+                                  uploadLabel="Carregar" update="fieldSetArquivo" cancelLabel="Cancelar" label="Selecionar" multiple="true" 
+                                  sizeLimit="10485760" fileUploadListener="#{portfolioMB.upload}" styleClass="grid_9" />
+                </p:fieldset>
+                <p:fieldset legend="Galeria de Fotos" id="fieldSetArquivo">
+                    <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="arquivo" rowIndexVar="index" id="dataTableArquivo" widgetVar="dataTableArquivoWidget" styleClass="table-responsive"
+                                 value="#{portfolioMB.imagens}" >
+                        <x:initializer/>
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+
+                        <p:column headerText="Nome" width="80%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Nome" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.nome}"/>
+                        </p:column>
+                        <p:column headerText="Extensão" width="20%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Extensão" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.extensao}"/>
+                        </p:column>
+
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>          
+                            <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Download" ajax="false" immediate="true" update="formCreateDenuncia">
+                                <p:fileDownload value="#{portfolioMB.download(arquivo)}" />
+                            </p:commandButton>
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableArquivo" 
+                                             action="#{portfolioMB.removerArquivo(arquivo)}" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+                <p:fieldset legend="Adicionar Link dos Vídeos" id="fieldSetLinkAdd" toggleable="true" collapsed="true">
+                    <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="descricaoLink" value="* Descrição Link:" />
+                        <p:inputText id="descricaoLink" value="#{portfolioMB.linkAdd.descricaoLink}" maxlength="256"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="link" value="* Link:" />
+                        <p:inputText id="link" value="#{portfolioMB.linkAdd.link}" maxlength="256"  styleClass="form-control"  />
+                    </div>
+                    <div class="uix-center">
+                        <p:commandButton process="@this fieldSetLinkAdd" update="fieldSetLinkAdd fieldSetTableLink" value="Adicionar" 
+                                         action="#{portfolioMB.addLink()}"/>
+                    </div>
+                </p:fieldset>
+
+                <p:fieldset legend="Link de Vídeos" id="fieldSetTableLink">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="link" rowIndexVar="index" id="dataTableLink" widgetVar="dataTableLinkWidget" styleClass="table-responsive"
+                                 value="#{portfolioMB.links}" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="Descrição" width="50%">
+                            <f:facet name="header">
+                                <h:outputText value="Descrição" />
+                            </f:facet>
+                            <h:outputText value="#{link.descricaoLink}"/>
+                        </p:column>
+                        <p:column headerText="Link" width="50%">
+                            <f:facet name="header">
+                                <h:outputText value="Link" />
+                            </f:facet>
+                            <h:outputText value="#{link.link}"/>
+                        </p:column>
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableLink" 
+                                             action="#{portfolioMB.removerLink(link)}" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </p:tab>
+        </p:tabView>
+
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="portfolio.create">
+                <p:commandButton process="@form" update="@form" action="#{portfolioMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="portfolio.audit">
+                <x:audit for="#{portfolioMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

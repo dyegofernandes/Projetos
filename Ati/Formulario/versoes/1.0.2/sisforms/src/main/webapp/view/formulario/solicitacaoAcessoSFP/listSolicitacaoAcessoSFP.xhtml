@@ -1,0 +1,146 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['solicitacaoAcessoSFP.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuSolicitacaoAcessoSFP.xhtml" />
+        <h:form id="formListSolicitacaoAcessoSFP">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="solicitacaoAcessoSFP_export" target=":formListSolicitacaoAcessoSFP:dataTableSolicitacaoAcessoSFP"
+                                widgetVar="dataTableSolicitacaoAcessoSFPWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="solicitacaoAcessoSFP" rowIndexVar="index" id="dataTableSolicitacaoAcessoSFP" widgetVar="dataTableSolicitacaoAcessoSFPWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{solicitacaoAcessoSFPMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{solicitacaoAcessoSFPMB.dataModel.paginatorTemplate}"
+                         value="#{solicitacaoAcessoSFPMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">
+                        <h:outputText value="" />
+                    </f:facet>
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoSFP.usuario']}" sortBy="#{solicitacaoAcessoSFP.usuario}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoSFP.usuario']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoSFP.usuario}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Órgão" sortBy="#{solicitacaoAcessoSFP.orgao}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="Órgão" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoSFP.orgao}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoSFP.cpf']}" sortBy="#{solicitacaoAcessoSFP.cpf}"
+                          filterBy="#{solicitacaoAcessoSFP.cpf}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoSFP.cpf']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoSFP.cpf}"/>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoSFP.matricula']}" sortBy="#{solicitacaoAcessoSFP.matricula}"
+                          filterBy="#{solicitacaoAcessoSFP.matricula}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoSFP.matricula']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoSFP.matricula}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['solicitacaoAcessoSFP.nome']}" sortBy="#{solicitacaoAcessoSFP.nome}"
+                          filterBy="#{solicitacaoAcessoSFP.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoSFP.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoSFP.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoSFP.orgao']}" sortBy="#{solicitacaoAcessoSFP.orgao}"
+                          filterBy="#{solicitacaoAcessoSFP.orgao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoSFP.orgao']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoSFP.orgao}"/>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoSFP.cargoFuncao']}" sortBy="#{solicitacaoAcessoSFP.cargoFuncao}"
+                          filterBy="#{solicitacaoAcessoSFP.cargoFuncao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoSFP.cargoFuncao']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoSFP.cargoFuncao}"/>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoSFP.email']}" sortBy="#{solicitacaoAcessoSFP.email}"
+                          filterBy="#{solicitacaoAcessoSFP.email}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoSFP.email']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoSFP.email}"/>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoSFP.dataEmissao']}" sortBy="#{solicitacaoAcessoSFP.dataEmissao}"
+                          filterBy="#{solicitacaoAcessoSFP.dataEmissao}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoSFP.dataEmissao']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoSFP.dataEmissao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Situação" style="text-align: center;" sortBy="#{solicitacaoAcessoSFP.situacao}"
+                          filterBy="#{solicitacaoAcessoSFP.situacao}"
+                          filterOptions="#{findAllBean.getSelect(classMB.situacao)}">
+                    <f:facet name="header">
+                        <h:outputText value="Situação" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoSFP.situacao.descricao}"/>
+                </p:column>
+
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetSolicitacaoAcessoSFPDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailSolicitacaoAcessoSFP" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{solicitacaoAcessoSFP}" target="#{solicitacaoAcessoSFPMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="solicitacaoAcessoSFP.create">
+                        <p:button icon="ui-icon-pencil" outcome="createSolicitacaoAcessoSFP" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{solicitacaoAcessoSFP.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="solicitacaoAcessoSFP.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{solicitacaoAcessoSFPMB.delete}" >
+                            <f:setPropertyActionListener value="#{solicitacaoAcessoSFP.id}" target="#{solicitacaoAcessoSFPMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{solicitacaoAcessoSFP}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                    <p:commandButton icon="ui-icon-document" title="Gerar PDF" ajax="false" 
+                                     action="#{solicitacaoAcessoSFPMB.gerarPdf(solicitacaoAcessoSFP)}" 
+                                     process="@form" update="@form" >                         
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="solicitacaoAcessoSFP.audit">
+                    <x:auditDelete for="#{solicitacaoAcessoSFPMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetSolicitacaoAcessoSFPDetail" header="#{msg['solicitacaoAcessoSFP.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailSolicitacaoAcessoSFP.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

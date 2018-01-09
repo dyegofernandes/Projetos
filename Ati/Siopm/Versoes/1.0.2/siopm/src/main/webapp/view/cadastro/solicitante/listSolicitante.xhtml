@@ -1,0 +1,83 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['solicitante.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuSolicitante.xhtml" />
+        <h:form id="formListSolicitante">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="solicitante_export" target=":formListSolicitante:dataTableSolicitante"
+                                widgetVar="dataTableSolicitanteWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="solicitante" rowIndexVar="index" id="dataTableSolicitante" widgetVar="dataTableSolicitanteWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{solicitanteMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{solicitanteMB.dataModel.paginatorTemplate}"
+                         value="#{solicitanteMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['solicitante.nome']}" sortBy="#{solicitante.nome}"
+                          filterBy="#{solicitante.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitante.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitante.nome}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['solicitante.telefone']}" sortBy="#{solicitante.telefone}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitante.telefone']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitante.telefone}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['solicitante.anonimo']}" sortBy="#{solicitante.anonimo}"
+                          filterBy="#{solicitante.anonimo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitante.anonimo']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitante.anonimo}"  />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetSolicitanteDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailSolicitante" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{solicitante}" target="#{solicitanteMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="solicitante.create">
+                        <p:button icon="ui-icon-pencil" outcome="createSolicitante" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{solicitante.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="solicitante.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{solicitanteMB.delete}" >
+                            <f:setPropertyActionListener value="#{solicitante.id}" target="#{solicitanteMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{solicitante}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="solicitante.audit">
+                    <x:auditDelete for="#{solicitanteMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetSolicitanteDetail" header="#{msg['solicitante.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailSolicitante.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

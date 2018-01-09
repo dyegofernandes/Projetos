@@ -1,0 +1,70 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailPontoAcesso" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pontoAcesso.local']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pontoAcessoMB.entity.local}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pontoAcesso.serialNumer']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pontoAcessoMB.entity.serialNumer}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pontoAcesso.modelo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pontoAcessoMB.entity.modelo}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="Data de Instalação:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pontoAcessoMB.entity.dataInstalacao}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="Municipio:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pontoAcessoMB.entity.municipio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pontoAcesso.tombo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pontoAcessoMB.entity.tombo}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pontoAcesso.latidude']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pontoAcessoMB.entity.latidude}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="15" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pontoAcesso.longitude']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pontoAcessoMB.entity.longitude}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="15" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pontoAcesso.endereco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pontoAcessoMB.entity.endereco}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pontoAcesso.tipoAcesso']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pontoAcessoMB.entity.tipoAcesso.descricao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pontoAcesso.status']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pontoAcessoMB.entity.status.descricao}" styleClass="uix-content-detail"/>
+                </div>
+            </div>
+        </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetPontoAcessoDetail').hide()" />
+            <x:securityArea rolesAllowed="pontoAcesso.audit">
+                <x:audit for="#{pontoAcessoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

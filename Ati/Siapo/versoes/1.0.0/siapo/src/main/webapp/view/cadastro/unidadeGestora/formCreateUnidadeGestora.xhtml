@@ -1,0 +1,52 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateUnidadeGestora" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="orgao" value="* #{msg['unidadeGestora.orgao']}:" />
+                         <h:selectOneMenu id="orgao" value="#{unidadeGestoraMB.entity.orgao}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.orgao)}" 
+                                            var="orgao"
+                                            itemLabel="#{orgao}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="codigo" value="* #{msg['unidadeGestora.codigo']}:" />
+                         <p:inputText id="codigo" value="#{unidadeGestoraMB.entity.codigo}" maxlength="50"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="nome" value="* #{msg['unidadeGestora.nome']}:" />
+                         <p:inputText id="nome" value="#{unidadeGestoraMB.entity.nome}" maxlength="250"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="sigla" value="#{msg['unidadeGestora.sigla']}:" />
+                         <p:inputText id="sigla" value="#{unidadeGestoraMB.entity.sigla}" maxlength="150"  styleClass="form-control"  />
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="unidadeGestora.create">
+                <p:commandButton process="@form" update="@form" action="#{unidadeGestoraMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="unidadeGestora.audit">
+                <x:audit for="#{unidadeGestoraMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

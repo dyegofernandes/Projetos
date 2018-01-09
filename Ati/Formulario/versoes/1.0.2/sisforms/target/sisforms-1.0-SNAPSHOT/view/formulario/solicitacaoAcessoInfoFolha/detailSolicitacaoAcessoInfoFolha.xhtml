@@ -1,0 +1,114 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailSolicitacaoAcessoInfoFolha" styleClass="uix-form-detail">
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['solicitacaoAcessoInfoFolha.usuario']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoInfoFolhaMB.entity.usuario}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Órgão:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoInfoFolhaMB.entity.orgao}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['solicitacaoAcessoInfoFolha.cpf']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoInfoFolhaMB.entity.cpf}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['solicitacaoAcessoInfoFolha.matricula']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoInfoFolhaMB.entity.matricula}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['solicitacaoAcessoInfoFolha.telefone']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoInfoFolhaMB.entity.telefone}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['solicitacaoAcessoInfoFolha.nome']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoInfoFolhaMB.entity.nome}" styleClass="uix-content-detail"/>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['solicitacaoAcessoInfoFolha.cargoFuncao']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoInfoFolhaMB.entity.cargoFuncao}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['solicitacaoAcessoInfoFolha.email']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoInfoFolhaMB.entity.email}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['solicitacaoAcessoInfoFolha.dataEmissao']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoInfoFolhaMB.entity.dataEmissao}" styleClass="uix-content-detail">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['solicitacaoAcessoInfoFolha.dataAtendimento']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoInfoFolhaMB.entity.dataAtendimento}" styleClass="uix-content-detail">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </div>
+                   
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['solicitacaoAcessoInfoFolha.observacao']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoInfoFolhaMB.entity.observacao}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Situação:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoInfoFolhaMB.entity.situacao}" styleClass="uix-content-detail"/>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Módulos">          
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="Contracheque:" styleClass="control-label" /><br/>
+                <h:outputText value="#{solicitacaoAcessoInfoFolhaMB.entity.modulo.contracheque}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="Ficha Financeira do Servidor:" styleClass="control-label" /><br/>
+                <h:outputText value="#{solicitacaoAcessoInfoFolhaMB.entity.modulo.fichaFinanceira}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="GFIP:" styleClass="control-label" /><br/>
+                <h:outputText value="#{solicitacaoAcessoInfoFolhaMB.entity.modulo.gfip}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="Relatórios:" styleClass="control-label" /><br/>
+                <h:outputText value="#{solicitacaoAcessoInfoFolhaMB.entity.modulo.relatorio}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+            </div>
+
+        </p:fieldset>
+        <p:fieldset legend="Área restrita a SEAD">
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="Contracheque:" styleClass="control-label" /><br/>
+                <h:outputText value="#{solicitacaoAcessoInfoFolhaMB.entity.moduloSead.contracheque}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="Ficha Financeira do Servidor:" styleClass="control-label" /><br/>
+                <h:outputText value="#{solicitacaoAcessoInfoFolhaMB.entity.moduloSead.fichaFinanceira}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="GFIP:" styleClass="control-label" /><br/>
+                <h:outputText value="#{solicitacaoAcessoInfoFolhaMB.entity.moduloSead.gfip}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel value="Relatórios:" styleClass="control-label" /><br/>
+                <h:outputText value="#{solicitacaoAcessoInfoFolhaMB.entity.moduloSead.relatorio}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+            </div>
+        </p:fieldset>
+
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetSolicitacaoAcessoInfoFolhaDetail').hide()" />
+            <x:securityArea rolesAllowed="solicitacaoAcessoInfoFolha.audit">
+                <x:audit for="#{solicitacaoAcessoInfoFolhaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

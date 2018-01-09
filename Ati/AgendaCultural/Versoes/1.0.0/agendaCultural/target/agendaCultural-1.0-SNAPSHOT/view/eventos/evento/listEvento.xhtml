@@ -1,0 +1,99 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['evento.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuEvento.xhtml" />
+        <h:form id="formListEvento">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="evento_export" target=":formListEvento:dataTableEvento"
+                                widgetVar="dataTableEventoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="evento" rowIndexVar="index" id="dataTableEvento" widgetVar="dataTableEventoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{eventoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{eventoMB.dataModel.paginatorTemplate}"
+                         value="#{eventoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['evento.titulo']}" sortBy="#{evento.titulo}"
+                          filterBy="#{evento.titulo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['evento.titulo']}" />
+                    </f:facet>
+                    <h:outputText value="#{evento.titulo}"/>
+                </p:column>
+                <p:column headerText="#{msg['evento.localDoEvento']}" sortBy="#{evento.localEvento}"
+                          filterBy="#{evento.localEvento}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['evento.localDoEvento']}" />
+                    </f:facet>
+                    <h:outputText value="#{evento.localEvento.nome}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                
+
+                <p:column headerText="#{msg['evento.dataInicio']}" sortBy="#{evento.dataInicio}"
+                          filterBy="#{evento.dataInicio}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['evento.dataInicio']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{evento.dataInicio}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="#{msg['evento.dataFim']}" sortBy="#{evento.dataFim}"
+                          filterBy="#{evento.dataFim}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['evento.dataFim']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{evento.dataFim}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetEventoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailEvento" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{evento}" target="#{eventoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="evento.create">
+                        <p:button icon="ui-icon-pencil" outcome="createEvento" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{evento.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="evento.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{eventoMB.delete}" >
+                            <f:setPropertyActionListener value="#{evento.id}" target="#{eventoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{evento}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="evento.audit">
+                    <x:auditDelete for="#{eventoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetEventoDetail" header="#{msg['evento.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailEvento.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

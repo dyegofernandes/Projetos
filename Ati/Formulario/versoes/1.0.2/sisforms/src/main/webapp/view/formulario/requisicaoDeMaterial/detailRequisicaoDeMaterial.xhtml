@@ -1,0 +1,106 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailRequisicaoDeMaterial" styleClass="uix-form-detail">
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['solicitacaoAcessoSFP.usuario']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formAcessoConteudoMB.entity.usuario}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['requisicaoDeMaterial.gerencia']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{requisicaoDeMaterialMB.entity.gerencia}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['requisicaoDeMaterial.coordenadoria']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{requisicaoDeMaterialMB.entity.coordenadoria}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['requisicaoDeMaterial.dataDaEmissao']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{requisicaoDeMaterialMB.entity.dataDaEmissao}" styleClass="uix-content-detail">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Situação:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{requisicaoDeMaterialMB.entity.situacao}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Requisitado por" styleClass="control-label" /><br/>
+                        <h:outputText value="#{requisicaoDeMaterialMB.entity.requisitadoPor}" styleClass="uix-content-detail">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Autorizado por:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{requisicaoDeMaterialMB.entity.autorizadoPor}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Visto:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{requisicaoDeMaterialMB.entity.visto}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Atendido em:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{requisicaoDeMaterialMB.entity.atendido}" styleClass="uix-content-detail">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Itens" >
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="itemDaRequisicaoDeMaterial" rowIndexVar="index" id="dataTableItemDaRequisicaoDeMaterial" widgetVar="dataTableItemDaRequisicaoDeMaterialWidget" styleClass="table-responsive"
+                         value="#{requisicaoDeMaterialMB.itens}" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['itemDaRequisicaoDeMaterial.discriminacao']}"  >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemDaRequisicaoDeMaterial.discriminacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemDaRequisicaoDeMaterial.discriminacao}"/>
+                </p:column>
+                <p:column headerText="#{msg['itemDaRequisicaoDeMaterial.quantidade']}" style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemDaRequisicaoDeMaterial.quantidade']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemDaRequisicaoDeMaterial.quantidade}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="Total" style="font-weight:bold"/>
+                    </f:facet>
+                </p:column>
+                <p:column headerText="#{msg['itemDaRequisicaoDeMaterial.valor']}" style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemDaRequisicaoDeMaterial.valor']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemDaRequisicaoDeMaterial.valor}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{requisicaoDeMaterialMB.total}" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText><br/>
+                    </f:facet>
+                </p:column>
+
+            </p:dataTable>
+        </p:fieldset>
+
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetRequisicaoDeMaterialDetail').hide()" />
+            <x:securityArea rolesAllowed="requisicaoDeMaterial.audit">
+                <x:audit for="#{requisicaoDeMaterialMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

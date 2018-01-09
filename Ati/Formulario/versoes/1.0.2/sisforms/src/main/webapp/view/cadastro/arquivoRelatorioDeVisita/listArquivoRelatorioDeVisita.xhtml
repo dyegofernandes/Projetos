@@ -1,0 +1,89 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['arquivoRelatorioDeVisita.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuArquivoRelatorioDeVisita.xhtml" />
+        <h:form id="formListArquivoRelatorioDeVisita">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="arquivoRelatorioDeVisita_export" target=":formListArquivoRelatorioDeVisita:dataTableArquivoRelatorioDeVisita"
+                                     widgetVar="dataTableArquivoRelatorioDeVisitaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="arquivoRelatorioDeVisita" rowIndexVar="index" id="dataTableArquivoRelatorioDeVisita" widgetVar="dataTableArquivoRelatorioDeVisitaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{arquivoRelatorioDeVisitaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{arquivoRelatorioDeVisitaMB.dataModel.paginatorTemplate}"
+                         value="#{arquivoRelatorioDeVisitaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['arquivoRelatorioDeVisita.relatorioDeVisita']}" sortBy="#{arquivoRelatorioDeVisita.relatorioDeVisita}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['arquivoRelatorioDeVisita.relatorioDeVisita']}" />
+                    </f:facet>
+                    <h:outputText value="#{arquivoRelatorioDeVisita.relatorioDeVisita}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['arquivoRelatorioDeVisita.nome']}" sortBy="#{arquivoRelatorioDeVisita.nome}"
+                    filterBy="#{arquivoRelatorioDeVisita.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['arquivoRelatorioDeVisita.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{arquivoRelatorioDeVisita.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['arquivoRelatorioDeVisita.extensao']}" sortBy="#{arquivoRelatorioDeVisita.extensao}"
+                    filterBy="#{arquivoRelatorioDeVisita.extensao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['arquivoRelatorioDeVisita.extensao']}" />
+                    </f:facet>
+                    <h:outputText value="#{arquivoRelatorioDeVisita.extensao}"/>
+                </p:column>
+                <p:column headerText="#{msg['arquivoRelatorioDeVisita.conteudo']}" sortBy="#{arquivoRelatorioDeVisita.conteudo}"
+                    filterBy="#{arquivoRelatorioDeVisita.conteudo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['arquivoRelatorioDeVisita.conteudo']}" />
+                    </f:facet>
+                    <h:outputText value="#{arquivoRelatorioDeVisita.conteudo}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetArquivoRelatorioDeVisitaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailArquivoRelatorioDeVisita" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{arquivoRelatorioDeVisita}" target="#{arquivoRelatorioDeVisitaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="arquivoRelatorioDeVisita.create">
+                        <p:button icon="ui-icon-pencil" outcome="createArquivoRelatorioDeVisita" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{arquivoRelatorioDeVisita.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="arquivoRelatorioDeVisita.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{arquivoRelatorioDeVisitaMB.delete}" >
+                            <f:setPropertyActionListener value="#{arquivoRelatorioDeVisita.id}" target="#{arquivoRelatorioDeVisitaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{arquivoRelatorioDeVisita}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="arquivoRelatorioDeVisita.audit">
+                    <x:auditDelete for="#{arquivoRelatorioDeVisitaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetArquivoRelatorioDeVisitaDetail" header="#{msg['arquivoRelatorioDeVisita.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailArquivoRelatorioDeVisita.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

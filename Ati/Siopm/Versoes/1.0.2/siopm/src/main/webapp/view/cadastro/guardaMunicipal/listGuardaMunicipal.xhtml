@@ -1,0 +1,112 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['guardaMunicipal.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuGuardaMunicipal.xhtml" />
+        <h:form id="formListGuardaMunicipal">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="guardaMunicipal_export" target=":formListGuardaMunicipal:dataTableGuardaMunicipal"
+                                     widgetVar="dataTableGuardaMunicipalWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="guardaMunicipal" rowIndexVar="index" id="dataTableGuardaMunicipal" widgetVar="dataTableGuardaMunicipalWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{guardaMunicipalMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{guardaMunicipalMB.dataModel.paginatorTemplate}"
+                         value="#{guardaMunicipalMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['guardaMunicipal.organizacaoPai']}" sortBy="#{guardaMunicipal.organizacaoPai}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['guardaMunicipal.organizacaoPai']}" />
+                    </f:facet>
+                    <h:outputText value="#{guardaMunicipal.organizacaoPai}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['guardaMunicipal.codigo']}" sortBy="#{guardaMunicipal.codigo}"
+                    filterBy="#{guardaMunicipal.codigo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['guardaMunicipal.codigo']}" />
+                    </f:facet>
+                    <h:outputText value="#{guardaMunicipal.codigo}"/>
+                </p:column>
+                <p:column headerText="#{msg['guardaMunicipal.nome']}" sortBy="#{guardaMunicipal.nome}"
+                    filterBy="#{guardaMunicipal.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['guardaMunicipal.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{guardaMunicipal.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['guardaMunicipal.endereco']}" sortBy="#{guardaMunicipal.endereco}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['guardaMunicipal.endereco']}" />
+                    </f:facet>
+                    <h:outputText value="#{guardaMunicipal.endereco}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['guardaMunicipal.sigla']}" sortBy="#{guardaMunicipal.sigla}"
+                    filterBy="#{guardaMunicipal.sigla}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['guardaMunicipal.sigla']}" />
+                    </f:facet>
+                    <h:outputText value="#{guardaMunicipal.sigla}"/>
+                </p:column>
+                <p:column headerText="#{msg['guardaMunicipal.ordenacao']}" sortBy="#{guardaMunicipal.ordenacao}"
+                    filterBy="#{guardaMunicipal.ordenacao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['guardaMunicipal.ordenacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{guardaMunicipal.ordenacao}"/>
+                </p:column>
+                <p:column headerText="#{msg['guardaMunicipal.ativo']}" sortBy="#{guardaMunicipal.ativo}"
+                    filterBy="#{guardaMunicipal.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['guardaMunicipal.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{guardaMunicipal.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetGuardaMunicipalDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailGuardaMunicipal" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{guardaMunicipal}" target="#{guardaMunicipalMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="guardaMunicipal.create">
+                        <p:button icon="ui-icon-pencil" outcome="createGuardaMunicipal" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{guardaMunicipal.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="guardaMunicipal.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{guardaMunicipalMB.delete}" >
+                            <f:setPropertyActionListener value="#{guardaMunicipal.id}" target="#{guardaMunicipalMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{guardaMunicipal}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="guardaMunicipal.audit">
+                    <x:auditDelete for="#{guardaMunicipalMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetGuardaMunicipalDetail" header="#{msg['guardaMunicipal.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailGuardaMunicipal.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

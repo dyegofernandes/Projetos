@@ -1,0 +1,104 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['oPC.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuOPC.xhtml" />
+        <h:form id="formListOPC">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="oPC_export" target=":formListOPC:dataTableOPC"
+                                     widgetVar="dataTableOPCWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="oPC" rowIndexVar="index" id="dataTableOPC" widgetVar="dataTableOPCWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{opcMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{opcMB.dataModel.paginatorTemplate}"
+                         value="#{opcMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['oPC.organizacaoPolicialPai']}" sortBy="#{oPC.organizacaoPai}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['oPC.organizacaoPolicialPai']}" />
+                    </f:facet>
+                    <h:outputText value="#{oPC.organizacaoPai}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                
+                <p:column headerText="#{msg['oPC.nome']}" sortBy="#{oPC.nome}"
+                    filterBy="#{oPC.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['oPC.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{oPC.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['oPC.endereco']}" sortBy="#{oPC.endereco}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['oPC.endereco']}" />
+                    </f:facet>
+                    <h:outputText value="#{oPC.endereco.logradouro}"/>
+                </p:column>
+                <p:column headerText="#{msg['oPC.sigla']}" sortBy="#{oPC.sigla}"
+                    filterBy="#{oPC.sigla}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['oPC.sigla']}" />
+                    </f:facet>
+                    <h:outputText value="#{oPC.sigla}"/>
+                </p:column>
+                <p:column headerText="#{msg['oPC.ordenacao']}" sortBy="#{oPC.ordenacao}"
+                    filterBy="#{oPC.ordenacao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['oPC.ordenacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{oPC.ordenacao}"/>
+                </p:column>
+                <p:column headerText="#{msg['oPC.ativo']}" sortBy="#{oPC.ativo}"
+                    filterBy="#{oPC.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['oPC.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{oPC.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetOPCDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailOPC" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{oPC}" target="#{opcMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="oPC.create">
+                        <p:button icon="ui-icon-pencil" outcome="createOPC" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{oPC.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="oPC.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{opcMB.delete}" >
+                            <f:setPropertyActionListener value="#{oPC.id}" target="#{opcMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{oPC}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="oPC.audit">
+                    <x:auditDelete for="#{opcMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetOPCDetail" header="#{msg['oPC.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailOPC.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

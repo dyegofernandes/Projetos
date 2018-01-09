@@ -1,0 +1,157 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['solicitacaoAcessoInfoFolha.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuSolicitacaoAcessoInfoFolha.xhtml" />
+        <h:form id="formListSolicitacaoAcessoInfoFolha">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="solicitacaoAcessoInfoFolha_export" target=":formListSolicitacaoAcessoInfoFolha:dataTableSolicitacaoAcessoInfoFolha"
+                                widgetVar="dataTableSolicitacaoAcessoInfoFolhaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="solicitacaoAcessoInfoFolha" rowIndexVar="index" id="dataTableSolicitacaoAcessoInfoFolha" widgetVar="dataTableSolicitacaoAcessoInfoFolhaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{solicitacaoAcessoInfoFolhaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{solicitacaoAcessoInfoFolhaMB.dataModel.paginatorTemplate}"
+                         value="#{solicitacaoAcessoInfoFolhaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">
+                        <h:outputText value="" />
+                    </f:facet>
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoInfoFolha.usuario']}" sortBy="#{solicitacaoAcessoInfoFolha.usuario}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoInfoFolha.usuario']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoInfoFolha.usuario}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Órgão" sortBy="#{solicitacaoAcessoInfoFolha.orgao}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="Órgão" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoInfoFolha.orgao}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoInfoFolha.cpf']}" sortBy="#{solicitacaoAcessoInfoFolha.cpf}"
+                          filterBy="#{solicitacaoAcessoInfoFolha.cpf}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoInfoFolha.cpf']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoInfoFolha.cpf}"/>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoInfoFolha.matricula']}" sortBy="#{solicitacaoAcessoInfoFolha.matricula}"
+                          filterBy="#{solicitacaoAcessoInfoFolha.matricula}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoInfoFolha.matricula']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoInfoFolha.matricula}"/>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoInfoFolha.telefone']}" sortBy="#{solicitacaoAcessoInfoFolha.telefone}"
+                          filterBy="#{solicitacaoAcessoInfoFolha.telefone}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoInfoFolha.telefone']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoInfoFolha.telefone}"/>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoInfoFolha.nome']}" sortBy="#{solicitacaoAcessoInfoFolha.nome}"
+                          filterBy="#{solicitacaoAcessoInfoFolha.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoInfoFolha.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoInfoFolha.nome}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['solicitacaoAcessoInfoFolha.cargoFuncao']}" sortBy="#{solicitacaoAcessoInfoFolha.cargoFuncao}"
+                          filterBy="#{solicitacaoAcessoInfoFolha.cargoFuncao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoInfoFolha.cargoFuncao']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoInfoFolha.cargoFuncao}"/>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoInfoFolha.email']}" sortBy="#{solicitacaoAcessoInfoFolha.email}"
+                          filterBy="#{solicitacaoAcessoInfoFolha.email}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoInfoFolha.email']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoInfoFolha.email}"/>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoInfoFolha.dataEmissao']}" sortBy="#{solicitacaoAcessoInfoFolha.dataEmissao}"
+                          filterBy="#{solicitacaoAcessoInfoFolha.dataEmissao}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoInfoFolha.dataEmissao']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoInfoFolha.dataEmissao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoInfoFolha.dataAtendimento']}" sortBy="#{solicitacaoAcessoInfoFolha.dataAtendimento}"
+                          filterBy="#{solicitacaoAcessoInfoFolha.dataAtendimento}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoInfoFolha.dataAtendimento']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoInfoFolha.dataAtendimento}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Situação" style="text-align: center;" sortBy="#{solicitacaoAcessoInfoFolha.situacao}"
+                          filterBy="#{solicitacaoAcessoInfoFolha.situacao}"
+                          filterOptions="#{findAllBean.getSelect(classMB.situacao)}">
+                    <f:facet name="header">
+                        <h:outputText value="Situação" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoInfoFolha.situacao.descricao}"/>
+                </p:column>
+
+
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetSolicitacaoAcessoInfoFolhaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailSolicitacaoAcessoInfoFolha" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{solicitacaoAcessoInfoFolha}" target="#{solicitacaoAcessoInfoFolhaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="solicitacaoAcessoInfoFolha.create">
+                        <p:button icon="ui-icon-pencil" outcome="createSolicitacaoAcessoInfoFolha" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{solicitacaoAcessoInfoFolha.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="solicitacaoAcessoInfoFolha.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{solicitacaoAcessoInfoFolhaMB.delete}" >
+                            <f:setPropertyActionListener value="#{solicitacaoAcessoInfoFolha.id}" target="#{solicitacaoAcessoInfoFolhaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{solicitacaoAcessoInfoFolha}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                    <p:commandButton icon="ui-icon-document" title="Gerar PDF" ajax="false" 
+                                     action="#{solicitacaoAcessoInfoFolhaMB.gerarPdf(solicitacaoAcessoInfoFolha)}" 
+                                     process="@form" update="@form" >                         
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="solicitacaoAcessoInfoFolha.audit">
+                    <x:auditDelete for="#{solicitacaoAcessoInfoFolhaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetSolicitacaoAcessoInfoFolhaDetail" header="#{msg['solicitacaoAcessoInfoFolha.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailSolicitacaoAcessoInfoFolha.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

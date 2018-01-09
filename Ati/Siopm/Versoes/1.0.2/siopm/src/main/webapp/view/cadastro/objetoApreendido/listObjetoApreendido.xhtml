@@ -1,0 +1,66 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['objetoApreendido.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuObjetoApreendido.xhtml" />
+        <h:form id="formListObjetoApreendido">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="objetoApreendido_export" target=":formListObjetoApreendido:dataTableObjetoApreendido"
+                                     widgetVar="dataTableObjetoApreendidoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="objetoApreendido" rowIndexVar="index" id="dataTableObjetoApreendido" widgetVar="dataTableObjetoApreendidoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{objetoApreendidoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{objetoApreendidoMB.dataModel.paginatorTemplate}"
+                         value="#{objetoApreendidoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['objetoApreendido.descricao']}" sortBy="#{objetoApreendido.descricao}"
+                    filterBy="#{objetoApreendido.descricao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['objetoApreendido.descricao']}" />
+                    </f:facet>
+                    <h:outputText value="#{objetoApreendido.descricao}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetObjetoApreendidoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailObjetoApreendido" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{objetoApreendido}" target="#{objetoApreendidoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="objetoApreendido.create">
+                        <p:button icon="ui-icon-pencil" outcome="createObjetoApreendido" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{objetoApreendido.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="objetoApreendido.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{objetoApreendidoMB.delete}" >
+                            <f:setPropertyActionListener value="#{objetoApreendido.id}" target="#{objetoApreendidoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{objetoApreendido}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="objetoApreendido.audit">
+                    <x:auditDelete for="#{objetoApreendidoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetObjetoApreendidoDetail" header="#{msg['objetoApreendido.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailObjetoApreendido.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

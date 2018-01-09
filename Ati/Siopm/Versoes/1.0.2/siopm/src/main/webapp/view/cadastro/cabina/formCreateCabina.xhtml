@@ -1,0 +1,173 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateCabina" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:fieldset legend="#{xmsg['generalData']}">
+
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cidade" value="* #{msg['cabina.cidade']}:" />
+                        <h:selectOneMenu id="cidade" value="#{cabinaMB.entity.cidade}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{cabinaMB.cidades}" 
+                                           var="cidade"
+                                           itemLabel="#{cidade}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="numero" value="* #{msg['cabina.numero']}:" />
+                        <p:inputMask id="numero" mask="9?999999999" value="#{cabinaMB.entity.numero}" styleClass="form-control" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="descricao" value="* #{msg['cabina.descricao']}:" />
+                        <p:inputText id="descricao" value="#{cabinaMB.entity.descricao}" maxlength="260"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tipo" value="* #{msg['cabina.tipo']}:" />
+                        <h:selectOneMenu id="tipo" value="#{cabinaMB.entity.tipo}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.tipoCabine)}" 
+                                           var="tipoCabine"
+                                           itemLabel="#{tipoCabine}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="operacao" value="#{msg['cabina.operacao']}:" />
+                        <h:selectOneMenu id="operacao" value="#{cabinaMB.entity.operacao}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.operacao)}" 
+                                           var="operacao"
+                                           itemLabel="#{operacao}"/>
+                        </h:selectOneMenu>
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="receberAltertas" value="#{cabinaMB.entity.receberAltertas}" />
+                                #{msg['cabina.receberAltertas']}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="bloqueioAlertaRoubo" value="#{cabinaMB.entity.bloqueioAlertaRoubo}" />
+                                #{msg['cabina.bloqueioAlertaRoubo']}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="bloqueioAlertaPessoa" value="#{cabinaMB.entity.bloqueioAlertaPessoa}" />
+                                #{msg['cabina.bloqueioAlertaPessoa']}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="bloqueioAlertaFurto" value="#{cabinaMB.entity.bloqueioAlertaFurto}" />
+                                #{msg['cabina.bloqueioAlertaFurto']}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="bloqueioAlertaOutros" value="#{cabinaMB.entity.bloqueioAlertaOutros}" />
+                                #{msg['cabina.bloqueioAlertaOutros']}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="ativo" value="#{cabinaMB.entity.ativo}" />
+                                Ativo
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Opm Responsável">
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="opm" value="* #{msg['viatura.opm']}:" />
+                    <div class="input-group">
+                        <h:selectOneMenu id="opm" value="#{cabinaMB.opmAdd}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.opm)}" 
+                                           var="opm"
+                                           itemLabel="#{opm}"/>
+                        </h:selectOneMenu>
+                        <span class="input-group-btn">
+                            <p:commandButton process="@this opm" update="opm dataTableOPM" icon="ui-icon-plusthick" 
+                                             label="Adicionar Opm" action="#{cabinaMB.addOpm()}" style="font-size: 17px;" />
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="opm" rowIndexVar="index" id="dataTableOPM" widgetVar="dataTableOPMWidget" styleClass="table-responsive"
+                             value="#{cabinaMB.opms}" >
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+
+                    <p:column headerText="#{msg['opm.nome']}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['opm.nome']}" />
+                        </f:facet>
+                        <h:outputText value="#{opm.nome}"/>
+                    </p:column>
+
+                    <p:column headerText="#{msg['opm.sigla']}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['opm.sigla']}" />
+                        </f:facet>
+                        <h:outputText value="#{opm.sigla}"/>
+                    </p:column>
+
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableOPM" 
+                                         action="#{cabinaMB.removerOpm(opm)}" />
+                    </p:column>
+                </p:dataTable>
+            </div>
+
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="cabina.create">
+                <p:commandButton process="@form" update="@form" action="#{cabinaMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="cabina.audit">
+                <x:audit for="#{cabinaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

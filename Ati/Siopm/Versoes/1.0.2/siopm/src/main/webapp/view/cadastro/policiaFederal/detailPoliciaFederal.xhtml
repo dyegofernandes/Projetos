@@ -1,0 +1,52 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailPoliciaFederal" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['policiaFederal.organizacaoPai']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{policiaFederalMB.entity.organizacaoPai}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['policiaFederal.codigo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{policiaFederalMB.entity.codigo}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['policiaFederal.nome']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{policiaFederalMB.entity.nome}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['policiaFederal.endereco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{policiaFederalMB.entity.endereco}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['policiaFederal.sigla']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{policiaFederalMB.entity.sigla}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['policiaFederal.ordenacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{policiaFederalMB.entity.ordenacao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['policiaFederal.ativo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{policiaFederalMB.entity.ativo}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetPoliciaFederalDetail').hide()" />
+            <x:securityArea rolesAllowed="policiaFederal.audit">
+                <x:audit for="#{policiaFederalMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

@@ -1,0 +1,12 @@
+﻿insert into territorio (id, codigo, nome, estado, ativo) values (1,'TD0','ESTADO','PI',true);
+insert into territorio (id, codigo, nome, estado, ativo) values (2,'TD1','PLANÍCIE LITORÂNEA','PI',true);
+insert into territorio (id, codigo, nome, estado, ativo) values (3,'TD10','TABULEIRO DO ALTO PARNAÍBA','PI',true);
+insert into territorio (id, codigo, nome, estado, ativo) values (4,'TD11','CHAPADA DAS MANGABEIRAS','PI',true);
+insert into territorio (id, codigo, nome, estado, ativo) values (5,'TD2','COCAIS','PI',true);
+insert into territorio (id, codigo, nome, estado, ativo) values (6,'TD3','CARNAUBAIS','PI',true);
+insert into territorio (id, codigo, nome, estado, ativo) values (7,'TD4','ENTRE-RIOS','PI',true);
+insert into territorio (id, codigo, nome, estado, ativo) values (8,'TD5','VALE DO RIO SAMBITO','PI',true);
+insert into territorio (id, codigo, nome, estado, ativo) values (9,'TD6','VALE DO RIO GUARIBAS','PI',true);
+insert into territorio (id, codigo, nome, estado, ativo) values (10,'TD7','VALE DO RIO CANINDÉ','PI',true);
+insert into territorio (id, codigo, nome, estado, ativo) values (11,'TD8','SERRA DA CAPIVARA','PI',true);
+insert into territorio (id, codigo, nome, estado, ativo) values (12,'TD9','VALE DOS RIOS PIAUÍ E ITAUEIRAS','PI',true);

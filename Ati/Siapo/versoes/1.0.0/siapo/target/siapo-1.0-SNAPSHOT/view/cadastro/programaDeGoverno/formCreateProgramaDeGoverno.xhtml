@@ -1,0 +1,64 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateProgramaDeGoverno" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="unidade" value="* Unidade Orçamentária:" />
+                        <h:selectOneMenu id="unidade" value="#{programaDeGovernoMB.entity.unidadeOrcamentaria}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.unidadeOrcamentaria)}" 
+                                           var="unid"
+                                           itemLabel="#{unid}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="codigo" value="* #{msg['programaDeGoverno.codigo']}:" />
+                        <p:inputText id="codigo" value="#{programaDeGovernoMB.entity.codigo}" maxlength="260"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="* #{msg['programaDeGoverno.nome']}:" />
+                        <p:inputText id="nome" value="#{programaDeGovernoMB.entity.nome}" maxlength="260"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="poder" value="* Poder:" />
+                        <h:selectOneMenu id="poder" value="#{programaDeGovernoMB.entity.poder}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.tipoDePoder)}" 
+                                           var="tipo"
+                                           itemLabel="#{tipo.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="ativo" value="#{programaDeGovernoMB.entity.ativo}" />
+                                #{msg['orgao.ativo']}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="programaDeGoverno.create">
+                <p:commandButton process="@form" update="@form" action="#{programaDeGovernoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="programaDeGoverno.audit">
+                <x:audit for="#{programaDeGovernoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

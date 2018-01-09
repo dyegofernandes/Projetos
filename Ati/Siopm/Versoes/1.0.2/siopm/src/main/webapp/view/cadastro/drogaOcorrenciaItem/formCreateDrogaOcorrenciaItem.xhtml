@@ -1,0 +1,53 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateDrogaOcorrenciaItem" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="droga" value="* #{msg['drogaOcorrenciaItem.droga']}:" />
+                         <h:selectOneMenu id="droga" value="#{drogaOcorrenciaItemMB.entity.droga}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.drogaOcorrencia)}" 
+                                            var="drogaOcorrencia"
+                                            itemLabel="#{drogaOcorrencia}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="unidade" value="#{msg['drogaOcorrenciaItem.unidade']}:" />
+                         <h:selectOneMenu id="unidade" value="#{drogaOcorrenciaItemMB.entity.unidade}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.unidadeDeMedida)}" 
+                                            var="unidadeDeMedida"
+                                            itemLabel="#{unidadeDeMedida}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="quantidade" value="#{msg['drogaOcorrenciaItem.quantidade']}:" />
+                         <x:inputNumber id="quantidade" value="#{drogaOcorrenciaItemMB.entity.quantidade}" styleClass="form-control"/>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="drogaOcorrenciaItem.create">
+                <p:commandButton process="@form" update="@form" action="#{drogaOcorrenciaItemMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="drogaOcorrenciaItem.audit">
+                <x:audit for="#{drogaOcorrenciaItemMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

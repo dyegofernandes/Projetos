@@ -1,0 +1,85 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateReservaLocal" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="localReserva" value="* #{msg['reservaLocal.localReserva']}:" />
+                         <h:selectOneMenu id="localReserva" value="#{reservaLocalMB.entity.localReserva}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.localReserva)}" 
+                                            var="localReserva"
+                                            itemLabel="#{localReserva}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="nomeSolicitante" value="* #{msg['reservaLocal.nomeSolicitante']}:" />
+                         <p:inputText id="nomeSolicitante" value="#{reservaLocalMB.entity.nomeSolicitante}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="dataInicio" value="* #{msg['reservaLocal.dataInicio']}:" />
+                         <p:calendar id="dataInicio" value="#{reservaLocalMB.entity.dataInicio}" 
+                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                             <x:mask/>
+                         </p:calendar>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="horaInicio" value="* #{msg['reservaLocal.horaInicio']}:" />
+                         <p:calendar id="horaInicio" value="#{reservaLocalMB.entity.horaInicio}" 
+                                     showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                             <x:mask/>
+                         </p:calendar>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="dataFinal" value="* #{msg['reservaLocal.dataFinal']}:" />
+                         <p:calendar id="dataFinal" value="#{reservaLocalMB.entity.dataFinal}" 
+                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                             <x:mask/>
+                         </p:calendar>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="horaFinal" value="* #{msg['reservaLocal.horaFinal']}:" />
+                         <p:calendar id="horaFinal" value="#{reservaLocalMB.entity.horaFinal}" 
+                                     showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                             <x:mask/>
+                         </p:calendar>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="observacao" value="#{msg['reservaLocal.observacao']}:" />
+                         <p:inputText id="observacao" value="#{reservaLocalMB.entity.observacao}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel value="#{msg['reservaLocal.arquivos']}:" />
+                         <h:selectManyCheckbox id="arquivos" value="#{reservaLocalMB.entity.arquivos}" converter="entityConverter" >
+                             <x:initializer/>
+                             <f:selectItems value="#{findAllBean.get(classMB.arquivo)}" 
+                                            var="arquivo"
+                                            itemLabel="#{arquivo}"/>
+                         </h:selectManyCheckbox>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="reservaLocal.create">
+                <p:commandButton process="@form" update="@form" action="#{reservaLocalMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="reservaLocal.audit">
+                <x:audit for="#{reservaLocalMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

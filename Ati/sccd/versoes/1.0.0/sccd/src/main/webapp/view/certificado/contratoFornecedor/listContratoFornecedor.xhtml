@@ -1,0 +1,103 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['contratoFornecedor.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuContratoFornecedor.xhtml" />
+        <h:form id="formListContratoFornecedor">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="contratoFornecedor_export" target=":formListContratoFornecedor:dataTableContratoFornecedor"
+                                widgetVar="dataTableContratoFornecedorWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="contratoFornecedor" rowIndexVar="index" id="dataTableContratoFornecedor" widgetVar="dataTableContratoFornecedorWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{contratoFornecedorMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{contratoFornecedorMB.dataModel.paginatorTemplate}"
+                         value="#{contratoFornecedorMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['contratoFornecedor.fornecedor']}" sortBy="#{contratoFornecedor.fornecedor}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contratoFornecedor.fornecedor']}" />
+                    </f:facet>
+                    <h:outputText value="#{contratoFornecedor.fornecedor}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['contratoFornecedor.numeroContrato']}" sortBy="#{contratoFornecedor.numeroContrato}"
+                          filterBy="#{contratoFornecedor.numeroContrato}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contratoFornecedor.numeroContrato']}" />
+                    </f:facet>
+                    <h:outputText value="#{contratoFornecedor.numeroContrato}"/>
+                </p:column>
+                <p:column headerText="#{msg['contratoFornecedor.dataInicio']}" sortBy="#{contratoFornecedor.dataInicio}"
+                          filterBy="#{contratoFornecedor.dataInicio}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contratoFornecedor.dataInicio']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{contratoFornecedor.dataInicio}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['contratoFornecedor.dataFinal']}" sortBy="#{contratoFornecedor.dataFinal}"
+                          filterBy="#{contratoFornecedor.dataFinal}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contratoFornecedor.dataFinal']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{contratoFornecedor.dataFinal}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Ativo" sortBy="#{contratoFornecedor.ativo}"
+                          filterBy="#{contratoFornecedor.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"
+                          styleClass="text-center">
+                    <f:facet name="header">
+                        <h:outputText value="Ativo"/>
+                    </f:facet>
+                    <h:outputText value="#{contratoFornecedor.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetContratoFornecedorDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailContratoFornecedor" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{contratoFornecedor}" target="#{contratoFornecedorMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="contratoFornecedor.create">
+                        <p:button icon="ui-icon-pencil" outcome="createContratoFornecedor" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{contratoFornecedor.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="contratoFornecedor.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{contratoFornecedorMB.delete}" >
+                            <f:setPropertyActionListener value="#{contratoFornecedor.id}" target="#{contratoFornecedorMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{contratoFornecedor}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="contratoFornecedor.audit">
+                    <x:auditDelete for="#{contratoFornecedorMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetContratoFornecedorDetail" header="#{msg['contratoFornecedor.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailContratoFornecedor.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

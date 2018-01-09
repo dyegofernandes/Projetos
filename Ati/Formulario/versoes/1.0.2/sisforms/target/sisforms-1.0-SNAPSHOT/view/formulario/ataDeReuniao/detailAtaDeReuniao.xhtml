@@ -1,0 +1,221 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailAtaDeReuniao" styleClass="uix-form-detail">
+        <p:tabView id="tabGeral">
+            <p:tab title="Informações Sobre a Reunião" >
+                <p:fieldset legend="#{xmsg['generalData']}">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['ataDeReuniao.usuario']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{ataDeReuniaoMB.entity.usuario}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['ataDeReuniao.dataDaReuniao']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{ataDeReuniaoMB.entity.dataDaReuniao}" styleClass="uix-content-detail">
+                                    <f:convertDateTime />
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['ataDeReuniao.horaInicio']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{ataDeReuniaoMB.entity.horaInicio}" styleClass="uix-content-detail">
+                                    <f:convertDateTime pattern="HH:mm"/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['ataDeReuniao.horaTermino']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{ataDeReuniaoMB.entity.horaTermino}" styleClass="uix-content-detail">
+                                    <f:convertDateTime pattern="HH:mm"/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['ataDeReuniao.local']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{ataDeReuniaoMB.entity.localReuniao}" styleClass="uix-content-detail"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['ataDeReuniao.redator']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{ataDeReuniaoMB.entity.redator}" styleClass="uix-content-detail"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="Assunto Reunião:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{ataDeReuniaoMB.entity.assunto}" styleClass="uix-content-detail"/>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Data da Próxima Reunião">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['ataDeReuniao.dataDaProximaReuniao']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{ataDeReuniaoMB.entity.dataDaProximaReuniao}" styleClass="uix-content-detail">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['ataDeReuniao.horaDaProximaReuniao']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{ataDeReuniaoMB.entity.horaDaProximaReuniao}" styleClass="uix-content-detail">
+                            <f:convertDateTime pattern="HH:mm"/>
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['ataDeReuniao.localProximaReuniao']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{ataDeReuniaoMB.entity.localProximaReuniao}" styleClass="uix-content-detail"/>
+                    </div>
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Participantes" >
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="participante" rowIndexVar="index" id="dataTableParticipante" widgetVar="dataTableParticipanteWidget" styleClass="table-responsive"
+                             value="#{ataDeReuniaoMB.participantes}" lazy="true" >
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+
+                    <p:column headerText="Órgão" >
+                        <f:facet name="header">
+                            <h:outputText value="Órgão" />
+                        </f:facet>
+                        <h:outputText value="#{participante.orgao}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['participante.nome']}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['participante.nome']}" />
+                        </f:facet>
+                        <h:outputText value="#{participante.nome}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['participante.areaFuncao']}"  >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['participante.areaFuncao']}" />
+                        </f:facet>
+                        <h:outputText value="#{participante.areaFuncao}"/>
+                    </p:column>
+
+                    <p:column headerText="Telefone"  >
+                        <f:facet name="header">
+                            <h:outputText value="Telefone" />
+                        </f:facet>
+                        <h:outputText value="#{participante.telefone}"/>
+                    </p:column>
+                    <p:column headerText="Email"  >
+                        <f:facet name="header">
+                            <h:outputText value="Email:" />
+                        </f:facet>
+                        <h:outputText value="#{participante.email}"/>
+                    </p:column>
+
+                </p:dataTable>
+            </p:tab>
+            <p:tab title="Pauta da Reunião" >
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="pautaDaReuniao" rowIndexVar="index" id="dataTablePautaDaReuniao" widgetVar="dataTablePautaDaReuniaoWidget" styleClass="table-responsive"
+                             value="#{ataDeReuniaoMB.pautasReuniao}" lazy="true" >
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+
+                    <p:column headerText="#{msg['pautaDaReuniao.assunto']}"  >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['pautaDaReuniao.assunto']}" />
+                        </f:facet>
+                        <h:outputText value="#{pautaDaReuniao.assunto}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['pautaDaReuniao.resumoAssunto']}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['pautaDaReuniao.resumoAssunto']}" />
+                        </f:facet>
+                        <h:outputText value="#{pautaDaReuniao.resumoAssunto}"/>
+                    </p:column>
+
+                </p:dataTable>
+            </p:tab>
+            <p:tab title="Deliberações" >
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="deliberacao" rowIndexVar="index" id="dataTableDeliberacao" widgetVar="dataTableDeliberacaoWidget" styleClass="table-responsive"
+                             value="#{ataDeReuniaoMB.deliberacoes}" lazy="true" >
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+
+                    <p:column headerText="#{msg['deliberacao.assunto']}"  >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['deliberacao.assunto']}" />
+                        </f:facet>
+                        <h:outputText value="#{deliberacao.assunto}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['deliberacao.deliberacao']}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['deliberacao.deliberacao']}" />
+                        </f:facet>
+                        <h:outputText value="#{deliberacao.deliberacao}"/>
+                    </p:column>
+
+                </p:dataTable>
+            </p:tab>
+            <p:tab title="Resumo da Renião" >
+                <p:fieldset legend="Resumo">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <p:editor value="#{ataDeReuniaoMB.entity.resumoReuniao}" width="800" 
+                                  disabled="true"/>
+                    </div>
+                </p:fieldset>
+
+            </p:tab>
+            <p:tab title="Encaminhamentos" >
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="pendenciaIdentificada" rowIndexVar="index" id="dataTablePendenciaIdentificada" widgetVar="dataTablePendenciaIdentificadaWidget" styleClass="table-responsive"
+                             value="#{ataDeReuniaoMB.pendencias}" lazy="true" >
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column headerText="Órgão" >
+                        <f:facet name="header">
+                            <h:outputText value="Órgão" />
+                        </f:facet>
+                        <h:outputText value="#{pendenciaIdentificada.orgao}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Encaminhamento" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['pendenciaIdentificada.pendencia']}" />
+                        </f:facet>
+                        <h:outputText value="#{pendenciaIdentificada.pendencia}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['pendenciaIdentificada.responsavel']}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['pendenciaIdentificada.responsavel']}" />
+                        </f:facet>
+                        <h:outputText value="#{pendenciaIdentificada.responsavel}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['pendenciaIdentificada.dataPrevista']}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['pendenciaIdentificada.dataPrevista']}" />
+                        </f:facet>
+                        <h:outputText value="#{pendenciaIdentificada.dataPrevista}">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </p:column>
+
+                </p:dataTable>
+            </p:tab>
+        </p:tabView>
+
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetAtaDeReuniaoDetail').hide()" />
+            <x:securityArea rolesAllowed="ataDeReuniao.audit">
+                <x:audit for="#{ataDeReuniaoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

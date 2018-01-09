@@ -1,0 +1,123 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['formRegistroDominio.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuFormRegistroDominio.xhtml" />
+        <h:form id="formListFormRegistroDominio">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="formRegistroDominio_export" target=":formListFormRegistroDominio:dataTableFormRegistroDominio"
+                                widgetVar="dataTableFormRegistroDominioWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="formRegistroDominio" rowIndexVar="index" id="dataTableFormRegistroDominio" widgetVar="dataTableFormRegistroDominioWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{formRegistroDominioMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{formRegistroDominioMB.dataModel.paginatorTemplate}"
+                         value="#{formRegistroDominioMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">
+                        <h:outputText value="" />
+                    </f:facet>
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['formRegistroDominio.entidade']}" sortBy="#{formRegistroDominio.entidade}"
+                          filterBy="#{formRegistroDominio.entidade}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formRegistroDominio.entidade']}" />
+                    </f:facet>
+                    <h:outputText value="#{formRegistroDominio.entidade}"/>
+                </p:column>
+                <p:column headerText="#{msg['formRegistroDominio.cnpj']} Entidade" sortBy="#{formRegistroDominio.cnpj}"
+                          filterBy="#{formRegistroDominio.cnpj}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formRegistroDominio.cnpj']} Entidade" />
+                    </f:facet>
+                    <h:outputText value="#{formRegistroDominio.cnpj}" converter="cnpjConverter"/>
+                </p:column>
+
+                <p:column headerText="#{msg['formRegistroDominio.dominio']}" sortBy="#{formRegistroDominio.dominio}"
+                          filterBy="#{formRegistroDominio.dominio}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formRegistroDominio.dominio']}" />
+                    </f:facet>
+                    <h:outputText value="#{formRegistroDominio.dominio}"/>
+                </p:column>
+                <p:column headerText="Data Emissão" sortBy="#{formRegistroDominio.dataCriacao}"
+                          filterBy="#{formRegistroDominio.dataCriacao}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Data Emissão" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{formRegistroDominio.dataCriacao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Número Contrato" sortBy="#{formRegistroDominio.numeroContrato}"
+                          filterBy="#{formRegistroDominio.numeroContrato}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Número Contrato" />
+                    </f:facet>
+                    <h:outputText value="#{formRegistroDominio.numeroContrato}"/>
+                </p:column>
+                <p:column headerText="Status" style="text-align: center;" sortBy="#{formRegistroDominio.status}"
+                          filterBy="#{formRegistroDominio.status}"
+                          filterOptions="#{findAllBean.getSelect(classMB.statusDominio)}">
+                    <f:facet name="header">
+                        <h:outputText value="Status" />
+                    </f:facet>
+                    <h:outputText value="#{formRegistroDominio.status.descricao}"/>
+                </p:column>
+
+                <p:column headerText="Situação" style="text-align: center;" sortBy="#{formRegistroDominio.situacao}"
+                          filterBy="#{formRegistroDominio.situacao}"
+                          filterOptions="#{findAllBean.getSelect(classMB.situacao)}">
+                    <f:facet name="header">
+                        <h:outputText value="Situação" />
+                    </f:facet>
+                    <h:outputText value="#{formRegistroDominio.situacao.descricao}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetFormRegistroDominioDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailFormRegistroDominio" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{formRegistroDominio}" target="#{formRegistroDominioMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="formRegistroDominio.create">
+                        <p:button icon="ui-icon-pencil" outcome="createFormRegistroDominio" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{formRegistroDominio.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="formRegistroDominio.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{formRegistroDominioMB.delete}" >
+                            <f:setPropertyActionListener value="#{formRegistroDominio.id}" target="#{formRegistroDominioMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{formRegistroDominio}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="requerimento.create">
+                        <p:commandButton icon="ui-icon-document" title="Gerar PDF" ajax="false" action="#{formRegistroDominioMB.gerarPdf(formRegistroDominio)}" 
+                                         process="@form" update="@form" >                         
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="formRegistroDominio.audit">
+                    <x:auditDelete for="#{formRegistroDominioMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetFormRegistroDominioDetail" header="#{msg['formRegistroDominio.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailFormRegistroDominio.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

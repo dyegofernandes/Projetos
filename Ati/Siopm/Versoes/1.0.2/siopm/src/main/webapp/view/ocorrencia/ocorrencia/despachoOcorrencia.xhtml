@@ -1,0 +1,65 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="Despacho de Viaturas" />
+
+    <ui:define name="body">
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&amp;sensor=false&amp;key=#{constantesMB.chaveApiDespachoGoogleMaps}"></script>
+
+        <h:form id="formDespachanteOcorrencia">
+            <x:modalMessages/>
+
+            <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                <div class="input-group">
+                    <p:inputText value="#{despachoOcorrenciaMB.logradouro}" maxlength="400" styleClass="form-control"
+                                 id="inputLogradouro" placeholder="Informe o endereço da Ocorrência"/>
+                    <span class="input-group-btn">
+                        <p:commandButton title="Pesquisar endereço" icon="ui-icon-search" 
+                                         id="buttonNatureza" styleClass="pull-left" ajax="true"
+                                         style="font-size: 18px;" action="#{despachoOcorrenciaMB.zoomMaps}" process="@this inputLogradouro"
+                                         update="@form">
+                        </p:commandButton>  
+                    </span>
+                </div>
+
+            </div>
+            <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                <p:gmap id="idGmap" widgetVar="w_gmap" center="#{despachoOcorrenciaMB.latLong}" zoom="#{despachoOcorrenciaMB.zoom}" type="ROADMAP" styleClass="gmap" 
+                        style="width:100%;height:480px" model="#{despachoOcorrenciaMB.simpleModel}" >
+                    <p:ajax event="pointSelect" process="idGmap" update="@form" listener="#{despachoOcorrenciaMB.nova}">
+                    </p:ajax>
+                    <p:ajax event="overlaySelect" process="idGmap" update=":formCreateOcorrencia :formCreateOcorrenciaNova" listener="#{despachoOcorrenciaMB.atualizar}">
+                        <f:setPropertyActionListener value="widgetOcorrencia" target="#{despachoOcorrenciaMB.dialog}" />
+                    </p:ajax>
+                    <p:ajax event="markerDrag" process="@this idGmap" listener="#{despachoOcorrenciaMB.moverPonto}" update="@form" />
+                </p:gmap>
+            </div>
+
+        </h:form>
+        <p:dialog widgetVar="widgetOcorrencia" header="Cadastro de Ocorrência" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="/view/ocorrencia/ocorrencia/formCreateOcorrenciaDespachante.xhtml" />
+            <p:ajax event="close" update=":formDespachanteOcorrencia" listener="#{findAllBean.setReload(true)}"
+                    />
+            <p:ajax event="close" update=":formDespachanteOcorrencia" listener="#{despachoOcorrenciaMB.limparCampos()}"/>
+        </p:dialog>
+        <p:dialog widgetVar="widgetOcorrenciaNova" header="Cadastro de Ocorrência" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="/view/ocorrencia/ocorrencia/formCreateOcorrenciaDespachanteNova.xhtml" />
+            <p:ajax event="close" update=":formDespachanteOcorrencia" listener="#{findAllBean.setReload(true)}"
+                    />
+            <p:ajax event="close" update=":formDespachanteOcorrencia" listener="#{despachoOcorrenciaMB.limparCampos()}"/>
+        </p:dialog>
+        <p:dialog widgetVar="widgetListarOcorrencia" header="Lista de Ocorrências na Área" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="/view/ocorrencia/ocorrencia/listOcorrenciaExistenteDespachante.xhtml" />
+            <p:ajax event="close" update=":formDespachanteOcorrencia" listener="#{findAllBean.setReload(true)}"
+                    />
+            <p:ajax event="close" update=":formDespachanteOcorrencia" listener="#{despachoOcorrenciaMB.limparCampos()}"/>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

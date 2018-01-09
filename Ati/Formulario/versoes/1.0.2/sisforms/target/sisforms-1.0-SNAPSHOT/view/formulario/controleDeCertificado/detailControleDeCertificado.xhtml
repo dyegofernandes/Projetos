@@ -1,0 +1,120 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailControleDeCertificado" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="Tipo de Pessoa:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{controleDeCertificadoMB.entity.tipoPessoa.descricao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['controleDeCertificado.numeroSolicitacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{controleDeCertificadoMB.entity.numeroSolicitacao}" styleClass="uix-content-detail"/>
+                </div>
+                <h:panelGroup rendered="#{controleDeCertificadoMB.entity.tipoPessoa.num eq 1}">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['controleDeCertificado.cpfSolicitante']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{controleDeCertificadoMB.entity.cpf}" styleClass="uix-content-detail" converter="cpfConverter"/>
+                    </div>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{controleDeCertificadoMB.entity.tipoPessoa.num eq 2}">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['controleDeCertificado.cnpj']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{controleDeCertificadoMB.entity.cnpj}" styleClass="uix-content-detail" converter="cnpjConverter"/>
+                    </div>
+                </h:panelGroup>
+
+
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['controleDeCertificado.enderecoWeb']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{controleDeCertificadoMB.entity.enderecoWeb}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="Email:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{controleDeCertificadoMB.entity.email}" styleClass="uix-content-detail"/>
+                </div>
+               
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="Solicitante" styleClass="control-label" /><br/>
+                    <h:outputText value="#{controleDeCertificadoMB.entity.solicitante}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['controleDeCertificado.titular']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{controleDeCertificadoMB.entity.titular}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['controleDeCertificado.orga']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{controleDeCertificadoMB.entity.orgao}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['controleDeCertificado.protocoloAti']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{controleDeCertificadoMB.entity.protocoloAti}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['controleDeCertificado.ac']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{controleDeCertificadoMB.entity.ac.descricao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="Infra:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{controleDeCertificadoMB.entity.tipoCertificado.nome}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['controleDeCertificado.dataAprovacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{controleDeCertificadoMB.entity.dataAprovacao}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['controleDeCertificado.armario']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{controleDeCertificadoMB.entity.armario}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['controleDeCertificado.caixa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{controleDeCertificadoMB.entity.caixa}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['controleDeCertificado.sequencial']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{controleDeCertificadoMB.entity.sequencial}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['controleDeCertificado.baixa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{controleDeCertificadoMB.entity.baixa}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['controleDeCertificado.documentoRevogacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{controleDeCertificadoMB.entity.documentoRevogacao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="Data Revogação:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{controleDeCertificadoMB.entity.dataRevogacao}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['controleDeCertificado.observacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{controleDeCertificadoMB.entity.observacao}" styleClass="uix-content-detail"/>
+                </div>
+            </div>
+        </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetControleDeCertificadoDetail').hide()" />
+            <x:securityArea rolesAllowed="controleDeCertificado.audit">
+                <x:audit for="#{controleDeCertificadoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

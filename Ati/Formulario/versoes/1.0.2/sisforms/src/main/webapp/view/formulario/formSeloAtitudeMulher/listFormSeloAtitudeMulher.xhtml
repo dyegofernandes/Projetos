@@ -1,0 +1,133 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['formSeloAtitudeMulher.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuFormSeloAtitudeMulher.xhtml" />
+        <h:form id="formListFormSeloAtitudeMulher">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="formSeloAtitudeMulher_export" target=":formListFormSeloAtitudeMulher:dataTableFormSeloAtitudeMulher"
+                                widgetVar="dataTableFormSeloAtitudeMulherWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="formSeloAtitudeMulher" rowIndexVar="index" id="dataTableFormSeloAtitudeMulher" widgetVar="dataTableFormSeloAtitudeMulherWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{formSeloAtitudeMulherMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{formSeloAtitudeMulherMB.dataModel.paginatorTemplate}"
+                         value="#{formSeloAtitudeMulherMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">
+                        <h:outputText value="" />
+                    </f:facet>
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['formSeloAtitudeMulher.razaoSocial']}" sortBy="#{formSeloAtitudeMulher.razaoSocial}"
+                          filterBy="#{formSeloAtitudeMulher.razaoSocial}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formSeloAtitudeMulher.razaoSocial']}" />
+                    </f:facet>
+                    <h:outputText value="#{formSeloAtitudeMulher.razaoSocial}"/>
+                </p:column>
+                <p:column headerText="#{msg['formSeloAtitudeMulher.cnpj']}" sortBy="#{formSeloAtitudeMulher.cnpj}"
+                          filterBy="#{formSeloAtitudeMulher.cnpj}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formSeloAtitudeMulher.cnpj']}" />
+                    </f:facet>
+                    <h:outputText value="#{formSeloAtitudeMulher.cnpj}" converter="cnpjConverter"/>
+                </p:column>
+                <p:column headerText="#{msg['formSeloAtitudeMulher.municipio']}" sortBy="#{formSeloAtitudeMulher.municipio}"
+                          filterBy="#{formSeloAtitudeMulher.municipio}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formSeloAtitudeMulher.municipio']}" />
+                    </f:facet>
+                    <h:outputText value="#{formSeloAtitudeMulher.municipio}"/>
+                </p:column>
+                <p:column headerText="#{msg['formSeloAtitudeMulher.email']}" sortBy="#{formSeloAtitudeMulher.email}"
+                          filterBy="#{formSeloAtitudeMulher.email}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formSeloAtitudeMulher.email']}" />
+                    </f:facet>
+                    <h:outputText value="#{formSeloAtitudeMulher.email}"/>
+                </p:column>
+                <p:column headerText="#{msg['formSeloAtitudeMulher.telefone']}" sortBy="#{formSeloAtitudeMulher.telefone}"
+                          filterBy="#{formSeloAtitudeMulher.telefone}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formSeloAtitudeMulher.telefone']}" />
+                    </f:facet>
+                    <h:outputText value="#{formSeloAtitudeMulher.telefone}"/>
+                </p:column>
+                <p:column headerText="#{msg['formSeloAtitudeMulher.responsavel']}" sortBy="#{formSeloAtitudeMulher.responsavel}"
+                          filterBy="#{formSeloAtitudeMulher.responsavel}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formSeloAtitudeMulher.responsavel']}" />
+                    </f:facet>
+                    <h:outputText value="#{formSeloAtitudeMulher.responsavel}"/>
+                </p:column>
+                <p:column headerText="#{msg['formSeloAtitudeMulher.cpf']}" sortBy="#{formSeloAtitudeMulher.cpf}"
+                          filterBy="#{formSeloAtitudeMulher.cpf}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formSeloAtitudeMulher.cpf']}" />
+                    </f:facet>
+                    <h:outputText value="#{formSeloAtitudeMulher.cpf}" converter="cpfConverter"/>
+                </p:column>
+
+                <p:column headerText="#{msg['formSeloAtitudeMulher.dataEmissao']}" sortBy="#{formSeloAtitudeMulher.dataEmissao}"
+                          filterBy="#{formSeloAtitudeMulher.dataEmissao}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formSeloAtitudeMulher.dataEmissao']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{formSeloAtitudeMulher.dataEmissao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Situação" style="text-align: center;" sortBy="#{formSeloAtitudeMulher.situacao}"
+                          filterBy="#{formSeloAtitudeMulher.situacao}"
+                          filterOptions="#{findAllBean.getSelect(classMB.situacao)}">
+                    <f:facet name="header">
+                        <h:outputText value="Situação" />
+                    </f:facet>
+                    <h:outputText value="#{formSeloAtitudeMulher.situacao.descricao}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetFormSeloAtitudeMulherDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailFormSeloAtitudeMulher" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{formSeloAtitudeMulher}" target="#{formSeloAtitudeMulherMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="formSeloAtitudeMulher.create">
+                        <p:button icon="ui-icon-pencil" outcome="createFormSeloAtitudeMulher" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{formSeloAtitudeMulher.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="formSeloAtitudeMulher.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{formSeloAtitudeMulherMB.delete}" >
+                            <f:setPropertyActionListener value="#{formSeloAtitudeMulher.id}" target="#{formSeloAtitudeMulherMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{formSeloAtitudeMulher}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                    <p:commandButton icon="ui-icon-document" title="Gerar PDF" ajax="false" action="#{formSeloAtitudeMulherMB.gerarPdf(formSeloAtitudeMulher)}" 
+                                     process="@form" update="@form" >                         
+                    </p:commandButton>  
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="formSeloAtitudeMulher.audit">
+                    <x:auditDelete for="#{formSeloAtitudeMulherMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetFormSeloAtitudeMulherDetail" header="#{msg['formSeloAtitudeMulher.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailFormSeloAtitudeMulher.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

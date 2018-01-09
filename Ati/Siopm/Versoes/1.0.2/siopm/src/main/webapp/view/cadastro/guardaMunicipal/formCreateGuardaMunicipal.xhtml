@@ -1,0 +1,92 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateGuardaMunicipal" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="organizacaoPai" value="#{msg['guardaMunicipal.organizacaoPai']}:" />
+                         <h:selectOneMenu id="organizacaoPai" value="#{guardaMunicipalMB.entity.organizacaoPai}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.organizacao)}" 
+                                            var="organizacao"
+                                            itemLabel="#{organizacao}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="codigo" value="#{msg['guardaMunicipal.codigo']}:" />
+                         <p:inputMask id="codigo" mask="9?999999999"  value="#{guardaMunicipalMB.entity.codigo}" styleClass="form-control" />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="nome" value="* #{msg['guardaMunicipal.nome']}:" />
+                         <p:inputText id="nome" value="#{guardaMunicipalMB.entity.nome}" maxlength="250"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="endereco" value="* #{msg['guardaMunicipal.endereco']}:" />
+                         <h:selectOneMenu id="endereco" value="#{guardaMunicipalMB.entity.endereco}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.endereco)}" 
+                                            var="endereco"
+                                            itemLabel="#{endereco}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="sigla" value="* #{msg['guardaMunicipal.sigla']}:" />
+                         <p:inputText id="sigla" value="#{guardaMunicipalMB.entity.sigla}" maxlength="50"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="ordenacao" value="#{msg['guardaMunicipal.ordenacao']}:" />
+                         <p:inputMask id="ordenacao" mask="9?999999999"  value="#{guardaMunicipalMB.entity.ordenacao}" styleClass="form-control" />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <div class="checkbox">
+                             <label>
+                                 <h:selectBooleanCheckbox id="ativo" value="#{guardaMunicipalMB.entity.ativo}" />
+                                 #{msg['guardaMunicipal.ativo']}
+                             </label>
+                         </div>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel value="#{msg['guardaMunicipal.territorios']}:" />
+                         <h:selectManyCheckbox id="territorios" value="#{guardaMunicipalMB.entity.territorios}" converter="entityConverter" >
+                             <x:initializer/>
+                             <f:selectItems value="#{findAllBean.get(classMB.territorio)}" 
+                                            var="territorio"
+                                            itemLabel="#{territorio}"/>
+                         </h:selectManyCheckbox>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel value="#{msg['guardaMunicipal.telefones']}:" />
+                         <h:selectManyCheckbox id="telefones" value="#{guardaMunicipalMB.entity.telefones}" converter="entityConverter" >
+                             <x:initializer/>
+                             <f:selectItems value="#{findAllBean.get(classMB.telefone)}" 
+                                            var="telefone"
+                                            itemLabel="#{telefone}"/>
+                         </h:selectManyCheckbox>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="guardaMunicipal.create">
+                <p:commandButton process="@form" update="@form" action="#{guardaMunicipalMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="guardaMunicipal.audit">
+                <x:audit for="#{guardaMunicipalMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

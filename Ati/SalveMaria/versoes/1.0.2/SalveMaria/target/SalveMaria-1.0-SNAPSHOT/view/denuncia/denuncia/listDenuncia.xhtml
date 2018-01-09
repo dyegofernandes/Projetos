@@ -1,0 +1,306 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['denuncia.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuDenuncia.xhtml" />
+        <x:modalMessages autoUpdate="true"/>
+        <h:form id="formListDenuncia">
+            <p:fieldset legend="Filtros de Busca" toggleable="true">
+                <div class="row">
+                    <h:panelGroup id="panel0">
+                        <h:panelGroup rendered="#{sessaoUsuarioMB.user.superUsuario}" >
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="unidade" value="Unidade:" />
+                                <h:selectOneMenu id="unidade" value="#{denunciaMB.filtro.unidade}" converter="entityConverter" 
+                                                 styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.unidade)}" 
+                                                   var="unidade"
+                                                   itemLabel="#{unidade.sigla}"/>
+                                </h:selectOneMenu>
+                            </div>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{sessaoUsuarioMB.user.superUsuario}" >
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="tipo" value="Tipo:" />
+                                <h:selectOneMenu id="tipo" value="#{denunciaMB.filtro.tipo}" styleClass="form-control" >
+                                    <f:selectItem itemLabel="Todos" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.tipoDenuncia)}" 
+                                                   var="tipo"
+                                                   itemLabel="#{tipo.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{sessaoUsuarioMB.user.superUsuario}" >
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="faixa" value="Faixa etária:" />
+                                <h:selectOneMenu id="faixa" value="#{denunciaMB.filtro.faixaEtaria}" styleClass="form-control" >
+                                    <f:selectItem itemLabel="Todos" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.faixaEtaria)}" 
+                                                   var="faixa"
+                                                   itemLabel="#{faixa.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                        </h:panelGroup>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="codigo" value="Código:" />
+                            <p:inputMask id="codigo" mask="9?999999999" slotChar="" value="#{denunciaMB.filtro.id}" styleClass="form-control" />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="formaDeViolencia" value="#{msg['denuncia.formaDeViolencia']}:" />
+                            <h:selectOneMenu id="formaDeViolencia" value="#{denunciaMB.filtro.formaDeViolencia}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.formasDeViolencia)}" 
+                                               var="formasDeViolencia"
+                                               itemLabel="#{formasDeViolencia.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="situacao" value="#{msg['denuncia.situacao']}:" />
+                            <h:selectOneMenu id="situacao" value="#{denunciaMB.filtro.situacao}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.situacao)}" 
+                                               var="situacao"
+                                               itemLabel="#{situacao.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="circunscricao" value="Território:" />
+                            <h:selectOneMenu id="circunscricao" value="#{denunciaMB.filtro.circunscricao}" converter="entityConverter" 
+                                             styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.circunscricao)}" 
+                                               var="circunscricao"
+                                               itemLabel="#{circunscricao}"/>
+                                <p:ajax  process="@this" update="cidade"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cidade" value="Cidade:" />
+                            <h:selectOneMenu id="cidade" value="#{denunciaMB.filtro.cidade}" converter="entityConverter" 
+                                             styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{denunciaMB.cidades()}" 
+                                               var="cidade"
+                                               itemLabel="#{cidade}"/>
+                                <p:ajax  process="@this" update="bairro"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="bairro" value="Bairro:" />
+                            <h:selectOneMenu id="bairro" value="#{denunciaMB.filtro.bairro}" converter="entityConverter" 
+                                             styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{denunciaMB.bairros}" 
+                                               var="bairro"
+                                               itemLabel="#{bairro}"/>
+                            </h:selectOneMenu>
+                        </div>
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dataInicial" value="Data Inicial:" />
+                            <p:calendar id="dataInicial" value="#{denunciaMB.filtro.dataDenunciaInicial}" 
+                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                <x:mask/>
+                            </p:calendar>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dataFinal" value="Data Final" />
+                            <p:calendar id="dataFinal" value="#{denunciaMB.filtro.dataDenunciaFinal}" 
+                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                <x:mask/>
+                            </p:calendar>
+                        </div>
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="nomeVitima" value="Nome da Vítima:" />
+                            <p:inputText id="nomeVitima" value="#{denunciaMB.filtro.vitima}" maxlength="100"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="rgVitima" value="Rg da Vítima:" />
+                            <p:inputText id="rgVitima" value="#{denunciaMB.filtro.rgVitima}" maxlength="100"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cpfVitima" value="Cpf da Vítima:" />
+                            <p:inputText id="cpfVitima" value="#{denunciaMB.filtro.cpfVitima}" maxlength="100"  styleClass="form-control"  />
+                        </div>
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="nomeAgressor" value="Nome do Agressor:" />
+                            <p:inputText id="nomeAgressor" value="#{denunciaMB.filtro.agressor}" maxlength="100"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="rgAgressor" value="Rg do Agressor" />
+                            <p:inputText id="rgAgressor" value="#{denunciaMB.filtro.rgAgressor}" maxlength="100"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cpfAgressor" value="Cpf do Agressor" />
+                            <p:inputText id="cpfAgressor" value="#{denunciaMB.filtro.cpfAgressor}" maxlength="100"  styleClass="form-control"  />
+                        </div>
+                    </h:panelGroup>
+                </div>
+                <div class="row">
+                    <div class="uix-center">
+                        <p:commandButton process="panel0 dataTableDenuncia" update="dataTableDenuncia" value="Buscar" />
+                    </div>
+                </div>
+
+            </p:fieldset>
+            <p:fieldset legend="Resultado" toggleable="true">
+                <x:dataTableActions fileName="denuncia_export" target=":formListDenuncia:dataTableDenuncia"
+                                    widgetVar="dataTableDenunciaWidget"  />
+
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="denuncia" rowIndexVar="index" id="dataTableDenuncia" widgetVar="dataTableDenunciaWidget" styleClass="table-responsive"
+                             currentPageReportTemplate="#{denunciaMB.dataModel.currentPageReportTemplate}"
+                             paginatorTemplate="#{denunciaMB.dataModel.paginatorTemplate}"
+                             value="#{denunciaMB.denuncias}">
+                    <p:column styleClass="uix-datatable-index">
+                        <f:facet name="header">
+                            <h:outputText value="Código" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.id}"/>
+                    </p:column>
+                    <p:column headerText="Unidade" >
+                        <f:facet name="header">
+                            <h:outputText value="Unidade" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.unidade.sigla}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>  
+
+                    <p:column headerText="#{msg['denuncia.dataDenuncia']}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['denuncia.dataDenuncia']}" />                
+                        </f:facet>
+                        <h:outputText value="#{denuncia.dataDenuncia}">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['denuncia.horaDenuncia']}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['denuncia.horaDenuncia']}" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.horaDenuncia}">
+                            <f:convertDateTime pattern="HH:mm"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Tempo Atend.(min)" >
+                        <f:facet name="header">
+                            <h:outputText value="Tempo Atend.(min)" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.tempoAtendimento}"/>
+                    </p:column>
+                    <p:column headerText="Tempo Encerram.(min)" >
+                        <f:facet name="header">
+                            <h:outputText value="Tempo Encerram.(min)" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.tempoEncerramento}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['denuncia.endereco']}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['denuncia.endereco']}" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.endereco}, #{denuncia.endereco.numero}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['denuncia.endereco.bairro']}" >
+                        <f:facet name="header">
+                            <h:outputText value="Bairro" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.endereco.bairro}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['denuncia.endereco.bairro.cidade']}" >
+                        <f:facet name="header">
+                            <h:outputText value="Cidade" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.endereco.bairro.cidade}"/>
+                    </p:column>
+
+                    <p:column headerText="Vítima" >
+                        <f:facet name="header">
+                            <h:outputText value="Vítima" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.vitima}"/>
+                    </p:column>
+                    <p:column headerText="Idade Vítima" >
+                        <f:facet name="header">
+                            <h:outputText value="Idade Vítima" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.idadeVitima}"/>
+                    </p:column>
+                    <p:column headerText="Agressor" >
+                        <f:facet name="header">
+                            <h:outputText value="Agressor" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.agressor}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['denuncia.formaDeViolencia']}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['denuncia.formaDeViolencia']}" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.formaDeViolencia.descricao}"/>
+                    </p:column>
+                    <p:column headerText="Tipo">
+                        <f:facet name="header">
+                            <h:outputText value="Tipo" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.tipo.descricao}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['denuncia.situacao']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['denuncia.situacao']}" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.situacao.descricao}"/>
+                    </p:column>
+
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+                        <p:commandButton oncomplete="PF('widgetDenunciaDetail').show();"  icon="ui-icon-zoomin" 
+                                         process="@form" update=":formDetailDenuncia" title="#{xmsg['detail']}" >
+                            <f:setPropertyActionListener value="#{denuncia}" target="#{denunciaMB.entity}" />
+                        </p:commandButton>
+                        <x:securityArea rolesAllowed="denuncia.create">
+                            <p:button icon="ui-icon-pencil" outcome="createDenuncia" title="#{xmsg['edit']}">
+                                <f:param name="id" value="#{denuncia.id}" />
+                            </p:button>
+                        </x:securityArea>
+                        <x:securityArea rolesAllowed="denuncia.delete">
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                             action="#{denunciaMB.delete}" >
+                                <f:setPropertyActionListener value="#{denuncia.id}" target="#{denunciaMB.id}" />
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{denuncia}" />
+                            </p:commandButton>
+                        </x:securityArea>
+                        <x:securityArea rolesAllowed="denuncia.create">
+                            <p:commandButton icon="ui-icon-document" title="Gerar PDF" ajax="false" action="#{denunciaMB.gerarPdf(denuncia)}" 
+                                             process="@form" update="@form" >                         
+                            </p:commandButton>
+                        </x:securityArea>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="denuncia.audit">
+                    <x:auditDelete for="#{denunciaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetDenunciaDetail" header="#{msg['denuncia.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailDenuncia.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

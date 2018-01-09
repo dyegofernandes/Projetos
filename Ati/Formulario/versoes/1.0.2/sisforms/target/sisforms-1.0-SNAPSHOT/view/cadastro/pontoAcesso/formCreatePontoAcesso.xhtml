@@ -1,0 +1,88 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreatePontoAcesso" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="local" value="* #{msg['pontoAcesso.local']}:" />
+                        <p:inputText id="local" value="#{pontoAcessoMB.entity.local}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="serialNumer" value="#{msg['pontoAcesso.serialNumer']}:" />
+                        <p:inputText id="serialNumer" value="#{pontoAcessoMB.entity.serialNumer}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="modelo" value="* #{msg['pontoAcesso.modelo']}:" />
+                        <p:inputText id="modelo" value="#{pontoAcessoMB.entity.modelo}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataInstalacao" value="Data de Instalação:" />
+                        <p:calendar id="dataInstalacao" value="#{pontoAcessoMB.entity.dataInstalacao}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="municipio" value="Municipio:" />
+                        <p:inputText id="municipio" value="#{pontoAcessoMB.entity.municipio}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tombo" value="#{msg['pontoAcesso.tombo']}:" />
+                        <p:inputText id="tombo" value="#{pontoAcessoMB.entity.tombo}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="latidude" value="#{msg['pontoAcesso.latidude']}:" />
+                        <p:inputText id="latidude" value="#{pontoAcessoMB.entity.latidude}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="longitude" value="#{msg['pontoAcesso.longitude']}:" />
+                        <p:inputText id="longitude" value="#{pontoAcessoMB.entity.longitude}" maxlength="250" styleClass="form-control" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="endereco" value="#{msg['pontoAcesso.endereco']}:" />
+                        <p:inputText id="endereco" value="#{pontoAcessoMB.entity.endereco}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tipo" value="#{msg['pontoAcesso.tipoAcesso']}:" />
+                        <h:selectOneMenu id="tipo" value="#{pontoAcessoMB.entity.tipoAcesso}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.tipoDeAcesso)}" 
+                                           var="tipo"
+                                           itemLabel="#{tipo.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="status" value="#{msg['pontoAcesso.status']}:" />
+                        <h:selectOneMenu id="status" value="#{pontoAcessoMB.entity.status}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.statusPontoAcesso)}" 
+                                           var="statusPontoAcesso"
+                                           itemLabel="#{statusPontoAcesso.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="pontoAcesso.create">
+                <p:commandButton process="@form" update="@form" action="#{pontoAcessoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="pontoAcesso.audit">
+                <x:audit for="#{pontoAcessoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

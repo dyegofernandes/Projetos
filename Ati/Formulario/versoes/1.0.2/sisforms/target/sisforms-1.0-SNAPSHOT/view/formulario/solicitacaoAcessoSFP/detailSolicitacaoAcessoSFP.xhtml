@@ -1,0 +1,239 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailSolicitacaoAcessoSFP" styleClass="uix-form-detail">
+        <p:tabView id="tabGeral">
+            <p:tab title="Informações Gerais">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['solicitacaoAcessoSFP.usuario']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{solicitacaoAcessoSFPMB.entity.usuario}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="Órgão:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{solicitacaoAcessoSFPMB.entity.orgao}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['solicitacaoAcessoSFP.cpf']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{solicitacaoAcessoSFPMB.entity.cpf}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['solicitacaoAcessoSFP.matricula']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{solicitacaoAcessoSFPMB.entity.matricula}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['solicitacaoAcessoSFP.telefone']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{solicitacaoAcessoSFPMB.entity.telefone}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['solicitacaoAcessoSFP.nome']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{solicitacaoAcessoSFPMB.entity.nome}" styleClass="uix-content-detail"/>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['solicitacaoAcessoSFP.cargoFuncao']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{solicitacaoAcessoSFPMB.entity.cargoFuncao}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['solicitacaoAcessoSFP.email']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{solicitacaoAcessoSFPMB.entity.email}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['solicitacaoAcessoSFP.dataEmissao']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{solicitacaoAcessoSFPMB.entity.dataEmissao}" styleClass="uix-content-detail">
+                                <f:convertDateTime />
+                            </h:outputText>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['solicitacaoAcessoSFP.dataAtendimento']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{solicitacaoAcessoSFPMB.entity.dataAtendimento}" styleClass="uix-content-detail">
+                                <f:convertDateTime />
+                            </h:outputText>
+                        </div>
+                       
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['solicitacaoAcessoSFP.observacao']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{solicitacaoAcessoSFPMB.entity.observacao}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="Situação:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{solicitacaoAcessoSFPMB.entity.situacao}" styleClass="uix-content-detail"/>
+                        </div>
+                    </div>
+                </div>
+            </p:tab>
+            <p:tab title="Operação Desejada">
+                <p:fieldset legend="Cadastro">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Inclusão:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.cadastro.inclusao}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Alteração:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.cadastro.alteracao}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Consulta:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.cadastro.consulta}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Financeiro">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Inclusão:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.financeiro.inclusao}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Alteração:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.financeiro.alteracao}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Consulta:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.financeiro.consulta}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Dependente">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Inclusão:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.dependente.inclusao}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Alteração:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.dependente.alteracao}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Consulta:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.dependente.consulta}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Pensão Judicial">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Inclusão:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.pensaoJudicial.inclusao}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Alteração:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.pensaoJudicial.alteracao}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Consulta:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.pensaoJudicial.consulta}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Ocorrência">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Afastamentos/Licenças:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.ocorrencia.afastamentoLicenca}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Exonerações:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.ocorrencia.exoneracao}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Aposentadorias:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.ocorrencia.aposentadoria}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Disposições:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.ocorrencia.disposicao}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Enquadramento/Promoções:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.ocorrencia.enquadramento}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Área restrita a SEAD">
+                <p:fieldset legend="Cadastro">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Inclusão:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.cadastroSEAD.inclusao}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Alteração:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.cadastroSEAD.alteracao}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Consulta:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.cadastroSEAD.consulta}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Financeiro">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Inclusão:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.financeiroSEAD.inclusao}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Alteração:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.financeiroSEAD.alteracao}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Consulta:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.financeiroSEAD.consulta}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Dependente">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Inclusão:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.dependenteSEAD.inclusao}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Alteração:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.dependenteSEAD.alteracao}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Consulta:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.dependenteSEAD.consulta}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Pensão Judicial">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Inclusão:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.pensaoJudicialSEAD.inclusao}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Alteração:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.pensaoJudicialSEAD.alteracao}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Consulta:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.pensaoJudicialSEAD.consulta}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Ocorrência">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Afastamentos/Licenças:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.ocorrenciaSEAD.afastamentoLicenca}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Exonerações:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.ocorrenciaSEAD.exoneracao}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Aposentadorias:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.ocorrenciaSEAD.aposentadoria}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Disposições:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.ocorrenciaSEAD.disposicao}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Enquadramento/Promoções:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{solicitacaoAcessoSFPMB.entity.ocorrenciaSEAD.enquadramento}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                </p:fieldset>
+            </p:tab>
+        </p:tabView>
+
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetSolicitacaoAcessoSFPDetail').hide()" />
+            <x:securityArea rolesAllowed="solicitacaoAcessoSFP.audit">
+                <x:audit for="#{solicitacaoAcessoSFPMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

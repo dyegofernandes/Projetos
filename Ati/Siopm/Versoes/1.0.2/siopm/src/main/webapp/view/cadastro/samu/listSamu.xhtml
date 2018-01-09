@@ -1,0 +1,112 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['samu.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuSamu.xhtml" />
+        <h:form id="formListSamu">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="samu_export" target=":formListSamu:dataTableSamu"
+                                     widgetVar="dataTableSamuWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="samu" rowIndexVar="index" id="dataTableSamu" widgetVar="dataTableSamuWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{samuMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{samuMB.dataModel.paginatorTemplate}"
+                         value="#{samuMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['samu.organizacaoPai']}" sortBy="#{samu.organizacaoPai}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['samu.organizacaoPai']}" />
+                    </f:facet>
+                    <h:outputText value="#{samu.organizacaoPai}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['samu.codigo']}" sortBy="#{samu.codigo}"
+                    filterBy="#{samu.codigo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['samu.codigo']}" />
+                    </f:facet>
+                    <h:outputText value="#{samu.codigo}"/>
+                </p:column>
+                <p:column headerText="#{msg['samu.nome']}" sortBy="#{samu.nome}"
+                    filterBy="#{samu.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['samu.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{samu.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['samu.endereco']}" sortBy="#{samu.endereco}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['samu.endereco']}" />
+                    </f:facet>
+                    <h:outputText value="#{samu.endereco}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['samu.sigla']}" sortBy="#{samu.sigla}"
+                    filterBy="#{samu.sigla}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['samu.sigla']}" />
+                    </f:facet>
+                    <h:outputText value="#{samu.sigla}"/>
+                </p:column>
+                <p:column headerText="#{msg['samu.ordenacao']}" sortBy="#{samu.ordenacao}"
+                    filterBy="#{samu.ordenacao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['samu.ordenacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{samu.ordenacao}"/>
+                </p:column>
+                <p:column headerText="#{msg['samu.ativo']}" sortBy="#{samu.ativo}"
+                    filterBy="#{samu.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['samu.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{samu.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetSamuDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailSamu" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{samu}" target="#{samuMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="samu.create">
+                        <p:button icon="ui-icon-pencil" outcome="createSamu" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{samu.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="samu.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{samuMB.delete}" >
+                            <f:setPropertyActionListener value="#{samu.id}" target="#{samuMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{samu}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="samu.audit">
+                    <x:auditDelete for="#{samuMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetSamuDetail" header="#{msg['samu.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailSamu.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,80 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailRequerimento" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['solicitacaoAcessoSFP.usuario']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{requerimentoMB.entity.usuario}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['requerimento.destinatario']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{requerimentoMB.entity.destinatario}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['requerimento.requerente']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{requerimentoMB.entity.requerente}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['requerimento.matricula']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{requerimentoMB.entity.matricula}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['requerimento.cpf']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{requerimentoMB.entity.cpf}" styleClass="uix-content-detail" converter="cpfConverter"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['requerimento.telefone']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{requerimentoMB.entity.telefone}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['requerimento.cargo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{requerimentoMB.entity.cargo}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['requerimento.area']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{requerimentoMB.entity.area}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['requerimento.solicitacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{requerimentoMB.entity.solicitacao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['requerimento.assuntoRequerimento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{requerimentoMB.entity.assuntoRequerimento}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['requerimento.situacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{requerimentoMB.entity.situacao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['requerimento.dataSolicitacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{requerimentoMB.entity.dataSolicitacao}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['requerimento.dataAtendimento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{requerimentoMB.entity.dataAtendimento}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['requerimento.observacaoAtendimento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{requerimentoMB.entity.observacaoAtendimento}" styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetRequerimentoDetail').hide()" />
+            <x:securityArea rolesAllowed="requerimento.audit">
+                <x:audit for="#{requerimentoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

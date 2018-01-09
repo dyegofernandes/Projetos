@@ -1,0 +1,148 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailRelatorioDeVisita" styleClass="uix-form-detail">
+        <p:tabView id="tabGeral">
+            <p:tab title="#{xmsg['generalData']}" >
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['relatorioDeVisita.usuario']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{relatorioDeVisitaMB.entity.usuario}" styleClass="uix-content-detail">
+                                <x:initializer/>
+                            </h:outputText>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="Órgão Solicitante:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{relatorioDeVisitaMB.entity.orgao}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['relatorioDeVisita.numero']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{relatorioDeVisitaMB.entity.numero}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="Ano:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{relatorioDeVisitaMB.entity.ano}" styleClass="uix-content-detail"/>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['relatorioDeVisita.solicitadoPor']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{relatorioDeVisitaMB.entity.solicitadoPor}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['relatorioDeVisita.contato']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{relatorioDeVisitaMB.entity.contato}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['relatorioDeVisita.telefone']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{relatorioDeVisitaMB.entity.telefone}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['relatorioDeVisita.email']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{relatorioDeVisitaMB.entity.email}" styleClass="uix-content-detail"/>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['relatorioDeVisita.resumo']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{relatorioDeVisitaMB.entity.resumo}" styleClass="uix-content-detail"/>
+                        </div>
+
+                    </div>
+                </div>
+            </p:tab>
+            <p:tab title="Visita" >
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['relatorioDeVisita.dataInicioVisita']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{relatorioDeVisitaMB.entity.dataInicioVisita}" styleClass="uix-content-detail">
+                                <f:convertDateTime />
+                            </h:outputText>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['relatorioDeVisita.horaInicioVisita']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{relatorioDeVisitaMB.entity.horaInicioVisita}" styleClass="uix-content-detail">
+                                <f:convertDateTime pattern="HH:mm"/>
+                            </h:outputText>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['relatorioDeVisita.dataConclusaoVisita']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{relatorioDeVisitaMB.entity.dataConclusaoVisita}" styleClass="uix-content-detail">
+                                <f:convertDateTime />
+                            </h:outputText>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['relatorioDeVisita.horaConclusaoVisita']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{relatorioDeVisitaMB.entity.horaConclusaoVisita}" styleClass="uix-content-detail">
+                                <f:convertDateTime pattern="HH:mm"/>
+                            </h:outputText>
+                        </div>
+                    </div>
+                </div>
+            </p:tab>
+            <p:tab title="Detalhamento da Visita" >
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['relatorioDeVisita.solicitacao']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{relatorioDeVisitaMB.entity.solicitacao}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['relatorioDeVisita.constatacaoTecnica']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{relatorioDeVisitaMB.entity.constatacaoTecnica}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['relatorioDeVisita.observacaoCliente']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{relatorioDeVisitaMB.entity.observacaoCliente}" styleClass="uix-content-detail"/>
+                        </div>
+                    </div>
+                </div>
+            </p:tab>
+            <p:tab title="Arquivos">
+                <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                             var="arquivo" rowIndexVar="index" id="dataTableArquivo" widgetVar="dataTableArquivoWidget" styleClass="table-responsive"
+                             value="#{relatorioDeVisitaMB.arquivos}" >
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+
+                    <p:column headerText="#{msg['arquivo.nome']}" width="80%" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['arquivo.nome']}" />
+                        </f:facet>
+                        <h:outputText value="#{arquivo.nome}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['arquivo.extensao']}" width="20%" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['arquivo.extensao']}" />
+                        </f:facet>
+                        <h:outputText value="#{arquivo.extensao}"/>
+                    </p:column>
+
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>          
+                        <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Download" ajax="false" immediate="true" update="formCreateDenuncia">
+                            <p:fileDownload value="#{relatorioDeVisitaMB.download(arquivo)}" />
+                        </p:commandButton>
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableArquivo" 
+                                         action="#{relatorioDeVisitaMB.removerArquivo(arquivo)}" >
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:tab>
+        </p:tabView>
+
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetRelatorioDeVisitaDetail').hide()" />
+            <x:securityArea rolesAllowed="relatorioDeVisita.audit">
+                <x:audit for="#{relatorioDeVisitaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

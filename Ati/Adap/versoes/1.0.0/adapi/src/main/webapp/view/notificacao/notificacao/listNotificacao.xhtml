@@ -1,0 +1,99 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['notificacao.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuNotificacao.xhtml" />
+        <h:form id="formListNotificacao">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="notificacao_export" target=":formListNotificacao:dataTableNotificacao"
+                                     widgetVar="dataTableNotificacaoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="notificacao" rowIndexVar="index" id="dataTableNotificacao" widgetVar="dataTableNotificacaoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{notificacaoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{notificacaoMB.dataModel.paginatorTemplate}"
+                         value="#{notificacaoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['notificacao.anonimo']}" sortBy="#{notificacao.anonimo}"
+                    filterBy="#{notificacao.anonimo}"  filterOptions="#{findAllBean.getSelect(classMB.simOuNao)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['notificacao.anonimo']}" />
+                    </f:facet>
+                    <h:outputText value="#{notificacao.anonimo}"/>
+                </p:column>
+                <p:column headerText="#{msg['notificacao.responsavelNotificacao']}" sortBy="#{notificacao.responsavelNotificacao}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['notificacao.responsavelNotificacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{notificacao.responsavelNotificacao}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+               
+                <p:column headerText="#{msg['notificacao.nomeEstabelecimento']}" sortBy="#{notificacao.nomeEstabelecimento}"
+                    filterBy="#{notificacao.nomeEstabelecimento}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['notificacao.nomeEstabelecimento']}" />
+                    </f:facet>
+                    <h:outputText value="#{notificacao.nomeEstabelecimento}"/>
+                </p:column>
+                <p:column headerText="#{msg['notificacao.endereco']}" sortBy="#{notificacao.endereco}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['notificacao.endereco']}" />
+                    </f:facet>
+                    <h:outputText value="#{notificacao.endereco}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['notificacao.observacao']}" sortBy="#{notificacao.observacao}"
+                    filterBy="#{notificacao.observacao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['notificacao.observacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{notificacao.observacao}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetNotificacaoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailNotificacao" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{notificacao}" target="#{notificacaoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="notificacao.create">
+                        <p:button icon="ui-icon-pencil" outcome="createNotificacao" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{notificacao.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="notificacao.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{notificacaoMB.delete}" >
+                            <f:setPropertyActionListener value="#{notificacao.id}" target="#{notificacaoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{notificacao}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="notificacao.audit">
+                    <x:auditDelete for="#{notificacaoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetNotificacaoDetail" header="#{msg['notificacao.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailNotificacao.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

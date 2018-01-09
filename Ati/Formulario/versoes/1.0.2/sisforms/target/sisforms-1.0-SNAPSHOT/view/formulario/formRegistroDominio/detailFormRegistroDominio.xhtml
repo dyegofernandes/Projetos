@@ -1,0 +1,140 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailFormRegistroDominio" styleClass="uix-form-detail">
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formRegistroDominio.entidade']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formRegistroDominioMB.entity.entidade}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formRegistroDominio.cnpj']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formRegistroDominioMB.entity.cnpj}" styleClass="uix-content-detail" converter="cnpjConverter"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formRegistroDominio.enderecoEntidade']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formRegistroDominioMB.entity.enderecoEntidade}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formRegistroDominio.dominio']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formRegistroDominioMB.entity.dominio}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Status:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formRegistroDominioMB.entity.status.descricao}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Número Contrato:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formRegistroDominioMB.entity.numeroContrato}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Situação:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formRegistroDominioMB.entity.situacao.descricao}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Data Emissão:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formRegistroDominioMB.entity.dataCriacao}" styleClass="uix-content-detail">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Responsável Legal">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formRegistroDominio.responsavelLegal']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formRegistroDominioMB.entity.responsavelLegal}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formRegistroDominio.cpfRespLegal']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formRegistroDominioMB.entity.cpfRespLegal}" styleClass="uix-content-detail" converter="cpfConverter"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formRegistroDominio.rgRespLegal']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formRegistroDominioMB.entity.rgRespLegal}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formRegistroDominio.telefonesRespLegal']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formRegistroDominioMB.entity.telefonesRespLegal}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formRegistroDominio.emailRespLegal']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formRegistroDominioMB.entity.emailRespLegal}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Cargo:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formRegistroDominioMB.entity.cargoRespLegal}" styleClass="uix-content-detail"/>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Responsável Técnico">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formRegistroDominio.responsavelTecnico']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formRegistroDominioMB.entity.responsavelTecnico}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formRegistroDominio.cpfRespTecnico']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formRegistroDominioMB.entity.cpfRespTecnico}" styleClass="uix-content-detail" converter="cpfConverter"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formRegistroDominio.rgRespTecnico']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formRegistroDominioMB.entity.rgRespTecnico}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formRegistroDominio.telefonesRespTecnico']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formRegistroDominioMB.entity.telefonesRespTecnico}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formRegistroDominio.emailRespTecnico']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formRegistroDominioMB.entity.emailRespTecnico}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Cargo:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formRegistroDominioMB.entity.cargoRespTecnico}" styleClass="uix-content-detail"/>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Servidores de DNS do Provedo">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formRegistroDominio.servidorDNS1']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formRegistroDominioMB.entity.servidorDNS1}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formRegistroDominio.servidorDNS2']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formRegistroDominioMB.entity.servidorDNS2}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formRegistroDominio.servidorDNS3']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formRegistroDominioMB.entity.servidorDNS3}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['formRegistroDominio.servidorDNS4']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{formRegistroDominioMB.entity.servidorDNS4}" styleClass="uix-content-detail"/>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetFormRegistroDominioDetail').hide()" />
+            <x:securityArea rolesAllowed="formRegistroDominio.audit">
+                <x:audit for="#{formRegistroDominioMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

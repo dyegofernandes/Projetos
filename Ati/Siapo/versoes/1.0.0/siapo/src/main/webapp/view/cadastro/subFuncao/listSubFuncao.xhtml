@@ -1,0 +1,74 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['subFuncao.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuSubFuncao.xhtml" />
+        <h:form id="formListSubFuncao">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="subFuncao_export" target=":formListSubFuncao:dataTableSubFuncao"
+                                widgetVar="dataTableSubFuncaoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="subFuncao" rowIndexVar="index" id="dataTableSubFuncao" widgetVar="dataTableSubFuncaoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{subFuncaoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{subFuncaoMB.dataModel.paginatorTemplate}"
+                         value="#{subFuncaoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['subFuncao.codigo']}" sortBy="#{subFuncao.codigo}"
+                          filterBy="#{subFuncao.codigo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['subFuncao.codigo']}" />
+                    </f:facet>
+                    <h:outputText value="#{subFuncao.codigo}"/>
+                </p:column>
+                <p:column headerText="#{msg['subFuncao.nome']}" sortBy="#{subFuncao.nome}"
+                          filterBy="#{subFuncao.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['subFuncao.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{subFuncao.nome}"/>
+                </p:column>
+
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetSubFuncaoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailSubFuncao" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{subFuncao}" target="#{subFuncaoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="subFuncao.create">
+                        <p:button icon="ui-icon-pencil" outcome="createSubFuncao" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{subFuncao.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="subFuncao.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{subFuncaoMB.delete}" >
+                            <f:setPropertyActionListener value="#{subFuncao.id}" target="#{subFuncaoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{subFuncao}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="subFuncao.audit">
+                    <x:auditDelete for="#{subFuncaoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetSubFuncaoDetail" header="#{msg['subFuncao.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailSubFuncao.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

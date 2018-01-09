@@ -1,0 +1,52 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateReferencia" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages autoUpdate="true"/>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="codigo" value="* #{msg['referencia.codigo']}:" />
+                        <p:inputMask id="codigo" mask="99/9999" slotChar="" value="#{referenciaMB.entity.codigo}" styleClass="form-control" 
+                                     converter="periodoConverter" disabled="true"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="status" value="* #{msg['referencia.status']}:" />
+                        <h:selectOneMenu id="status" value="#{referenciaMB.entity.status}"  styleClass="form-control" disabled="true">
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.statusReferencia)}" 
+                                           var="statusReferencia"
+                                           itemLabel="#{statusReferencia.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="obs" value="#{msg['referencia.obs']}:" />
+                        <p:inputTextarea id="obs" value="#{referenciaMB.entity.obs}" maxlength="400" rows="10" styleClass="form-control"
+                                         cols="50"/>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="referencia.create">
+                <p:commandButton process="@form" update="@form" action="#{referenciaMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="referencia.audit">
+                <x:audit for="#{referenciaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

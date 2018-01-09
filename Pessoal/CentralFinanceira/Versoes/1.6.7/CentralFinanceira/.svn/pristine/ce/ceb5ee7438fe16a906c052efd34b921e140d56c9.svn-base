@@ -1,0 +1,95 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['representante.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuRepresentante.xhtml" />
+        <h:form id="formListRepresentante">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="representante_export" target=":formListRepresentante:dataTableRepresentante"
+                                     widgetVar="dataTableRepresentanteWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="representante" rowIndexVar="index" id="dataTableRepresentante" widgetVar="dataTableRepresentanteWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{representanteMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{representanteMB.dataModel.paginatorTemplate}"
+                         value="#{representanteMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                
+                <p:column headerText="#{msg['representante.nome']}" sortBy="#{representante.nome}"
+                    filterBy="#{representante.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['representante.cnpjCpf']}" sortBy="#{representante.cnpjCpf}"
+                    filterBy="#{representante.cnpjCpf}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.cnpjCpf']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.cnpjCpf}"/>
+                </p:column>
+                
+                <p:column headerText="#{msg['representante.municipio']}" sortBy="#{representante.municipio}"
+                          filterBy="#{representante.municipio.nome}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.municipio']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.municipio}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+               
+                <p:column headerText="#{msg['representante.fornecedor']}" sortBy="#{representante.fornecedor}"
+                          filterBy="#{representante.fornecedor.nome}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.fornecedor']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.fornecedor}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetRepresentanteDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailRepresentante" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{representante}" target="#{representanteMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="representante.create">
+                        <p:button icon="ui-icon-pencil" outcome="createRepresentante" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{representante.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="representante.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{representanteMB.delete}" >
+                            <f:setPropertyActionListener value="#{representante.id}" target="#{representanteMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{representante}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="representante.audit">
+                    <x:auditDelete for="#{representanteMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetRepresentanteDetail" header="#{msg['representante.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailRepresentante.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

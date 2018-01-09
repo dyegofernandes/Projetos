@@ -1,0 +1,78 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailTransportadora" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['transportadora.empresa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{transportadoraMB.entity.empresa}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['transportadora.nome']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{transportadoraMB.entity.nome}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['transportadora.cnpjCpf']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{transportadoraMB.entity.cnpjCpf}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['transportadora.endereco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{transportadoraMB.entity.endereco}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['transportadora.municipio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{transportadoraMB.entity.municipio}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['transportadora.ie']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{transportadoraMB.entity.ie}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['transportadora.contato']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{transportadoraMB.entity.contato}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['transportadora.fone']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{transportadoraMB.entity.fone}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['transportadora.email']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{transportadoraMB.entity.email}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['transportadora.fornecedor']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{transportadoraMB.entity.fornecedor}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['transportadora.rntc']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{transportadoraMB.entity.rntc}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['transportadora.placa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{transportadoraMB.entity.placa}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['transportadora.ufPlaca']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{transportadoraMB.entity.ufPlaca}" styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetTransportadoraDetail').hide()" />
+            <x:securityArea rolesAllowed="transportadora.audit">
+                <x:audit for="#{transportadoraMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

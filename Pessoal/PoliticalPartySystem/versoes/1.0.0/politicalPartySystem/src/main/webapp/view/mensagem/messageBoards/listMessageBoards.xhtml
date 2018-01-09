@@ -1,0 +1,87 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['messageBoards.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuMessageBoards.xhtml" />
+        <h:form id="formListMessageBoards">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="messageBoards_export" target=":formListMessageBoards:dataTableMessageBoards"
+                                     widgetVar="dataTableMessageBoardsWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="messageBoards" rowIndexVar="index" id="dataTableMessageBoards" widgetVar="dataTableMessageBoardsWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{messageBoardsMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{messageBoardsMB.dataModel.paginatorTemplate}"
+                         value="#{messageBoardsMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['messageBoards.title']}" sortBy="#{messageBoards.title}"
+                    filterBy="#{messageBoards.title}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['messageBoards.title']}" />
+                    </f:facet>
+                    <h:outputText value="#{messageBoards.title}"/>
+                </p:column>
+                <p:column headerText="#{msg['messageBoards.extension']}" sortBy="#{messageBoards.extension}"
+                    filterBy="#{messageBoards.extension}"  filterOptions="#{findAllBean.getSelect(classMB.typeMessageBoard)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['messageBoards.extension']}" />
+                    </f:facet>
+                    <h:outputText value="#{messageBoards.extension}"/>
+                </p:column>
+                <p:column headerText="#{msg['messageBoards.document']}" sortBy="#{messageBoards.document}"
+                    filterBy="#{messageBoards.document}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['messageBoards.document']}" />
+                    </f:facet>
+                    <h:outputText value="#{messageBoards.document}"/>
+                </p:column>
+                <p:column headerText="#{msg['messageBoards.active']}" sortBy="#{messageBoards.active}"
+                    filterBy="#{messageBoards.active}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['messageBoards.active']}" />
+                    </f:facet>
+                    <h:outputText value="#{messageBoards.active}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetMessageBoardsDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailMessageBoards" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{messageBoards}" target="#{messageBoardsMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="messageBoards.create">
+                        <p:button icon="ui-icon-pencil" outcome="createMessageBoards" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{messageBoards.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="messageBoards.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{messageBoardsMB.delete}" >
+                            <f:setPropertyActionListener value="#{messageBoards.id}" target="#{messageBoardsMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{messageBoards}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="messageBoards.audit">
+                    <x:auditDelete for="#{messageBoardsMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetMessageBoardsDetail" header="#{msg['messageBoards.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailMessageBoards.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

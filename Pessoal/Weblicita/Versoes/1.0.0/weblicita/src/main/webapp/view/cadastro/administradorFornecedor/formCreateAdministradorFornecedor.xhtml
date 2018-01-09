@@ -1,0 +1,57 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateAdministradorFornecedor" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="fornecedor" value="#{msg['administradorFornecedor.fornecedor']}:" />
+                         <h:selectOneMenu id="fornecedor" value="#{administradorFornecedorMB.entity.fornecedor}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.fornecedor)}" 
+                                            var="fornecedor"
+                                            itemLabel="#{fornecedor}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="nome" value="* #{msg['administradorFornecedor.nome']}:" />
+                         <p:inputText id="nome" value="#{administradorFornecedorMB.entity.nome}" maxlength="200"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="cpf" value="* #{msg['administradorFornecedor.cpf']}:" />
+                         <p:inputText id="cpf" value="#{administradorFornecedorMB.entity.cpf}" maxlength="20"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="tipo" value="* #{msg['administradorFornecedor.tipo']}:" />
+                         <h:selectOneMenu id="tipo" value="#{administradorFornecedorMB.entity.tipo}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.tipoDeSocio)}" 
+                                            var="tipoDeSocio"
+                                            itemLabel="#{tipoDeSocio}"/>
+                         </h:selectOneMenu>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="administradorFornecedor.create">
+                <p:commandButton process="@form" update="@form" action="#{administradorFornecedorMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="administradorFornecedor.audit">
+                <x:audit for="#{administradorFornecedorMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

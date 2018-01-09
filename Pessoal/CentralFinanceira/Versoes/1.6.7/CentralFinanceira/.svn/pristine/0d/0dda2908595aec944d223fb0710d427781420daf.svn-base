@@ -1,0 +1,371 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateGrupoLoja" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:tabView id="tabView">
+
+
+            <p:tab title="Dados Básicos" id="tabDados">
+
+                <h:panelGroup id="panelBasico">
+                    <p:fieldset legend="Dados">      
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="nome" value="* #{msg['grupoLoja.nome']}:" />
+                                    <p:inputText id="nome" value="#{grupoLojaMB.entity.nome}" maxlength="50"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="att" value="#{msg['grupoLoja.att']}:" />
+                                    <p:inputText id="att" value="#{grupoLojaMB.entity.att}" maxlength="30"  styleClass="form-control"  />
+                                </div>
+
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="banco" value="#{msg['grupoLoja.banco']}:" />
+                                    <h:selectOneMenu id="banco" value="#{grupoLojaMB.entity.banco}" converter="entityConverter" styleClass="form-control" >
+                                        <x:initializer/>
+                                        <f:selectItem itemLabel="#{xmsg['select']}" />
+                                        <f:selectItems value="#{findAllBean.get(classMB.banco)}" 
+                                                       var="banco"
+                                                       itemLabel="#{banco}"/>
+                                    </h:selectOneMenu>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="agencia" value="#{msg['grupoLoja.agencia']}:" />
+                                    <p:inputText id="agencia" value="#{grupoLojaMB.entity.agencia}" maxlength="10"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="conta" value="#{msg['grupoLoja.conta']}:" />
+                                    <p:inputText id="conta" value="#{grupoLojaMB.entity.conta}" maxlength="15"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="tipoConta" value="#{msg['grupoLoja.tipoConta']}:" />
+                                    <p:inputText id="tipoConta" value="#{grupoLojaMB.entity.tipoConta}" maxlength="15"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="titular" value="#{msg['grupoLoja.titular']}:" />
+                                    <p:inputText id="titular" value="#{grupoLojaMB.entity.titular}" maxlength="50"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="garantia:input" value="* #{msg['grupoLoja.garantia']}:" />
+                                    <x:inputNumber id="garantia" value="#{grupoLojaMB.entity.garantia}" styleClass="form-control"/>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="iss:input" value="* #{msg['grupoLoja.iss']}:" />
+                                    <x:inputNumber id="iss" value="#{grupoLojaMB.entity.iss}" styleClass="form-control"/>
+                                </div>
+
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="obs" value="#{msg['grupoLoja.obs']}:" />
+                                    <p:inputText id="obs" value="#{grupoLojaMB.entity.obs}" maxlength="255"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="calguia" value="* #{msg['grupoLoja.calguia']}:" />
+                                    <h:selectOneMenu id="calguia" value="#{grupoLojaMB.entity.calguia}" converter="entityConverter" styleClass="form-control" >
+                                        <x:initializer/>
+                                        <f:selectItem itemLabel="#{xmsg['select']}" />
+                                        <f:selectItems value="#{findAllBean.get(classMB.calGuia)}" 
+                                                       var="calGuia"
+                                                       itemLabel="#{calGuia}"/>
+                                    </h:selectOneMenu>
+                                </div>
+
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="proprietario" value="#{msg['grupoLoja.proprietario']}:" />
+                                    <p:inputText id="proprietario" value="#{grupoLojaMB.entity.proprietario}" maxlength="50"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <div class="checkbox">
+                                        <label>
+                                            <h:selectBooleanCheckbox id="juntar" value="#{grupoLojaMB.entity.juntar}" />
+                                            #{msg['grupoLoja.juntar']}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <div class="checkbox">
+                                        <label>
+                                            <h:selectBooleanCheckbox id="naodepositar" value="#{grupoLojaMB.entity.naodepositar}" />
+                                            #{msg['grupoLoja.naodepositar']}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </p:fieldset>
+                    <p:fieldset legend="Titular">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="titular_nascimento" value="#{msg['grupoLoja.titular_nascimento']}:" />
+                                    <p:calendar id="titular_nascimento" value="#{grupoLojaMB.entity.titular_nascimento}" 
+                                                showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                        <x:mask/>
+                                    </p:calendar>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="titular_rg" value="#{msg['grupoLoja.titular_rg']}:" />
+                                    <p:inputText id="titular_rg" value="#{grupoLojaMB.entity.titular_rg}" maxlength="20"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="titular_rgemissor" value="#{msg['grupoLoja.titular_rgemissor']}:" />
+                                    <p:inputText id="titular_rgemissor" value="#{grupoLojaMB.entity.titular_rgemissor}" maxlength="20"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="titular_cpf" value="#{msg['grupoLoja.titular_cpf']}:" />
+                                    <x:cpf id="titular_cpf" value="#{grupoLojaMB.entity.titular_cpf}" styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="titular_email" value="#{msg['grupoLoja.titular_email']}:" />
+                                    <p:inputText id="titular_email" value="#{grupoLojaMB.entity.titular_email}" maxlength="100"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="titular_email2" value="#{msg['grupoLoja.titular_email2']}:" />
+                                    <p:inputText id="titular_email2" value="#{grupoLojaMB.entity.titular_email2}" maxlength="100"  styleClass="form-control"  />
+                                </div>
+                            </div>
+                        </div>
+                    </p:fieldset>
+                </h:panelGroup>
+            </p:tab> 
+
+
+            <p:tab title="Lojas" id="tabLojas">
+                <h:panelGroup id="panelLojas">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+
+                                <h:outputLabel value="* #{msg['fatosBoletos.loja']}:"/>
+
+                                <p:autoComplete value="#{grupoLojaMB.lojaAdd}" requiredMessage="O campo Loja é Obrigatório!"
+
+                                                completeMethod="#{lojaMB.consultarLojaSemGrupo}" styleClass="uix-autocomplete" 
+
+                                                minQueryLength="1" forceSelection="true"
+
+                                                var="p" itemLabel="#{p.nome}" itemValue="#{p}" converter="entityConverter"> 
+                                    <x:initializer/>
+                                    <p:column> 
+
+                                        <h:outputText value="#{p.id} - #{p.nome}"/>
+
+                                    </p:column> 
+
+                                </p:autoComplete>
+
+                            </div>
+                        </div>
+
+                        <div class="uix-center">
+                            <p:commandButton value="Adicionar" icon="ui-icon-circle-plus" action="#{grupoLojaMB.addLoja()}" 
+                                             update=":formCreateGrupoLoja:tabView:panelLojas" process=":formCreateGrupoLoja:tabView:panelLojas"/>
+                        </div>
+                        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+                    </div>
+                    <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="loja" rowIndexVar="index" id="dataTableLoja" widgetVar="dataTableLojaWidget" 
+                                 styleClass="table-responsive" value="#{grupoLojaMB.lojas}">
+
+                        <p:column headerText="#{msg['loja.id']}" style="text-align: center;" width="8%" >
+                            <h:outputText value="#{loja.id}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['loja.nome']}" >
+                            <h:outputText value="#{loja.nome}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg['loja.cidade']}" style="text-align: left;" width="15%" >
+                            <h:outputText value="#{loja.cidade}">
+                                <x:initializer/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Tipo Loja" style="text-align: left;" width="8%" >
+                            <h:outputText value="#{loja.tipoLoja}">
+                                <x:initializer/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{msg['loja.ativo']}" filterOptions="#{booleanSelectItensEmptyOption}"  
+                                  style="text-align: center;" width="8%">
+                            <h:outputText value="#{loja.ativo}" converter ="yesNoConverter" />
+                        </p:column>
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>                       
+
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process=":formCreateGrupoLoja:tabView:dataTableLoja" 
+                                             update=":formCreateGrupoLoja:tabView:dataTableLoja" 
+                                             action="#{grupoLojaMB.removerLoja(loja)}" >
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{loja}" />
+                            </p:commandButton>
+
+                        </p:column>
+
+                    </p:dataTable>
+
+                </h:panelGroup>
+            </p:tab>
+
+            <p:tab title="Ajustes" id="tabCredito">
+                <h:panelGroup id="panelCD">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomeCD" value="* Nome:" />
+                                <p:inputText id="nomeCD" value="#{grupoLojaMB.nome}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="valorCD" value="* Valor:" />
+                                <x:inputNumber id="valorCD" value="#{grupoLojaMB.valor}" styleClass="form-control"/>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="tipoCD" value="* Tipo:" />
+                                <h:selectOneMenu id="tipoCD" value="#{grupoLojaMB.tipo}"  styleClass="form-control" >
+                                    <f:selectItems value="#{findAllBean.get(classMB.credDeb)}" 
+                                                   var="tipoCD"
+                                                   itemLabel="#{tipoCD.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                        </div>
+
+
+                        <div class="uix-center">
+                            <p:commandButton value="Adicionar" icon="ui-icon-circle-plus" action="#{grupoLojaMB.addReceitaDespesa()}" 
+                                             update=":formCreateGrupoLoja:tabView:panelCD" process=":formCreateGrupoLoja:tabView:panelCD"/>
+                        </div>
+                        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+                    </div>
+                    <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="cd" rowIndexVar="index" id="dataTableCDs" widgetVar="dataTableLojaWidget" 
+                                 styleClass="table-responsive" value="#{grupoLojaMB.creditosEdebitos}"
+                                 rowStyleClass="#{cd.tipo.num==1 ? 'old':'azul'}">
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="Nome" >
+                            <h:outputText value="#{cd.descricao}"/>
+                        </p:column>
+                        <p:column headerText="Valor" style="text-align: right;" width="15%">
+                            <f:facet name="header">
+                                <h:outputText value="Valor" />
+                            </f:facet>
+                            <h:outputText value="#{cd.valor}" >
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>
+                            <f:facet name="footer">
+                                <h:outputText value="#{grupoLojaMB.totalCD()}" style="#{grupoLojaMB.totalCD() eq 0 ? '' : (grupoLojaMB.totalCD() lt 0 ? 'color: red' : 'color: blue')}; font-weight:bold">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                            </f:facet>
+                        </p:column>    
+                        <p:column headerText="Tipo" style="text-align: center;" width="15%">
+                            <f:facet name="header">
+                                <h:outputText value="Tipo" />
+                            </f:facet>
+                            <h:outputText value="#{cd.tipo.descricao}"/>
+                        </p:column>
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>                       
+
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process=":formCreateGrupoLoja:tabView:dataTableCDs" 
+                                             update=":formCreateGrupoLoja:tabView:dataTableCDs" 
+                                             action="#{grupoLojaMB.removerReceitaDespesa(cd)}" >
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{cd.descricao}" />
+                            </p:commandButton>
+
+                        </p:column>
+
+                    </p:dataTable>
+                </h:panelGroup>
+            </p:tab>
+            <p:tab title="Comissões" id="tabComissoes">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="guias" value="* Guias:" />
+                            <p:inputText id="guias" value="" maxlength="50"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="ops" value="* Ops:" />
+                            <x:inputNumber id="ops" value="" styleClass="form-control"/>
+                        </div>
+                    </div>
+
+                </div>
+                <p:tabView id="tabViewComissoes">
+                    <p:tab title="Exceções de Guias">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="convenioEG" value="* Convenio" />
+                                    <p:inputText id="convenioEG" value="" maxlength="50"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="comissaoEG" value="* Comissao:" />
+                                    <x:inputNumber id="comissaoEG" value="" styleClass="form-control"/>
+                                </div>
+                            </div>
+                            <div class="uix-center">
+                                <p:commandButton value="Adicionar" icon="ui-icon-circle-plus" />
+                            </div>
+                        </div>
+                        <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                     var="eg" rowIndexVar="index" id="dataTableEGs" widgetVar="dataTableEGsWidget" 
+                                     styleClass="table-responsive" value=""
+                                     >
+                            <p:column styleClass="uix-datatable-index">
+                                <h:outputText value="#{index+1}"/>
+                            </p:column>
+                            <p:column headerText="Convenio" >
+                                <h:outputText value=""/>
+                            </p:column>
+                            <p:column headerText="Comissão" >
+                                <h:outputText value=""/>
+                            </p:column>   
+
+                            <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{xmsg['actions']}"/>
+                                </f:facet>                       
+
+
+
+                            </p:column>
+
+                        </p:dataTable>
+                    </p:tab>
+                    <p:tab title="Banco do Brasil">
+
+                    </p:tab>
+                    <p:tab title="Créditos Digitais">
+
+                    </p:tab>
+                    <p:tab title="Recargas">
+
+                    </p:tab>
+                </p:tabView>
+            </p:tab>
+
+        </p:tabView>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="grupoLoja.create">
+                <p:commandButton process="@form" update="@form" action="#{grupoLojaMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="grupoLoja.audit">
+                <x:audit for="#{grupoLojaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,143 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateLancamentos" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="empresa" value="* #{msg['lancamentos.empresa']}:" />
+                         <h:selectOneMenu id="empresa" value="#{lancamentosMB.entity.empresa}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.empresa)}" 
+                                            var="empresa"
+                                            itemLabel="#{empresa}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="data" value="* #{msg['lancamentos.data']}:" />
+                         <p:calendar id="data" value="#{lancamentosMB.entity.data}" 
+                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                             <x:mask/>
+                         </p:calendar>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="estabelecimento" value="* #{msg['lancamentos.estabelecimento']}:" />
+                         <h:selectOneMenu id="estabelecimento" value="#{lancamentosMB.entity.estabelecimento}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.estabelecimento)}" 
+                                            var="estabelecimento"
+                                            itemLabel="#{estabelecimento}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="sequencial" value="* #{msg['lancamentos.sequencial']}:" />
+                         <p:inputMask id="sequencial" mask="9?999999999" placeHolder="" value="#{lancamentosMB.entity.sequencial}" styleClass="form-control" />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="contaFinanceira" value="* #{msg['lancamentos.contaFinanceira']}:" />
+                         <h:selectOneMenu id="contaFinanceira" value="#{lancamentosMB.entity.contaFinanceira}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.contaFinanceira)}" 
+                                            var="contaFinanceira"
+                                            itemLabel="#{contaFinanceira}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="centroResultado" value="#{msg['lancamentos.centroResultado']}:" />
+                         <h:selectOneMenu id="centroResultado" value="#{lancamentosMB.entity.centroResultado}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.centroResultados)}" 
+                                            var="centroResultados"
+                                            itemLabel="#{centroResultados}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="receitaDespesa" value="#{msg['lancamentos.receitaDespesa']}:" />
+                         <h:selectOneMenu id="receitaDespesa" value="#{lancamentosMB.entity.receitaDespesa}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.receitaDespesa)}" 
+                                            var="receitaDespesa"
+                                            itemLabel="#{receitaDespesa}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="historicoPadrao" value="#{msg['lancamentos.historicoPadrao']}:" />
+                         <h:selectOneMenu id="historicoPadrao" value="#{lancamentosMB.entity.historicoPadrao}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.historicoPadrao)}" 
+                                            var="historicoPadrao"
+                                            itemLabel="#{historicoPadrao}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="valor:input" value="* #{msg['lancamentos.valor']}:" />
+                         <x:inputNumber id="valor" value="#{lancamentosMB.entity.valor}" styleClass="form-control"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="natureza" value="#{msg['lancamentos.natureza']}:" />
+                         <h:selectOneMenu id="natureza" value="#{lancamentosMB.entity.natureza}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.naturezaDespesa)}" 
+                                            var="naturezaDespesa"
+                                            itemLabel="#{naturezaDespesa}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="origem" value="* #{msg['lancamentos.origem']}:" />
+                         <h:selectOneMenu id="origem" value="#{lancamentosMB.entity.origem}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.origemLancamento)}" 
+                                            var="origemLancamento"
+                                            itemLabel="#{origemLancamento}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="historico" value="#{msg['lancamentos.historico']}:" />
+                         <p:inputText id="historico" value="#{lancamentosMB.entity.historico}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <div class="checkbox">
+                             <label>
+                                 <h:selectBooleanCheckbox id="exportarAC" value="#{lancamentosMB.entity.exportarAC}" />
+                                 #{msg['lancamentos.exportarAC']}
+                             </label>
+                         </div>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <div class="checkbox">
+                             <label>
+                                 <h:selectBooleanCheckbox id="jaExportado" value="#{lancamentosMB.entity.jaExportado}" />
+                                 #{msg['lancamentos.jaExportado']}
+                             </label>
+                         </div>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="lancamentos.create">
+                <p:commandButton process="@form" update="@form" action="#{lancamentosMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="lancamentos.audit">
+                <x:audit for="#{lancamentosMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

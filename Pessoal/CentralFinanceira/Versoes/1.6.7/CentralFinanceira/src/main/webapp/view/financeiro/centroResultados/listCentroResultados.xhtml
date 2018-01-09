@@ -1,0 +1,98 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['centroResultados.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuCentroResultados.xhtml" />
+        <h:form id="formListCentroResultados">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="centroResultados_export" target=":formListCentroResultados:dataTableCentroResultados"
+                                     widgetVar="dataTableCentroResultadosWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="centroResultados" rowIndexVar="index" id="dataTableCentroResultados" widgetVar="dataTableCentroResultadosWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{centroResultadosMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{centroResultadosMB.dataModel.paginatorTemplate}"
+                         value="#{centroResultadosMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="Código" sortBy="#{centroResultados.nome}"
+                    filterBy="#{centroResultados.id}" style="text-align: right;" >
+                    <f:facet name="header">
+                        <h:outputText value="Código" />
+                    </f:facet>
+                    <h:outputText value="#{centroResultados.id}"/>
+                </p:column>
+                <p:column headerText="#{msg['centroResultados.nome']}" sortBy="#{centroResultados.nome}"
+                    filterBy="#{centroResultados.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['centroResultados.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{centroResultados.nome}"/>
+                </p:column>
+                <p:column headerText="Código mãe" sortBy="#{centroResultados.centroResultadoMae.id}"
+                          filterBy="#{centroResultados.centroResultadoMae.id}" style="text-align: right;" >
+                    <f:facet name="header">
+                        <h:outputText value="Código mãe" />
+                    </f:facet>
+                    <h:outputText value="#{centroResultados.centroResultadoMae.id}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Nome mãe" sortBy="#{centroResultados.centroResultadoMae.nome}"
+                       filterBy="#{centroResultados.centroResultadoMae.nome}"  >
+                    <f:facet name="header">
+                        <h:outputText value="Nome mãe" />
+                    </f:facet>
+                    <h:outputText value="#{centroResultados.centroResultadoMae.nome}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['centroResultados.inativo']}" sortBy="#{centroResultados.inativo}"
+                    filterBy="#{centroResultados.inativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['centroResultados.inativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{centroResultados.inativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetCentroResultadosDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailCentroResultados" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{centroResultados}" target="#{centroResultadosMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="centroResultados.create">
+                        <p:button icon="ui-icon-pencil" outcome="createCentroResultados" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{centroResultados.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="centroResultados.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{centroResultadosMB.delete}" >
+                            <f:setPropertyActionListener value="#{centroResultados.id}" target="#{centroResultadosMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{centroResultados}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="centroResultados.audit">
+                    <x:auditDelete for="#{centroResultadosMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetCentroResultadosDetail" header="#{msg['centroResultados.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailCentroResultados.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

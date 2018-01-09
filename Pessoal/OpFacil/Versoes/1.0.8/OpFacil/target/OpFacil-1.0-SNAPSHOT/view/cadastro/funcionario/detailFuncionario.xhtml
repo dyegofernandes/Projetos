@@ -1,0 +1,74 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailFuncionario" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['funcionario.empresa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{funcionarioMB.entity.empresa}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['funcionario.nome']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{funcionarioMB.entity.nome}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['funcionario.cpf']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{funcionarioMB.entity.cpf}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['funcionario.rg']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{funcionarioMB.entity.rg}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['funcionario.rgEmissor']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{funcionarioMB.entity.rgEmissor}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['funcionario.endereco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{funcionarioMB.entity.endereco}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['funcionario.cep']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{funcionarioMB.entity.cep}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['funcionario.telefone']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{funcionarioMB.entity.telefone}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['funcionario.celular']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{funcionarioMB.entity.celular}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['funcionario.nascimento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{funcionarioMB.entity.nascimento}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['funcionario.salario']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{funcionarioMB.entity.salario}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['funcionario.funcao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{funcionarioMB.entity.funcao}" styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetFuncionarioDetail').hide()" />
+            <x:securityArea rolesAllowed="funcionario.audit">
+                <x:audit for="#{funcionarioMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

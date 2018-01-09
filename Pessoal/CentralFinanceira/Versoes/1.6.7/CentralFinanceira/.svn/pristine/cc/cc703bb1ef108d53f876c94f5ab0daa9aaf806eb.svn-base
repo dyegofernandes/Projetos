@@ -1,0 +1,61 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:define name="body">
+
+        <h:form  id="formDiaDia">
+            <p:fieldset legend="Filtros de Busca" toggleable="true" toggleSpeed="500">
+                <x:modalMessages/>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
+
+                            <p:outputLabel for="menus" value="Recebimento: " />
+                            <p:selectOneMenu id="menus" value="#{diaADiaMB.menu}" styleClass="form-control" >
+                                <f:selectItem itemLabel="Todos"/>
+
+                                <f:selectItems value="#{diaADiaMB.menus}" />
+                            </p:selectOneMenu>
+
+                        </div>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="Periodo:"/>
+                            <p:inputMask mask="99/9999" value="#{diaADiaMB.periodo}" styleClass="form-control">
+                                <p:ajax event="blur" process="@this" update=":formDiaDia:recimentosTable" listener="#{diaADiaMB.updateColumns}"/>
+                            </p:inputMask>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="Lojas:"/>
+                            <p:pickList id="pickListLoja" value="#{diaADiaMB.lojas}" var="loja" itemLabel="#{loja}" itemValue="#{loja}">
+
+                            </p:pickList>
+                        </div>
+                    </div>
+                </div>
+            </p:fieldset>
+
+            <p:fieldset legend="Resultado da Busca">
+                <p:dataTable id="recimentosTable" var="recebimento" widgetVar="widgeRecimentosTable" value="#{diaADiaMB.recebimentos}" emptyMessage="#{xmsg['noRecordFound']}"
+                             scrollable="true" scrollWidth="58%" scrollHeight="100%" filteredValue="#{diaADiaMB.recebimentosFilter}" lazy="false"
+                             paginator="true" rows="12" rowsPerPageTemplate="12,24,36" paginatorPosition="bottom" styleClass="table-responsive"
+                             resizableColumns="true" liveResize="true">                    
+                    <p:columns value="#{diaADiaMB.columns}" var="column" columnIndexVar="colIndex"
+                              sortBy="#{recebimento[column.property]}" filterBy="#{recebimento[column.property]}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{column.header}" />
+                        </f:facet>
+                        <h:outputText value="#{recebimento[column.property]}" />
+                    </p:columns>
+                </p:dataTable>
+            </p:fieldset>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

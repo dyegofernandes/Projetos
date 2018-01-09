@@ -1,0 +1,125 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateAgenteCobrador" >
+        <x:modalMessages/>
+
+        <p:fieldset legend="#{xmsg['generalData']}" toggleable="true" toggleSpeed="500">
+
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="* #{msg['agenteCobrador.nome']}:" />
+                        <p:inputText id="nome" value="#{agenteCobradorMB.entity.nome}" maxlength="40"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="contaFinanceira" value="#{msg['agenteCobrador.contaFinanceira']}:" />
+                        <h:selectOneMenu id="contaFinanceira" value="#{agenteCobradorMB.entity.contaFinanceira}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.contaFinanceira)}" 
+                                           var="contaFinanceira"
+                                           itemLabel="#{contaFinanceira}"/>
+                            <p:ajax update="panelConta" process="@this" listener="#{agenteCobradorMB.setarConta}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="banco" value="#{msg['agenteCobrador.banco']}:" />
+                        <h:selectOneMenu id="banco" value="#{agenteCobradorMB.entity.banco}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.banco)}" 
+                                           var="banco"
+                                           itemLabel="#{banco}"/>
+                        </h:selectOneMenu>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <h:panelGroup id="panelConta">
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="prefAg" value="#{msg['agenteCobrador.prefAg']}:" />
+                            <p:inputText id="prefAg" value="#{agenteCobradorMB.entity.prefAg}" maxlength="4"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dVPrefAg" value="#{msg['agenteCobrador.dVPrefAg']}:" />
+                            <p:inputText id="dVPrefAg" value="#{agenteCobradorMB.entity.dVPrefAg}" maxlength="1"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="conta" value="#{msg['agenteCobrador.conta']}:" />
+                            <p:inputText id="conta" value="#{agenteCobradorMB.entity.conta}" maxlength="12"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dvConta" value="#{msg['agenteCobrador.dvConta']}:" />
+                            <p:inputText id="dvConta" value="#{agenteCobradorMB.entity.dvConta}" maxlength="2"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="convenio" value="Convenio/Cód. Cedente:" />
+                            <p:inputText id="convenio" value="#{agenteCobradorMB.entity.convenio}" maxlength="20"  styleClass="form-control"  />
+                        </div>
+                    </h:panelGroup>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="bloqueteInico" value="Último Bloquete impresso:" />
+                        <p:inputText id="bloqueteInico" value="#{agenteCobradorMB.entity.bloqueteInico}" maxlength="20"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="bloqueteFim" value="Bloquete Final:" />
+                        <p:inputText id="bloqueteFim" value="#{agenteCobradorMB.entity.bloqueteFim}" maxlength="20"  styleClass="form-control"  />
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="sequencialRemessa" value="Seq. Últ. Remessa:" />
+                        <p:inputMask id="sequencialRemessa" mask="9?999999999" placeHolder="" value="#{agenteCobradorMB.entity.sequencialRemessa}" styleClass="form-control" />
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+
+        <p:fieldset legend="Informações para envio de arquivo" toggleable="true" toggleSpeed="500">    
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="instrucao1" value="#{msg['agenteCobrador.instrucao1']}:" />
+                        <h:selectOneMenu id="instrucao1" value="#{agenteCobradorMB.entity.instrucao1}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.instrucaoCobranca)}" 
+                                           var="instrucaoCobranca"
+                                           itemLabel="#{instrucaoCobranca}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="instrucao2" value="#{msg['agenteCobrador.instrucao2']}:" />
+                        <h:selectOneMenu id="instrucao2" value="#{agenteCobradorMB.entity.instrucao2}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.instrucaoCobranca)}" 
+                                           var="instrucaoCobranca"
+                                           itemLabel="#{instrucaoCobranca}"/>
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="agenteCobrador.create">
+                <p:commandButton process="@form" update="@form" action="#{agenteCobradorMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="agenteCobrador.audit">
+                <x:audit for="#{agenteCobradorMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

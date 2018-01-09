@@ -1,0 +1,36 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailTabelaDeComissao" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['tabelaDeComissao.empresa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{tabelaDeComissaoMB.entity.empresa}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['tabelaDeComissao.nome']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{tabelaDeComissaoMB.entity.nome}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['tabelaDeComissao.percentualFixeo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{tabelaDeComissaoMB.entity.percentualFixeo}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetTabelaDeComissaoDetail').hide()" />
+            <x:securityArea rolesAllowed="tabelaDeComissao.audit">
+                <x:audit for="#{tabelaDeComissaoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

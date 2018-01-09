@@ -1,0 +1,76 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['tabelaDeComissao.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuTabelaDeComissao.xhtml" />
+        <h:form id="formListTabelaDeComissao">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="tabelaDeComissao_export" target=":formListTabelaDeComissao:dataTableTabelaDeComissao"
+                                     widgetVar="dataTableTabelaDeComissaoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="tabelaDeComissao" rowIndexVar="index" id="dataTableTabelaDeComissao" widgetVar="dataTableTabelaDeComissaoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{tabelaDeComissaoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{tabelaDeComissaoMB.dataModel.paginatorTemplate}"
+                         value="#{tabelaDeComissaoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                
+                <p:column headerText="#{msg['tabelaDeComissao.nome']}" sortBy="#{tabelaDeComissao.nome}"
+                    filterBy="#{tabelaDeComissao.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['tabelaDeComissao.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{tabelaDeComissao.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['tabelaDeComissao.percentualFixeo']}" sortBy="#{tabelaDeComissao.percentualFixeo}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['tabelaDeComissao.percentualFixeo']}" />
+                    </f:facet>
+                    <h:outputText value="#{tabelaDeComissao.percentualFixeo}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetTabelaDeComissaoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailTabelaDeComissao" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{tabelaDeComissao}" target="#{tabelaDeComissaoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="tabelaDeComissao.create">
+                        <p:button icon="ui-icon-pencil" outcome="createTabelaDeComissao" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{tabelaDeComissao.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="tabelaDeComissao.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{tabelaDeComissaoMB.delete}" >
+                            <f:setPropertyActionListener value="#{tabelaDeComissao.id}" target="#{tabelaDeComissaoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{tabelaDeComissao}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="tabelaDeComissao.audit">
+                    <x:auditDelete for="#{tabelaDeComissaoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetTabelaDeComissaoDetail" header="#{msg['tabelaDeComissao.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailTabelaDeComissao.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,80 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailConvenio" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['convenio.cpfCnpj']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{convenioMB.entity.cpfCnpj}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['convenio.razaoSocial']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{convenioMB.entity.razaoSocial}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['convenio.fantasia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{convenioMB.entity.fantasia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['convenio.nomePos']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{convenioMB.entity.nomePos}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['convenio.incest']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{convenioMB.entity.incest}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['convenio.endereco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{convenioMB.entity.endereco}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['convenio.bairro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{convenioMB.entity.bairro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['convenio.cep']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{convenioMB.entity.cep}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['convenio.cidade']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{convenioMB.entity.cidade}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['convenio.email']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{convenioMB.entity.email}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['convenio.fones']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{convenioMB.entity.fones}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['convenio.ipCadastro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{convenioMB.entity.ipCadastro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['convenio.cadastro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{convenioMB.entity.cadastro}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['convenio.ativo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{convenioMB.entity.ativo}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetConvenioDetail').hide()" />
+            <x:securityArea rolesAllowed="convenio.audit">
+                <x:audit for="#{convenioMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

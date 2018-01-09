@@ -1,0 +1,1548 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.com.jsoft.centralfinanceira.mb.regente;
+
+import br.com.jsoft.centralfinanceira.bo.central.LojaBO;
+import br.com.jsoft.centralfinanceira.modelo.auxiliar.ColumnModel;
+import br.com.jsoft.centralfinanceira.modelo.cadastroBasicos.Loja;
+import br.com.jsoft.centralfinanceira.modelo.cadastroBasicos.TipoLoja;
+import br.com.jsoft.centralfinanceira.modelo.enums.Ativo;
+import br.com.jsoft.centralfinanceira.vo.DiaDiaVO;
+import com.xpert.faces.utils.FacesMessageUtils;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.model.SelectItem;
+import javax.faces.model.SelectItemGroup;
+import org.primefaces.component.tabview.TabView;
+import org.primefaces.event.TabChangeEvent;
+
+/**
+ *
+ * @author Juniel
+ */
+@ManagedBean
+@ViewScoped
+public class DiaADiaMB implements Serializable {
+
+    @EJB
+    private LojaBO lojaBO;
+
+    private String menu;
+
+    private String periodo;
+
+    String menuTemp;
+
+    String periodoTemp;
+
+    private String codNome;
+
+    private Ativo ativo;
+
+    private TipoLoja tipoLoja;
+
+    private TabView tabView;
+
+    private List<SelectItem> menus;
+
+    List<Loja> lojas;
+
+    List<Loja> lojasSelecionadas;
+
+    List<Loja> lojasSelecionadasTemp;
+
+    private String columnTemplate = "pos loja";
+
+    private List<ColumnModel> columns;
+
+    private List<DiaDiaVO> recebimentos;
+
+    private List<DiaDiaVO> recebimentosFilter;
+
+    private int tabAtual;
+
+    @PostConstruct
+    public void init() {
+
+        SelectItemGroup g1 = new SelectItemGroup("Boletos");
+        g1.setSelectItems(new SelectItem[]{new SelectItem("Boletos - Todos", "Boletos - Todos"), new SelectItem("Próprias", "Próprias"), new SelectItem("Site", "Site"),
+            new SelectItem("Banco do Brasil", "Banco do Brasil"), new SelectItem("Banco Popular", "Banco Popular")});
+
+        SelectItemGroup g2 = new SelectItemGroup("Crédito e Recarga");
+        g2.setSelectItems(new SelectItem[]{new SelectItem("Crédito e Recarga - Todos", "Crédito e Recarga - Todos"), new SelectItem("Crédito", "Crédito"), new SelectItem("Recarga", "Recarga")});
+
+        SelectItemGroup g3 = new SelectItemGroup("Vale Gás");
+        g3.setSelectItems(new SelectItem[]{new SelectItem("Vale Gás - Todos")});
+
+        SelectItemGroup g4 = new SelectItemGroup("Op");
+        g4.setSelectItems(new SelectItem[]{new SelectItem("Op - Todos")});
+
+        menus = new ArrayList<SelectItem>();
+        menus.add(g1);
+        menus.add(g2);
+        menus.add(g3);
+        menus.add(g4);
+
+        menu = "";
+
+        periodo = "";
+
+        menuTemp = "";
+
+        periodoTemp = "";
+
+        lojas = lojaBO.listarLoja(codNome, tipoLoja, Ativo.SIM);
+
+        recebimentos = new ArrayList<DiaDiaVO>();
+    }
+
+    public String getMenu() {
+        return menu;
+    }
+
+    public void setMenu(String menu) {
+        this.menu = menu;
+    }
+
+    public List<SelectItem> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(List<SelectItem> menus) {
+        this.menus = menus;
+    }
+
+    public String getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(String periodo) {
+        this.periodo = periodo;
+    }
+
+    public String getColumnTemplate() {
+        return columnTemplate;
+    }
+
+    public void setColumnTemplate(String columnTemplate) {
+        this.columnTemplate = columnTemplate;
+    }
+
+    public List<ColumnModel> getColumns() {
+        return columns;
+    }
+
+    public void setColumns(List<ColumnModel> columns) {
+        this.columns = columns;
+    }
+
+    public List<DiaDiaVO> getRecebimentos() {
+        return recebimentos;
+    }
+
+    public void setRecebimentos(List<DiaDiaVO> recebimentos) {
+        this.recebimentos = recebimentos;
+    }
+
+    public List<DiaDiaVO> getRecebimentosFilter() {
+        return recebimentosFilter;
+    }
+
+    public void setRecebimentosFilter(List<DiaDiaVO> recebimentosFilter) {
+        this.recebimentosFilter = recebimentosFilter;
+    }
+
+    public List<Loja> getLojas() {
+        return lojas;
+    }
+
+    public void setLojas(List<Loja> lojas) {
+        this.lojas = lojas;
+    }
+
+    public TabView getTabView() {
+        return tabView;
+    }
+
+    public void setTabView(TabView tabView) {
+        this.tabView = tabView;
+    }
+
+    public List<Loja> getLojasSelecionadas() {
+        return lojasSelecionadas;
+    }
+
+    public void setLojasSelecionadas(List<Loja> lojasSelecionadas) {
+        this.lojasSelecionadas = lojasSelecionadas;
+    }
+
+    public String getCodNome() {
+        return codNome;
+    }
+
+    public void setCodNome(String codNome) {
+        this.codNome = codNome;
+    }
+
+    public Ativo getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Ativo ativo) {
+        this.ativo = ativo;
+    }
+
+    public TipoLoja getTipoLoja() {
+        return tipoLoja;
+    }
+
+    public void setTipoLoja(TipoLoja tipoLoja) {
+        this.tipoLoja = tipoLoja;
+    }
+
+    public int getTabAtual() {
+        return tabAtual;
+    }
+
+    public void setTabAtual(int tabAtual) {
+        this.tabAtual = tabAtual;
+    }
+
+    private int getUltimoDiaMes() {
+        Calendar c = Calendar.getInstance();
+        String[] temp;
+        int mes, ano;
+
+        if (periodo == null || periodo.equals("")) {
+            c.setTime(new Date());
+            mes = c.get(Calendar.MONTH);
+            ano = c.get(Calendar.YEAR);
+        } else {
+            temp = periodo.split("/");
+            mes = Integer.parseInt(temp[0]);
+            ano = Integer.parseInt(temp[1]);
+            c.set(Calendar.MONTH, mes - 1);
+            c.set(Calendar.YEAR, ano);
+        }
+
+        int ultimodia = c.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        return ultimodia;
+    }
+
+    private void quantidadeColunas() {
+        for (int i = 1; i < getUltimoDiaMes() + 1; i++) {
+            columnTemplate = columnTemplate.concat(" ").concat("dia_" + inserirCaractere(i + "", 2));
+        }
+        columnTemplate = columnTemplate.concat("valorTotal total");
+    }
+
+    private String inserirCaractere(String input, int width) {
+
+        char ch = '0';
+
+        String strPad = "";
+
+        StringBuilder sb = new StringBuilder(input.trim());
+
+        while (sb.length() < width) {
+            sb.insert(0, ch);
+        }
+        strPad = sb.toString();
+
+        if (strPad.length() > width) {
+
+            strPad = strPad.substring(0, width);
+        }
+
+        return strPad;
+    }
+
+    public void buscar() {
+
+        menuTemp = menuTemp != null ? menuTemp : "";
+        periodoTemp = periodoTemp != null ? periodoTemp : "";
+        menu = menu == null ? "" : menu;
+        periodo = periodo == null ? "" : periodo;
+        lojasSelecionadasTemp = lojasSelecionadasTemp != null ? lojasSelecionadasTemp : new ArrayList<Loja>();
+        lojasSelecionadas = lojasSelecionadas != null ? lojasSelecionadas : new ArrayList<Loja>();
+
+        if (!menuTemp.equals(menu) || !periodoTemp.equals(periodo) || !lojasSelecionadas.equals(lojasSelecionadasTemp)) {
+
+            Calendar c = Calendar.getInstance();
+            c.setTime(new Date());
+            int mes, mesAtual = c.get(Calendar.MONTH) + 1;
+            int ano, anoAtual = c.get(Calendar.YEAR);
+            if (periodo != null) {
+                if (!periodo.equals("")) {
+                    String[] temp = periodo.split("/");
+                    mes = Integer.parseInt(temp[0]);
+                    ano = Integer.parseInt(temp[1]);
+
+                    if (!(mes >= 1 && mes <= 12)) {
+                        FacesMessageUtils.error("O mes do perído deve está no intervalo de 01 a 12!");
+                    } else {
+                        if (ano > anoAtual) {
+                            FacesMessageUtils.error("O ano do período não dever ser maior que o ano atual!");
+                        } else {
+                            recebimentos = lojaBO.listaRecebimentoLoja(lojasSelecionadas, periodo, menu);
+                        }
+                    }
+                } else {
+                    recebimentos = lojaBO.listaRecebimentoLoja(lojasSelecionadas, periodo, menu);
+                }
+
+            } else {
+                recebimentos = lojaBO.listaRecebimentoLoja(lojasSelecionadas, periodo, menu);
+            }
+        }
+        menuTemp = menu;
+        periodoTemp = periodo;
+        lojasSelecionadasTemp = lojasSelecionadas;
+    }
+
+    public void buscarLoja() {
+        lojas = lojaBO.listarLoja(codNome, tipoLoja, ativo);
+        lojasSelecionadas = lojas;
+    }
+
+    public void onTabChange(TabChangeEvent event) {
+        System.out.format("tab selecionada: %s%n", event.getTab().getId());
+    }
+
+    public void setTab1() {
+        tabAtual = 1;
+    }
+
+    public void setTab2() {
+        tabAtual = 2;
+    }
+
+    public BigDecimal totalDia01() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_01() != null) {
+                valor = valor.add(dia.getDia_01());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia02() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_02() != null) {
+                valor = valor.add(dia.getDia_02());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia03() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_03() != null) {
+                valor = valor.add(dia.getDia_03());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia04() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_04() != null) {
+                valor = valor.add(dia.getDia_04());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia05() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_05() != null) {
+                valor = valor.add(dia.getDia_05());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia06() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_06() != null) {
+                valor = valor.add(dia.getDia_06());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia07() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_07() != null) {
+                valor = valor.add(dia.getDia_07());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia08() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_08() != null) {
+                valor = valor.add(dia.getDia_08());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia09() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_09() != null) {
+                valor = valor.add(dia.getDia_09());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia10() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_10() != null) {
+                valor = valor.add(dia.getDia_10());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia11() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_11() != null) {
+                valor = valor.add(dia.getDia_11());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia12() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_12() != null) {
+                valor = valor.add(dia.getDia_12());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia13() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_13() != null) {
+                valor = valor.add(dia.getDia_13());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia14() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_14() != null) {
+                valor = valor.add(dia.getDia_14());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia15() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_15() != null) {
+                valor = valor.add(dia.getDia_15());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia16() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_16() != null) {
+                valor = valor.add(dia.getDia_16());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia17() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_17() != null) {
+                valor = valor.add(dia.getDia_17());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia18() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_18() != null) {
+                valor = valor.add(dia.getDia_18());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia19() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_19() != null) {
+                valor = valor.add(dia.getDia_19());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia20() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_20() != null) {
+                valor = valor.add(dia.getDia_20());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia21() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_21() != null) {
+                valor = valor.add(dia.getDia_21());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia22() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_22() != null) {
+                valor = valor.add(dia.getDia_22());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia23() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_23() != null) {
+                valor = valor.add(dia.getDia_23());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia24() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_24() != null) {
+                valor = valor.add(dia.getDia_24());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia25() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_25() != null) {
+                valor = valor.add(dia.getDia_25());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia26() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_26() != null) {
+                valor = valor.add(dia.getDia_26());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia27() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_27() != null) {
+                valor = valor.add(dia.getDia_27());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia28() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_28() != null) {
+                valor = valor.add(dia.getDia_28());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia29() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_29() != null) {
+                valor = valor.add(dia.getDia_29());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia30() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_30() != null) {
+                valor = valor.add(dia.getDia_30());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalDia31() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getDia_31() != null) {
+                valor = valor.add(dia.getDia_31());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalQtd() {
+        BigDecimal valor = BigDecimal.ZERO;
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getTotal() != null) {
+                valor = valor.add(dia.getTotal());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalValorDia01() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV01() != null) {
+                valor = valor.add(dia.getV01());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia02() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV02() != null) {
+                valor = valor.add(dia.getV02());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia03() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV03() != null) {
+                valor = valor.add(dia.getV03());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia04() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV04() != null) {
+                valor = valor.add(dia.getV04());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia05() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV05() != null) {
+                valor = valor.add(dia.getV05());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia06() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV06() != null) {
+                valor = valor.add(dia.getV06());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia07() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV07() != null) {
+                valor = valor.add(dia.getV07());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia08() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV08() != null) {
+                valor = valor.add(dia.getV08());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia09() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV09() != null) {
+                valor = valor.add(dia.getV09());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia10() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV10() != null) {
+                valor = valor.add(dia.getV10());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia11() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV11() != null) {
+                valor = valor.add(dia.getV11());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia12() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV12() != null) {
+                valor = valor.add(dia.getV12());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia13() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV13() != null) {
+                valor = valor.add(dia.getV13());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia14() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV14() != null) {
+                valor = valor.add(dia.getV14());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia15() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV15() != null) {
+                valor = valor.add(dia.getV15());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia16() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV16() != null) {
+                valor = valor.add(dia.getV16());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia17() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV17() != null) {
+                valor = valor.add(dia.getV17());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia18() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV18() != null) {
+                valor = valor.add(dia.getV18());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia19() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV19() != null) {
+                valor = valor.add(dia.getV19());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia20() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV20() != null) {
+                valor = valor.add(dia.getV20());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia21() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV21() != null) {
+                valor = valor.add(dia.getV21());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia22() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV22() != null) {
+                valor = valor.add(dia.getV22());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia23() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV23() != null) {
+                valor = valor.add(dia.getV23());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia24() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV24() != null) {
+                valor = valor.add(dia.getV24());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia25() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV25() != null) {
+                valor = valor.add(dia.getV25());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia26() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV26() != null) {
+                valor = valor.add(dia.getV26());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia27() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV27() != null) {
+                valor = valor.add(dia.getV27());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia28() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV28() != null) {
+                valor = valor.add(dia.getV28());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia29() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV29() != null) {
+                valor = valor.add(dia.getV29());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia30() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV30() != null) {
+                valor = valor.add(dia.getV30());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorDia31() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getV31() != null) {
+                valor = valor.add(dia.getV31());
+            }
+        }
+
+        return valor;
+    }
+
+    public BigDecimal totalValorTotal() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DiaDiaVO> recebimentosTemp;
+
+        if (recebimentosFilter != null) {
+            recebimentosTemp = recebimentosFilter;
+        } else {
+            recebimentosTemp = recebimentos;
+        }
+
+        for (DiaDiaVO dia : recebimentosTemp) {
+            if (dia.getValorTotal() != null) {
+                valor = valor.add(dia.getValorTotal());
+            }
+        }
+
+        return valor;
+    }
+}

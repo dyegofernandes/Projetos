@@ -1,0 +1,58 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateHistoricoPadrao" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="empresa" value="* #{msg['historicoPadrao.empresa']}:" />
+                         <h:selectOneMenu id="empresa" value="#{historicoPadraoMB.entity.empresa}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.empresa)}" 
+                                            var="empresa"
+                                            itemLabel="#{empresa}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="descricao" value="* #{msg['historicoPadrao.descricao']}:" />
+                         <p:inputText id="descricao" value="#{historicoPadraoMB.entity.descricao}" maxlength="40"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="tipo" value="* #{msg['historicoPadrao.tipo']}:" />
+                         <h:selectOneMenu id="tipo" value="#{historicoPadraoMB.entity.tipo}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.tipoHistorico)}" 
+                                            var="tipoHistorico"
+                                            itemLabel="#{tipoHistorico.descricao}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="historico" value="* #{msg['historicoPadrao.historico']}:" />
+                         <p:inputTextarea id="historico" value="#{historicoPadraoMB.entity.historico}" maxlength="255" rows="10" styleClass="form-control"
+                                             cols="50"/>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="historicoPadrao.create">
+                <p:commandButton process="@form" update="@form" action="#{historicoPadraoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="historicoPadrao.audit">
+                <x:audit for="#{historicoPadraoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

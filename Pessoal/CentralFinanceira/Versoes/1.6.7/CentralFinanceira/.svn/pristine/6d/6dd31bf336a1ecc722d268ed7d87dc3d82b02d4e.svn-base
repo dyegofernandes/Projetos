@@ -1,0 +1,75 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['listaLoja.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuListaLoja.xhtml" />
+        <h:form id="formListListaLoja">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="listaLoja_export" target=":formListListaLoja:dataTableListaLoja"
+                                     widgetVar="dataTableListaLojaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="listaLoja" rowIndexVar="index" id="dataTableListaLoja" widgetVar="dataTableListaLojaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{listaLojaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{listaLojaMB.dataModel.paginatorTemplate}"
+                         value="#{listaLojaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['listaLoja.nome']}" sortBy="#{listaLoja.nome}"
+                    filterBy="#{listaLoja.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['listaLoja.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{listaLoja.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['listaLoja.usuario']}" sortBy="#{listaLoja.usuario}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['listaLoja.usuario']}" />
+                    </f:facet>
+                    <h:outputText value="#{listaLoja.usuario}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetListaLojaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailListaLoja" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{listaLoja}" target="#{listaLojaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="listaLoja.create">
+                        <p:button icon="ui-icon-pencil" outcome="createListaLoja" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{listaLoja.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="listaLoja.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{listaLojaMB.delete}" >
+                            <f:setPropertyActionListener value="#{listaLoja.id}" target="#{listaLojaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{listaLoja}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="listaLoja.audit">
+                    <x:auditDelete for="#{listaLojaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetListaLojaDetail" header="#{msg['listaLoja.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailListaLoja.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

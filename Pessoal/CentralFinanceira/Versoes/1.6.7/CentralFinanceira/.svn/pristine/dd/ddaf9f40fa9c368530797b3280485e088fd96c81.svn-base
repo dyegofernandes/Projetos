@@ -1,0 +1,223 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['agenteCobrador.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuAgenteCobrador.xhtml" />
+        <h:form id="formListAgenteCobrador">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="agenteCobrador_export" target=":formListAgenteCobrador:dataTableAgenteCobrador"
+                                     widgetVar="dataTableAgenteCobradorWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="agenteCobrador" rowIndexVar="index" id="dataTableAgenteCobrador" widgetVar="dataTableAgenteCobradorWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{agenteCobradorMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{agenteCobradorMB.dataModel.paginatorTemplate}"
+                         value="#{agenteCobradorMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['agenteCobrador.empresa']}" sortBy="#{agenteCobrador.empresa}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agenteCobrador.empresa']}" />
+                    </f:facet>
+                    <h:outputText value="#{agenteCobrador.empresa}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['agenteCobrador.nome']}" sortBy="#{agenteCobrador.nome}"
+                    filterBy="#{agenteCobrador.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agenteCobrador.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{agenteCobrador.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['agenteCobrador.banco']}" sortBy="#{agenteCobrador.banco}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agenteCobrador.banco']}" />
+                    </f:facet>
+                    <h:outputText value="#{agenteCobrador.banco}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['agenteCobrador.prefAg']}" sortBy="#{agenteCobrador.prefAg}"
+                    filterBy="#{agenteCobrador.prefAg}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agenteCobrador.prefAg']}" />
+                    </f:facet>
+                    <h:outputText value="#{agenteCobrador.prefAg}"/>
+                </p:column>
+                <p:column headerText="#{msg['agenteCobrador.dVPrefAg']}" sortBy="#{agenteCobrador.dVPrefAg}"
+                    filterBy="#{agenteCobrador.dVPrefAg}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agenteCobrador.dVPrefAg']}" />
+                    </f:facet>
+                    <h:outputText value="#{agenteCobrador.dVPrefAg}"/>
+                </p:column>
+                <p:column headerText="#{msg['agenteCobrador.conta']}" sortBy="#{agenteCobrador.conta}"
+                    filterBy="#{agenteCobrador.conta}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agenteCobrador.conta']}" />
+                    </f:facet>
+                    <h:outputText value="#{agenteCobrador.conta}"/>
+                </p:column>
+                <p:column headerText="#{msg['agenteCobrador.dvConta']}" sortBy="#{agenteCobrador.dvConta}"
+                    filterBy="#{agenteCobrador.dvConta}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agenteCobrador.dvConta']}" />
+                    </f:facet>
+                    <h:outputText value="#{agenteCobrador.dvConta}"/>
+                </p:column>
+                <p:column headerText="#{msg['agenteCobrador.convenio']}" sortBy="#{agenteCobrador.convenio}"
+                    filterBy="#{agenteCobrador.convenio}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agenteCobrador.convenio']}" />
+                    </f:facet>
+                    <h:outputText value="#{agenteCobrador.convenio}"/>
+                </p:column>
+                <p:column headerText="#{msg['agenteCobrador.idBloquete']}" sortBy="#{agenteCobrador.idBloquete}"
+                    filterBy="#{agenteCobrador.idBloquete}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agenteCobrador.idBloquete']}" />
+                    </f:facet>
+                    <h:outputText value="#{agenteCobrador.idBloquete}"/>
+                </p:column>
+                <p:column headerText="#{msg['agenteCobrador.bloqueteInico']}" sortBy="#{agenteCobrador.bloqueteInico}"
+                    filterBy="#{agenteCobrador.bloqueteInico}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agenteCobrador.bloqueteInico']}" />
+                    </f:facet>
+                    <h:outputText value="#{agenteCobrador.bloqueteInico}"/>
+                </p:column>
+                <p:column headerText="#{msg['agenteCobrador.bloqueteFim']}" sortBy="#{agenteCobrador.bloqueteFim}"
+                    filterBy="#{agenteCobrador.bloqueteFim}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agenteCobrador.bloqueteFim']}" />
+                    </f:facet>
+                    <h:outputText value="#{agenteCobrador.bloqueteFim}"/>
+                </p:column>
+                <p:column headerText="#{msg['agenteCobrador.sequencialRemessa']}" sortBy="#{agenteCobrador.sequencialRemessa}"
+                    filterBy="#{agenteCobrador.sequencialRemessa}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agenteCobrador.sequencialRemessa']}" />
+                    </f:facet>
+                    <h:outputText value="#{agenteCobrador.sequencialRemessa}"/>
+                </p:column>
+                <p:column headerText="#{msg['agenteCobrador.contaFinanceira']}" sortBy="#{agenteCobrador.contaFinanceira}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agenteCobrador.contaFinanceira']}" />
+                    </f:facet>
+                    <h:outputText value="#{agenteCobrador.contaFinanceira}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['agenteCobrador.codigoResponsab']}" sortBy="#{agenteCobrador.codigoResponsab}"
+                    filterBy="#{agenteCobrador.codigoResponsab}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agenteCobrador.codigoResponsab']}" />
+                    </f:facet>
+                    <h:outputText value="#{agenteCobrador.codigoResponsab}"/>
+                </p:column>
+                <p:column headerText="#{msg['agenteCobrador.codigoResponsabDV']}" sortBy="#{agenteCobrador.codigoResponsabDV}"
+                    filterBy="#{agenteCobrador.codigoResponsabDV}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agenteCobrador.codigoResponsabDV']}" />
+                    </f:facet>
+                    <h:outputText value="#{agenteCobrador.codigoResponsabDV}"/>
+                </p:column>
+                <p:column headerText="#{msg['agenteCobrador.bordero']}" sortBy="#{agenteCobrador.bordero}"
+                    filterBy="#{agenteCobrador.bordero}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agenteCobrador.bordero']}" />
+                    </f:facet>
+                    <h:outputText value="#{agenteCobrador.bordero}"/>
+                </p:column>
+                <p:column headerText="#{msg['agenteCobrador.diasProtesto']}" sortBy="#{agenteCobrador.diasProtesto}"
+                    filterBy="#{agenteCobrador.diasProtesto}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agenteCobrador.diasProtesto']}" />
+                    </f:facet>
+                    <h:outputText value="#{agenteCobrador.diasProtesto}"/>
+                </p:column>
+                <p:column headerText="#{msg['agenteCobrador.instrucao1']}" sortBy="#{agenteCobrador.instrucao1}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agenteCobrador.instrucao1']}" />
+                    </f:facet>
+                    <h:outputText value="#{agenteCobrador.instrucao1}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['agenteCobrador.instrucao2']}" sortBy="#{agenteCobrador.instrucao2}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agenteCobrador.instrucao2']}" />
+                    </f:facet>
+                    <h:outputText value="#{agenteCobrador.instrucao2}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['agenteCobrador.convenente']}" sortBy="#{agenteCobrador.convenente}"
+                    filterBy="#{agenteCobrador.convenente}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agenteCobrador.convenente']}" />
+                    </f:facet>
+                    <h:outputText value="#{agenteCobrador.convenente}"/>
+                </p:column>
+                <p:column headerText="#{msg['agenteCobrador.contratoCalcao']}" sortBy="#{agenteCobrador.contratoCalcao}"
+                    filterBy="#{agenteCobrador.contratoCalcao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agenteCobrador.contratoCalcao']}" />
+                    </f:facet>
+                    <h:outputText value="#{agenteCobrador.contratoCalcao}"/>
+                </p:column>
+                <p:column headerText="#{msg['agenteCobrador.diasMulta']}" sortBy="#{agenteCobrador.diasMulta}"
+                    filterBy="#{agenteCobrador.diasMulta}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agenteCobrador.diasMulta']}" />
+                    </f:facet>
+                    <h:outputText value="#{agenteCobrador.diasMulta}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetAgenteCobradorDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailAgenteCobrador" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{agenteCobrador}" target="#{agenteCobradorMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="agenteCobrador.create">
+                        <p:button icon="ui-icon-pencil" outcome="createAgenteCobrador" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{agenteCobrador.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="agenteCobrador.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{agenteCobradorMB.delete}" >
+                            <f:setPropertyActionListener value="#{agenteCobrador.id}" target="#{agenteCobradorMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{agenteCobrador}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="agenteCobrador.audit">
+                    <x:auditDelete for="#{agenteCobradorMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetAgenteCobradorDetail" header="#{msg['agenteCobrador.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailAgenteCobrador.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

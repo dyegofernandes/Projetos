@@ -1,0 +1,92 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailLancamentos" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['lancamentos.empresa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{lancamentosMB.entity.empresa}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['lancamentos.data']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{lancamentosMB.entity.data}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['lancamentos.estabelecimento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{lancamentosMB.entity.estabelecimento}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['lancamentos.sequencial']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{lancamentosMB.entity.sequencial}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['lancamentos.contaFinanceira']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{lancamentosMB.entity.contaFinanceira}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['lancamentos.centroResultado']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{lancamentosMB.entity.centroResultado}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['lancamentos.receitaDespesa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{lancamentosMB.entity.receitaDespesa}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['lancamentos.historicoPadrao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{lancamentosMB.entity.historicoPadrao}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['lancamentos.valor']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{lancamentosMB.entity.valor}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['lancamentos.natureza']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{lancamentosMB.entity.natureza}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['lancamentos.origem']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{lancamentosMB.entity.origem}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['lancamentos.historico']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{lancamentosMB.entity.historico}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['lancamentos.exportarAC']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{lancamentosMB.entity.exportarAC}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['lancamentos.jaExportado']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{lancamentosMB.entity.jaExportado}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetLancamentosDetail').hide()" />
+            <x:securityArea rolesAllowed="lancamentos.audit">
+                <x:audit for="#{lancamentosMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

@@ -1,0 +1,116 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.com.weblicita.modelo.cadastro;
+
+import br.com.weblicita.modelo.licitacao.PedidoLicitacao;
+import com.xpert.audit.NotAudited;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
+
+/**
+ *
+ * @author Juniel
+ */
+@Entity
+public class RubricaOrcamentaria implements Serializable {
+
+    @Id
+    @SequenceGenerator(name = "RubricaOrcamentaria", allocationSize = 1, sequenceName = "rubricaOrcamentaria_id_seq")
+    @GeneratedValue(generator = "RubricaOrcamentaria")
+    private Long id;
+
+    @NotBlank
+    private String legenda;
+
+    @NotNull
+    @Temporal(TemporalType.DATE)
+    private Date dataRegistro = new Date();
+
+    private boolean ativo = true;
+
+    @NotAudited
+    @OneToMany(mappedBy = "rubricaOrcamentaria")
+    private List<PedidoLicitacao> pedidosLicitacoes;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<PedidoLicitacao> getPedidosLicitacoes() {
+        return pedidosLicitacoes;
+    }
+
+    public void setPedidosLicitacoes(List<PedidoLicitacao> pedidosLicitacoes) {
+        this.pedidosLicitacoes = pedidosLicitacoes;
+    }
+
+    public String getLegenda() {
+        return legenda;
+    }
+
+    public void setLegenda(String legenda) {
+        this.legenda = legenda;
+    }
+
+    public Date getDataRegistro() {
+        return dataRegistro;
+    }
+
+    public void setDataRegistro(Date dataRegistro) {
+        this.dataRegistro = dataRegistro;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    @Override
+    public String toString() {
+        return legenda; 
+    }
+
+    
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 67 * hash + (this.id != null ? this.id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final RubricaOrcamentaria other = (RubricaOrcamentaria) obj;
+        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+}

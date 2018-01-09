@@ -1,0 +1,55 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateMessageBoards" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="title" value="* #{msg['messageBoards.title']}:" />
+                         <p:inputText id="title" value="#{messageBoardsMB.entity.title}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="extension" value="* #{msg['messageBoards.extension']}:" />
+                         <h:selectOneMenu id="extension" value="#{messageBoardsMB.entity.extension}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.typeMessageBoard)}" 
+                                            var="typeMessageBoard"
+                                            itemLabel="#{typeMessageBoard}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="document" value="* #{msg['messageBoards.document']}:" />
+                         <p:inputText id="document" value="#{messageBoardsMB.entity.document}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <div class="checkbox">
+                             <label>
+                                 <h:selectBooleanCheckbox id="active" value="#{messageBoardsMB.entity.active}" />
+                                 #{msg['messageBoards.active']}
+                             </label>
+                         </div>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="messageBoards.create">
+                <p:commandButton process="@form" update="@form" action="#{messageBoardsMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="messageBoards.audit">
+                <x:audit for="#{messageBoardsMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

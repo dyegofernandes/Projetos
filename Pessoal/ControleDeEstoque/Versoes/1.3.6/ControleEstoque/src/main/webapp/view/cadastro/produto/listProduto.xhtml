@@ -1,0 +1,160 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['produto.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuProduto.xhtml" />
+        <h:form id="formListProduto">
+            <x:modalMessages/>
+            <p:fieldset legend="Filtros de Busca" toggleable="true">
+                <h:panelGroup id="panelGeral">
+                    <div class="row">
+                        <x:securityArea rolesAllowed="campos.matriz">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="empresa" value="Empresa:" />
+                                <h:selectOneMenu id="empresa" value="#{produtoMB.filtros.matriz}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.loja_Filial)}" 
+                                                   var="loja_Filial"
+                                                   itemLabel="#{loja_Filial}"/>
+                                </h:selectOneMenu>
+                            </div>
+                        </x:securityArea>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="codigo" value="Código:" />
+                            <p:inputMask id="codigo" mask="9?999999999" slotChar="" value="#{produtoMB.filtros.codigo1}" styleClass="form-control" />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="descricao" value="Descrição:" />
+                            <p:inputText id="descricao" value="#{produtoMB.filtros.descricao}" maxlength="200"  
+                                         styleClass="form-control"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="codigoBarras" value="Código de Barras" />
+                            <p:inputText id="codigoBarras" value="#{produtoMB.filtros.codigo2}" maxlength="200"  
+                                         styleClass="form-control"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="fabricante" value="Fabricante" />
+                            <p:inputText id="fabricante" value="#{produtoMB.filtros.fabricante}" maxlength="200"  
+                                         styleClass="form-control"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="marca" value="Marca" />
+                            <p:inputText id="marca" value="#{produtoMB.filtros.marca}" maxlength="200"  
+                                         styleClass="form-control"/>
+                        </div>
+                    </div>
+                </h:panelGroup>
+                <div class="uix-center">
+                    <p:commandButton process="@this panelGeral" update="dataTableProduto" action="#{produtoMB.buscar()}" value="Buscar" />
+                </div>
+            </p:fieldset>
+            <p:fieldset legend="Resultado da Busca" toggleable="true">
+                <x:dataTableActions fileName="produto_export" target=":formListProduto:dataTableProduto"
+                                    widgetVar="dataTableProdutoWidget"  />
+
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="produto" rowIndexVar="index" id="dataTableProduto" widgetVar="dataTableProdutoWidget" styleClass="table-responsive"
+                             value="#{produtoMB.produtos}">
+                    <p:column headerText="Empresa" sortBy="#{produto.empresa}" rendered="#{x:hasRole('campos.matriz')}">
+                        <f:facet name="header">
+                            <h:outputText value="Empresa" />
+                        </f:facet>
+                        <h:outputText value="#{produto.empresa}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Codigo" sortBy="#{produto.id}" style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="Codigo" />
+                        </f:facet>
+                        <h:outputText value="#{produto.id}">
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['produto.codigoDeBarra']}" sortBy="#{produto.codigoDeBarra}"
+                              style="text-align: right;"  >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['produto.codigoDeBarra']}" />
+                        </f:facet>
+                        <h:outputText value="#{produto.codigoDeBarra}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['produto.descricao']}" sortBy="#{produto.descricao}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['produto.descricao']}" />
+                        </f:facet>
+                        <h:outputText value="#{produto.descricao}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['produto.fabricante']}" sortBy="#{produto.fabricante}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['produto.fabricante']}" />
+                        </f:facet>
+                        <h:outputText value="#{produto.fabricante}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['produto.marca']}" sortBy="#{produto.marca}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['produto.marca']}" />
+                        </f:facet>
+                        <h:outputText value="#{produto.marca}"/>
+                    </p:column>   
+
+                    <p:column headerText="#{msg['produto.valorDeVenda']}" sortBy="#{produto.valorDeVenda}"
+                              style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['produto.valorDeVenda']}" />
+                        </f:facet>
+                        <h:outputText value="#{produto.valorDeVenda}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Ativo?" sortBy="#{produto.ativo}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Ativo?" />
+                        </f:facet>
+                        <h:outputText value="#{produto.ativo}" converter ="yesNoConverter" />
+                    </p:column>
+
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+                        <p:commandButton oncomplete="PF('widgetProdutoDetail').show();"  icon="ui-icon-zoomin" 
+                                         process="@form" update=":formDetailProduto" title="#{xmsg['detail']}" >
+                            <f:setPropertyActionListener value="#{produto}" target="#{produtoMB.entity}" />
+                        </p:commandButton>
+                        <x:securityArea rolesAllowed="produto.create">
+                            <p:button icon="ui-icon-pencil" outcome="createProduto" title="#{xmsg['edit']}">
+                                <f:param name="id" value="#{produto.id}" />
+                            </p:button>
+                        </x:securityArea>
+                        <x:securityArea rolesAllowed="produto.delete">
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                             action="#{produtoMB.delete}" >
+                                <f:setPropertyActionListener value="#{produto.id}" target="#{produtoMB.id}" />
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{produto.codigoDeBarra} - #{produto.descricao}" />
+                            </p:commandButton>
+                        </x:securityArea>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="produto.audit">
+                    <x:auditDelete for="#{produtoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetProdutoDetail" header="#{msg['produto.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailProduto.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

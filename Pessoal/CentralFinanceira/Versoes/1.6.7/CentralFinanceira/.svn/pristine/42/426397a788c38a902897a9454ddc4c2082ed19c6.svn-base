@@ -1,0 +1,101 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['empresa.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuEmpresa.xhtml" />
+        <h:form id="formListEmpresa">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="empresa_export" target=":formListEmpresa:dataTableEmpresa"
+                                     widgetVar="dataTableEmpresaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="empresa" rowIndexVar="index" id="dataTableEmpresa" widgetVar="dataTableEmpresaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{empresaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{empresaMB.dataModel.paginatorTemplate}"
+                         value="#{empresaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['empresa.nome']}" sortBy="#{empresa.nome}"
+                    filterBy="#{empresa.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['empresa.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{empresa.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['empresa.apelido']}" sortBy="#{empresa.apelido}"
+                    filterBy="#{empresa.apelido}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['empresa.apelido']}" />
+                    </f:facet>
+                    <h:outputText value="#{empresa.apelido}"/>
+                </p:column>
+                <p:column headerText="#{msg['empresa.logomarca']}" sortBy="#{empresa.logomarca}"
+                    filterBy="#{empresa.logomarca}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['empresa.logomarca']}" />
+                    </f:facet>
+                    <h:outputText value="#{empresa.logomarca}"/>
+                </p:column>
+                <p:column headerText="#{msg['empresa.im']}" sortBy="#{empresa.im}"
+                    filterBy="#{empresa.im}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['empresa.im']}" />
+                    </f:facet>
+                    <h:outputText value="#{empresa.im}"/>
+                </p:column>
+                <p:column headerText="#{msg['empresa.cnpj']}" sortBy="#{empresa.cnpj}"
+                    filterBy="#{empresa.cnpj}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['empresa.cnpj']}" />
+                    </f:facet>
+                    <h:outputText value="#{empresa.cnpj}"/>
+                </p:column>
+                <p:column headerText="#{msg['empresa.inss']}" sortBy="#{empresa.inss}"
+                    filterBy="#{empresa.inss}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['empresa.inss']}" />
+                    </f:facet>
+                    <h:outputText value="#{empresa.inss}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetEmpresaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailEmpresa" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{empresa}" target="#{empresaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="empresa.create">
+                        <p:button icon="ui-icon-pencil" outcome="createEmpresa" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{empresa.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="empresa.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{empresaMB.delete}" >
+                            <f:setPropertyActionListener value="#{empresa.id}" target="#{empresaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{empresa}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="empresa.audit">
+                    <x:auditDelete for="#{empresaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetEmpresaDetail" header="#{msg['empresa.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailEmpresa.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,191 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="Contas a pagar - Canceladas" />
+    <ui:define name="body">
+
+        <h:form  id="formcontasapagaremaberto">
+            <p:fieldset legend="Filtros de Busca" toggleable="true" toggleSpeed="500">
+                <x:modalMessages autoUpdate="true"/>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cancelamentoInicial" value="Data Inicial do Cancelamento:" />
+                            <p:calendar id="cancelamentoInicial" value="#{relatorioContasAPagarCanceladasMB.filtros.cancelamentoFinal}" 
+                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar" >
+                                <x:mask/>
+                            </p:calendar>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cancelamentoFinal" value="Data Final do Cancelamento:" />
+                            <p:calendar id="cancelamentoFinal" value="#{relatorioContasAPagarCanceladasMB.filtros.cancelamentoFinal}" 
+                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                <x:mask/>
+                            </p:calendar>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="tipoDeDocumento" value="#{msg['contasAPagar.tipoDeDocumento']}:" />
+                            <h:selectOneMenu id="tipoDeDocumento" value="#{relatorioContasAPagarCanceladasMB.filtros.tipoDocumento}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.tipoDocumento)}" 
+                                               var="tipoDocumento"
+                                               itemLabel="#{tipoDocumento}"/>
+                            </h:selectOneMenu>
+                        </div>
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="centroResultado" value="#{msg['contasAPagar.centroResultado']}:" />
+                            <h:selectOneMenu id="centroResultado" value="#{relatorioContasAPagarCanceladasMB.filtros.centroResultados}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.centroResultados)}" 
+                                               var="centroResultados"
+                                               itemLabel="#{centroResultados}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="grupoFornecedor" value="#{msg['fornecedor.grupoFornecedor']}:" />
+                            <h:selectOneMenu id="grupoFornecedor" value="#{relatorioContasAPagarCanceladasMB.filtros.grupoFornecedor}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.grupoFornecedor)}" 
+                                               var="grupoFornecedor"
+                                               itemLabel="#{grupoFornecedor}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="fornecedor" value="#{msg['contasAPagar.fornecedor']}:" />
+                            <h:selectOneMenu id="fornecedor" value="#{relatorioContasAPagarCanceladasMB.filtros.fornecedor}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.fornecedor)}" 
+                                               var="fornecedor"
+                                               itemLabel="#{fornecedor}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="tituloVencimento" value="Título vencimento" />
+                            <p:inputText id="tituloVencimento" value="#{relatorioContasAPagarCanceladasMB.filtros.tituloVencimento}" maxlength="40"  styleClass="form-control"  />
+                        </div>
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="receitaDespesa" value="Despesa:" />
+                            <h:selectOneMenu id="receitaDespesa" value="#{relatorioContasAPagarCanceladasMB.filtros.receitaDespesa}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.receitaDespesa)}" 
+                                               var="receitaDespesa"
+                                               itemLabel="#{receitaDespesa}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="ordenacao" value="Ordenação:" />
+                            <h:selectOneMenu id="ordenacao" value="#{relatorioContasAPagarCanceladasMB.filtros.ordenacao}"  styleClass="form-control" >                           
+                                <f:selectItems value="#{findAllBean.get(classMB.ordenacaoContasAPagar)}" 
+                                               var="ordenacao"
+                                               itemLabel="#{ordenacao.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+
+                </div> 
+                <div class="uix-center">
+                    <p:commandButton process="@form" value="Buscar" update=":formcontasapagaremaberto:contasAPagarTable" actionListener="#{relatorioContasAPagarMB.buscar}"/>
+                    <p:commandButton process="@form" update="@form" value="Limpar" actionListener="#{relatorioContasAPagarCanceladasMB.limpar}"/>
+                </div>
+            </p:fieldset>
+
+            <p:fieldset legend="Resultado da Busca">
+                <x:dataTableActions fileName="Reltorio_em_aberto" target=":formcontasapagaremaberto:contasAPagarTable"    
+                                    widgetVar="widgecontasAPagarTableTable"  />
+                <p:dataTable id="contasAPagarTable" var="contaapagar" widgetVar="widgecontasAPagarTableTable" value="#{relatorioContasAPagarCanceladasMB.contasAPagar}" emptyMessage="#{xmsg['noRecordFound']}"
+                             lazy="false" paginator="true" rows="100" rowsPerPageTemplate="100,200,300" paginatorPosition="bottom" rowIndexVar="index">   
+                    <f:facet name="header">
+                        Contas a Pagar - Em Aberto
+                    </f:facet>
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column headerText="Fornecedor" >
+                        <f:facet name="header">
+                            <h:outputText value="Fornecedor" />
+                        </f:facet>
+                        <h:outputText value="#{contaapagar.fornecedor}">
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Cancelamento" >
+                        <f:facet name="header">
+                            <h:outputText value="Cancelamento">
+                            </h:outputText>
+                        </f:facet>
+                        <h:outputText value="#{contaapagar.cancelamento}">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Conta a Pag." >
+                        <f:facet name="header">
+                            <h:outputText value="Conta a Pag." />
+                        </f:facet>
+                        <h:outputText value="#{contaapagar.contasAPagar}">
+                        </h:outputText>
+                    </p:column> 
+                    <p:column headerText="Tipo Doc." >
+                        <f:facet name="header">
+                            <h:outputText value="Tipo Doc." />
+                        </f:facet>
+                        <h:outputText value="#{contaapagar.tipoDocumento}">
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Título" >
+                        <f:facet name="header">
+                            <h:outputText value="Título" />
+                        </f:facet>
+                        <h:outputText value="#{contaapagar.tituloVencimento}">
+                        </h:outputText>
+                    </p:column>
+                    
+                    <p:column headerText="Documento" >
+                        <f:facet name="header">
+                            <h:outputText value="Documento" />
+                        </f:facet>
+                        <h:outputText value="#{contaapagar.documento}">
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Entrada" >
+                        <f:facet name="header">
+                            <h:outputText value="Entrada" />
+                        </f:facet>
+                        <h:outputText value="#{contaapagar.entrada}">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Vencimento" >
+                        <f:facet name="header">
+                            <h:outputText value="Vencimento">
+                            </h:outputText>
+                        </f:facet>
+                        <h:outputText value="#{contaapagar.vencimento}">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </p:column>      
+                    <p:column headerText="Valor" >
+                        <f:facet name="header">
+                            <h:outputText value="Valor" />
+                        </f:facet>
+                        <h:outputText value="#{contaapagar.valor}">
+                        </h:outputText>
+                    </p:column>
+                    
+                </p:dataTable>
+
+            </p:fieldset>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

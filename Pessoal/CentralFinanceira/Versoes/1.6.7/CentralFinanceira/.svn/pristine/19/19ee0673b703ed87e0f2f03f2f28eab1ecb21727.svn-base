@@ -1,0 +1,289 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.com.jsoft.centralfinanceira.mb.arquivos;
+
+import br.com.jsoft.centralfinanceira.modelo.arquivo.FiltrosDeBusca;
+import br.com.jsoft.centralfinanceira.bo.central.ConvenioBoletoBO;
+import br.com.jsoft.centralfinanceira.constante.ConstantesURL;
+import static br.com.jsoft.centralfinanceira.mb.arquivos.ComprovantesDespesasMB.getExtension;
+import br.com.jsoft.centralfinanceira.modelo.central.ConvenioBoleto;
+import br.com.jsoft.centralfinanceira.vo.ArquivoVO;
+import br.com.jsoft.centralfinanceira.vo.ArquivoViewVO;
+import com.xpert.core.crud.AbstractBaseBean;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.net.MalformedURLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import jcifs.smb.NtlmPasswordAuthentication;
+import jcifs.smb.SmbException;
+import jcifs.smb.SmbFile;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+
+/**
+ *
+ * @author Juniel
+ */
+@ManagedBean
+@ViewScoped
+public class ComprovantesMB extends AbstractBaseBean<ConvenioBoleto> implements Serializable {
+
+    @EJB
+    private ConvenioBoletoBO convenioBoletoBO;
+
+    private FiltrosDeBusca filtros;
+
+    private int indentLevel = -1;
+
+    private String caminho = ConstantesURL.URL_FTP_COMPROVANTES;
+
+    private NtlmPasswordAuthentication mycreds = new NtlmPasswordAuthentication("pagcontas.com.br", "ti", "pag2014");
+
+//    private String nome = "AGESPISA 15/12/2015 7003,34.pdf";
+    private List<ArquivoViewVO> arquivos;
+
+    private List<ArquivoVO> comprovantes;
+
+    @Override
+    public ConvenioBoletoBO getBO() {
+        return convenioBoletoBO;
+    }
+
+    @Override
+    public String getDataModelOrder() {
+        return "id";
+    }
+
+    @Override
+    public void init() {
+        filtros = new FiltrosDeBusca();
+
+        arquivos = new ArrayList<ArquivoViewVO>();
+
+        SmbFile diretorio = null;
+        try {
+            diretorio = new SmbFile(caminho, mycreds);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(ComprovantesMB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            listPathSmb(diretorio);
+        } catch (ParseException ex) {
+            Logger.getLogger(ComprovantesMB.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SmbException ex) {
+            Logger.getLogger(ComprovantesMB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            carregarArquivosList();
+        } catch (ParseException ex) {
+            Logger.getLogger(ComprovantesMB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void listPath(File path) throws ParseException {
+        File files[];
+
+        indentLevel++;
+
+        files = path.listFiles();
+
+        Arrays.sort(files);
+
+        for (int i = 0, n = files.length; i < n; i++) {
+
+            if (files[i].isFile()) {
+                ArquivoViewVO arquivo = new ArquivoViewVO();
+                String nomeArquivo = files[i].getName();
+                arquivo.setNome(getExpressao(nomeArquivo, 0));
+                arquivo.setEmpresa(getExpressao(nomeArquivo, 1));
+
+                arquivo.setDataPublicacao(getExpressao(nomeArquivo, 2));
+
+                arquivo.setValor(getExpressao(nomeArquivo, 3));
+                arquivo.setExtensao(getExtension(nomeArquivo));
+                arquivo.setPath(files[i].getPath());
+
+                arquivos.add(arquivo);
+
+            }
+            if (files[i].isDirectory()) {
+                listPath(files[i]);
+            }
+        }
+        indentLevel--;
+
+    }
+
+    private void listPathSmb(SmbFile path) throws ParseException, SmbException {
+        SmbFile files[];
+
+        indentLevel++;
+
+        files = path.listFiles();
+
+        for (int i = 0, n = files.length; i < n; i++) {
+
+            if (files[i].isFile()) {
+                ArquivoViewVO arquivo = new ArquivoViewVO();
+                String nomeArquivo = files[i].getName();
+                arquivo.setNome(getExpressao(nomeArquivo, 0));
+                arquivo.setEmpresa(getExpressao(nomeArquivo, 1));
+
+                arquivo.setDataPublicacao(getExpressao(nomeArquivo, 2));
+
+                arquivo.setValor(getExpressao(nomeArquivo, 3));
+                arquivo.setExtensao(getExtension(nomeArquivo));
+                arquivo.setPath(files[i].getPath());
+
+                arquivos.add(arquivo);
+
+            }
+            if (files[i].isDirectory()) {
+                listPathSmb(files[i]);
+            }
+        }
+        indentLevel--;
+
+    }
+
+    static String getExtension(String name) {
+        return name.replaceAll(".+\\.(.+)", "$1");
+    }
+
+    private String getExpressao(String nome, int op) {
+        String retorno = "";
+        // novo  ^(.+) (\\d{2}\\/\\d{2}\\/\\d{4}) (\\d+,\\d{2})\\.pdf$
+        Pattern pattern = Pattern.compile("^(.+) (\\d{6}) (\\d+,\\d{1,2})\\.pdf$");
+        Matcher matcher = pattern.matcher(nome);
+        if (matcher.find()) {
+            retorno = matcher.group(op);
+        }
+        return retorno;
+    }
+
+    public void carregarArquivosList() throws ParseException {
+        comprovantes = new ArrayList<ArquivoVO>();
+        ArquivoVO comprovante;
+
+        if (filtros.getDataInicial() == null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            sdf.setLenient(false);
+            Date dataConverted = sdf.parse("01/01/2000");
+            filtros.setDataInicial(dataConverted);
+        }
+
+        if (filtros.getDataFinal() == null) {
+            filtros.setDataFinal(new Date());
+        }
+
+        for (ArquivoViewVO arquivo : arquivos) {
+            if (!arquivo.getNome().equals("")) {
+                comprovante = new ArquivoVO();
+
+                comprovante.setEmpresa(arquivo.getEmpresa());
+                comprovante.setExtensao(arquivo.getExtensao());
+                comprovante.setNomeArquivo(arquivo.getNome());
+                comprovante.setPath(arquivo.getPath());
+                comprovante.setPublicacao(convertStringParaData(arquivo.getDataPublicacao()));
+                comprovante.setValor(new BigDecimal(arquivo.getValor().replaceAll(",", ".")));
+
+                if (filtros.getConvenio() == null) {
+                    if (between(comprovante.getPublicacao(), filtros.getDataInicial(), filtros.getDataFinal())) {
+                        comprovantes.add(comprovante);
+                    }
+                } else {
+                    if (findMe(arquivo.getEmpresa(), filtros.getConvenio())) {
+                        if (between(comprovante.getPublicacao(), filtros.getDataInicial(), filtros.getDataFinal())) {
+                            comprovantes.add(comprovante);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void buscar() throws ParseException, MalformedURLException, SmbException {
+        SmbFile diretorio = new SmbFile(filtros.getTipo() != null ? caminho.concat("/").concat(filtros.getTipo().getDescricao().toUpperCase()) : caminho, mycreds);
+        arquivos = new ArrayList<ArquivoViewVO>();
+        listPathSmb(diretorio);
+        carregarArquivosList();
+    }
+
+    public List<ArquivoVO> getComprovantes() {
+        return comprovantes;
+    }
+
+    public void setComprovantes(List<ArquivoVO> comprovantes) {
+        this.comprovantes = comprovantes;
+    }
+
+    public StreamedContent prepDownload(String path) throws Exception {
+        StreamedContent download = new DefaultStreamedContent();
+        File file = new File(path);
+        InputStream input = new FileInputStream(file);
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        download = new DefaultStreamedContent(input, externalContext.getMimeType(file.getName()), file.getName());
+        return download;
+    }
+
+    public FiltrosDeBusca getFiltros() {
+        return filtros;
+    }
+
+    public void setFiltros(FiltrosDeBusca filtros) {
+        this.filtros = filtros;
+    }
+
+    private boolean findMe(String searchMe, String findMe) {
+
+        int searchMeLength = searchMe.length();
+        int findMeLength = findMe.length();
+        for (int i = 0;
+                i <= (searchMeLength - findMeLength);
+                i++) {
+            if (searchMe.regionMatches(i, findMe, 0, findMeLength)) {
+                return true;
+
+            }
+        }
+//        if (!foundIt) {
+//            System.out.println("No match found.");
+//        }
+        return false;
+    }
+
+    private Date convertStringParaData(String data) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy");
+        sdf.setLenient(false);
+        Date dataConverted = sdf.parse(data);
+
+        return dataConverted;
+
+    }
+
+    private boolean between(Date data, Date min, Date max) {
+        return (data.equals(min) || data.after(min)) && (data.equals(max) || data.before(max));
+    }
+
+}

@@ -1,0 +1,91 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['calGuiaItem.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuCalGuiaItem.xhtml" />
+        <h:form id="formListCalGuiaItem">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="calGuiaItem_export" target=":formListCalGuiaItem:dataTableCalGuiaItem"
+                                     widgetVar="dataTableCalGuiaItemWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="calGuiaItem" rowIndexVar="index" id="dataTableCalGuiaItem" widgetVar="dataTableCalGuiaItemWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{calGuiaItemMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{calGuiaItemMB.dataModel.paginatorTemplate}"
+                         value="#{calGuiaItemMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['calGuiaItem.calguia']}" sortBy="#{calGuiaItem.calguia}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['calGuiaItem.calguia']}" />
+                    </f:facet>
+                    <h:outputText value="#{calGuiaItem.calguia}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['calGuiaItem.limiteInferior']}" sortBy="#{calGuiaItem.limiteInferior}"
+                    filterBy="#{calGuiaItem.limiteInferior}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['calGuiaItem.limiteInferior']}" />
+                    </f:facet>
+                    <h:outputText value="#{calGuiaItem.limiteInferior}"/>
+                </p:column>
+                <p:column headerText="#{msg['calGuiaItem.limiteSuperior']}" sortBy="#{calGuiaItem.limiteSuperior}"
+                    filterBy="#{calGuiaItem.limiteSuperior}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['calGuiaItem.limiteSuperior']}" />
+                    </f:facet>
+                    <h:outputText value="#{calGuiaItem.limiteSuperior}"/>
+                </p:column>
+                <p:column headerText="#{msg['calGuiaItem.unitario']}" sortBy="#{calGuiaItem.unitario}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['calGuiaItem.unitario']}" />
+                    </f:facet>
+                    <h:outputText value="#{calGuiaItem.unitario}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetCalGuiaItemDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailCalGuiaItem" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{calGuiaItem}" target="#{calGuiaItemMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="calGuiaItem.create">
+                        <p:button icon="ui-icon-pencil" outcome="createCalGuiaItem" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{calGuiaItem.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="calGuiaItem.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{calGuiaItemMB.delete}" >
+                            <f:setPropertyActionListener value="#{calGuiaItem.id}" target="#{calGuiaItemMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{calGuiaItem}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="calGuiaItem.audit">
+                    <x:auditDelete for="#{calGuiaItemMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetCalGuiaItemDetail" header="#{msg['calGuiaItem.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailCalGuiaItem.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,145 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateCliente" >
+        <x:modalMessages/>
+        <p:fieldset legend="#{xmsg['generalData']}">
+
+
+            <div class="container-fluid">
+                <div class="row">
+                   
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="fisic" value="* Tipo de Pessoa:" />
+                        <h:selectOneMenu id="fisic" value="#{clienteMB.entity.fisicOujur}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.tipoPessoa)}" 
+                                           var="tipoPessoa"
+                                           itemLabel="#{tipoPessoa.descricao}"/>
+                            <p:ajax process="@this" update="panelDadosBasicos" />
+                        </h:selectOneMenu>
+                    </div>
+                    <h:panelGroup id="panelDadosBasicos">
+                        <h:panelGroup id="panelPF" rendered="#{clienteMB.entity.fisicOujur.num eq 1}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cpf" value="CPF:" />
+                                <x:cpf id="cpf" value="#{clienteMB.entity.cpfOrCnpj}" styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="completo" value="* Nome Completo:" />
+                                <p:inputText id="completo" value="#{clienteMB.entity.completoOuRsocial}" maxlength="100"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nome" value="* Apelido:" />
+                                <p:inputText id="nome" value="#{clienteMB.entity.nomeOuFantasia}" maxlength="100"  styleClass="form-control"  />
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="rg" value="RG:" />
+                                <p:inputText id="rg" value="#{clienteMB.entity.inscestOuRg}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nascimento" value="Data de Nascimento:" />
+                                <p:calendar id="nascimento" value="#{clienteMB.entity.nascimento}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                        </h:panelGroup>
+                        <h:panelGroup id="panelPJ" rendered="#{clienteMB.entity.fisicOujur.num eq 2}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cnpj" value="CNPJ:" />
+                                <x:cnpj id="cnpj" value="#{clienteMB.entity.cpfOrCnpj}" styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="rsocial" value="* Razão Social:" />
+                                <p:inputText id="rsocial" value="#{clienteMB.entity.completoOuRsocial}" maxlength="100"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="fantasia" value="* Nome Fantasia:" />
+                                <p:inputText id="fantasia" value="#{clienteMB.entity.nomeOuFantasia}" maxlength="100"  styleClass="form-control"  />
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="inscest" value="Inscrição Estadual:" />
+                                <p:inputText id="inscest" value="#{clienteMB.entity.inscestOuRg}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="fundacao" value="Fundação:" />
+                                <p:calendar id="fundacao" value="#{clienteMB.entity.nascimento}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="telefones" value="#{msg['cliente.telefones']}:" />
+                        <p:inputText id="telefones" value="#{clienteMB.entity.telefones}" maxlength="100"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="email" value="#{msg['cliente.email']}:" />
+                        <p:inputText id="email" value="#{clienteMB.entity.email}" maxlength="100"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="obs" value="#{msg['cliente.obs']}:" />
+                        <p:inputText id="obs" value="#{clienteMB.entity.obs}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="ativo" value="#{clienteMB.entity.ativo}" />
+                                #{msg['cliente.ativo']}
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Endereço">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="endereco" value="Endereço:" />
+                        <p:inputText id="endereco" value="#{clienteMB.entity.endereco}" maxlength="100"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="bairro" value="#{msg['cliente.bairro']}:" />
+                        <p:inputText id="bairro" value="#{clienteMB.entity.bairro}" maxlength="100"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cep" value="#{msg['cliente.cep']}:" />
+                        <p:inputMask id="cep" value="#{clienteMB.entity.cep}" mask="99999-999"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cidade" value="* #{msg['convenio.cidade']}:" />
+                        <h:selectOneMenu id="cidade" value="#{clienteMB.entity.cidade}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{clienteMB.cidades}" 
+                                           var="cidade"
+                                           itemLabel="#{cidade}-#{cidade.uf}"/>
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="cliente.create">
+                <p:commandButton process="@form" update="@form" action="#{clienteMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="cliente.audit">
+                <x:audit for="#{clienteMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,76 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.com.jsoft.centralfinanceira.modelo.financeiro;
+
+import br.com.jsoft.centralfinanceira.modelo.cadastroBasicos.ContaFinanceira;
+import br.com.jsoft.centralfinanceira.modelo.cadastroBasicos.Empresa;
+import br.com.jsoft.centralfinanceira.modelo.cadastroBasicos.Estabelecimento;
+import br.com.jsoft.centralfinanceira.modelo.cadastroBasicos.HistoricoPadrao;
+import br.com.jsoft.centralfinanceira.modelo.enums.NaturezaDespesa;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+
+/**
+ * dbo.LAN
+ * @author Juniel
+ */
+//@Entity
+//@Table(schema = "ag")
+public class Lancamentos implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    private Empresa empresa;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date data;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    private Estabelecimento estabelecimento;
+    
+    @NotNull
+    private Integer sequencial;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    private ContaFinanceira contaFinanceira;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    private CentroResultados centroResultado;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ReceitaDespesa receitaDespesa;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    private HistoricoPadrao historicoPadrao;
+    
+    @NotNull
+    private BigDecimal valor;
+    
+    private NaturezaDespesa natureza;
+    
+    private String historico;
+    
+    private boolean exportarAC = true;
+    
+    
+}

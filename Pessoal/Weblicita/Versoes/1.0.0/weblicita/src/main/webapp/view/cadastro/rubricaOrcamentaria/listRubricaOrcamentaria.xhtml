@@ -1,0 +1,83 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['rubricaOrcamentaria.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuRubricaOrcamentaria.xhtml" />
+        <h:form id="formListRubricaOrcamentaria">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="rubricaOrcamentaria_export" target=":formListRubricaOrcamentaria:dataTableRubricaOrcamentaria"
+                                     widgetVar="dataTableRubricaOrcamentariaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="rubricaOrcamentaria" rowIndexVar="index" id="dataTableRubricaOrcamentaria" widgetVar="dataTableRubricaOrcamentariaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{rubricaOrcamentariaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{rubricaOrcamentariaMB.dataModel.paginatorTemplate}"
+                         value="#{rubricaOrcamentariaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['rubricaOrcamentaria.legenda']}" sortBy="#{rubricaOrcamentaria.legenda}"
+                    filterBy="#{rubricaOrcamentaria.legenda}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['rubricaOrcamentaria.legenda']}" />
+                    </f:facet>
+                    <h:outputText value="#{rubricaOrcamentaria.legenda}"/>
+                </p:column>
+                <p:column headerText="#{msg['rubricaOrcamentaria.dataRegistro']}" sortBy="#{rubricaOrcamentaria.dataRegistro}"
+                    filterBy="#{rubricaOrcamentaria.dataRegistro}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['rubricaOrcamentaria.dataRegistro']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{rubricaOrcamentaria.dataRegistro}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['rubricaOrcamentaria.ativo']}" sortBy="#{rubricaOrcamentaria.ativo}"
+                    filterBy="#{rubricaOrcamentaria.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['rubricaOrcamentaria.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{rubricaOrcamentaria.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetRubricaOrcamentariaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailRubricaOrcamentaria" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{rubricaOrcamentaria}" target="#{rubricaOrcamentariaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="rubricaOrcamentaria.create">
+                        <p:button icon="ui-icon-pencil" outcome="createRubricaOrcamentaria" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{rubricaOrcamentaria.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="rubricaOrcamentaria.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{rubricaOrcamentariaMB.delete}" >
+                            <f:setPropertyActionListener value="#{rubricaOrcamentaria.id}" target="#{rubricaOrcamentariaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{rubricaOrcamentaria}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="rubricaOrcamentaria.audit">
+                    <x:auditDelete for="#{rubricaOrcamentariaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetRubricaOrcamentariaDetail" header="#{msg['rubricaOrcamentaria.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailRubricaOrcamentaria.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

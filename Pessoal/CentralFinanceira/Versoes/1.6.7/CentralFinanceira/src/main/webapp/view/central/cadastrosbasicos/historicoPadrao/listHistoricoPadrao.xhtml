@@ -1,0 +1,81 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['historicoPadrao.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuHistoricoPadrao.xhtml" />
+        <h:form id="formListHistoricoPadrao">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="historicoPadrao_export" target=":formListHistoricoPadrao:dataTableHistoricoPadrao"
+                                     widgetVar="dataTableHistoricoPadraoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="historicoPadrao" rowIndexVar="index" id="dataTableHistoricoPadrao" widgetVar="dataTableHistoricoPadraoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{historicoPadraoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{historicoPadraoMB.dataModel.paginatorTemplate}"
+                         value="#{historicoPadraoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                
+                <p:column headerText="#{msg['historicoPadrao.descricao']}" sortBy="#{historicoPadrao.descricao}"
+                    filterBy="#{historicoPadrao.descricao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['historicoPadrao.descricao']}" />
+                    </f:facet>
+                    <h:outputText value="#{historicoPadrao.descricao}"/>
+                </p:column>
+                <p:column headerText="#{msg['historicoPadrao.tipo']}" sortBy="#{historicoPadrao.tipo}"
+                    filterBy="#{historicoPadrao.tipo}"  filterOptions="#{findAllBean.getSelect(classMB.tipoHistorico)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['historicoPadrao.tipo']}" />
+                    </f:facet>
+                    <h:outputText value="#{historicoPadrao.tipo.descricao}"/>
+                </p:column>
+                <p:column headerText="#{msg['historicoPadrao.historico']}" sortBy="#{historicoPadrao.historico}"
+                    filterBy="#{historicoPadrao.historico}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['historicoPadrao.historico']}" />
+                    </f:facet>
+                    <h:outputText value="#{historicoPadrao.historico}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetHistoricoPadraoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailHistoricoPadrao" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{historicoPadrao}" target="#{historicoPadraoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="historicoPadrao.create">
+                        <p:button icon="ui-icon-pencil" outcome="createHistoricoPadrao" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{historicoPadrao.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="historicoPadrao.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{historicoPadraoMB.delete}" >
+                            <f:setPropertyActionListener value="#{historicoPadrao.id}" target="#{historicoPadraoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{historicoPadrao}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="historicoPadrao.audit">
+                    <x:auditDelete for="#{historicoPadraoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetHistoricoPadraoDetail" header="#{msg['historicoPadrao.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailHistoricoPadrao.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

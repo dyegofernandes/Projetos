@@ -1,0 +1,211 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreatePagamento" >
+        <h:panelGroup id="panelGeral">
+            <p:fieldset legend="#{xmsg['generalData']}">
+                <x:modalMessages/>
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="motivoPagamento" value="* #{msg['pagamento.motivoPagamento']}:" />
+                            <h:selectOneMenu id="motivoPagamento" value="#{pagamentoMB.entity.motivoPagamento}" converter="entityConverter" styleClass="form-control" 
+                                             required="true" requiredMessage="Motivo de Pagamento é Obrigatório!">
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.motivoPagamento)}" 
+                                               var="motivoPagamento"
+                                               itemLabel="#{motivoPagamento}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="funcionario" value="* #{msg['pagamento.funcionario']}:" />
+                            <h:selectOneMenu id="funcionario" value="#{pagamentoMB.entity.funcionario}" converter="entityConverter" styleClass="form-control" 
+                                             required="true" requiredMessage="Funcionário é Obrigatório!">
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{pagamentoMB.funcionarios}" 
+                                               var="funcionario"
+                                               itemLabel="#{funcionario}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dtPagamento" value="* #{msg['pagamento.dtPagamento']}:" />
+                            <p:calendar id="dtPagamento" value="#{pagamentoMB.entity.dtPagamento}" 
+                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  
+                                        required="true" requiredMessage="Data de Pagamento é Obrigatória!">
+                                <x:mask/>
+                            </p:calendar>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="valorPagto:input" value="* #{msg['pagamento.valorPagto']}:" />
+                            <x:inputNumber id="valorPagto" value="#{pagamentoMB.entity.valorPagto}" styleClass="form-control"
+                                           required="true" requiredMessage="Valor a ser Pago é Obrigatório!"/>
+                        </div>
+                        <h:panelGroup rendered="#{sessaoUsuarioMB.user.superUsuario}" >
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="situacao" value="Situação:" />
+                                <h:selectOneMenu id="situacao" value="#{pagamentoMB.entity.situacao}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.situacaoOp)}" 
+                                                   var="situacao"
+                                                   itemLabel="#{situacao.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                        </h:panelGroup> 
+                    </div>
+                </div>
+            </p:fieldset>
+        </h:panelGroup>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="pagamentoOps.create">
+                <p:commandButton process="@form" update="@form" action="#{pagamentoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="pagamento.audit">
+                <x:audit for="#{pagamentoMB.entity}"/>
+            </x:securityArea>
+        </div>
+        <h:panelGroup id="panelPagamentos" rendered="#{pagamentoMB.entity.id==null}">
+            <p:fieldset legend="Pagamentos/OPs cadastradas e não processadas">
+                <x:modalMessages autoUpdate="true"/>
+                <x:dataTableActions fileName="pagamento_export" target=":formCreatePagamento:dataTablePagamentoNaoGeradas"
+                                    widgetVar="dataTablePagamentoNaoGeradasWidget"  />
+
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="pagamentoNaoGeradas" rowIndexVar="index" id="dataTablePagamentoNaoGeradas" widgetVar="dataTablePagamentoNaoGeradasWidget" styleClass="table-responsive"
+                             currentPageReportTemplate="#{pagamentoMB.dataModel.currentPageReportTemplate}"
+                             paginatorTemplate="#{pagamentoMB.dataModel.paginatorTemplate}"
+                             value="#{pagamentoMB.pagamentosNaoGerados}" lazy="true" >
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+
+                    <p:column headerText="#{msg['pagamento.empresa']}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['pagamento.empresa']}" />
+                        </f:facet>
+                        <h:outputText value="#{pagamentoNaoGeradas.empresa.razaosocial}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['pagamento.funcionario']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['pagamento.funcionario']}" />
+                        </f:facet>
+                        <h:outputText value="#{pagamentoNaoGeradas.funcionario.nome}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="CPF">
+                        <f:facet name="header">
+                            <h:outputText value="CPF" />
+                        </f:facet>
+                        <h:outputText value="#{pagamentoNaoGeradas.funcionario.cpf}" converter="cpfConverter">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['pagamento.usuario']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['pagamento.usuario']}" />
+                        </f:facet>
+                        <h:outputText value="#{pagamentoNaoGeradas.usuario.nome}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['pagamento.motivoPagamento']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['pagamento.motivoPagamento']}" />
+                        </f:facet>
+                        <h:outputText value="#{pagamentoNaoGeradas.motivoPagamento.nome}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="#{msg['pagamento.dtPagamento']}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['pagamento.dtPagamento']}" />
+                        </f:facet>
+                        <h:outputText value="#{pagamentoNaoGeradas.dtPagamento}">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="OP Num." style="text-align: center;" >
+                        <f:facet name="header">
+                            <h:outputText value="OP Num." />
+                        </f:facet>
+                        <h:outputText value="#{pagamentoNaoGeradas.op}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['pagamento.valorPagto']}" style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['pagamento.valorPagto']}" />
+                        </f:facet>
+                        <h:outputText value="#{pagamentoNaoGeradas.valorPagto}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                        <f:facet name="footer">
+                            <h:outputText value="#{pagamentoMB.totalPagamentos}" style="font-weight:bold">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>                      
+                        </f:facet>  
+                    </p:column>
+
+                    <p:column headerText="Valor Tarifa" >
+                        <f:facet name="header">
+                            <h:outputText value="Valor Tarifa" />
+                        </f:facet>
+                        <h:outputText value="#{pagamentoNaoGeradas.empresa.valorTarifa}" style="text-align: right;">
+                            <x:initializer/>
+                        </h:outputText>
+                        <f:facet name="footer">
+                            <h:outputText value="#{pagamentoMB.totalTarifa}" style="text-align: right;font-weight:bold">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>                      
+                        </f:facet> 
+                    </p:column>
+                    <p:column headerText="#{msg['pagamento.situacao']}" style="text-align: center;"  filterOptions="#{findAllBean.getSelect(classMB.situacaoOp)}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['pagamento.situacao']}" />
+                        </f:facet>
+                        <h:outputText value="#{pagamentoNaoGeradas.situacao.descricao}"/>
+                        <f:facet name="footer">
+                            <h:outputText value="#{pagamentoMB.totalPagamentosComTarifa}" style="text-align: right;font-weight:bold">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>                      
+                        </f:facet> 
+                    </p:column>
+
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>                    
+                        <x:securityArea rolesAllowed="pagamentoOps.create">
+                            <p:button icon="ui-icon-pencil" outcome="createPagamento" title="#{xmsg['edit']}">
+                                <f:param name="id" value="#{pagamentoNaoGeradas.id}" />
+                            </p:button>
+                        </x:securityArea>
+                        <x:securityArea rolesAllowed="pagamentoOps.delete">
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="formCreatePagamento:dataTablePagamentoNaoGeradas" update="@form" 
+                                             action="#{pagamentoMB.delete}" >
+                                <f:setPropertyActionListener value="#{pagamentoNaoGeradas.id}" target="#{pagamentoMB.id}" />
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{pagamentoNaoGeradas}" />
+                            </p:commandButton>
+                        </x:securityArea>
+                    </p:column>
+                </p:dataTable>
+                <div class="uix-center">
+                    <x:securityArea rolesAllowed="pagamentoOps.create">
+                        <p:commandButton process="panelPagamentos" update="panelPagamentos" action="#{pagamentoMB.gerarPagamentos}" value="Gerar" />
+                    </x:securityArea>
+                </div>
+            </p:fieldset>
+        </h:panelGroup>
+    </h:form>
+
+</ui:composition>

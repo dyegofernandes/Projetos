@@ -1,0 +1,155 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['politicalParty.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuPoliticalParty.xhtml" />
+        <h:form id="formListPoliticalParty">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="politicalParty_export" target=":formListPoliticalParty:dataTablePoliticalParty"
+                                     widgetVar="dataTablePoliticalPartyWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="politicalParty" rowIndexVar="index" id="dataTablePoliticalParty" widgetVar="dataTablePoliticalPartyWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{politicalPartyMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{politicalPartyMB.dataModel.paginatorTemplate}"
+                         value="#{politicalPartyMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['politicalParty.politicalParty']}" sortBy="#{politicalParty.politicalParty}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['politicalParty.politicalParty']}" />
+                    </f:facet>
+                    <h:outputText value="#{politicalParty.politicalParty}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['politicalParty.code']}" sortBy="#{politicalParty.code}"
+                    filterBy="#{politicalParty.code}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['politicalParty.code']}" />
+                    </f:facet>
+                    <h:outputText value="#{politicalParty.code}"/>
+                </p:column>
+                <p:column headerText="#{msg['politicalParty.type']}" sortBy="#{politicalParty.type}"
+                    filterBy="#{politicalParty.type}"  filterOptions="#{findAllBean.getSelect(classMB.typePoliticalParty)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['politicalParty.type']}" />
+                    </f:facet>
+                    <h:outputText value="#{politicalParty.type}"/>
+                </p:column>
+                <p:column headerText="#{msg['politicalParty.dataCadastro']}" sortBy="#{politicalParty.dataCadastro}"
+                    filterBy="#{politicalParty.dataCadastro}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['politicalParty.dataCadastro']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{politicalParty.dataCadastro}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['politicalParty.nome']}" sortBy="#{politicalParty.nome}"
+                    filterBy="#{politicalParty.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['politicalParty.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{politicalParty.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['politicalParty.email']}" sortBy="#{politicalParty.email}"
+                    filterBy="#{politicalParty.email}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['politicalParty.email']}" />
+                    </f:facet>
+                    <h:outputText value="#{politicalParty.email}"/>
+                </p:column>
+                <p:column headerText="#{msg['politicalParty.userLogin']}" sortBy="#{politicalParty.userLogin}"
+                    filterBy="#{politicalParty.userLogin}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['politicalParty.userLogin']}" />
+                    </f:facet>
+                    <h:outputText value="#{politicalParty.userLogin}"/>
+                </p:column>
+                <p:column headerText="#{msg['politicalParty.userPassword']}" sortBy="#{politicalParty.userPassword}"
+                    filterBy="#{politicalParty.userPassword}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['politicalParty.userPassword']}" />
+                    </f:facet>
+                    <h:outputText value="#{politicalParty.userPassword}"/>
+                </p:column>
+                <p:column headerText="#{msg['politicalParty.situacaoUsuario']}" sortBy="#{politicalParty.situacaoUsuario}"
+                    filterBy="#{politicalParty.situacaoUsuario}"  filterOptions="#{findAllBean.getSelect(classMB.situacaoUsuario)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['politicalParty.situacaoUsuario']}" />
+                    </f:facet>
+                    <h:outputText value="#{politicalParty.situacaoUsuario}"/>
+                </p:column>
+                <p:column headerText="#{msg['politicalParty.mailBox']}" sortBy="#{politicalParty.mailBox}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['politicalParty.mailBox']}" />
+                    </f:facet>
+                    <h:outputText value="#{politicalParty.mailBox}"/>
+                </p:column>
+                <p:column headerText="#{msg['politicalParty.superUsuario']}" sortBy="#{politicalParty.superUsuario}"
+                    filterBy="#{politicalParty.superUsuario}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['politicalParty.superUsuario']}" />
+                    </f:facet>
+                    <h:outputText value="#{politicalParty.superUsuario}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['politicalParty.emailCadastroEnviado']}" sortBy="#{politicalParty.emailCadastroEnviado}"
+                    filterBy="#{politicalParty.emailCadastroEnviado}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['politicalParty.emailCadastroEnviado']}" />
+                    </f:facet>
+                    <h:outputText value="#{politicalParty.emailCadastroEnviado}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['politicalParty.senhaCadastrada']}" sortBy="#{politicalParty.senhaCadastrada}"
+                    filterBy="#{politicalParty.senhaCadastrada}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['politicalParty.senhaCadastrada']}" />
+                    </f:facet>
+                    <h:outputText value="#{politicalParty.senhaCadastrada}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetPoliticalPartyDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailPoliticalParty" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{politicalParty}" target="#{politicalPartyMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="politicalParty.create">
+                        <p:button icon="ui-icon-pencil" outcome="createPoliticalParty" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{politicalParty.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="politicalParty.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{politicalPartyMB.delete}" >
+                            <f:setPropertyActionListener value="#{politicalParty.id}" target="#{politicalPartyMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{politicalParty}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="politicalParty.audit">
+                    <x:auditDelete for="#{politicalPartyMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetPoliticalPartyDetail" header="#{msg['politicalParty.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailPoliticalParty.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

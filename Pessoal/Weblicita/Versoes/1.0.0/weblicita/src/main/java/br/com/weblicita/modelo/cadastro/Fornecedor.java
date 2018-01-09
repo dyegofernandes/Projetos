@@ -1,0 +1,225 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.com.weblicita.modelo.cadastro;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
+/**
+ *
+ * @author Juniel
+ */
+@Entity
+public class Fornecedor implements Serializable {
+
+    @Id
+    @SequenceGenerator(name = "Fornecedor", allocationSize = 1, sequenceName = "fornecedor_id_seq")
+    @GeneratedValue(generator = "Fornecedor")
+    private Long id;
+
+    @NotBlank
+    @Size(max = 200)
+    private String numeroCADUF;
+
+    @NotBlank
+    @Size(max = 20)
+    private String cnpj;
+
+    @NotBlank
+    @Size(max = 200)
+    private String nomeFantasia;
+
+    @NotBlank
+    @Size(max = 200)
+    private String razaoSocial;
+
+    @Temporal(TemporalType.DATE)
+    private Date dataAbertura;
+
+    @Size(max = 200)
+    private String ramoAtividade;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @NotNull
+    private Endereco endereco = new Endereco();
+
+    @Email
+    private String email;
+
+    private String site;
+
+    @Column(columnDefinition = "Text")
+    private String observacao;
+
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataDoCadastro = new Date();
+
+    @ManyToMany(targetEntity = Telefone.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Telefone> telefones = new ArrayList<Telefone>();
+
+    @ManyToMany(targetEntity = AdministradorFornecedor.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<AdministradorFornecedor> administradores = new ArrayList<AdministradorFornecedor>();
+
+    private boolean ativo = true;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNumeroCADUF() {
+        return numeroCADUF;
+    }
+
+    public void setNumeroCADUF(String numeroCADUF) {
+        this.numeroCADUF = numeroCADUF;
+    }
+
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
+
+    public String getNomeFantasia() {
+        return nomeFantasia;
+    }
+
+    public void setNomeFantasia(String nomeFantasia) {
+        this.nomeFantasia = nomeFantasia;
+    }
+
+    public String getRazaoSocial() {
+        return razaoSocial;
+    }
+
+    public void setRazaoSocial(String razaoSocial) {
+        this.razaoSocial = razaoSocial;
+    }
+
+    public Date getDataAbertura() {
+        return dataAbertura;
+    }
+
+    public void setDataAbertura(Date dataAbertura) {
+        this.dataAbertura = dataAbertura;
+    }
+
+    public String getRamoAtividade() {
+        return ramoAtividade;
+    }
+
+    public void setRamoAtividade(String ramoAtividade) {
+        this.ramoAtividade = ramoAtividade;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSite() {
+        return site;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
+    public Date getDataDoCadastro() {
+        return dataDoCadastro;
+    }
+
+    public void setDataDoCadastro(Date dataDoCadastro) {
+        this.dataDoCadastro = dataDoCadastro;
+    }
+
+    public List<Telefone> getTelefones() {
+        return telefones;
+    }
+
+    public void setTelefones(List<Telefone> telefones) {
+        this.telefones = telefones;
+    }
+
+    public List<AdministradorFornecedor> getAdministradores() {
+        return administradores;
+    }
+
+    public void setAdministradores(List<AdministradorFornecedor> administradores) {
+        this.administradores = administradores;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 19 * hash + (this.id != null ? this.id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Fornecedor other = (Fornecedor) obj;
+        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return nomeFantasia;
+    }
+
+}

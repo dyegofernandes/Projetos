@@ -1,0 +1,340 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['fornecedor.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuFornecedor.xhtml" />
+        <h:form id="formListFornecedor">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="fornecedor_export" target=":formListFornecedor:dataTableFornecedor"
+                                     widgetVar="dataTableFornecedorWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="fornecedor" rowIndexVar="index" id="dataTableFornecedor" widgetVar="dataTableFornecedorWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{fornecedorMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{fornecedorMB.dataModel.paginatorTemplate}"
+                         value="#{fornecedorMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.empresa']}" sortBy="#{fornecedor.empresa}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.empresa']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.empresa}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.nome']}" sortBy="#{fornecedor.nome}"
+                    filterBy="#{fornecedor.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.nomeFantasia']}" sortBy="#{fornecedor.nomeFantasia}"
+                    filterBy="#{fornecedor.nomeFantasia}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.nomeFantasia']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.nomeFantasia}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.grupoFornecedor']}" sortBy="#{fornecedor.grupoFornecedor}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.grupoFornecedor']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.grupoFornecedor}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.receitaDespesa']}" sortBy="#{fornecedor.receitaDespesa}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.receitaDespesa']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.receitaDespesa}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.CnpjCpf']}" sortBy="#{fornecedor.cnpjCpf}"
+                    filterBy="#{fornecedor.cnpjCpf}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.CnpjCpf']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.cnpjCpf}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.cep']}" sortBy="#{fornecedor.cep}"
+                    filterBy="#{fornecedor.cep}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.cep']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.cep}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.logradouro']}" sortBy="#{fornecedor.logradouro}"
+                    filterBy="#{fornecedor.logradouro}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.logradouro']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.logradouro}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.numero']}" sortBy="#{fornecedor.numero}"
+                    filterBy="#{fornecedor.numero}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.numero']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.numero}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.complemento']}" sortBy="#{fornecedor.complemento}"
+                    filterBy="#{fornecedor.complemento}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.complemento']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.complemento}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.bairro']}" sortBy="#{fornecedor.bairro}"
+                    filterBy="#{fornecedor.bairro}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.bairro']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.bairro}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.municipio']}" sortBy="#{fornecedor.municipio}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.municipio']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.municipio}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.fone']}" sortBy="#{fornecedor.fone}"
+                    filterBy="#{fornecedor.fone}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.fone']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.fone}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.fax']}" sortBy="#{fornecedor.fax}"
+                    filterBy="#{fornecedor.fax}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.fax']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.fax}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.celular']}" sortBy="#{fornecedor.celular}"
+                    filterBy="#{fornecedor.celular}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.celular']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.celular}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.site']}" sortBy="#{fornecedor.site}"
+                    filterBy="#{fornecedor.site}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.site']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.site}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.contato']}" sortBy="#{fornecedor.contato}"
+                    filterBy="#{fornecedor.contato}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.contato']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.contato}"/>
+                </p:column>
+                
+                <p:column headerText="#{msg['fornecedor.obs']}" sortBy="#{fornecedor.obs}"
+                    filterBy="#{fornecedor.obs}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.obs']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.obs}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.contaContabil']}" sortBy="#{fornecedor.contaContabil}"
+                    filterBy="#{fornecedor.contaContabil}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.contaContabil']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.contaContabil}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.banco']}" sortBy="#{fornecedor.banco}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.banco']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.banco}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.agencia']}" sortBy="#{fornecedor.agencia}"
+                    filterBy="#{fornecedor.agencia}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.agencia']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.agencia}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.dvAgencia']}" sortBy="#{fornecedor.dvAgencia}"
+                    filterBy="#{fornecedor.dvAgencia}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.dvAgencia']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.dvAgencia}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.contaCorrente']}" sortBy="#{fornecedor.contaCorrente}"
+                    filterBy="#{fornecedor.contaCorrente}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.contaCorrente']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.contaCorrente}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.dvContaCorrente']}" sortBy="#{fornecedor.dvContaCorrente}"
+                    filterBy="#{fornecedor.dvContaCorrente}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.dvContaCorrente']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.dvContaCorrente}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.tipoDeConta']}" sortBy="#{fornecedor.tipoDeConta}"
+                    filterBy="#{fornecedor.tipoDeConta}"  filterOptions="#{findAllBean.getSelect(classMB.tipoContaBanco)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.tipoDeConta']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.tipoDeConta}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.im']}" sortBy="#{fornecedor.im}"
+                    filterBy="#{fornecedor.im}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.im']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.im}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.referencia']}" sortBy="#{fornecedor.referencia}"
+                    filterBy="#{fornecedor.referencia}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.referencia']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.referencia}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.descPrevisto']}" sortBy="#{fornecedor.descPrevisto}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.descPrevisto']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.descPrevisto}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.enviarEmail']}" sortBy="#{fornecedor.enviarEmail}"
+                    filterBy="#{fornecedor.enviarEmail}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.enviarEmail']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.enviarEmail}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.exterior']}" sortBy="#{fornecedor.exterior}"
+                    filterBy="#{fornecedor.exterior}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.exterior']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.exterior}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.icms']}" sortBy="#{fornecedor.icms}"
+                    filterBy="#{fornecedor.icms}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.icms']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.icms}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.servicoPublico']}" sortBy="#{fornecedor.servicoPublico}"
+                    filterBy="#{fornecedor.servicoPublico}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.servicoPublico']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.servicoPublico}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.finalidadeTed']}" sortBy="#{fornecedor.finalidadeTed}"
+                    filterBy="#{fornecedor.finalidadeTed}"  filterOptions="#{findAllBean.getSelect(classMB.finalidadeTed)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.finalidadeTed']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.finalidadeTed}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.finalidadeDoc']}" sortBy="#{fornecedor.finalidadeDoc}"
+                    filterBy="#{fornecedor.finalidadeDoc}"  filterOptions="#{findAllBean.getSelect(classMB.finalidadeDoc)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.finalidadeDoc']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.finalidadeDoc}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.leiaute']}" sortBy="#{fornecedor.leiaute}"
+                    filterBy="#{fornecedor.leiaute}"  filterOptions="#{findAllBean.getSelect(classMB.leiaute)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.leiaute']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.leiaute}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.email']}" sortBy="#{fornecedor.email}"
+                    filterBy="#{fornecedor.email}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.email']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.email}"/>
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.calcInssEmp']}" sortBy="#{fornecedor.calcInssEmp}"
+                    filterBy="#{fornecedor.calcInssEmp}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.calcInssEmp']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.calcInssEmp}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['fornecedor.aliqInss']}" sortBy="#{fornecedor.aliqInss}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fornecedor.aliqInss']}" />
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.aliqInss}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetFornecedorDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailFornecedor" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{fornecedor}" target="#{fornecedorMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="fornecedor.create">
+                        <p:button icon="ui-icon-pencil" outcome="createFornecedor" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{fornecedor.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="fornecedor.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{fornecedorMB.delete}" >
+                            <f:setPropertyActionListener value="#{fornecedor.id}" target="#{fornecedorMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{fornecedor}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="fornecedor.audit">
+                    <x:auditDelete for="#{fornecedorMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetFornecedorDetail" header="#{msg['fornecedor.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailFornecedor.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

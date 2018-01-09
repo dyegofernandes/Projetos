@@ -1,0 +1,128 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailContasAPagarVencimentos" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentos.empresa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosMB.entity.empresa}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentos.contasAPagar']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosMB.entity.contasAPagar}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentos.sequencial']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosMB.entity.sequencial}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentos.data']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosMB.entity.data}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentos.numTitulo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosMB.entity.numTitulo}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentos.quitado']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosMB.entity.quitado}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentos.valor']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosMB.entity.valor}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentos.dataCancelamento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosMB.entity.dataCancelamento}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentos.motivoCancelamento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosMB.entity.motivoCancelamento}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentos.autorizado']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosMB.entity.autorizado}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentos.codigoBarras']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosMB.entity.codigoBarras}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentos.banco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosMB.entity.banco}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentos.valorBruto']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosMB.entity.valorBruto}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentos.enviado']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosMB.entity.enviado}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentos.desconto']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosMB.entity.desconto}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentos.agencia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosMB.entity.agencia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentos.dvAgencia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosMB.entity.dvAgencia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentos.cc']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosMB.entity.cc}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentos.dvConta']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosMB.entity.dvConta}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentos.fornecedor']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosMB.entity.fornecedor}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentos.amortizacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosMB.entity.amortizacao}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentos.encargos']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosMB.entity.encargos}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetContasAPagarVencimentosDetail').hide()" />
+            <x:securityArea rolesAllowed="contasAPagarVencimentos.audit">
+                <x:audit for="#{contasAPagarVencimentosMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

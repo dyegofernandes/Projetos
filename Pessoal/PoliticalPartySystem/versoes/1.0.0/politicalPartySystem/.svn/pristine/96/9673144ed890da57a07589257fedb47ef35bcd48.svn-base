@@ -1,0 +1,70 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailLegalPerson" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['legalPerson.subsidiary']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{legalPersonMB.entity.subsidiary}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['legalPerson.corporateName']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{legalPersonMB.entity.corporateName}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['legalPerson.fancyName']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{legalPersonMB.entity.fancyName}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['legalPerson.cnpj']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{legalPersonMB.entity.cnpj}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['legalPerson.stateRegistration']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{legalPersonMB.entity.stateRegistration}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['legalPerson.LOG']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{legalPersonMB.entity.LOG}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['legalPerson.photo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{legalPersonMB.entity.photo}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['legalPerson.email']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{legalPersonMB.entity.email}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['legalPerson.phone']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{legalPersonMB.entity.phone}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['legalPerson.address']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{legalPersonMB.entity.address}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['legalPerson.active']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{legalPersonMB.entity.active}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetLegalPersonDetail').hide()" />
+            <x:securityArea rolesAllowed="legalPerson.audit">
+                <x:audit for="#{legalPersonMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

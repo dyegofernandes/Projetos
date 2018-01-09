@@ -1,0 +1,206 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['lote.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuLote.xhtml" />
+        <h:form id="formListLote">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="empresa" value="#{msg['lote.empresa']}:" />
+                        <h:selectOneMenu id="empresa" value="#{loteMB.campoDeBusca.empresa}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{loteMB.empresas}" 
+                                           var="empresa"
+                                           itemLabel="#{empresa}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="motivoPagamento" value="#{msg['lote.motivoPagamento']}:" />
+                        <h:selectOneMenu id="motivoPagamento" value="#{loteMB.campoDeBusca.motivo}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{loteMB.motivos}" 
+                                           var="motivoPagamento"
+                                           itemLabel="#{motivoPagamento}"/>
+                        </h:selectOneMenu>
+                    </div>                  
+
+                </div>
+                <div class="row">
+                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataInicial" value="Data Inicial Pagamento:" />
+                        <p:calendar id="dataInicial" value="#{loteMB.campoDeBusca.dataInicial}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataFinal" value="Data Final Pagamento:" />
+                        <p:calendar id="dataFinal" value="#{loteMB.campoDeBusca.dataFinal}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                </div>
+            </div>
+            <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+            <div class="uix-center">
+
+                <p:commandButton process="@form" update="formListLote:dataTableLote" action="#{loteMB.buscar}" value="Buscar" ajax="true" />
+
+            </div>
+            <x:modalMessages autoUpdate="true"/>
+
+            <x:dataTableActions fileName="lote_export" target=":formListLote:dataTableLote"
+                                widgetVar="dataTableLoteWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="lote" rowIndexVar="index" id="dataTableLote" widgetVar="dataTableLoteWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{loteMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{loteMB.dataModel.paginatorTemplate}" expandedRow="false"
+                         value="#{loteMB.lotes}" filteredValue="#{loteMB.lotesFiltrados}" lazy="false" >
+                <p:column style="width:2%" >  
+                    <p:rowToggler id="togglerFormularioPai">
+                        
+                    </p:rowToggler>  
+                </p:column> 
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="CNPJ Empresa">
+                    <f:facet name="header">
+                        <h:outputText value="CNPJ Empresa" />
+                    </f:facet>
+                    <h:outputText value="#{lote.empresa.cnpj}" converter="cnpjConverter">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Nome Empresa" >
+                    <f:facet name="header">
+                        <h:outputText value="Nome Empresa" />
+                    </f:facet>
+                    <h:outputText value="#{lote.empresa.nomeFantasia}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column headerText="#{msg['lote.motivoPagamento']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['lote.motivoPagamento']}" />
+                    </f:facet>
+                    <h:outputText value="#{lote.motivoPagamento}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['lote.qtdias']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['lote.qtdias']}" />
+                    </f:facet>
+                    <h:outputText value="#{lote.qtdias}"/>
+                </p:column>
+                <p:column headerText="#{msg['lote.vlrDia']}" style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['lote.vlrDia']}" />
+                    </f:facet>
+                    <h:outputText value="#{lote.vlrDia}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Vlr Total" style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="Vlr Total" />
+                    </f:facet>
+                    <h:outputText value="#{lote.vlrTotal}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['lote.dtPagamento']}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['lote.dtPagamento']}" />
+
+                    </f:facet>
+                    <h:outputText value="#{lote.dtPagamento}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:rowExpansion>
+                    <p:dataTable 
+                        id="listFuncionariosLote" rowIndexVar="indexExp"
+                        value="#{loteMB.funcionariosPorLote(lote.id)}" 
+                        var="funcionario" emptyMessage="#{xmsg['noRecordFound']}"
+                        style="width:100%;color:#FFBA8C;" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{indexExp+1}"/>
+                        </p:column>
+                        <p:column headerText="Nome Funcionario" style="text-align:left;" >
+                            #{funcionario.nome}    
+                        </p:column>
+
+                        <p:column headerText="Empresa" style="text-align:center;">
+                            #{funcionario.empresa}    
+                        </p:column>
+
+                        <p:column headerText="Motivo" style="text-align:center;">
+                            #{funcionario.motivo}    
+                        </p:column>
+
+                        <p:column headerText="Data Pagamento" style="text-align:center;">
+                            <h:outputText value="#{funcionario.dataPagamento}">
+                                <f:convertDateTime />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Valor Total" style="text-align:center;">
+                            #{funcionario.valorPagamento}    
+                        </p:column>
+
+                        <p:column headerText="Situação" style="text-align:center;">
+                            #{funcionario.situacao}    
+                        </p:column>
+                    </p:dataTable>
+
+                </p:rowExpansion>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetLoteDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailLote" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{lote}" target="#{loteMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="lote.create">
+                        <p:button icon="ui-icon-pencil" outcome="createLote" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{lote.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="lote.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{loteMB.delete}" >
+                            <f:setPropertyActionListener value="#{lote.id}" target="#{loteMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{lote}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="lote.audit">
+                    <x:auditDelete for="#{loteMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetLoteDetail" header="#{msg['lote.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailLote.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,63 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreatePhone" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="typePhone" value="* #{msg['phone.typePhone']}:" />
+                         <h:selectOneMenu id="typePhone" value="#{phoneMB.entity.typePhone}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.typePhone)}" 
+                                            var="typePhone"
+                                            itemLabel="#{typePhone}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="ddd" value="* #{msg['phone.ddd']}:" />
+                         <p:inputText id="ddd" value="#{phoneMB.entity.ddd}" maxlength="3"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="number" value="* #{msg['phone.number']}:" />
+                         <p:inputText id="number" value="#{phoneMB.entity.number}" maxlength="10"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="branch" value="#{msg['phone.branch']}:" />
+                         <p:inputText id="branch" value="#{phoneMB.entity.branch}" maxlength="50"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="contact" value="#{msg['phone.contact']}:" />
+                         <p:inputText id="contact" value="#{phoneMB.entity.contact}" maxlength="50"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <div class="checkbox">
+                             <label>
+                                 <h:selectBooleanCheckbox id="active" value="#{phoneMB.entity.active}" />
+                                 #{msg['phone.active']}
+                             </label>
+                         </div>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="phone.create">
+                <p:commandButton process="@form" update="@form" action="#{phoneMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="phone.audit">
+                <x:audit for="#{phoneMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

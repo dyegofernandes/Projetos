@@ -1,0 +1,105 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateFuncionario" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="empresa" value="* #{msg['funcionario.empresa']}:" />
+                         <h:selectOneMenu id="empresa" value="#{funcionarioMB.entity.empresa}" converter="entityConverter" styleClass="form-control" 
+                                          required="true" requiredMessage="Empresa é Obrigatória!">
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{funcionarioMB.empresas}" 
+                                            var="empresa"
+                                            itemLabel="#{empresa.cdBanco} - #{empresa.nomeFantasia}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="nome" value="* #{msg['funcionario.nome']}:" />
+                         <p:inputText id="nome" value="#{funcionarioMB.entity.nome}" maxlength="45"  styleClass="form-control"  
+                                      required="true" requiredMessage="Nome é Obrigatório!"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="cpf" value="* #{msg['funcionario.cpf']}:" />
+                         <x:cpf id="cpf" value="#{funcionarioMB.entity.cpf}" styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="rg" value="* Identidade:" />
+                         <p:inputText id="rg" value="#{funcionarioMB.entity.rg}" maxlength="20"  styleClass="form-control"  
+                                      required="true" requiredMessage="Identidade é Obrigatória!"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="rgEmissor" value="* Orgão Emissor:" />
+                         <p:inputText id="rgEmissor" value="#{funcionarioMB.entity.rgEmissor}" maxlength="20"  styleClass="form-control"  
+                                      required="true" requiredMessage="Orgão Emissor é Obrigatório!"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="endereco" value="* #{msg['funcionario.endereco']}:" />
+                         <p:inputText id="endereco" value="#{funcionarioMB.entity.endereco}" maxlength="45"  styleClass="form-control"  
+                                      required="true" requiredMessage="Endereço é Obrigatório!"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="cep" value="* #{msg['funcionario.cep']}:" />
+                         <p:inputMask id="cep" value="#{funcionarioMB.entity.cep}" mask="99999-999"  styleClass="form-control"  
+                                      required="true" requiredMessage="CEP é Obrigatório!"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="telefone" value="* #{msg['funcionario.telefone']}:" />
+                         <p:inputMask id="telefone" value="#{funcionarioMB.entity.telefone}" mask="(99) 9999-9999"  styleClass="form-control"  
+                                      required="true" requiredMessage="Telefone é Obrigatório!"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="celular" value="#{msg['funcionario.celular']}:" />
+                         <p:inputMask id="celular" value="#{funcionarioMB.entity.celular}" mask="(99) 9999-9999" styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="nascimento" value="* #{msg['funcionario.nascimento']}:" />
+                         <p:calendar id="nascimento" value="#{funcionarioMB.entity.nascimento}" 
+                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar" 
+                                     required="true" requiredMessage="Data de Nascimento é Obrigatória!">
+                             <x:mask/>
+                         </p:calendar>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="salario:input" value="* Salário (R$):" />
+                         <x:inputNumber id="salario" value="#{funcionarioMB.entity.salario}" styleClass="form-control"
+                                        required="true" requiredMessage="Salário é Obrigatório!"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="funcao" value="* Função:" />
+                         <p:inputText id="funcao" value="#{funcionarioMB.entity.funcao}" maxlength="30"  styleClass="form-control"  
+                                      required="true" requiredMessage="Função é Obrigatória!"/>
+                     </div>
+                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <div class="checkbox">
+                             <label>
+                                 <h:selectBooleanCheckbox id="active" value="#{funcionarioMB.entity.ativo}" />
+                                 Ativo
+                             </label>
+                         </div>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="funcionario.create">
+                <p:commandButton process="@form" update="@form" action="#{funcionarioMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="funcionario.audit">
+                <x:audit for="#{funcionarioMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

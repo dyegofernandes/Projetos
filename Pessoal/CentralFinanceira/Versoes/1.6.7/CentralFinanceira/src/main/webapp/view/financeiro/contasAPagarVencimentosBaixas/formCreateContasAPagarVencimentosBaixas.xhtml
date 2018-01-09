@@ -1,0 +1,117 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateContasAPagarVencimentosBaixas" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="empresa" value="* #{msg['contasAPagarVencimentosBaixas.empresa']}:" />
+                         <h:selectOneMenu id="empresa" value="#{contasAPagarVencimentosBaixasMB.entity.empresa}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.empresa)}" 
+                                            var="empresa"
+                                            itemLabel="#{empresa}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="codigoVencimento" value="* #{msg['contasAPagarVencimentosBaixas.codigoVencimento']}:" />
+                         <p:inputMask id="codigoVencimento" mask="9?999999999" placeHolder="" value="#{contasAPagarVencimentosBaixasMB.entity.codigoVencimento}" styleClass="form-control" />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="dataVencimento" value="* #{msg['contasAPagarVencimentosBaixas.dataVencimento']}:" />
+                         <p:calendar id="dataVencimento" value="#{contasAPagarVencimentosBaixasMB.entity.dataVencimento}" 
+                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                             <x:mask/>
+                         </p:calendar>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="sequencialVencimento" value="* #{msg['contasAPagarVencimentosBaixas.sequencialVencimento']}:" />
+                         <p:inputMask id="sequencialVencimento" mask="9?999999999" placeHolder="" value="#{contasAPagarVencimentosBaixasMB.entity.sequencialVencimento}" styleClass="form-control" />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="sequencial" value="* #{msg['contasAPagarVencimentosBaixas.sequencial']}:" />
+                         <p:inputMask id="sequencial" mask="9?999999999" placeHolder="" value="#{contasAPagarVencimentosBaixasMB.entity.sequencial}" styleClass="form-control" />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="data" value="* #{msg['contasAPagarVencimentosBaixas.data']}:" />
+                         <p:calendar id="data" value="#{contasAPagarVencimentosBaixasMB.entity.data}" 
+                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                             <x:mask/>
+                         </p:calendar>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="valor:input" value="* #{msg['contasAPagarVencimentosBaixas.valor']}:" />
+                         <x:inputNumber id="valor" value="#{contasAPagarVencimentosBaixasMB.entity.valor}" styleClass="form-control"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="desconto:input" value="#{msg['contasAPagarVencimentosBaixas.desconto']}:" />
+                         <x:inputNumber id="desconto" value="#{contasAPagarVencimentosBaixasMB.entity.desconto}" styleClass="form-control"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="juros:input" value="#{msg['contasAPagarVencimentosBaixas.juros']}:" />
+                         <x:inputNumber id="juros" value="#{contasAPagarVencimentosBaixasMB.entity.juros}" styleClass="form-control"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <div class="checkbox">
+                             <label>
+                                 <h:selectBooleanCheckbox id="automatica" value="#{contasAPagarVencimentosBaixasMB.entity.automatica}" />
+                                 #{msg['contasAPagarVencimentosBaixas.automatica']}
+                             </label>
+                         </div>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="dataCancel" value="#{msg['contasAPagarVencimentosBaixas.dataCancel']}:" />
+                         <p:calendar id="dataCancel" value="#{contasAPagarVencimentosBaixasMB.entity.dataCancel}" 
+                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                             <x:mask/>
+                         </p:calendar>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="obsCancel" value="#{msg['contasAPagarVencimentosBaixas.obsCancel']}:" />
+                         <p:inputText id="obsCancel" value="#{contasAPagarVencimentosBaixasMB.entity.obsCancel}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="multa:input" value="#{msg['contasAPagarVencimentosBaixas.multa']}:" />
+                         <x:inputNumber id="multa" value="#{contasAPagarVencimentosBaixasMB.entity.multa}" styleClass="form-control"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <div class="checkbox">
+                             <label>
+                                 <h:selectBooleanCheckbox id="exportaAC" value="#{contasAPagarVencimentosBaixasMB.entity.exportaAC}" />
+                                 #{msg['contasAPagarVencimentosBaixas.exportaAC']}
+                             </label>
+                         </div>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <div class="checkbox">
+                             <label>
+                                 <h:selectBooleanCheckbox id="jaExportado" value="#{contasAPagarVencimentosBaixasMB.entity.jaExportado}" />
+                                 #{msg['contasAPagarVencimentosBaixas.jaExportado']}
+                             </label>
+                         </div>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="contasAPagarVencimentosBaixas.create">
+                <p:commandButton process="@form" update="@form" action="#{contasAPagarVencimentosBaixasMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="contasAPagarVencimentosBaixas.audit">
+                <x:audit for="#{contasAPagarVencimentosBaixasMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

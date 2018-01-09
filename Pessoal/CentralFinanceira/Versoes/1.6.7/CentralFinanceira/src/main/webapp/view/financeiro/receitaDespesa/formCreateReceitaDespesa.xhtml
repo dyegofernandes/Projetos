@@ -1,0 +1,165 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateReceitaDespesa" >
+        <x:modalMessages/>
+        <p:fieldset legend="#{xmsg['generalData']}">
+
+
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="receitaDespesaMae" value="#{msg['receitaDespesa.receitaDespesaMae']}:" />
+                        <h:selectOneMenu id="receitaDespesaMae" value="#{receitaDespesaMB.entity.receitaDespesaMae}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.receitaDespesa)}" 
+                                           var="receitaDespesa"
+                                           itemLabel="#{receitaDespesa}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="* #{msg['receitaDespesa.nome']}:" />
+                        <p:inputText id="nome" value="#{receitaDespesaMB.entity.nome}" maxlength="80"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="grupo" value="#{msg['receitaDespesa.grupo']}:" />
+                        <h:selectOneMenu id="grupo" value="#{receitaDespesaMB.entity.grupo}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.grupoReceitaDespesa)}" 
+                                           var="grupoReceitaDespesa"
+                                           itemLabel="#{grupoReceitaDespesa}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tipo" value="* #{msg['receitaDespesa.tipo']}:" />
+                        <h:selectOneMenu id="tipo" value="#{receitaDespesaMB.entity.tipo}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.tipoDespesaEnum)}" 
+                                           var="tipoDespesaEnum"
+                                           itemLabel="#{tipoDespesaEnum.descricao}"/>
+                            <p:ajax update="panel1" process="@this"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <h:panelGroup id="panel1">
+                        <h:panelGroup rendered="#{receitaDespesaMB.entity.tipo.num==0 ? true : false}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="natureza" value="#{msg['receitaDespesa.natureza']}:" />
+                                <h:selectOneMenu id="natureza" value="#{receitaDespesaMB.entity.natureza}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.naturezaDespesa)}" 
+                                                   var="naturezaDespesa"
+                                                   itemLabel="#{naturezaDespesa.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="contaFinanceira" value="#{msg['receitaDespesa.contaFinanceira']}:" />
+                                <h:selectOneMenu id="contaFinanceira" value="#{receitaDespesaMB.entity.contaFinanceira}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.contaFinanceira)}" 
+                                                   var="contaFinanceira"
+                                                   itemLabel="#{contaFinanceira}"/>
+                                </h:selectOneMenu>
+                            </div>
+                        </h:panelGroup>
+                    </h:panelGroup>
+                   
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="inativo" value="#{receitaDespesaMB.entity.inativo}" />
+                                #{msg['receitaDespesa.inativo']}
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Retém">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="retemIss" value="#{receitaDespesaMB.entity.retemIss}" />
+                                ISS
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="retemInss" value="#{receitaDespesaMB.entity.retemInss}" />
+                                INSS
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="retemIcms" value="#{receitaDespesaMB.entity.retemIcms}" />
+                                ICMS
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="retemIrrf" value="#{receitaDespesaMB.entity.retemIrrf}" />
+                                IRRF
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="retemPisConfinsCsll" value="#{receitaDespesaMB.entity.retemPisConfinsCsll}" />
+                                PIS/CONFINS/CSLL
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Outros">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="obs" value="#{msg['receitaDespesa.obs']}:" />
+                        <p:inputTextarea id="obs" value="#{receitaDespesaMB.entity.obs}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="contaContabil" value="#{msg['receitaDespesa.contaContabil']}:" />
+                        <p:inputText id="contaContabil" value="#{receitaDespesaMB.entity.contaContabil}" maxlength="15"  styleClass="form-control"  />
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="receitaDespesa.create">
+                <p:commandButton process="@form" update="@form" action="#{receitaDespesaMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="receitaDespesa.audit">
+                <x:audit for="#{receitaDespesaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

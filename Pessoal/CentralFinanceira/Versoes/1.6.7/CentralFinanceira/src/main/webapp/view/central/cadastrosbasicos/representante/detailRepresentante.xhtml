@@ -1,0 +1,112 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailRepresentante" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['representante.empresa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{representanteMB.entity.empresa}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['representante.nome']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{representanteMB.entity.nome}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['representante.cnpjCpf']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{representanteMB.entity.cnpjCpf}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['representante.tabelaDeComissao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{representanteMB.entity.tabelaDeComissao}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['representante.tipoComissao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{representanteMB.entity.tipoComissao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['representante.cep']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{representanteMB.entity.cep}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['representante.logradouro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{representanteMB.entity.logradouro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['representante.numero']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{representanteMB.entity.numero}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['representante.complemento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{representanteMB.entity.complemento}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['representante.bairro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{representanteMB.entity.bairro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['representante.municipio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{representanteMB.entity.municipio}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['representante.fone']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{representanteMB.entity.fone}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['representante.fax']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{representanteMB.entity.fax}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['representante.celular']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{representanteMB.entity.celular}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['representante.contato']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{representanteMB.entity.contato}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['representante.obs']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{representanteMB.entity.obs}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['representante.email']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{representanteMB.entity.email}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['representante.fornecedor']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{representanteMB.entity.fornecedor}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['representante.vencimento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{representanteMB.entity.vencimento}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['representante.retemIRRF']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{representanteMB.entity.retemIRRF}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['representante.referencia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{representanteMB.entity.referencia}" styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetRepresentanteDetail').hide()" />
+            <x:securityArea rolesAllowed="representante.audit">
+                <x:audit for="#{representanteMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

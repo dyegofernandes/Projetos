@@ -1,0 +1,100 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailReceitaDespesa" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['receitaDespesa.empresa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{receitaDespesaMB.entity.empresa}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['receitaDespesa.nome']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{receitaDespesaMB.entity.nome}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['receitaDespesa.tipo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{receitaDespesaMB.entity.tipo}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['receitaDespesa.natureza']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{receitaDespesaMB.entity.natureza}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['receitaDespesa.contaContabil']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{receitaDespesaMB.entity.contaContabil}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['receitaDespesa.grupo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{receitaDespesaMB.entity.grupo}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['receitaDespesa.contaFinanceira']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{receitaDespesaMB.entity.contaFinanceira}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['receitaDespesa.receitaDespesaMae']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{receitaDespesaMB.entity.receitaDespesaMae}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['receitaDespesa.investimento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{receitaDespesaMB.entity.investimento}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['receitaDespesa.retemIss']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{receitaDespesaMB.entity.retemIss}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['receitaDespesa.retemInss']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{receitaDespesaMB.entity.retemInss}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['receitaDespesa.retemIrrf']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{receitaDespesaMB.entity.retemIrrf}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['receitaDespesa.retemIcms']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{receitaDespesaMB.entity.retemIcms}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['receitaDespesa.retemPisConfinsCsll']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{receitaDespesaMB.entity.retemPisConfinsCsll}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['receitaDespesa.obs']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{receitaDespesaMB.entity.obs}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['receitaDespesa.contaContabilEstoque']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{receitaDespesaMB.entity.contaContabilEstoque}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['receitaDespesa.gerarSpr']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{receitaDespesaMB.entity.gerarSpr}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['receitaDespesa.inativo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{receitaDespesaMB.entity.inativo}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetReceitaDespesaDetail').hide()" />
+            <x:securityArea rolesAllowed="receitaDespesa.audit">
+                <x:audit for="#{receitaDespesaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

@@ -1,0 +1,70 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailPagamento" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagamento.op']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagamentoMB.entity.op}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagamento.funcionario']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagamentoMB.entity.funcionario}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagamento.empresa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagamentoMB.entity.empresa}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagamento.usuario']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagamentoMB.entity.usuario}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagamento.motivoPagamento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagamentoMB.entity.motivoPagamento}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagamento.lote']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagamentoMB.entity.lote}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagamento.dtPagamento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagamentoMB.entity.dtPagamento}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagamento.valorPagto']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagamentoMB.entity.valorPagto}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagamento.situacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagamentoMB.entity.situacao}" styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetPagamentoDetail').hide()" />
+            <x:securityArea rolesAllowed="pagamento.audit">
+                <x:audit for="#{pagamentoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

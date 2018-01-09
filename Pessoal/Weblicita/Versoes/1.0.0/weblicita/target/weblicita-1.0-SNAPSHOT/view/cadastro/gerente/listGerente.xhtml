@@ -1,0 +1,97 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['gerente.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuGerente.xhtml" />
+        <h:form id="formListGerente">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="gerente_export" target=":formListGerente:dataTableGerente"
+                                     widgetVar="dataTableGerenteWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="gerente" rowIndexVar="index" id="dataTableGerente" widgetVar="dataTableGerenteWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{gerenteMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{gerenteMB.dataModel.paginatorTemplate}"
+                         value="#{gerenteMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['gerente.nome']}" sortBy="#{gerente.nome}"
+                    filterBy="#{gerente.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['gerente.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{gerente.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['gerente.rg']}" sortBy="#{gerente.rg}"
+                    filterBy="#{gerente.rg}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['gerente.rg']}" />
+                    </f:facet>
+                    <h:outputText value="#{gerente.rg}"/>
+                </p:column>
+                <p:column headerText="#{msg['gerente.cpf']}" sortBy="#{gerente.cpf}"
+                    filterBy="#{gerente.cpf}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['gerente.cpf']}" />
+                    </f:facet>
+                    <h:outputText value="#{gerente.cpf}"/>
+                </p:column>
+                <p:column headerText="#{msg['gerente.dataNascimento']}" sortBy="#{gerente.dataNascimento}"
+                    filterBy="#{gerente.dataNascimento}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['gerente.dataNascimento']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{gerente.dataNascimento}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['gerente.endereco']}" sortBy="#{gerente.endereco}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['gerente.endereco']}" />
+                    </f:facet>
+                    <h:outputText value="#{gerente.endereco}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetGerenteDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailGerente" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{gerente}" target="#{gerenteMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="gerente.create">
+                        <p:button icon="ui-icon-pencil" outcome="createGerente" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{gerente.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="gerente.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{gerenteMB.delete}" >
+                            <f:setPropertyActionListener value="#{gerente.id}" target="#{gerenteMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{gerente}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="gerente.audit">
+                    <x:auditDelete for="#{gerenteMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetGerenteDetail" header="#{msg['gerente.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailGerente.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

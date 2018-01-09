@@ -1,0 +1,100 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['messenger.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuMessenger.xhtml" />
+        <h:form id="formListMessenger">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="messenger_export" target=":formListMessenger:dataTableMessenger"
+                                     widgetVar="dataTableMessengerWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="messenger" rowIndexVar="index" id="dataTableMessenger" widgetVar="dataTableMessengerWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{messengerMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{messengerMB.dataModel.paginatorTemplate}"
+                         value="#{messengerMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['messenger.sendDate']}" sortBy="#{messenger.sendDate}"
+                    filterBy="#{messenger.sendDate}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['messenger.sendDate']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{messenger.sendDate}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['messenger.title']}" sortBy="#{messenger.title}"
+                    filterBy="#{messenger.title}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['messenger.title']}" />
+                    </f:facet>
+                    <h:outputText value="#{messenger.title}"/>
+                </p:column>
+                <p:column headerText="#{msg['messenger.body']}" sortBy="#{messenger.body}"
+                    filterBy="#{messenger.body}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['messenger.body']}" />
+                    </f:facet>
+                    <h:outputText value="#{messenger.body}"/>
+                </p:column>
+                <p:column headerText="#{msg['messenger.readingDate']}" sortBy="#{messenger.readingDate}"
+                    filterBy="#{messenger.readingDate}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['messenger.readingDate']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{messenger.readingDate}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['messenger.type']}" sortBy="#{messenger.type}"
+                    filterBy="#{messenger.type}"  filterOptions="#{findAllBean.getSelect(classMB.typeMessager)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['messenger.type']}" />
+                    </f:facet>
+                    <h:outputText value="#{messenger.type}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetMessengerDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailMessenger" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{messenger}" target="#{messengerMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="messenger.create">
+                        <p:button icon="ui-icon-pencil" outcome="createMessenger" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{messenger.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="messenger.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{messengerMB.delete}" >
+                            <f:setPropertyActionListener value="#{messenger.id}" target="#{messengerMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{messenger}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="messenger.audit">
+                    <x:auditDelete for="#{messengerMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetMessengerDetail" header="#{msg['messenger.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailMessenger.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,42 @@
+package br.com.jsoft.centralfinanceira.bo.central;
+
+import com.xpert.core.crud.AbstractBusinessObject;
+import br.com.jsoft.centralfinanceira.dao.central.GrupoReceitaDespesaDAO;
+import com.xpert.core.validation.UniqueField;
+import com.xpert.core.exception.BusinessException;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import br.com.jsoft.centralfinanceira.modelo.cadastroBasicos.GrupoReceitaDespesa;
+import com.xpert.core.validation.UniqueFields;
+
+/**
+ *
+ * @author Juniel
+ */
+@Stateless
+public class GrupoReceitaDespesaBO extends AbstractBusinessObject<GrupoReceitaDespesa> {
+
+    @EJB
+    private GrupoReceitaDespesaDAO grupoReceitaDespesaDAO;
+    
+    @Override
+    public GrupoReceitaDespesaDAO getDAO() {
+        return grupoReceitaDespesaDAO;
+    }
+
+    @Override
+    public List<UniqueField> getUniqueFields() {
+        return new UniqueFields().add("empresa", "nome");
+    }
+
+    @Override
+    public void validate(GrupoReceitaDespesa grupoReceitaDespesa) throws BusinessException {
+    }
+
+    @Override
+    public boolean isAudit() {
+        return true;
+    }
+
+}

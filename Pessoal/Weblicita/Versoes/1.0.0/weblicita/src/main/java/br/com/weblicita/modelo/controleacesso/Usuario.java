@@ -1,0 +1,340 @@
+package br.com.weblicita.modelo.controleacesso;
+
+import br.com.weblicita.modelo.cadastro.Orgao;
+import br.com.weblicita.modelo.cadastro.Telefone;
+import br.com.weblicita.modelo.licitacao.PedidoLicitacao;
+import com.xpert.audit.NotAudited;
+import com.xpert.security.model.User;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.*;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
+@Entity
+public class Usuario implements Serializable, User {
+
+    @Id
+    @SequenceGenerator(name = "Usuario", allocationSize = 1, sequenceName = "usuario_id_seq")
+    @GeneratedValue(generator = "Usuario")
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Orgao orgao;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataCadastro;
+
+    @Temporal(TemporalType.DATE)
+    private Date dataDeNascimento;
+
+    @Column(columnDefinition = "bytea")
+    private byte[] foto;
+    
+    @NotBlank
+    private String nome;
+
+    @Size(max = 16)
+    private String cpf;
+
+    @NotBlank
+    @Size(max = 150)
+    @Email
+    private String email;
+
+    @Size(max = 50)
+    private String matricula;
+
+    @Size(max = 230)
+    private String rg;
+
+    @Size(max = 16)
+    private String redeSocial;
+
+    @Column(columnDefinition = "Text")
+    private String observacao;
+
+    @NotBlank
+    @Size(min = 4)
+    private String userLogin;
+
+    @NotAudited
+    @Size(min = 5)
+    private String userPassword;
+    
+    @NotBlank
+    private String cargo;
+
+    @Column(length = 20)
+    @Enumerated(EnumType.STRING)
+    private SituacaoUsuario situacaoUsuario;
+
+    @OrderBy(value = "descricao")
+    @ManyToMany(targetEntity = Perfil.class, fetch = FetchType.LAZY)
+    @JoinTable(name = "usuario_perfil", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "perfil_id"))
+    private List<Perfil> perfis;
+
+    @NotAudited
+    @OrderBy("dataSituacao DESC")
+    @OneToMany(mappedBy = "usuario")
+    private List<HistoricoSituacaoUsuario> historicosSituacao;
+    
+    @ManyToMany(targetEntity = Telefone.class, fetch = FetchType.LAZY,cascade={CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REMOVE})
+    private List<Telefone> telefones = new ArrayList<Telefone>();
+
+    private boolean superUsuario;
+
+    private Boolean emailCadastroEnviado;
+
+    private Boolean senhaCadastrada;
+    
+    @NotAudited
+    @OneToMany(mappedBy = "usuario")
+    private List<PedidoLicitacao> pedidosLicitacoes;
+
+    public Usuario() {
+        senhaCadastrada = false;
+        emailCadastroEnviado = false;
+        situacaoUsuario = SituacaoUsuario.ATIVO;
+        historicosSituacao = new ArrayList<HistoricoSituacaoUsuario>();
+    }
+
+    @Override
+    public boolean isActive() {
+        return situacaoUsuario != null && situacaoUsuario.equals(SituacaoUsuario.ATIVO);
+    }
+
+    public Boolean getSenhaCadastrada() {
+        if (senhaCadastrada == null) {
+            senhaCadastrada = false;
+        }
+        return senhaCadastrada;
+    }
+
+    public void setSenhaCadastrada(Boolean senhaCadastrada) {
+        this.senhaCadastrada = senhaCadastrada;
+    }
+
+    public Boolean getEmailCadastroEnviado() {
+        if (emailCadastroEnviado == null) {
+            emailCadastroEnviado = false;
+        }
+        return emailCadastroEnviado;
+    }
+
+    public void setEmailCadastroEnviado(Boolean emailCadastroEnviado) {
+        this.emailCadastroEnviado = emailCadastroEnviado;
+    }
+
+    public String getRg() {
+        return rg;
+    }
+
+    public void setRg(String rg) {
+        this.rg = rg;
+    }
+
+    public byte[] getFoto() {
+        return foto;
+    }
+
+    public void setFoto(byte[] foto) {
+        this.foto = foto;
+    }
+
+    public List<HistoricoSituacaoUsuario> getHistoricosSituacao() {
+        return historicosSituacao;
+    }
+
+    public void setHistoricosSituacao(List<HistoricoSituacaoUsuario> historicosSituacao) {
+        this.historicosSituacao = historicosSituacao;
+    }
+
+    public SituacaoUsuario getSituacaoUsuario() {
+        return situacaoUsuario;
+    }
+
+    public void setSituacaoUsuario(SituacaoUsuario situacaoUsuario) {
+        this.situacaoUsuario = situacaoUsuario;
+    }
+
+    public Date getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(Date dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean isSuperUsuario() {
+        return superUsuario;
+    }
+
+    public void setSuperUsuario(boolean superUsuario) {
+        this.superUsuario = superUsuario;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        if (nome != null) {
+            nome = nome.trim().toUpperCase();
+        }
+        this.nome = nome;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<Perfil> getPerfis() {
+        return perfis;
+    }
+
+    public void setPerfis(List<Perfil> perfis) {
+        this.perfis = perfis;
+    }
+
+    public Orgao getOrgao() {
+        return orgao;
+    }
+
+    public void setOrgao(Orgao orgao) {
+        this.orgao = orgao;
+    }
+
+    public String getRedeSocial() {
+        return redeSocial;
+    }
+
+    public void setRedeSocial(String redeSocial) {
+        this.redeSocial = redeSocial;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
+    public List<Telefone> getTelefones() {
+        return telefones;
+    }
+
+    public void setTelefones(List<Telefone> telefones) {
+        this.telefones = telefones;
+    }
+
+    public String getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
+
+    @Override
+    public String getUserLogin() {
+        return userLogin;
+    }
+
+    @Override
+    public void setUserLogin(String userLogin) {
+        if (userLogin != null) {
+            userLogin = userLogin.trim().toUpperCase();
+        }
+        this.userLogin = userLogin;
+    }
+
+    @Override
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public Date getDataDeNascimento() {
+        return dataDeNascimento;
+    }
+
+    public void setDataDeNascimento(Date dataDeNascimento) {
+        this.dataDeNascimento = dataDeNascimento;
+    }
+
+    public List<PedidoLicitacao> getPedidosLicitacoes() {
+        return pedidosLicitacoes;
+    }
+
+    public void setPedidosLicitacoes(List<PedidoLicitacao> pedidosLicitacoes) {
+        this.pedidosLicitacoes = pedidosLicitacoes;
+    }
+
+    @Override
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
+
+    @Override
+    public void setActive(boolean active) {
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + (this.id != null ? this.id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Usuario other = (Usuario) obj;
+        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return getNome();
+    }
+}

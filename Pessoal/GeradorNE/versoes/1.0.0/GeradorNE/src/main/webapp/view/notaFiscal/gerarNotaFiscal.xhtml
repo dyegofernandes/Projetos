@@ -1,0 +1,36 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="Gerar Nota Fiscal" />
+    <ui:define name="body">
+        <h:form id="formListCidade">
+            <x:modalMessages autoUpdate="true"/>
+            <div class="row">
+                <p:fileUpload id="arquivo" mode="advanced" requiredMessage="É necessário o envio de pelo menos um arquivo!"
+                              allowTypes="/(\.|\/)(txt)$/"
+                              invalidFileMessage="Tipo de arquivo não permitido" invalidSizeMessage="Arquivo com tamanho acima do permitido" 
+                              uploadLabel="Carregar" cancelLabel="Cancelar" label="Selecionar" multiple="false" 
+                              sizeLimit="10485760" fileUploadListener="#{gerarNotaFiscalMB.upload}" update="dataTable" styleClass="grid_9" />
+            </div>
+            <div class="row">
+                <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                var="linha" id="dataTable" styleClass="table-responsive"
+                             value="#{gerarNotaFiscalMB.lista}" lazy="false" >
+                    <p:column headerText="Linha" >
+                        <f:facet name="header">
+                            <h:outputText value="Linha" />
+                        </f:facet>
+                        <h:outputText value="#{linha}"/>
+                    </p:column>
+
+                </p:dataTable>
+            </div>
+
+        </h:form>
+
+    </ui:define>
+</ui:composition>

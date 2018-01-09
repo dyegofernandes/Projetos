@@ -1,0 +1,58 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailAddress" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['address.typePublicpark']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{addressMB.entity.typePublicpark}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['address.publicPark']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{addressMB.entity.publicPark}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['address.number']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{addressMB.entity.number}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['address.complement']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{addressMB.entity.complement}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['address.postalCode']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{addressMB.entity.postalCode}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['address.landmark']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{addressMB.entity.landmark}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['address.typeAddress']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{addressMB.entity.typeAddress}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['address.active']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{addressMB.entity.active}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['address.neighborhood']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{addressMB.entity.neighborhood}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetAddressDetail').hide()" />
+            <x:securityArea rolesAllowed="address.audit">
+                <x:audit for="#{addressMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

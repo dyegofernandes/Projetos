@@ -1,0 +1,209 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['pagamento.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuPagamento.xhtml" />
+        <h:form id="formListPagamento">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="empresa" value="#{msg['funcionario.empresa']}:" />
+                        <h:selectOneMenu id="empresa" value="#{pagamentoMB.campoDeBusca.empresa}" converter="entityConverter" styleClass="form-control" 
+                                         >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{pagamentoMB.empresas}" 
+                                           var="empresa"
+                                           itemLabel="#{empresa.cdBanco} - #{empresa.nomeFantasia}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="motivoPagamento" value="#{msg['pagamento.motivoPagamento']}:" />
+                        <h:selectOneMenu id="motivoPagamento" value="#{pagamentoMB.campoDeBusca.motivo}" converter="entityConverter" styleClass="form-control">
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.motivoPagamento)}" 
+                                           var="motivoPagamento"
+                                           itemLabel="#{motivoPagamento}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="situacao" value="Situação:" />
+                        <h:selectOneMenu id="situacao" value="#{pagamentoMB.campoDeBusca.situacao}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.situacaoOp)}" 
+                                           var="situacao"
+                                           itemLabel="#{situacao.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cpf" value="Cpf Funcionario:" />
+                        <x:cpf id="cpf" value="#{pagamentoMB.campoDeBusca.cpf}" styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="Nome Funcionario:" />
+                        <p:inputText id="nome" value="#{pagamentoMB.campoDeBusca.nome}" maxlength="45"  styleClass="form-control" />
+                    </div>
+
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="numOp" value="Num Op:" />
+                        <p:inputText id="numOp" value="#{pagamentoMB.campoDeBusca.numOp}" maxlength="20"  styleClass="form-control" />
+                    </div>
+                    
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="lote" value="Lote:" />
+                        <h:selectOneMenu id="lote" value="#{pagamentoMB.campoDeBusca.lote}" converter="entityConverter" styleClass="form-control">
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.lote)}" 
+                                           var="lote"
+                                           itemLabel="#{lote}"/>
+                        </h:selectOneMenu>
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataInicial" value="Data Inicial Pagamento:" />
+                        <p:calendar id="dataInicial" value="#{pagamentoMB.campoDeBusca.dataInicial}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataFinal" value="Data Final Pagamento:" />
+                        <p:calendar id="dataFinal" value="#{pagamentoMB.campoDeBusca.dataFinal}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                </div>
+            </div>
+            <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+            <div class="uix-center">
+
+                <p:commandButton process="@form" update="formListPagamento:dataTablePagamento" action="#{pagamentoMB.listPagamentos}" value="Buscar" ajax="true" />
+
+            </div>
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="pagamento_export" target=":formListPagamento:dataTablePagamento"
+                                widgetVar="dataTablePagamentoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="pagamento" rowIndexVar="index" id="dataTablePagamento" widgetVar="dataTablePagamentoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{pagamentoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{pagamentoMB.dataModel.paginatorTemplate}"
+                         value="#{pagamentoMB.pagamentosPorEmpresa}" lazy="false" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['pagamento.empresa']}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagamento.empresa']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.empresa.razaosocial}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['pagamento.funcionario']}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagamento.funcionario']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.funcionario.nome}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="CPF">
+                    <f:facet name="header">
+                        <h:outputText value="CPF" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.funcionario.cpf}" converter="cpfConverter">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['pagamento.usuario']}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagamento.usuario']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.usuario.nome}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['pagamento.motivoPagamento']}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagamento.motivoPagamento']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.motivoPagamento.nome}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Numero OP" style="text-align: center;" >
+                    <f:facet name="header">
+                        <h:outputText value="Numero OP" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.id}"/>
+                </p:column>
+                <p:column headerText="#{msg['pagamento.dtPagamento']}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagamento.dtPagamento']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.dtPagamento}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['pagamento.valorPagto']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagamento.valorPagto']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.valorPagto}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['pagamento.situacao']}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagamento.situacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.situacao.descricao}"/>
+                </p:column>
+
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetPagamentoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailPagamento" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{pagamento}" target="#{pagamentoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="pagamentoOps.create">
+                        <p:button icon="ui-icon-pencil" outcome="createPagamento" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{pagamento.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="pagamentoOps.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{pagamentoMB.delete}" >
+                            <f:setPropertyActionListener value="#{pagamento.id}" target="#{pagamentoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{pagamento}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="pagamentoOps.audit">
+                    <x:auditDelete for="#{pagamentoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetPagamentoDetail" header="#{msg['pagamento.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailPagamento.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

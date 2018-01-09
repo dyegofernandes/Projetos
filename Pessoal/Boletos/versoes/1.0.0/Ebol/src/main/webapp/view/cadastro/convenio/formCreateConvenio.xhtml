@@ -1,0 +1,361 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateConvenio" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:tabView id="tabView">
+            <p:tab title="#{msg['dadosGerais']}" id="tabGeral">
+                <p:fieldset legend="#{xmsg['generalData']}">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cpfCnpj" value="* CNPJ:" />
+                                <x:cnpj id="cpfCnpj" value="#{convenioMB.entity.cpfCnpj}" styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="razaoSocial" value="* #{msg['convenio.razaoSocial']}:" />
+                                <p:inputText id="razaoSocial" value="#{convenioMB.entity.razaoSocial}" maxlength="100"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="fantasia" value="* #{msg['convenio.fantasia']}:" />
+                                <p:inputText id="fantasia" value="#{convenioMB.entity.fantasia}" maxlength="100"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomePos" value="* #{msg['convenio.nomePos']}:" />
+                                <p:inputText id="nomePos" value="#{convenioMB.entity.nomePos}" maxlength="30"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="incest" value="* Inscrição Estadual:" />
+                                <p:inputText id="incest" value="#{convenioMB.entity.incest}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="email" value="#{msg['convenio.email']}:" />
+                                <p:inputText id="email" value="#{convenioMB.entity.email}" maxlength="100"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="fones" value="#{msg['convenio.fones']}:" />
+                                <p:inputText id="fones" value="#{convenioMB.entity.fones}" maxlength="100"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="ipCadastro" value="#{msg['convenio.ipCadastro']}:" />
+                                <p:inputText id="ipCadastro" value="#{convenioMB.entity.ipCadastro}" maxlength="20"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cadastro" value="* #{msg['convenio.cadastro']}:" />
+                                <p:calendar id="cadastro" value="#{convenioMB.entity.cadastro}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="ativo" value="#{convenioMB.entity.ativo}" />
+                                        #{msg['convenio.ativo']}
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Endereço">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="endereco" value="#{msg['convenio.endereco']}:" />
+                                <p:inputText id="endereco" value="#{convenioMB.entity.endereco}" maxlength="100"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="bairro" value="#{msg['convenio.bairro']}:" />
+                                <p:inputText id="bairro" value="#{convenioMB.entity.bairro}" maxlength="100"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cep" value="#{msg['convenio.cep']}:" />
+                                <p:inputMask id="cep" value="#{convenioMB.entity.cep}" mask="99999-999"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cidade" value="* #{msg['convenio.cidade']}:" />
+                                <h:selectOneMenu id="cidade" value="#{convenioMB.entity.cidade}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{convenioMB.cidades}" 
+                                                   var="cidade"
+                                                   itemLabel="#{cidade}-#{cidade.uf}"/>
+                                </h:selectOneMenu>
+                            </div>
+                        </div>
+                    </div>
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Contatos" id="tabContatos">
+                <h:panelGroup id="panelUm">
+                    <div class="container-fluid">
+                        <p:fieldset legend="Contato" toggleable="true">
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="nomeContato" value="* #{msg['contato.nome']}:" />
+                                    <p:inputText id="nomeContato" value="#{convenioMB.contatoAdd.nome}" maxlength="50"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="emailContato" value="#{msg['contato.email']}:" />
+                                    <p:inputText id="emailContato" value="#{convenioMB.contatoAdd.email}" maxlength="50"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="telefoneContato" value="* Telefone:" />
+                                    <p:inputMask id="telefoneContato" value="#{convenioMB.contatoAdd.telefones}" mask="(99) 9999-9999"  styleClass="form-control"  />
+                                </div>
+                            </div>
+
+                            <div class="uix-center">
+                                <p:commandButton ajax="true" value="Adicionar" action="#{convenioMB.adicionarContato()}" 
+                                                 process="@this formCreateConvenio:tabView:panelUm" update=":formCreateConvenio:tabView:panelUm"/>
+                            </div>
+                        </p:fieldset>
+                        <p:fieldset legend="Contatos">
+                            <div class="row">
+                                <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                             var="contato" rowIndexVar="index" id="dataTableContato" styleClass="table-responsive"
+                                             value="#{convenioMB.contatos}">
+                                    <p:column styleClass="uix-datatable-index">
+                                        <h:outputText value="#{index+1}"/>
+                                    </p:column>
+
+                                    <p:column headerText="#{msg['contato.nome']}" >
+                                        <f:facet name="header">
+                                            <h:outputText value="#{msg['contato.nome']}" />
+                                        </f:facet>
+                                        <h:outputText value="#{contato.nome}"/>
+                                    </p:column>
+                                    <p:column headerText="#{msg['contato.email']}"  >
+                                        <f:facet name="header">
+                                            <h:outputText value="#{msg['contato.email']}" />
+                                        </f:facet>
+                                        <h:outputText value="#{contato.email}"/>
+                                    </p:column>
+                                    <p:column headerText="#{msg['contato.telefones']}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{msg['contato.telefones']}" />
+                                        </f:facet>
+                                        <h:outputText value="#{contato.telefones}"/>
+                                    </p:column>
+                                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{xmsg['actions']}"/>
+                                        </f:facet>
+
+
+                                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" update=":formCreateConvenio:tabView:dataTableContato" 
+                                                         process="@this" action="#{convenioMB.removerContato(contato)}" >
+                                        </p:commandButton>
+
+                                    </p:column>
+                                </p:dataTable>
+                            </div>  
+                        </p:fieldset>                       
+
+                    </div>
+                </h:panelGroup>
+            </p:tab>
+            <p:tab title="Padrão para Cobrança" id="tabPadrao_Cobranca">
+                <div class="container-fluid">
+                    <div class="row">
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="tipoRepasse" value="* #{msg['padrao_Cobranca.tipoRepasse']}:" />
+                            <h:selectOneMenu id="tipoRepasse" value="#{convenioMB.entity.padrao.tipoRepasse}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.tipoRepasse)}" 
+                                               var="tipoRepasse"
+                                               itemLabel="#{tipoRepasse.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="localPagto" value="* #{msg['padrao_Cobranca.localPagto']}:" />
+                            <p:inputText id="localPagto" value="#{convenioMB.entity.padrao.localPagto}" maxlength="200"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="mensagem" value="#{msg['padrao_Cobranca.mensagem']}:" />
+                            <p:inputText id="mensagem" value="#{convenioMB.entity.padrao.mensagem}" maxlength="255"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="inicioCb" value="#{msg['padrao_Cobranca.inicioCb']}:" />
+                            <p:inputText id="inicioCb" value="#{convenioMB.entity.padrao.inicioCb}" maxlength="255"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="multa:input" value="#{msg['padrao_Cobranca.multa']} (%):" />
+                            <x:inputNumber id="multa" value="#{convenioMB.entity.padrao.multa}" styleClass="form-control"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="juros:input" value="#{msg['padrao_Cobranca.juros']} (%):" />
+                            <x:inputNumber id="juros" value="#{convenioMB.entity.padrao.juros}" styleClass="form-control"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="desconto:input" value="#{msg['padrao_Cobranca.desconto']} (%):" />
+                            <x:inputNumber id="desconto" value="#{convenioMB.entity.padrao.desconto}" styleClass="form-control"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="comissao:input" value="#{msg['padrao_Cobranca.comissao']}:" />
+                            <x:inputNumber id="comissao" value="#{convenioMB.entity.padrao.comissao}" styleClass="form-control"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <div class="checkbox">
+                                <label>
+                                    <h:selectBooleanCheckbox id="retem_comissao" value="#{convenioMB.entity.padrao.retem_comissao}" />
+                                    #{msg['padrao_Cobranca.retem_comissao']}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <div class="checkbox">
+                                <label>
+                                    <h:selectBooleanCheckbox id="retem_cpmf" value="#{convenioMB.entity.padrao.retem_cpmf}" />
+                                    #{msg['padrao_Cobranca.retem_cpmf']}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </p:tab>
+            <p:tab title="Sócio" id="tabSocios">
+                <h:panelGroup id="panelSocio">
+                    <div class="row">
+                        <div class="container-fluid">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomeSocio" value="* #{msg['socio.nome']}:" />
+                                <p:inputText id="nomeSocio" value="#{convenioMB.socioAdd.nome}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="emailSocio" value="#{msg['socio.email']}:" />
+                                <p:inputText id="emailSocio" value="#{convenioMB.socioAdd.email}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="telefones" value="#{msg['socio.telefones']}:" />
+                                <p:inputText id="telefones" value="#{convenioMB.socioAdd.telefones}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+
+                        </div>
+                    </div>
+                </h:panelGroup>
+                <div class="uix-center">
+                    <p:commandButton ajax="true" value="Adicionar" action="#{convenioMB.adicionarSocio()}" 
+                                     process="@this panelSocio" update="dataTableSocio"/>
+                </div>
+                <div class="row">
+                    <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="socio" id="dataTableSocio" styleClass="table-responsive"
+                                 value="#{convenioMB.socios}" >
+
+                        <p:column headerText="#{msg['socio.nome']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['socio.nome']}" />
+                            </f:facet>
+                            <h:outputText value="#{socio.nome}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['socio.email']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['socio.email']}" />
+                            </f:facet>
+                            <h:outputText value="#{socio.email}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['socio.telefones']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['socio.telefones']}" />
+                            </f:facet>
+                            <h:outputText value="#{socio.telefones}"/>
+                        </p:column>
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableSocio" 
+                                             action="#{convenioMB.removerSocio(socio)}" >
+                            </p:commandButton>
+
+                        </p:column>
+                    </p:dataTable>
+                </div>
+
+
+            </p:tab>
+            <p:tab title="Pessoa Op" id="tabPessoasOp">
+                <h:panelGroup id="panelPessoaOp">
+                    <div class="row">
+                        <div class="container-fluid">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomePessoa" value="* #{msg['socio.nome']}:" />
+                                <p:inputText id="nomePessoa" value="#{convenioMB.pessoaAdd.nome}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="rgpessoa" value="RG:" />
+                                <p:inputText id="rgpessoa" value="#{convenioMB.pessoaAdd.rg}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cpfPessoa" value="CPF:" />
+                                <x:cpf id="cpfPessoa" value="#{convenioMB.pessoaAdd.cpf}" styleClass="form-control"  />
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="uix-center">
+                        <p:commandButton ajax="true" value="Adicionar" action="#{convenioMB.adicionarPessoa()}" 
+                                         process="@this panelPessoaOp" update="dataTablePessoa"/>
+                    </div>
+                    <div class="row">
+                        <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                     var="pessoa" id="dataTablePessoa" styleClass="table-responsive"
+                                     value="#{convenioMB.pessoas}" >
+
+                            <p:column headerText="#{msg['socio.nome']}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{msg['socio.nome']}" />
+                                </f:facet>
+                                <h:outputText value="#{pessoa.nome}"/>
+                            </p:column>
+                            <p:column headerText="rg">
+                                <f:facet name="header">
+                                    <h:outputText value="Rg" />
+                                </f:facet>
+                                <h:outputText value="#{pessoa.rg}"/>
+                            </p:column>
+                            <p:column headerText="CPF">
+                                <f:facet name="header">
+                                    <h:outputText value="CPF" />
+                                </f:facet>
+                                <h:outputText value="#{pessoa.cpf}" converter="cpfConverter"/>
+                            </p:column>
+                            <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{xmsg['actions']}"/>
+                                </f:facet>
+                                <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTablePessoa" 
+                                                 action="#{convenioMB.removerPessoa(pessoa)}" >
+                                </p:commandButton>
+
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                </h:panelGroup>
+
+            </p:tab>
+        </p:tabView>
+
+
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="convenio.create">
+                <p:commandButton process="@form :formCreateConvenio:tabView" update="@form" action="#{convenioMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="convenio.audit">
+                <x:audit for="#{convenioMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

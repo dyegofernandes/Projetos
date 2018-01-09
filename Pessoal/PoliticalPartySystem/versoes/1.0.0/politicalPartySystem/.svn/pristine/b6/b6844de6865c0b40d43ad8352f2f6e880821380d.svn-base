@@ -1,0 +1,125 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateMemberPoliticalParty" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="politicalParty" value="* #{msg['memberPoliticalParty.politicalParty']}:" />
+                         <h:selectOneMenu id="politicalParty" value="#{memberPoliticalPartyMB.entity.politicalParty}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.politicalParty)}" 
+                                            var="politicalParty"
+                                            itemLabel="#{politicalParty}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="register" value="* #{msg['memberPoliticalParty.register']}:" />
+                         <p:inputText id="register" value="#{memberPoliticalPartyMB.entity.register}" maxlength="250"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="sex" value="* #{msg['memberPoliticalParty.sex']}:" />
+                         <h:selectOneMenu id="sex" value="#{memberPoliticalPartyMB.entity.sex}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.sex)}" 
+                                            var="sex"
+                                            itemLabel="#{sex}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="affiliationDate" value="* #{msg['memberPoliticalParty.affiliationDate']}:" />
+                         <p:calendar id="affiliationDate" value="#{memberPoliticalPartyMB.entity.affiliationDate}" 
+                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                             <x:mask/>
+                         </p:calendar>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="dataCadastro" value="#{msg['memberPoliticalParty.dataCadastro']}:" />
+                         <p:calendar id="dataCadastro" value="#{memberPoliticalPartyMB.entity.dataCadastro}" 
+                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                             <x:mask/>
+                         </p:calendar>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="nome" value="* #{msg['memberPoliticalParty.nome']}:" />
+                         <p:inputText id="nome" value="#{memberPoliticalPartyMB.entity.nome}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="email" value="* #{msg['memberPoliticalParty.email']}:" />
+                         <p:inputText id="email" value="#{memberPoliticalPartyMB.entity.email}" maxlength="150"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="userLogin" value="* #{msg['memberPoliticalParty.userLogin']}:" />
+                         <p:inputText id="userLogin" value="#{memberPoliticalPartyMB.entity.userLogin}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="userPassword" value="#{msg['memberPoliticalParty.userPassword']}:" />
+                         <p:inputText id="userPassword" value="#{memberPoliticalPartyMB.entity.userPassword}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="situacaoUsuario" value="#{msg['memberPoliticalParty.situacaoUsuario']}:" />
+                         <h:selectOneMenu id="situacaoUsuario" value="#{memberPoliticalPartyMB.entity.situacaoUsuario}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.situacaoUsuario)}" 
+                                            var="situacaoUsuario"
+                                            itemLabel="#{situacaoUsuario}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel value="#{msg['memberPoliticalParty.perfis']}:" />
+                         <h:selectManyCheckbox id="perfis" value="#{memberPoliticalPartyMB.entity.perfis}" converter="entityConverter" >
+                             <x:initializer/>
+                             <f:selectItems value="#{findAllBean.get(classMB.perfil)}" 
+                                            var="perfil"
+                                            itemLabel="#{perfil}"/>
+                         </h:selectManyCheckbox>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <div class="checkbox">
+                             <label>
+                                 <h:selectBooleanCheckbox id="superUsuario" value="#{memberPoliticalPartyMB.entity.superUsuario}" />
+                                 #{msg['memberPoliticalParty.superUsuario']}
+                             </label>
+                         </div>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <div class="checkbox">
+                             <label>
+                                 <h:selectBooleanCheckbox id="emailCadastroEnviado" value="#{memberPoliticalPartyMB.entity.emailCadastroEnviado}" />
+                                 #{msg['memberPoliticalParty.emailCadastroEnviado']}
+                             </label>
+                         </div>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <div class="checkbox">
+                             <label>
+                                 <h:selectBooleanCheckbox id="senhaCadastrada" value="#{memberPoliticalPartyMB.entity.senhaCadastrada}" />
+                                 #{msg['memberPoliticalParty.senhaCadastrada']}
+                             </label>
+                         </div>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="memberPoliticalParty.create">
+                <p:commandButton process="@form" update="@form" action="#{memberPoliticalPartyMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="memberPoliticalParty.audit">
+                <x:audit for="#{memberPoliticalPartyMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

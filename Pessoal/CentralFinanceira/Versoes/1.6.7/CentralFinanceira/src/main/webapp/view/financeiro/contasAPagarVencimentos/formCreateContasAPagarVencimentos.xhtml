@@ -1,0 +1,151 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateContasAPagarVencimentos" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="empresa" value="* #{msg['contasAPagarVencimentos.empresa']}:" />
+                         <h:selectOneMenu id="empresa" value="#{contasAPagarVencimentosMB.entity.empresa}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.empresa)}" 
+                                            var="empresa"
+                                            itemLabel="#{empresa}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="contasAPagar" value="* #{msg['contasAPagarVencimentos.contasAPagar']}:" />
+                         <h:selectOneMenu id="contasAPagar" value="#{contasAPagarVencimentosMB.entity.contasAPagar}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.contasAPagar)}" 
+                                            var="contasAPagar"
+                                            itemLabel="#{contasAPagar}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="sequencial" value="* #{msg['contasAPagarVencimentos.sequencial']}:" />
+                         <p:inputMask id="sequencial" mask="9?999999999" placeHolder="" value="#{contasAPagarVencimentosMB.entity.sequencial}" styleClass="form-control" />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="data" value="* #{msg['contasAPagarVencimentos.data']}:" />
+                         <p:calendar id="data" value="#{contasAPagarVencimentosMB.entity.data}" 
+                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                             <x:mask/>
+                         </p:calendar>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="numTitulo" value="#{msg['contasAPagarVencimentos.numTitulo']}:" />
+                         <p:inputText id="numTitulo" value="#{contasAPagarVencimentosMB.entity.numTitulo}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="quitado" value="#{msg['contasAPagarVencimentos.quitado']}:" />
+                         <h:selectOneMenu id="quitado" value="#{contasAPagarVencimentosMB.entity.quitado}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.quitado)}" 
+                                            var="quitado"
+                                            itemLabel="#{quitado}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="valor:input" value="#{msg['contasAPagarVencimentos.valor']}:" />
+                         <x:inputNumber id="valor" value="#{contasAPagarVencimentosMB.entity.valor}" styleClass="form-control"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="dataCancelamento" value="#{msg['contasAPagarVencimentos.dataCancelamento']}:" />
+                         <p:calendar id="dataCancelamento" value="#{contasAPagarVencimentosMB.entity.dataCancelamento}" 
+                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                             <x:mask/>
+                         </p:calendar>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="motivoCancelamento" value="#{msg['contasAPagarVencimentos.motivoCancelamento']}:" />
+                         <p:inputText id="motivoCancelamento" value="#{contasAPagarVencimentosMB.entity.motivoCancelamento}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <div class="checkbox">
+                             <label>
+                                 <h:selectBooleanCheckbox id="autorizado" value="#{contasAPagarVencimentosMB.entity.autorizado}" />
+                                 #{msg['contasAPagarVencimentos.autorizado']}
+                             </label>
+                         </div>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="codigoBarras" value="#{msg['contasAPagarVencimentos.codigoBarras']}:" />
+                         <p:inputText id="codigoBarras" value="#{contasAPagarVencimentosMB.entity.codigoBarras}" maxlength="44"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="valorBruto:input" value="#{msg['contasAPagarVencimentos.valorBruto']}:" />
+                         <x:inputNumber id="valorBruto" value="#{contasAPagarVencimentosMB.entity.valorBruto}" styleClass="form-control"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <div class="checkbox">
+                             <label>
+                                 <h:selectBooleanCheckbox id="enviado" value="#{contasAPagarVencimentosMB.entity.enviado}" />
+                                 #{msg['contasAPagarVencimentos.enviado']}
+                             </label>
+                         </div>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="desconto:input" value="#{msg['contasAPagarVencimentos.desconto']}:" />
+                         <x:inputNumber id="desconto" value="#{contasAPagarVencimentosMB.entity.desconto}" styleClass="form-control"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="agencia" value="#{msg['contasAPagarVencimentos.agencia']}:" />
+                         <p:inputText id="agencia" value="#{contasAPagarVencimentosMB.entity.agencia}" maxlength="10"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="dvAgencia" value="#{msg['contasAPagarVencimentos.dvAgencia']}:" />
+                         <p:inputText id="dvAgencia" value="#{contasAPagarVencimentosMB.entity.dvAgencia}" maxlength="1"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="cc" value="#{msg['contasAPagarVencimentos.cc']}:" />
+                         <p:inputText id="cc" value="#{contasAPagarVencimentosMB.entity.cc}" maxlength="10"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="dvConta" value="#{msg['contasAPagarVencimentos.dvConta']}:" />
+                         <p:inputText id="dvConta" value="#{contasAPagarVencimentosMB.entity.dvConta}" maxlength="2"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="fornecedor" value="#{msg['contasAPagarVencimentos.fornecedor']}:" />
+                         <h:selectOneMenu id="fornecedor" value="#{contasAPagarVencimentosMB.entity.fornecedor}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.fornecedor)}" 
+                                            var="fornecedor"
+                                            itemLabel="#{fornecedor}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="amortizacao:input" value="#{msg['contasAPagarVencimentos.amortizacao']}:" />
+                         <x:inputNumber id="amortizacao" value="#{contasAPagarVencimentosMB.entity.amortizacao}" styleClass="form-control"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="encargos:input" value="#{msg['contasAPagarVencimentos.encargos']}:" />
+                         <x:inputNumber id="encargos" value="#{contasAPagarVencimentosMB.entity.encargos}" styleClass="form-control"/>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="contasAPagarVencimentos.create">
+                <p:commandButton process="@form" update="@form" action="#{contasAPagarVencimentosMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="contasAPagarVencimentos.audit">
+                <x:audit for="#{contasAPagarVencimentosMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

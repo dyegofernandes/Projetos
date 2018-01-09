@@ -1,0 +1,117 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.com.weblicita.modelo.cadastro;
+
+import br.com.weblicita.modelo.cadastro.enums.UnidadeItem;
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotBlank;
+
+/**
+ *
+ * @author Juniel
+ */
+@Entity
+public class ItemLicitacao implements Serializable {
+    
+    @Id
+    @SequenceGenerator(name = "ItemLicitacao", allocationSize = 1, sequenceName = "seq_itemLicitacao")
+    @GeneratedValue(generator = "ItemLicitacao")
+    private Long id;
+    
+    @NotBlank
+    @Size(max = 100)
+    private String codigo;
+    
+    @NotBlank
+    @Size(max = 255)
+    private String descricao;
+    
+    @Column(length = 20)
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private UnidadeItem unidade;
+    
+    @Size(max = 100)
+    private String outro;
+    
+    @Override
+    public String toString() {
+        return descricao; //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public UnidadeItem getUnidade() {
+        return unidade;
+    }
+
+    public void setUnidade(UnidadeItem unidade) {
+        this.unidade = unidade;
+    }
+
+    public String getOutro() {
+        return outro;
+    }
+
+    public void setOutro(String outro) {
+        this.outro = outro;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 11 * hash + (this.id != null ? this.id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ItemLicitacao other = (ItemLicitacao) obj;
+        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+    
+    
+}

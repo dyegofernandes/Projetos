@@ -1,0 +1,124 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['address.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuAddress.xhtml" />
+        <h:form id="formListAddress">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="address_export" target=":formListAddress:dataTableAddress"
+                                     widgetVar="dataTableAddressWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="address" rowIndexVar="index" id="dataTableAddress" widgetVar="dataTableAddressWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{addressMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{addressMB.dataModel.paginatorTemplate}"
+                         value="#{addressMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['address.typePublicpark']}" sortBy="#{address.typePublicpark}"
+                    filterBy="#{address.typePublicpark}"  filterOptions="#{findAllBean.getSelect(classMB.typePublicpark)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['address.typePublicpark']}" />
+                    </f:facet>
+                    <h:outputText value="#{address.typePublicpark}"/>
+                </p:column>
+                <p:column headerText="#{msg['address.publicPark']}" sortBy="#{address.publicPark}"
+                    filterBy="#{address.publicPark}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['address.publicPark']}" />
+                    </f:facet>
+                    <h:outputText value="#{address.publicPark}"/>
+                </p:column>
+                <p:column headerText="#{msg['address.number']}" sortBy="#{address.number}"
+                    filterBy="#{address.number}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['address.number']}" />
+                    </f:facet>
+                    <h:outputText value="#{address.number}"/>
+                </p:column>
+                <p:column headerText="#{msg['address.complement']}" sortBy="#{address.complement}"
+                    filterBy="#{address.complement}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['address.complement']}" />
+                    </f:facet>
+                    <h:outputText value="#{address.complement}"/>
+                </p:column>
+                <p:column headerText="#{msg['address.postalCode']}" sortBy="#{address.postalCode}"
+                    filterBy="#{address.postalCode}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['address.postalCode']}" />
+                    </f:facet>
+                    <h:outputText value="#{address.postalCode}"/>
+                </p:column>
+                <p:column headerText="#{msg['address.landmark']}" sortBy="#{address.landmark}"
+                    filterBy="#{address.landmark}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['address.landmark']}" />
+                    </f:facet>
+                    <h:outputText value="#{address.landmark}"/>
+                </p:column>
+                <p:column headerText="#{msg['address.typeAddress']}" sortBy="#{address.typeAddress}"
+                    filterBy="#{address.typeAddress}"  filterOptions="#{findAllBean.getSelect(classMB.typeAddress)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['address.typeAddress']}" />
+                    </f:facet>
+                    <h:outputText value="#{address.typeAddress}"/>
+                </p:column>
+                <p:column headerText="#{msg['address.active']}" sortBy="#{address.active}"
+                    filterBy="#{address.active}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['address.active']}" />
+                    </f:facet>
+                    <h:outputText value="#{address.active}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['address.neighborhood']}" sortBy="#{address.neighborhood}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['address.neighborhood']}" />
+                    </f:facet>
+                    <h:outputText value="#{address.neighborhood}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetAddressDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailAddress" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{address}" target="#{addressMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="address.create">
+                        <p:button icon="ui-icon-pencil" outcome="createAddress" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{address.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="address.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{addressMB.delete}" >
+                            <f:setPropertyActionListener value="#{address.id}" target="#{addressMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{address}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="address.audit">
+                    <x:auditDelete for="#{addressMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetAddressDetail" header="#{msg['address.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailAddress.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

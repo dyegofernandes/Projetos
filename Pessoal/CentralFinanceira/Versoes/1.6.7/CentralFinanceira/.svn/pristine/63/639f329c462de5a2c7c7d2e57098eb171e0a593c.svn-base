@@ -1,0 +1,304 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateFornecedor" >
+        <x:modalMessages/>
+        <p:fieldset legend="#{xmsg['generalData']}" toggleable="true" toggleSpeed="500">           
+            <div class="container-fluid">
+                <div class="row">
+                    
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tipoDePessoa" value="* Tipo Pessoa:" />
+                        <h:selectOneMenu id="tipoDePessoa" value="#{fornecedorMB.entity.tipo}"  styleClass="form-control" required="true" requiredMessage="Tipo de Pessoa requerido!">
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.tipoDePessoa)}" 
+                                           var="tipoDePessoa"
+                                           itemLabel="#{tipoDePessoa.descricao}"/>
+
+                            <p:ajax process="@this" update="panel1 panel2 panel3" />
+                        </h:selectOneMenu>
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="grupoFornecedor" value="* #{msg['fornecedor.grupoFornecedor']}:" />
+                        <h:selectOneMenu id="grupoFornecedor" value="#{fornecedorMB.entity.grupoFornecedor}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.grupoFornecedor)}" 
+                                           var="grupoFornecedor"
+                                           itemLabel="#{grupoFornecedor}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <h:panelGroup id="panel1">
+                        <p:outputPanel rendered="#{fornecedorMB.entity.tipo.num ==2}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cnpj" value="* CNPJ:" />
+                                <x:cnpj id="cnpj" value="#{fornecedorMB.entity.cnpjCpf}"  styleClass="form-control"  />
+                            </div>
+                        </p:outputPanel>
+                        <p:outputPanel rendered="#{fornecedorMB.entity.tipo.num ==1}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cpf" value="* CPF:" />
+                                <x:cpf id="cpf" value="#{fornecedorMB.entity.cnpjCpf}"  styleClass="form-control"  />
+                            </div>
+                        </p:outputPanel>
+                    </h:panelGroup>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="calcInssEmp" value="#{fornecedorMB.entity.calcInssEmp}" >
+                                </h:selectBooleanCheckbox>
+                                #{msg['fornecedor.calcInssEmp']}
+                            </label>
+                        </div>
+                    </div>
+                    <h:panelGroup id="panel4">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="aliqInss:input" value="#{msg['fornecedor.aliqInss']}:" />
+                            <x:inputNumber id="aliqInss" value="#{fornecedorMB.entity.aliqInss}" styleClass="form-control"/>
+                        </div>
+                    </h:panelGroup>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="* #{msg['fornecedor.nome']}:" />
+                        <p:inputText id="nome" value="#{fornecedorMB.entity.nome}" maxlength="40"  styleClass="form-control"  />
+                    </div>
+                    <h:panelGroup id="panel2">
+                        <p:outputPanel rendered="#{fornecedorMB.entity.tipo.num ==2}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomeFantasia" value="#{msg['cliente.nomeFantasia']}:" />
+                                <p:inputText id="nomeFantasia" value="#{fornecedorMB.entity.nomeFantasia}" maxlength="30"  styleClass="form-control"  />
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="ie" value="#{msg['cliente.ie']}:" />
+                                <p:inputText id="ie" value="#{fornecedorMB.entity.ie}" maxlength="20"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="im" value="#{msg['cliente.im']}:" />
+                                <p:inputText id="im" value="#{fornecedorMB.entity.im}" maxlength="20"  styleClass="form-control"  />
+                            </div>
+                        </p:outputPanel>
+                    </h:panelGroup>
+                    <h:panelGroup id="panel3">
+                        <p:outputPanel rendered="#{fornecedorMB.entity.tipo.num ==1}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="rg" value="#{msg['cliente.rg']}:" />
+                                <p:inputText id="rg" value="#{fornecedorMB.entity.rg}" maxlength="20"  styleClass="form-control"  />
+                            </div>
+
+                        </p:outputPanel>
+                    </h:panelGroup>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="descPrevisto:input" value="#{msg['fornecedor.descPrevisto']}:" />
+                        <x:inputNumber id="descPrevisto" value="#{fornecedorMB.entity.descPrevisto}" styleClass="form-control"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="enviarEmail" value="#{fornecedorMB.entity.enviarEmail}" />
+                                #{msg['fornecedor.enviarEmail']}
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="exterior" value="#{fornecedorMB.entity.exterior}" />
+                                #{msg['fornecedor.exterior']}
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="icms" value="#{fornecedorMB.entity.icms}" />
+                                #{msg['fornecedor.icms']}
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="servicoPublico" value="#{fornecedorMB.entity.servicoPublico}" />
+                                #{msg['fornecedor.servicoPublico']}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Endereço" toggleable="true" toggleSpeed="500">
+
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="logradouro" value="#{msg['fornecedor.logradouro']}:" />
+                <p:inputText id="logradouro" value="#{fornecedorMB.entity.logradouro}" maxlength="60"  styleClass="form-control"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="numero" value="#{msg['fornecedor.numero']}:" />
+                <p:inputText id="numero" value="#{fornecedorMB.entity.numero}" maxlength="10"  styleClass="form-control"  />
+            </div>
+
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="bairro" value="#{msg['fornecedor.bairro']}:" />
+                <p:inputText id="bairro" value="#{fornecedorMB.entity.bairro}" maxlength="14"  styleClass="form-control"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="complemento" value="#{msg['fornecedor.complemento']}:" />
+                <p:inputText id="complemento" value="#{fornecedorMB.entity.complemento}" maxlength="20"  styleClass="form-control"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="cep" value="#{msg['fornecedor.cep']}:" />
+                <p:inputMask id="cep" value="#{fornecedorMB.entity.cep}" mask="99999-999"  styleClass="form-control" converter="cepConverter" />
+            </div>
+
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="referencia" value="#{msg['fornecedor.referencia']}:" />
+                <p:inputText id="referencia" value="#{fornecedorMB.entity.referencia}" maxlength="100"  styleClass="form-control"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="municipio" value="#{msg['fornecedor.municipio']}:" />
+                <h:selectOneMenu id="municipio" value="#{fornecedorMB.entity.municipio}" converter="entityConverter" styleClass="form-control" >
+                    <x:initializer/>
+                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                    <f:selectItems value="#{findAllBean.get(classMB.cidade)}" 
+                                   var="cidade"
+                                   itemLabel="#{cidade}"/>
+                </h:selectOneMenu>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Contatos" toggleable="true" toggleSpeed="500">
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="fone" value="#{msg['fornecedor.fone']}:" />
+                <p:inputMask id="fone" value="#{fornecedorMB.entity.fone}" mask="(99) 9999-9999"  styleClass="form-control" converter="foneConverter"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="fax" value="#{msg['fornecedor.fax']}:" />
+                <p:inputMask id="fax" value="#{fornecedorMB.entity.fax}" mask="(99) 9999-9999"  styleClass="form-control" converter="foneConverter" />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="celular" value="#{msg['fornecedor.celular']}:" />
+                <p:inputMask id="celular" value="#{fornecedorMB.entity.celular}" mask="(99) 9999-9999" styleClass="form-control" converter="foneConverter" />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="email" value="#{msg['fornecedor.email']}:" />
+                <p:inputText id="email" value="#{fornecedorMB.entity.email}" maxlength="255"  styleClass="form-control"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="contato" value="#{msg['fornecedor.contato']}:" />
+                <p:inputText id="contato" value="#{fornecedorMB.entity.contato}" maxlength="30"  styleClass="form-control"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="site" value="#{msg['fornecedor.site']}:" />
+                <p:inputText id="site" value="#{fornecedorMB.entity.site}" maxlength="60"  styleClass="form-control"  />
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Dados Bancários" toggleable="true" toggleSpeed="500">
+
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="agencia" value="#{msg['fornecedor.agencia']}:" />
+                <p:inputText id="agencia" value="#{fornecedorMB.entity.agencia}" maxlength="10"  styleClass="form-control"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="dvAgencia" value="#{msg['fornecedor.dvAgencia']}:" />
+                <p:inputText id="dvAgencia" value="#{fornecedorMB.entity.dvAgencia}" maxlength="2"  styleClass="form-control"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="contaCorrente" value="#{msg['fornecedor.contaCorrente']}:" />
+                <p:inputText id="contaCorrente" value="#{fornecedorMB.entity.contaCorrente}" maxlength="10"  styleClass="form-control"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="dvContaCorrente" value="#{msg['fornecedor.dvContaCorrente']}:" />
+                <p:inputText id="dvContaCorrente" value="#{fornecedorMB.entity.dvContaCorrente}" maxlength="2"  styleClass="form-control"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="tipoDeConta" value="#{msg['fornecedor.tipoDeConta']}:" />
+                <h:selectOneMenu id="tipoDeConta" value="#{fornecedorMB.entity.tipoDeConta}"  styleClass="form-control" >
+                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                    <f:selectItems value="#{findAllBean.get(classMB.tipoContaBanco)}" 
+                                   var="tipoContaBanco"
+                                   itemLabel="#{tipoContaBanco.descricao}"/>
+                </h:selectOneMenu>
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="banco" value="#{msg['fornecedor.banco']}:" />
+                <h:selectOneMenu id="banco" value="#{fornecedorMB.entity.banco}" converter="entityConverter" styleClass="form-control" >
+                    <x:initializer/>
+                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                    <f:selectItems value="#{findAllBean.get(classMB.banco)}" 
+                                   var="banco"
+                                   itemLabel="#{banco}"/>
+                </h:selectOneMenu>
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="contaContabil" value="#{msg['fornecedor.contaContabil']}:" />
+                <p:inputText id="contaContabil" value="#{fornecedorMB.entity.contaContabil}" maxlength="15"  styleClass="form-control"  />
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Outros Dados" toggleable="true" toggleSpeed="500">
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="receitaDespesa" value="* #{msg['fornecedor.receitaDespesa']}:" />
+                <h:selectOneMenu id="receitaDespesa" value="#{fornecedorMB.entity.receitaDespesa}" converter="entityConverter" styleClass="form-control" >
+                    <x:initializer/>
+                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                    <f:selectItems value="#{findAllBean.get(classMB.receitaDespesa)}" 
+                                   var="receitaDespesa"
+                                   itemLabel="#{receitaDespesa}"/>
+                </h:selectOneMenu>
+            </div>
+            
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="finalidadeTed" value="#{msg['fornecedor.finalidadeTed']}:" />
+                <h:selectOneMenu id="finalidadeTed" value="#{fornecedorMB.entity.finalidadeTed}"  styleClass="form-control" >
+                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                    <f:selectItems value="#{findAllBean.get(classMB.finalidadeTed)}" 
+                                   var="finalidadeTed"
+                                   itemLabel="#{finalidadeTed.descricao}"/>
+                </h:selectOneMenu>
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="finalidadeDoc" value="* #{msg['fornecedor.finalidadeDoc']}:" />
+                <h:selectOneMenu id="finalidadeDoc" value="#{fornecedorMB.entity.finalidadeDoc}"  styleClass="form-control" >
+                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                    <f:selectItems value="#{findAllBean.get(classMB.finalidadeDoc)}" 
+                                   var="finalidadeDoc"
+                                   itemLabel="#{finalidadeDoc.descricao}"/>
+                </h:selectOneMenu>
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="leiaute" value="* #{msg['fornecedor.leiaute']}:" />
+                <h:selectOneMenu id="leiaute" value="#{fornecedorMB.entity.leiaute}"  styleClass="form-control" >
+                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                    <f:selectItems value="#{findAllBean.get(classMB.leiaute)}" 
+                                   var="leiaute"
+                                   itemLabel="#{leiaute.descricao}"/>
+                </h:selectOneMenu>
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="obs" value="#{msg['fornecedor.obs']}:" />
+                <p:inputTextarea id="obs" value="#{fornecedorMB.entity.obs}" maxlength="80"  styleClass="form-control"  />
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="fornecedor.create">
+                <p:commandButton process="@form" update="@form" action="#{fornecedorMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="fornecedor.audit">
+                <x:audit for="#{fornecedorMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

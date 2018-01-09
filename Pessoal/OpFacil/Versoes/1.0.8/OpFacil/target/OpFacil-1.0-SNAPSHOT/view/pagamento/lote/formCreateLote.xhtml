@@ -1,0 +1,75 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateLote" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="empresa" value="* #{msg['lote.empresa']}:" />
+                        <h:selectOneMenu id="empresa" value="#{loteMB.entity.empresa}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{loteMB.empresas}" 
+                                           var="empresa"
+                                           itemLabel="#{empresa}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="motivoPagamento" value="* #{msg['lote.motivoPagamento']}:" />
+                        <h:selectOneMenu id="motivoPagamento" value="#{loteMB.entity.motivoPagamento}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{loteMB.motivos}" 
+                                           var="motivoPagamento"
+                                           itemLabel="#{motivoPagamento}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="qtdias" value="* #{msg['lote.qtdias']}:" />
+                        <p:inputMask id="qtdias" mask="9?999999999" placeHolder="" value="#{loteMB.entity.qtdias}" styleClass="form-control">
+                            <p:ajax process="@this" update=":formCreateLote:panelValorTotal"/>
+                        </p:inputMask>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="vlrDia:input" value="* #{msg['lote.vlrDia']}:" />
+                        <x:inputNumber id="vlrDia" value="#{loteMB.entity.vlrDia}" styleClass="form-control">
+                            <p:ajax event="blur" process="@this" update=":formCreateLote:panelValorTotal"/>
+                        </x:inputNumber>
+                    </div>
+                    <h:panelGroup id="panelValorTotal">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="vlrTotal:input" value="Valor Total:" />
+                            <x:inputNumber id="vlrTotal" value="#{loteMB.vlrTotal}" styleClass="form-control" disabled="true"/>
+                        </div>
+                    </h:panelGroup>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dtPagamento" value="* #{msg['lote.dtPagamento']}:" />
+                        <p:calendar id="dtPagamento" value="#{loteMB.entity.dtPagamento}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="lote.create">
+                <p:commandButton process="@form" update="@form" action="#{loteMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="lote.audit">
+                <x:audit for="#{loteMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

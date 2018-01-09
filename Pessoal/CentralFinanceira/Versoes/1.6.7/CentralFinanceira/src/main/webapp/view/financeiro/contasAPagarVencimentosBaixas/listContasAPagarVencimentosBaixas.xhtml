@@ -1,0 +1,183 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['contasAPagarVencimentosBaixas.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuContasAPagarVencimentosBaixas.xhtml" />
+        <h:form id="formListContasAPagarVencimentosBaixas">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="contasAPagarVencimentosBaixas_export" target=":formListContasAPagarVencimentosBaixas:dataTableContasAPagarVencimentosBaixas"
+                                     widgetVar="dataTableContasAPagarVencimentosBaixasWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="contasAPagarVencimentosBaixas" rowIndexVar="index" id="dataTableContasAPagarVencimentosBaixas" widgetVar="dataTableContasAPagarVencimentosBaixasWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{contasAPagarVencimentosBaixasMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{contasAPagarVencimentosBaixasMB.dataModel.paginatorTemplate}"
+                         value="#{contasAPagarVencimentosBaixasMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['contasAPagarVencimentosBaixas.empresa']}" sortBy="#{contasAPagarVencimentosBaixas.empresa}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contasAPagarVencimentosBaixas.empresa']}" />
+                    </f:facet>
+                    <h:outputText value="#{contasAPagarVencimentosBaixas.empresa}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['contasAPagarVencimentosBaixas.codigoVencimento']}" sortBy="#{contasAPagarVencimentosBaixas.codigoVencimento}"
+                    filterBy="#{contasAPagarVencimentosBaixas.codigoVencimento}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contasAPagarVencimentosBaixas.codigoVencimento']}" />
+                    </f:facet>
+                    <h:outputText value="#{contasAPagarVencimentosBaixas.codigoVencimento}"/>
+                </p:column>
+                <p:column headerText="#{msg['contasAPagarVencimentosBaixas.dataVencimento']}" sortBy="#{contasAPagarVencimentosBaixas.dataVencimento}"
+                    filterBy="#{contasAPagarVencimentosBaixas.dataVencimento}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contasAPagarVencimentosBaixas.dataVencimento']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{contasAPagarVencimentosBaixas.dataVencimento}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['contasAPagarVencimentosBaixas.sequencialVencimento']}" sortBy="#{contasAPagarVencimentosBaixas.sequencialVencimento}"
+                    filterBy="#{contasAPagarVencimentosBaixas.sequencialVencimento}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contasAPagarVencimentosBaixas.sequencialVencimento']}" />
+                    </f:facet>
+                    <h:outputText value="#{contasAPagarVencimentosBaixas.sequencialVencimento}"/>
+                </p:column>
+                <p:column headerText="#{msg['contasAPagarVencimentosBaixas.sequencial']}" sortBy="#{contasAPagarVencimentosBaixas.sequencial}"
+                    filterBy="#{contasAPagarVencimentosBaixas.sequencial}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contasAPagarVencimentosBaixas.sequencial']}" />
+                    </f:facet>
+                    <h:outputText value="#{contasAPagarVencimentosBaixas.sequencial}"/>
+                </p:column>
+                <p:column headerText="#{msg['contasAPagarVencimentosBaixas.data']}" sortBy="#{contasAPagarVencimentosBaixas.data}"
+                    filterBy="#{contasAPagarVencimentosBaixas.data}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contasAPagarVencimentosBaixas.data']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{contasAPagarVencimentosBaixas.data}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['contasAPagarVencimentosBaixas.valor']}" sortBy="#{contasAPagarVencimentosBaixas.valor}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contasAPagarVencimentosBaixas.valor']}" />
+                    </f:facet>
+                    <h:outputText value="#{contasAPagarVencimentosBaixas.valor}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['contasAPagarVencimentosBaixas.desconto']}" sortBy="#{contasAPagarVencimentosBaixas.desconto}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contasAPagarVencimentosBaixas.desconto']}" />
+                    </f:facet>
+                    <h:outputText value="#{contasAPagarVencimentosBaixas.desconto}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['contasAPagarVencimentosBaixas.juros']}" sortBy="#{contasAPagarVencimentosBaixas.juros}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contasAPagarVencimentosBaixas.juros']}" />
+                    </f:facet>
+                    <h:outputText value="#{contasAPagarVencimentosBaixas.juros}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['contasAPagarVencimentosBaixas.automatica']}" sortBy="#{contasAPagarVencimentosBaixas.automatica}"
+                    filterBy="#{contasAPagarVencimentosBaixas.automatica}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contasAPagarVencimentosBaixas.automatica']}" />
+                    </f:facet>
+                    <h:outputText value="#{contasAPagarVencimentosBaixas.automatica}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['contasAPagarVencimentosBaixas.dataCancel']}" sortBy="#{contasAPagarVencimentosBaixas.dataCancel}"
+                    filterBy="#{contasAPagarVencimentosBaixas.dataCancel}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contasAPagarVencimentosBaixas.dataCancel']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{contasAPagarVencimentosBaixas.dataCancel}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['contasAPagarVencimentosBaixas.obsCancel']}" sortBy="#{contasAPagarVencimentosBaixas.obsCancel}"
+                    filterBy="#{contasAPagarVencimentosBaixas.obsCancel}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contasAPagarVencimentosBaixas.obsCancel']}" />
+                    </f:facet>
+                    <h:outputText value="#{contasAPagarVencimentosBaixas.obsCancel}"/>
+                </p:column>
+                <p:column headerText="#{msg['contasAPagarVencimentosBaixas.multa']}" sortBy="#{contasAPagarVencimentosBaixas.multa}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contasAPagarVencimentosBaixas.multa']}" />
+                    </f:facet>
+                    <h:outputText value="#{contasAPagarVencimentosBaixas.multa}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['contasAPagarVencimentosBaixas.exportaAC']}" sortBy="#{contasAPagarVencimentosBaixas.exportaAC}"
+                    filterBy="#{contasAPagarVencimentosBaixas.exportaAC}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contasAPagarVencimentosBaixas.exportaAC']}" />
+                    </f:facet>
+                    <h:outputText value="#{contasAPagarVencimentosBaixas.exportaAC}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['contasAPagarVencimentosBaixas.jaExportado']}" sortBy="#{contasAPagarVencimentosBaixas.jaExportado}"
+                    filterBy="#{contasAPagarVencimentosBaixas.jaExportado}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contasAPagarVencimentosBaixas.jaExportado']}" />
+                    </f:facet>
+                    <h:outputText value="#{contasAPagarVencimentosBaixas.jaExportado}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetContasAPagarVencimentosBaixasDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailContasAPagarVencimentosBaixas" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{contasAPagarVencimentosBaixas}" target="#{contasAPagarVencimentosBaixasMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="contasAPagarVencimentosBaixas.create">
+                        <p:button icon="ui-icon-pencil" outcome="createContasAPagarVencimentosBaixas" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{contasAPagarVencimentosBaixas.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="contasAPagarVencimentosBaixas.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{contasAPagarVencimentosBaixasMB.delete}" >
+                            <f:setPropertyActionListener value="#{contasAPagarVencimentosBaixas.id}" target="#{contasAPagarVencimentosBaixasMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{contasAPagarVencimentosBaixas}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="contasAPagarVencimentosBaixas.audit">
+                    <x:auditDelete for="#{contasAPagarVencimentosBaixasMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetContasAPagarVencimentosBaixasDetail" header="#{msg['contasAPagarVencimentosBaixas.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailContasAPagarVencimentosBaixas.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

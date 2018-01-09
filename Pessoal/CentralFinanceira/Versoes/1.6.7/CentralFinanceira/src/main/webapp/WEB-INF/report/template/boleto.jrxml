@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boleto" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="882ab29c-efd7-4742-b384-8333da589f76">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="192"/>
+	<parameter name="codigoDeBarras" class="java.lang.String"/>
+	<parameter name="codigoDeBarrasMask" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="325" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" uuid="9a426f9c-eb2c-4ee0-9501-eac8b09e780c"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="152" y="1" width="1" height="324" isPrintInFirstWholeBand="true" uuid="9e6f08c9-58a3-4d23-a83b-8168ceb9ba29"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="8" y="59" width="135" height="1" uuid="ff481e62-9174-4ffe-a6bc-1ec9bc249f5e"/>
+			</line>
+			<line>
+				<reportElement x="8" y="83" width="135" height="1" uuid="cef5f5c7-a71a-4568-9728-8ce4d9e29a77"/>
+			</line>
+			<line>
+				<reportElement x="8" y="107" width="135" height="1" uuid="7188859d-6d8d-495d-949f-7226804e5b63"/>
+			</line>
+			<line>
+				<reportElement x="8" y="131" width="135" height="1" uuid="0288b364-6222-4a2e-bc39-2b47bb338065"/>
+			</line>
+			<line>
+				<reportElement x="8" y="155" width="135" height="1" uuid="b2141fce-ad66-4d6d-a128-1a144fcf582e"/>
+			</line>
+			<line>
+				<reportElement x="8" y="183" width="135" height="1" uuid="9f6da3d3-bc55-4614-adca-2b4b9be4467c"/>
+			</line>
+			<line>
+				<reportElement x="8" y="211" width="135" height="1" uuid="8c904a65-8845-4caf-a983-7de6d96aae73"/>
+			</line>
+			<line>
+				<reportElement x="8" y="239" width="135" height="1" uuid="6401fba8-8e94-4301-997f-c2a26208c773"/>
+			</line>
+			<line>
+				<reportElement x="8" y="262" width="135" height="1" uuid="36f60c77-cc12-4bfb-9ef2-b6b9a86437fd"/>
+			</line>
+			<line>
+				<reportElement x="8" y="289" width="135" height="1" uuid="aa35138f-6ca4-4e2a-a768-1d3c4ed8db85"/>
+			</line>
+			<line>
+				<reportElement x="162" y="263" width="393" height="1" uuid="b16e43bc-2d48-4694-9e61-dea7e4a379a6"/>
+			</line>
+			<line>
+				<reportElement x="458" y="59" width="1" height="203" uuid="060cd700-25b4-4301-9185-97e61a386bdb"/>
+			</line>
+			<line>
+				<reportElement x="162" y="58" width="393" height="1" uuid="10c61bb4-f744-4bdf-879e-1abe10dd924e"/>
+			</line>
+			<line>
+				<reportElement x="162" y="47" width="393" height="1" uuid="ebb2edab-3184-487d-a9b5-86c6697d3e02"/>
+			</line>
+			<line>
+				<reportElement x="162" y="82" width="393" height="1" uuid="83f10afa-fdd7-4427-bec1-cb821d0d7d81"/>
+			</line>
+			<line>
+				<reportElement x="162" y="212" width="393" height="1" uuid="62389925-cdf5-4b72-b2cd-8b03cdee9eb9"/>
+			</line>
+			<componentElement>
+				<reportElement x="162" y="276" width="296" height="44" isPrintInFirstWholeBand="true" uuid="bef38a21-0b0b-42cd-bdb1-0a154b360e16"/>
+				<jr:Interleaved2Of5 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="none">
+					<jr:codeExpression><![CDATA[$P{codigoDeBarras}]]></jr:codeExpression>
+				</jr:Interleaved2Of5>
+			</componentElement>
+			<image>
+				<reportElement x="8" y="0" width="74" height="37" uuid="91641409-4c2f-4273-9346-2187fd920e03"/>
+				<imageExpression><![CDATA["/Users/KillerBeeTwo/Documents/Projetos/CentralFinanceira/src/main/webapp/images/pag_contas.jpg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="158" y="0" width="74" height="37" uuid="bb2329fc-8aff-45d3-8320-05e330c1cf16"/>
+				<imageExpression><![CDATA["/Users/KillerBeeTwo/Documents/Projetos/CentralFinanceira/src/main/webapp/images/pag_contas.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="8" y="60" width="48" height="8" uuid="16b190e5-d2ac-4974-aae8-6562412aae3f"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Vencimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="83" width="58" height="8" uuid="7688d391-1021-478e-acc9-622562c6f923"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Nosso Número]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="107" width="91" height="8" uuid="06b85129-7062-4520-862a-a1ef3d0b78b3"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[(=) Valor do documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="132" width="101" height="8" uuid="6d005444-f137-4bdc-b5ca-d8d22bc428b2"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[(-) Desconto/Abatimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="156" width="91" height="8" uuid="20a91df0-e12e-4ab5-ba06-e6aa2a2dba30"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[(-) Outras deduções]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="184" width="91" height="8" uuid="37c829a8-ebaf-4995-b743-33615d9594b2"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[(+) Mora/Multa/Juros]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="213" width="91" height="8" uuid="13a01957-2b22-447d-a0ac-43e76d91b8ad"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[(+) Outros acréscimos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="240" width="91" height="8" uuid="1c15789a-095d-47f2-94fa-6aa195525cb4"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[(=) Valor cobrado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="309" width="91" height="11" uuid="eeaaf9d5-cea4-4d7c-8fc1-5ff40915a4cd"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RECIBO DO CLIENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="202" y="33" width="100" height="15" uuid="749083b4-f106-4b91-bbab-75883bb5e2cf"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RECIBO DO POSTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="461" y="58" width="48" height="8" uuid="01283292-b9e3-49f0-8b48-2281a8116325"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Vencimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="462" y="84" width="58" height="8" uuid="76a2b94c-8783-46f5-a912-f889205fb1e0"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Nosso Número]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="162" y="264" width="296" height="12" uuid="7623bc45-de74-4bd4-97bb-ce8d80830498"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{codigoDeBarrasMask}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="162" y="84" width="291" height="10" uuid="5768efb8-dcb6-4fd3-967e-c157b94e811b"/>
+				<textElement>
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[As informações contigas neste campo são de responsabilidade do cedente]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

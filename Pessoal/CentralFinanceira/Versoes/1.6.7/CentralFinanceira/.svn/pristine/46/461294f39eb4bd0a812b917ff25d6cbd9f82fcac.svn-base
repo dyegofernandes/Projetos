@@ -1,0 +1,192 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailFornecedor" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.empresa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.empresa}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.nome']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.nome}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.nomeFantasia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.nomeFantasia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.grupoFornecedor']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.grupoFornecedor}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.receitaDespesa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.receitaDespesa}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.CnpjCpf']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.CnpjCpf}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.cep']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.cep}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.logradouro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.logradouro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.numero']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.numero}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.complemento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.complemento}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.bairro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.bairro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.municipio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.municipio}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.fone']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.fone}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.fax']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.fax}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.celular']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.celular}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.site']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.site}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.contato']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.contato}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.grupoRecDes']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.grupoRecDes}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.obs']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.obs}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.contaContabil']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.contaContabil}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.banco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.banco}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.agencia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.agencia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.dvAgencia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.dvAgencia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.contaCorrente']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.contaCorrente}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.dvContaCorrente']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.dvContaCorrente}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.tipoDeConta']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.tipoDeConta}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.im']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.im}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.referencia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.referencia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.descPrevisto']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.descPrevisto}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.enviarEmail']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.enviarEmail}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.exterior']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.exterior}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.icms']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.icms}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.servicoPublico']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.servicoPublico}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.finalidadeTed']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.finalidadeTed}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.finalidadeDoc']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.finalidadeDoc}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.leiaute']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.leiaute}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.email']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.email}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.calcInssEmp']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.calcInssEmp}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.aliqInss']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.aliqInss}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetFornecedorDetail').hide()" />
+            <x:securityArea rolesAllowed="fornecedor.audit">
+                <x:audit for="#{fornecedorMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

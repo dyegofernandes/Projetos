@@ -1,0 +1,156 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['transportadora.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuTransportadora.xhtml" />
+        <h:form id="formListTransportadora">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="transportadora_export" target=":formListTransportadora:dataTableTransportadora"
+                                     widgetVar="dataTableTransportadoraWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="transportadora" rowIndexVar="index" id="dataTableTransportadora" widgetVar="dataTableTransportadoraWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{transportadoraMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{transportadoraMB.dataModel.paginatorTemplate}"
+                         value="#{transportadoraMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['transportadora.empresa']}" sortBy="#{transportadora.empresa}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['transportadora.empresa']}" />
+                    </f:facet>
+                    <h:outputText value="#{transportadora.empresa}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['transportadora.nome']}" sortBy="#{transportadora.nome}"
+                    filterBy="#{transportadora.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['transportadora.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{transportadora.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['transportadora.cnpjCpf']}" sortBy="#{transportadora.cnpjCpf}"
+                    filterBy="#{transportadora.cnpjCpf}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['transportadora.cnpjCpf']}" />
+                    </f:facet>
+                    <h:outputText value="#{transportadora.cnpjCpf}"/>
+                </p:column>
+                <p:column headerText="#{msg['transportadora.endereco']}" sortBy="#{transportadora.endereco}"
+                    filterBy="#{transportadora.endereco}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['transportadora.endereco']}" />
+                    </f:facet>
+                    <h:outputText value="#{transportadora.endereco}"/>
+                </p:column>
+                <p:column headerText="#{msg['transportadora.municipio']}" sortBy="#{transportadora.municipio}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['transportadora.municipio']}" />
+                    </f:facet>
+                    <h:outputText value="#{transportadora.municipio}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['transportadora.ie']}" sortBy="#{transportadora.ie}"
+                    filterBy="#{transportadora.ie}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['transportadora.ie']}" />
+                    </f:facet>
+                    <h:outputText value="#{transportadora.ie}"/>
+                </p:column>
+                <p:column headerText="#{msg['transportadora.contato']}" sortBy="#{transportadora.contato}"
+                    filterBy="#{transportadora.contato}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['transportadora.contato']}" />
+                    </f:facet>
+                    <h:outputText value="#{transportadora.contato}"/>
+                </p:column>
+                <p:column headerText="#{msg['transportadora.fone']}" sortBy="#{transportadora.fone}"
+                    filterBy="#{transportadora.fone}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['transportadora.fone']}" />
+                    </f:facet>
+                    <h:outputText value="#{transportadora.fone}"/>
+                </p:column>
+                <p:column headerText="#{msg['transportadora.email']}" sortBy="#{transportadora.email}"
+                    filterBy="#{transportadora.email}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['transportadora.email']}" />
+                    </f:facet>
+                    <h:outputText value="#{transportadora.email}"/>
+                </p:column>
+                <p:column headerText="#{msg['transportadora.fornecedor']}" sortBy="#{transportadora.fornecedor}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['transportadora.fornecedor']}" />
+                    </f:facet>
+                    <h:outputText value="#{transportadora.fornecedor}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['transportadora.rntc']}" sortBy="#{transportadora.rntc}"
+                    filterBy="#{transportadora.rntc}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['transportadora.rntc']}" />
+                    </f:facet>
+                    <h:outputText value="#{transportadora.rntc}"/>
+                </p:column>
+                <p:column headerText="#{msg['transportadora.placa']}" sortBy="#{transportadora.placa}"
+                    filterBy="#{transportadora.placa}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['transportadora.placa']}" />
+                    </f:facet>
+                    <h:outputText value="#{transportadora.placa}"/>
+                </p:column>
+                <p:column headerText="#{msg['transportadora.ufPlaca']}" sortBy="#{transportadora.ufPlaca}"
+                    filterBy="#{transportadora.ufPlaca}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['transportadora.ufPlaca']}" />
+                    </f:facet>
+                    <h:outputText value="#{transportadora.ufPlaca}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetTransportadoraDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailTransportadora" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{transportadora}" target="#{transportadoraMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="transportadora.create">
+                        <p:button icon="ui-icon-pencil" outcome="createTransportadora" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{transportadora.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="transportadora.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{transportadoraMB.delete}" >
+                            <f:setPropertyActionListener value="#{transportadora.id}" target="#{transportadoraMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{transportadora}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="transportadora.audit">
+                    <x:auditDelete for="#{transportadoraMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetTransportadoraDetail" header="#{msg['transportadora.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailTransportadora.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

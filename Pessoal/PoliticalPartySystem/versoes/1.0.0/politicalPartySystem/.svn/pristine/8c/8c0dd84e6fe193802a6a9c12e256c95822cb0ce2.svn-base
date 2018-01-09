@@ -1,0 +1,76 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailPoliticalParty" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['politicalParty.politicalParty']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{politicalPartyMB.entity.politicalParty}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['politicalParty.code']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{politicalPartyMB.entity.code}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['politicalParty.type']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{politicalPartyMB.entity.type}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['politicalParty.dataCadastro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{politicalPartyMB.entity.dataCadastro}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['politicalParty.nome']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{politicalPartyMB.entity.nome}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['politicalParty.email']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{politicalPartyMB.entity.email}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['politicalParty.userLogin']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{politicalPartyMB.entity.userLogin}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['politicalParty.userPassword']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{politicalPartyMB.entity.userPassword}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['politicalParty.situacaoUsuario']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{politicalPartyMB.entity.situacaoUsuario}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['politicalParty.mailBox']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{politicalPartyMB.entity.mailBox}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['politicalParty.superUsuario']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{politicalPartyMB.entity.superUsuario}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['politicalParty.emailCadastroEnviado']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{politicalPartyMB.entity.emailCadastroEnviado}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['politicalParty.senhaCadastrada']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{politicalPartyMB.entity.senhaCadastrada}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetPoliticalPartyDetail').hide()" />
+            <x:securityArea rolesAllowed="politicalParty.audit">
+                <x:audit for="#{politicalPartyMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

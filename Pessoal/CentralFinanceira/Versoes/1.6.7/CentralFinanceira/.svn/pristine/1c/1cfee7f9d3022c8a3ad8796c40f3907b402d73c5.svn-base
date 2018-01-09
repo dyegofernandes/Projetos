@@ -1,0 +1,312 @@
+package br.com.jsoft.centralfinanceira.bo.central;
+
+import com.xpert.core.crud.AbstractBusinessObject;
+import br.com.jsoft.centralfinanceira.dao.central.LojaDAO;
+import br.com.jsoft.centralfinanceira.modelo.cadastroBasicos.GrupoLoja;
+import com.xpert.core.validation.UniqueField;
+import com.xpert.core.exception.BusinessException;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import br.com.jsoft.centralfinanceira.modelo.cadastroBasicos.Loja;
+import br.com.jsoft.centralfinanceira.modelo.cadastroBasicos.TipoLoja;
+import br.com.jsoft.centralfinanceira.modelo.enums.Ativo;
+import br.com.jsoft.centralfinanceira.vo.DiaDiaVO;
+import com.xpert.persistence.query.QueryBuilder;
+import com.xpert.persistence.query.Restrictions;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import javax.persistence.Query;
+
+/**
+ *
+ * @author Juniel
+ */
+@Stateless
+public class LojaBO extends AbstractBusinessObject<Loja> {
+
+    @EJB
+    private LojaDAO lojaDAO;
+
+    @Override
+    public LojaDAO getDAO() {
+        return lojaDAO;
+    }
+
+    @Override
+    public List<UniqueField> getUniqueFields() {
+        return null;
+    }
+
+    @Override
+    public void validate(Loja loja) throws BusinessException {
+    }
+
+    @Override
+    public boolean isAudit() {
+        return true;
+    }
+
+    public List<Loja> listarLoja(String codNome, TipoLoja tipo, Ativo ativo, GrupoLoja grupo) {
+        List<Loja> lojas = new ArrayList<Loja>();
+        QueryBuilder queryBuilder = lojaDAO.getQueryBuilder();
+
+        Restrictions restrictions = new Restrictions();
+
+        if (codNome != null) {
+            if (!codNome.equals("")) {
+                if (ehInteiro(codNome)) {
+                    Long id = Long.parseLong(codNome);
+                    restrictions.equals("loja.id", id);
+                } else {
+                    restrictions.like("loja.nome", codNome);
+                }
+
+            }
+        }
+
+        if (tipo != null) {
+            restrictions.equals("t.id", tipo.getId());
+        }
+
+        if (ativo != null) {
+            if (ativo == Ativo.SIM) {
+                restrictions.equals("loja.ativo", true);
+            } else {
+                restrictions.equals("loja.ativo", false);
+            }
+        }
+
+        if (grupo != null) {
+            restrictions.equals("g.id", grupo.getId());
+        }
+        
+        
+        restrictions.equals("loja.valida", true);
+
+        lojas = queryBuilder.from(Loja.class, "loja").leftJoinFetch("loja.cidade", "c")
+                .leftJoinFetch("loja.segmento", "s").leftJoinFetch("loja.tipoLoja", "t").leftJoinFetch("loja.grupoLoja", "g").add(restrictions).orderBy("loja.id").
+                getResultList(Loja.class);
+
+        return lojas;
+    }
+
+    public List<DiaDiaVO> listaRecebimentoLoja(List<Loja> lojas, String periodo, String tipoRecebimento) {
+        List<DiaDiaVO> lista = new ArrayList<DiaDiaVO>();
+
+        Calendar c = Calendar.getInstance();
+
+        String[] temp;
+
+        int mes, ano, mesAnt, anoAnt;
+
+        if (periodo == null || periodo.equals("")) {
+            c.setTime(new Date());
+            mes = c.get(Calendar.MONTH) + 1;
+            ano = c.get(Calendar.YEAR);
+        } else {
+            temp = periodo.split("/");
+            mes = Integer.parseInt(temp[0]);
+            ano = Integer.parseInt(temp[1]);
+        }
+
+        if (mes == 1) {
+            mesAnt = 12;
+            anoAnt = ano - 1;
+        } else {
+            mesAnt = mes - 1;
+            anoAnt = ano;
+        }
+
+        String queryString = "select d.*, mesant.qtotal as qtotalant, mesant.vtotal as vtotalant from regente.fct_diariolojatodos(".concat(ano + ",").concat(mes + ") d ")
+                .concat("left join regente.fct_diariolojatodos(".concat(anoAnt + ",").concat(mesAnt + ") mesant on (d.id=mesant.id) "));
+        if (tipoRecebimento != null) {
+            if (tipoRecebimento.equals("Boletos - Todos")) {
+                queryString = "select d.* , mesant.qtotal as qtotalant, mesant.vtotal as vtotalant from regente.fct_diariolojaguias(".concat(ano + ",").concat(mes + ") d ")
+                        .concat("left join regente.fct_diariolojaguias(").concat(anoAnt + ",").concat(mesAnt + ") mesant on (d.id=mesant.id) ");
+            }
+            if (tipoRecebimento.equals("Crédito e Recarga - Todos")) {
+                queryString = "select d.*, mesant.qtotal as qtotalant, mesant.vtotal as vtotalant from regente.fct_diariolojacredirecarga(".concat(ano + ",").concat(mes + ") d ")
+                        .concat("left join regente.fct_diariolojacredirecarga(").concat(anoAnt + ",").concat(mesAnt + ") mesant on (d.id=mesant.id) ");
+            }
+            if (tipoRecebimento.equals("Próprias")) {
+                queryString = "select d.*, mesant.qtotal as qtotalant, mesant.vtotal as vtotalant from regente.fct_diarioboleto(".concat(ano + ",").concat(mes + ") d ")
+                        .concat("left join regente.fct_diarioboleto(").concat(anoAnt + ",").concat(mesAnt + ") mesant on (d.id=mesant.id) ");
+            }
+            if (tipoRecebimento.equals("Site")) {
+                queryString = "select d.*, mesant.qtotal as qtotalant, mesant.vtotal as vtotalant from regente.fct_diariosite(".concat(ano + ",").concat(mes + ") d ")
+                        .concat("left join regente.fct_diariosite(").concat(anoAnt + ",").concat(mesAnt + ") mesant on (d.id=mesant.id) ");
+            }
+            if (tipoRecebimento.equals("Banco do Brasil")) {
+                queryString = "select d.*, mesant.qtotal as qtotalant, mesant.vtotal as vtotalant from regente.fct_diariobb(".concat(ano + ",").concat(mes + ") d ")
+                        .concat("left join regente.fct_diariobb(").concat(anoAnt + ",").concat(mesAnt + ") mesant on (d.id=mesant.id) ");
+            }
+            if (tipoRecebimento.equals("Banco Popular")) {
+                queryString = "select d.*, mesant.qtotal as qtotalant, mesant.vtotal as vtotalant from regente.fct_diariobanpop(".concat(ano + ",").concat(mes + ") d ")
+                        .concat("left join regente.fct_diariobanpop(").concat(anoAnt + ",").concat(mesAnt + ") mesant on (d.id=mesant.id) ");
+            }
+            if (tipoRecebimento.equals("Vale Gás - Todos")) {
+                queryString = "select d.*, mesant.qtotal as qtotalant, mesant.vtotal as vtotalant from regente.fct_diariovalegas(".concat(ano + ",").concat(mes + ") d ")
+                        .concat("left join regente.fct_diariovalegas(").concat(anoAnt + ",").concat(mesAnt + ") mesant on (d.id=mesant.id) ");
+            }
+            if (tipoRecebimento.equals("Op - Todos")) {
+                queryString = "select d.*, mesant.qtotal as qtotalant, mesant.vtotal as vtotalant from regente.fct_diarioop(".concat(ano + ",").concat(mes + ") d ")
+                        .concat("left join regente.fct_diarioop(").concat(anoAnt + ",").concat(mesAnt + ") mesant on (d.id=mesant.id) ");
+            }
+            if (tipoRecebimento.equals("Crédito")) {
+                queryString = "select d.*, mesant.qtotal as qtotalant, mesant.vtotal as vtotalant from regente.fct_diariocredito(".concat(ano + ",").concat(mes + ") d ")
+                        .concat("left join regente.fct_diariocredito(").concat(anoAnt + ",").concat(mesAnt + ") mesant on (d.id=mesant.id) ");
+            }
+            if (tipoRecebimento.equals("Recarga")) {
+                queryString = "select d.*, mesant.qtotal as qtotalant, mesant.vtotal as vtotalant from regente.fct_diariorecarga(".concat(ano + ",").concat(mes + ") d ")
+                        .concat("left join regente.fct_diariorecarga(").concat(anoAnt + ",").concat(mesAnt + ") mesant on (d.id=mesant.id) ");
+            }
+        }
+        if (lojas != null) {
+            if (lojas.size() > 0) {
+                String idLojas = "";
+                for (Loja loja : lojas) {
+                    if (idLojas.trim().isEmpty()) {
+                        idLojas = loja.getId() + "";
+                    } else {
+                        idLojas = idLojas + "," + loja.getId() + "";
+                    }
+                }
+                queryString = queryString.concat("WHERE d.id in (").concat(idLojas).concat(")");
+            }
+        }
+
+        Query query;
+
+        query = lojaDAO.getEntityManager().createNativeQuery(queryString);
+
+        List<Object[]> resultado = query.getResultList();
+
+        for (Object[] tupla : resultado) {
+            DiaDiaVO dia = new DiaDiaVO();
+            dia.setPos(((BigInteger) tupla[0]).longValue());
+            dia.setLoja((String) tupla[1]);
+            dia.setDia_01((BigDecimal) tupla[2]);
+            dia.setDia_02(((BigDecimal) tupla[3]));
+            dia.setDia_03(((BigDecimal) tupla[4]));
+            dia.setDia_04(((BigDecimal) tupla[5]));
+            dia.setDia_05(((BigDecimal) tupla[6]));
+            dia.setDia_06(((BigDecimal) tupla[7]));
+            dia.setDia_07(((BigDecimal) tupla[8]));
+            dia.setDia_08(((BigDecimal) tupla[9]));
+            dia.setDia_09(((BigDecimal) tupla[10]));
+            dia.setDia_10(((BigDecimal) tupla[11]));
+            dia.setDia_11(((BigDecimal) tupla[12]));
+            dia.setDia_12(((BigDecimal) tupla[13]));
+            dia.setDia_13(((BigDecimal) tupla[14]));
+            dia.setDia_14(((BigDecimal) tupla[15]));
+            dia.setDia_15(((BigDecimal) tupla[16]));
+            dia.setDia_16(((BigDecimal) tupla[17]));
+            dia.setDia_17(((BigDecimal) tupla[18]));
+            dia.setDia_18(((BigDecimal) tupla[19]));
+            dia.setDia_19(((BigDecimal) tupla[20]));
+            dia.setDia_20(((BigDecimal) tupla[21]));
+            dia.setDia_21(((BigDecimal) tupla[22]));
+            dia.setDia_22(((BigDecimal) tupla[23]));
+            dia.setDia_23(((BigDecimal) tupla[24]));
+            dia.setDia_24(((BigDecimal) tupla[25]));
+            dia.setDia_25(((BigDecimal) tupla[26]));
+            dia.setDia_26(((BigDecimal) tupla[27]));
+            dia.setDia_27(((BigDecimal) tupla[28]));
+            dia.setDia_28(((BigDecimal) tupla[29]));
+            dia.setDia_29(tupla[30] != null ? ((BigDecimal) tupla[30]) : null);
+            dia.setDia_30(tupla[31] != null ? ((BigDecimal) tupla[31]) : null);
+            dia.setDia_31(tupla[32] != null ? ((BigDecimal) tupla[32]) : null);
+            dia.setTotal(((BigDecimal) tupla[33]));
+
+            dia.setV01((BigDecimal) tupla[34]);
+            dia.setV02((BigDecimal) tupla[35]);
+            dia.setV03((BigDecimal) tupla[36]);
+            dia.setV04((BigDecimal) tupla[37]);
+            dia.setV05((BigDecimal) tupla[38]);
+            dia.setV06((BigDecimal) tupla[39]);
+            dia.setV07((BigDecimal) tupla[40]);
+            dia.setV08((BigDecimal) tupla[41]);
+            dia.setV09((BigDecimal) tupla[42]);
+            dia.setV10((BigDecimal) tupla[43]);
+            dia.setV11((BigDecimal) tupla[44]);
+            dia.setV12((BigDecimal) tupla[45]);
+            dia.setV13((BigDecimal) tupla[46]);
+            dia.setV14((BigDecimal) tupla[47]);
+            dia.setV15((BigDecimal) tupla[48]);
+            dia.setV16((BigDecimal) tupla[49]);
+            dia.setV17((BigDecimal) tupla[50]);
+            dia.setV18((BigDecimal) tupla[51]);
+            dia.setV19((BigDecimal) tupla[52]);
+            dia.setV20((BigDecimal) tupla[53]);
+            dia.setV21((BigDecimal) tupla[54]);
+            dia.setV22((BigDecimal) tupla[55]);
+            dia.setV23((BigDecimal) tupla[56]);
+            dia.setV24((BigDecimal) tupla[57]);
+            dia.setV25((BigDecimal) tupla[58]);
+            dia.setV26((BigDecimal) tupla[59]);
+            dia.setV27((BigDecimal) tupla[60]);
+            dia.setV28((BigDecimal) tupla[61]);
+            dia.setV29(tupla[61] != null ? (BigDecimal) tupla[62] : null);
+            dia.setV30(tupla[62] != null ? (BigDecimal) tupla[63] : null);
+            dia.setV31(tupla[63] != null ? (BigDecimal) tupla[64] : null);
+
+            dia.setValorTotal((BigDecimal) tupla[65]);
+            dia.setTotalAnt((BigDecimal) tupla[66]);
+            dia.setValorTotalAnt((BigDecimal) tupla[67]);
+            
+
+            lista.add(dia);
+        }
+
+        return lista;
+    }
+
+    private int getUltimoDiaMes(int mes, int ano) {
+        Calendar c = Calendar.getInstance();
+
+        c.set(Calendar.MONTH, mes - 1);
+        c.set(Calendar.YEAR, ano);
+
+        int ultimodia = c.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        return ultimodia;
+    }
+
+    private boolean ehInteiro(String s) {
+
+        // cria um array de char  
+        char[] c = s.toCharArray();
+        boolean d = true;
+
+        for (int i = 0; i < c.length; i++) // verifica se o char não é um dígito  
+        {
+            if (!Character.isDigit(c[i])) {
+                d = false;
+                break;
+            }
+        }
+
+        return d;
+
+    }
+
+    public List<Loja> getLojaSemGrupoEAtiva() {
+        QueryBuilder queryBuilder = lojaDAO.getQueryBuilder();
+        Restrictions restrictions = new Restrictions();
+
+        List<Loja> lojas;
+
+        restrictions.isNull("grupoLoja");
+        restrictions.equals("ativo", true);
+
+        lojas = queryBuilder.from(Loja.class).add(restrictions).orderBy("id").getResultList();
+
+        return lojas;
+    }
+
+}

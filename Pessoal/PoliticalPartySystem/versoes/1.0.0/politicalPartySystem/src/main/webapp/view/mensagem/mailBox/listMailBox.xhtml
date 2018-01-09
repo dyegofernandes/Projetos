@@ -1,0 +1,69 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['mailBox.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuMailBox.xhtml" />
+        <h:form id="formListMailBox">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="mailBox_export" target=":formListMailBox:dataTableMailBox"
+                                     widgetVar="dataTableMailBoxWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="mailBox" rowIndexVar="index" id="dataTableMailBox" widgetVar="dataTableMailBoxWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{mailBoxMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{mailBoxMB.dataModel.paginatorTemplate}"
+                         value="#{mailBoxMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['mailBox.createDate']}" sortBy="#{mailBox.createDate}"
+                    filterBy="#{mailBox.createDate}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['mailBox.createDate']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{mailBox.createDate}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetMailBoxDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailMailBox" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{mailBox}" target="#{mailBoxMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="mailBox.create">
+                        <p:button icon="ui-icon-pencil" outcome="createMailBox" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{mailBox.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="mailBox.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{mailBoxMB.delete}" >
+                            <f:setPropertyActionListener value="#{mailBox.id}" target="#{mailBoxMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{mailBox}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="mailBox.audit">
+                    <x:auditDelete for="#{mailBoxMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetMailBoxDetail" header="#{msg['mailBox.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailMailBox.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

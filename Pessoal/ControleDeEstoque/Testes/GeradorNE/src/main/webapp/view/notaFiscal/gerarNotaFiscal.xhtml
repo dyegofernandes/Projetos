@@ -1,0 +1,20 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="Gerar Nota Fiscal" />
+    <ui:define name="body">
+        <h:form id="formListCidade">
+            <x:modalMessages/>
+            <p:growl id="messages" showDetail="true" />
+
+            <p:fileUpload value="#{GerarNotaFiscalMB.file}" mode="simple" skinSimple="true"/>
+
+            <p:commandButton value="Submit" ajax="false" actionListener="#{fileUploadView.upload}" disabled="true" />
+        </h:form>
+
+    </ui:define>
+</ui:composition>

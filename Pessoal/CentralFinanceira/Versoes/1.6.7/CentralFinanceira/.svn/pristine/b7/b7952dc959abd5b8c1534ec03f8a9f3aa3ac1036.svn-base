@@ -1,0 +1,688 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.com.jsoft.centralfinanceira.modelo.cadastroBasicos;
+
+import br.com.jsoft.centralfinanceira.modelo.enums.IndicadorIEDestinatario;
+import br.com.jsoft.centralfinanceira.modelo.enums.Sexo;
+import br.com.jsoft.centralfinanceira.modelo.financeiro.ReceitaDespesa;
+import com.xpert.audit.NotAudited;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
+/**
+ * dbo.CLI
+ *
+ * @author Juniel
+ */
+@Entity
+@Table(schema = "cadastro")
+public class Cliente implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    private Empresa empresa;
+
+    @Size(max = 80)
+    @NotBlank
+    private String nome;
+
+    @Size(max = 30)
+    private String nomeFantasia;
+
+    @Size(max = 14)
+    @NotBlank
+    private String cnpjCpf;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Cliente pagador;
+
+    @Size(max = 9)
+    private String cep;
+
+    @Size(max = 60)
+    private String logradouro;
+
+    @Size(max = 10)
+    private String numero;
+
+    @Size(max = 20)
+    private String complemento;
+
+    @Size(max = 20)
+    private String referencia;
+
+    @Size(max = 14)
+    private String bairro;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Cidade municipio;
+
+    @Size(max = 20)
+    private String fone;
+
+    @Size(max = 20)
+    private String fax;
+
+    @Size(max = 20)
+    private String celular;
+
+    @Email
+    private String email;
+
+    private boolean cobrancaImpresa = false;
+
+    @Size(max = 30)
+    private String contato;
+
+    @Size(max = 60)
+    private String site;
+
+    @Size(max = 20)
+    private String rg;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataNascimento;
+
+    private Sexo sexo;
+    
+    @Size(max = 20)
+    private String ie;
+
+    @Size(max = 20)
+    private String im;
+
+    @Size(max = 20)
+    private String identificador;
+
+    private boolean utilizarRG = false;
+
+    private boolean isentoIE = false;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private GrupoCliente grupoCliente;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Transportadora transportadora;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Representante representante;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Pais pais;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private AgenteCobrador agenteCobrador;
+
+    private Integer vencimento;
+
+    private boolean vencEnesimoDiaUtil = false;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ReceitaDespesa receitaDespesa;
+
+    private BigDecimal irrf;
+
+    private boolean irrfMinDiferenciado = false;
+
+    private BigDecimal valorMinIrrf;
+
+    private boolean pisDiferenciado = false;
+
+    private BigDecimal pis;
+
+    private BigDecimal confins;
+
+    private BigDecimal csll;
+
+    private String obs;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date atualObs;
+
+    private boolean boleto = false;
+
+    private boolean recibo = false;
+
+    private boolean etique = false;
+
+    private boolean gerarNFAuto = false;
+
+    private boolean debAutomatico = false;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Banco banco;
+
+    @Size(max = 10)
+    private String agencia;
+
+    @Size(max = 10)
+    private String cc;
+
+    private boolean retemIss = false;
+
+    private BigDecimal aliqISS;
+
+    @Size(max = 15)
+    private String contaContabil;
+
+    private IndicadorIEDestinatario indicadorIEDest;
+
+    @NotAudited
+    @OneToMany(mappedBy = "pagador")
+    private List<Cliente> clientes;
+
+    @Override
+    public String toString() {
+        return nome;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNomeFantasia() {
+        return nomeFantasia;
+    }
+
+    public void setNomeFantasia(String nomeFantasia) {
+        this.nomeFantasia = nomeFantasia;
+    }
+
+    public String getCnpjCpf() {
+        return cnpjCpf;
+    }
+
+    public void setCnpjCpf(String cnpjCpf) {
+        this.cnpjCpf = cnpjCpf;
+    }
+
+    public Cliente getPagador() {
+        return pagador;
+    }
+
+    public void setPagador(Cliente pagador) {
+        this.pagador = pagador;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public String getLogradouro() {
+        return logradouro;
+    }
+
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
+    }
+
+    public String getReferencia() {
+        return referencia;
+    }
+
+    public void setReferencia(String referencia) {
+        this.referencia = referencia;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
+    public Cidade getMunicipio() {
+        return municipio;
+    }
+
+    public void setMunicipio(Cidade municipio) {
+        this.municipio = municipio;
+    }
+
+    public String getFone() {
+        return fone;
+    }
+
+    public void setFone(String fone) {
+        this.fone = fone;
+    }
+
+    public String getFax() {
+        return fax;
+    }
+
+    public void setFax(String fax) {
+        this.fax = fax;
+    }
+
+    public String getCelular() {
+        return celular;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean isCobrancaImpresa() {
+        return cobrancaImpresa;
+    }
+
+    public void setCobrancaImpresa(boolean cobrancaImpresa) {
+        this.cobrancaImpresa = cobrancaImpresa;
+    }
+
+    public String getContato() {
+        return contato;
+    }
+
+    public void setContato(String contato) {
+        this.contato = contato;
+    }
+
+    public String getSite() {
+        return site;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
+    }
+
+    public String getRg() {
+        return rg;
+    }
+
+    public void setRg(String rg) {
+        this.rg = rg;
+    }
+
+    public Date getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(Date dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    public Sexo getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(Sexo sexo) {
+        this.sexo = sexo;
+    }
+
+    public String getIe() {
+        return ie;
+    }
+
+    public void setIe(String ie) {
+        this.ie = ie;
+    }
+
+    public String getIm() {
+        return im;
+    }
+
+    public void setIm(String im) {
+        this.im = im;
+    }
+
+    public String getIdentificador() {
+        return identificador;
+    }
+
+    public void setIdentificador(String identificador) {
+        this.identificador = identificador;
+    }
+
+    public boolean isUtilizarRG() {
+        return utilizarRG;
+    }
+
+    public void setUtilizarRG(boolean utilizarRG) {
+        this.utilizarRG = utilizarRG;
+    }
+
+    public boolean isIsentoIE() {
+        return isentoIE;
+    }
+
+    public void setIsentoIE(boolean isentoIE) {
+        this.isentoIE = isentoIE;
+    }
+
+    public GrupoCliente getGrupoCliente() {
+        return grupoCliente;
+    }
+
+    public void setGrupoCliente(GrupoCliente grupoCliente) {
+        this.grupoCliente = grupoCliente;
+    }
+
+    public Transportadora getTransportadora() {
+        return transportadora;
+    }
+
+    public void setTransportadora(Transportadora transportadora) {
+        this.transportadora = transportadora;
+    }
+
+    public Representante getRepresentante() {
+        return representante;
+    }
+
+    public void setRepresentante(Representante representante) {
+        this.representante = representante;
+    }
+
+    public Pais getPais() {
+        return pais;
+    }
+
+    public void setPais(Pais pais) {
+        this.pais = pais;
+    }
+
+    public AgenteCobrador getAgenteCobrador() {
+        return agenteCobrador;
+    }
+
+    public void setAgenteCobrador(AgenteCobrador agenteCobrador) {
+        this.agenteCobrador = agenteCobrador;
+    }
+
+    public Integer getVencimento() {
+        return vencimento;
+    }
+
+    public void setVencimento(Integer vencimento) {
+        this.vencimento = vencimento;
+    }
+
+    public boolean isVencEnesimoDiaUtil() {
+        return vencEnesimoDiaUtil;
+    }
+
+    public void setVencEnesimoDiaUtil(boolean vencEnesimoDiaUtil) {
+        this.vencEnesimoDiaUtil = vencEnesimoDiaUtil;
+    }
+
+    public ReceitaDespesa getReceitaDespesa() {
+        return receitaDespesa;
+    }
+
+    public void setReceitaDespesa(ReceitaDespesa receitaDespesa) {
+        this.receitaDespesa = receitaDespesa;
+    }
+
+    public BigDecimal getIrrf() {
+        return irrf;
+    }
+
+    public void setIrrf(BigDecimal irrf) {
+        this.irrf = irrf;
+    }
+
+    public boolean isIrrfMinDiferenciado() {
+        return irrfMinDiferenciado;
+    }
+
+    public void setIrrfMinDiferenciado(boolean irrfMinDiferenciado) {
+        this.irrfMinDiferenciado = irrfMinDiferenciado;
+    }
+
+    public BigDecimal getValorMinIrrf() {
+        return valorMinIrrf;
+    }
+
+    public void setValorMinIrrf(BigDecimal valorMinIrrf) {
+        this.valorMinIrrf = valorMinIrrf;
+    }
+
+    public boolean isPisDiferenciado() {
+        return pisDiferenciado;
+    }
+
+    public void setPisDiferenciado(boolean pisDiferenciado) {
+        this.pisDiferenciado = pisDiferenciado;
+    }
+
+    public BigDecimal getPis() {
+        return pis;
+    }
+
+    public void setPis(BigDecimal pis) {
+        this.pis = pis;
+    }
+
+    public BigDecimal getConfins() {
+        return confins;
+    }
+
+    public void setConfins(BigDecimal confins) {
+        this.confins = confins;
+    }
+
+    public BigDecimal getCsll() {
+        return csll;
+    }
+
+    public void setCsll(BigDecimal csll) {
+        this.csll = csll;
+    }
+
+    public String getObs() {
+        return obs;
+    }
+
+    public void setObs(String obs) {
+        this.obs = obs;
+    }
+
+    public Date getAtualObs() {
+        return atualObs;
+    }
+
+    public void setAtualObs(Date atualObs) {
+        this.atualObs = atualObs;
+    }
+
+    public boolean isBoleto() {
+        return boleto;
+    }
+
+    public void setBoleto(boolean boleto) {
+        this.boleto = boleto;
+    }
+
+    public boolean isRecibo() {
+        return recibo;
+    }
+
+    public void setRecibo(boolean recibo) {
+        this.recibo = recibo;
+    }
+
+    public boolean isEtique() {
+        return etique;
+    }
+
+    public void setEtique(boolean etique) {
+        this.etique = etique;
+    }
+
+    public boolean isGerarNFAuto() {
+        return gerarNFAuto;
+    }
+
+    public void setGerarNFAuto(boolean gerarNFAuto) {
+        this.gerarNFAuto = gerarNFAuto;
+    }
+
+    public boolean isDebAutomatico() {
+        return debAutomatico;
+    }
+
+    public void setDebAutomatico(boolean debAutomatico) {
+        this.debAutomatico = debAutomatico;
+    }
+
+    public Banco getBanco() {
+        return banco;
+    }
+
+    public void setBanco(Banco banco) {
+        this.banco = banco;
+    }
+
+    public String getAgencia() {
+        return agencia;
+    }
+
+    public void setAgencia(String agencia) {
+        this.agencia = agencia;
+    }
+
+    public String getCc() {
+        return cc;
+    }
+
+    public void setCc(String cc) {
+        this.cc = cc;
+    }
+
+    public boolean isRetemIss() {
+        return retemIss;
+    }
+
+    public void setRetemIss(boolean retemIss) {
+        this.retemIss = retemIss;
+    }
+
+    public BigDecimal getAliqISS() {
+        return aliqISS;
+    }
+
+    public void setAliqISS(BigDecimal aliqISS) {
+        this.aliqISS = aliqISS;
+    }
+
+    public String getContaContabil() {
+        return contaContabil;
+    }
+
+    public void setContaContabil(String contaContabil) {
+        this.contaContabil = contaContabil;
+    }
+
+    public IndicadorIEDestinatario getIndicadorIEDest() {
+        return indicadorIEDest;
+    }
+
+    public void setIndicadorIEDest(IndicadorIEDestinatario indicadorIEDest) {
+        this.indicadorIEDest = indicadorIEDest;
+    }
+
+    public List<Cliente> getClientes() {
+        return clientes;
+    }
+
+    public void setClientes(List<Cliente> clientes) {
+        this.clientes = clientes;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 59 * hash + (this.id != null ? this.id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Cliente other = (Cliente) obj;
+        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+}

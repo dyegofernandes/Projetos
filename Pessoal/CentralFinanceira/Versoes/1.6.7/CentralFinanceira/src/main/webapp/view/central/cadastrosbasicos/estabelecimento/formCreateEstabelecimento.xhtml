@@ -1,0 +1,183 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateEstabelecimento" >
+        <x:modalMessages/>
+        <p:fieldset legend="#{xmsg['generalData']}">
+
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tipoDePessoa" value="* Tipo:" />
+                        <h:selectOneMenu id="tipoDePessoa" value="#{estabelecimentoMB.entity.tipo}"  styleClass="form-control" required="true" requiredMessage="Tipo de Pessoa requerido!">
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.tipoDePessoa)}" 
+                                           var="tipoDePessoa"
+                                           itemLabel="#{tipoDePessoa.descricao}"/>
+
+                            <p:ajax process="@this" update="panel1 panel2" />
+                        </h:selectOneMenu>
+                    </div>
+
+                    <h:panelGroup id="panel1">
+                        <p:outputPanel rendered="#{estabelecimentoMB.entity.tipo.num ==2}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cnpj" value="CNPJ:" />
+                                <x:cnpj id="cnpj" value="#{estabelecimentoMB.entity.cnpjCpf}"  styleClass="form-control"  />
+                            </div>
+                        </p:outputPanel>
+                        <p:outputPanel rendered="#{estabelecimentoMB.entity.tipo.num ==1}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cpf" value="CPF:" />
+                                <x:cpf id="cpf" value="#{estabelecimentoMB.entity.cnpjCpf}"  styleClass="form-control"  />
+                            </div>
+                        </p:outputPanel>
+                    </h:panelGroup>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="* #{msg['estabelecimento.nome']}:" />
+                        <p:inputText id="nome" value="#{estabelecimentoMB.entity.nome}" maxlength="80"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="mNemonico" value="Apelido:" />
+                        <p:inputText id="mNemonico" value="#{estabelecimentoMB.entity.mNemonico}" maxlength="10"  styleClass="form-control"  />
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="iss:input" value="#{msg['estabelecimento.iss']}:" />
+                        <x:inputNumber id="iss" value="#{estabelecimentoMB.entity.iss}" styleClass="form-control"/>
+                    </div>
+                    <h:panelGroup id="panel2">
+                        <p:outputPanel rendered="#{estabelecimentoMB.entity.tipo.num ==2}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="im" value="#{msg['estabelecimento.im']}:" />
+                                <p:inputMask id="im" value="#{estabelecimentoMB.entity.im}" mask="99.999.999-9"  styleClass="form-control" converter="inscricaoPiauiConverter" />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="ie" value="#{msg['estabelecimento.ie']}:" />
+                                <p:inputMask id="ie" value="#{estabelecimentoMB.entity.ie}" mask="99.999.999-9"  styleClass="form-control"  converter="inscricaoPiauiConverter"/>
+                            </div>
+                        </p:outputPanel>
+                    </h:panelGroup>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="regimeCONFINS" value="#{msg['estabelecimento.regimeCONFINS']}:" />
+                        <h:selectOneMenu id="regimeCONFINS" value="#{estabelecimentoMB.entity.regimeCONFINS}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.regimeCONFINS)}" 
+                                           var="regimeCONFINS"
+                                           itemLabel="#{regimeCONFINS.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="retemIrrf" value="#{estabelecimentoMB.entity.retemIrrf}" />
+                                #{msg['estabelecimento.retemIrrf']}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="optanteSimples" value="#{estabelecimentoMB.entity.optanteSimples}" />
+                                #{msg['estabelecimento.optanteSimples']}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="regimeEspecial" value="#{estabelecimentoMB.entity.regimeEspecial}" />
+                                #{msg['estabelecimento.regimeEspecial']}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="regimeEspecialICMSSubst" value="#{estabelecimentoMB.entity.regimeEspecialICMSSubst}" />
+                                #{msg['estabelecimento.regimeEspecialICMSSubst']}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="incentivoFiscal" value="#{estabelecimentoMB.entity.incentivoFiscal}" />
+                                #{msg['estabelecimento.incentivoFiscal']}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Endereço">
+
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="logradouro" value="#{msg['estabelecimento.logradouro']}:" />
+                <p:inputText id="logradouro" value="#{estabelecimentoMB.entity.logradouro}" maxlength="60"  styleClass="form-control"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="numero" value="#{msg['estabelecimento.numero']}:" />
+                <p:inputText id="numero" value="#{estabelecimentoMB.entity.numero}" maxlength="10"  styleClass="form-control"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="complemento" value="#{msg['estabelecimento.complemento']}:" />
+                <p:inputText id="complemento" value="#{estabelecimentoMB.entity.complemento}" maxlength="20"  styleClass="form-control"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="bairro" value="#{msg['estabelecimento.bairro']}:" />
+                <p:inputText id="bairro" value="#{estabelecimentoMB.entity.bairro}" maxlength="20"  styleClass="form-control"  />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="cep" value="#{msg['estabelecimento.cep']}:" />
+                <p:inputMask id="cep" value="#{estabelecimentoMB.entity.cep}" mask="99999-999"  styleClass="form-control" converter="cepConverter" />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="municipio" value="#{msg['estabelecimento.municipio']}:" />
+                <h:selectOneMenu id="municipio" value="#{estabelecimentoMB.entity.municipio}" converter="entityConverter" styleClass="form-control" >
+                    <x:initializer/>
+                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                    <f:selectItems value="#{findAllBean.get(classMB.cidade)}" 
+                                   var="cidade"
+                                   itemLabel="#{cidade}"/>
+                </h:selectOneMenu>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Contatos">
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="fone" value="#{msg['estabelecimento.fone']}:" />
+                <p:inputMask id="fone" value="#{estabelecimentoMB.entity.fone}" mask="(99) 9999-9999"  styleClass="form-control"  converter="foneConverter"/>
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="fax" value="#{msg['estabelecimento.fax']}:" />
+                <p:inputMask id="fax" value="#{estabelecimentoMB.entity.fax}" mask="(99) 9999-9999"  styleClass="form-control" converter="foneConverter" />
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="celular" value="#{msg['estabelecimento.celular']}:" />
+                <p:inputMask id="celular" value="#{estabelecimentoMB.entity.celular}" mask="(99) 9999-9999"  styleClass="form-control" converter="foneConverter" />
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="estabelecimento.create">
+                <p:commandButton process="@form" update="@form" action="#{estabelecimentoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="estabelecimento.audit">
+                <x:audit for="#{estabelecimentoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

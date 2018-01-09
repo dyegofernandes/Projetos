@@ -1,0 +1,57 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailContaFinanceira" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contaFinanceira.nome']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contaFinanceiraMB.entity.nome}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contaFinanceira.grupo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contaFinanceiraMB.entity.grupo}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contaFinanceira.agencia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contaFinanceiraMB.entity.agencia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contaFinanceira.cc']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contaFinanceiraMB.entity.cc}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contaFinanceira.idImpressaoCheque']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contaFinanceiraMB.entity.idImpressaoCheque}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contaFinanceira.contaContabil']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contaFinanceiraMB.entity.contaContabil}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contaFinanceira.obs']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contaFinanceiraMB.entity.obs}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contaFinanceira.banco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contaFinanceiraMB.entity.banco}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetContaFinanceiraDetail').hide()" />
+            <x:securityArea rolesAllowed="contaFinanceira.audit">
+                <x:audit for="#{contaFinanceiraMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

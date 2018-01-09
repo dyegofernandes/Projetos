@@ -1,0 +1,73 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailVencimentoParcelas" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="data" value="* 1º Vencimento:" />
+                    <p:calendar id="data" value="#{contasAPagarMB.vencimentoParcela.primeiraParcela}" 
+                                showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  required="true" requiredMessage="Data do 1º Vencimento Obrigatório!">
+                        <x:mask/>
+                    </p:calendar>
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="valorParcela" value=" * Valor da Parcela:" />
+                    <x:inputNumber id="valorParcela" value="#{contasAPagarMB.vencimentoParcela.valorDaParcela}" styleClass="form-control" required="true" requiredMessage="Valor da Parcela Obrigatório!">
+                    </x:inputNumber>
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="numParcelas" value="* Número Parcelas:" />
+                    <p:inputMask id="numParcelas" mask="9?999999999" value="#{contasAPagarMB.vencimentoParcela.numParcelas}" 
+                                 required="true" requiredMessage="Número de parcelas é Obritório!" styleClass="form-control" >
+                    </p:inputMask>
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="numPeriodicidade" value="* Número Periodicidade:" />
+                    <p:inputMask id="numPeriodicidade" mask="9?999999999" placeHolder="" value="#{contasAPagarMB.vencimentoParcela.numPeriodicidade}" 
+                                 required="true" requiredMessage="Número de periodicidade é Obritório!" styleClass="form-control" >
+                    </p:inputMask>
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="periodicidade" value="* Periodicidade:" />
+                    <h:selectOneMenu id="periodicidade" value="#{contasAPagarMB.vencimentoParcela.periodicidade}"  styleClass="form-control" required="true"
+                                     requiredMessage="A periodicidade é Obrigatória!">
+                        <f:selectItem itemLabel="#{xmsg['select']}" />
+                        <f:selectItems value="#{findAllBean.get(classMB.periodicidade)}" 
+                                       var="periodicidade"
+                                       itemLabel="#{periodicidade.descricao}"/>
+                    </h:selectOneMenu>
+                </div>
+
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="valorAdicional" value=" Valor Adicional" />
+                    <x:inputNumber id="valorAdicional" value="#{contasAPagarMB.vencimentoParcela.valorAdicional}" styleClass="form-control">
+                    </x:inputNumber>
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="titulo" value="* Título:" />
+                    <p:inputText id="titulo" value="#{contasAPagarMB.vencimentoParcela.titulo}" maxlength="20"  styleClass="form-control"  required="true"
+                                 requiredMessage="O título da parcela é Obrigatório!"/>
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div class="checkbox">
+                        <label>
+                            <h:selectBooleanCheckbox id="informarTotalParcelas" value="#{contasAPagarMB.vencimentoParcela.informarTotalParcelas}" />
+                            Informar total de parcelas
+                        </label>
+                    </div>
+                </div>
+            </div>      
+        </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton ajax="true" value="Gerar" icon="ui-icon-disk" action="#{contasAPagarMB.gerarVencimento}" 
+                             process="@form" update=":formCreateContasAPagar:tabView:dataTableContasAPagarVencimentos"/>
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetVencimentoParcelas').hide()" />
+        </div>
+
+    </h:form>
+</ui:composition>

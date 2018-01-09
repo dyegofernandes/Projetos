@@ -1,0 +1,12 @@
+<xpert-config>
+
+    <auditing>
+        <auditing-impl>com.ebol.modelo.audit.Auditing</auditing-impl>
+        <metadata-impl>com.ebol.modelo.audit.Metadata</metadata-impl>
+        <auditing-listener>com.ebol.application.AuditingListenerImpl</auditing-listener>
+    </auditing>
+    
+    <entity-manager-factory>com.ebol.application.EntityManagerFactoryImpl</entity-manager-factory>
+    <resource-bundle>bundles.messages</resource-bundle>
+
+</xpert-config>

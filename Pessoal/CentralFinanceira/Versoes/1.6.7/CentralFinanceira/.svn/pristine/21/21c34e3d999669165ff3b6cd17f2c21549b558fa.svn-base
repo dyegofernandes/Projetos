@@ -1,0 +1,114 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailEstabelecimento" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['estabelecimento.empresa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{estabelecimentoMB.entity.empresa}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['estabelecimento.nome']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{estabelecimentoMB.entity.nome}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['estabelecimento.CnpjCpf']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{estabelecimentoMB.entity.CnpjCpf}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['estabelecimento.cep']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{estabelecimentoMB.entity.cep}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['estabelecimento.logradouro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{estabelecimentoMB.entity.logradouro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['estabelecimento.numero']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{estabelecimentoMB.entity.numero}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['estabelecimento.complemento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{estabelecimentoMB.entity.complemento}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['estabelecimento.bairro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{estabelecimentoMB.entity.bairro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['estabelecimento.municipio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{estabelecimentoMB.entity.municipio}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['estabelecimento.fone']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{estabelecimentoMB.entity.fone}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['estabelecimento.fax']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{estabelecimentoMB.entity.fax}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['estabelecimento.celular']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{estabelecimentoMB.entity.celular}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['estabelecimento.iss']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{estabelecimentoMB.entity.iss}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['estabelecimento.mNemonico']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{estabelecimentoMB.entity.mNemonico}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['estabelecimento.im']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{estabelecimentoMB.entity.im}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['estabelecimento.ie']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{estabelecimentoMB.entity.ie}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['estabelecimento.retemIrrf']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{estabelecimentoMB.entity.retemIrrf}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['estabelecimento.optanteSimples']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{estabelecimentoMB.entity.optanteSimples}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['estabelecimento.regimeCONFINS']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{estabelecimentoMB.entity.regimeCONFINS}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['estabelecimento.regimeEspecial']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{estabelecimentoMB.entity.regimeEspecial}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['estabelecimento.regimeEspecialICMSSubst']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{estabelecimentoMB.entity.regimeEspecialICMSSubst}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['estabelecimento.incentivoFiscal']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{estabelecimentoMB.entity.incentivoFiscal}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetEstabelecimentoDetail').hide()" />
+            <x:securityArea rolesAllowed="estabelecimento.audit">
+                <x:audit for="#{estabelecimentoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

@@ -1,0 +1,82 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['estabelecimento.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuEstabelecimento.xhtml" />
+        <h:form id="formListEstabelecimento">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="estabelecimento_export" target=":formListEstabelecimento:dataTableEstabelecimento"
+                                widgetVar="dataTableEstabelecimentoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="estabelecimento" rowIndexVar="index" id="dataTableEstabelecimento" widgetVar="dataTableEstabelecimentoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{estabelecimentoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{estabelecimentoMB.dataModel.paginatorTemplate}"
+                         value="#{estabelecimentoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                
+                <p:column headerText="#{msg['estabelecimento.CnpjCpf']}" sortBy="#{estabelecimento.CnpjCpf}"
+                          filterBy="#{estabelecimento.CnpjCpf}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estabelecimento.CnpjCpf']}" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.cnpjCpf}"/>
+                </p:column>
+                <p:column headerText="#{msg['estabelecimento.nome']}" sortBy="#{estabelecimento.nome}"
+                          filterBy="#{estabelecimento.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estabelecimento.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.nome}"/>
+                </p:column>
+                <p:column headerText="Apelido" sortBy="#{estabelecimento.mNemonico}"
+                          filterBy="#{estabelecimento.mNemonico}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Apelido" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.mNemonico}"/>
+                </p:column>
+
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetEstabelecimentoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailEstabelecimento" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{estabelecimento}" target="#{estabelecimentoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="estabelecimento.create">
+                        <p:button icon="ui-icon-pencil" outcome="createEstabelecimento" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{estabelecimento.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="estabelecimento.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{estabelecimentoMB.delete}" >
+                            <f:setPropertyActionListener value="#{estabelecimento.id}" target="#{estabelecimentoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{estabelecimento}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="estabelecimento.audit">
+                    <x:auditDelete for="#{estabelecimentoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetEstabelecimentoDetail" header="#{msg['estabelecimento.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailEstabelecimento.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

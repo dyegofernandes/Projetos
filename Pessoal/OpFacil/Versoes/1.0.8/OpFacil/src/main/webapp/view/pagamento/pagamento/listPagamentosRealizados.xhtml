@@ -1,0 +1,175 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="Consultar Situação OP" />
+    <ui:define name="body">
+        <h:form id="formListPagamento">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="empresa" value="#{msg['funcionario.empresa']}:" />
+                        <h:selectOneMenu id="empresa" value="#{relatorioPagamentoMB.filtros.empresa}" converter="entityConverter" styleClass="form-control" 
+                                         >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{pagamentoMB.empresas}" 
+                                           var="empresa"
+                                           itemLabel="#{empresa.cdBanco} - #{empresa.nomeFantasia}"/>
+                        </h:selectOneMenu>
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="situacao" value="Situação:" />
+                        <h:selectOneMenu id="situacao" value="#{relatorioPagamentoMB.filtros.situacaoOpRealizadas}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.situacaoOpRealizadas)}" 
+                                           var="situacao"
+                                           itemLabel="#{situacao.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="numOp" value="Num Op:" />
+                        <p:inputText id="numOp" value="#{relatorioPagamentoMB.filtros.numOp}" maxlength="20"  styleClass="form-control"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="rg" value="Rg Funcionario:" />
+                        <p:inputText id="rg" value="#{relatorioPagamentoMB.filtros.rg}" maxlength="20"  styleClass="form-control"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cpf" value="Cpf Funcionario:" />
+                        <x:cpf id="cpf" value="#{relatorioPagamentoMB.filtros.cpf}" styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="Nome Funcionario:" />
+                        <p:inputText id="nome" value="#{relatorioPagamentoMB.filtros.nome}" maxlength="45"  styleClass="form-control" />
+                    </div>
+
+
+
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataInicial" value="Data Inicial Pagamento:" />
+                        <p:calendar id="dataInicial" value="#{relatorioPagamentoMB.filtros.dataInicial}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataFinal" value="Data Final Pagamento:" />
+                        <p:calendar id="dataFinal" value="#{relatorioPagamentoMB.filtros.dataFinal}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                </div>
+            </div>
+            <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+            <div class="uix-center">
+
+                <p:commandButton process="@form" update="formListPagamento:dataTablePagamento" action="#{relatorioPagamentoMB.buscar}" value="Buscar" ajax="true" />
+
+            </div>
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="pagamento_export" target=":formListPagamento:dataTablePagamento"
+                                widgetVar="dataTablePagamentoWidget" >                   
+            </x:dataTableActions>
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="pagamento" rowIndexVar="index" id="dataTablePagamento" widgetVar="dataTablePagamentoWidget" styleClass="table-responsive"
+                         value="#{relatorioPagamentoMB.pagamentos}" lazy="false" >
+
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="Empresa" style="text-align: left;">
+                    <f:facet name="header">
+                        <h:outputText value="Empresa" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.empresa}"/>
+                </p:column>
+                <p:column headerText="Código Op" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Código Op" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.codigoOp}"/>
+                </p:column>
+                <p:column headerText="Número Op" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Número Op" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.numeroOp}"/>
+                </p:column>
+                <p:column headerText="Rg Funcionario" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Rg Funcionario" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.rg}"/>
+                </p:column>
+                <p:column headerText="CPF Favorecido" style="text-align: center;" >
+                    <f:facet name="header">
+                        <h:outputText value="CPF Favorecido" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.cpf}" converter="cpfConverter"/>
+                </p:column>
+                <p:column headerText="Nome Favorecido" style="text-align: left;" >
+                    <f:facet name="header">
+                        <h:outputText value="Nome Favorecido" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.nomeFavorecido}"/>
+                </p:column>
+                <p:column headerText="Pago no Posto" style="text-align: left;" >
+                    <f:facet name="header">
+                        <h:outputText value="Pago no Posto" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.pos} - #{pagamento.posNomeFantasia} - #{pagamento.posCidade}"/>
+                </p:column>
+                <p:column headerText="#{msg['pagamento.dtPagamento']}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagamento.dtPagamento']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.dataPagamento}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Hora do Pagamento" style="text-align: center;" >
+                    <f:facet name="header">
+                        <h:outputText value="Hora do Pagamento" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.horaPagamento}"/>
+                </p:column>
+                <p:column headerText="#{msg['pagamento.valorPagto']}" style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagamento.valorPagto']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.valorOp}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Situação" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Situação" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.situacaoOp}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Baixar Culpom" ajax="false" immediate="true" update=":baseLegalTabView">
+                        <p:fileDownload value="#{relatorioPagamentoMB.downloadArquivo(pagamento.codigoOp)}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+        </h:form>
+
+    </ui:define>
+</ui:composition>

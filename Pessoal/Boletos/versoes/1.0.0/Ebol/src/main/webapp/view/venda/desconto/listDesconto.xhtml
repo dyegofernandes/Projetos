@@ -1,0 +1,84 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['desconto.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuDesconto.xhtml" />
+        <h:form id="formListDesconto">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="desconto_export" target=":formListDesconto:dataTableDesconto"
+                                     widgetVar="dataTableDescontoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="desconto" rowIndexVar="index" id="dataTableDesconto" widgetVar="dataTableDescontoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{descontoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{descontoMB.dataModel.paginatorTemplate}"
+                         value="#{descontoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['desconto.venda']}" sortBy="#{desconto.venda}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['desconto.venda']}" />
+                    </f:facet>
+                    <h:outputText value="#{desconto.venda}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['desconto.descricao']}" sortBy="#{desconto.descricao}"
+                    filterBy="#{desconto.descricao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['desconto.descricao']}" />
+                    </f:facet>
+                    <h:outputText value="#{desconto.descricao}"/>
+                </p:column>
+                <p:column headerText="#{msg['desconto.valor']}" sortBy="#{desconto.valor}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['desconto.valor']}" />
+                    </f:facet>
+                    <h:outputText value="#{desconto.valor}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetDescontoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailDesconto" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{desconto}" target="#{descontoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="desconto.create">
+                        <p:button icon="ui-icon-pencil" outcome="createDesconto" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{desconto.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="desconto.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{descontoMB.delete}" >
+                            <f:setPropertyActionListener value="#{desconto.id}" target="#{descontoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{desconto}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="desconto.audit">
+                    <x:auditDelete for="#{descontoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetDescontoDetail" header="#{msg['desconto.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailDesconto.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

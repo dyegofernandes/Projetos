@@ -1,0 +1,316 @@
+package br.com.jsoft.centralfinanceira.mb.central;
+
+import java.io.Serializable;
+import com.xpert.core.crud.AbstractBaseBean;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import br.com.jsoft.centralfinanceira.bo.central.GrupoLojaBO;
+import br.com.jsoft.centralfinanceira.bo.central.LojaBO;
+import br.com.jsoft.centralfinanceira.dao.central.GrupoLojaCreditoDAO;
+import br.com.jsoft.centralfinanceira.dao.central.GrupoLojaDebitoDAO;
+import br.com.jsoft.centralfinanceira.modelo.cadastroBasicos.GrupoLoja;
+import br.com.jsoft.centralfinanceira.modelo.cadastroBasicos.GrupoLojaCredito;
+import br.com.jsoft.centralfinanceira.modelo.cadastroBasicos.GrupoLojaDebito;
+import br.com.jsoft.centralfinanceira.modelo.cadastroBasicos.Loja;
+import br.com.jsoft.centralfinanceira.modelo.enums.CredDeb;
+import br.com.jsoft.centralfinanceira.vo.CreditoEDebitoVO;
+import com.xpert.faces.utils.FacesMessageUtils;
+import com.xpert.persistence.exception.DeleteException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author Juniel
+ */
+@ManagedBean
+@ViewScoped
+public class GrupoLojaMB extends AbstractBaseBean<GrupoLoja> implements Serializable {
+
+    @EJB
+    private GrupoLojaBO grupoLojaBO;
+
+    @EJB
+    private LojaBO lojaBO;
+
+    @EJB
+    private GrupoLojaCreditoDAO creditoDAO;
+
+    @EJB
+    private GrupoLojaDebitoDAO debitoDAO;
+
+    private List<Loja> lojas;
+
+    private List<Loja> lojasDeletadas;
+
+    private List<CreditoEDebitoVO> creditosEdebitos;
+
+    private List<CreditoEDebitoVO> creditosEdebitosDeletados;
+
+    private Loja lojaAdd;
+
+    private String nome;
+
+    private BigDecimal valor;
+
+    private CredDeb tipo = CredDeb.CREDITO;
+
+    @Override
+    public void init() {
+
+        lojas = new ArrayList<Loja>();
+        creditosEdebitos = new ArrayList<CreditoEDebitoVO>();
+        lojasDeletadas = new ArrayList<Loja>();
+        creditosEdebitosDeletados = new ArrayList<CreditoEDebitoVO>();
+
+        if (getEntity().getId() != null) {
+            lojas = lojaBO.getDAO().list("grupoloja_id", getEntity().getId(), "nome");
+
+            List<GrupoLojaCredito> creditos = creditoDAO.list("grupoloja_id", getEntity().getId(), "nome");
+            List<GrupoLojaDebito> debitos = debitoDAO.list("grupoloja_id", getEntity().getId(), "nome");
+
+            for (GrupoLojaCredito credito : creditos) {
+                CreditoEDebitoVO creditoTemp = new CreditoEDebitoVO();
+                creditoTemp.setId(credito.getId());
+                creditoTemp.setDescricao(credito.getNome());
+                creditoTemp.setGrupoLoja(credito.getGrupoLoja());
+                creditoTemp.setValor(credito.getValor());
+                creditoTemp.setTipo(CredDeb.CREDITO);
+
+                creditosEdebitos.add(creditoTemp);
+            }
+
+            for (GrupoLojaDebito debito : debitos) {
+                CreditoEDebitoVO debitoTemp = new CreditoEDebitoVO();
+                debitoTemp.setId(debito.getId());
+                debitoTemp.setDescricao(debito.getNome());
+                debitoTemp.setGrupoLoja(debito.getGrupoLoja());
+                debitoTemp.setValor(debito.getValor());
+                debitoTemp.setTipo(CredDeb.DEBITO);
+
+                creditosEdebitos.add(debitoTemp);
+            }
+        }
+
+    }
+
+    @Override
+    public GrupoLojaBO getBO() {
+        return grupoLojaBO;
+    }
+
+    @Override
+    public String getDataModelOrder() {
+        return "nome";
+    }
+
+    public List<Loja> getLojas() {
+        return lojas;
+    }
+
+    public void setLojas(List<Loja> lojas) {
+        this.lojas = lojas;
+    }
+
+    public List<Loja> getLojasDeletadas() {
+        return lojasDeletadas;
+    }
+
+    public void setLojasDeletadas(List<Loja> lojasDeletadas) {
+        this.lojasDeletadas = lojasDeletadas;
+    }
+
+    public List<CreditoEDebitoVO> getCreditosEdebitos() {
+        return creditosEdebitos;
+    }
+
+    public void setCreditosEdebitos(List<CreditoEDebitoVO> creditosEdebitos) {
+        this.creditosEdebitos = creditosEdebitos;
+    }
+
+    public List<CreditoEDebitoVO> getCreditosEdebitosDeletados() {
+        return creditosEdebitosDeletados;
+    }
+
+    public void setCreditosEdebitosDeletados(List<CreditoEDebitoVO> creditosEdebitosDeletados) {
+        this.creditosEdebitosDeletados = creditosEdebitosDeletados;
+    }
+
+    public Loja getLojaAdd() {
+        return lojaAdd;
+    }
+
+    public void setLojaAdd(Loja lojaAdd) {
+        this.lojaAdd = lojaAdd;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public CredDeb getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(CredDeb tipo) {
+        this.tipo = tipo;
+    }
+
+    public BigDecimal getValor() {
+        return valor;
+    }
+
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
+
+    public void addReceitaDespesa() {
+        CreditoEDebitoVO creditoDebitoTemp = new CreditoEDebitoVO();
+        if (nome != null && valor != null && tipo != null) {
+            
+            if (nome.equals("")) {
+                FacesMessageUtils.error("O campo nome deve ser preenchido!");
+            } else {
+                if (valor == BigDecimal.ZERO) {
+                    FacesMessageUtils.error("O valor não pode ser igual a 0 (Zero)!");
+                } else {
+                    if (verificaNomeIgual(nome)) {
+                        FacesMessageUtils.error("Já foi adicionado Crédito/Débito com esse nome!");
+                    } else {
+                        creditoDebitoTemp.setGrupoLoja(getEntity());
+                        creditoDebitoTemp.setDescricao(nome);
+                        creditoDebitoTemp.setValor(valor);
+                        creditoDebitoTemp.setTipo(tipo);
+                        
+                        creditosEdebitos.add(creditoDebitoTemp);
+                    }
+                }
+            }
+        } else {
+            FacesMessageUtils.error("Campos obrigários não preenchidos!");
+        }
+
+    }
+
+    public void removerReceitaDespesa(CreditoEDebitoVO removido) {
+        if (removido.getId() != null) {
+            creditosEdebitosDeletados.add(removido);
+            creditosEdebitos.remove(removido);
+        } else {
+            creditosEdebitos.remove(removido);
+        }
+
+    }
+
+    public void addLoja() {
+        if (lojaAdd != null) {
+            if (verificaLoja(lojaAdd)) {
+                FacesMessageUtils.error("Loja já adicionada!");
+            } else {
+                lojas.add(lojaAdd);
+                lojaAdd = null;
+            }
+        } else {
+            FacesMessageUtils.error("Loja é obrigatório!");
+        }
+    }
+
+    public void removerLoja(Loja removida) {
+        if (removida.getId() != null) {
+            lojasDeletadas.add(removida);
+            lojas.remove(removida);
+        } else {
+            lojas.remove(removida);
+        }
+    }
+
+    @Override
+    public void save() {
+        if (lojas.size() < 1) {
+            FacesMessageUtils.error("É obrigatório associar ao menos uma Loja ao grupo!");
+        } else {
+            super.save();
+            for (Loja loja : lojas) {
+                lojaBO.getDAO().saveOrMerge(loja, true);
+            }
+
+            for (Loja loja : lojasDeletadas) {
+                loja.setGrupoLoja(null);
+                lojaBO.getDAO().saveOrMerge(loja, true);
+            }
+
+            for (CreditoEDebitoVO cd : creditosEdebitos) {
+                if (cd.getTipo() == CredDeb.CREDITO) {
+                    GrupoLojaCredito credito = new GrupoLojaCredito();
+                    credito.setGrupoLoja(cd.getGrupoLoja());
+                    if (cd.getId() != null) {
+                        credito.setId(cd.getId());
+                    }
+                    credito.setNome(cd.getDescricao());
+                    credito.setValor(cd.getValor());
+
+                    creditoDAO.saveOrMerge(credito, true);
+                } else {
+                    GrupoLojaDebito debito = new GrupoLojaDebito();
+                    debito.setGrupoLoja(cd.getGrupoLoja());
+                    if (cd.getId() != null) {
+                        debito.setId(cd.getId());
+                    }
+                    debito.setNome(cd.getDescricao());
+                    debito.setValor(cd.getValor());
+
+                    debitoDAO.saveOrMerge(debito, true);
+                }
+            }
+
+            for (CreditoEDebitoVO cd : creditosEdebitosDeletados) {
+                if (cd.getTipo() == CredDeb.CREDITO) {
+                    try {
+                        creditoDAO.delete(cd.getId());
+                    } catch (DeleteException ex) {
+                        Logger.getLogger(GrupoLojaMB.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    try {
+                        debitoDAO.delete(cd.getId());
+                    } catch (DeleteException ex) {
+                        Logger.getLogger(GrupoLojaMB.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        }
+
+    }
+
+    private boolean verificaLoja(Loja loja) {
+        for (Loja loja1 : lojas) {
+            if (loja1.equals(loja)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void limpaCamposCD() {
+        nome = null;
+        valor = null;
+        tipo = CredDeb.CREDITO;
+    }
+
+    private boolean verificaNomeIgual(String nome) {
+        for (CreditoEDebitoVO cd : creditosEdebitos) {
+            if (cd.equals(nome)) {
+                return true;
+            }
+        }
+        return false;
+    }
+}

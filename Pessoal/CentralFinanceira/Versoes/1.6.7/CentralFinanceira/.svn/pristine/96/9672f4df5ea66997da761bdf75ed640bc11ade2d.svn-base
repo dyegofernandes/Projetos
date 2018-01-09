@@ -1,0 +1,231 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.com.jsoft.centralfinanceira.mb.regente;
+
+import br.com.jsoft.centralfinanceira.bo.central.LojaBO;
+import br.com.jsoft.centralfinanceira.modelo.auxiliar.ColumnModel;
+import br.com.jsoft.centralfinanceira.modelo.cadastroBasicos.Loja;
+import br.com.jsoft.centralfinanceira.vo.DiaDiaVO;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
+import javax.faces.model.SelectItemGroup;
+import org.primefaces.model.DualListModel;
+
+/**
+ *
+ * @author Juniel
+ */
+@ManagedBean
+@ViewScoped
+public class DiaADiaMB implements Serializable {
+
+    @EJB
+    private LojaBO lojaBO;
+
+    private String menu;
+
+    private String periodo;
+
+    private List<SelectItem> menus;
+
+    private DualListModel<Loja> lojas;
+
+    private final static List<String> VALID_COLUMN_KEYS = Arrays.asList("pos", "loja", "dia_01", "dia_02", "dia_03", "dia_04", "dia_05", "dia_06", "dia_07", "dia_08", "dia_09", "dia_10", "dia_11", "dia_12", "dia_13", "dia_14", "dia_15", "dia_16", "dia_17", "dia_18", "dia_19", "dia_20", "dia_21", "dia_22", "dia_23", "dia_24", "dia_25", "dia_26", "dia_27", "dia_28", "dia_29", "dia_30", "dia_31");
+
+    private String columnTemplate = "pos loja";
+
+    private List<ColumnModel> columns;
+
+    private List<DiaDiaVO> recebimentos;
+    
+    private List<DiaDiaVO> recebimentosFilter;
+
+    @PostConstruct
+    public void init() {
+
+        SelectItemGroup g1 = new SelectItemGroup("Boletos");
+        g1.setSelectItems(new SelectItem[]{new SelectItem("Boletos - Todos", "Todos Boletos"), new SelectItem("Próprios", "Próprias"), new SelectItem("Site", "Site"),
+            new SelectItem("Banco do Brasil", "Banco do Brasil"), new SelectItem("Banco Popular", "Banco Popular")});
+
+        SelectItemGroup g2 = new SelectItemGroup("Crédito e Recarga");
+        g2.setSelectItems(new SelectItem[]{new SelectItem("Crédito e Recarga - Todos", "Todos - Crédito e Recarga"), new SelectItem("Crédito", "Crédito"), new SelectItem("Recarga", "Recarga")});
+
+        SelectItemGroup g3 = new SelectItemGroup("Vale Gás");
+        g3.setSelectItems(new SelectItem[]{new SelectItem("Vale Gás - Todos")});
+
+        SelectItemGroup g4 = new SelectItemGroup("Op");
+        g4.setSelectItems(new SelectItem[]{new SelectItem("Op - Todos")});
+
+        menus = new ArrayList<SelectItem>();
+        menus.add(g1);
+        menus.add(g2);
+        menus.add(g3);
+        menus.add(g4);
+
+        List<Loja> lojasSource = new ArrayList<Loja>();
+        List<Loja> lojasTarget = new ArrayList<Loja>();
+
+        lojasSource = lojaBO.getDAO().listAll("id");
+
+        lojas = new DualListModel<Loja>(lojasSource, lojasTarget);
+
+        recebimentos = lojaBO.listaRecebimentoLoja(null, null, null);
+
+        quantidadeColunas();
+
+        createDynamicColumns();
+
+    }
+
+    public String getMenu() {
+        return menu;
+    }
+
+    public void setMenu(String menu) {
+        this.menu = menu;
+    }
+
+    public List<SelectItem> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(List<SelectItem> menus) {
+        this.menus = menus;
+    }
+
+    public String getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(String periodo) {
+        this.periodo = periodo;
+    }
+
+    public DualListModel<Loja> getLojas() {
+        return lojas;
+    }
+
+    public void setLojas(DualListModel<Loja> lojas) {
+        this.lojas = lojas;
+    }
+
+    public String getColumnTemplate() {
+        return columnTemplate;
+    }
+
+    public void setColumnTemplate(String columnTemplate) {
+        this.columnTemplate = columnTemplate;
+    }
+
+    public List<ColumnModel> getColumns() {
+        return columns;
+    }
+
+    public void setColumns(List<ColumnModel> columns) {
+        this.columns = columns;
+    }
+
+    public List<DiaDiaVO> getRecebimentos() {
+        return recebimentos;
+    }
+
+    public void setRecebimentos(List<DiaDiaVO> recebimentos) {
+        this.recebimentos = recebimentos;
+    }
+
+    public List<DiaDiaVO> getRecebimentosFilter() {
+        return recebimentosFilter;
+    }
+
+    public void setRecebimentosFilter(List<DiaDiaVO> recebimentosFilter) {
+        this.recebimentosFilter = recebimentosFilter;
+    }
+
+    private void createDynamicColumns() {
+        String[] columnKeys = columnTemplate.split(" ");
+        columns = new ArrayList<ColumnModel>();
+
+        for (String columnKey : columnKeys) {
+            String key = columnKey.trim();
+
+            if (VALID_COLUMN_KEYS.contains(key)) {
+                columns.add(new ColumnModel(columnKey.toUpperCase(), columnKey));
+            }
+        }
+    }
+
+    public void updateColumns() {
+        //reset table state
+        UIComponent table = FacesContext.getCurrentInstance().getViewRoot().findComponent(":formDiaDia:recimentosTable");
+        table.setValueExpression("sortBy", null);
+
+        //update columns
+        columnTemplate = "pos loja";
+        quantidadeColunas();
+        createDynamicColumns();
+    }
+
+    private int getUltimoDiaMes() {
+        Calendar c = Calendar.getInstance();
+        String[] temp;
+        int mes, ano;
+
+        if (periodo == null || periodo.equals("")) {
+            c.setTime(new Date());
+            mes = c.get(Calendar.MONTH);
+            ano = c.get(Calendar.YEAR);
+        } else {
+            temp = periodo.split("/");
+            mes = Integer.parseInt(temp[0]);
+            ano = Integer.parseInt(temp[1]);
+            c.set(Calendar.MONTH, mes - 1);
+            c.set(Calendar.YEAR, ano);
+        }
+
+        int ultimodia = c.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        return ultimodia;
+    }
+
+    private void quantidadeColunas() {
+        for (int i = 1; i < getUltimoDiaMes() + 1; i++) {
+            columnTemplate = columnTemplate.concat(" ").concat("dia_"+inserirCaractere(i+"",2));
+        }
+    }
+    
+    private String inserirCaractere(String input, int width) {
+
+        char ch = '0';
+
+        String strPad = "";
+
+        StringBuilder sb = new StringBuilder(input.trim());
+
+        while (sb.length() < width) {
+            sb.insert(0, ch);
+        }
+        strPad = sb.toString();
+
+        if (strPad.length() > width) {
+
+            strPad = strPad.substring(0, width);
+        }
+
+        return strPad;
+    }
+
+}

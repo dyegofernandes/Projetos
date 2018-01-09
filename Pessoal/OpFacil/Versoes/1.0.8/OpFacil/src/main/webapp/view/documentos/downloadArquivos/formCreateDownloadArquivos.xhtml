@@ -1,0 +1,88 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateDownloadArquivos" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="empresa" value="* #{msg['downloadArquivos.empresa']}:" />
+                        <h:selectOneMenu id="empresa" value="#{downloadArquivosMB.entity.empresa}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.empresa)}" 
+                                           var="empresa"
+                                           itemLabel="#{empresa.cdBanco} - #{empresa.nomeFantasia}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataPublicao" value="* #{msg['downloadArquivos.dataPublicao']}:" />
+                        <p:calendar id="dataPublicao" value="#{downloadArquivosMB.entity.dataPublicao}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <h:panelGroup id="panelUm" rendered="#{downloadArquivosMB.entity.id ==null}">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <p:outputLabel value="Arquivo" styleClass="grid_3" />
+
+                            <p:fileUpload id="arquivo" mode="advanced" requiredMessage="É necessário o envio de pelo menos um arquivo!"
+                                          allowTypes="/(\.|\/)(gif|jpe?g|rtf|odt|png|doc|docx|xls|xlsx|pps|ppsx|ppt|pptx|pdf|jpg|zip|txt|7z|rar|dcm)$/"
+                                          invalidFileMessage="Tipo de arquivo não permitido" invalidSizeMessage="Arquivo com tamanho acima do permitido" 
+                                          uploadLabel="Carregar" cancelLabel="Cancelar" label="Selecionar" multiple="false" 
+                                          sizeLimit="10485760" fileUploadListener="#{downloadArquivosMB.upload}" styleClass="grid_9" />
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup id="panelDois" rendered="#{downloadArquivosMB.entity.id !=null}">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <p:dataTable value="#{downloadArquivosMB.entity.arquivo}" var="item" styleClass="grid_8">
+                                <p:column headerText="Nome" width="200">
+                                    <p:outputLabel value="#{item.nome}" />
+                                </p:column>
+                                <p:column headerText="#{wds['button.download']}" style="text-align:center" width="30">
+                                    <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="#{wds['button.download']}" ajax="false" immediate="true" update=":baseLegalTabView">
+                                        <p:fileDownload value="#{downloadArquivosMB.downloadArquivo(item)}" />
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{sessaoUsuarioMB.user.superUsuario}" >
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="situacao" value="Situação:" />
+                            <h:selectOneMenu id="situacao" value="#{downloadArquivosMB.entity.tipo}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.tipoArquivo)}" 
+                                               var="tipo"
+                                               itemLabel="#{tipo.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </h:panelGroup> 
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="numOp" value="Num Op:" />
+                        <p:inputText id="numOp" value="#{downloadArquivosMB.entity.cdOp}" maxlength="20"  styleClass="form-control"/>
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="downloadArquivos.create">
+                <p:commandButton process="@form" update="@form" action="#{downloadArquivosMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="downloadArquivos.audit">
+                <x:audit for="#{downloadArquivosMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

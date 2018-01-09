@@ -1,0 +1,472 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['cliente.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuCliente.xhtml" />
+        <h:form id="formListCliente">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="cliente_export" target=":formListCliente:dataTableCliente"
+                                     widgetVar="dataTableClienteWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="cliente" rowIndexVar="index" id="dataTableCliente" widgetVar="dataTableClienteWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{clienteMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{clienteMB.dataModel.paginatorTemplate}"
+                         value="#{clienteMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.empresa']}" sortBy="#{cliente.empresa}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.empresa']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.empresa}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['cliente.nome']}" sortBy="#{cliente.nome}"
+                    filterBy="#{cliente.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.nomeFantasia']}" sortBy="#{cliente.nomeFantasia}"
+                    filterBy="#{cliente.nomeFantasia}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.nomeFantasia']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.nomeFantasia}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.cnpjCpf']}" sortBy="#{cliente.cnpjCpf}"
+                    filterBy="#{cliente.cnpjCpf}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.cnpjCpf']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.cnpjCpf}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.pagador']}" sortBy="#{cliente.pagador}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.pagador']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.pagador}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['cliente.cep']}" sortBy="#{cliente.cep}"
+                    filterBy="#{cliente.cep}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.cep']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.cep}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.logradouro']}" sortBy="#{cliente.logradouro}"
+                    filterBy="#{cliente.logradouro}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.logradouro']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.logradouro}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.numero']}" sortBy="#{cliente.numero}"
+                    filterBy="#{cliente.numero}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.numero']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.numero}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.complemento']}" sortBy="#{cliente.complemento}"
+                    filterBy="#{cliente.complemento}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.complemento']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.complemento}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.referencia']}" sortBy="#{cliente.referencia}"
+                    filterBy="#{cliente.referencia}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.referencia']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.referencia}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.bairro']}" sortBy="#{cliente.bairro}"
+                    filterBy="#{cliente.bairro}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.bairro']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.bairro}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.municipio']}" sortBy="#{cliente.municipio}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.municipio']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.municipio}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['cliente.fone']}" sortBy="#{cliente.fone}"
+                    filterBy="#{cliente.fone}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.fone']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.fone}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.fax']}" sortBy="#{cliente.fax}"
+                    filterBy="#{cliente.fax}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.fax']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.fax}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.celular']}" sortBy="#{cliente.celular}"
+                    filterBy="#{cliente.celular}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.celular']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.celular}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.email']}" sortBy="#{cliente.email}"
+                    filterBy="#{cliente.email}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.email']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.email}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.cobrancaImpresa']}" sortBy="#{cliente.cobrancaImpresa}"
+                    filterBy="#{cliente.cobrancaImpresa}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.cobrancaImpresa']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.cobrancaImpresa}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['cliente.contato']}" sortBy="#{cliente.contato}"
+                    filterBy="#{cliente.contato}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.contato']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.contato}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.site']}" sortBy="#{cliente.site}"
+                    filterBy="#{cliente.site}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.site']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.site}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.rg']}" sortBy="#{cliente.rg}"
+                    filterBy="#{cliente.rg}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.rg']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.rg}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.ie']}" sortBy="#{cliente.ie}"
+                    filterBy="#{cliente.ie}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.ie']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.ie}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.im']}" sortBy="#{cliente.im}"
+                    filterBy="#{cliente.im}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.im']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.im}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.identificador']}" sortBy="#{cliente.identificador}"
+                    filterBy="#{cliente.identificador}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.identificador']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.identificador}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.utilizarRG']}" sortBy="#{cliente.utilizarRG}"
+                    filterBy="#{cliente.utilizarRG}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.utilizarRG']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.utilizarRG}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['cliente.isentoIE']}" sortBy="#{cliente.isentoIE}"
+                    filterBy="#{cliente.isentoIE}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.isentoIE']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.isentoIE}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['cliente.grupoCliente']}" sortBy="#{cliente.grupoCliente}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.grupoCliente']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.grupoCliente}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['cliente.transportadora']}" sortBy="#{cliente.transportadora}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.transportadora']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.transportadora}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['cliente.representante']}" sortBy="#{cliente.representante}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.representante']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.representante}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['cliente.pais']}" sortBy="#{cliente.pais}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.pais']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.pais}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['cliente.agenteCobrador']}" sortBy="#{cliente.agenteCobrador}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.agenteCobrador']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.agenteCobrador}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['cliente.vencimento']}" sortBy="#{cliente.vencimento}"
+                    filterBy="#{cliente.vencimento}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.vencimento']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.vencimento}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.vencEnesimoDiaUtil']}" sortBy="#{cliente.vencEnesimoDiaUtil}"
+                    filterBy="#{cliente.vencEnesimoDiaUtil}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.vencEnesimoDiaUtil']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.vencEnesimoDiaUtil}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['cliente.receitaDespesa']}" sortBy="#{cliente.receitaDespesa}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.receitaDespesa']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.receitaDespesa}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['cliente.irrf']}" sortBy="#{cliente.irrf}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.irrf']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.irrf}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['cliente.irrfMinDiferenciado']}" sortBy="#{cliente.irrfMinDiferenciado}"
+                    filterBy="#{cliente.irrfMinDiferenciado}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.irrfMinDiferenciado']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.irrfMinDiferenciado}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['cliente.valorMinIrrf']}" sortBy="#{cliente.valorMinIrrf}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.valorMinIrrf']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.valorMinIrrf}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['cliente.pisDiferenciado']}" sortBy="#{cliente.pisDiferenciado}"
+                    filterBy="#{cliente.pisDiferenciado}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.pisDiferenciado']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.pisDiferenciado}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['cliente.pis']}" sortBy="#{cliente.pis}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.pis']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.pis}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['cliente.confins']}" sortBy="#{cliente.confins}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.confins']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.confins}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['cliente.csll']}" sortBy="#{cliente.csll}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.csll']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.csll}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['cliente.obs']}" sortBy="#{cliente.obs}"
+                    filterBy="#{cliente.obs}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.obs']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.obs}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.atualObs']}" sortBy="#{cliente.atualObs}"
+                    filterBy="#{cliente.atualObs}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.atualObs']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{cliente.atualObs}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['cliente.boleto']}" sortBy="#{cliente.boleto}"
+                    filterBy="#{cliente.boleto}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.boleto']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.boleto}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['cliente.recibo']}" sortBy="#{cliente.recibo}"
+                    filterBy="#{cliente.recibo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.recibo']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.recibo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['cliente.etique']}" sortBy="#{cliente.etique}"
+                    filterBy="#{cliente.etique}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.etique']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.etique}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['cliente.gerarNFAuto']}" sortBy="#{cliente.gerarNFAuto}"
+                    filterBy="#{cliente.gerarNFAuto}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.gerarNFAuto']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.gerarNFAuto}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['cliente.debAutomatico']}" sortBy="#{cliente.debAutomatico}"
+                    filterBy="#{cliente.debAutomatico}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.debAutomatico']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.debAutomatico}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['cliente.banco']}" sortBy="#{cliente.banco}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.banco']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.banco}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['cliente.agencia']}" sortBy="#{cliente.agencia}"
+                    filterBy="#{cliente.agencia}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.agencia']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.agencia}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.cc']}" sortBy="#{cliente.cc}"
+                    filterBy="#{cliente.cc}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.cc']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.cc}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.retemIss']}" sortBy="#{cliente.retemIss}"
+                    filterBy="#{cliente.retemIss}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.retemIss']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.retemIss}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['cliente.aliqISS']}" sortBy="#{cliente.aliqISS}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.aliqISS']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.aliqISS}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['cliente.contaContabil']}" sortBy="#{cliente.contaContabil}"
+                    filterBy="#{cliente.contaContabil}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.contaContabil']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.contaContabil}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.indicadorIEDest']}" sortBy="#{cliente.indicadorIEDest}"
+                    filterBy="#{cliente.indicadorIEDest}"  filterOptions="#{findAllBean.getSelect(classMB.indicadorIEDestinatario)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.indicadorIEDest']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.indicadorIEDest}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetClienteDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailCliente" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{cliente}" target="#{clienteMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="cliente.create">
+                        <p:button icon="ui-icon-pencil" outcome="createCliente" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{cliente.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="cliente.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{clienteMB.delete}" >
+                            <f:setPropertyActionListener value="#{cliente.id}" target="#{clienteMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{cliente}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="cliente.audit">
+                    <x:auditDelete for="#{clienteMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetClienteDetail" header="#{msg['cliente.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailCliente.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,119 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['individualPerson.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuIndividualPerson.xhtml" />
+        <h:form id="formListIndividualPerson">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="individualPerson_export" target=":formListIndividualPerson:dataTableIndividualPerson"
+                                     widgetVar="dataTableIndividualPersonWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="individualPerson" rowIndexVar="index" id="dataTableIndividualPerson" widgetVar="dataTableIndividualPersonWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{individualPersonMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{individualPersonMB.dataModel.paginatorTemplate}"
+                         value="#{individualPersonMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['individualPerson.fullName']}" sortBy="#{individualPerson.fullName}"
+                    filterBy="#{individualPerson.fullName}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['individualPerson.fullName']}" />
+                    </f:facet>
+                    <h:outputText value="#{individualPerson.fullName}"/>
+                </p:column>
+                <p:column headerText="#{msg['individualPerson.cpf']}" sortBy="#{individualPerson.cpf}"
+                    filterBy="#{individualPerson.cpf}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['individualPerson.cpf']}" />
+                    </f:facet>
+                    <h:outputText value="#{individualPerson.cpf}"/>
+                </p:column>
+                <p:column headerText="#{msg['individualPerson.idCard']}" sortBy="#{individualPerson.idCard}"
+                    filterBy="#{individualPerson.idCard}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['individualPerson.idCard']}" />
+                    </f:facet>
+                    <h:outputText value="#{individualPerson.idCard}"/>
+                </p:column>
+                <p:column headerText="#{msg['individualPerson.photo']}" sortBy="#{individualPerson.photo}"
+                    filterBy="#{individualPerson.photo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['individualPerson.photo']}" />
+                    </f:facet>
+                    <h:outputText value="#{individualPerson.photo}"/>
+                </p:column>
+                <p:column headerText="#{msg['individualPerson.email']}" sortBy="#{individualPerson.email}"
+                    filterBy="#{individualPerson.email}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['individualPerson.email']}" />
+                    </f:facet>
+                    <h:outputText value="#{individualPerson.email}"/>
+                </p:column>
+                <p:column headerText="#{msg['individualPerson.phone']}" sortBy="#{individualPerson.phone}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['individualPerson.phone']}" />
+                    </f:facet>
+                    <h:outputText value="#{individualPerson.phone}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['individualPerson.address']}" sortBy="#{individualPerson.address}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['individualPerson.address']}" />
+                    </f:facet>
+                    <h:outputText value="#{individualPerson.address}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['individualPerson.active']}" sortBy="#{individualPerson.active}"
+                    filterBy="#{individualPerson.active}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['individualPerson.active']}" />
+                    </f:facet>
+                    <h:outputText value="#{individualPerson.active}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetIndividualPersonDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailIndividualPerson" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{individualPerson}" target="#{individualPersonMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="individualPerson.create">
+                        <p:button icon="ui-icon-pencil" outcome="createIndividualPerson" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{individualPerson.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="individualPerson.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{individualPersonMB.delete}" >
+                            <f:setPropertyActionListener value="#{individualPerson.id}" target="#{individualPersonMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{individualPerson}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="individualPerson.audit">
+                    <x:auditDelete for="#{individualPersonMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetIndividualPersonDetail" header="#{msg['individualPerson.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailIndividualPerson.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

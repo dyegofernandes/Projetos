@@ -1,0 +1,132 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['loteEnvio.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuLoteEnvio.xhtml" />
+        <h:form id="formListLoteEnvio">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="loteEnvio_export" target=":formListLoteEnvio:dataTableLoteEnvio"
+                                     widgetVar="dataTableLoteEnvioWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="loteEnvio" rowIndexVar="index" id="dataTableLoteEnvio" widgetVar="dataTableLoteEnvioWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{loteEnvioMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{loteEnvioMB.dataModel.paginatorTemplate}"
+                         value="#{loteEnvioMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['loteEnvio.versaoEnvio']}" sortBy="#{loteEnvio.versaoEnvio}"
+                    filterBy="#{loteEnvio.versaoEnvio}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['loteEnvio.versaoEnvio']}" />
+                    </f:facet>
+                    <h:outputText value="#{loteEnvio.versaoEnvio}"/>
+                </p:column>
+                <p:column headerText="#{msg['loteEnvio.indicadorProcessamento']}" sortBy="#{loteEnvio.indicadorProcessamento}"
+                    filterBy="#{loteEnvio.indicadorProcessamento}"  filterOptions="#{findAllBean.getSelect(classMB.loteIndicadorProcessamento)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['loteEnvio.indicadorProcessamento']}" />
+                    </f:facet>
+                    <h:outputText value="#{loteEnvio.indicadorProcessamento.descricao}"/>
+                </p:column>
+                <p:column headerText="#{msg['loteEnvio.versaoRetorno']}" sortBy="#{loteEnvio.versaoRetorno}"
+                    filterBy="#{loteEnvio.versaoRetorno}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['loteEnvio.versaoRetorno']}" />
+                    </f:facet>
+                    <h:outputText value="#{loteEnvio.versaoRetorno}"/>
+                </p:column>
+                
+                
+                <p:column headerText="#{msg['loteEnvio.status']}" sortBy="#{loteEnvio.status}"
+                    filterBy="#{loteEnvio.status}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['loteEnvio.status']}" />
+                    </f:facet>
+                    <h:outputText value="#{loteEnvio.status}"/>
+                </p:column>
+                <p:column headerText="#{msg['loteEnvio.motivo']}" sortBy="#{loteEnvio.motivo}"
+                    filterBy="#{loteEnvio.motivo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['loteEnvio.motivo']}" />
+                    </f:facet>
+                    <h:outputText value="#{loteEnvio.motivo}"/>
+                </p:column>
+                <p:column headerText="#{msg['loteEnvio.uf']}" sortBy="#{loteEnvio.uf}"
+                    filterBy="#{loteEnvio.uf}"  filterOptions="#{findAllBean.getSelect(classMB.unidadeFederativa)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['loteEnvio.uf']}" />
+                    </f:facet>
+                    <h:outputText value="#{loteEnvio.uf}"/>
+                </p:column>
+                <p:column headerText="#{msg['loteEnvio.dataRecebimento']}" sortBy="#{loteEnvio.dataRecebimento}"
+                    filterBy="#{loteEnvio.dataRecebimento}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['loteEnvio.dataRecebimento']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{loteEnvio.dataRecebimento}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['loteEnvio.protocoloRecebimentoSincrono']}" sortBy="#{loteEnvio.protocoloRecebimentoSincrono}"
+                    filterBy="#{loteEnvio.protocoloRecebimentoSincrono}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['loteEnvio.protocoloRecebimentoSincrono']}" />
+                    </f:facet>
+                    <h:outputText value="#{loteEnvio.protocoloRecebimentoSincrono}"/>
+                </p:column>
+                <p:column headerText="#{msg['loteEnvio.recibo']}" sortBy="#{loteEnvio.recibo}"
+                    filterBy="#{loteEnvio.recibo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['loteEnvio.recibo']}" />
+                    </f:facet>
+                    <h:outputText value="#{loteEnvio.recibo}"/>
+                </p:column>
+                
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetLoteEnvioDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailLoteEnvio" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{loteEnvio}" target="#{loteEnvioMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="loteEnvio.create">
+                        <p:button icon="ui-icon-pencil" outcome="createLoteEnvio" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{loteEnvio.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="loteEnvio.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{loteEnvioMB.delete}" >
+                            <f:setPropertyActionListener value="#{loteEnvio.id}" target="#{loteEnvioMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{loteEnvio}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                    <p:commandButton icon="ui-icon-transferthick-e-w" 
+                                     process="@form" update="@form" title="Enviar Lote" action="#{loteEnvioMB.enviarLote()}">
+                                     
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="loteEnvio.audit">
+                    <x:auditDelete for="#{loteEnvioMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetLoteEnvioDetail" header="#{msg['loteEnvio.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailLoteEnvio.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

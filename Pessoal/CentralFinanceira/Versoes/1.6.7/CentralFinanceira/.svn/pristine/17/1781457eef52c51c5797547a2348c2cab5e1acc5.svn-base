@@ -1,0 +1,75 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['grupoCliente.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuGrupoCliente.xhtml" />
+        <h:form id="formListGrupoCliente">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="grupoCliente_export" target=":formListGrupoCliente:dataTableGrupoCliente"
+                                     widgetVar="dataTableGrupoClienteWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="grupoCliente" rowIndexVar="index" id="dataTableGrupoCliente" widgetVar="dataTableGrupoClienteWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{grupoClienteMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{grupoClienteMB.dataModel.paginatorTemplate}"
+                         value="#{grupoClienteMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['grupoCliente.empresa']}" sortBy="#{grupoCliente.empresa}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['grupoCliente.empresa']}" />
+                    </f:facet>
+                    <h:outputText value="#{grupoCliente.empresa}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['grupoCliente.nome']}" sortBy="#{grupoCliente.nome}"
+                    filterBy="#{grupoCliente.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['grupoCliente.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{grupoCliente.nome}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetGrupoClienteDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailGrupoCliente" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{grupoCliente}" target="#{grupoClienteMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="grupoCliente.create">
+                        <p:button icon="ui-icon-pencil" outcome="createGrupoCliente" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{grupoCliente.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="grupoCliente.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{grupoClienteMB.delete}" >
+                            <f:setPropertyActionListener value="#{grupoCliente.id}" target="#{grupoClienteMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{grupoCliente}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="grupoCliente.audit">
+                    <x:auditDelete for="#{grupoClienteMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetGrupoClienteDetail" header="#{msg['grupoCliente.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailGrupoCliente.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

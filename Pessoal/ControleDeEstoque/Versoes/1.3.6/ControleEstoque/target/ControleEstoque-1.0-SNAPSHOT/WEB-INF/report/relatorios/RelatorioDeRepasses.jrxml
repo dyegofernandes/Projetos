@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatorioDeRepasses" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="zebrado" mode="Opaque" backcolor="#E3DCDC">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean(($V{COLUMN_COUNT}.intValue() % 2) == 0)]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F5EBEB"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="caminhoImagem" class="java.lang.String"/>
+	<parameter name="dataAtual" class="java.lang.String"/>
+	<parameter name="referencia" class="java.lang.String"/>
+	<field name="nomeOrgao" class="java.lang.String"/>
+	<field name="cnpjOrgao" class="java.lang.String"/>
+	<field name="repasses.cpf" class="java.lang.String"/>
+	<field name="repasses.credor" class="java.lang.String"/>
+	<field name="repasses.unidade" class="java.lang.String"/>
+	<field name="repasses.nit" class="java.lang.String"/>
+	<field name="repasses.historico" class="java.lang.String"/>
+	<field name="repasses.ne" class="java.lang.String"/>
+	<field name="repasses.nl" class="java.lang.String"/>
+	<field name="repasses.valorBruto" class="java.lang.String"/>
+	<field name="repasses.valorBCalc" class="java.lang.String"/>
+	<field name="repasses.fonte113" class="java.lang.String"/>
+	<field name="repasses.valor11" class="java.lang.String"/>
+	<field name="repasses.valor20" class="java.lang.String"/>
+	<field name="repasses.valorTotal" class="java.lang.String"/>
+	<field name="totalValorBruto" class="java.lang.String"/>
+	<field name="totalValorBCalc" class="java.lang.String"/>
+	<field name="totalFonte113" class="java.lang.String"/>
+	<field name="totalValor11" class="java.lang.String"/>
+	<field name="totalValor20" class="java.lang.String"/>
+	<field name="totalDoValorTotal" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="76" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="70" height="73"/>
+				<imageExpression><![CDATA["/Users/KillerBeeTwo/Documents/Projetos/sca/src/main/webapp/images/brasao.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="70" y="6" width="200" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[GOVERNO DO ESTADO DO PIAUÍ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="70" y="21" width="200" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SECRETARIA DE ESTADO DA SAÚDE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="70" y="36" width="215" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FUNDO ESTADUAL DE SAÚDE-FUNDAÚDE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="70" y="51" width="200" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[COORDENADOR DE CONTABILIDADE]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="94" height="14"/>
+				<textFieldExpression><![CDATA[$F{nomeOrgao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="94" y="0" width="117" height="14"/>
+				<textFieldExpression><![CDATA[$F{cnpjOrgao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="94" y="62" width="100" height="20" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<text><![CDATA[Static text]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

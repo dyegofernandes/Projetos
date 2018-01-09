@@ -1,0 +1,32 @@
+package br.com.jsoft.centralfinanceira.mb.financeiro;
+
+
+import java.io.Serializable;
+import com.xpert.core.crud.AbstractBaseBean;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import br.com.jsoft.centralfinanceira.bo.financeiro.LancamentosBO;
+import br.com.jsoft.centralfinanceira.modelo.financeiro.Lancamentos;
+
+/**
+ *
+ * @author Juniel
+ */
+@ManagedBean
+@ViewScoped
+public class LancamentosMB extends AbstractBaseBean<Lancamentos> implements Serializable {
+
+    @EJB
+    private LancamentosBO lancamentosBO;
+
+    @Override
+    public LancamentosBO getBO() {
+        return lancamentosBO;
+    }
+
+    @Override
+    public String getDataModelOrder() {
+        return "id";
+    }
+}

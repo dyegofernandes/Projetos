@@ -1,0 +1,1096 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:define name="body">
+
+        <h:form  id="formDiaDia">
+            <x:modalMessages autoUpdate="true"/>
+            <p:remoteCommand name="rc" 
+                             process="@form @this,tabView:tabConsulta" 
+                             update=":formDiaDia:tabView:panelTabela1, :formDiaDia:tabView:panelTabela2" 
+                             actionListener="#{diaADiaMB.buscar}"  />
+            <p:tabView id="tabView" onTabChange="rc()" >
+
+                <p:tab title="Consulta" id="tabConsulta">     
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <p:outputLabel for="menus" value="Recebimento: " />
+                                <p:selectOneMenu id="menus" value="#{diaADiaMB.menu}" styleClass="form-control" >
+                                    <f:selectItem itemLabel="Todos"/>
+
+                                    <f:selectItems value="#{diaADiaMB.menus}" />
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="Periodo:"/>
+                                <p:inputMask mask="99/9999" value="#{diaADiaMB.periodo}" styleClass="form-control">
+                                </p:inputMask>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="Loja (Código ou Nome):"/>
+                                <p:inputText size="255" value="#{diaADiaMB.codNome}" styleClass="form-control">
+                                    <p:ajax event="blur" listener="#{diaADiaMB.buscarLoja}" process="@this" 
+                                            update=":formDiaDia:tabView:dataTableLoja"/>
+                                </p:inputText>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="tipo" value="Tipo de Loja:" />
+                                <h:selectOneMenu id="tipo" value="#{diaADiaMB.tipoLoja}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="Todos" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.tipoLoja)}" 
+                                                   var="tipo"
+                                                   itemLabel="#{tipo}"/>
+                                    <p:ajax listener="#{diaADiaMB.buscarLoja}" process="@this" update=":formDiaDia:tabView:dataTableLoja"/>
+                                </h:selectOneMenu>
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="ativo" value="Ativo:" />
+                                <h:selectOneMenu id="ativo" value="#{diaADiaMB.ativo}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="Todos" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.ativo)}" 
+                                                   var="ativo"
+                                                   itemLabel="#{ativo.descricao}"/>
+
+                                    <p:ajax listener="#{diaADiaMB.buscarLoja}" process="@this" update=":formDiaDia:tabView:dataTableLoja"/>
+
+                                </h:selectOneMenu>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p:dataTable paginator="true"  emptyMessage="#{xmsg['noRecordFound']}"
+                                         var="loja" rowIndexVar="index" id="dataTableLoja" widgetVar="dataTableLojaWidget" styleClass="table-responsive"
+                                         value="#{diaADiaMB.lojas}" selection="#{diaADiaMB.lojasSelecionadas}" rowKey="#{loja.id}" lazy="false" 
+                                         >
+                                <f:facet name="header">
+                                    Seleção de Lojas
+                                </f:facet>
+                                <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+
+                                <p:column headerText="#{msg['loja.id']}" style="text-align: center;" width="8%" >
+                                    <h:outputText value="#{loja.id}"/>
+                                </p:column>
+
+                                <p:column headerText="#{msg['loja.nome']}">
+                                    <h:outputText value="#{loja.nome}"/>
+                                </p:column>
+
+                                <p:column headerText="#{msg['loja.ativo']}" style="text-align: center;">
+                                    <h:outputText value="#{loja.ativo}" converter ="yesNoConverter" />
+                                </p:column>
+
+
+                            </p:dataTable>
+
+                        </div>
+                    </div> 
+
+                </p:tab>
+                <p:tab title="Quantidade" id="tab1">
+                    <h:panelGroup id="panelTabela1">
+
+
+                        <x:dataTableActions fileName="Remuneração_Loja_Dia_a_Dia" target=":formDiaDia:tabView:qtdRecimentosTable"    
+                                            widgetVar="widgeQtdRecimentosTable"  />
+                        <p:dataTable id="qtdRecimentosTable" var="recebimento" widgetVar="widgeQtdRecimentosTable" value="#{diaADiaMB.recebimentos}" emptyMessage="#{xmsg['noRecordFound']}"
+                                     filteredValue="#{diaADiaMB.recebimentosFilter}"
+                                     frozenColumns="2">   
+                            <f:facet name="header">
+                                Quantidade Remuneração por Lojas
+                            </f:facet>
+
+                            <p:column headerText="POS" sortBy="#{recebimento.pos}"
+                                      style="text-align: right; min-width:100px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="POS" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.pos}">
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Loja" sortBy="#{recebimento.loja}"
+                                      style="text-align: right; min-width:240px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="Nome Loja" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.loja}">
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="Totais" style="font-weight:bold">
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+
+                            <p:column headerText="01" sortBy="#{recebimento.dia_01}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="01" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_01}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia01()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+
+                            <p:column headerText="02" sortBy="#{recebimento.dia_02}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="02" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_02}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia02()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+
+                            <p:column headerText="03" sortBy="#{recebimento.dia_03}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="03" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_03}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia03()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+
+                            <p:column headerText="04" sortBy="#{recebimento.dia_04}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="04" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_04}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia04()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+
+                            <p:column headerText="05" sortBy="#{recebimento.dia_05}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="05" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_05}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia05()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+
+                            <p:column headerText="06" sortBy="#{recebimento.dia_06}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="06" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_06}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia06()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+
+                            <p:column headerText="07" sortBy="#{recebimento.dia_07}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="07" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_07}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia07()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="08" sortBy="#{recebimento.dia_08}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="08" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_08}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia08()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="09" sortBy="#{recebimento.dia_09}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="09" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_09}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia09()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="10" sortBy="#{recebimento.dia_10}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="10" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_10}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia10()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="11" sortBy="#{recebimento.dia_11}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="11" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_11}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia11()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="12" sortBy="#{recebimento.dia_12}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="12" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_12}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia12()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+
+                            <p:column headerText="13" sortBy="#{recebimento.dia_13}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="13" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_13}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia13()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="14" sortBy="#{recebimento.dia_14}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="14" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_14}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia14()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="15" sortBy="#{recebimento.dia_15}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="15" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_15}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia15()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="16" sortBy="#{recebimento.dia_16}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="16" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_16}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia16()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="17" sortBy="#{recebimento.dia_17}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="17" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_17}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia17()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>                   
+                            <p:column headerText="18" sortBy="#{recebimento.dia_18}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="18" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_18}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia18()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="19" sortBy="#{recebimento.dia_19}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="19" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_19}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia19()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="20" sortBy="#{recebimento.dia_20}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="20" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_20}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia20()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="21" sortBy="#{recebimento.dia_21}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="21" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_21}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia21()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+
+                            <p:column headerText="22" sortBy="#{recebimento.dia_22}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="22" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_22}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia22()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="23" sortBy="#{recebimento.dia_23}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="23" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_23}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia23()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="24" sortBy="#{recebimento.dia_24}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="24" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_24}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia24()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="25" sortBy="#{recebimento.dia_25}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="25" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_25}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia25()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="26" sortBy="#{recebimento.dia_26}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="26" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_26}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia26()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="27" sortBy="#{recebimento.dia_27}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="27" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_27}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia27()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="28" sortBy="#{recebimento.dia_28}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="28" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_28}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia28()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="29" sortBy="#{recebimento.dia_29}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="29" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_29}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia29()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="30" sortBy="#{recebimento.dia_30}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="30" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_30}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia30()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="31" sortBy="#{recebimento.dia_31}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="31" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.dia_31}">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalDia31()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="Total" sortBy="#{recebimentoValor.total}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="Total" />
+                                </f:facet>
+                                <h:outputText value="#{recebimento.total}" style="font-weight:bold">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalQtd()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+
+
+                        </p:dataTable>
+                        
+                    </h:panelGroup>
+                </p:tab>
+                <p:tab title="Valores" id="tab2">                   
+                    <h:panelGroup id="panelTabela2">
+                        <x:dataTableActions fileName="Valor_Remuneração_Loja_Dia_a_Dia" target=":formDiaDia:tabView:panelTabela1:valorRecimentosTable"    
+                                            widgetVar="widgeValorRecimentosTable"  />
+                        <p:dataTable id="valorRecimentosTable" var="recebimentoValor" widgetVar="widgeValorRecimentosTable" value="#{diaADiaMB.recebimentos}" emptyMessage="#{xmsg['noRecordFound']}"
+                                     filteredValue="#{diaADiaMB.recebimentosFilter}" 
+                                     frozenColumns="2">   
+                            <f:facet name="header">
+                                Valor Remuneração por Lojas
+                            </f:facet>
+                            <p:column headerText="POS" sortBy="#{recebimentoValor.pos}"
+                                      style="text-align: right; min-width:100px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="POS" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.pos}">
+                                </h:outputText>
+
+                            </p:column>
+                            <p:column headerText="Loja" sortBy="#{recebimentoValor.loja}"
+                                      style="text-align: right; min-width:220px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="Nome Loja" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.loja}">
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="Totais" style="font-weight:bold">
+
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+
+                            <p:column headerText="01" sortBy="#{recebimentoValor.v01}"
+                                      style="text-align: right; min-width:80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="01" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v01}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia01()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+
+                            <p:column headerText="02" sortBy="#{recebimentoValor.v02}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="02" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v02}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia02()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+
+                            <p:column headerText="03" sortBy="#{recebimentoValor.v03}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="03" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v03}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia03()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+
+                            <p:column headerText="04" sortBy="#{recebimentoValor.v04}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="04" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v04}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia04()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+
+                            <p:column headerText="05" sortBy="#{recebimentoValor.v05}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="05" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v05}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia05()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+
+                            <p:column headerText="06" sortBy="#{recebimentoValor.v06}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="06" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v06}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia06()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+
+                            <p:column headerText="07" sortBy="#{recebimentoValor.v07}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="07" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v07}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia07()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="08" sortBy="#{recebimentoValor.v08}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="08" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v08}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia08()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="09" sortBy="#{recebimentoValor.v09}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="09" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v09}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia09()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="10" sortBy="#{recebimentoValor.v10}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="10" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v10}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia10()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="11" sortBy="#{recebimentoValor.v11}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="11" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v11}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia11()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="12" sortBy="#{recebimentoValor.v12}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="12" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v12}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia12()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+
+                            <p:column headerText="13" sortBy="#{recebimentoValor.v13}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="13" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v13}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia13()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="14" sortBy="#{recebimentoValor.v14}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="14" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.dia_14}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia14()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="15" sortBy="#{recebimentoValor.v15}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="15" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v15}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia15()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="16" sortBy="#{recebimentoValor.v16}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="16" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v16}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia16()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="17" sortBy="#{recebimentoValor.v17}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="17" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v17}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia17()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>                   
+                            <p:column headerText="18" sortBy="#{recebimentoValor.v18}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="18" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v18}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia18()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="19" sortBy="#{recebimentoValor.v19}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="19" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v19}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia19()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="20" sortBy="#{recebimentoValor.v20}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="20" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v20}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia20()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="21" sortBy="#{recebimentoValor.v21}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="21" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v21}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia21()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+
+                            <p:column headerText="22" sortBy="#{recebimentoValor.v22}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="22" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v22}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia22()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="23" sortBy="#{recebimentoValor.v23}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="23" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v23}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia23()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="24" sortBy="#{recebimento.v24}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="24" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v24}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia24()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="25" sortBy="#{recebimentoValor.v25}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="25" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v25}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia25()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="26" sortBy="#{recebimentoValor.v26}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="26" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v26}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia26()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="27" sortBy="#{recebimentoValor.v27}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="27" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v27}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia27()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="28" sortBy="#{recebimentoValor.v28}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="28" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v28}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia28()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="29" sortBy="#{recebimentoValor.v29}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="29" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v29}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia29()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="30" sortBy="#{recebimentoValor.dia_30}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="30" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v30}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia30()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column headerText="31" sortBy="#{recebimentoValor.v31}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="31" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.v31}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorDia31()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+
+                            <p:column headerText="Valor Total" sortBy="#{recebimentoValor.valorTotal}"
+                                      style="text-align: right; min-width: 80px; white-space: nowrap;">
+                                <f:facet name="header">
+                                    <h:outputText value="Valor Total" />
+                                </f:facet>
+                                <h:outputText value="#{recebimentoValor.valorTotal}" style="font-weight:bold">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{diaADiaMB.totalValorTotal()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+
+                        </p:dataTable>
+                    </h:panelGroup>
+                </p:tab>
+            </p:tabView>
+
+
+        </h:form>
+       
+
+    </ui:define>
+
+</ui:composition>

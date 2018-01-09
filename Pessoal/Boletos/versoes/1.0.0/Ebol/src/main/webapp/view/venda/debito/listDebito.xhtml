@@ -1,0 +1,119 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['debito.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuDebito.xhtml" />
+        <h:form id="formListDebito">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="debito_export" target=":formListDebito:dataTableDebito"
+                                     widgetVar="dataTableDebitoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="debito" rowIndexVar="index" id="dataTableDebito" widgetVar="dataTableDebitoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{debitoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{debitoMB.dataModel.paginatorTemplate}"
+                         value="#{debitoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['debito.boleto']}" sortBy="#{debito.boleto}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['debito.boleto']}" />
+                    </f:facet>
+                    <h:outputText value="#{debito.boleto}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['debito.convenio']}" sortBy="#{debito.convenio}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['debito.convenio']}" />
+                    </f:facet>
+                    <h:outputText value="#{debito.convenio}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['debito.opLancada']}" sortBy="#{debito.opLancada}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['debito.opLancada']}" />
+                    </f:facet>
+                    <h:outputText value="#{debito.opLancada}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['debito.referenteA']}" sortBy="#{debito.referenteA}"
+                    filterBy="#{debito.referenteA}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['debito.referenteA']}" />
+                    </f:facet>
+                    <h:outputText value="#{debito.referenteA}"/>
+                </p:column>
+                <p:column headerText="#{msg['debito.valor']}" sortBy="#{debito.valor}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['debito.valor']}" />
+                    </f:facet>
+                    <h:outputText value="#{debito.valor}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['debito.data_debito']}" sortBy="#{debito.data_debito}"
+                    filterBy="#{debito.data_debito}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['debito.data_debito']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{debito.data_debito}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['debito.situacao']}" sortBy="#{debito.situacao}"
+                    filterBy="#{debito.situacao}"  filterOptions="#{findAllBean.getSelect(classMB.situacaoDebito)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['debito.situacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{debito.situacao}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetDebitoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailDebito" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{debito}" target="#{debitoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="debito.create">
+                        <p:button icon="ui-icon-pencil" outcome="createDebito" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{debito.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="debito.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{debitoMB.delete}" >
+                            <f:setPropertyActionListener value="#{debito.id}" target="#{debitoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{debito}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="debito.audit">
+                    <x:auditDelete for="#{debitoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetDebitoDetail" header="#{msg['debito.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailDebito.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

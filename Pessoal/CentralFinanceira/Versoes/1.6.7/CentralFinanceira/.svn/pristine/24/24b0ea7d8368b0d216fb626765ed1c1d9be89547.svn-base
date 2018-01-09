@@ -1,0 +1,214 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['representante.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuRepresentante.xhtml" />
+        <h:form id="formListRepresentante">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="representante_export" target=":formListRepresentante:dataTableRepresentante"
+                                     widgetVar="dataTableRepresentanteWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="representante" rowIndexVar="index" id="dataTableRepresentante" widgetVar="dataTableRepresentanteWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{representanteMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{representanteMB.dataModel.paginatorTemplate}"
+                         value="#{representanteMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['representante.empresa']}" sortBy="#{representante.empresa}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.empresa']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.empresa}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['representante.nome']}" sortBy="#{representante.nome}"
+                    filterBy="#{representante.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['representante.cnpjCpf']}" sortBy="#{representante.cnpjCpf}"
+                    filterBy="#{representante.cnpjCpf}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.cnpjCpf']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.cnpjCpf}"/>
+                </p:column>
+                <p:column headerText="#{msg['representante.tabelaDeComissao']}" sortBy="#{representante.tabelaDeComissao}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.tabelaDeComissao']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.tabelaDeComissao}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['representante.tipoComissao']}" sortBy="#{representante.tipoComissao}"
+                    filterBy="#{representante.tipoComissao}"  filterOptions="#{findAllBean.getSelect(classMB.tipoComissao)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.tipoComissao']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.tipoComissao}"/>
+                </p:column>
+                <p:column headerText="#{msg['representante.cep']}" sortBy="#{representante.cep}"
+                    filterBy="#{representante.cep}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.cep']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.cep}"/>
+                </p:column>
+                <p:column headerText="#{msg['representante.logradouro']}" sortBy="#{representante.logradouro}"
+                    filterBy="#{representante.logradouro}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.logradouro']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.logradouro}"/>
+                </p:column>
+                <p:column headerText="#{msg['representante.numero']}" sortBy="#{representante.numero}"
+                    filterBy="#{representante.numero}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.numero']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.numero}"/>
+                </p:column>
+                <p:column headerText="#{msg['representante.complemento']}" sortBy="#{representante.complemento}"
+                    filterBy="#{representante.complemento}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.complemento']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.complemento}"/>
+                </p:column>
+                <p:column headerText="#{msg['representante.bairro']}" sortBy="#{representante.bairro}"
+                    filterBy="#{representante.bairro}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.bairro']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.bairro}"/>
+                </p:column>
+                <p:column headerText="#{msg['representante.municipio']}" sortBy="#{representante.municipio}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.municipio']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.municipio}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['representante.fone']}" sortBy="#{representante.fone}"
+                    filterBy="#{representante.fone}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.fone']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.fone}"/>
+                </p:column>
+                <p:column headerText="#{msg['representante.fax']}" sortBy="#{representante.fax}"
+                    filterBy="#{representante.fax}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.fax']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.fax}"/>
+                </p:column>
+                <p:column headerText="#{msg['representante.celular']}" sortBy="#{representante.celular}"
+                    filterBy="#{representante.celular}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.celular']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.celular}"/>
+                </p:column>
+                <p:column headerText="#{msg['representante.contato']}" sortBy="#{representante.contato}"
+                    filterBy="#{representante.contato}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.contato']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.contato}"/>
+                </p:column>
+                <p:column headerText="#{msg['representante.obs']}" sortBy="#{representante.obs}"
+                    filterBy="#{representante.obs}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.obs']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.obs}"/>
+                </p:column>
+                <p:column headerText="#{msg['representante.email']}" sortBy="#{representante.email}"
+                    filterBy="#{representante.email}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.email']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.email}"/>
+                </p:column>
+                <p:column headerText="#{msg['representante.fornecedor']}" sortBy="#{representante.fornecedor}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.fornecedor']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.fornecedor}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['representante.vencimento']}" sortBy="#{representante.vencimento}"
+                    filterBy="#{representante.vencimento}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.vencimento']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.vencimento}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['representante.retemIRRF']}" sortBy="#{representante.retemIRRF}"
+                    filterBy="#{representante.retemIRRF}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.retemIRRF']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.retemIRRF}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['representante.referencia']}" sortBy="#{representante.referencia}"
+                    filterBy="#{representante.referencia}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['representante.referencia']}" />
+                    </f:facet>
+                    <h:outputText value="#{representante.referencia}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetRepresentanteDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailRepresentante" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{representante}" target="#{representanteMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="representante.create">
+                        <p:button icon="ui-icon-pencil" outcome="createRepresentante" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{representante.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="representante.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{representanteMB.delete}" >
+                            <f:setPropertyActionListener value="#{representante.id}" target="#{representanteMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{representante}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="representante.audit">
+                    <x:auditDelete for="#{representanteMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetRepresentanteDetail" header="#{msg['representante.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailRepresentante.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

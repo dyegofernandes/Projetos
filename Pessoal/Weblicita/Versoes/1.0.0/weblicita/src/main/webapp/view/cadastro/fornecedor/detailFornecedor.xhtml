@@ -1,0 +1,68 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailFornecedor" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.numeroCADUF']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.numeroCADUF}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.cnpj']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.cnpj}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.nomeFantasia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.nomeFantasia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.razaoSocial']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.razaoSocial}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.dataAbertura']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.dataAbertura}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.ramoAtividade']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.ramoAtividade}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.endereco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.endereco}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.email']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.email}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.site']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.site}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.observacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.observacao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fornecedor.dataDoCadastro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fornecedorMB.entity.dataDoCadastro}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetFornecedorDetail').hide()" />
+            <x:securityArea rolesAllowed="fornecedor.audit">
+                <x:audit for="#{fornecedorMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

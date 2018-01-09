@@ -1,0 +1,134 @@
+package br.com.weblicita.mb.padrao;
+
+import br.com.weblicita.modelo.licitacao.SituacaoPedidoLicitacao;
+import br.com.weblicita.modelo.cadastro.TipoModalidade;
+import br.com.weblicita.modelo.cadastro.Documento;
+import br.com.weblicita.modelo.licitacao.PedidoLicitacao;
+import br.com.weblicita.modelo.cadastro.RubricaOrcamentaria;
+import br.com.weblicita.modelo.cadastro.Item;
+import br.com.weblicita.modelo.cadastro.enums.UnidadeItem;
+import br.com.weblicita.modelo.cadastro.Cidade;
+import br.com.weblicita.modelo.cadastro.Fornecedor;
+import br.com.weblicita.modelo.cadastro.AdministradorFornecedor;
+import br.com.weblicita.modelo.cadastro.Endereco;
+import br.com.weblicita.modelo.cadastro.Orgao;
+import br.com.weblicita.modelo.cadastro.Estado;
+import br.com.weblicita.modelo.cadastro.Telefone;
+import br.com.weblicita.modelo.cadastro.enums.TipoDeSocio;
+import br.com.weblicita.modelo.controleacesso.Permissao;
+import br.com.weblicita.modelo.controleacesso.Usuario;
+import br.com.weblicita.modelo.configuracao.ErroSistema;
+import br.com.weblicita.modelo.controleacesso.SituacaoUsuario;
+import br.com.weblicita.modelo.controleacesso.AcessoSistema;
+import br.com.weblicita.modelo.email.ConfiguracaoEmail;
+import br.com.weblicita.modelo.controleacesso.Perfil;
+import br.com.weblicita.modelo.controleacesso.HistoricoSituacaoUsuario;
+import br.com.weblicita.modelo.email.ModeloEmail;
+import br.com.weblicita.modelo.controleacesso.SolicitacaoRecuperacaoSenha;
+import br.com.weblicita.modelo.email.TipoAssuntoEmail;
+import br.com.weblicita.modelo.controleacesso.TipoRecuperacaoSenha;
+import javax.faces.bean.ManagedBean;
+
+@ManagedBean
+public class ClassMB {
+
+    public Class getAcessoSistema() {
+        return AcessoSistema.class;
+    }
+
+    public Class getErroSistema() {
+        return ErroSistema.class;
+    }
+
+    public Class getHistoricoSituacaoUsuario() {
+        return HistoricoSituacaoUsuario.class;
+    }
+
+    public Class getPerfil() {
+        return Perfil.class;
+    }
+
+    public Class getPermissao() {
+        return Permissao.class;
+    }
+
+    public Class getSituacaoUsuario() {
+        return SituacaoUsuario.class;
+    }
+
+    public Class getUsuario() {
+        return Usuario.class;
+    }
+
+    public Class getTipoAssuntoEmail() {
+        return TipoAssuntoEmail.class;
+    }
+
+    public Class getModeloEmail() {
+        return ModeloEmail.class;
+    }
+
+    public Class getSolicitacaoRecuperacaoSenha() {
+        return SolicitacaoRecuperacaoSenha.class;
+    }
+
+    public Class getTipoRecuperacaoSenha() {
+        return TipoRecuperacaoSenha.class;
+    }
+
+    public Class getConfiguracaoEmail() {
+        return ConfiguracaoEmail.class;
+    }
+    
+
+    public Class getCidade() {
+        return Cidade.class;
+    }
+    public Class getFornecedor() {
+        return Fornecedor.class;
+    }
+    public Class getAdministradorFornecedor() {
+        return AdministradorFornecedor.class;
+    }
+    public Class getEndereco() {
+        return Endereco.class;
+    }
+    public Class getOrgao() {
+        return Orgao.class;
+    }
+    public Class getEstado() {
+        return Estado.class;
+    }
+    public Class getTelefone() {
+        return Telefone.class;
+    }
+    public Class getTipoDeSocio() {
+        return TipoDeSocio.class;
+    }
+
+    public Class getItemLicitacao() {
+        return Item.class;
+    }
+    public Class getUnidadeItem() {
+        return UnidadeItem.class;
+    }
+
+   
+    public Class getDocumento() {
+        return Documento.class;
+    }
+    public Class getPedidoLicitacao() {
+        return PedidoLicitacao.class;
+    }
+    public Class getRubricaOrcamentaria() {
+        return RubricaOrcamentaria.class;
+    }
+
+    public Class getSituacaoPedidoLicitacao() {
+        return SituacaoPedidoLicitacao.class;
+    }
+    public Class getTipoModalidade() {
+        return TipoModalidade.class;
+    }
+
+}

@@ -1,0 +1,79 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="Listagem de Arquivos - Contratos/Documentos Postos" />
+    <ui:define name="body">
+        <h:form id="formListComprovantes">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="pai" value="* Diretorio Pai:" />
+                        <h:selectOneMenu id="pai" value="#{contratosPostoMB.filtros.diretorioPai}" styleClass="form-control" required="true" requiredMessage="Diretorio Pai é obrigatorio!">
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{contratosPostoMB.pai}" 
+                                           var="pai"
+                                           itemLabel="#{pai}"/>
+                            <p:ajax process="@this" update="panelFilho" listener="#{contratosPostoMB.listDiretoriosFilho}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <h:panelGroup id="panelFilho">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="filho" value="Diretorio Filho:" />
+                            <h:selectOneMenu id="filho" value="#{contratosPostoMB.filtros.diretorioFilho}" styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{contratosPostoMB.filho}" 
+                                               var="filho"
+                                               itemLabel="#{filho}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </h:panelGroup>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="convenio" value="Nome do Arquivo" />
+                        <p:inputText id="convenio" value="#{contratosPostoMB.filtros.nomeArquivo}" maxlength="45"  styleClass="form-control" />
+                    </div>
+                    
+                </div>
+            </div>
+            <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+            <div class="uix-center">
+
+                <p:commandButton process="@form" update="formListComprovantes:dataTableComprovantes" action="#{contratosPostoMB.buscar()}" value="Buscar" ajax="true" />
+
+            </div>
+            <x:modalMessages autoUpdate="true"/>
+
+            <x:dataTableActions fileName="Comprovantes_export" target=":formListComprovantes:dataTableComprovantes"
+                                widgetVar="dataTableComprovantesWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="comprovante" rowIndexVar="index" id="dataTableComprovantes" widgetVar="dataTableComprovantesWidget" styleClass="table-responsive"
+                         value="#{contratosPostoMB.comprovantes}" lazy="false" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="Nome Arquivo">
+                    <f:facet name="header">
+                        <h:outputText value="Nome Arquivo" />
+                    </f:facet>
+                    <h:outputText value="#{comprovante.nomeArquivo}"/>
+                </p:column>
+                
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                        <p:fileDownload value="#{contratosPostoMB.prepDownload(comprovante.path,comprovante.nomeArquivo)}" />
+                    </p:commandButton>
+
+                </p:column>
+            </p:dataTable>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

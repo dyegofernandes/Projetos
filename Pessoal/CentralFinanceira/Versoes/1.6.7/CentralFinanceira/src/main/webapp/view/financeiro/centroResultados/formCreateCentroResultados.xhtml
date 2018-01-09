@@ -1,0 +1,53 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateCentroResultados" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="centroResultadoMae" value="#{msg['centroResultados.centroResultadoMae']}:" />
+                        <h:selectOneMenu id="centroResultadoMae" value="#{centroResultadosMB.entity.centroResultadoMae}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.centroResultados)}" 
+                                           var="centroResultados"
+                                           itemLabel="#{centroResultados.id} - #{centroResultados}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="* #{msg['centroResultados.nome']}:" />
+                        <p:inputText id="nome" value="#{centroResultadosMB.entity.nome}" maxlength="40"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="inativo" value="#{centroResultadosMB.entity.inativo}" />
+                                #{msg['centroResultados.inativo']}
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="centroResultados.create">
+                <p:commandButton process="@form" update="@form" action="#{centroResultadosMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="centroResultados.audit">
+                <x:audit for="#{centroResultadosMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

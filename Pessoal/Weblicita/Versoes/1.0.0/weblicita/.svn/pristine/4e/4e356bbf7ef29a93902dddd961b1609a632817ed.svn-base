@@ -1,0 +1,141 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['pedidoLicitacao.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuPedidoLicitacao.xhtml" />
+        <h:form id="formListPedidoLicitacao">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="pedidoLicitacao_export" target=":formListPedidoLicitacao:dataTablePedidoLicitacao"
+                                     widgetVar="dataTablePedidoLicitacaoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="pedidoLicitacao" rowIndexVar="index" id="dataTablePedidoLicitacao" widgetVar="dataTablePedidoLicitacaoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{pedidoLicitacaoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{pedidoLicitacaoMB.dataModel.paginatorTemplate}"
+                         value="#{pedidoLicitacaoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['pedidoLicitacao.rubricaOrcamentaria']}" sortBy="#{pedidoLicitacao.rubricaOrcamentaria}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pedidoLicitacao.rubricaOrcamentaria']}" />
+                    </f:facet>
+                    <h:outputText value="#{pedidoLicitacao.rubricaOrcamentaria}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['pedidoLicitacao.orgaoSolicitante']}" sortBy="#{pedidoLicitacao.orgaoSolicitante}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pedidoLicitacao.orgaoSolicitante']}" />
+                    </f:facet>
+                    <h:outputText value="#{pedidoLicitacao.orgaoSolicitante}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['pedidoLicitacao.usuario']}" sortBy="#{pedidoLicitacao.usuario}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pedidoLicitacao.usuario']}" />
+                    </f:facet>
+                    <h:outputText value="#{pedidoLicitacao.usuario}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['pedidoLicitacao.codigo']}" sortBy="#{pedidoLicitacao.codigo}"
+                    filterBy="#{pedidoLicitacao.codigo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pedidoLicitacao.codigo']}" />
+                    </f:facet>
+                    <h:outputText value="#{pedidoLicitacao.codigo}"/>
+                </p:column>
+                <p:column headerText="#{msg['pedidoLicitacao.numeroProcessoAdministrativo']}" sortBy="#{pedidoLicitacao.numeroProcessoAdministrativo}"
+                    filterBy="#{pedidoLicitacao.numeroProcessoAdministrativo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pedidoLicitacao.numeroProcessoAdministrativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{pedidoLicitacao.numeroProcessoAdministrativo}"/>
+                </p:column>
+                <p:column headerText="#{msg['pedidoLicitacao.dataRequisicao']}" sortBy="#{pedidoLicitacao.dataRequisicao}"
+                    filterBy="#{pedidoLicitacao.dataRequisicao}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pedidoLicitacao.dataRequisicao']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{pedidoLicitacao.dataRequisicao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['pedidoLicitacao.objeto']}" sortBy="#{pedidoLicitacao.objeto}"
+                    filterBy="#{pedidoLicitacao.objeto}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pedidoLicitacao.objeto']}" />
+                    </f:facet>
+                    <h:outputText value="#{pedidoLicitacao.objeto}"/>
+                </p:column>
+                <p:column headerText="#{msg['pedidoLicitacao.observacao']}" sortBy="#{pedidoLicitacao.observacao}"
+                    filterBy="#{pedidoLicitacao.observacao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pedidoLicitacao.observacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{pedidoLicitacao.observacao}"/>
+                </p:column>
+                <p:column headerText="#{msg['pedidoLicitacao.dataDoReqistro']}" sortBy="#{pedidoLicitacao.dataDoReqistro}"
+                    filterBy="#{pedidoLicitacao.dataDoReqistro}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pedidoLicitacao.dataDoReqistro']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{pedidoLicitacao.dataDoReqistro}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['pedidoLicitacao.situacao']}" sortBy="#{pedidoLicitacao.situacao}"
+                    filterBy="#{pedidoLicitacao.situacao}"  filterOptions="#{findAllBean.getSelect(classMB.situacaoPedidoLicitacao)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pedidoLicitacao.situacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{pedidoLicitacao.situacao}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetPedidoLicitacaoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailPedidoLicitacao" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{pedidoLicitacao}" target="#{pedidoLicitacaoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="pedidoLicitacao.create">
+                        <p:button icon="ui-icon-pencil" outcome="createPedidoLicitacao" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{pedidoLicitacao.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="pedidoLicitacao.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{pedidoLicitacaoMB.delete}" >
+                            <f:setPropertyActionListener value="#{pedidoLicitacao.id}" target="#{pedidoLicitacaoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{pedidoLicitacao}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="pedidoLicitacao.audit">
+                    <x:auditDelete for="#{pedidoLicitacaoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetPedidoLicitacaoDetail" header="#{msg['pedidoLicitacao.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailPedidoLicitacao.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

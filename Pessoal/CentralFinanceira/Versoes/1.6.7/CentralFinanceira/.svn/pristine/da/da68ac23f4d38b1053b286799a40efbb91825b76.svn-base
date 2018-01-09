@@ -1,0 +1,40 @@
+package br.com.jsoft.centralfinanceira.mb.central;
+
+import java.io.Serializable;
+import com.xpert.core.crud.AbstractBaseBean;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import br.com.jsoft.centralfinanceira.bo.central.AgenteCobradorBO;
+import br.com.jsoft.centralfinanceira.modelo.cadastroBasicos.AgenteCobrador;
+
+/**
+ *
+ * @author KillerBeeTwo
+ */
+@ManagedBean
+@ViewScoped
+public class AgenteCobradorMB extends AbstractBaseBean<AgenteCobrador> implements Serializable {
+
+    @EJB
+    private AgenteCobradorBO agenteCobradorBO;
+
+    @Override
+    public AgenteCobradorBO getBO() {
+        return agenteCobradorBO;
+    }
+
+    @Override
+    public String getDataModelOrder() {
+        return "id";
+    }
+
+    @EJB
+    private EmpresaMB empresaMB;
+
+    @Override
+    public void init() {
+        getEntity().setEmpresa(empresaMB.getBO().getDAO().unique("id", 1));
+    }
+
+}

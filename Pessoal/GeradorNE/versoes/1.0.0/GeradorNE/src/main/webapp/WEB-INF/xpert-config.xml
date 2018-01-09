@@ -1,0 +1,12 @@
+<xpert-config>
+
+    <auditing>
+        <auditing-impl>geradorne.geradorne.modelo.audit.Auditing</auditing-impl>
+        <metadata-impl>geradorne.geradorne.modelo.audit.Metadata</metadata-impl>
+        <auditing-listener>geradorne.geradorne.application.AuditingListenerImpl</auditing-listener>
+    </auditing>
+    
+    <entity-manager-factory>geradorne.geradorne.application.EntityManagerFactoryImpl</entity-manager-factory>
+    <resource-bundle>bundles.messages</resource-bundle>
+
+</xpert-config>

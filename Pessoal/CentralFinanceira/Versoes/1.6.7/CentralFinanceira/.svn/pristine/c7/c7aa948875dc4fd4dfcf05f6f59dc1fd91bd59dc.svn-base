@@ -1,0 +1,118 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailAgenteCobrador" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['agenteCobrador.empresa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{agenteCobradorMB.entity.empresa}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['agenteCobrador.nome']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{agenteCobradorMB.entity.nome}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['agenteCobrador.banco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{agenteCobradorMB.entity.banco}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['agenteCobrador.prefAg']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{agenteCobradorMB.entity.prefAg}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['agenteCobrador.dVPrefAg']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{agenteCobradorMB.entity.dVPrefAg}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['agenteCobrador.conta']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{agenteCobradorMB.entity.conta}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['agenteCobrador.dvConta']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{agenteCobradorMB.entity.dvConta}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['agenteCobrador.convenio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{agenteCobradorMB.entity.convenio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['agenteCobrador.idBloquete']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{agenteCobradorMB.entity.idBloquete}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['agenteCobrador.bloqueteInico']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{agenteCobradorMB.entity.bloqueteInico}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['agenteCobrador.bloqueteFim']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{agenteCobradorMB.entity.bloqueteFim}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['agenteCobrador.sequencialRemessa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{agenteCobradorMB.entity.sequencialRemessa}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['agenteCobrador.contaFinanceira']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{agenteCobradorMB.entity.contaFinanceira}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['agenteCobrador.codigoResponsab']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{agenteCobradorMB.entity.codigoResponsab}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['agenteCobrador.codigoResponsabDV']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{agenteCobradorMB.entity.codigoResponsabDV}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['agenteCobrador.bordero']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{agenteCobradorMB.entity.bordero}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['agenteCobrador.diasProtesto']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{agenteCobradorMB.entity.diasProtesto}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['agenteCobrador.instrucao1']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{agenteCobradorMB.entity.instrucao1}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['agenteCobrador.instrucao2']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{agenteCobradorMB.entity.instrucao2}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['agenteCobrador.convenente']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{agenteCobradorMB.entity.convenente}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['agenteCobrador.contratoCalcao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{agenteCobradorMB.entity.contratoCalcao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['agenteCobrador.diasMulta']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{agenteCobradorMB.entity.diasMulta}" styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetAgenteCobradorDetail').hide()" />
+            <x:securityArea rolesAllowed="agenteCobrador.audit">
+                <x:audit for="#{agenteCobradorMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

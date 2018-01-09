@@ -1,0 +1,20 @@
+package br.com.jsoft.centralfinanceira.dao.financeiro.impl;
+
+import br.com.jsoft.centralfinanceira.application.BaseDAOImpl;
+import br.com.jsoft.centralfinanceira.dao.financeiro.ContasAPagarDAO;
+import br.com.jsoft.centralfinanceira.modelo.financeiro.ContasAPagar;
+import javax.ejb.Stateless;
+
+/**
+ *
+ * @author KillerBeeTwo
+ */
+@Stateless
+public class ContasAPagarDAOImpl extends BaseDAOImpl<ContasAPagar> implements ContasAPagarDAO {
+
+    @Override
+    public Class getEntityClass() {
+        return ContasAPagar.class;
+    }
+
+}

@@ -1,0 +1,86 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateAddress" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="typePublicpark" value="* #{msg['address.typePublicpark']}:" />
+                         <h:selectOneMenu id="typePublicpark" value="#{addressMB.entity.typePublicpark}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.typePublicpark)}" 
+                                            var="typePublicpark"
+                                            itemLabel="#{typePublicpark}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="publicPark" value="* #{msg['address.publicPark']}:" />
+                         <p:inputText id="publicPark" value="#{addressMB.entity.publicPark}" maxlength="250"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="number" value="#{msg['address.number']}:" />
+                         <p:inputText id="number" value="#{addressMB.entity.number}" maxlength="50"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="complement" value="#{msg['address.complement']}:" />
+                         <p:inputText id="complement" value="#{addressMB.entity.complement}" maxlength="250"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="postalCode" value="* #{msg['address.postalCode']}:" />
+                         <p:inputText id="postalCode" value="#{addressMB.entity.postalCode}" maxlength="50"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="landmark" value="#{msg['address.landmark']}:" />
+                         <p:inputText id="landmark" value="#{addressMB.entity.landmark}" maxlength="250"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="typeAddress" value="* #{msg['address.typeAddress']}:" />
+                         <h:selectOneMenu id="typeAddress" value="#{addressMB.entity.typeAddress}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.typeAddress)}" 
+                                            var="typeAddress"
+                                            itemLabel="#{typeAddress}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <div class="checkbox">
+                             <label>
+                                 <h:selectBooleanCheckbox id="active" value="#{addressMB.entity.active}" />
+                                 #{msg['address.active']}
+                             </label>
+                         </div>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="neighborhood" value="* #{msg['address.neighborhood']}:" />
+                         <h:selectOneMenu id="neighborhood" value="#{addressMB.entity.neighborhood}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.neighborhood)}" 
+                                            var="neighborhood"
+                                            itemLabel="#{neighborhood}"/>
+                         </h:selectOneMenu>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="address.create">
+                <p:commandButton process="@form" update="@form" action="#{addressMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="address.audit">
+                <x:audit for="#{addressMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Anexos" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="245"/>
+	<parameter name="texto1Contrato" class="java.lang.String"/>
+	<parameter name="texto2Contrato" class="java.lang.String"/>
+	<parameter name="pagcontasRazaoSocial" class="java.lang.String"/>
+	<parameter name="nomeMaisProc1e2" class="java.lang.String"/>
+	<parameter name="cpfProc1" class="java.lang.String"/>
+	<parameter name="cpfProc2" class="java.lang.String"/>
+	<parameter name="dataAssinatura" class="java.lang.String"/>
+	<parameter name="tituloContrato" class="java.lang.String"/>
+	<parameter name="permissionaria" class="java.lang.String"/>
+	<parameter name="nomeFantasia" class="java.lang.String"/>
+	<parameter name="bairro" class="java.lang.String"/>
+	<parameter name="endereco" class="java.lang.String"/>
+	<parameter name="cep" class="java.lang.String"/>
+	<parameter name="cidade" class="java.lang.String"/>
+	<parameter name="cnpj" class="java.lang.String"/>
+	<parameter name="inscricaoEstadual" class="java.lang.String"/>
+	<parameter name="proprietario" class="java.lang.String"/>
+	<parameter name="enderecoP" class="java.lang.String"/>
+	<parameter name="bairroP" class="java.lang.String"/>
+	<parameter name="cepP" class="java.lang.String"/>
+	<parameter name="cidadeP" class="java.lang.String"/>
+	<parameter name="cpfP" class="java.lang.String"/>
+	<parameter name="rgP" class="java.lang.String"/>
+	<parameter name="metasDeGuias" class="java.lang.String"/>
+	<parameter name="metaDeCredDig" class="java.lang.String"/>
+	<parameter name="valorPromissoria" class="java.lang.String"/>
+	<parameter name="fiador1" class="java.lang.String"/>
+	<parameter name="fiador2" class="java.lang.String"/>
+	<parameter name="cpfF1" class="java.lang.String"/>
+	<parameter name="cpfF2" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="802">
+			<rectangle>
+				<reportElement positionType="Float" x="0" y="284" width="555" height="20"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true" pattern="">
+				<reportElement positionType="Float" x="0" y="34" width="555" height="16"/>
+				<textElement textAlignment="Justified" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{texto1Contrato}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement positionType="Float" x="0" y="64" width="555" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="0" y="84" width="555" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="0" y="104" width="555" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="0" y="124" width="189" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="189" y="124" width="182" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="371" y="124" width="184" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="0" y="144" width="276" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="276" y="144" width="279" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="0" y="164" width="555" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="0" y="184" width="555" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="371" y="204" width="184" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="0" y="204" width="189" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="189" y="204" width="182" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="276" y="224" width="279" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="0" y="224" width="276" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="0" y="264" width="555" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="0" y="244" width="555" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="0" y="304" width="371" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="371" y="304" width="184" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="0" y="324" width="371" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="371" y="324" width="184" height="20"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="359" width="555" height="20"/>
+				<textElement textAlignment="Justified" markup="styled">
+					<font fontName="Arial" size="9" isBold="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{texto2Contrato}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="4" y="419" width="310" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PAG CONTAS SERVIÇOS E REPRESENTAÇÃO LTDA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="333" y="419" width="218" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PERMISSIONÁRIA:
+]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="459" width="314" height="1"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="327" y="459" width="228" height="1"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="459" width="314" height="14"/>
+				<textElement markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomeMaisProc1e2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="0" y="473" width="168" height="14"/>
+				<textElement markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cpfProc1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="168" y="473" width="142" height="14"/>
+				<textElement markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cpfProc2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="392" width="555" height="14"/>
+				<textElement textAlignment="Center" markup="styled">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dataAssinatura}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="510" width="218" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FIADOR (ES):]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="549" width="276" height="1"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="292" y="549" width="259" height="1"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="594" width="218" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TESTEMUNHAS:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="627" width="33" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="640" width="33" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CNPJ:]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="626" width="276" height="1"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="292" y="626" width="33" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="292" y="640" width="33" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CNPJ:]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="292" y="625" width="263" height="1"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="667" width="201" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ENTREGA DE EQUIPAMENTOS:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="690" width="547" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[____ POS ________________________ Modelo: _________ Série: ________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="704" width="547" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[____ Minyscan (leitor óptico): ______________________________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="718" width="547" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[____ Fonte de Alimentação.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="732" width="547" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[____ Cabo Telefônico.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="746" width="547" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[____ Cabo Serial / ______Bobinas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="760" width="547" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[____ Chip Operadora: _________ Serie: _________________ Numero: ________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="774" width="547" height="14"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[____ Celular Marca: _____________Modelo: _______________Série: _________________]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="0" width="555" height="20"/>
+				<textElement textAlignment="Justified" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tituloContrato}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="4" y="64" width="551" height="20"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{permissionaria}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="4" y="84" width="551" height="20"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomeFantasia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="4" y="124" width="185" height="20"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{bairro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="4" y="104" width="551" height="20"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{endereco}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="194" y="124" width="177" height="20"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cep}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="376" y="124" width="179" height="20"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="4" y="144" width="272" height="20"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cnpj}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="280" y="144" width="275" height="20"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{inscricaoEstadual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="4" y="164" width="551" height="20"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{proprietario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="4" y="184" width="551" height="20"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{enderecoP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="4" y="204" width="185" height="20"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{bairroP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="194" y="204" width="177" height="20"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cepP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="376" y="204" width="179" height="20"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cidadeP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="4" y="224" width="272" height="20"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cpfP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="280" y="224" width="275" height="20"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{rgP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="4" y="244" width="551" height="20"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{metasDeGuias}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="4" y="264" width="551" height="20"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{metaDeCredDig}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="4" y="284" width="551" height="20"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{valorPromissoria}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="4" y="304" width="367" height="20"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fiador1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="4" y="324" width="367" height="20"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fiador2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="376" y="304" width="179" height="20"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cpfF1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="376" y="324" width="179" height="20"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cpfF2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="333" y="459" width="214" height="14"/>
+				<textElement markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{permissionaria}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="333" y="473" width="214" height="14"/>
+				<textElement markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cnpj}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="0" y="549" width="276" height="14"/>
+				<textElement markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fiador1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="292" y="550" width="255" height="13"/>
+				<textElement markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fiador2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="0" y="563" width="276" height="14"/>
+				<textElement markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cpfF1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="292" y="563" width="255" height="14"/>
+				<textElement markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cpfF2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

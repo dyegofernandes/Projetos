@@ -1,0 +1,121 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['contasAPagar.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuContasAPagar.xhtml" />
+        <h:form id="formListContasAPagar">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="contasAPagar_export" target=":formListContasAPagar:dataTableContasAPagar"
+                                widgetVar="dataTableContasAPagarWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="contasAPagar" rowIndexVar="index" id="dataTableContasAPagar" widgetVar="dataTableContasAPagarWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{contasAPagarMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{contasAPagarMB.dataModel.paginatorTemplate}"
+                         value="#{contasAPagarMB.dataModel}" lazy="true" >
+
+                <p:column headerText="Código" sortBy="#{contasAPagar.id}"
+                          filterBy="#{contasAPagar.id}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Código" />
+                    </f:facet>
+                    <h:outputText value="#{contasAPagar.id}"/>
+                </p:column>
+                <p:column headerText="#{msg['contasAPagar.estabelecimento']}" sortBy="#{contasAPagar.estabelecimento}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contasAPagar.estabelecimento']}" />
+                    </f:facet>
+                    <h:outputText value="#{contasAPagar.estabelecimento}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['contasAPagar.fornecedor']}" sortBy="#{contasAPagar.fornecedor}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contasAPagar.fornecedor']}" />
+                    </f:facet>
+                    <h:outputText value="#{contasAPagar.fornecedor}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['contasAPagar.entrada']}" sortBy="#{contasAPagar.entrada}"
+                          filterBy="#{contasAPagar.entrada}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contasAPagar.entrada']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{contasAPagar.entrada}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                
+                <p:column headerText="#{msg['contasAPagar.centroResultado']}" sortBy="#{contasAPagar.centroResultado}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contasAPagar.centroResultado']}" />
+                    </f:facet>
+                    <h:outputText value="#{contasAPagar.centroResultado}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                
+                <p:column headerText="#{msg['contasAPagar.tipoDeDocumento']}" sortBy="#{contasAPagar.tipoDeDocumento}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contasAPagar.tipoDeDocumento']}" />
+                    </f:facet>
+                    <h:outputText value="#{contasAPagar.tipoDeDocumento}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Despesa" sortBy="#{contasAPagar.receitaDespesa}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contasAPagar.receitaDespesa']}" />
+                    </f:facet>
+                    <h:outputText value="#{contasAPagar.receitaDespesa}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetContasAPagarDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailContasAPagar" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{contasAPagar}" target="#{contasAPagarMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="contasAPagar.create">
+                        <p:button icon="ui-icon-pencil" outcome="createContasAPagar" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{contasAPagar.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="contasAPagar.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{contasAPagarMB.delete}" >
+                            <f:setPropertyActionListener value="#{contasAPagar.id}" target="#{contasAPagarMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{contasAPagar}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="contasAPagar.audit">
+                    <x:auditDelete for="#{contasAPagarMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetContasAPagarDetail" header="#{msg['contasAPagar.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailContasAPagar.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,70 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailLoteEnvio" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loteEnvio.versaoEnvio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loteEnvioMB.entity.versaoEnvio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loteEnvio.indicadorProcessamento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loteEnvioMB.entity.indicadorProcessamento}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loteEnvio.versaoRetorno']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loteEnvioMB.entity.versaoRetorno}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loteEnvio.ambiente']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loteEnvioMB.entity.ambiente}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loteEnvio.versaoAplicacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loteEnvioMB.entity.versaoAplicacao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loteEnvio.status']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loteEnvioMB.entity.status}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loteEnvio.motivo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loteEnvioMB.entity.motivo}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loteEnvio.uf']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loteEnvioMB.entity.uf}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loteEnvio.dataRecebimento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loteEnvioMB.entity.dataRecebimento}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loteEnvio.protocoloRecebimentoSincrono']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loteEnvioMB.entity.protocoloRecebimentoSincrono}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loteEnvio.recibo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loteEnvioMB.entity.recibo}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loteEnvio.tempoMedio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loteEnvioMB.entity.tempoMedio}" styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetLoteEnvioDetail').hide()" />
+            <x:securityArea rolesAllowed="loteEnvio.audit">
+                <x:audit for="#{loteEnvioMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

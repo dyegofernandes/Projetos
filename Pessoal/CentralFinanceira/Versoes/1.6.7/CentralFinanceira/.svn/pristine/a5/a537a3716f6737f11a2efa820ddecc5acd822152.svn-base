@@ -1,0 +1,113 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateListaLoja" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:fieldset legend="#{xmsg['generalData']}" toggleable="true" toggleSpeed="500" >
+            
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="* #{msg['listaLoja.nome']}:" />
+                        <p:inputText id="nome" value="#{listaLojaMB.entity.nome}" maxlength="50"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="usuario" value="#{msg['listaLoja.usuario']}:" />
+                        <h:selectOneMenu id="usuario" value="#{listaLojaMB.entity.usuario}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.usuario)}" 
+                                           var="usuario"
+                                           itemLabel="#{usuario}"/>
+                        </h:selectOneMenu>
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+        
+        <p:fieldset legend="Lojas" toggleable="true" toggleSpeed="500">
+            <h:panelGroup id="panelLojas">
+                <div class="container-fluid">
+                    <div class="row">
+
+
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+
+                            <h:outputLabel value="#{msg['fatosBoletos.loja']}:"/>
+
+                            <p:autoComplete value="#{listaLojaMB.lojaAdd}"
+
+                                            completeMethod="#{lojaMB.consultarLoja}" styleClass="uix-autocomplete" 
+
+                                            minQueryLength="1" forceSelection="true"
+
+                                            var="p" itemLabel="#{p.nome}" itemValue="#{p}" converter="entityConverter"> 
+                                <x:initializer/>
+                                <p:column> 
+
+                                    <h:outputText value="#{p.id} - #{p.nome}"/>
+
+                                </p:column> 
+
+                            </p:autoComplete>
+
+                        </div>
+                    </div>
+                    <div class="uix-center">
+                        <p:commandButton value="Adicionar" icon="ui-icon-circle-plus" action="#{listaLojaMB.addLoja()}" 
+                                         update=":formCreateListaLoja:panelLojas" process=":formCreateListaLoja:panelLojas"/>
+                    </div>
+                    <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+                </div>
+                <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                             var="loja" rowIndexVar="index" id="dataTableLoja" widgetVar="dataTableLojaWidget" 
+                             styleClass="table-responsive" value="#{listaLojaMB.listaLojas_Loja}">
+
+                    <p:column headerText="Qtd" style="text-align: center;" width="5%">
+                        <h:outputText value="#{index+1}">
+
+                        </h:outputText> 
+                    </p:column>
+                    <p:column headerText="#{msg['loja.nome']}" style="text-align: left;" >
+                        <h:outputText value="#{loja.loja}">
+                            <x:initializer/>
+                        </h:outputText> 
+                    </p:column>
+
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>                       
+
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process=":formCreateListaLoja:dataTableLoja" 
+                                         update=":formCreateListaLoja:dataTableLoja" 
+                                         action="#{listaLojaMB.removerLoja(loja)}" >
+                        </p:commandButton>
+
+                    </p:column>
+
+                </p:dataTable>
+
+            </h:panelGroup>
+        </p:fieldset>  
+
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="listaLoja.create">
+                <p:commandButton process="@form" update="@form" action="#{listaLojaMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="listaLoja.audit">
+                <x:audit for="#{listaLojaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

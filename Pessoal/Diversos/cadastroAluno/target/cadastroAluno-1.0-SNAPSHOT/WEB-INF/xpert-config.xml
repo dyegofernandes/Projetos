@@ -1,0 +1,12 @@
+<xpert-config>
+
+    <auditing>
+        <auditing-impl>cadastroaluno.cadastroaluno.modelo.audit.Auditing</auditing-impl>
+        <metadata-impl>cadastroaluno.cadastroaluno.modelo.audit.Metadata</metadata-impl>
+        <auditing-listener>cadastroaluno.cadastroaluno.application.AuditingListenerImpl</auditing-listener>
+    </auditing>
+    
+    <entity-manager-factory>cadastroaluno.cadastroaluno.application.EntityManagerFactoryImpl</entity-manager-factory>
+    <resource-bundle>bundles.messages</resource-bundle>
+
+</xpert-config>

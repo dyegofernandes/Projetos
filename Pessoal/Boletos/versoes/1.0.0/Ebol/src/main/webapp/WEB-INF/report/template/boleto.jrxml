@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boleto" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="codigoDeBarras" class="java.lang.String"/>
+	<field name="codigoDeBarrasMask" class="java.lang.String"/>
+	<field name="vencimento" class="java.lang.String"/>
+	<field name="nossoNumero" class="java.lang.String"/>
+	<field name="valorDocumento" class="java.lang.String"/>
+	<field name="desconto" class="java.lang.String"/>
+	<field name="outraDeducoes" class="java.lang.String"/>
+	<field name="moraMultaJuros" class="java.lang.String"/>
+	<field name="valorCobrado" class="java.lang.String"/>
+	<field name="apelidoNomeFantasia" class="java.lang.String"/>
+	<field name="nomeRazaoSocial" class="java.lang.String"/>
+	<field name="referenteA" class="java.lang.String"/>
+	<field name="localPagamento" class="java.lang.String"/>
+	<field name="instrucaoExclusiva" class="java.lang.String"/>
+	<field name="cpfCnpj" class="java.lang.String"/>
+	<field name="endereco" class="java.lang.String"/>
+	<field name="cidadeEstado" class="java.lang.String"/>
+	<field name="urlImagem" class="java.lang.String"/>
+	<field name="nomeConvenio" class="java.lang.String"/>
+	<field name="outrosAcrescimos" class="java.lang.String"/>
+	<field name="situacao" class="java.lang.String"/>
+	<field name="parcela" class="java.lang.String"/>
+	<field name="via" class="java.lang.String"/>
+	<field name="descontoDescricao" class="java.lang.String"/>
+	<field name="jurosDescricao" class="java.lang.String"/>
+	<field name="multaDescricao" class="java.lang.String"/>
+	<field name="mensagem" class="java.lang.String"/>
+	<field name="cepCliente" class="java.lang.String"/>
+	<field name="nomeFantasiaCnpj" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="250">
+			<line>
+				<reportElement x="154" y="0" width="1" height="248" isPrintInFirstWholeBand="true"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="1" y="23" width="153" height="1"/>
+			</line>
+			<line>
+				<reportElement x="1" y="45" width="153" height="1"/>
+			</line>
+			<line>
+				<reportElement x="1" y="67" width="153" height="1"/>
+			</line>
+			<line>
+				<reportElement x="1" y="91" width="153" height="1"/>
+			</line>
+			<line>
+				<reportElement x="1" y="114" width="153" height="1"/>
+			</line>
+			<line>
+				<reportElement x="1" y="135" width="153" height="1"/>
+			</line>
+			<line>
+				<reportElement x="1" y="159" width="153" height="1"/>
+			</line>
+			<line>
+				<reportElement x="1" y="178" width="153" height="1"/>
+			</line>
+			<line>
+				<reportElement x="154" y="200" width="400" height="1"/>
+			</line>
+			<line>
+				<reportElement x="457" y="53" width="1" height="147"/>
+			</line>
+			<line>
+				<reportElement x="155" y="52" width="399" height="1"/>
+			</line>
+			<line>
+				<reportElement x="155" y="38" width="399" height="1"/>
+			</line>
+			<line>
+				<reportElement x="155" y="72" width="399" height="1"/>
+			</line>
+			<line>
+				<reportElement x="154" y="173" width="400" height="1"/>
+			</line>
+			<componentElement>
+				<reportElement x="161" y="214" width="297" height="33" isPrintInFirstWholeBand="true"/>
+				<jr:Interleaved2Of5 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="none">
+					<jr:codeExpression><![CDATA[$F{codigoDeBarras}]]></jr:codeExpression>
+				</jr:Interleaved2Of5>
+			</componentElement>
+			<staticText>
+				<reportElement x="5" y="24" width="58" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[Nosso Número]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="47" width="91" height="8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="6"/>
+				</textElement>
+				<text><![CDATA[(=) Valor do documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="70" width="101" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="6"/>
+				</textElement>
+				<text><![CDATA[(-) Desconto/Abatimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="96" width="91" height="8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[(-) Outras deduções]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="116" width="91" height="8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[(+) Mora/Multa/Juros]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="137" width="91" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[(+) Outros acréscimos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="160" width="91" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[(=) Valor cobrado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="206" y="6" width="100" height="13"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Courier-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[RECIBO DO POSTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="459" y="54" width="94" height="8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="6"/>
+				</textElement>
+				<text><![CDATA[Vencimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="73" width="93" height="8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="6"/>
+				</textElement>
+				<text><![CDATA[Nosso Número]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="159" y="93" width="291" height="9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="6"/>
+				</textElement>
+				<text><![CDATA[Instruções - Texto de responsabilidade do cedente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="157" y="53" width="93" height="9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="6"/>
+				</textElement>
+				<text><![CDATA[Local de pagamento]]></text>
+			</staticText>
+			<line>
+				<reportElement x="154" y="92" width="400" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="157" y="74" width="57" height="8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="6"/>
+				</textElement>
+				<text><![CDATA[Referente a]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="459" y="116" width="74" height="8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="6"/>
+				</textElement>
+				<text><![CDATA[(-) Desconto/Abatimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="459" y="159" width="74" height="8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="6"/>
+				</textElement>
+				<text><![CDATA[(+) Mora/Multa/Juros]]></text>
+			</staticText>
+			<line>
+				<reportElement x="458" y="115" width="96" height="1"/>
+			</line>
+			<line>
+				<reportElement x="457" y="185" width="98" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="459" y="187" width="52" height="8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="6"/>
+				</textElement>
+				<text><![CDATA[(=) Valor cobrado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="459" y="173" width="62" height="8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="6"/>
+				</textElement>
+				<text><![CDATA[(+) Outros acréscimos]]></text>
+			</staticText>
+			<line>
+				<reportElement x="458" y="154" width="96" height="1"/>
+			</line>
+			<line>
+				<reportElement x="457" y="137" width="96" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="460" y="139" width="58" height="8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="6"/>
+				</textElement>
+				<text><![CDATA[(-) Outras deduções]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="93" width="93" height="8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="6"/>
+				</textElement>
+				<text><![CDATA[(=) Valor do documento]]></text>
+			</staticText>
+			<image>
+				<reportElement x="157" y="3" width="49" height="34"/>
+				<imageExpression><![CDATA[$F{urlImagem}]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="0" y="0" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="6" y="12" width="134" height="10"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vencimento}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="6" y="34" width="134" height="10"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nossoNumero}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="458" y="81" width="96" height="10"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nossoNumero}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="458" y="62" width="96" height="10"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vencimento}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="5" y="181" width="149" height="10"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{referenteA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="337" y="24" width="217" height="10"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomeConvenio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="161" y="82" width="276" height="10"/>
+				<textElement>
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{referenteA}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="250" y="40" width="303" height="10"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{endereco}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="161" y="201" width="296" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoDeBarrasMask}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="2" width="94" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[Vencimento]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="157" y="62" width="291" height="10"/>
+				<textElement>
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{localPagamento}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="0" width="1" height="248" isPrintInFirstWholeBand="true"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="1" y="247" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="555" y="0" width="1" height="248" isPrintInFirstWholeBand="true"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="337" y="12" width="216" height="11"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{situacao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="5" y="191" width="149" height="10"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{situacao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="6" y="201" width="148" height="10"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomeConvenio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="6" y="231" width="148" height="10"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{via}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="6" y="221" width="148" height="10"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{parcela}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="161" y="163" width="286" height="10"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{instrucaoExclusiva}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="161" y="102" width="286" height="10"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mensagem}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="161" y="112" width="286" height="10"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descontoDescricao}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="161" y="122" width="286" height="10"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{multaDescricao}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="161" y="153" width="286" height="10"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{via}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="161" y="142" width="286" height="10"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{parcela}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="158" y="40" width="92" height="10"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{situacao}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="161" y="132" width="286" height="10"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jurosDescricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="6" y="55" width="148" height="10"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorCobrado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="460" y="101" width="94" height="10"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorCobrado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="161" y="178" width="286" height="10"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomeFantasiaCnpj}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="161" y="188" width="286" height="10"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cepCliente}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

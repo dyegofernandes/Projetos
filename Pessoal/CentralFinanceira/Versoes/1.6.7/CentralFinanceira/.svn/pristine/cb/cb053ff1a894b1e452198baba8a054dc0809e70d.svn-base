@@ -1,0 +1,183 @@
+package br.com.jsoft.centralfinanceira.bo.central;
+
+import com.xpert.core.crud.AbstractBusinessObject;
+import br.com.jsoft.centralfinanceira.dao.central.LojaDAO;
+import com.xpert.core.validation.UniqueField;
+import com.xpert.core.exception.BusinessException;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import br.com.jsoft.centralfinanceira.modelo.cadastroBasicos.Loja;
+import br.com.jsoft.centralfinanceira.vo.DiaDiaVO;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import javax.persistence.Query;
+
+/**
+ *
+ * @author Juniel
+ */
+@Stateless
+public class LojaBO extends AbstractBusinessObject<Loja> {
+
+    @EJB
+    private LojaDAO lojaDAO;
+
+    @Override
+    public LojaDAO getDAO() {
+        return lojaDAO;
+    }
+
+    @Override
+    public List<UniqueField> getUniqueFields() {
+        return null;
+    }
+
+    @Override
+    public void validate(Loja loja) throws BusinessException {
+    }
+
+    @Override
+    public boolean isAudit() {
+        return true;
+    }
+
+    public List<DiaDiaVO> listaRecebimentoLoja(List<Loja> lojas, String periodo, String tipoRecebimento) {
+        List<DiaDiaVO> lista = new ArrayList<DiaDiaVO>();
+
+        boolean vintenove = false;
+        boolean trinta = false;
+        boolean trintaeum = false;
+
+        Calendar c = Calendar.getInstance();
+
+        String[] temp;
+
+        int mes, ano;
+
+        if (periodo == null || periodo.equals("")) {
+            c.setTime(new Date());
+            mes = c.get(Calendar.MONTH)+1;
+            ano = c.get(Calendar.YEAR);
+        } else {
+            temp = periodo.split("/");
+            mes = Integer.parseInt(temp[0]);
+            ano = Integer.parseInt(temp[1]);
+        }
+
+        String queryString = "select loja_id, l.nome, "
+                + "sum(case when  extract(day from recebimento) = 01 then qtd else 0 end) as \"01\", "
+                + "sum(case when  extract(day from recebimento) = 02 then qtd else 0 end) as \"02\", "
+                + "sum(case when  extract(day from recebimento) = 03 then qtd else 0 end) as \"03\", "
+                + "sum(case when  extract(day from recebimento) = 04 then qtd else 0 end) as \"04\", "
+                + "sum(case when  extract(day from recebimento) = 05 then qtd else 0 end) as \"05\", "
+                + "sum(case when  extract(day from recebimento) = 06 then qtd else 0 end) as \"06\", "
+                + "sum(case when  extract(day from recebimento) = 07 then qtd else 0 end) as \"07\", "
+                + "sum(case when  extract(day from recebimento) = 08 then qtd else 0 end) as \"08\", "
+                + "sum(case when  extract(day from recebimento) = 09 then qtd else 0 end) as \"09\", "
+                + "sum(case when  extract(day from recebimento) = 10 then qtd else 0 end) as \"10\", "
+                + "sum(case when  extract(day from recebimento) = 11 then qtd else 0 end) as \"11\", "
+                + "sum(case when  extract(day from recebimento) = 12 then qtd else 0 end) as \"12\", "
+                + "sum(case when  extract(day from recebimento) = 13 then qtd else 0 end) as \"13\", "
+                + "sum(case when  extract(day from recebimento) = 14 then qtd else 0 end) as \"14\", "
+                + "sum(case when  extract(day from recebimento) = 15 then qtd else 0 end) as \"15\", "
+                + "sum(case when  extract(day from recebimento) = 16 then qtd else 0 end) as \"16\", "
+                + "sum(case when  extract(day from recebimento) = 17 then qtd else 0 end) as \"17\", "
+                + "sum(case when  extract(day from recebimento) = 18 then qtd else 0 end) as \"18\", "
+                + "sum(case when  extract(day from recebimento) = 19 then qtd else 0 end) as \"19\", "
+                + "sum(case when  extract(day from recebimento) = 20 then qtd else 0 end) as \"20\", "
+                + "sum(case when  extract(day from recebimento) = 21 then qtd else 0 end) as \"21\", "
+                + "sum(case when  extract(day from recebimento) = 22 then qtd else 0 end) as \"22\", "
+                + "sum(case when  extract(day from recebimento) = 23 then qtd else 0 end) as \"23\", "
+                + "sum(case when  extract(day from recebimento) = 24 then qtd else 0 end) as \"24\", "
+                + "sum(case when  extract(day from recebimento) = 25 then qtd else 0 end) as \"25\", "
+                + "sum(case when  extract(day from recebimento) = 26 then qtd else 0 end) as \"26\", "
+                + "sum(case when  extract(day from recebimento) = 27 then qtd else 0 end) as \"27\", "
+                + "sum(case when  extract(day from recebimento) = 28 then qtd else 0 end) as \"28\" ";
+        if (getUltimoDiaMes(mes, ano) == 29) {
+            queryString = queryString.concat(", sum(case when  extract(day from recebimento) = 29 then qtd else 0 end) as \"29\" ");
+            vintenove = true;
+        }
+        if (getUltimoDiaMes(mes, ano) == 30) {
+            queryString = queryString.concat(", sum(case when  extract(day from recebimento) = 30 then qtd else 0 end) as \"30\" ");
+            trinta = true; 
+        }
+        if (getUltimoDiaMes(mes, ano) == 31) {
+            queryString = queryString.concat(", sum(case when  extract(day from recebimento) = 31 then qtd else 0 end) as \"31\" ");
+            trintaeum = true;
+        }
+
+        queryString = queryString.concat(
+                "from regente.diariobanpop d "
+                + "left join cadastro.loja l on (l.id=d.loja_id) "
+                + "where extract(year from recebimento) =" + ano
+                + " and extract(month from recebimento)=" + mes
+                + " group by loja_id, l.nome "
+                + "order by loja_id;");
+        Query query;
+
+        query = lojaDAO.getEntityManager().createNativeQuery(queryString);
+
+        List<Object[]> resultado = query.getResultList();
+
+        for (Object[] tupla : resultado) {
+            DiaDiaVO dia = new DiaDiaVO();
+            dia.setPos(((BigInteger) tupla[0]).longValue());
+            dia.setLoja((String) tupla[1]);
+            dia.setDia_01(((BigInteger) tupla[2]).longValue());
+            dia.setDia_02(((BigInteger) tupla[3]).longValue());
+            dia.setDia_03(((BigInteger) tupla[4]).longValue());
+            dia.setDia_04(((BigInteger) tupla[5]).longValue());
+            dia.setDia_05(((BigInteger) tupla[6]).longValue());
+            dia.setDia_06(((BigInteger) tupla[7]).longValue());
+            dia.setDia_07(((BigInteger) tupla[8]).longValue());
+            dia.setDia_08(((BigInteger) tupla[9]).longValue());
+            dia.setDia_09(((BigInteger) tupla[10]).longValue());
+            dia.setDia_10(((BigInteger) tupla[11]).longValue());
+            dia.setDia_11(((BigInteger) tupla[12]).longValue());
+            dia.setDia_12(((BigInteger) tupla[13]).longValue());
+            dia.setDia_13(((BigInteger) tupla[14]).longValue());
+            dia.setDia_14(((BigInteger) tupla[15]).longValue());
+            dia.setDia_15(((BigInteger) tupla[16]).longValue());
+            dia.setDia_16(((BigInteger) tupla[17]).longValue());
+            dia.setDia_17(((BigInteger) tupla[18]).longValue());
+            dia.setDia_18(((BigInteger) tupla[19]).longValue());
+            dia.setDia_19(((BigInteger) tupla[20]).longValue());
+            dia.setDia_20(((BigInteger) tupla[21]).longValue());
+            dia.setDia_21(((BigInteger) tupla[22]).longValue());
+            dia.setDia_22(((BigInteger) tupla[23]).longValue());
+            dia.setDia_23(((BigInteger) tupla[24]).longValue());
+            dia.setDia_24(((BigInteger) tupla[25]).longValue());
+            dia.setDia_25(((BigInteger) tupla[26]).longValue());
+            dia.setDia_26(((BigInteger) tupla[27]).longValue());
+            dia.setDia_27(((BigInteger) tupla[28]).longValue());
+            dia.setDia_28(((BigInteger) tupla[29]).longValue());
+            if (vintenove) {
+                dia.setDia_29(((BigInteger) tupla[30]).longValue());
+            }
+            if (trinta) {
+                dia.setDia_30(((BigInteger) tupla[31]).longValue());
+            }
+            if (trintaeum) {
+                dia.setDia_31(((BigInteger) tupla[32]).longValue());
+            }
+            lista.add(dia);
+        }
+
+        return lista;
+    }
+
+    private int getUltimoDiaMes(int mes, int ano) {
+        Calendar c = Calendar.getInstance();
+
+        c.set(Calendar.MONTH, mes-1);
+        c.set(Calendar.YEAR, ano);
+
+        int ultimodia = c.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        return ultimodia;
+    }
+
+}

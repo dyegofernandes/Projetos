@@ -1,0 +1,48 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailLote" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['lote.empresa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loteMB.entity.empresa}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['lote.motivoPagamento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loteMB.entity.motivoPagamento}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['lote.qtdias']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loteMB.entity.qtdias}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['lote.vlrDia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loteMB.entity.vlrDia}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['lote.dtPagamento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loteMB.entity.dtPagamento}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetLoteDetail').hide()" />
+            <x:securityArea rolesAllowed="lote.audit">
+                <x:audit for="#{loteMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

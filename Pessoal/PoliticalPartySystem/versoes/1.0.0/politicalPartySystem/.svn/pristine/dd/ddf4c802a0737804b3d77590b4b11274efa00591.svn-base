@@ -1,0 +1,89 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['neighborhood.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuNeighborhood.xhtml" />
+        <h:form id="formListNeighborhood">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="neighborhood_export" target=":formListNeighborhood:dataTableNeighborhood"
+                                     widgetVar="dataTableNeighborhoodWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="neighborhood" rowIndexVar="index" id="dataTableNeighborhood" widgetVar="dataTableNeighborhoodWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{neighborhoodMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{neighborhoodMB.dataModel.paginatorTemplate}"
+                         value="#{neighborhoodMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['neighborhood.description']}" sortBy="#{neighborhood.description}"
+                    filterBy="#{neighborhood.description}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['neighborhood.description']}" />
+                    </f:facet>
+                    <h:outputText value="#{neighborhood.description}"/>
+                </p:column>
+                <p:column headerText="#{msg['neighborhood.zone']}" sortBy="#{neighborhood.zone}"
+                    filterBy="#{neighborhood.zone}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['neighborhood.zone']}" />
+                    </f:facet>
+                    <h:outputText value="#{neighborhood.zone}"/>
+                </p:column>
+                <p:column headerText="#{msg['neighborhood.active']}" sortBy="#{neighborhood.active}"
+                    filterBy="#{neighborhood.active}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['neighborhood.active']}" />
+                    </f:facet>
+                    <h:outputText value="#{neighborhood.active}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['neighborhood.city']}" sortBy="#{neighborhood.city}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['neighborhood.city']}" />
+                    </f:facet>
+                    <h:outputText value="#{neighborhood.city}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetNeighborhoodDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailNeighborhood" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{neighborhood}" target="#{neighborhoodMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="neighborhood.create">
+                        <p:button icon="ui-icon-pencil" outcome="createNeighborhood" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{neighborhood.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="neighborhood.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{neighborhoodMB.delete}" >
+                            <f:setPropertyActionListener value="#{neighborhood.id}" target="#{neighborhoodMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{neighborhood}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="neighborhood.audit">
+                    <x:auditDelete for="#{neighborhoodMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetNeighborhoodDetail" header="#{msg['neighborhood.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailNeighborhood.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,145 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['fornecedor.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuFornecedor.xhtml" />
+        <h:form id="formListFornecedor">
+            <x:modalMessages/>
+            <p:fieldset legend="Filtros de Busca" toggleable="true">
+                <h:panelGroup id="panelGeral">
+                    <div class="row">
+                        <x:securityArea rolesAllowed="campos.matriz">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="empresa" value="Empresa:" />
+                                <h:selectOneMenu id="empresa" value="#{fornecedorMB.filtros.matriz}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.loja_Filial)}" 
+                                                   var="loja_Filial"
+                                                   itemLabel="#{loja_Filial}"/>
+                                </h:selectOneMenu>
+                            </div>
+                        </x:securityArea>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="codigo" value="Código:" />
+                            <p:inputMask id="codigo" mask="9?999999999" slotChar="" value="#{fornecedorMB.filtros.codigo1}" styleClass="form-control" />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cnpj" value="#{msg['cliente.cnpj']}:" />
+                            <x:cnpj id="cnpj" value="#{fornecedorMB.filtros.cnpj}" styleClass="form-control" />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="razaoSocial" value="#{msg['cliente.razaoSocial']}:" />
+                            <p:inputText id="razaoSocial" value="#{fornecedorMB.filtros.nome}" maxlength="200"  
+                                         styleClass="form-control"/>
+                        </div>
+                    </div>
+                </h:panelGroup>
+                <div class="uix-center">
+                    <p:commandButton process="@this panelGeral" update="dataTableFornecedor" action="#{fornecedorMB.buscar()}" value="Buscar" />
+                </div>
+            </p:fieldset>
+            <p:fieldset legend="Resultado da Busca" toggleable="true">
+                <x:dataTableActions fileName="fornecedor_export" target=":formListFornecedor:dataTableFornecedor"
+                                    widgetVar="dataTableFornecedorWidget"  />
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="fornecedor" rowIndexVar="index" id="dataTableFornecedor" widgetVar="dataTableFornecedorWidget" styleClass="table-responsive"
+                             value="#{fornecedorMB.fornecedores}" >
+                    <p:column headerText="Empresa" sortBy="#{fornecedor.empresa.razaoSocial}" rendered="#{x:hasRole('campos.matriz')}">
+                        <f:facet name="header">
+                            <h:outputText value="Empresa" />
+                        </f:facet>
+                        <h:outputText value="#{fornecedor.empresa}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Código" sortBy="#{fornecedor.id}" style="text-align: right;"  >
+                        <f:facet name="header">
+                            <h:outputText value="Código" />
+                        </f:facet>
+                        <h:outputText value="#{fornecedor.id}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['fornecedor.cnpj']}" sortBy="#{fornecedor.cnpj}" style="text-align: right;" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['fornecedor.cnpj']}" />
+                        </f:facet>
+                        <h:outputText value="#{fornecedor.cnpj}" converter="cnpjConverter"/>
+                    </p:column>
+
+                    <p:column headerText="#{msg['fornecedor.razaoSocial']}" sortBy="#{fornecedor.razaoSocial}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['fornecedor.razaoSocial']}" />
+                        </f:facet>
+                        <h:outputText value="#{fornecedor.razaoSocial}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['fornecedor.tipo']}" sortBy="#{fornecedor.tipo}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['fornecedor.tipo']}" />
+                        </f:facet>
+                        <h:outputText value="#{fornecedor.tipo.descricao}"/>
+                    </p:column>
+
+
+                    <p:column headerText="#{msg['fornecedor.contato']}" sortBy="#{fornecedor.contato}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['fornecedor.contato']}" />
+                        </f:facet>
+                        <h:outputText value="#{fornecedor.contato}"/>
+                    </p:column>
+
+                    <p:column headerText="#{msg['fornecedor.foneContato']}" sortBy="#{fornecedor.foneContato}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['fornecedor.foneContato']}" />
+                        </f:facet>
+                        <h:outputText value="#{fornecedor.foneContato}"/>
+                    </p:column>
+
+                    <p:column headerText="#{msg['fornecedor.ativo']}" sortBy="#{fornecedor.ativo}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['fornecedor.ativo']}" />
+                        </f:facet>
+                        <h:outputText value="#{fornecedor.ativo}" converter ="yesNoConverter" />
+                    </p:column>
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+                        <p:commandButton oncomplete="PF('widgetFornecedorDetail').show();"  icon="ui-icon-zoomin" 
+                                         process="@form" update=":formDetailFornecedor" title="#{xmsg['detail']}" >
+                            <f:setPropertyActionListener value="#{fornecedor}" target="#{fornecedorMB.entity}" />
+                        </p:commandButton>
+                        <x:securityArea rolesAllowed="fornecedor.create">
+                            <p:button icon="ui-icon-pencil" outcome="createFornecedor" title="#{xmsg['edit']}">
+                                <f:param name="id" value="#{fornecedor.id}" />
+                            </p:button>
+                        </x:securityArea>
+                        <x:securityArea rolesAllowed="fornecedor.delete">
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                             action="#{fornecedorMB.delete}" >
+                                <f:setPropertyActionListener value="#{fornecedor.id}" target="#{fornecedorMB.id}" />
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{fornecedor}" />
+                            </p:commandButton>
+                        </x:securityArea>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+
+
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="fornecedor.audit">
+                    <x:auditDelete for="#{fornecedorMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetFornecedorDetail" header="#{msg['fornecedor.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailFornecedor.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

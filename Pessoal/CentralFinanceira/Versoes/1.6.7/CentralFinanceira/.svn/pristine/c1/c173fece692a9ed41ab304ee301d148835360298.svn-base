@@ -1,0 +1,347 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.com.jsoft.centralfinanceira.vo;
+
+/**
+ *
+ * @author Juniel
+ */
+public class DiaDiaVO {
+
+    private Long pos;
+
+    private String loja;
+
+    private Long dia_01;
+
+    private Long dia_02;
+
+    private Long dia_03;
+
+    private Long dia_04;
+
+    private Long dia_05;
+
+    private Long dia_06;
+
+    private Long dia_07;
+
+    private Long dia_08;
+
+    private Long dia_09;
+
+    private Long dia_10;
+
+    private Long dia_11;
+
+    private Long dia_12;
+
+    private Long dia_13;
+
+    private Long dia_14;
+
+    private Long dia_15;
+
+    private Long dia_16;
+
+    private Long dia_17;
+
+    private Long dia_18;
+
+    private Long dia_19;
+
+    private Long dia_20;
+
+    private Long dia_21;
+
+    private Long dia_22;
+
+    private Long dia_23;
+
+    private Long dia_24;
+
+    private Long dia_25;
+
+    private Long dia_26;
+
+    private Long dia_27;
+
+    private Long dia_28;
+
+    private Long dia_29;
+
+    private Long dia_30;
+
+    private Long dia_31;
+
+    public Long getPos() {
+        return pos;
+    }
+
+    public void setPos(Long pos) {
+        this.pos = pos;
+    }
+
+    public String getLoja() {
+        return loja;
+    }
+
+    public void setLoja(String loja) {
+        this.loja = loja;
+    }
+
+    
+    public Long getDia_01() {
+        return dia_01;
+    }
+
+    public void setDia_01(Long dia_01) {
+        this.dia_01 = dia_01;
+    }
+
+    public Long getDia_02() {
+        return dia_02;
+    }
+
+    public void setDia_02(Long dia_02) {
+        this.dia_02 = dia_02;
+    }
+
+    public Long getDia_03() {
+        return dia_03;
+    }
+
+    public void setDia_03(Long dia_03) {
+        this.dia_03 = dia_03;
+    }
+
+    public Long getDia_04() {
+        return dia_04;
+    }
+
+    public void setDia_04(Long dia_04) {
+        this.dia_04 = dia_04;
+    }
+
+    public Long getDia_05() {
+        return dia_05;
+    }
+
+    public void setDia_05(Long dia_05) {
+        this.dia_05 = dia_05;
+    }
+
+    public Long getDia_06() {
+        return dia_06;
+    }
+
+    public void setDia_06(Long dia_06) {
+        this.dia_06 = dia_06;
+    }
+
+    public Long getDia_07() {
+        return dia_07;
+    }
+
+    public void setDia_07(Long dia_07) {
+        this.dia_07 = dia_07;
+    }
+
+    public Long getDia_08() {
+        return dia_08;
+    }
+
+    public void setDia_08(Long dia_08) {
+        this.dia_08 = dia_08;
+    }
+
+    public Long getDia_09() {
+        return dia_09;
+    }
+
+    public void setDia_09(Long dia_09) {
+        this.dia_09 = dia_09;
+    }
+
+    public Long getDia_10() {
+        return dia_10;
+    }
+
+    public void setDia_10(Long dia_10) {
+        this.dia_10 = dia_10;
+    }
+
+    public Long getDia_11() {
+        return dia_11;
+    }
+
+    public void setDia_11(Long dia_11) {
+        this.dia_11 = dia_11;
+    }
+
+    public Long getDia_12() {
+        return dia_12;
+    }
+
+    public void setDia_12(Long dia_12) {
+        this.dia_12 = dia_12;
+    }
+
+    public Long getDia_13() {
+        return dia_13;
+    }
+
+    public void setDia_13(Long dia_13) {
+        this.dia_13 = dia_13;
+    }
+
+    public Long getDia_14() {
+        return dia_14;
+    }
+
+    public void setDia_14(Long dia_14) {
+        this.dia_14 = dia_14;
+    }
+
+    public Long getDia_15() {
+        return dia_15;
+    }
+
+    public void setDia_15(Long dia_15) {
+        this.dia_15 = dia_15;
+    }
+
+    public Long getDia_16() {
+        return dia_16;
+    }
+
+    public void setDia_16(Long dia_16) {
+        this.dia_16 = dia_16;
+    }
+
+    public Long getDia_17() {
+        return dia_17;
+    }
+
+    public void setDia_17(Long dia_17) {
+        this.dia_17 = dia_17;
+    }
+
+    public Long getDia_18() {
+        return dia_18;
+    }
+
+    public void setDia_18(Long dia_18) {
+        this.dia_18 = dia_18;
+    }
+
+    public Long getDia_19() {
+        return dia_19;
+    }
+
+    public void setDia_19(Long dia_19) {
+        this.dia_19 = dia_19;
+    }
+
+    public Long getDia_20() {
+        return dia_20;
+    }
+
+    public void setDia_20(Long dia_20) {
+        this.dia_20 = dia_20;
+    }
+
+    public Long getDia_21() {
+        return dia_21;
+    }
+
+    public void setDia_21(Long dia_21) {
+        this.dia_21 = dia_21;
+    }
+
+    public Long getDia_22() {
+        return dia_22;
+    }
+
+    public void setDia_22(Long dia_22) {
+        this.dia_22 = dia_22;
+    }
+
+    public Long getDia_23() {
+        return dia_23;
+    }
+
+    public void setDia_23(Long dia_23) {
+        this.dia_23 = dia_23;
+    }
+
+    public Long getDia_24() {
+        return dia_24;
+    }
+
+    public void setDia_24(Long dia_24) {
+        this.dia_24 = dia_24;
+    }
+
+    public Long getDia_25() {
+        return dia_25;
+    }
+
+    public void setDia_25(Long dia_25) {
+        this.dia_25 = dia_25;
+    }
+
+    public Long getDia_26() {
+        return dia_26;
+    }
+
+    public void setDia_26(Long dia_26) {
+        this.dia_26 = dia_26;
+    }
+
+    public Long getDia_27() {
+        return dia_27;
+    }
+
+    public void setDia_27(Long dia_27) {
+        this.dia_27 = dia_27;
+    }
+
+    public Long getDia_28() {
+        return dia_28;
+    }
+
+    public void setDia_28(Long dia_28) {
+        this.dia_28 = dia_28;
+    }
+
+    public Long getDia_29() {
+        return dia_29;
+    }
+
+    public void setDia_29(Long dia_29) {
+        this.dia_29 = dia_29;
+    }
+
+    public Long getDia_30() {
+        return dia_30;
+    }
+
+    public void setDia_30(Long dia_30) {
+        this.dia_30 = dia_30;
+    }
+
+    public Long getDia_31() {
+        return dia_31;
+    }
+
+    public void setDia_31(Long dia_31) {
+        this.dia_31 = dia_31;
+    }
+
+    
+    
+}

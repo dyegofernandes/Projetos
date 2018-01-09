@@ -1,0 +1,62 @@
+
+package zimbramail;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
+
+/**
+ * <p>Classe Java de modifySearchFolderResponse complex type.
+ * 
+ * <p>O seguinte fragmento do esquema especifica o conteúdo esperado contido dentro desta classe.
+ * 
+ * <pre>
+ * &lt;complexType name="modifySearchFolderResponse">
+ *   &lt;complexContent>
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       &lt;sequence>
+ *         &lt;element ref="{urn:zimbraMail}search"/>
+ *       &lt;/sequence>
+ *     &lt;/restriction>
+ *   &lt;/complexContent>
+ * &lt;/complexType>
+ * </pre>
+ * 
+ * 
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "modifySearchFolderResponse", propOrder = {
+    "search"
+})
+public class ModifySearchFolderResponse {
+
+    @XmlElement(required = true)
+    protected SearchFolder search;
+
+    /**
+     * Obtém o valor da propriedade search.
+     * 
+     * @return
+     *     possible object is
+     *     {@link SearchFolder }
+     *     
+     */
+    public SearchFolder getSearch() {
+        return search;
+    }
+
+    /**
+     * Define o valor da propriedade search.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link SearchFolder }
+     *     
+     */
+    public void setSearch(SearchFolder value) {
+        this.search = value;
+    }
+
+}

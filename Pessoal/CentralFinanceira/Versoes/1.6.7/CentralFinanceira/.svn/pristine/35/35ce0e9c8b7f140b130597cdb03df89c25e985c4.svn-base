@@ -1,0 +1,73 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['agenteCobrador.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuAgenteCobrador.xhtml" />
+        <h:form id="formListAgenteCobrador">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="agenteCobrador_export" target=":formListAgenteCobrador:dataTableAgenteCobrador"
+                                widgetVar="dataTableAgenteCobradorWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="agenteCobrador" rowIndexVar="index" id="dataTableAgenteCobrador" widgetVar="dataTableAgenteCobradorWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{agenteCobradorMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{agenteCobradorMB.dataModel.paginatorTemplate}"
+                         value="#{agenteCobradorMB.dataModel}" lazy="true" >
+                
+                <p:column headerText="Código" sortBy="#{agenteCobrador.id}"
+                          filterBy="#{agenteCobrador.id}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Código" />
+                    </f:facet>
+                    <h:outputText value="#{agenteCobrador.id}"/>
+                </p:column>
+                <p:column headerText="#{msg['agenteCobrador.nome']}" sortBy="#{agenteCobrador.nome}"
+                          filterBy="#{agenteCobrador.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agenteCobrador.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{agenteCobrador.nome}"/>
+                </p:column>
+
+               
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetAgenteCobradorDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailAgenteCobrador" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{agenteCobrador}" target="#{agenteCobradorMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="agenteCobrador.create">
+                        <p:button icon="ui-icon-pencil" outcome="createAgenteCobrador" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{agenteCobrador.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="agenteCobrador.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{agenteCobradorMB.delete}" >
+                            <f:setPropertyActionListener value="#{agenteCobrador.id}" target="#{agenteCobradorMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{agenteCobrador}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="agenteCobrador.audit">
+                    <x:auditDelete for="#{agenteCobradorMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetAgenteCobradorDetail" header="#{msg['agenteCobrador.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailAgenteCobrador.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

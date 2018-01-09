@@ -1,0 +1,163 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['cliente.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuCliente.xhtml" />
+        <h:form id="formListCliente">
+            <x:modalMessages/>
+            <p:fieldset legend="Filtros de Busca" toggleable="true">
+                <div class="row">
+                    <h:panelGroup id="panelGeral">
+                        <x:securityArea rolesAllowed="campos.matriz">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="empresa" value="Empresa:" />
+                                <h:selectOneMenu id="empresa" value="#{clienteMB.filtros.loja}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.loja_Filial)}" 
+                                                   var="loja_Filial"
+                                                   itemLabel="#{loja_Filial}"/>
+                                </h:selectOneMenu>
+                            </div>
+                        </x:securityArea>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="tipoDePessoa1" value="#{msg['cliente.tipoDePessoa']}:" />
+                            <h:selectOneMenu id="tipoDePessoa1" value="#{clienteMB.filtros.tipo}"  styleClass="form-control">
+                                <f:selectItems value="#{findAllBean.get(classMB.tipoDePessoa)}" 
+                                               var="tipoDePessoa"
+                                               itemLabel="#{tipoDePessoa.descricao}"/>
+                                <p:ajax update="@this panel0" />
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="codigo" value="Código:" />
+                            <p:inputMask id="codigo" mask="9?999999999" slotChar="" value="#{clienteMB.filtros.codigo1}" styleClass="form-control" />
+                        </div>
+                        <h:panelGroup id="panel0">
+                            <h:panelGroup rendered="#{clienteMB.filtros.tipo.num ==1}">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="cpf" value="#{msg['cliente.cpf']}:" />
+                                    <x:cpf id="cpf" value="#{clienteMB.filtros.cnpj}" styleClass="form-control"/>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="nome" value="#{msg['cliente.nome']}:" />
+                                    <p:inputText id="nome" value="#{clienteMB.filtros.nome}" maxlength="200"  
+                                                 styleClass="form-control"/>
+                                </div>
+
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{clienteMB.filtros.tipo.num ==2}">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="cnpj" value="#{msg['cliente.cnpj']}:" />
+                                    <x:cnpj id="cnpj" value="#{clienteMB.filtros.cnpj}" styleClass="form-control" />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="razaoSocial" value="#{msg['cliente.razaoSocial']}:" />
+                                    <p:inputText id="razaoSocial" value="#{clienteMB.filtros.nome}" maxlength="200"  
+                                                 styleClass="form-control"/>
+                                </div>
+
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </h:panelGroup>
+                </div>
+                <div class="uix-center">
+                    <p:commandButton process="@this panelGeral" update="dataTableCliente" action="#{clienteMB.buscar()}" value="Buscar" />
+                </div>
+
+            </p:fieldset>
+            <p:fieldset legend="Resultado da Busca" toggleable="true">
+                <x:dataTableActions fileName="cliente_export" target=":formListCliente:dataTableCliente"
+                                    widgetVar="dataTableClienteWidget"  />
+
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="cliente" rowIndexVar="index" id="dataTableCliente" widgetVar="dataTableClienteWidget" styleClass="table-responsive"
+                             value="#{clienteMB.clientes}" >
+                    <p:column headerText="Empresa" sortBy="#{cliente.empresa.razaoSocial}"
+                              rendered="#{x:hasRole('campos.matriz')}">
+                        <f:facet name="header">
+                            <h:outputText value="Empresa" />
+                        </f:facet>
+                        <h:outputText value="#{cliente.empresa}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['cliente.id']}" sortBy="#{cliente.id}"
+                              style="text-align: right;" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['cliente.id']}" />
+                        </f:facet>
+                        <h:outputText value="#{cliente.id}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['cliente.tipoDePessoa']}" sortBy="#{cliente.tipoDePessoa}"
+                              filterOptions="#{findAllBean.getSelect(classMB.tipoDePessoa)}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['cliente.tipoDePessoa']}" />
+                        </f:facet>
+                        <h:outputText value="#{cliente.tipoDePessoa.descricao}"/>
+                    </p:column>                 
+
+                    <p:column headerText="Nome/#{msg['cliente.razaoSocial']}" sortBy="#{cliente.razaoSocial}">
+                        <f:facet name="header">
+                            <h:outputText value="Nome/#{msg['cliente.razaoSocial']}" />
+                        </f:facet>
+                        <h:outputText value="#{cliente.razaoSocial}"/>
+                    </p:column>                               
+                    <p:column headerText="Cpf/#{msg['cliente.cnpj']}" sortBy="#{cliente.cnpj}"
+                              style="text-align: right;"   >
+                        <f:facet name="header">
+                            <h:outputText value="Cpf/#{msg['cliente.cnpj']}" />
+                        </f:facet>
+                        <h:outputText value="#{cliente.cnpj}"/>
+                    </p:column>
+
+                    <p:column headerText="#{msg['cliente.ativo']}" sortBy="#{cliente.ativo}"
+                              filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['cliente.ativo']}" />
+                        </f:facet>
+                        <h:outputText value="#{cliente.ativo}" converter ="yesNoConverter" />
+                    </p:column>
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+                        <p:commandButton oncomplete="PF('widgetClienteDetail').show();"  icon="ui-icon-zoomin" 
+                                         process="@form" update=":formDetailCliente" title="#{xmsg['detail']}" >
+                            <f:setPropertyActionListener value="#{cliente}" target="#{clienteMB.entity}" />
+                        </p:commandButton>
+                        <x:securityArea rolesAllowed="cliente.create">
+                            <p:button icon="ui-icon-pencil" outcome="createCliente" title="#{xmsg['edit']}">
+                                <f:param name="id" value="#{cliente.id}" />
+                            </p:button>
+                        </x:securityArea>
+                        <x:securityArea rolesAllowed="cliente.delete">
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                             action="#{clienteMB.delete}" >
+                                <f:setPropertyActionListener value="#{cliente.id}" target="#{clienteMB.id}" />
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{cliente}" />
+                            </p:commandButton>
+                        </x:securityArea>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+
+
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="cliente.audit">
+                    <x:auditDelete for="#{clienteMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetClienteDetail" header="#{msg['cliente.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailCliente.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

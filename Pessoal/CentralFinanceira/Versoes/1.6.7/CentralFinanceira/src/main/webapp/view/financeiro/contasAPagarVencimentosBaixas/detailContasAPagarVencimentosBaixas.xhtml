@@ -1,0 +1,96 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailContasAPagarVencimentosBaixas" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentosBaixas.empresa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosBaixasMB.entity.empresa}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentosBaixas.codigoVencimento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosBaixasMB.entity.codigoVencimento}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentosBaixas.dataVencimento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosBaixasMB.entity.dataVencimento}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentosBaixas.sequencialVencimento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosBaixasMB.entity.sequencialVencimento}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentosBaixas.sequencial']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosBaixasMB.entity.sequencial}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentosBaixas.data']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosBaixasMB.entity.data}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentosBaixas.valor']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosBaixasMB.entity.valor}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentosBaixas.desconto']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosBaixasMB.entity.desconto}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentosBaixas.juros']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosBaixasMB.entity.juros}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentosBaixas.automatica']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosBaixasMB.entity.automatica}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentosBaixas.dataCancel']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosBaixasMB.entity.dataCancel}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentosBaixas.obsCancel']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosBaixasMB.entity.obsCancel}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentosBaixas.multa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosBaixasMB.entity.multa}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentosBaixas.exportaAC']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosBaixasMB.entity.exportaAC}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagarVencimentosBaixas.jaExportado']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarVencimentosBaixasMB.entity.jaExportado}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetContasAPagarVencimentosBaixasDetail').hide()" />
+            <x:securityArea rolesAllowed="contasAPagarVencimentosBaixas.audit">
+                <x:audit for="#{contasAPagarVencimentosBaixasMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

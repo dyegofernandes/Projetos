@@ -1,0 +1,113 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateTransportadora" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tipoDePessoa" value="* Tipo Pessoa:" />
+                        <h:selectOneMenu id="tipoDePessoa" value="#{transportadoraMB.entity.tipo}"  styleClass="form-control" required="true" requiredMessage="Tipo de Pessoa requerido!">
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.tipoDePessoa)}" 
+                                           var="tipoDePessoa"
+                                           itemLabel="#{tipoDePessoa.descricao}"/>
+
+                            <p:ajax process="@this" update="panel1" />
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="* #{msg['transportadora.nome']}:" />
+                        <p:inputText id="nome" value="#{transportadoraMB.entity.nome}" maxlength="40"  styleClass="form-control"  />
+                    </div>
+                    <h:panelGroup id="panel1">
+                        <p:outputPanel rendered="#{transportadoraMB.entity.tipo.num ==2}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cnpj" value="* CNPJ:" />
+                                <x:cnpj id="cnpj" value="#{transportadoraMB.entity.cnpjCpf}"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="ie" value="* #{msg['transportadora.ie']}:" />
+                                <p:inputText id="ie" value="#{transportadoraMB.entity.ie}" maxlength="20"  styleClass="form-control"  />
+                            </div>
+                        </p:outputPanel>
+                        <p:outputPanel rendered="#{transportadoraMB.entity.tipo.num ==1}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cpf" value="* CPF:" />
+                                <x:cpf id="cpf" value="#{transportadoraMB.entity.cnpjCpf}"  styleClass="form-control"  />
+                            </div>
+                        </p:outputPanel>
+                    </h:panelGroup>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="endereco" value="* #{msg['transportadora.endereco']}:" />
+                        <p:inputText id="endereco" value="#{transportadoraMB.entity.endereco}" maxlength="100"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="municipio" value="* #{msg['transportadora.municipio']}:" />
+                        <h:selectOneMenu id="municipio" value="#{transportadoraMB.entity.municipio}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.cidade)}" 
+                                           var="cidade"
+                                           itemLabel="#{cidade}"/>
+                        </h:selectOneMenu>
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="contato" value="#{msg['transportadora.contato']}:" />
+                        <p:inputText id="contato" value="#{transportadoraMB.entity.contato}" maxlength="40"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="fone" value="#{msg['transportadora.fone']}:" />
+                        <p:inputMask id="fone" value="#{transportadoraMB.entity.fone}" mask="(99) 9999-9999" styleClass="form-control" converter="foneConverter"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="email" value="#{msg['transportadora.email']}:" />
+                        <p:inputText id="email" value="#{transportadoraMB.entity.email}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="fornecedor" value="#{msg['transportadora.fornecedor']}:" />
+                        <h:selectOneMenu id="fornecedor" value="#{transportadoraMB.entity.fornecedor}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.fornecedor)}" 
+                                           var="fornecedor"
+                                           itemLabel="#{fornecedor}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="rntc" value="#{msg['transportadora.rntc']}:" />
+                        <p:inputText id="rntc" value="#{transportadoraMB.entity.rntc}" maxlength="20"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="placa" value="#{msg['transportadora.placa']}:" />
+                        <p:inputText id="placa" value="#{transportadoraMB.entity.placa}" maxlength="8"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="ufPlaca" value="#{msg['transportadora.ufPlaca']}:" />
+                        <p:inputText id="ufPlaca" value="#{transportadoraMB.entity.ufPlaca}" maxlength="2"  styleClass="form-control"  />
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="transportadora.create">
+                <p:commandButton process="@form" update="@form" action="#{transportadoraMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="transportadora.audit">
+                <x:audit for="#{transportadoraMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

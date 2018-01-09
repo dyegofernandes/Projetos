@@ -1,0 +1,110 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailGrupoLoja" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['grupoLoja.nome']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{grupoLojaMB.entity.nome}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['grupoLoja.att']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{grupoLojaMB.entity.att}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['grupoLoja.juntar']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{grupoLojaMB.entity.juntar}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['grupoLoja.banco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{grupoLojaMB.entity.banco}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['grupoLoja.agencia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{grupoLojaMB.entity.agencia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['grupoLoja.conta']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{grupoLojaMB.entity.conta}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['grupoLoja.tipoConta']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{grupoLojaMB.entity.tipoConta}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['grupoLoja.titular']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{grupoLojaMB.entity.titular}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['grupoLoja.garantia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{grupoLojaMB.entity.garantia}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['grupoLoja.iss']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{grupoLojaMB.entity.iss}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['grupoLoja.naodepositar']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{grupoLojaMB.entity.naodepositar}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['grupoLoja.obs']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{grupoLojaMB.entity.obs}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['grupoLoja.calguia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{grupoLojaMB.entity.calguia}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['grupoLoja.titular_nascimento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{grupoLojaMB.entity.titular_nascimento}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['grupoLoja.titular_rg']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{grupoLojaMB.entity.titular_rg}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['grupoLoja.titular_rgemissor']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{grupoLojaMB.entity.titular_rgemissor}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['grupoLoja.titular_cpf']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{grupoLojaMB.entity.titular_cpf}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['grupoLoja.titular_email']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{grupoLojaMB.entity.titular_email}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['grupoLoja.titular_email2']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{grupoLojaMB.entity.titular_email2}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['grupoLoja.proprietario']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{grupoLojaMB.entity.proprietario}" styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetGrupoLojaDetail').hide()" />
+            <x:securityArea rolesAllowed="grupoLoja.audit">
+                <x:audit for="#{grupoLojaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

@@ -1,0 +1,90 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailEmpresa" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['empresa.nomeFantasia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{empresaMB.entity.nomeFantasia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['empresa.razaosocial']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{empresaMB.entity.razaosocial}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['empresa.cnpj']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{empresaMB.entity.cnpj}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['empresa.endereco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{empresaMB.entity.endereco}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['empresa.nroLocal']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{empresaMB.entity.nroLocal}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['empresa.bairro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{empresaMB.entity.bairro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['empresa.complemento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{empresaMB.entity.complemento}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['empresa.cidade']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{empresaMB.entity.cidade}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['empresa.uf']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{empresaMB.entity.uf}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['empresa.iss']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{empresaMB.entity.iss}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['empresa.cep']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{empresaMB.entity.cep}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['empresa.telefone']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{empresaMB.entity.telefone}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['empresa.celular']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{empresaMB.entity.celular}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['empresa.fax']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{empresaMB.entity.fax}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['empresa.email']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{empresaMB.entity.email}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['empresa.valorTarifa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{empresaMB.entity.valorTarifa}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetEmpresaDetail').hide()" />
+            <x:securityArea rolesAllowed="empresa.audit">
+                <x:audit for="#{empresaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

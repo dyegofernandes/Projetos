@@ -1,0 +1,170 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailContasAPagar" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.empresa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.empresa}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.estabelecimento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.estabelecimento}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.fornecedor']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.fornecedor}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.tipoDeDocumento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.tipoDeDocumento}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.centroResultado']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.centroResultado}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.receitaDespesa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.receitaDespesa}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.contaFinanceira']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.contaFinanceira}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.obs']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.obs}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.historicoPadrao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.historicoPadrao}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.issBase']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.issBase}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.issValor']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.issValor}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.irrfBase']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.irrfBase}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.irrfCpf']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.irrfCpf}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.irrfCnpj']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.irrfCnpj}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.icmsBase']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.icmsBase}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.icmsValor']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.icmsValor}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.pisBase']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.pisBase}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.pisValor']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.pisValor}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.inssBase']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.inssBase}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.inssCpf']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.inssCpf}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.inssCnpj']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.inssCnpj}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.inssEmp']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.inssEmp}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.exportaAC']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.exportaAC}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.anoMesComp']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.anoMesComp}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.entrada']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.entrada}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contasAPagar.emissao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contasAPagarMB.entity.emissao}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetContasAPagarDetail').hide()" />
+            <x:securityArea rolesAllowed="contasAPagar.audit">
+                <x:audit for="#{contasAPagarMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

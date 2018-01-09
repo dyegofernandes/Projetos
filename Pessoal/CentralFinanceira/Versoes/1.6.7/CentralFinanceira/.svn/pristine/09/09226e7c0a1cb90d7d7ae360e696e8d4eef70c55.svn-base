@@ -1,0 +1,34 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailVencimentoCancelar" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="data" value="* Data:" />
+                    <p:calendar id="data" value="#{contasAPagarMB.vencimentoCancelado.dataCancelamento}" 
+                                showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  required="true" requiredMessage="Data do Cancelamento é Obrigatório!">
+                        <x:mask/>
+                    </p:calendar>
+                </div>
+               
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="motivo" value="* Motivo:" />
+                    <p:inputText id="motivo" value="#{contasAPagarMB.vencimentoCancelado.motivoCancelamento}" maxlength="255"  styleClass="form-control"  required="true"
+                                 requiredMessage="O Motivo do Cancelamento é Obrigatório!"/>
+                </div>
+               
+            </div>      
+        </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton ajax="true" value="Ok" icon="ui-icon-cancel" action="#{contasAPagarMB.cancelarVencimento}" 
+                             process="@form" update=":formCreateContasAPagar:tabView:dataTableContasAPagarVencimentos"/>
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetCanceldarVencimento').hide()" />
+        </div>
+
+    </h:form>
+</ui:composition>

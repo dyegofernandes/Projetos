@@ -1,0 +1,67 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['grupoContaFinanceira.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuGrupoContaFinanceira.xhtml" />
+        <h:form id="formListGrupoContaFinanceira">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="grupoContaFinanceira_export" target=":formListGrupoContaFinanceira:dataTableGrupoContaFinanceira"
+                                     widgetVar="dataTableGrupoContaFinanceiraWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="grupoContaFinanceira" rowIndexVar="index" id="dataTableGrupoContaFinanceira" widgetVar="dataTableGrupoContaFinanceiraWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{grupoContaFinanceiraMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{grupoContaFinanceiraMB.dataModel.paginatorTemplate}"
+                         value="#{grupoContaFinanceiraMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                
+                <p:column headerText="#{msg['grupoContaFinanceira.nome']}" sortBy="#{grupoContaFinanceira.nome}"
+                    filterBy="#{grupoContaFinanceira.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['grupoContaFinanceira.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{grupoContaFinanceira.nome}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetGrupoContaFinanceiraDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailGrupoContaFinanceira" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{grupoContaFinanceira}" target="#{grupoContaFinanceiraMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="grupoContaFinanceira.create">
+                        <p:button icon="ui-icon-pencil" outcome="createGrupoContaFinanceira" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{grupoContaFinanceira.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="grupoContaFinanceira.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{grupoContaFinanceiraMB.delete}" >
+                            <f:setPropertyActionListener value="#{grupoContaFinanceira.id}" target="#{grupoContaFinanceiraMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{grupoContaFinanceira}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="grupoContaFinanceira.audit">
+                    <x:auditDelete for="#{grupoContaFinanceiraMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetGrupoContaFinanceiraDetail" header="#{msg['grupoContaFinanceira.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailGrupoContaFinanceira.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

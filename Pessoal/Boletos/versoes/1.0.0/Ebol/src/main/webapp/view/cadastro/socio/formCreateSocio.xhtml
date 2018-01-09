@@ -1,0 +1,127 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateSocio" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:tabView id="tabView">
+            <p:tab title="#{msg['dadosGerais']}" id="tabGeral">
+                <h:panelGroup id="panelDadosBasicos">
+                    <p:fieldset legend="#{xmsg['generalData']}">
+                        <div class="container-fluid">
+                            <div class="row">
+                                
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="nome" value="* #{msg['socio.nome']}:" />
+                                    <p:inputText id="nome" value="#{socioMB.entity.nome}" maxlength="50"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="email" value="#{msg['socio.email']}:" />
+                                    <p:inputText id="email" value="#{socioMB.entity.email}" maxlength="50"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="telefones" value="#{msg['socio.telefones']}:" />
+                                    <p:inputText id="telefones" value="#{socioMB.entity.telefones}" maxlength="50"  styleClass="form-control"  />
+                                </div>
+
+                            </div>
+                        </div>
+                    </p:fieldset>
+                </h:panelGroup>
+            </p:tab>
+            <p:tab title="#{msg['dadosGerais']}" id="tabFamiliar">
+                <h:panelGroup id="panelUm">
+                    <div class="container-fluid">
+                        <div class="row">
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomeFamiliar" value="* #{msg['familiar.nome']}:" />
+                                <p:inputText id="nomeFamiliar" value="#{socioMB.familiarAdd.nome}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="parentescoFamiliar" value="* #{msg['familiar.parentesco']}:" />
+                                <p:inputText id="parentescoFamiliar" value="#{socioMB.familiarAdd.parentesco}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nascimentoFamiliar" value="#{msg['familiar.nascimento']}:" />
+                                <p:calendar id="nascimentoFamiliar" value="#{socioMB.familiarAdd.nascimento}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="obsFamiliar" value="#{msg['familiar.obs']}:" />
+                                <p:inputText id="obsFamiliar" value="#{socioMB.familiarAdd.obs}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+
+                        </div>
+                        <div class="uix-center">
+                            <p:commandButton ajax="true" value="Adicionar" action="#{socioMB.addFamiliar()}" 
+                                             process="@this formCreateSocio:tabView:panelUm" update=":formCreateSocio:tabView:panelUm"/>
+                        </div>
+                        <div class="row">
+                            <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                         var="familiar" rowIndexVar="index" id="dataTableFamiliar" value="#{socioMB.familiares}">
+                                <p:column styleClass="uix-datatable-index">
+                                    <h:outputText value="#{index+1}"/>
+                                </p:column>
+
+                                <p:column headerText="#{msg['familiar.nome']}" >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['familiar.nome']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{familiar.nome}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['familiar.parentesco']}"  >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['familiar.parentesco']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{familiar.parentesco}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['familiar.nascimento']}" style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['familiar.nascimento']}" />                  
+                                    </f:facet>
+                                    <h:outputText value="#{familiar.nascimento}">
+                                        <f:convertDateTime />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="#{msg['familiar.obs']}" >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['familiar.obs']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{familiar.obs}"/>
+                                </p:column>
+                                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{xmsg['actions']}"/>
+                                    </f:facet>
+
+                                    <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" update=":formCreateSocio:tabView:dataTableFamiliar" 
+                                                     process="@this" action="#{socioMB.removerFamiliar(familiar)}" >
+                                    </p:commandButton>
+
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+
+                    </div>
+                </h:panelGroup>
+            </p:tab>
+        </p:tabView>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="socio.create">
+                <p:commandButton process="@this :formCreateSocio:tabView:panelDadosBasicos" update="@form" action="#{socioMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="socio.audit">
+                <x:audit for="#{socioMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

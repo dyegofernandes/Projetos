@@ -1,0 +1,40 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailCalGuiaItem" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['calGuiaItem.calguia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{calGuiaItemMB.entity.calguia}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['calGuiaItem.limiteInferior']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{calGuiaItemMB.entity.limiteInferior}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['calGuiaItem.limiteSuperior']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{calGuiaItemMB.entity.limiteSuperior}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['calGuiaItem.unitario']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{calGuiaItemMB.entity.unitario}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetCalGuiaItemDetail').hide()" />
+            <x:securityArea rolesAllowed="calGuiaItem.audit">
+                <x:audit for="#{calGuiaItemMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

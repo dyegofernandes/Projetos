@@ -1,0 +1,158 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateLoteEnvio" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:fieldset legend="#{xmsg['generalData']}">
+
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="versaoEnvio" value="* #{msg['loteEnvio.versaoEnvio']}:" />
+                        <p:inputText id="versaoEnvio" value="#{loteEnvioMB.entity.versaoEnvio}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="indicadorProcessamento" value="* #{msg['loteEnvio.indicadorProcessamento']}:" />
+                        <h:selectOneMenu id="indicadorProcessamento" value="#{loteEnvioMB.entity.indicadorProcessamento}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.loteIndicadorProcessamento)}" 
+                                           var="loteIndicadorProcessamento"
+                                           itemLabel="#{loteIndicadorProcessamento.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+
+
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Notas">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <h:panelGroup id="panelNotas">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="nota" value="* Nota Fiscal:" />
+                            <h:selectOneMenu id="nota" value="#{loteEnvioMB.notaAdd}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{loteEnvioMB.notasAutocomplete}" 
+                                               var="notaVar"
+                                               itemLabel="#{notaVar}"/>                               
+                            </h:selectOneMenu>
+                        </div>  
+
+                    </h:panelGroup>
+                </div>
+                <div class="row">
+                    <div class="uix-center">
+                        <p:commandButton ajax="true" value="Adicionar" action="#{loteEnvioMB.addNota}" 
+                                         process="@this :formCreateLoteEnvio:panelNotas" update=":formCreateLoteEnvio:dataTableNotaFiscal"/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="notaFiscal" rowIndexVar="index" id="dataTableNotaFiscal" widgetVar="dataTableNotaFiscalWidget" styleClass="table-responsive"                                 
+                                 value="#{loteEnvioMB.notas}" lazy="true" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="Empresa" sortBy="#{notaFiscal.loja}"
+                                  filterBy="#{notaFiscal.loja.razaoSocial}"  >
+                            <f:facet name="header">
+                                <h:outputText value="Empresa" />
+                            </f:facet>
+                            <h:outputText value="#{notaFiscal.loja}">
+                                <x:initializer/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{msg['notaFiscal.venda']}" style="text-align: right;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['notaFiscal.venda']}" />
+                            </f:facet>
+                            <h:outputText value="#{notaFiscal.venda}">
+                                <x:initializer/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Cliente"  >
+                            <f:facet name="header">
+                                <h:outputText value="Cliente" />
+                            </f:facet>
+                            <h:outputText value="#{notaFiscal.venda.cliente}">
+                                <x:initializer/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{msg['notaFiscal.numeroNota']}" style="text-align: right;" >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['notaFiscal.numeroNota']}" />
+                            </f:facet>
+                            <h:outputText value="#{notaFiscal.numeroNota}"/>
+                        </p:column>
+
+                        <p:column headerText="Data da Venda" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Data da Venda" />
+
+                            </f:facet>
+                            <h:outputText value="#{notaFiscal.venda.dataVenda}">
+                                <f:convertDateTime />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Data da Nota" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="Data da Nota" />
+
+                            </f:facet>
+                            <h:outputText value="#{notaFiscal.dataEmissao}">
+                                <f:convertDateTime />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{msg['venda.totalAPagar']}" style="text-align: right;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['venda.totalAPagar']}" />
+                            </f:facet>
+                            <h:outputText value="#{notaFiscal.venda.totalAPagar}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>    
+                        <p:column headerText="#{msg['notaFiscal.status']}" >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['notaFiscal.status']}" />
+                            </f:facet>
+                            <h:outputText value="#{notaFiscal.status.descricao}"/>
+                        </p:column>
+
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>
+
+                            <p:commandButton icon="ui-icon-cancel" ajax="false" 
+                                             process="@form" title="Remover Nota Fiscal"  action="#{loteEnvioMB.removerNota(notaFiscal)}" 
+                                             disabled="#{notaFiscal.status.num==2 || notaFiscal.status.num==1}">
+                            </p:commandButton>
+
+                        </p:column>
+
+                    </p:dataTable>
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="loteEnvio.create">
+                <p:commandButton process="@form" update="@form" action="#{loteEnvioMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="loteEnvio.audit">
+                <x:audit for="#{loteEnvioMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,171 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['funcionario.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuFuncionario.xhtml" />
+        <h:form id="formListFuncionario">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="empresa" value="#{msg['funcionario.empresa']}:" />
+                        <h:selectOneMenu id="empresa" value="#{funcionarioMB.campoDeBusca.empresa}" converter="entityConverter" styleClass="form-control" 
+                                         >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{funcionarioMB.empresas}" 
+                                           var="empresa"
+                                           itemLabel="#{empresa.cdBanco} - #{empresa.nomeFantasia}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="#{msg['funcionario.nome']}:" />
+                        <p:inputText id="nome" value="#{funcionarioMB.campoDeBusca.nome}" maxlength="45"  styleClass="form-control" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cpf" value="#{msg['funcionario.cpf']}:" />
+                        <x:cpf id="cpf" value="#{funcionarioMB.campoDeBusca.cpf}" styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="rg" value="Identidade:" />
+                        <p:inputText id="rg" value="#{funcionarioMB.campoDeBusca.rg}" maxlength="20"  styleClass="form-control"  
+                                     />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="funcao" value="Função:" />
+                         <p:inputText id="funcao" value="#{funcionarioMB.campoDeBusca.funcao}" maxlength="30"  styleClass="form-control"  
+                                      />
+                     </div>
+                    
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="ativo" value="Ativo:" />
+                        <h:selectOneMenu id="ativo" value="#{funcionarioMB.ativo}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.ativo)}" 
+                                           var="ativo"
+                                           itemLabel="#{ativo.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                     
+                </div>
+            </div>
+            
+            <div class="uix-center">
+
+                <p:commandButton process="@form" update="formListFuncionario:dataTableFuncionario" action="#{funcionarioMB.buscar}" value="Buscar" ajax="true" />
+
+            </div>
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="funcionario_export" target=":formListFuncionario:dataTableFuncionario"
+                                widgetVar="dataTableFuncionarioWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="funcionario" rowIndexVar="index" id="dataTableFuncionario" widgetVar="dataTableFuncionarioWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{funcionarioMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{funcionarioMB.dataModel.paginatorTemplate}"
+                         value="#{funcionarioMB.funcioriosPorEmpresa}" filteredValue="#{funcionarioMB.funcioriosPorEmpresaFiltrados}" lazy="false" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['funcionario.empresa']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['funcionario.empresa']}" />
+                    </f:facet>
+                    <h:outputText value="#{funcionario.empresa.nomeFantasia}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['funcionario.nome']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['funcionario.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{funcionario.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['funcionario.cpf']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['funcionario.cpf']}" />
+                    </f:facet>
+                    <h:outputText converter="cpfConverter" value="#{funcionario.cpf}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['funcionario.telefone']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['funcionario.telefone']}" />
+                    </f:facet>
+                    <h:outputText value="#{funcionario.telefone}"/>
+                </p:column>
+                <p:column headerText="#{msg['funcionario.celular']}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['funcionario.celular']}" />
+                    </f:facet>
+                    <h:outputText value="#{funcionario.celular}"/>
+                </p:column>
+                <p:column headerText="#{msg['funcionario.nascimento']}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['funcionario.nascimento']}" />
+                   
+                    </f:facet>
+                    <h:outputText value="#{funcionario.nascimento}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['funcionario.salario']}" style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['funcionario.salario']}" />
+                    </f:facet>
+                    <h:outputText value="#{funcionario.salario}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['funcionario.funcao']}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['funcionario.funcao']}" />
+                    </f:facet>
+                    <h:outputText value="#{funcionario.funcao}"/>
+                </p:column>
+                <p:column headerText="Situação" sortBy="#{funcionario.ativo}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Ativo?" />
+                    </f:facet>
+                    <h:outputText value="#{funcionario.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetFuncionarioDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailFuncionario" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{funcionario}" target="#{funcionarioMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="funcionario.create">
+                        <p:button icon="ui-icon-pencil" outcome="createFuncionario" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{funcionario.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="funcionario.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{funcionarioMB.delete}" >
+                            <f:setPropertyActionListener value="#{funcionario.id}" target="#{funcionarioMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{funcionario}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="funcionario.audit">
+                    <x:auditDelete for="#{funcionarioMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetFuncionarioDetail" header="#{msg['funcionario.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailFuncionario.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

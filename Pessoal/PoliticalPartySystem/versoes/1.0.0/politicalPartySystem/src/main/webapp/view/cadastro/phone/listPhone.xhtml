@@ -1,0 +1,101 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['phone.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuPhone.xhtml" />
+        <h:form id="formListPhone">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="phone_export" target=":formListPhone:dataTablePhone"
+                                     widgetVar="dataTablePhoneWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="phone" rowIndexVar="index" id="dataTablePhone" widgetVar="dataTablePhoneWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{phoneMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{phoneMB.dataModel.paginatorTemplate}"
+                         value="#{phoneMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['phone.typePhone']}" sortBy="#{phone.typePhone}"
+                    filterBy="#{phone.typePhone}"  filterOptions="#{findAllBean.getSelect(classMB.typePhone)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['phone.typePhone']}" />
+                    </f:facet>
+                    <h:outputText value="#{phone.typePhone}"/>
+                </p:column>
+                <p:column headerText="#{msg['phone.ddd']}" sortBy="#{phone.ddd}"
+                    filterBy="#{phone.ddd}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['phone.ddd']}" />
+                    </f:facet>
+                    <h:outputText value="#{phone.ddd}"/>
+                </p:column>
+                <p:column headerText="#{msg['phone.number']}" sortBy="#{phone.number}"
+                    filterBy="#{phone.number}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['phone.number']}" />
+                    </f:facet>
+                    <h:outputText value="#{phone.number}"/>
+                </p:column>
+                <p:column headerText="#{msg['phone.branch']}" sortBy="#{phone.branch}"
+                    filterBy="#{phone.branch}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['phone.branch']}" />
+                    </f:facet>
+                    <h:outputText value="#{phone.branch}"/>
+                </p:column>
+                <p:column headerText="#{msg['phone.contact']}" sortBy="#{phone.contact}"
+                    filterBy="#{phone.contact}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['phone.contact']}" />
+                    </f:facet>
+                    <h:outputText value="#{phone.contact}"/>
+                </p:column>
+                <p:column headerText="#{msg['phone.active']}" sortBy="#{phone.active}"
+                    filterBy="#{phone.active}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['phone.active']}" />
+                    </f:facet>
+                    <h:outputText value="#{phone.active}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetPhoneDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailPhone" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{phone}" target="#{phoneMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="phone.create">
+                        <p:button icon="ui-icon-pencil" outcome="createPhone" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{phone.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="phone.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{phoneMB.delete}" >
+                            <f:setPropertyActionListener value="#{phone.id}" target="#{phoneMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{phone}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="phone.audit">
+                    <x:auditDelete for="#{phoneMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetPhoneDetail" header="#{msg['phone.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailPhone.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

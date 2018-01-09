@@ -1,0 +1,142 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['legalPerson.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuLegalPerson.xhtml" />
+        <h:form id="formListLegalPerson">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="legalPerson_export" target=":formListLegalPerson:dataTableLegalPerson"
+                                     widgetVar="dataTableLegalPersonWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="legalPerson" rowIndexVar="index" id="dataTableLegalPerson" widgetVar="dataTableLegalPersonWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{legalPersonMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{legalPersonMB.dataModel.paginatorTemplate}"
+                         value="#{legalPersonMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['legalPerson.subsidiary']}" sortBy="#{legalPerson.subsidiary}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['legalPerson.subsidiary']}" />
+                    </f:facet>
+                    <h:outputText value="#{legalPerson.subsidiary}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['legalPerson.corporateName']}" sortBy="#{legalPerson.corporateName}"
+                    filterBy="#{legalPerson.corporateName}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['legalPerson.corporateName']}" />
+                    </f:facet>
+                    <h:outputText value="#{legalPerson.corporateName}"/>
+                </p:column>
+                <p:column headerText="#{msg['legalPerson.fancyName']}" sortBy="#{legalPerson.fancyName}"
+                    filterBy="#{legalPerson.fancyName}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['legalPerson.fancyName']}" />
+                    </f:facet>
+                    <h:outputText value="#{legalPerson.fancyName}"/>
+                </p:column>
+                <p:column headerText="#{msg['legalPerson.cnpj']}" sortBy="#{legalPerson.cnpj}"
+                    filterBy="#{legalPerson.cnpj}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['legalPerson.cnpj']}" />
+                    </f:facet>
+                    <h:outputText value="#{legalPerson.cnpj}"/>
+                </p:column>
+                <p:column headerText="#{msg['legalPerson.stateRegistration']}" sortBy="#{legalPerson.stateRegistration}"
+                    filterBy="#{legalPerson.stateRegistration}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['legalPerson.stateRegistration']}" />
+                    </f:facet>
+                    <h:outputText value="#{legalPerson.stateRegistration}"/>
+                </p:column>
+                <p:column headerText="#{msg['legalPerson.LOG']}" sortBy="#{legalPerson.LOG}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['legalPerson.LOG']}" />
+                    </f:facet>
+                    <h:outputText value="#{legalPerson.LOG}"/>
+                </p:column>
+                <p:column headerText="#{msg['legalPerson.photo']}" sortBy="#{legalPerson.photo}"
+                    filterBy="#{legalPerson.photo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['legalPerson.photo']}" />
+                    </f:facet>
+                    <h:outputText value="#{legalPerson.photo}"/>
+                </p:column>
+                <p:column headerText="#{msg['legalPerson.email']}" sortBy="#{legalPerson.email}"
+                    filterBy="#{legalPerson.email}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['legalPerson.email']}" />
+                    </f:facet>
+                    <h:outputText value="#{legalPerson.email}"/>
+                </p:column>
+                <p:column headerText="#{msg['legalPerson.phone']}" sortBy="#{legalPerson.phone}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['legalPerson.phone']}" />
+                    </f:facet>
+                    <h:outputText value="#{legalPerson.phone}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['legalPerson.address']}" sortBy="#{legalPerson.address}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['legalPerson.address']}" />
+                    </f:facet>
+                    <h:outputText value="#{legalPerson.address}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['legalPerson.active']}" sortBy="#{legalPerson.active}"
+                    filterBy="#{legalPerson.active}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['legalPerson.active']}" />
+                    </f:facet>
+                    <h:outputText value="#{legalPerson.active}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetLegalPersonDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailLegalPerson" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{legalPerson}" target="#{legalPersonMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="legalPerson.create">
+                        <p:button icon="ui-icon-pencil" outcome="createLegalPerson" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{legalPerson.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="legalPerson.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{legalPersonMB.delete}" >
+                            <f:setPropertyActionListener value="#{legalPerson.id}" target="#{legalPersonMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{legalPerson}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="legalPerson.audit">
+                    <x:auditDelete for="#{legalPersonMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetLegalPersonDetail" header="#{msg['legalPerson.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailLegalPerson.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

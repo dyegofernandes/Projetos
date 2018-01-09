@@ -1,0 +1,390 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateContasAPagar" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:tabView id="tabView">
+            <p:tab title="#{msg['dadosGerais']}" id="tabGeral">
+                <p:fieldset legend="#{xmsg['generalData']}" toggleable="true" toggleSpeed="500">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="empresa" value="* #{msg['contasAPagar.empresa']}:" />
+                                <h:selectOneMenu id="empresa" value="#{contasAPagarMB.entity.empresa}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.empresa)}" 
+                                                   var="empresa"
+                                                   itemLabel="#{empresa}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="estabelecimento" value="* #{msg['contasAPagar.estabelecimento']}:" />
+                                <h:selectOneMenu id="estabelecimento" value="#{contasAPagarMB.entity.estabelecimento}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.estabelecimento)}" 
+                                                   var="estabelecimento"
+                                                   itemLabel="#{estabelecimento}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="fornecedor" value="* #{msg['contasAPagar.fornecedor']}:" />
+                                <h:selectOneMenu id="fornecedor" value="#{contasAPagarMB.entity.fornecedor}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.fornecedor)}" 
+                                                   var="fornecedor"
+                                                   itemLabel="#{fornecedor}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="tipoDeDocumento" value="* #{msg['contasAPagar.tipoDeDocumento']}:" />
+                                <h:selectOneMenu id="tipoDeDocumento" value="#{contasAPagarMB.entity.tipoDeDocumento}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.tipoDocumento)}" 
+                                                   var="tipoDocumento"
+                                                   itemLabel="#{tipoDocumento}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="documento" value="Documento:" />
+                                <p:inputText id="documento" value="#{contasAPagarMB.entity.documento}" maxlength="40"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="entrada" value="* #{msg['contasAPagar.entrada']}:" />
+                                <p:calendar id="entrada" value="#{contasAPagarMB.entity.entrada}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  required="true" requiredMessage="Data de Entrada é Obrigatório!">
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="valorBruto" value="* Valor Bruto:" />
+                                <x:inputNumber id="valorBruto" value="#{contasAPagarMB.entity.valorBruto}" styleClass="form-control" required="true" requiredMessage="Valor Bruto é Obrigatório!">
+                                    <p:ajax event="blur" process="@this" update=":formCreateContasAPagar:tabView:panel1" listener="#{contasAPagarMB.setarValorLiquido}"/>
+                                </x:inputNumber>
+                            </div>
+                            <h:panelGroup id="panel1">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="valorLiquido" value="* Valor Líquido:" />
+                                    <x:inputNumber id="valorLiquido" value="#{contasAPagarMB.entity.valor}" styleClass="form-control" required="true" requiredMessage="Valor Líquido é Obrigatório!" disabled="true"/>
+                                </div>
+                            </h:panelGroup>
+                            <h:panelGroup id="panelPeriodo">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="anoMesComp" value="Mes/Ano:" />
+                                    <p:inputMask id="anoMesComp" value="#{contasAPagarMB.entity.anoMesComp}" mask="99/9999"  styleClass="form-control" converter="dataParaPeriodoString" />
+                                </div>
+                            </h:panelGroup>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="centroResultado" value="#{msg['contasAPagar.centroResultado']}:" />
+                                <h:selectOneMenu id="centroResultado" value="#{contasAPagarMB.entity.centroResultado}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.centroResultados)}" 
+                                                   var="centroResultados"
+                                                   itemLabel="#{centroResultados}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="receitaDespesa" value="Despesa:" />
+                                <h:selectOneMenu id="receitaDespesa" value="#{contasAPagarMB.entity.receitaDespesa}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.receitaDespesa)}" 
+                                                   var="receitaDespesa"
+                                                   itemLabel="#{receitaDespesa}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="contaFinanceira" value="#{msg['contasAPagar.contaFinanceira']}:" />
+                                <h:selectOneMenu id="contaFinanceira" value="#{contasAPagarMB.entity.contaFinanceira}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.contaFinanceira)}" 
+                                                   var="contaFinanceira"
+                                                   itemLabel="#{contaFinanceira}"/>
+                                </h:selectOneMenu>
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="historicoPadrao" value="#{msg['contasAPagar.historicoPadrao']}:" />
+                                <h:selectOneMenu id="historicoPadrao" value="#{contasAPagarMB.entity.historicoPadrao}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.historicoPadrao)}" 
+                                                   var="historicoPadrao"
+                                                   itemLabel="#{historicoPadrao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="obs" value="#{msg['contasAPagar.obs']}:" />
+                                <p:inputTextarea id="obs" value="#{contasAPagarMB.entity.obs}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="exportaAC" value="#{contasAPagarMB.entity.exportaAC}" />
+                                        #{msg['contasAPagar.exportaAC']}
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Tributos" toggleable="true" toggleSpeed="500">
+                    <p:fieldset legend="ISS">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="issBase:input" value="Base de Cálculo:" />
+                            <x:inputNumber id="issBase" value="#{contasAPagarMB.entity.issBase}" styleClass="form-control">
+                                <p:ajax event="blur" process="@this :formCreateContasAPagar:tabView:panel2" update=":formCreateContasAPagar:tabView:panel2 :formCreateContasAPagar:tabView:panel1" listener="#{contasAPagarMB.setarValorIss}"/>
+
+                            </x:inputNumber>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="aliqIss" value="Alíquota:" />
+                            <x:inputNumber id="aliqIss" value="#{contasAPagarMB.aliqIss}" styleClass="form-control">
+                                <p:ajax event="blur" process="@this :formCreateContasAPagar:tabView:panel2" update=":formCreateContasAPagar:tabView:panel2 :formCreateContasAPagar:tabView:panel1" listener="#{contasAPagarMB.setarValorIss}"/>
+                            </x:inputNumber>
+                        </div>
+                        <h:panelGroup id="panel2">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="issValor:input" value="Valor:" />
+                                <x:inputNumber id="issValor" value="#{contasAPagarMB.entity.issValor}" styleClass="form-control" disabled="true"/>
+                            </div>
+                        </h:panelGroup>
+                    </p:fieldset>
+
+                    <p:fieldset legend="IRRF">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="irrfBase:input" value="Base de Cálculo:" />
+                            <x:inputNumber id="irrfBase" value="#{contasAPagarMB.entity.irrfBase}" styleClass="form-control">
+                                <p:ajax event="blur" process="@this :formCreateContasAPagar:tabView:panel3" update=":formCreateContasAPagar:tabView:panel3 :formCreateContasAPagar:tabView:panel1" listener="#{contasAPagarMB.setarValorIrrf}"/>
+                            </x:inputNumber>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="aliqIrrf" value="Alíquota:" />
+                            <x:inputNumber id="aliqIrrf" value="#{contasAPagarMB.aliqIrrf}" styleClass="form-control">
+                                <p:ajax event="blur" process="@this :formCreateContasAPagar:tabView:panel3" update=":formCreateContasAPagar:tabView:panel3 :formCreateContasAPagar:tabView:panel1" listener="#{contasAPagarMB.setarValorIrrf}"/>
+                            </x:inputNumber>
+                        </div>
+                        <h:panelGroup id="panel3">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="irrfCnpj:input" value="Valor:" />
+                                <x:inputNumber id="irrfCnpj" value="#{contasAPagarMB.entity.irrfCnpj}" styleClass="form-control" disabled="true"/>
+                            </div>
+                        </h:panelGroup>
+                    </p:fieldset>
+                    <p:fieldset legend="ICMS">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="icmsBase:input" value="Base de Cálculo:" />
+                            <x:inputNumber id="icmsBase" value="#{contasAPagarMB.entity.icmsBase}" styleClass="form-control">
+                                <p:ajax event="blur" process="@this :formCreateContasAPagar:tabView:panel4" update=":formCreateContasAPagar:tabView:panel4 :formCreateContasAPagar:tabView:panel1" listener="#{contasAPagarMB.setarValorIcms}"/>
+                            </x:inputNumber>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="aliqIcms" value="Alíquota:" />
+                            <x:inputNumber id="aliqIcms" value="#{contasAPagarMB.aliqIcms}" styleClass="form-control">
+                                <p:ajax event="blur" process="@this :formCreateContasAPagar:tabView:panel4" update=":formCreateContasAPagar:tabView:panel4 :formCreateContasAPagar:tabView:panel1" listener="#{contasAPagarMB.setarValorIcms}"/>
+                            </x:inputNumber>
+                        </div>
+                        <h:panelGroup id="panel4">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="icmsValor:input" value="Valor:" />
+                                <x:inputNumber id="icmsValor" value="#{contasAPagarMB.entity.icmsValor}" styleClass="form-control" disabled="true">
+
+                                </x:inputNumber>
+                            </div>
+                        </h:panelGroup>
+                    </p:fieldset>
+                    <p:fieldset legend="PIS/CONFINS/CSLL">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="pisBase:input" value="Base de Cálculo" />
+                            <x:inputNumber id="pisBase" value="#{contasAPagarMB.entity.pisBase}" styleClass="form-control">
+                                <p:ajax event="blur" process="@this :formCreateContasAPagar:tabView:panel5" update=":formCreateContasAPagar:tabView:panel5 :formCreateContasAPagar:tabView:panel1" listener="#{contasAPagarMB.setarValorPis}"/>
+                            </x:inputNumber>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="aliqPis" value="Alíquota:" />
+                            <x:inputNumber id="aliqPis" value="#{contasAPagarMB.aliqPiCoCs}" styleClass="form-control">
+                                <p:ajax event="blur" process="@this :formCreateContasAPagar:tabView:panel5" update=":formCreateContasAPagar:tabView:panel5 :formCreateContasAPagar:tabView:panel1" listener="#{contasAPagarMB.setarValorPis}"/>
+                            </x:inputNumber>
+                        </div>
+                        <h:panelGroup id="panel5">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="pisValor:input" value="Valor:" />
+                                <x:inputNumber id="pisValor" value="#{contasAPagarMB.entity.pisValor}" styleClass="form-control" disabled="true"/>
+                            </div>
+                        </h:panelGroup>
+                    </p:fieldset>
+                    <p:fieldset legend="INSS">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="inssBase:input" value="#{msg['contasAPagar.inssBase']}:" />
+                            <x:inputNumber id="inssBase" value="#{contasAPagarMB.entity.inssBase}" styleClass="form-control">
+                                <p:ajax event="blur" process="@this :formCreateContasAPagar:tabView:panel6" update=":formCreateContasAPagar:tabView:panel6 :formCreateContasAPagar:tabView:panel1" listener="#{contasAPagarMB.setarValorInss}"/>
+                            </x:inputNumber>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="aliqInss" value="Alíquota:" />
+                            <x:inputNumber id="aliqInss" value="#{contasAPagarMB.aliqInss}" styleClass="form-control">
+                                <p:ajax event="blur" process="@this :formCreateContasAPagar:tabView:panel6" update=":formCreateContasAPagar:tabView:panel6 :formCreateContasAPagar:tabView:panel1" listener="#{contasAPagarMB.setarValorInss}"/>
+                            </x:inputNumber>
+                        </div>
+                        <h:panelGroup id="panel6">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="inssCnpj:input" value="Valor:" />
+                                <x:inputNumber id="inssCnpj" value="#{contasAPagarMB.entity.inssCnpj}" styleClass="form-control" disabled="true">
+
+                                </x:inputNumber>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="inssEmp:input" value="Empresa:" />
+                                <x:inputNumber id="inssEmp" value="#{contasAPagarMB.entity.inssEmp}" styleClass="form-control" disabled="true"/>
+                            </div>
+                        </h:panelGroup>
+                    </p:fieldset>
+
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Vencimentos" id="tabVencimentos">
+
+                <div class="uix-center">
+                    <p:commandButton ajax="true" value="Novo" icon="ui-icon-document" action="#{contasAPagarMB.novoVencimentoView}" update=":formDetailContasAPagarVencimentos"/>
+
+                    <p:commandButton ajax="true" value="Gerar" icon="ui-icon-refresh" action="#{contasAPagarMB.gerarVencimentosView}" update=":formDetailVencimentoParcelas"/>
+
+                </div>
+
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="contasAPagarVencimentos" rowIndexVar="index" id="dataTableContasAPagarVencimentos" widgetVar="dataTableContasAPagarVencimentosWidget" styleClass="table-responsive"
+                             value="#{contasAPagarMB.vencimentos}" lazy="false" >
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+
+                    <p:column headerText="#{msg['contasAPagarVencimentos.data']}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['contasAPagarVencimentos.data']}" />
+
+                        </f:facet>
+                        <h:outputText value="#{contasAPagarVencimentos.data}">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['contasAPagarVencimentos.numTitulo']}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['contasAPagarVencimentos.numTitulo']}" />
+                        </f:facet>
+                        <h:outputText value="#{contasAPagarVencimentos.numTitulo}"/>
+                    </p:column>
+
+                    <p:column headerText="#{msg['contasAPagarVencimentos.valor']}" style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['contasAPagarVencimentos.valor']}" />
+                        </f:facet>
+                        <h:outputText value="#{contasAPagarVencimentos.valor}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['contasAPagarVencimentos.desconto']}" style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['contasAPagarVencimentos.desconto']}" />
+                        </f:facet>
+                        <h:outputText value="#{contasAPagarVencimentos.desconto}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['contasAPagarVencimentos.quitado']}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['contasAPagarVencimentos.quitado']}" />
+                        </f:facet>
+                        <h:outputText value="#{contasAPagarVencimentos.quitado.descricao}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['contasAPagarVencimentos.banco']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['contasAPagarVencimentos.banco']}" />
+                        </f:facet>
+                        <h:outputText value="#{contasAPagarVencimentos.banco}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>       
+                    <p:column headerText="#{msg['contasAPagarVencimentos.codigoBarras']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['contasAPagarVencimentos.codigoBarras']}" />
+                        </f:facet>
+                        <h:outputText value="#{contasAPagarVencimentos.codigoBarras}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['contasAPagarVencimentos.fornecedor']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['contasAPagarVencimentos.fornecedor']}" />
+                        </f:facet>
+                        <h:outputText value="#{contasAPagarVencimentos.fornecedor}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="#{msg['contasAPagarVencimentos.amortizacao']}" style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['contasAPagarVencimentos.amortizacao']}" />
+                        </f:facet>
+                        <h:outputText value="#{contasAPagarVencimentos.amortizacao}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['contasAPagarVencimentos.encargos']}" style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['contasAPagarVencimentos.encargos']}" />
+                        </f:facet>
+                        <h:outputText value="#{contasAPagarVencimentos.encargos}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+
+                        <p:commandButton icon="ui-icon-pencil" title="#{xmsg['edit']}" process="@this" update=":formCreateContasAPagar:tabView:dataTableContasAPagarVencimentos"
+                                         >
+                        </p:commandButton>
+
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update=":formCreateContasAPagar:tabView:dataTableContasAPagarVencimentos" 
+                                         action="#{contasAPagarMB.excluirLista(contasAPagarVencimentos)}">
+
+                        </p:commandButton>
+
+                    </p:column>
+
+                </p:dataTable>
+            </p:tab>
+        </p:tabView>
+
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="contasAPagar.create">
+                <p:commandButton process="@form" update="@form" action="#{contasAPagarMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="contasAPagar.audit">
+                <x:audit for="#{contasAPagarMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+    <p:dialog widgetVar="widgetNovoVencimento" header="Novo Vencimento" appendTo="@(body)" 
+              modal="true" styleClass="uix-dialog-fluid" >
+        <ui:include src="detailContasAPagarVencimentos.xhtml" />
+    </p:dialog>
+    <p:dialog widgetVar="widgetVencimentoParcelas" header="Gerar vencimentos" appendTo="@(body)" 
+              modal="true" styleClass="uix-dialog-fluid" >
+        <ui:include src="gerarVencimentos.xhtml" />
+    </p:dialog>
+
+</ui:composition>

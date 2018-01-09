@@ -1,0 +1,219 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['estabelecimento.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuEstabelecimento.xhtml" />
+        <h:form id="formListEstabelecimento">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="estabelecimento_export" target=":formListEstabelecimento:dataTableEstabelecimento"
+                                     widgetVar="dataTableEstabelecimentoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="estabelecimento" rowIndexVar="index" id="dataTableEstabelecimento" widgetVar="dataTableEstabelecimentoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{estabelecimentoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{estabelecimentoMB.dataModel.paginatorTemplate}"
+                         value="#{estabelecimentoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['estabelecimento.empresa']}" sortBy="#{estabelecimento.empresa}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estabelecimento.empresa']}" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.empresa}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['estabelecimento.nome']}" sortBy="#{estabelecimento.nome}"
+                    filterBy="#{estabelecimento.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estabelecimento.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['estabelecimento.CnpjCpf']}" sortBy="#{estabelecimento.CnpjCpf}"
+                    filterBy="#{estabelecimento.CnpjCpf}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estabelecimento.CnpjCpf']}" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.CnpjCpf}"/>
+                </p:column>
+                <p:column headerText="#{msg['estabelecimento.cep']}" sortBy="#{estabelecimento.cep}"
+                    filterBy="#{estabelecimento.cep}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estabelecimento.cep']}" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.cep}"/>
+                </p:column>
+                <p:column headerText="#{msg['estabelecimento.logradouro']}" sortBy="#{estabelecimento.logradouro}"
+                    filterBy="#{estabelecimento.logradouro}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estabelecimento.logradouro']}" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.logradouro}"/>
+                </p:column>
+                <p:column headerText="#{msg['estabelecimento.numero']}" sortBy="#{estabelecimento.numero}"
+                    filterBy="#{estabelecimento.numero}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estabelecimento.numero']}" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.numero}"/>
+                </p:column>
+                <p:column headerText="#{msg['estabelecimento.complemento']}" sortBy="#{estabelecimento.complemento}"
+                    filterBy="#{estabelecimento.complemento}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estabelecimento.complemento']}" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.complemento}"/>
+                </p:column>
+                <p:column headerText="#{msg['estabelecimento.bairro']}" sortBy="#{estabelecimento.bairro}"
+                    filterBy="#{estabelecimento.bairro}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estabelecimento.bairro']}" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.bairro}"/>
+                </p:column>
+                <p:column headerText="#{msg['estabelecimento.municipio']}" sortBy="#{estabelecimento.municipio}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estabelecimento.municipio']}" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.municipio}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['estabelecimento.fone']}" sortBy="#{estabelecimento.fone}"
+                    filterBy="#{estabelecimento.fone}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estabelecimento.fone']}" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.fone}"/>
+                </p:column>
+                <p:column headerText="#{msg['estabelecimento.fax']}" sortBy="#{estabelecimento.fax}"
+                    filterBy="#{estabelecimento.fax}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estabelecimento.fax']}" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.fax}"/>
+                </p:column>
+                <p:column headerText="#{msg['estabelecimento.celular']}" sortBy="#{estabelecimento.celular}"
+                    filterBy="#{estabelecimento.celular}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estabelecimento.celular']}" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.celular}"/>
+                </p:column>
+                <p:column headerText="#{msg['estabelecimento.iss']}" sortBy="#{estabelecimento.iss}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estabelecimento.iss']}" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.iss}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['estabelecimento.mNemonico']}" sortBy="#{estabelecimento.mNemonico}"
+                    filterBy="#{estabelecimento.mNemonico}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estabelecimento.mNemonico']}" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.mNemonico}"/>
+                </p:column>
+                <p:column headerText="#{msg['estabelecimento.im']}" sortBy="#{estabelecimento.im}"
+                    filterBy="#{estabelecimento.im}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estabelecimento.im']}" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.im}"/>
+                </p:column>
+                <p:column headerText="#{msg['estabelecimento.ie']}" sortBy="#{estabelecimento.ie}"
+                    filterBy="#{estabelecimento.ie}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estabelecimento.ie']}" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.ie}"/>
+                </p:column>
+                <p:column headerText="#{msg['estabelecimento.retemIrrf']}" sortBy="#{estabelecimento.retemIrrf}"
+                    filterBy="#{estabelecimento.retemIrrf}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estabelecimento.retemIrrf']}" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.retemIrrf}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['estabelecimento.optanteSimples']}" sortBy="#{estabelecimento.optanteSimples}"
+                    filterBy="#{estabelecimento.optanteSimples}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estabelecimento.optanteSimples']}" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.optanteSimples}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['estabelecimento.regimeCONFINS']}" sortBy="#{estabelecimento.regimeCONFINS}"
+                    filterBy="#{estabelecimento.regimeCONFINS}"  filterOptions="#{findAllBean.getSelect(classMB.regimeCONFINS)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estabelecimento.regimeCONFINS']}" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.regimeCONFINS}"/>
+                </p:column>
+                <p:column headerText="#{msg['estabelecimento.regimeEspecial']}" sortBy="#{estabelecimento.regimeEspecial}"
+                    filterBy="#{estabelecimento.regimeEspecial}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estabelecimento.regimeEspecial']}" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.regimeEspecial}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['estabelecimento.regimeEspecialICMSSubst']}" sortBy="#{estabelecimento.regimeEspecialICMSSubst}"
+                    filterBy="#{estabelecimento.regimeEspecialICMSSubst}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estabelecimento.regimeEspecialICMSSubst']}" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.regimeEspecialICMSSubst}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['estabelecimento.incentivoFiscal']}" sortBy="#{estabelecimento.incentivoFiscal}"
+                    filterBy="#{estabelecimento.incentivoFiscal}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estabelecimento.incentivoFiscal']}" />
+                    </f:facet>
+                    <h:outputText value="#{estabelecimento.incentivoFiscal}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetEstabelecimentoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailEstabelecimento" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{estabelecimento}" target="#{estabelecimentoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="estabelecimento.create">
+                        <p:button icon="ui-icon-pencil" outcome="createEstabelecimento" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{estabelecimento.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="estabelecimento.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{estabelecimentoMB.delete}" >
+                            <f:setPropertyActionListener value="#{estabelecimento.id}" target="#{estabelecimentoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{estabelecimento}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="estabelecimento.audit">
+                    <x:auditDelete for="#{estabelecimentoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetEstabelecimentoDetail" header="#{msg['estabelecimento.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailEstabelecimento.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

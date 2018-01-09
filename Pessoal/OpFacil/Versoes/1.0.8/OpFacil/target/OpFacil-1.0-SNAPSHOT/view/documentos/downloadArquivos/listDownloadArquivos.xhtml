@@ -1,0 +1,145 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['downloadArquivos.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuDownloadArquivos.xhtml" />
+        <h:form id="formListDownloadArquivos">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="empresa" value="#{msg['funcionario.empresa']}:" />
+                        <h:selectOneMenu id="empresa" value="#{downloadArquivosMB.campoDeBusca.empresa}" converter="entityConverter" styleClass="form-control" 
+                                         >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{downloadArquivosMB.empresas}" 
+                                           var="empresa"
+                                           itemLabel="#{empresa.cdBanco} - #{empresa.nomeFantasia}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="Nome do Arquivo:" />
+                        <p:inputText id="nome" value="#{downloadArquivosMB.campoDeBusca.nome}" maxlength="45"  styleClass="form-control" />
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="conteudo" value="Conteúdo do Arquivo:" />
+                        <p:inputText id="conteudo" value="#{downloadArquivosMB.campoDeBusca.conteudo}" maxlength="45"  styleClass="form-control" />
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataInicial" value="Data Inicial do Arquivo" />
+                        <p:calendar id="dataInicial" value="#{downloadArquivosMB.campoDeBusca.dataInicial}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataFinal" value="Data Final do Arquivo" />
+                        <p:calendar id="dataFinal" value="#{downloadArquivosMB.campoDeBusca.dataFinal}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                </div>
+            </div>
+            <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+            <div class="uix-center">
+
+                <p:commandButton process="@form" update="formListDownloadArquivos:dataTableDownloadArquivos" action="#{downloadArquivosMB.buscar}" value="Buscar" ajax="true" />
+
+            </div>
+
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="downloadArquivos_export" target=":formListDownloadArquivos:dataTableDownloadArquivos"
+                                widgetVar="dataTableDownloadArquivosWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="downloadArquivos" rowIndexVar="index" id="dataTableDownloadArquivos" widgetVar="dataTableDownloadArquivosWidget" styleClass="table-responsive"
+                         value="#{downloadArquivosMB.arquivos}" lazy="false" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="CNPJ" style="text-align: center;" >
+                    <f:facet name="header">
+                        <h:outputText value="CNPJ" />
+                    </f:facet>
+                    <h:outputText value="#{downloadArquivos.empresa.cnpj}" converter="cnpjConverter">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Nome Empresa" >
+                    <f:facet name="header">
+                        <h:outputText value="Nome Empresa" />
+                    </f:facet>
+                    <h:outputText value="#{downloadArquivos.empresa.nomeFantasia}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['downloadArquivos.dataPublicao']}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['downloadArquivos.dataPublicao']}" />
+
+                    </f:facet>
+                    <h:outputText value="#{downloadArquivos.dataPublicao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['downloadArquivos.arquivo']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['downloadArquivos.arquivo']}" />
+                    </f:facet>
+                    <h:outputText value="#{downloadArquivos.arquivo.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['pagamento.situacao']}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagamento.situacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{downloadArquivos.tipo.descricao}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetDownloadArquivosDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailDownloadArquivos" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{downloadArquivos}" target="#{downloadArquivosMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="downloadArquivos.create">
+                        <p:button icon="ui-icon-pencil" outcome="createDownloadArquivos" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{downloadArquivos.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="downloadArquivos.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{downloadArquivosMB.delete}" >
+                            <f:setPropertyActionListener value="#{downloadArquivos.id}" target="#{downloadArquivosMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{downloadArquivos}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                    <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="#{wds['button.download']}" ajax="false" immediate="true" update=":baseLegalTabView">
+                        <p:fileDownload value="#{downloadArquivosMB.downloadArquivo(downloadArquivos.arquivo)}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="downloadArquivos.audit">
+                    <x:auditDelete for="#{downloadArquivosMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetDownloadArquivosDetail" header="#{msg['downloadArquivos.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailDownloadArquivos.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

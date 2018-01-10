@@ -625,12 +625,21 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
 
     public void addVeiculos() {
         if (veiculoEnvolvidoAdd != null) {
-            if (Utils.isNullOrEmpty(veiculoEnvolvidoAdd.getPlaca())) {
-                FacesMessageUtils.error("Placa do Veículo é obrigatória!");
-            } else {
-                qualificacoesVeiculos.add(veiculoEnvolvidoAdd);
-                veiculoEnvolvidoAdd = new QualificacaoDeVeiculo();
+            if (!(Utils.isNullOrEmpty(veiculoEnvolvidoAdd.getPlaca()) && Utils.isNullOrEmpty(veiculoEnvolvidoAdd.getChassi()))) {
+                if (veiculoJahAdicionado(veiculoEnvolvidoAdd)) {
+                    FacesMessageUtils.error("Veiculo com essa placa ou chassi já foi adicionado!");
+                } else {
+                    if (veiculoEnvolvidoAdd.getSituacao() != null) {
+                        qualificacoesVeiculos.add(veiculoEnvolvidoAdd);
+                        veiculoEnvolvidoAdd = new QualificacaoDeVeiculo();
+                    } else {
+                        FacesMessageUtils.error("Situação do Veículo é obrigatória!");
+                    }
 
+                }
+
+            } else {
+                FacesMessageUtils.error("Placa ou Chassi do Veículo devem ser informados!");
             }
         } else {
             FacesMessageUtils.error("Veiculo é obrigatório!");
@@ -640,6 +649,15 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
 
     public void removerVeiculo(QualificacaoDeVeiculo veiculo) {
         qualificacoesVeiculos.remove(veiculo);
+    }
+
+    private boolean veiculoJahAdicionado(QualificacaoDeVeiculo veiculo) {
+        for (QualificacaoDeVeiculo veiculoTemp : qualificacoesVeiculos) {
+            if (veiculo.getPlaca().equals(veiculoTemp.getPlaca()) || veiculo.getChassi().equals(veiculoTemp.getChassi())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public StreamedContent download(Arquivo arquivo) throws IOException {

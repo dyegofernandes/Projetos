@@ -278,7 +278,6 @@ public class AtendimentoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implem
 
             if (GeometryUtils.isPointInsidePolygon(Constantes.getLatitudesPiaui(), Constantes.getLongitudePiaui(), event.getLatLng().getLat(), event.getLatLng().getLng())) {
                 String ltdLong = (event.getLatLng().getLat() + "," + event.getLatLng().getLng());
-                
 
                 URL url = new URL(Constantes.URL_API_GOOGLE_POR_LTD_LGT.concat(ltdLong));
 
@@ -287,9 +286,9 @@ public class AtendimentoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implem
                 JSONObject jsonObjTest = new JSONObject(retorno);
 
                 if (atualizarEndereco(jsonObjTest)) {
-                    
+
                     ocorrencia = new Ocorrencia();
-                    
+
                     ocorrencia.setEndereco(endereco);
 
                     recarregarCodigo();
@@ -552,12 +551,21 @@ public class AtendimentoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implem
 
     public void addVeiculos() {
         if (veiculoEnvolvidoAdd != null) {
-            if (Utils.isNullOrEmpty(veiculoEnvolvidoAdd.getPlaca())) {
-                FacesMessageUtils.error("Placa do Veículo é obrigatória!");
-            } else {
-                qualificacoesVeiculos.add(veiculoEnvolvidoAdd);
-                veiculoEnvolvidoAdd = new QualificacaoDeVeiculo();
+            if (!(Utils.isNullOrEmpty(veiculoEnvolvidoAdd.getPlaca()) && Utils.isNullOrEmpty(veiculoEnvolvidoAdd.getChassi()))) {
+                if (veiculoJahAdicionado(veiculoEnvolvidoAdd)) {
+                    FacesMessageUtils.error("Veiculo com essa placa ou chassi já foi adicionado!");
+                } else {
+                    if (veiculoEnvolvidoAdd.getSituacao() != null) {
+                        qualificacoesVeiculos.add(veiculoEnvolvidoAdd);
+                        veiculoEnvolvidoAdd = new QualificacaoDeVeiculo();
+                    } else {
+                        FacesMessageUtils.error("Situação do Veículo é obrigatória!");
+                    }
 
+                }
+
+            } else {
+                FacesMessageUtils.error("Placa ou Chassi do Veículo devem ser informados!");
             }
         } else {
             FacesMessageUtils.error("Veiculo é obrigatório!");
@@ -567,6 +575,15 @@ public class AtendimentoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implem
 
     public void removerVeiculo(QualificacaoDeVeiculo veiculo) {
         qualificacoesVeiculos.remove(veiculo);
+    }
+
+    private boolean veiculoJahAdicionado(QualificacaoDeVeiculo veiculo) {
+        for (QualificacaoDeVeiculo veiculoTemp : qualificacoesVeiculos) {
+            if (veiculo.getPlaca().equals(veiculoTemp.getPlaca()) || veiculo.getChassi().equals(veiculoTemp.getChassi())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void recarregarCodigo() {

@@ -515,6 +515,12 @@
                             </f:facet>
                             <h:outputText value="#{qualificacaoDeVeiculo.placa}"/>
                         </p:column>
+                        <p:column headerText="#{msg['qualificacaoDeVeiculo.chassi']}" >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['qualificacaoDeVeiculo.chassi']}" />
+                            </f:facet>
+                            <h:outputText value="#{qualificacaoDeVeiculo.chassi}"/>
+                        </p:column>
                         <p:column headerText="#{msg['qualificacaoDeVeiculo.modelo']}" >
                             <f:facet name="header">
                                 <h:outputText value="#{msg['qualificacaoDeVeiculo.modelo']}" />
@@ -530,11 +536,11 @@
                             </f:facet>
                             <h:outputText value="#{qualificacaoDeVeiculo.cor}"/>
                         </p:column>
-                        <p:column headerText="#{msg['qualificacaoDeVeiculo.fabricacaoAno']}"   >
+                        <p:column headerText="#{msg['qualificacaoDeVeiculo.situacao']}"   >
                             <f:facet name="header">
-                                <h:outputText value="#{msg['qualificacaoDeVeiculo.fabricacaoAno']}" />
+                                <h:outputText value="#{msg['qualificacaoDeVeiculo.situacao']}" />
                             </f:facet>
-                            <h:outputText value="#{qualificacaoDeVeiculo.fabricacaoAno}"/>
+                            <h:outputText value="#{qualificacaoDeVeiculo.situacao.descricao}"/>
                         </p:column>
 
 

@@ -12,8 +12,9 @@ package br.gov.pi.ati.siopm.modelo.enums;
 public enum SituacaoVeiculo {
 
     ROUBADO("Roubado"),
-    Furtado("Furtado"),
-    PRATICA_DE_CRIME("Prática de Crime");
+    FURTADO("Furtado"),
+    PRATICA_DE_CRIME("Prática de Crime"),
+    TRANSITO("Transito");
 
     private SituacaoVeiculo(String descricao) {
         this.descricao = descricao;

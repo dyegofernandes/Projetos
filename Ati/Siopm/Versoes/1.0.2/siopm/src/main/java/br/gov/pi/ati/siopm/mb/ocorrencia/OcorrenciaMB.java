@@ -10,7 +10,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.siopm.bo.ocorrencia.OcorrenciaBO;
-import br.gov.pi.ati.siopm.constante.Constantes;
 import br.gov.pi.ati.siopm.modelo.cadastro.Arma;
 import br.gov.pi.ati.siopm.modelo.cadastro.Arquivo;
 import br.gov.pi.ati.siopm.modelo.cadastro.Bombeiro;
@@ -36,19 +35,15 @@ import br.gov.pi.ati.siopm.modelo.cadastro.Samu;
 import br.gov.pi.ati.siopm.modelo.cadastro.Solicitante;
 import br.gov.pi.ati.siopm.modelo.cadastro.Telefone;
 import br.gov.pi.ati.siopm.modelo.cadastro.Transito;
-import br.gov.pi.ati.siopm.modelo.cadastro.Viatura;
 import br.gov.pi.ati.siopm.modelo.controleacesso.Usuario;
 import br.gov.pi.ati.siopm.modelo.enums.Anonimo;
 import br.gov.pi.ati.siopm.modelo.enums.ClassificacaoChamada;
-import br.gov.pi.ati.siopm.modelo.enums.ClassificacaoOcorrencia;
-import br.gov.pi.ati.siopm.modelo.enums.IconeViatura;
 import br.gov.pi.ati.siopm.modelo.enums.SituacaoOcorrencia;
 import br.gov.pi.ati.siopm.modelo.enums.StatusViaturaEnum;
 import br.gov.pi.ati.siopm.modelo.enums.TipoApoio;
 import br.gov.pi.ati.siopm.modelo.ocorrencia.Ocorrencia;
 import br.gov.pi.ati.siopm.modelo.vos.FiltrosVO;
 import br.gov.pi.ati.siopm.modelo.vos.OcorrenciaVO;
-import br.gov.pi.ati.siopm.util.GeometryUtils;
 import br.gov.pi.ati.siopm.util.SessaoUtils;
 import br.gov.pi.ati.siopm.util.Utils;
 import com.xpert.faces.utils.FacesMessageUtils;
@@ -71,14 +66,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.event.map.MarkerDragEvent;
 import org.primefaces.event.map.OverlaySelectEvent;
-import org.primefaces.event.map.PointSelectEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import org.primefaces.model.map.DefaultMapModel;
-import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
 
@@ -459,12 +451,21 @@ public class OcorrenciaMB extends AbstractBaseBean<Ocorrencia> implements Serial
 
     public void addVeiculos() {
         if (veiculoEnvolvidoAdd != null) {
-            if (Utils.isNullOrEmpty(veiculoEnvolvidoAdd.getPlaca())) {
-                FacesMessageUtils.error("Placa do Veículo é obrigatória!");
-            } else {
-                qualificacoesVeiculos.add(veiculoEnvolvidoAdd);
-                veiculoEnvolvidoAdd = new QualificacaoDeVeiculo();
+            if (!(Utils.isNullOrEmpty(veiculoEnvolvidoAdd.getPlaca()) && Utils.isNullOrEmpty(veiculoEnvolvidoAdd.getChassi()))) {
+                if (veiculoJahAdicionado(veiculoEnvolvidoAdd)) {
+                    FacesMessageUtils.error("Veiculo com essa placa ou chassi já foi adicionado!");
+                } else {
+                    if (veiculoEnvolvidoAdd.getSituacao() != null) {
+                        qualificacoesVeiculos.add(veiculoEnvolvidoAdd);
+                        veiculoEnvolvidoAdd = new QualificacaoDeVeiculo();
+                    } else {
+                        FacesMessageUtils.error("Situação do Veículo é obrigatória!");
+                    }
 
+                }
+
+            } else {
+                FacesMessageUtils.error("Placa ou Chassi do Veículo devem ser informados!");
             }
         } else {
             FacesMessageUtils.error("Veiculo é obrigatório!");
@@ -474,6 +475,15 @@ public class OcorrenciaMB extends AbstractBaseBean<Ocorrencia> implements Serial
 
     public void removerVeiculo(QualificacaoDeVeiculo veiculo) {
         qualificacoesVeiculos.remove(veiculo);
+    }
+
+    private boolean veiculoJahAdicionado(QualificacaoDeVeiculo veiculo) {
+        for (QualificacaoDeVeiculo veiculoTemp : qualificacoesVeiculos) {
+            if (veiculo.getPlaca().equals(veiculoTemp.getPlaca()) || veiculo.getChassi().equals(veiculoTemp.getChassi())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public StreamedContent download(Arquivo arquivo) throws IOException {

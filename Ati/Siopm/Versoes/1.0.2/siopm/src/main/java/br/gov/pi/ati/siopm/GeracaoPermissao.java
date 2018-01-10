@@ -291,7 +291,6 @@ public class GeracaoPermissao {
         create(new Permissao("ocorrencia.create", "Cadastro de Ocorrência", "/view/ocorrencia/ocorrencia/createOcorrencia.jsf", false), "ocorrencia");
         create(new Permissao("ocorrencia.atendimento", "Atendimento", "/view/ocorrencia/ocorrencia/atendimentoOcorrencia.jsf", true), "ocorrencia");
         create(new Permissao("ocorrencia.despacho", "Rádio Operador", "/view/ocorrencia/ocorrencia/despachoOcorrencia.jsf", true), "ocorrencia");
-        create(new Permissao("ocorrencia.list", "Ocorrências", "/view/ocorrencia/ocorrencia/listOcorrencia.jsf", true), "ocorrencia");
         create(new Permissao("ocorrencia.audit", "Auditoria de Ocorrência"), "ocorrencia");
         create(new Permissao("ocorrencia.delete", "Exclusão de Ocorrência"), "ocorrencia");
         create(new Permissao("ocorrencia.createDespacho", "Cadastro de Ocorrência Despacho"), "ocorrencia");
@@ -310,6 +309,15 @@ public class GeracaoPermissao {
         create(new Permissao("resultadoOcorrencia.list", "Resultados Ocorrências", "/view/cadastro/resultadoOcorrencia/listResultadoOcorrencia.jsf", true), "auxiliares");
         create(new Permissao("resultadoOcorrencia.audit", "Auditoria de Resultado Ocorrência"), "resultadoOcorrencia");
         create(new Permissao("resultadoOcorrencia.delete", "Exclusão de Resultado Ocorrência"), "resultadoOcorrencia");
+
+        //Consultas
+        create(new Permissao("consultas", "Consultas", true), "ocorrencia");
+
+        create(new Permissao("ocorrencia.list", "Ocorrências", "/view/ocorrencia/ocorrencia/listOcorrencia.jsf", true), "consultas");
+
+        create(new Permissao("consultas.veiculos", "Veiculos", "/view/ocorrencia/consultas/listVeiculo.jsf", true), "consultas");
+        create(new Permissao("consultas.pessoas", "Pessoas Envolvidas", "/view/ocorrencia/consultas/listPessoaEnvolvida.jsf", true), "consultas");
+        create(new Permissao("consultas.armas", "Armas", "/view/ocorrencia/consultas/listArma.jsf", true), "consultas");
 
         create(new Permissao("relatorio.opm", "Relatório Por OPM", "/view/ocorrencia/relatorios/ocorrenciaPorOpm.jsf", true), "relatorio");
         /**

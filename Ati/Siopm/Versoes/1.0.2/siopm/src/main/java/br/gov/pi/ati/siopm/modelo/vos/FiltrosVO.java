@@ -5,11 +5,16 @@
  */
 package br.gov.pi.ati.siopm.modelo.vos;
 
+import br.gov.pi.ati.siopm.modelo.cadastro.ModeloVeiculo;
 import br.gov.pi.ati.siopm.modelo.cadastro.NaturezaOcorrencia;
 import br.gov.pi.ati.siopm.modelo.cadastro.Opm;
 import br.gov.pi.ati.siopm.modelo.cadastro.ResultadoOcorrencia;
 import br.gov.pi.ati.siopm.modelo.controleacesso.Usuario;
 import br.gov.pi.ati.siopm.modelo.enums.BairroGoogle;
+import br.gov.pi.ati.siopm.modelo.enums.ClassificacaoPessoaOcorrencia;
+import br.gov.pi.ati.siopm.modelo.enums.SimOuNao;
+import br.gov.pi.ati.siopm.modelo.enums.SituacaoVeiculo;
+import br.gov.pi.ati.siopm.modelo.enums.TipoDeArma;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +24,17 @@ import java.util.List;
  */
 public class FiltrosVO {
 
+    private String rg;
+
+    private String cpf;
+
+    private String cnh;
+
     private String nome;
+
+    private String naturalidade;
+
+    private ClassificacaoPessoaOcorrencia classificacaoPessoa;
 
     private String bairro;
 
@@ -46,10 +61,28 @@ public class FiltrosVO {
     private Date horaInicial;
 
     private Date horaFinal;
-    
+
     private List<NaturezaOcorrencia> naturezas;
-    
+
     private List<ResultadoOcorrencia> resultados;
+
+    private String chassi;
+
+    private String placa;
+
+    private ModeloVeiculo modeloVeiculo;
+
+    private SituacaoVeiculo situacaoVeiculo;
+
+    private TipoDeArma tipoArma;
+
+    private String modeloArma;
+
+    private double calibre;
+
+    private double capacidade;
+
+    private SimOuNao armaPolicia;
 
     public String getNome() {
         return nome;
@@ -179,4 +212,117 @@ public class FiltrosVO {
         this.resultados = resultados;
     }
 
+    public String getRg() {
+        return rg;
+    }
+
+    public void setRg(String rg) {
+        this.rg = rg;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getCnh() {
+        return cnh;
+    }
+
+    public void setCnh(String cnh) {
+        this.cnh = cnh;
+    }
+
+    public String getNaturalidade() {
+        return naturalidade;
+    }
+
+    public void setNaturalidade(String naturalidade) {
+        this.naturalidade = naturalidade;
+    }
+
+    public ClassificacaoPessoaOcorrencia getClassificacaoPessoa() {
+        return classificacaoPessoa;
+    }
+
+    public void setClassificacaoPessoa(ClassificacaoPessoaOcorrencia classificacaoPessoa) {
+        this.classificacaoPessoa = classificacaoPessoa;
+    }
+
+    public String getChassi() {
+        return chassi;
+    }
+
+    public void setChassi(String chassi) {
+        this.chassi = chassi;
+    }
+
+    public String getPlaca() {
+        return placa;
+    }
+
+    public void setPlaca(String placa) {
+        this.placa = placa;
+    }
+
+    public ModeloVeiculo getModeloVeiculo() {
+        return modeloVeiculo;
+    }
+
+    public void setModeloVeiculo(ModeloVeiculo modeloVeiculo) {
+        this.modeloVeiculo = modeloVeiculo;
+    }
+
+    public SituacaoVeiculo getSituacaoVeiculo() {
+        return situacaoVeiculo;
+    }
+
+    public void setSituacaoVeiculo(SituacaoVeiculo situacaoVeiculo) {
+        this.situacaoVeiculo = situacaoVeiculo;
+    }
+
+    public TipoDeArma getTipoArma() {
+        return tipoArma;
+    }
+
+    public void setTipoArma(TipoDeArma tipoArma) {
+        this.tipoArma = tipoArma;
+    }
+
+    public String getModeloArma() {
+        return modeloArma;
+    }
+
+    public void setModeloArma(String modeloArma) {
+        this.modeloArma = modeloArma;
+    }
+
+    public double getCalibre() {
+        return calibre;
+    }
+
+    public void setCalibre(double calibre) {
+        this.calibre = calibre;
+    }
+
+    public double getCapacidade() {
+        return capacidade;
+    }
+
+    public void setCapacidade(double capacidade) {
+        this.capacidade = capacidade;
+    }
+
+    public SimOuNao getArmaPolicia() {
+        return armaPolicia;
+    }
+
+    public void setArmaPolicia(SimOuNao armaPolicia) {
+        this.armaPolicia = armaPolicia;
+    }
+
+    
 }

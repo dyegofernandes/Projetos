@@ -1,0 +1,136 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['pessoaEnvolvida.list']}" />
+    <ui:define name="body">
+        <h:form id="formListPessoaEnvolvida">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="pessoaEnvolvida_export" target=":formListPessoaEnvolvida:dataTablePessoaEnvolvida"
+                                     widgetVar="dataTablePessoaEnvolvidaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="pessoaEnvolvida" rowIndexVar="index" id="dataTablePessoaEnvolvida" widgetVar="dataTablePessoaEnvolvidaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{pessoaEnvolvidaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{pessoaEnvolvidaMB.dataModel.paginatorTemplate}"
+                         value="#{pessoaEnvolvidaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['pessoaEnvolvida.nome']}" sortBy="#{pessoaEnvolvida.nome}"
+                    filterBy="#{pessoaEnvolvida.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pessoaEnvolvida.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{pessoaEnvolvida.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['pessoaEnvolvida.rg']}" sortBy="#{pessoaEnvolvida.rg}"
+                    filterBy="#{pessoaEnvolvida.rg}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pessoaEnvolvida.rg']}" />
+                    </f:facet>
+                    <h:outputText value="#{pessoaEnvolvida.rg}"/>
+                </p:column>
+                <p:column headerText="#{msg['pessoaEnvolvida.nomeDaMae']}" sortBy="#{pessoaEnvolvida.nomeDaMae}"
+                    filterBy="#{pessoaEnvolvida.nomeDaMae}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pessoaEnvolvida.nomeDaMae']}" />
+                    </f:facet>
+                    <h:outputText value="#{pessoaEnvolvida.nomeDaMae}"/>
+                </p:column>
+                <p:column headerText="#{msg['pessoaEnvolvida.nomeDoPai']}" sortBy="#{pessoaEnvolvida.nomeDoPai}"
+                    filterBy="#{pessoaEnvolvida.nomeDoPai}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pessoaEnvolvida.nomeDoPai']}" />
+                    </f:facet>
+                    <h:outputText value="#{pessoaEnvolvida.nomeDoPai}"/>
+                </p:column>
+                <p:column headerText="#{msg['pessoaEnvolvida.dataNascimento']}" sortBy="#{pessoaEnvolvida.dataNascimento}"
+                    filterBy="#{pessoaEnvolvida.dataNascimento}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pessoaEnvolvida.dataNascimento']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{pessoaEnvolvida.dataNascimento}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['pessoaEnvolvida.naturalidade']}" sortBy="#{pessoaEnvolvida.naturalidade}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pessoaEnvolvida.naturalidade']}" />
+                    </f:facet>
+                    <h:outputText value="#{pessoaEnvolvida.naturalidade}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['pessoaEnvolvida.sexo']}" sortBy="#{pessoaEnvolvida.sexo}"
+                    filterBy="#{pessoaEnvolvida.sexo}"  filterOptions="#{findAllBean.getSelect(classMB.sexo)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pessoaEnvolvida.sexo']}" />
+                    </f:facet>
+                    <h:outputText value="#{pessoaEnvolvida.sexo}"/>
+                </p:column>
+                <p:column headerText="#{msg['pessoaEnvolvida.corDosOlhos']}" sortBy="#{pessoaEnvolvida.corDosOlhos}"
+                    filterBy="#{pessoaEnvolvida.corDosOlhos}"  filterOptions="#{findAllBean.getSelect(classMB.corOlho)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pessoaEnvolvida.corDosOlhos']}" />
+                    </f:facet>
+                    <h:outputText value="#{pessoaEnvolvida.corDosOlhos}"/>
+                </p:column>
+                <p:column headerText="#{msg['pessoaEnvolvida.corDoCabelo']}" sortBy="#{pessoaEnvolvida.corDoCabelo}"
+                    filterBy="#{pessoaEnvolvida.corDoCabelo}"  filterOptions="#{findAllBean.getSelect(classMB.corCabelo)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pessoaEnvolvida.corDoCabelo']}" />
+                    </f:facet>
+                    <h:outputText value="#{pessoaEnvolvida.corDoCabelo}"/>
+                </p:column>
+                <p:column headerText="Raça" sortBy="#{pessoaEnvolvida.raca}"
+                    filterBy="#{pessoaEnvolvida.raca}"  filterOptions="#{findAllBean.getSelect(classMB.raca)}" >
+                    <f:facet name="header">
+                        <h:outputText value="Raça" />
+                    </f:facet>
+                    <h:outputText value="#{pessoaEnvolvida.raca}"/>
+                </p:column>
+                <p:column headerText="#{msg['pessoaEnvolvida.tipoPessoa']}" sortBy="#{pessoaEnvolvida.tipoPessoa}"
+                    filterBy="#{pessoaEnvolvida.tipoPessoa}"  filterOptions="#{findAllBean.getSelect(classMB.tipoPessoa)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pessoaEnvolvida.tipoPessoa']}" />
+                    </f:facet>
+                    <h:outputText value="#{pessoaEnvolvida.tipoPessoa}"/>
+                </p:column>
+                <p:column headerText="#{msg['pessoaEnvolvida.classificaoOcorrencia']}" sortBy="#{pessoaEnvolvida.classificaoOcorrencia}"
+                    filterBy="#{pessoaEnvolvida.classificaoOcorrencia}"  filterOptions="#{findAllBean.getSelect(classMB.classificacaoPessoaOcorrencia)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pessoaEnvolvida.classificaoOcorrencia']}" />
+                    </f:facet>
+                    <h:outputText value="#{pessoaEnvolvida.classificaoOcorrencia}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetPessoaEnvolvidaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailPessoaEnvolvida" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{pessoaEnvolvida}" target="#{pessoaEnvolvidaMB.entity}" />
+                    </p:commandButton>
+                    
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="pessoaEnvolvida.audit">
+                    <x:auditDelete for="#{pessoaEnvolvidaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetPessoaEnvolvidaDetail" header="#{msg['pessoaEnvolvida.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailPessoaEnvolvida.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

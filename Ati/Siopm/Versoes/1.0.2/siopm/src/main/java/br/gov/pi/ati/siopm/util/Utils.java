@@ -332,10 +332,10 @@ public class Utils {
             retorno = retorno.concat("\n");
         }
 
-        if (ocorrencia.getClassificacaoChamada() != null) {
-            retorno = retorno.concat("Classificação: ").concat(ocorrencia.getClassificacaoOcorrencia().getDescricao());
-            retorno = retorno.concat("\n");
-        }
+//        if (ocorrencia.getClassificacaoChamada() != null) {
+//            retorno = retorno.concat("Classificação: ").concat(ocorrencia.getClassificacaoOcorrencia().getDescricao());
+//            retorno = retorno.concat("\n");
+//        }
 
         if (ocorrencia.getDataOcorrencia() != null) {
             if (ocorrencia.getDataOcorrencia() != null) {

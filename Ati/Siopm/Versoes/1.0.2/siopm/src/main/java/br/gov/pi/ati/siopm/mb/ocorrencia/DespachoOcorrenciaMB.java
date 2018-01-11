@@ -91,104 +91,104 @@ import org.primefaces.model.map.Marker;
 @ManagedBean
 @ViewScoped
 public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implements Serializable {
-
+    
     @EJB
     private OcorrenciaBO ocorrenciaBO;
-
+    
     @EJB
     private NaturezaOcorrenciaBO naturezaBO;
-
+    
     @EJB
     private ResultadoOcorrenciaBO resultadoBO;
-
+    
     @EJB
     private PatrulhaBO patrulhaBO;
-
+    
     @EJB
     private ParametroSistemaBO parametroBO;
-
+    
     private List<NaturezaOcorrencia> naturezas;
-
+    
     private NaturezaOcorrencia naturezaAdd;
-
+    
     private PatrulhaAux patrulhaAdd;
-
+    
     private Patrulha patrulha;
-
+    
     private List<PatrulhaAux> patrulhas;
-
+    
     private List<PessoaEnvolvida> pessoasEnvolvidas;
-
+    
     private PessoaEnvolvida pessoaAdd;
-
+    
     private List<QualificacaoDeVeiculo> qualificacoesVeiculos;
-
+    
     private QualificacaoDeVeiculo veiculoEnvolvidoAdd;
-
+    
     private List<Arma> armas;
-
+    
     private Arma armaAdd;
-
+    
     private List<LocalIntermediarioAux> locaisIntermediarios;
-
+    
     private LocalIntermediarioAux localIntermediarioAdd;
-
+    
     private List<DrogaOcorrenciaItem> drogas;
-
+    
     private DrogaOcorrenciaItem drogaAdd;
-
+    
     private List<ObjetoApreendido> objetos;
-
+    
     private ObjetoApreendido objetoAdd;
-
+    
     private List<Arquivo> arquivos;
-
+    
     private List<ResultadoOcorrencia> resultados;
-
+    
     private List<Ocorrencia> ocorrenciasMesma = new ArrayList<Ocorrencia>();
-
+    
     private ResultadoOcorrencia resultadoAdd;
-
+    
     private String logradouro;
-
+    
     private String latLong = "-5.0903678,-42.8105988";
-
+    
     private String zoom = "12";
-
+    
     private Endereco endereco;
-
+    
     private MapModel simpleModel;
-
+    
     private List<Solicitante> solicitantes;
-
+    
     private Telefone telefone;
-
+    
     private List<Ocorrencia> ocorrencias;
-
+    
     private Ocorrencia ocorrencia;
-
+    
     private Solicitante solicitanteAdd;
-
+    
     private List<SituacaoOcorrencia> situacoes = new ArrayList<SituacaoOcorrencia>(Arrays.asList(SituacaoOcorrencia.values()));
-
+    
     private List<ClassificacaoChamada> classificoesChamada = new ArrayList<ClassificacaoChamada>(Arrays.asList(ClassificacaoChamada.values()));
-
+    
     private List<Organizacao> apoios;
-
+    
     private List<Organizacao> organizacoes;
-
+    
     private TipoApoio tipoApoio;
-
+    
     private Organizacao apoio;
-
+    
     private SituacaoOcorrencia situacaoTemp = null;
-
+    
     private Usuario usuarioAtual = SessaoUtils.getUser();
-
+    
     private ParametroSistema parametroSistema = new ParametroSistema();
-
+    
     private Endereco enderecoTemp;
-
+    
     @Override
     public void init() {
         ocorrencia = new Ocorrencia();
@@ -224,17 +224,17 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
         tipoApoio = TipoApoio.BOMBEIRO;
         marcaPontos();
     }
-
+    
     @Override
     public OcorrenciaBO getBO() {
         return ocorrenciaBO;
     }
-
+    
     @Override
     public String getDataModelOrder() {
         return "id";
     }
-
+    
     @Override
     public void save() {
         ocorrencia.setNaturezas(naturezas);
@@ -248,18 +248,18 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
         ocorrencia.setObjetos(objetos);
         ocorrencia.setArquivos(arquivos);
         ocorrencia.setResultados(resultados);
-
+        
         for (Organizacao apoioTemp : apoios) {
             organizacoes.add(apoioTemp);
         }
         ocorrencia.setOrganizacoes(organizacoes);
         ocorrencia.setPatrulhas(patrulhas);
-
+        
         setEntity(ocorrencia);
-
+        
         super.save();
     }
-
+    
     @Override
     public void postSave() {
         latLong = (endereco.getLatitude() + "," + endereco.getLongitude());
@@ -268,7 +268,7 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
         context.execute("PF('widgetOcorrenciaNova').hide();");
         context.execute("PF('widgetListarOcorrencia').hide();");
         context.execute("PF('widgetOcorrenciaUpdate').hide();");
-
+        
         if (ocorrencia.getSituacao() == SituacaoOcorrencia.ENCERRADA) {
             for (PatrulhaAux patrulhaAux : patrulhas) {
                 Patrulha patrulhaTemp = getBO().getDAO().getInitialized(patrulhaAux.getPatrulha());
@@ -276,7 +276,7 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
                 patrulhaBO.getDAO().saveOrMerge(patrulhaTemp, true);
             }
         }
-
+        
         if (ocorrencia.getSituacao() == SituacaoOcorrencia.ENCAMINHADA_VIATURA) {
             for (PatrulhaAux patrulhaAux : patrulhas) {
                 Patrulha patrulhaTemp = getBO().getDAO().getInitialized(patrulhaAux.getPatrulha());
@@ -284,20 +284,20 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
                 patrulhaBO.getDAO().saveOrMerge(patrulhaTemp, true);
             }
         }
-
+        
         limparCampos();
         marcaPontos();
         super.postSave();
     }
-
+    
     public void marcaPontos() {
         simpleModel = new DefaultMapModel();
         List<SituacaoOcorrencia> situacoesTemp = new ArrayList<SituacaoOcorrencia>();
         situacoesTemp.add(SituacaoOcorrencia.ENCAMINHADA_VIATURA);
         situacoesTemp.add(SituacaoOcorrencia.PENDENTE);
-
+        
         ocorrencias = getBO().ocorrenciasPelaSituacoes(situacoesTemp, usuarioAtual);
-
+        
         for (Ocorrencia ocorrenciaTemp : ocorrencias) {
             LatLng latLng = new LatLng(ocorrenciaTemp.getEndereco().getLatitude(), ocorrenciaTemp.getEndereco().getLongitude());
             Marker marker;
@@ -309,16 +309,10 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
             }
             if (ocorrenciaTemp.getSituacao() == SituacaoOcorrencia.PENDENTE) {
                 marker = new Marker(latLng, Utils.getAtributosMarcacaoDenuncia(ocorrenciaTemp, naturezasTemp, patrulhasMapa));
-                if (ocorrenciaTemp.getClassificacaoOcorrencia() == ClassificacaoOcorrencia.POLICIAL_EM_PERIGO
-                        || ocorrenciaTemp.getClassificacaoOcorrencia() == ClassificacaoOcorrencia.URGENTE) {
-                    marker.setIcon(parametroSistema.getUrlImagens().concat("geral/WARNING_VERMELHO.png"));
-
-                } else {
-                    marker.setIcon(parametroSistema.getUrlImagens().concat("geral/WARNING_AMARELO.png"));
-                }
+                marker.setIcon(parametroSistema.getUrlImagens().concat("naturezas/").concat(naturezasTemp.get(0).getCodigo()).concat(".png"));
             } else {
                 marker = new Marker(latLng, Utils.getAtributosMarcacaoDenuncia(ocorrenciaTemp, naturezasTemp, patrulhasMapa));
-
+                
                 Viatura viatura = getBO().getDAO().getInitialized(patrulhasMapa.get(0).getViatura());
                 if (viatura.getIcone() != null) {
                     marker.setIcon(parametroSistema.getUrlImagens().concat("viaturas/").concat(viatura.getIcone().getDescricao()));
@@ -326,64 +320,64 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
                     marker.setIcon(parametroSistema.getUrlImagens().concat("viaturas/VTR_CONVENCIONAL.png"));
                 }
             }
-
+            
             simpleModel.addOverlay(marker);
         }
     }
-
+    
     public List<String> completeText(String query) throws IOException {
-
+        
         if (query == null) {
             return null;
         }
         return logradouros(query);
     }
-
+    
     private List<String> logradouros(String query) throws MalformedURLException, IOException {
         List<String> logradouros = new ArrayList<String>();
-
+        
         String urlString = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=:BUSCA&key=:KEY";
-
+        
         URL url = new URL(urlString.replace(":BUSCA", query.replace(" ", "%20")).replace(":KEY", Constantes.CHAVE_API_DESPACHO_GOOGLE_MAPS));
-
+        
         String retorno = Utils.pegarRetornoUrlGoogle(url);
-
+        
         JSONObject jsonObjTest = new JSONObject(retorno);
-
+        
         if (jsonObjTest.getString("status").equals("OK")) {
             JSONArray jsonArray = jsonObjTest.getJSONArray("predictions");
             for (Object jsonArray1 : jsonArray) {
                 String logradouroTemp = ((JSONObject) jsonArray1).get("description").toString();
                 logradouros.add(logradouroTemp);
             }
-
+            
         }
         return logradouros;
     }
-
+    
     public void zoomMaps() throws MalformedURLException, IOException {
-
+        
         URL url = new URL(Constantes.URL_API_GOOGLE_POR_ENDERECO.concat(logradouro.replace(" ", "%20")));
-
+        
         String retorno = Utils.pegarRetornoUrlGoogle(url);
-
+        
         if (retorno != null) {
             JSONObject jsonObjTest = new JSONObject(retorno);
-
+            
             if (atualizarEndereco(jsonObjTest)) {
-
+                
                 if (GeometryUtils.isPointInsidePolygon(Constantes.getLatitudesPiaui(), Constantes.getLongitudePiaui(), endereco.getLatitude(), endereco.getLongitude())) {
-
+                    
                     ocorrencia = new Ocorrencia();
                     recarregarCodigo();
                     ocorrencia.setEndereco(endereco);
-
+                    
                     latLong = (endereco.getLatitude() + "," + endereco.getLongitude());
-
+                    
                     zoom = "15";
-
+                    
                     LatLng latLng = new LatLng(endereco.getLatitude(), endereco.getLongitude());
-
+                    
                     Marker markerZoom = new Marker(latLng, Utils.getAtributosMarcacaoDenuncia(ocorrencia, null, null));
                     markerZoom.setIcon(parametroSistema.getUrlImagens().concat("geral/WARNING_VERDE.png"));
                     markerZoom.setDraggable(true);
@@ -391,41 +385,41 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
                 } else {
                     FacesMessageUtils.error("Ocorrência fora da área de jurisdição!");
                 }
-
+                
             }
         } else {
             FacesMessageUtils.error("Endereço não encontrado!");
         }
-
+        
     }
-
+    
     public void nova(PointSelectEvent event) throws MalformedURLException, IOException {
         if (event != null) {
-
+            
             if (GeometryUtils.isPointInsidePolygon(Constantes.getLatitudesPiaui(), Constantes.getLongitudePiaui(), event.getLatLng().getLat(), event.getLatLng().getLng())) {
                 String ltdLong = (event.getLatLng().getLat() + "," + event.getLatLng().getLng());
-
+                
                 URL url = new URL(Constantes.URL_API_GOOGLE_POR_LTD_LGT.concat(ltdLong));
-
+                
                 String retorno = Utils.pegarRetornoUrlGoogle(url);
-
+                
                 JSONObject jsonObjTest = new JSONObject(retorno);
-
+                
                 if (atualizarEndereco(jsonObjTest)) {
-
+                    
                     ocorrencia = new Ocorrencia();
                     recarregarCodigo();
-
+                    
                     ocorrencia.setEndereco(endereco);
-
+                    
                     ocorrenciasMesma = ocorrenciaBO.ocorrenciasPorBairroEData(endereco.getBairro(), ocorrencia.getDataOcorrencia());
-
+                    
                     latLong = (endereco.getLatitude() + "," + endereco.getLongitude());
-
+                    
                     zoom = "15";
-
+                    
                     LatLng latLng = new LatLng(endereco.getLatitude(), endereco.getLongitude());
-
+                    
                     Marker markerNova = new Marker(latLng, Utils.getAtributosMarcacaoDenuncia(ocorrencia, null, null));
                     markerNova.setIcon(parametroSistema.getUrlImagens().concat("geral/WARNING_VERDE.png"));
                     markerNova.setDraggable(true);
@@ -434,68 +428,68 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
             } else {
                 FacesMessageUtils.error("Ocorrência fora da área de jurisdição!");
             }
-
+            
         }
     }
-
+    
     public void moverPonto(MarkerDragEvent event) throws MalformedURLException, IOException {
         Marker markerTemp = event.getMarker();
-
+        
         ocorrencia = new Ocorrencia();
         String ltdLong = (markerTemp.getLatlng().getLat() + "," + markerTemp.getLatlng().getLng());
         URL url = new URL(Constantes.URL_API_GOOGLE_POR_LTD_LGT.concat(ltdLong));
-
+        
         String retorno = Utils.pegarRetornoUrlGoogle(url);
-
+        
         JSONObject jsonObjTest = new JSONObject(retorno);
-
+        
         atualizarEndereco(jsonObjTest);
-
+        
         ocorrencia.setEndereco(endereco);
-
+        
         markerTemp.setTitle(Utils.getAtributosMarcacaoDenuncia(ocorrencia, null, null));
-
+        
     }
-
+    
     public void atualizar(OverlaySelectEvent event) throws MalformedURLException, IOException {
         Marker markerTemp = (Marker) event.getOverlay();
-
+        
         String[] tituloQuebrado = new String[10];
         tituloQuebrado = (markerTemp.getTitle().split(Pattern.quote("\n")));
         String[] id = new String[2];
         id = tituloQuebrado[0].split(Pattern.quote(":"));
-
+        
         limparCampos();
-
+        
         ocorrencia = new Ocorrencia();
-
+        
         if (id[1].equals(" -")) {
             String ltdLong = (markerTemp.getLatlng().getLat() + "," + markerTemp.getLatlng().getLng());
-
+            
             recarregarCodigo();
-
+            
             URL url = new URL(Constantes.URL_API_GOOGLE_POR_LTD_LGT.concat(ltdLong));
-
+            
             String retorno = Utils.pegarRetornoUrlGoogle(url);
-
+            
             JSONObject jsonObjTest = new JSONObject(retorno);
-
+            
             if (atualizarEndereco(jsonObjTest)) {
                 ocorrencia.setEndereco(endereco);
                 ocorrenciasMesma = ocorrenciaBO.ocorrenciasPorBairroEData(endereco.getBairro(), ocorrencia.getDataOcorrencia());
-
+                
                 RequestContext context = RequestContext.getCurrentInstance();
-
+                
                 if (ocorrenciasMesma.size() > 0) {
                     context.execute("PF('widgetListarOcorrencia').show();");
                 } else {
                     context.execute("PF('widgetOcorrenciaNova').show();");
                 }
             }
-
+            
         } else {
             ocorrencia = getBO().getDAO().unique("id", new Long(id[1].replace(" ", "")));
-
+            
             if (ocorrencia.getSituacao() == SituacaoOcorrencia.PENDENTE) {
                 ocorrencia.setSituacao(SituacaoOcorrencia.ENCAMINHADA_VIATURA);
                 ocorrencia.setDataAtendimento(new Date());
@@ -507,7 +501,7 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
                     ocorrencia.setHoraEncerramento(new Date());
                 }
             }
-
+            
             solicitantes = getBO().getDAO().getInitialized(ocorrencia.getSolicitantes());
             endereco = getBO().getDAO().getInitialized(ocorrencia.getEndereco());
             naturezas = getBO().getDAO().getInitialized(ocorrencia.getNaturezas());
@@ -519,24 +513,24 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
             arquivos = getBO().getDAO().getInitialized(ocorrencia.getArquivos());
             locaisIntermediarios = getBO().getDAO().getInitialized(ocorrencia.getLocaisIntermediarios());
             organizacoes = getBO().getDAO().getInitialized(ocorrencia.getOrganizacoes());
-
+            
             for (Organizacao organizacao : organizacoes) {
                 if (organizacao instanceof Bombeiro || organizacao instanceof Samu || organizacao instanceof Transito) {
                     apoios.add(organizacao);
                 }
             }
-
+            
             resultados = getBO().getDAO().getInitialized(ocorrencia.getResultados());
             patrulhas = getBO().getDAO().getInitialized(ocorrencia.getPatrulhas());
-
+            
             situacaoTemp = ocorrencia.getSituacao();
-
+            
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('widgetOcorrencia').show();");
         }
-
+        
     }
-
+    
     public void recarregarCodigo() {
         Integer codigoAtual = getBO().getUltimoCodigo(ocorrencia.getAno());
         if (codigoAtual != null) {
@@ -546,7 +540,7 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
             }
         }
     }
-
+    
     public void addSolicitante() {
         if (solicitanteAdd != null) {
             if (solicitanteAdd.getAnonimo() == Anonimo.NAO) {
@@ -568,16 +562,16 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
                     solicitanteAdd = new Solicitante();
                 }
             }
-
+            
         } else {
             FacesMessageUtils.error("Solicitante é obrigatório!");
         }
     }
-
+    
     public void removerSolicitante(Solicitante solicitante) {
         solicitantes.remove(solicitante);
     }
-
+    
     public void addNatureza() {
         if (naturezaAdd != null) {
             if (naturezaJaAdicionada(naturezaAdd)) {
@@ -590,7 +584,7 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
             FacesMessageUtils.error("Natureza é obrigatória!");
         }
     }
-
+    
     private boolean naturezaJaAdicionada(NaturezaOcorrencia natureza) {
         for (NaturezaOcorrencia natureza1 : naturezas) {
             if (natureza1.equals(natureza)) {
@@ -599,11 +593,11 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
         }
         return false;
     }
-
+    
     public void removerNatueza(NaturezaOcorrencia natureza) {
         naturezas.remove(natureza);
     }
-
+    
     public void addPessoas() {
         if (pessoaAdd != null) {
             if (Utils.isNullOrEmpty(pessoaAdd.getNome())) {
@@ -612,17 +606,17 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
                 pessoasEnvolvidas.add(pessoaAdd);
                 pessoaAdd = new PessoaEnvolvida();
             }
-
+            
         } else {
             FacesMessageUtils.error("Pessoa Envolvida é obrigatório!");
         }
-
+        
     }
-
+    
     public void removerPessoa(PessoaEnvolvida pessoa) {
         pessoasEnvolvidas.remove(pessoa);
     }
-
+    
     public void addVeiculos() {
         if (veiculoEnvolvidoAdd != null) {
             if (!(Utils.isNullOrEmpty(veiculoEnvolvidoAdd.getPlaca()) && Utils.isNullOrEmpty(veiculoEnvolvidoAdd.getChassi()))) {
@@ -635,22 +629,22 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
                     } else {
                         FacesMessageUtils.error("Situação do Veículo é obrigatória!");
                     }
-
+                    
                 }
-
+                
             } else {
                 FacesMessageUtils.error("Placa ou Chassi do Veículo devem ser informados!");
             }
         } else {
             FacesMessageUtils.error("Veiculo é obrigatório!");
         }
-
+        
     }
-
+    
     public void removerVeiculo(QualificacaoDeVeiculo veiculo) {
         qualificacoesVeiculos.remove(veiculo);
     }
-
+    
     private boolean veiculoJahAdicionado(QualificacaoDeVeiculo veiculo) {
         for (QualificacaoDeVeiculo veiculoTemp : qualificacoesVeiculos) {
             if (veiculo.getPlaca().equals(veiculoTemp.getPlaca()) || veiculo.getChassi().equals(veiculoTemp.getChassi())) {
@@ -659,27 +653,27 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
         }
         return false;
     }
-
+    
     public StreamedContent download(Arquivo arquivo) throws IOException {
-
+        
         if (arquivo instanceof HibernateProxy) {
             HibernateProxy proxy = (HibernateProxy) arquivo;
             arquivo = (Arquivo) proxy.getHibernateLazyInitializer().getImplementation();
         }
-
+        
         String nomeArquivo = arquivo.getNome();
         String extensaoArquivo = arquivo.getExtensao();
-
+        
         File file = File.createTempFile(nomeArquivo, extensaoArquivo);
-
+        
         FileOutputStream outputStream = new FileOutputStream(file);
         outputStream.write(Base64.decode(arquivo.getConteudo()));
         outputStream.flush();
         outputStream.close();
-
+        
         return new DefaultStreamedContent(new FileInputStream(file), extensaoArquivo, nomeArquivo);
     }
-
+    
     public void upload(FileUploadEvent event) throws FileNotFoundException, IOException {
         Arquivo arquivo = new Arquivo();
         UploadedFile uploadedFile = event.getFile();
@@ -689,11 +683,11 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
         arquivo.setConteudo(base64AsString);
         arquivos.add(arquivo);
     }
-
+    
     public void removerArquivo(Arquivo arquivo) {
         arquivos.remove(arquivo);
     }
-
+    
     public void addDrogas() {
         if (drogaAdd.getDroga() != null) {
             if (!verificarDrogaAdd(drogaAdd.getDroga())) {
@@ -707,7 +701,7 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
                 } else {
                     FacesMessageUtils.error("Quantidade é obrigatória!");
                 }
-
+                
             } else {
                 FacesMessageUtils.error("Droga já foi adicionada!");
             }
@@ -715,11 +709,11 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
             FacesMessageUtils.error("Droga é obrigatória!");
         }
     }
-
+    
     public void removerDroga(DrogaOcorrenciaItem droga) {
         drogas.remove(droga);
     }
-
+    
     private boolean verificarDrogaAdd(DrogaOcorrencia droga) {
         for (DrogaOcorrenciaItem drogaTemp : drogas) {
             if (droga.equals(drogaTemp.getDroga())) {
@@ -728,7 +722,7 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
         }
         return false;
     }
-
+    
     public void addArma() {
         if (armaAdd.getTipo() != null) {
             if (!Utils.isNullOrEmpty(armaAdd.getNomeModelo())) {
@@ -740,13 +734,13 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
         } else {
             FacesMessageUtils.error("Tipo da Arma é obrigatório!");
         }
-
+        
     }
-
+    
     public void removerArma(Arma arma) {
         armas.remove(arma);
     }
-
+    
     public void addlocaisIntermediario() {
         if (localIntermediarioAdd.getLocal() != null) {
             if (localAdicionado(localIntermediarioAdd.getLocal())) {
@@ -760,7 +754,7 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
                             locaisIntermediarios.add(localIntermediarioAdd);
                             localIntermediarioAdd = new LocalIntermediarioAux();
                         }
-
+                        
                     } else {
                         FacesMessageUtils.error("Hora saída é obrigatória!");
                     }
@@ -768,17 +762,17 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
                     FacesMessageUtils.error("Hora Chegada é obrigatória!");
                 }
             }
-
+            
         } else {
             FacesMessageUtils.error("Local é obrigatório!");
         }
-
+        
     }
-
+    
     public void removerLocalIntermediario(LocalIntermediarioAux local) {
         locaisIntermediarios.remove(local);
     }
-
+    
     private boolean localAdicionado(LocalIntermediario localTemp) {
         for (LocalIntermediarioAux localAux : locaisIntermediarios) {
             if (localAux.getLocal().equals(localTemp)) {
@@ -787,7 +781,7 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
         }
         return false;
     }
-
+    
     public void addObjeto() {
         if (!Utils.isNullOrEmpty(objetoAdd.getDescricao())) {
             if (objetoJahAdicionado(objetoAdd.getDescricao())) {
@@ -800,17 +794,17 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
                     FacesMessageUtils.error("Quantidade do Objeto é obrigatório!");
                 }
             }
-
+            
         } else {
             FacesMessageUtils.error("Descrição do Objeto é obrigatória!");
         }
-
+        
     }
-
+    
     public void removerObjeto(ObjetoApreendido obj) {
         objetos.remove(obj);
     }
-
+    
     private boolean objetoJahAdicionado(String nome) {
         for (ObjetoApreendido objeto : objetos) {
             if (objeto.getDescricao().equals(nome)) {
@@ -819,7 +813,7 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
         }
         return false;
     }
-
+    
     public void addPatrulha() {
         if (patrulha != null) {
             if (!patrulhaJahAdd(patrulha)) {
@@ -828,29 +822,29 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
                     patrulhas.add(patrulhaAdd);
                     patrulhaAdd = new PatrulhaAux();
                     patrulha = new Patrulha();
-
+                    
                 } else {
                     FacesMessageUtils.error("Data e hora do despacho são obrigatórias!");
                 }
-
+                
             } else {
                 FacesMessageUtils.error("Patrulha já foi adicionada");
             }
-
+            
         } else {
             FacesMessageUtils.error("Patrulha é obrigatória");
         }
     }
-
+    
     public void removerPatrulha(PatrulhaAux patrulha) {
         Patrulha patrulhaTemp = getBO().getDAO().getInitialized(patrulha.getPatrulha());
         patrulhaTemp.setStatus(StatusViaturaEnum.DISPONIVEL);
-
+        
         patrulhaBO.getDAO().saveOrMerge(patrulhaTemp, true);
-
+        
         patrulhas.remove(patrulha);
     }
-
+    
     private boolean patrulhaJahAdd(Patrulha patrulha) {
         for (PatrulhaAux patrulhaTemp : patrulhas) {
             if (patrulha.equals(patrulhaTemp.getPatrulha())) {
@@ -859,7 +853,7 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
         }
         return false;
     }
-
+    
     public void addResultado() {
         if (resultadoAdd != null) {
             if (resultadoJahAdd(resultadoAdd)) {
@@ -872,11 +866,11 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
             FacesMessageUtils.error("Resultado é obrigatório");
         }
     }
-
+    
     public void removerResultado(ResultadoOcorrencia resultado) {
         resultados.remove(resultado);
     }
-
+    
     private boolean resultadoJahAdd(ResultadoOcorrencia resultado) {
         for (ResultadoOcorrencia resultadoTemp : resultados) {
             if (resultadoTemp.equals(resultado)) {
@@ -885,49 +879,49 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
         }
         return false;
     }
-
+    
     private boolean atualizarEndereco(JSONObject json) {
         if (json != null) {
             if (json.getString("status").equals("OK")) {
                 endereco = new Endereco();
                 enderecoTemp = new Endereco();
-
+                
                 JSONArray jsonArray = json.getJSONArray("results");
                 JSONArray enderecoJson = (JSONArray) ((JSONObject) jsonArray.get(0)).get("address_components");
-
+                
                 endereco.setLogradouro(Utils.enderecoPorNomeAtributoJson(enderecoJson, "Endereco"));
                 enderecoTemp.setLogradouro(endereco.getLogradouro());
-
+                
                 endereco.setNumero(Utils.enderecoPorNomeAtributoJson(enderecoJson, "Numero"));
                 enderecoTemp.setNumero(endereco.getNumero());
-
+                
                 endereco.setBairro(Utils.enderecoPorNomeAtributoJson(enderecoJson, "Bairro"));
                 enderecoTemp.setBairro(endereco.getBairro());
-
+                
                 endereco.setCidade(Utils.enderecoPorNomeAtributoJson(enderecoJson, "Cidade"));
                 enderecoTemp.setCidade(endereco.getCidade());
-
+                
                 endereco.setEstado(Utils.enderecoPorNomeAtributoJson(enderecoJson, "Estado"));
                 enderecoTemp.setEstado(endereco.getEstado());
-
+                
                 endereco.setPais(Utils.enderecoPorNomeAtributoJson(enderecoJson, "Pais"));
                 enderecoTemp.setPais(endereco.getPais());
-
+                
                 endereco.setCep(Utils.enderecoPorNomeAtributoJson(enderecoJson, "Cep"));
                 enderecoTemp.setCep(endereco.getCep());
-
+                
                 String enderecoFormatado = ((JSONObject) jsonArray.get(0)).get("formatted_address").toString();
                 endereco.setEnderecoFormatado(enderecoFormatado);
                 enderecoTemp.setEnderecoFormatado(endereco.getEnderecoFormatado());
-
+                
                 JSONObject geometrico = (JSONObject) ((JSONObject) jsonArray.get(0)).get("geometry");
                 JSONObject localizacao = (JSONObject) geometrico.get("location");
                 endereco.setLatitude(localizacao.getDouble("lat"));
                 enderecoTemp.setLatitude(endereco.getLatitude());
-
+                
                 endereco.setLongitude(localizacao.getDouble("lng"));
                 enderecoTemp.setLongitude(endereco.getLongitude());
-
+                
                 return true;
             } else {
                 if (json.getString("status").equals("OVER_QUERY_LIMIT")) {
@@ -935,316 +929,316 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
                 }
             }
         }
-
+        
         return false;
     }
-
+    
     public List<SituacaoOcorrencia> getSituacoes() {
         situacoes.remove(SituacaoOcorrencia.PENDENTE);
         return situacoes;
     }
-
+    
     public List<NaturezaOcorrencia> getNaturezasAtivas() {
         return naturezaBO.listarAtivos();
     }
-
+    
     public MapModel getSimpleModel() {
         return simpleModel;
     }
-
+    
     public void setSimpleModel(MapModel simpleModel) {
         this.simpleModel = simpleModel;
     }
-
+    
     public String getLatLong() {
         return latLong;
     }
-
+    
     public void setLatLong(String latLong) {
         this.latLong = latLong;
     }
-
+    
     public String getZoom() {
         return zoom;
     }
-
+    
     public void setZoom(String zoom) {
         this.zoom = zoom;
     }
-
+    
     public PatrulhaAux getPatrulhaAdd() {
         return patrulhaAdd;
     }
-
+    
     public void setPatrulhaAdd(PatrulhaAux patrulhaAdd) {
         this.patrulhaAdd = patrulhaAdd;
     }
-
+    
     public Patrulha getPatrulha() {
         return patrulha;
     }
-
+    
     public List<Ocorrencia> getOcorrenciasMesma() {
         return ocorrenciasMesma;
     }
-
+    
     public void setOcorrenciasMesma(List<Ocorrencia> ocorrenciasMesma) {
         this.ocorrenciasMesma = ocorrenciasMesma;
     }
-
+    
     public Solicitante getSolicitanteAdd() {
         return solicitanteAdd;
     }
-
+    
     public void setSolicitanteAdd(Solicitante solicitanteAdd) {
         this.solicitanteAdd = solicitanteAdd;
     }
-
+    
     public void setPatrulha(Patrulha patrulha) {
         this.patrulha = patrulha;
     }
-
+    
     public List<ResultadoOcorrencia> getResultados() {
         return resultados;
     }
-
+    
     public void setResultados(List<ResultadoOcorrencia> resultados) {
         this.resultados = resultados;
     }
-
+    
     public ResultadoOcorrencia getResultadoAdd() {
         return resultadoAdd;
     }
-
+    
     public void setResultadoAdd(ResultadoOcorrencia resultadoAdd) {
         this.resultadoAdd = resultadoAdd;
     }
-
+    
     public String getLogradouro() {
         return logradouro;
     }
-
+    
     public void setLogradouro(String logradouro) {
         this.logradouro = logradouro;
     }
-
+    
     public Endereco getEndereco() {
         return endereco;
     }
-
+    
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
-
+    
     public List<NaturezaOcorrencia> getNaturezas() {
         return naturezas;
     }
-
+    
     public void setNaturezas(List<NaturezaOcorrencia> naturezas) {
         this.naturezas = naturezas;
     }
-
+    
     public NaturezaOcorrencia getNaturezaAdd() {
         return naturezaAdd;
     }
-
+    
     public void setNaturezaAdd(NaturezaOcorrencia naturezaAdd) {
         this.naturezaAdd = naturezaAdd;
     }
-
+    
     public List<PatrulhaAux> getPatrulhas() {
         return patrulhas;
     }
-
+    
     public void setPatrulhas(List<PatrulhaAux> patrulhas) {
         this.patrulhas = patrulhas;
     }
-
+    
     public List<PessoaEnvolvida> getPessoasEnvolvidas() {
         return pessoasEnvolvidas;
     }
-
+    
     public void setPessoasEnvolvidas(List<PessoaEnvolvida> pessoasEnvolvidas) {
         this.pessoasEnvolvidas = pessoasEnvolvidas;
     }
-
+    
     public PessoaEnvolvida getPessoaAdd() {
         return pessoaAdd;
     }
-
+    
     public void setPessoaAdd(PessoaEnvolvida pessoaAdd) {
         this.pessoaAdd = pessoaAdd;
     }
-
+    
     public List<QualificacaoDeVeiculo> getQualificacoesVeiculos() {
         return qualificacoesVeiculos;
     }
-
+    
     public void setQualificacoesVeiculos(List<QualificacaoDeVeiculo> qualificacoesVeiculos) {
         this.qualificacoesVeiculos = qualificacoesVeiculos;
     }
-
+    
     public QualificacaoDeVeiculo getVeiculoEnvolvidoAdd() {
         return veiculoEnvolvidoAdd;
     }
-
+    
     public void setVeiculoEnvolvidoAdd(QualificacaoDeVeiculo veiculoEnvolvidoAdd) {
         this.veiculoEnvolvidoAdd = veiculoEnvolvidoAdd;
     }
-
+    
     public List<Arma> getArmas() {
         return armas;
     }
-
+    
     public void setArmas(List<Arma> armas) {
         this.armas = armas;
     }
-
+    
     public List<LocalIntermediarioAux> getLocaisIntermediarios() {
         return locaisIntermediarios;
     }
-
+    
     public void setLocaisIntermediarios(List<LocalIntermediarioAux> locaisIntermediarios) {
         this.locaisIntermediarios = locaisIntermediarios;
     }
-
+    
     public List<DrogaOcorrenciaItem> getDrogas() {
         return drogas;
     }
-
+    
     public void setDrogas(List<DrogaOcorrenciaItem> drogas) {
         this.drogas = drogas;
     }
-
+    
     public List<ObjetoApreendido> getObjetos() {
         return objetos;
     }
-
+    
     public void setObjetos(List<ObjetoApreendido> objetos) {
         this.objetos = objetos;
     }
-
+    
     public List<Arquivo> getArquivos() {
         return arquivos;
     }
-
+    
     public void setArquivos(List<Arquivo> arquivos) {
         this.arquivos = arquivos;
     }
-
+    
     public List<Solicitante> getSolicitantes() {
         return solicitantes;
     }
-
+    
     public void setSolicitantes(List<Solicitante> solicitantes) {
         this.solicitantes = solicitantes;
     }
-
+    
     public Telefone getTelefone() {
         return telefone;
     }
-
+    
     public void setTelefone(Telefone telefone) {
         this.telefone = telefone;
     }
-
+    
     public Ocorrencia getOcorrencia() {
         return ocorrencia;
     }
-
+    
     public void setOcorrencia(Ocorrencia ocorrencia) {
         this.ocorrencia = ocorrencia;
     }
-
+    
     public DrogaOcorrenciaItem getDrogaAdd() {
         return drogaAdd;
     }
-
+    
     public void setDrogaAdd(DrogaOcorrenciaItem drogaAdd) {
         this.drogaAdd = drogaAdd;
     }
-
+    
     public Arma getArmaAdd() {
         return armaAdd;
     }
-
+    
     public void setArmaAdd(Arma armaAdd) {
         this.armaAdd = armaAdd;
     }
-
+    
     public LocalIntermediarioAux getLocalIntermediarioAdd() {
         return localIntermediarioAdd;
     }
-
+    
     public void setLocalIntermediarioAdd(LocalIntermediarioAux localIntermediarioAdd) {
         this.localIntermediarioAdd = localIntermediarioAdd;
     }
-
+    
     public ObjetoApreendido getObjetoAdd() {
         return objetoAdd;
     }
-
+    
     public void setObjetoAdd(ObjetoApreendido objetoAdd) {
         this.objetoAdd = objetoAdd;
     }
-
+    
     public List<Ocorrencia> getOcorrencias() {
         return ocorrencias;
     }
-
+    
     public void setOcorrencias(List<Ocorrencia> ocorrencias) {
         this.ocorrencias = ocorrencias;
     }
-
+    
     public List<Patrulha> getPatrulhaAutocomplente() {
         List<Opm> opms = new ArrayList<Opm>();
-
+        
         for (Organizacao org : organizacoes) {
             if (org instanceof Opm) {
                 opms.add((Opm) org);
             }
         }
-
+        
         if (opms.size() < 1) {
             return null;
         }
-
+        
         return patrulhaBO.listarPatrulhasDisponiveis(opms);
     }
-
+    
     public List<Organizacao> getApoios() {
         return apoios;
     }
-
+    
     public void setApoios(List<Organizacao> apoios) {
         this.apoios = apoios;
     }
-
+    
     public List<ResultadoOcorrencia> getResultadoOcorrenciaAuto() {
         return resultadoBO.resultadoOcorrenciaAtivos();
     }
-
+    
     public TipoApoio getTipoApoio() {
         return tipoApoio;
     }
-
+    
     public void setTipoApoio(TipoApoio tipoApoio) {
         this.tipoApoio = tipoApoio;
     }
-
+    
     public Organizacao getApoio() {
         return apoio;
     }
-
+    
     public void setApoio(Organizacao apoio) {
         this.apoio = apoio;
     }
-
+    
     public List<ClassificacaoChamada> getClassificoesChamada() {
-
+        
         return classificoesChamada;
     }
-
+    
     public void mudarSituacaoOcorrencia() {
         if (ocorrencia.getClassificacaoChamada() == ClassificacaoChamada.TROTE) {
             ocorrencia.setSituacao(SituacaoOcorrencia.ENCERRADA);
@@ -1252,7 +1246,7 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
             ocorrencia.setHoraEncerramento(new Date());
         } else {
             ocorrencia.setSituacao(situacaoTemp);
-
+            
             if (situacaoTemp == SituacaoOcorrencia.ENCERRADA) {
                 ocorrencia.setDataEncerramento(new Date());
                 ocorrencia.setHoraEncerramento(new Date());
@@ -1260,10 +1254,10 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
                 ocorrencia.setDataEncerramento(null);
                 ocorrencia.setHoraEncerramento(null);
             }
-
+            
         }
     }
-
+    
     public void limparCampos() {
         setEntity(new Ocorrencia());
         endereco = new Endereco();
@@ -1297,33 +1291,33 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
         tipoApoio = TipoApoio.BOMBEIRO;
         situacaoTemp = null;
     }
-
+    
     public void mudarTipoApoio() {
         if (tipoApoio == TipoApoio.BOMBEIRO) {
             apoio = new Bombeiro();
         }
-
+        
         if (tipoApoio == TipoApoio.SAMU) {
             apoio = new Samu();
         }
-
+        
         if (tipoApoio == TipoApoio.TRANSITO) {
             apoio = new Transito();
         }
-
+        
         if (tipoApoio == TipoApoio.GUARDA_MUNICIPAL) {
             apoio = new GuardaMunicipal();
         }
-
+        
         if (tipoApoio == TipoApoio.POLICIA_RODOVIARIA_FEDERAL) {
             apoio = new PoliciaRodoviariaFederal();
         }
-
+        
         if (tipoApoio == TipoApoio.POLICIA_FEDERAL) {
             apoio = new PoliciaFederal();
         }
     }
-
+    
     public void addApoio() {
         if (apoio != null) {
             if (apoioJahAdd(apoio)) {
@@ -1333,24 +1327,24 @@ public class DespachoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implement
                 tipoApoio = TipoApoio.BOMBEIRO;
                 apoio = new Bombeiro();
             }
-
+            
         } else {
             FacesMessageUtils.error("Apoio é obrigatório!");
         }
     }
-
+    
     public void removerApoio(Organizacao org) {
         apoios.remove(org);
     }
-
+    
     private boolean apoioJahAdd(Organizacao org) {
         for (Organizacao orgTemp : apoios) {
             if (orgTemp.equals(org)) {
                 return true;
             }
         }
-
+        
         return false;
     }
-
+    
 }

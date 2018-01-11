@@ -388,12 +388,8 @@ public class AtendimentoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implem
             List<NaturezaOcorrencia> naturezaTemp = getBO().getDAO().getInitialized(ocorrenciaTemp.getNaturezas());
             Marker markerTemp = new Marker(latLng, Utils.getAtributosMarcacaoDenuncia(ocorrenciaTemp, naturezaTemp, null));
 
-            if (ocorrenciaTemp.getClassificacaoOcorrencia() == ClassificacaoOcorrencia.POLICIAL_EM_PERIGO
-                    || ocorrenciaTemp.getClassificacaoOcorrencia() == ClassificacaoOcorrencia.URGENTE) {
-                markerTemp.setIcon(parametroSistema.getUrlImagens().concat("geral/WARNING_VERMELHO.png"));
-            } else {
-                markerTemp.setIcon(parametroSistema.getUrlImagens().concat("geral/WARNING_AMARELO.png"));
-            }
+            markerTemp.setIcon(parametroSistema.getUrlImagens().concat("naturezas/").concat(naturezaTemp.get(0).getCodigo()).concat(".png"));
+
             simpleModel.addOverlay(markerTemp);
         }
     }

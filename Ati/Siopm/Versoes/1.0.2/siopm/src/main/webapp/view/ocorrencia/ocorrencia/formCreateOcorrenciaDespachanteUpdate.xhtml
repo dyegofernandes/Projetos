@@ -98,15 +98,7 @@
                                            itemLabel="#{classificacaoChamada.descricao}"/>
                         </h:selectOneMenu>
                     </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="classificacaoOcorrencia" value="* #{msg['ocorrencia.classificacaoOcorrencia']}:" />
-                        <h:selectOneMenu id="classificacaoOcorrencia" value="#{despachoOcorrenciaMB.ocorrencia.classificacaoOcorrencia}"  styleClass="form-control" >
-                            <f:selectItem itemLabel="#{xmsg['select']}" />
-                            <f:selectItems value="#{findAllBean.get(classMB.classificacaoOcorrencia)}" 
-                                           var="classificacaoOcorrencia"
-                                           itemLabel="#{classificacaoOcorrencia.descricao}"/>
-                        </h:selectOneMenu>
-                    </div>
+
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="alerta" value="* Alerta para todas as Opms?" />
                         <h:selectOneMenu id="alerta" value="#{despachoOcorrenciaMB.ocorrencia.alerta}"  styleClass="form-control" >

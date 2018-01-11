@@ -14,6 +14,7 @@ public enum IconeViatura {
     VTR_BOPE("VTR_BOPE.png"),
     VTR_BPRE("VTR_BPRE.png"),
     VTR_BPRONE("VTR_BPRONE.png"),
+    VTR_CAVALARIA("VTR_CAVALARIA.png"),
     VTR_CONVENCIONAL("VTR_CONVENCIONAL.png"),
     MOTO_RONE("MOTO_RONE.png"),
     MOTO_CONVENCIONAL("MOTO_CONVENCIONAL.png");

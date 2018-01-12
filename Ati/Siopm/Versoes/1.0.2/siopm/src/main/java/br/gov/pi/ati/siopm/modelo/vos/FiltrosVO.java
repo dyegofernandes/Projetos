@@ -5,6 +5,7 @@
  */
 package br.gov.pi.ati.siopm.modelo.vos;
 
+import br.gov.pi.ati.siopm.modelo.cadastro.MarcaDeArma;
 import br.gov.pi.ati.siopm.modelo.cadastro.ModeloVeiculo;
 import br.gov.pi.ati.siopm.modelo.cadastro.NaturezaOcorrencia;
 import br.gov.pi.ati.siopm.modelo.cadastro.Opm;
@@ -15,6 +16,7 @@ import br.gov.pi.ati.siopm.modelo.enums.ClassificacaoPessoaOcorrencia;
 import br.gov.pi.ati.siopm.modelo.enums.SimOuNao;
 import br.gov.pi.ati.siopm.modelo.enums.SituacaoVeiculo;
 import br.gov.pi.ati.siopm.modelo.enums.TipoDeArma;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -78,11 +80,13 @@ public class FiltrosVO {
 
     private String modeloArma;
 
-    private double calibre;
+    private BigDecimal calibre;
 
-    private double capacidade;
+    private BigDecimal capacidade;
 
     private SimOuNao armaPolicia;
+
+    private MarcaDeArma marca;
 
     public String getNome() {
         return nome;
@@ -300,19 +304,19 @@ public class FiltrosVO {
         this.modeloArma = modeloArma;
     }
 
-    public double getCalibre() {
+    public BigDecimal getCalibre() {
         return calibre;
     }
 
-    public void setCalibre(double calibre) {
+    public void setCalibre(BigDecimal calibre) {
         this.calibre = calibre;
     }
 
-    public double getCapacidade() {
+    public BigDecimal getCapacidade() {
         return capacidade;
     }
 
-    public void setCapacidade(double capacidade) {
+    public void setCapacidade(BigDecimal capacidade) {
         this.capacidade = capacidade;
     }
 
@@ -324,5 +328,12 @@ public class FiltrosVO {
         this.armaPolicia = armaPolicia;
     }
 
-    
+    public MarcaDeArma getMarca() {
+        return marca;
+    }
+
+    public void setMarca(MarcaDeArma marca) {
+        this.marca = marca;
+    }
+
 }

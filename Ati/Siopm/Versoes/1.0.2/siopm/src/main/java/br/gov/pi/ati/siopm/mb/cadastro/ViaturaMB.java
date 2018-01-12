@@ -62,6 +62,7 @@ public class ViaturaMB extends AbstractBaseBean<Viatura> implements Serializable
     @Override
     public void postSave() {
         setEntity(new Viatura());
+        apelidos = new ArrayList<ApelidoViatura>();
     }
 
     public List<Viatura> autocompletePeloNome(String nome) {

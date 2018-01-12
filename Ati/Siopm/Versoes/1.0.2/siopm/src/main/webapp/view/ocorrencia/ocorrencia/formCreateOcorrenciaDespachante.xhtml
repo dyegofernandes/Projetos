@@ -95,7 +95,7 @@
                                             <f:convertDateTime />
                                         </h:outputText>
                                     </div>
-                                   
+
 
                                 </div>
                                 <div class="row">
@@ -556,7 +556,7 @@
                                             <f:selectItem itemLabel="#{xmsg['select']}" />
                                             <f:selectItems value="#{despachoOcorrenciaMB.patrulhaAutocomplente}" 
                                                            var="patrulha"
-                                                           itemLabel="#{patrulha.viatura}"/>
+                                                           itemLabel="#{patrulha} - #{patrulha.viatura.prefixo}"/>
                                         </h:selectOneMenu>
                                     </div>
                                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
@@ -587,14 +587,16 @@
                                 <p:column styleClass="uix-datatable-index">
                                     <h:outputText value="#{index+1}"/>
                                 </p:column>
-                                <p:column headerText="Viatura">
+
+                                <p:column headerText="Guarnição">
                                     <f:facet name="header">
-                                        <h:outputText value="Viatura" />
+                                        <h:outputText value="Guarnição" />
                                     </f:facet>
-                                    <h:outputText value="#{patrulha.patrulha.viatura}">
+                                    <h:outputText value="#{patrulha.patrulha} - #{patrulha.patrulha.viatura}">
                                         <x:initializer/>
                                     </h:outputText>
                                 </p:column>
+
                                 <p:column headerText="Data Despacho" style="text-align: center;" width="15%">
                                     <f:facet name="header">
                                         <h:outputText value="Data Despacho" />

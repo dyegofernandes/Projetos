@@ -6,6 +6,7 @@
 package br.gov.pi.ati.siopm.modelo.vos;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  *
@@ -17,16 +18,18 @@ public class OcorrenciaArmaVO implements Serializable {
 
     private String codigo;
 
+    private String situacaoOcorrencia;
+
     private String dataOcorrencia;
 
     private String horaOcorrencia;
-    
+
     private String dataEncerramento;
-    
+
     private String horaEncerramento;
-    
+
     private String dataAtendimento;
-    
+
     private String horaAtendimento;
 
     private String enderecoFormatado;
@@ -54,18 +57,20 @@ public class OcorrenciaArmaVO implements Serializable {
     private double longitude;
 
     private String tipo;
-    
+
     private String nomeModelo;
-    
-    private double calibre;
-    
-    private double capacidade;
-    
-    private double quantidadeDeflagrada;
-    
+
+    private BigDecimal calibre;
+
+    private Integer capacidade;
+
+    private Integer quantidadeDeflagrada;
+
     private String numeracao;
-    
+
     private String armaDaPolicia;
+    
+    private String marca;
 
     public Long getId() {
         return id;
@@ -243,27 +248,27 @@ public class OcorrenciaArmaVO implements Serializable {
         this.nomeModelo = nomeModelo;
     }
 
-    public double getCalibre() {
+    public BigDecimal getCalibre() {
         return calibre;
     }
 
-    public void setCalibre(double calibre) {
+    public void setCalibre(BigDecimal calibre) {
         this.calibre = calibre;
     }
 
-    public double getCapacidade() {
+    public Integer getCapacidade() {
         return capacidade;
     }
 
-    public void setCapacidade(double capacidade) {
+    public void setCapacidade(Integer capacidade) {
         this.capacidade = capacidade;
     }
 
-    public double getQuantidadeDeflagrada() {
+    public Integer getQuantidadeDeflagrada() {
         return quantidadeDeflagrada;
     }
 
-    public void setQuantidadeDeflagrada(double quantidadeDeflagrada) {
+    public void setQuantidadeDeflagrada(Integer quantidadeDeflagrada) {
         this.quantidadeDeflagrada = quantidadeDeflagrada;
     }
 
@@ -282,7 +287,21 @@ public class OcorrenciaArmaVO implements Serializable {
     public void setArmaDaPolicia(String armaDaPolicia) {
         this.armaDaPolicia = armaDaPolicia;
     }
-    
-    
+
+    public String getSituacaoOcorrencia() {
+        return situacaoOcorrencia;
+    }
+
+    public void setSituacaoOcorrencia(String situacaoOcorrencia) {
+        this.situacaoOcorrencia = situacaoOcorrencia;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
 
 }

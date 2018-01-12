@@ -57,11 +57,11 @@ public class OcorrenciaPessoaEnvolvidaVO implements Serializable {
     
     private String rg;
     
-    private double descricao;
+    private String descricao;
     
-    private double cpf;
+    private String cpf;
     
-    private double cnh;
+    private String cnh;
     
     private String nomeDaMae;
     
@@ -80,6 +80,8 @@ public class OcorrenciaPessoaEnvolvidaVO implements Serializable {
     private String tipoPessoa;
     
     private String classificacaoOcorrencia;
+    
+    private String situacaoOcorrencia;
 
     public Long getId() {
         return id;
@@ -257,27 +259,27 @@ public class OcorrenciaPessoaEnvolvidaVO implements Serializable {
         this.rg = rg;
     }
 
-    public double getDescricao() {
+    public String getDescricao() {
         return descricao;
     }
 
-    public void setDescricao(double descricao) {
+    public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 
-    public double getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(double cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
-    public double getCnh() {
+    public String getCnh() {
         return cnh;
     }
 
-    public void setCnh(double cnh) {
+    public void setCnh(String cnh) {
         this.cnh = cnh;
     }
 
@@ -351,6 +353,14 @@ public class OcorrenciaPessoaEnvolvidaVO implements Serializable {
 
     public void setClassificacaoOcorrencia(String classificacaoOcorrencia) {
         this.classificacaoOcorrencia = classificacaoOcorrencia;
+    }
+
+    public String getSituacaoOcorrencia() {
+        return situacaoOcorrencia;
+    }
+
+    public void setSituacaoOcorrencia(String situacaoOcorrencia) {
+        this.situacaoOcorrencia = situacaoOcorrencia;
     }
     
     

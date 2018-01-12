@@ -31,7 +31,13 @@
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
-
+                <p:column headerText="Nome"  sortBy="#{patrulha.nome}"
+                          filterBy="#{patrulha.nome}">
+                    <f:facet name="header">
+                        <h:outputText value="Nome" />
+                    </f:facet>
+                    <h:outputText value="#{patrulha.nome}"/>
+                </p:column>
                 <p:column headerText="Data Inicial" sortBy="#{patrulha.inicioTurno}"
                           filterBy="#{patrulha.inicioTurno}"   style="text-align: center;">
                     <f:facet name="header">

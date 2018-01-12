@@ -238,4 +238,10 @@ public class Patrulha implements Serializable {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return nome; 
+    }
+
+    
 }

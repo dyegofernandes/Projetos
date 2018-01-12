@@ -2,11 +2,14 @@ package br.gov.pi.ati.siopm.bo.ocorrencia;
 
 import com.xpert.core.crud.AbstractBusinessObject;
 import br.gov.pi.ati.siopm.dao.ocorrencia.OcorrenciaDAO;
+import br.gov.pi.ati.siopm.modelo.cadastro.Arma;
 import br.gov.pi.ati.siopm.modelo.cadastro.Endereco;
+import br.gov.pi.ati.siopm.modelo.cadastro.MarcaDeArma;
 import br.gov.pi.ati.siopm.modelo.cadastro.NaturezaOcorrencia;
 import br.gov.pi.ati.siopm.modelo.cadastro.Opm;
 import br.gov.pi.ati.siopm.modelo.cadastro.Organizacao;
 import br.gov.pi.ati.siopm.modelo.cadastro.PatrulhaAux;
+import br.gov.pi.ati.siopm.modelo.cadastro.PessoaEnvolvida;
 import br.gov.pi.ati.siopm.modelo.cadastro.QualificacaoDeVeiculo;
 import br.gov.pi.ati.siopm.modelo.cadastro.ResultadoOcorrencia;
 import br.gov.pi.ati.siopm.modelo.cadastro.Solicitante;
@@ -20,6 +23,8 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.siopm.modelo.ocorrencia.Ocorrencia;
 import br.gov.pi.ati.siopm.modelo.vos.FiltrosVO;
+import br.gov.pi.ati.siopm.modelo.vos.OcorrenciaArmaVO;
+import br.gov.pi.ati.siopm.modelo.vos.OcorrenciaPessoaEnvolvidaVO;
 import br.gov.pi.ati.siopm.modelo.vos.OcorrenciaVO;
 import br.gov.pi.ati.siopm.modelo.vos.OcorrenciaVeiculoVO;
 import br.gov.pi.ati.siopm.util.Utils;
@@ -543,6 +548,251 @@ public class OcorrenciaBO extends AbstractBusinessObject<Ocorrencia> {
                 ocorrenciaVO.setModeloAno(veiculo.getModeloAno().toString());
                 ocorrenciaVO.setProprietario(veiculo.getProprietario());
                 ocorrenciaVO.setTelefonePropietario(veiculo.getProprietario());
+
+                ocorrencias.add(ocorrenciaVO);
+            }
+
+        }
+
+        return ocorrencias;
+    }
+
+    public List<OcorrenciaArmaVO> armasPorOcorrencias(FiltrosVO filtros) {
+
+        List<OcorrenciaArmaVO> ocorrencias = new ArrayList<OcorrenciaArmaVO>();
+        Restrictions restrictions = new Restrictions();
+
+        if (filtros.getDataInicial() != null) {
+            restrictions.greaterEqualsThan("ocorrencia.dataOcorrencia", filtros.getDataInicial(), TemporalType.DATE);
+        }
+
+        if (filtros.getHoraInicial() != null) {
+            restrictions.greaterEqualsThan("solicitantes.horarioSolicitacao", filtros.getHoraInicial(), TemporalType.TIME);
+        }
+
+        if (filtros.getDataFinal() != null) {
+            restrictions.lessEqualsThan("ocorrencia.dataOcorrencia", filtros.getDataFinal(), TemporalType.DATE);
+
+        }
+
+        if (filtros.getHoraFinal() != null) {
+            restrictions.lessEqualsThan("solicitantes.horarioSolicitacao", filtros.getHoraFinal(), TemporalType.TIME);
+        }
+
+        if (!Utils.isNullOrEmpty(filtros.getLogradouro())) {
+            restrictions.like("logradouro", filtros.getLogradouro());
+        }
+
+        if (!Utils.isNullOrEmpty(filtros.getBairro())) {
+            restrictions.add("endereco.bairro", filtros.getBairro());
+        }
+
+        if (!Utils.isNullOrEmpty(filtros.getCidade())) {
+            restrictions.add("endereco.cidade", filtros.getCidade());
+        }
+
+        if (filtros.getCalibre() != null) {
+            restrictions.add("armas.calibre", filtros.getCalibre());
+        }
+
+        if (filtros.getCapacidade() != null) {
+            restrictions.add("armas.capacidade", filtros.getCapacidade());
+        }
+
+        if (!Utils.isNullOrEmpty(filtros.getModeloArma())) {
+            restrictions.add("armas.nomeModelo", filtros.getModeloArma());
+        }
+
+        if (!Utils.isNullOrEmpty(filtros.getModeloArma())) {
+            restrictions.add("armas.nomeModelo", filtros.getModeloArma());
+        }
+
+        if (filtros.getMarca() != null) {
+            restrictions.add("armas.marca", filtros.getMarca());
+        }
+
+        if (filtros.getTipoArma() != null) {
+            restrictions.add("armas.tipo", filtros.getTipoArma());
+        }
+
+        List<Ocorrencia> ocorrenciasTemp = getDAO().getQueryBuilder().select("ocorrencia").from(Ocorrencia.class, "ocorrencia")
+                .leftJoin("ocorrencia.solicitantes", "solicitantes")
+                .leftJoin("ocorrencia.endereco", "endereco")
+                .leftJoin("ocorrencia.armas", "armas")
+                .add(restrictions)
+                .orderBy("ocorrencia.id")
+                .getResultList();
+
+        for (Ocorrencia ocorrencia : ocorrenciasTemp) {
+
+            List<Arma> armas = getDAO().getInitialized(ocorrencia.getArmas());
+
+            for (Arma arma : armas) {
+                OcorrenciaArmaVO ocorrenciaVO = new OcorrenciaArmaVO();
+
+                ocorrenciaVO.setDataOcorrencia(Utils.convertDateToString(ocorrencia.getDataOcorrencia(), "dd/MM/yyyy"));
+
+                if (ocorrencia.getDataAtendimento() != null) {
+                    ocorrenciaVO.setDataAtendimento(Utils.convertDateToString(ocorrencia.getDataAtendimento(), "dd/MM/yyyy"));
+                } else {
+                    ocorrenciaVO.setDataAtendimento(" - ");
+                }
+
+                if (ocorrencia.getHoraAtendimento() != null) {
+                    ocorrenciaVO.setHoraAtendimento(Utils.convertDateToString(ocorrencia.getHoraAtendimento(), "HH:mm"));
+                } else {
+                    ocorrenciaVO.setHoraAtendimento(" - ");
+                }
+
+                if (ocorrencia.getDataEncerramento() != null) {
+                    ocorrenciaVO.setDataEncerramento(Utils.convertDateToString(ocorrencia.getDataEncerramento(), "dd/MM/yyyy"));
+                } else {
+                    ocorrenciaVO.setDataEncerramento(" - ");
+                }
+
+                if (ocorrencia.getHoraEncerramento() != null) {
+                    ocorrenciaVO.setHoraEncerramento(Utils.convertDateToString(ocorrencia.getHoraEncerramento(), "HH:mm"));
+                } else {
+                    ocorrenciaVO.setHoraEncerramento(" - ");
+                }
+
+                Endereco endereco = getDAO().getInitialized(ocorrencia.getEndereco());
+
+                ocorrenciaVO.setLogradouro(endereco.getLogradouro());
+                ocorrenciaVO.setBairro(endereco.getBairro());
+                ocorrenciaVO.setNumero(endereco.getNumero());
+                ocorrenciaVO.setCidade(endereco.getCidade());
+
+                ocorrenciaVO.setId(ocorrencia.getId());
+                ocorrenciaVO.setCodigo(ocorrencia.getAno().toString().concat(ocorrencia.getCodigo().toString()));
+                ocorrenciaVO.setSituacaoOcorrencia(ocorrencia.getSituacao().getDescricao());
+
+                ocorrenciaVO.setArmaDaPolicia(arma.getArmaDaPolicia().getDescricao());
+                ocorrenciaVO.setCalibre(arma.getCalibre());
+                ocorrenciaVO.setCapacidade(arma.getCapacidade());
+                ocorrenciaVO.setQuantidadeDeflagrada(arma.getQuantidadeDeflagrada());
+                ocorrenciaVO.setNumeracao(arma.getNumeracao());
+                ocorrenciaVO.setNomeModelo(arma.getNomeModelo());
+                ocorrenciaVO.setTipo(arma.getTipo().getDescricao());
+
+                MarcaDeArma marca = getDAO().getInitialized(arma.getMarca());
+
+                ocorrenciaVO.setMarca(marca.getNome());
+
+                ocorrencias.add(ocorrenciaVO);
+            }
+
+        }
+
+        return ocorrencias;
+    }
+
+    public List<OcorrenciaPessoaEnvolvidaVO> pessoasPorOcorrencias(FiltrosVO filtros) {
+
+        List<OcorrenciaPessoaEnvolvidaVO> ocorrencias = new ArrayList<OcorrenciaPessoaEnvolvidaVO>();
+        Restrictions restrictions = new Restrictions();
+
+        if (filtros.getDataInicial() != null) {
+            restrictions.greaterEqualsThan("ocorrencia.dataOcorrencia", filtros.getDataInicial(), TemporalType.DATE);
+        }
+
+        if (filtros.getHoraInicial() != null) {
+            restrictions.greaterEqualsThan("solicitantes.horarioSolicitacao", filtros.getHoraInicial(), TemporalType.TIME);
+        }
+
+        if (filtros.getDataFinal() != null) {
+            restrictions.lessEqualsThan("ocorrencia.dataOcorrencia", filtros.getDataFinal(), TemporalType.DATE);
+
+        }
+
+        if (filtros.getHoraFinal() != null) {
+            restrictions.lessEqualsThan("solicitantes.horarioSolicitacao", filtros.getHoraFinal(), TemporalType.TIME);
+        }
+
+        if (!Utils.isNullOrEmpty(filtros.getLogradouro())) {
+            restrictions.like("logradouro", filtros.getLogradouro());
+        }
+
+        if (!Utils.isNullOrEmpty(filtros.getBairro())) {
+            restrictions.add("endereco.bairro", filtros.getBairro());
+        }
+
+        if (!Utils.isNullOrEmpty(filtros.getCidade())) {
+            restrictions.add("endereco.cidade", filtros.getCidade());
+        }
+
+        if (!Utils.isNullOrEmpty(filtros.getNome())) {
+            restrictions.add("pessoas.situacao", filtros.getNome());
+        }
+
+        if (!Utils.isNullOrEmpty(filtros.getRg())) {
+            restrictions.add("pessoas.rg", filtros.getRg());
+        }
+
+        if (!Utils.isNullOrEmpty(filtros.getCpf())) {
+            restrictions.add("pessoas.cpf", filtros.getCpf());
+        }
+
+        if (!Utils.isNullOrEmpty(filtros.getCnh())) {
+            restrictions.add("pessoas.cnh", filtros.getCnh());
+        }
+
+        List<Ocorrencia> ocorrenciasTemp = getDAO().getQueryBuilder().selectDistinct("ocorrencia").from(Ocorrencia.class, "ocorrencia")
+                .leftJoin("ocorrencia.solicitantes", "solicitantes")
+                .leftJoin("ocorrencia.endereco", "endereco")
+                .leftJoin("ocorrencia.pessoasEnvolvidas", "pessoas")
+                .add(restrictions)
+                .orderBy("ocorrencia.id")
+                .getResultList();
+
+        for (Ocorrencia ocorrencia : ocorrenciasTemp) {
+
+            List<PessoaEnvolvida> pessoas = getDAO().getInitialized(ocorrencia.getPessoasEnvolvidas());
+
+            for (PessoaEnvolvida pessoa : pessoas) {
+                OcorrenciaPessoaEnvolvidaVO ocorrenciaVO = new OcorrenciaPessoaEnvolvidaVO();
+
+                ocorrenciaVO.setDataOcorrencia(Utils.convertDateToString(ocorrencia.getDataOcorrencia(), "dd/MM/yyyy"));
+
+                if (ocorrencia.getDataAtendimento() != null) {
+                    ocorrenciaVO.setDataAtendimento(Utils.convertDateToString(ocorrencia.getDataAtendimento(), "dd/MM/yyyy"));
+                } else {
+                    ocorrenciaVO.setDataAtendimento(" - ");
+                }
+
+                if (ocorrencia.getHoraAtendimento() != null) {
+                    ocorrenciaVO.setHoraAtendimento(Utils.convertDateToString(ocorrencia.getHoraAtendimento(), "HH:mm"));
+                } else {
+                    ocorrenciaVO.setHoraAtendimento(" - ");
+                }
+
+                if (ocorrencia.getDataEncerramento() != null) {
+                    ocorrenciaVO.setDataEncerramento(Utils.convertDateToString(ocorrencia.getDataEncerramento(), "dd/MM/yyyy"));
+                } else {
+                    ocorrenciaVO.setDataEncerramento(" - ");
+                }
+
+                if (ocorrencia.getHoraEncerramento() != null) {
+                    ocorrenciaVO.setHoraEncerramento(Utils.convertDateToString(ocorrencia.getHoraEncerramento(), "HH:mm"));
+                } else {
+                    ocorrenciaVO.setHoraEncerramento(" - ");
+                }
+
+                Endereco endereco = getDAO().getInitialized(ocorrencia.getEndereco());
+
+                ocorrenciaVO.setLogradouro(endereco.getLogradouro());
+                ocorrenciaVO.setBairro(endereco.getBairro());
+                ocorrenciaVO.setNumero(endereco.getNumero());
+                ocorrenciaVO.setCidade(endereco.getCidade());
+
+                ocorrenciaVO.setId(ocorrencia.getId());
+                ocorrenciaVO.setCodigo(ocorrencia.getAno().toString().concat(ocorrencia.getCodigo().toString()));
+                ocorrenciaVO.setSituacaoOcorrencia(ocorrencia.getSituacao().getDescricao());
+
+                ocorrenciaVO.setCpf(pessoa.getCpf());
+                ocorrenciaVO.setRg(pessoa.getRg());
+                ocorrenciaVO.setNome(pessoa.getNome());
+                ocorrenciaVO.setCnh(pessoa.getCnh());
 
                 ocorrencias.add(ocorrenciaVO);
             }

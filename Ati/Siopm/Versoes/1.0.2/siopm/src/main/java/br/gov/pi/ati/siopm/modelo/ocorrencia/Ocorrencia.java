@@ -102,10 +102,9 @@ public class Ocorrencia implements Serializable {
     @Enumerated(EnumType.STRING)
     private ClassificacaoChamada classificacaoChamada = ClassificacaoChamada.OCORRENCIA;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private ClassificacaoOcorrencia classificacaoOcorrencia = ClassificacaoOcorrencia.NORMAL;
-
+//    @NotNull
+//    @Enumerated(EnumType.STRING)
+//    private ClassificacaoOcorrencia classificacaoOcorrencia = ClassificacaoOcorrencia.NORMAL;
     @NotNull
     @Enumerated(EnumType.STRING)
     private SituacaoOcorrencia situacao = SituacaoOcorrencia.PENDENTE;
@@ -198,14 +197,6 @@ public class Ocorrencia implements Serializable {
 
     public void setHistorioInicial(String historioInicial) {
         this.historioInicial = historioInicial;
-    }
-
-    public ClassificacaoOcorrencia getClassificacaoOcorrencia() {
-        return classificacaoOcorrencia;
-    }
-
-    public void setClassificacaoOcorrencia(ClassificacaoOcorrencia classificacaoOcorrencia) {
-        this.classificacaoOcorrencia = classificacaoOcorrencia;
     }
 
     public ClassificacaoChamada getClassificacaoChamada() {

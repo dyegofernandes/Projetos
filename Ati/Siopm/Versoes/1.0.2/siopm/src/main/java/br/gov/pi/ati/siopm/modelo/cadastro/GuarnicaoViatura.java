@@ -5,7 +5,7 @@
  */
 package br.gov.pi.ati.siopm.modelo.cadastro;
 
-import br.gov.pi.ati.siopm.modelo.enums.TipoGuarnicao;
+import br.gov.pi.ati.siopm.modelo.enums.TipoComponenteGuarnicao;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -48,7 +48,7 @@ public class GuarnicaoViatura implements Serializable {
     private String telefone;
 
     @Enumerated(EnumType.STRING)
-    private TipoGuarnicao tipo;
+    private TipoComponenteGuarnicao tipo;
 
     public Long getId() {
         return id;
@@ -106,11 +106,11 @@ public class GuarnicaoViatura implements Serializable {
         this.telefone = telefone;
     }
 
-    public TipoGuarnicao getTipo() {
+    public TipoComponenteGuarnicao getTipo() {
         return tipo;
     }
 
-    public void setTipo(TipoGuarnicao tipo) {
+    public void setTipo(TipoComponenteGuarnicao tipo) {
         this.tipo = tipo;
     }
 

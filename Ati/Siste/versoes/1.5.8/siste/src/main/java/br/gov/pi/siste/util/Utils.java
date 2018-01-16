@@ -255,10 +255,7 @@ public class Utils {
         boolean umReal = false, tem = false;
         while (!vlrS.equals("0")) {
             tam = vlrS.length();
-// retira do valor a 1a. parte, 2a. parte, por exemplo, para 123456789:
-// 1a. parte = 789 (centena)
-// 2a. parte = 456 (mil)
-// 3a. parte = 123 (milhões)
+
             if (tam > 3) {
                 vlrP = vlrS.substring(tam - 3, tam);
                 vlrS = vlrS.substring(0, tam - 3);

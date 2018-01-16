@@ -1236,4 +1236,8 @@ public class OcorrenciaMB extends AbstractBaseBean<Ocorrencia> implements Serial
 
         context.execute("PF('widgetOcorrencia').show();");
     }
+    
+    public String dataOcorrencia(){
+        return null;
+    }
 }

@@ -11,20 +11,26 @@ package br.gov.pi.ati.siopm.modelo.enums;
  */
 public enum ClassificacaoOcorrencia {
 
-    POLICIAL_EM_PERIGO(1, "Policial em Perigo"),
-    NORMAL(3, "Normal"),
-    URGENTE(2, "Urgênte");
+    NORMAL(1, "N", "Normal"),
+    URGENTE(2, "U", "Urgênte");
 
-    private ClassificacaoOcorrencia(int num, String descricao) {
+    private ClassificacaoOcorrencia(int num, String sigla, String descricao) {
         this.descricao = descricao;
         this.num = num;
+        this.sigla = sigla;
     }
     private String descricao;
+
+    private String sigla;
 
     private int num;
 
     public String getDescricao() {
         return descricao;
+    }
+
+    public String getSigla() {
+        return sigla;
     }
 
     public int getNum() {

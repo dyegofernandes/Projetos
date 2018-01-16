@@ -19,6 +19,7 @@ import br.gov.pi.ati.siopm.modelo.cadastro.Patrulha;
 import br.gov.pi.ati.siopm.modelo.cadastro.StatusViatura;
 import br.gov.pi.ati.siopm.modelo.cadastro.Viatura;
 import br.gov.pi.ati.siopm.modelo.controleacesso.Usuario;
+import br.gov.pi.ati.siopm.modelo.enums.TipoComponenteGuarnicao;
 import br.gov.pi.ati.siopm.util.SessaoUtils;
 import br.gov.pi.ati.siopm.webservices.inforfolha.server.ServerWebservices;
 import br.gov.pi.ati.siopm.webservices.inforfolha.server.ServerWebservicesPortType;
@@ -54,6 +55,8 @@ public class PatrulhaMB extends AbstractBaseBean<Patrulha> implements Serializab
     private String cpf = "";
 
     private String matricula = "";
+
+    private TipoComponenteGuarnicao tipoComponente = null;
 
     ItemViatura itemAdd = new ItemViatura();
 
@@ -134,49 +137,73 @@ public class PatrulhaMB extends AbstractBaseBean<Patrulha> implements Serializab
         this.guarnicoes = guarnicoes;
     }
 
+    public TipoComponenteGuarnicao getTipoComponente() {
+        return tipoComponente;
+    }
+
+    public void setTipoComponente(TipoComponenteGuarnicao tipoComponente) {
+        this.tipoComponente = tipoComponente;
+    }
+
     public void addComponenteGuarnicao() {
         if (!matricula.equals("")) {
-            Viatura viaturaTemp = getBO().getDAO().getInitialized(getEntity().getViatura());
-            if (viaturaTemp != null) {
-                if (guarnicoes.size() < viaturaTemp.getLotacao()) {
-                    if (componenteJaExiste(matricula)) {
-                        FacesMessageUtils.error("O componente da Guarnição já foi adicionado para essa Patrulha!");
-                    } else {
-                        ServidorVO servidorVO = new ServidorVO();
-                        GuarnicaoViatura componente = new GuarnicaoViatura();
-
-                        XStream xstreamJason = new XStream();
-
-                        ServerWebservices servicorService = new ServerWebservices();
-                        ServerWebservicesPortType servidor = servicorService.getServerWebservicesPort();
-
-                        String xmlString = servidor.servidorativoxml2((matricula
-                                .replace("-", "")));
-
-                        xstreamJason.alias("servidor", ServidorVO.class);
-                        String xml = ("<?xml version=\"".concat("1.0\"").concat(" encoding=\"").concat("ISO-8859-1\"").concat("?>").concat("\n"));
-                        if (!xml.equals(xmlString)) {
-                            servidorVO = (ServidorVO) xstreamJason.fromXML(xmlString);
-                            componente = new GuarnicaoViatura();
-                            componente.setMatricula(servidorVO.getMatricula());
-                            componente.setCpf(servidorVO.getCpf());
-                            componente.setNome(servidorVO.getNome());
-                            componente.setCargoFuncao(!servidorVO.getFuncao().equals("") ? servidorVO.getFuncao() : servidorVO.getCargo());
-                            componente.setEmail(servidorVO.getEmail());
-                            componente.setTelefone(servidorVO.getTelefone());
-
-                            guarnicoes.add(componente);
-                            matricula = "";
-
+            if (tipoComponente != null) {
+                Viatura viaturaTemp = getBO().getDAO().getInitialized(getEntity().getViatura());
+                if (viaturaTemp != null) {
+                    if (guarnicoes.size() < viaturaTemp.getLotacao()) {
+                        if (componenteJaExiste(matricula)) {
+                            FacesMessageUtils.error("O componente com a matricula informada já foi adicionado para essa Guarnição!");
                         } else {
-                            FacesMessageUtils.error("Componente não encontrado na base dados do Estado!");
+                            if (componenteJaAddEmOutraPatrulhaAtiva(matricula)) {
+                                FacesMessageUtils.error("O componente com a matricula informada já foi encontrado em outra Guarnição ativa!");
+                            } else {
+                                if (jahExisteComandanteOuMotoristaAdd(tipoComponente)) {
+                                    FacesMessageUtils.error("Para uma guarnição só pode existir um motorista e um comandante!");
+                                } else {
+                                    ServidorVO servidorVO = new ServidorVO();
+                                    GuarnicaoViatura componente = new GuarnicaoViatura();
+
+                                    XStream xstreamJason = new XStream();
+
+                                    ServerWebservices servicorService = new ServerWebservices();
+                                    ServerWebservicesPortType servidor = servicorService.getServerWebservicesPort();
+
+                                    String xmlString = servidor.servidorativoxml2((matricula
+                                            .replace("-", "")));
+
+                                    xstreamJason.alias("servidor", ServidorVO.class);
+                                    String xml = ("<?xml version=\"".concat("1.0\"").concat(" encoding=\"").concat("ISO-8859-1\"").concat("?>").concat("\n"));
+                                    if (!xml.equals(xmlString)) {
+                                        servidorVO = (ServidorVO) xstreamJason.fromXML(xmlString);
+                                        componente = new GuarnicaoViatura();
+                                        componente.setMatricula(servidorVO.getMatricula());
+                                        componente.setCpf(servidorVO.getCpf());
+                                        componente.setNome(servidorVO.getNome());
+                                        componente.setCargoFuncao(!servidorVO.getFuncao().equals("") ? servidorVO.getFuncao() : servidorVO.getCargo());
+                                        componente.setEmail(servidorVO.getEmail());
+                                        componente.setTelefone(servidorVO.getTelefone());
+                                        componente.setTipo(tipoComponente);
+
+                                        guarnicoes.add(componente);
+                                        matricula = "";
+                                        tipoComponente = null;
+
+                                    } else {
+                                        FacesMessageUtils.error("Componente não encontrado na base dados do Estado!");
+                                    }
+                                }
+
+                            }
+
                         }
+                    } else {
+                        FacesMessageUtils.error("Lotação máxima da viatura já foi atingida!");
                     }
                 } else {
-                    FacesMessageUtils.error("Lotação máxima da viatura já foi atingida!");
+                    FacesMessageUtils.error("Viatura é obrigatória!");
                 }
             } else {
-                FacesMessageUtils.error("Viatura é obrigatória!");
+                FacesMessageUtils.error("Informe o tipo de componente para a matricula informada!");
             }
 
         } else {
@@ -204,6 +231,31 @@ public class PatrulhaMB extends AbstractBaseBean<Patrulha> implements Serializab
             if (guarnicao.getMatricula().equals(matricula)) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    private boolean jahExisteComandanteOuMotoristaAdd(TipoComponenteGuarnicao tipo) {
+        if (tipo == TipoComponenteGuarnicao.COMANDANTE || tipo == TipoComponenteGuarnicao.MOTORISTA) {
+            for (GuarnicaoViatura guarnicao : guarnicoes) {
+                if (guarnicao.getTipo() == tipo) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean componenteJaAddEmOutraPatrulhaAtiva(String matricula) {
+        List<Patrulha> guarnicoesTemp = getBO().getDAO().list("ativo", true);
+        for (Patrulha guarnicao : guarnicoesTemp) {
+            List<GuarnicaoViatura> componentes = getBO().getDAO().getInitialized(guarnicao.getGuarnicoes());
+            for (GuarnicaoViatura componente : componentes) {
+                if (componente.getMatricula().equals(matricula)) {
+                    return true;
+                }
+            }
+
         }
         return false;
     }

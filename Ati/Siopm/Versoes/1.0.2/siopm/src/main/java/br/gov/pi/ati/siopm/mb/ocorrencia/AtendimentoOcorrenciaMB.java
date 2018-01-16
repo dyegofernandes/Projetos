@@ -29,7 +29,6 @@ import br.gov.pi.ati.siopm.modelo.cadastro.Territorio;
 import br.gov.pi.ati.siopm.modelo.controleacesso.Usuario;
 import br.gov.pi.ati.siopm.modelo.enums.Anonimo;
 import br.gov.pi.ati.siopm.modelo.enums.ClassificacaoChamada;
-import br.gov.pi.ati.siopm.modelo.enums.ClassificacaoOcorrencia;
 import br.gov.pi.ati.siopm.modelo.enums.SituacaoOcorrencia;
 import br.gov.pi.ati.siopm.modelo.ocorrencia.Ocorrencia;
 import br.gov.pi.ati.siopm.util.GeometryUtils;
@@ -76,9 +75,6 @@ public class AtendimentoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implem
 
     @EJB
     private ResultadoOcorrenciaBO resultadoBO;
-
-    @EJB
-    private PoligonoBO poligoBO;
 
     @EJB
     private OpmBO opmBO;
@@ -177,15 +173,25 @@ public class AtendimentoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implem
             List<ResultadoOcorrencia> resultados = resultadoBO.getDAO().list(restrictions);
 
             ocorrencia.setResultados(resultados);
-
         }
+
+        solicitanteAdd.setTelefone(telefone);
+
+        if (!Utils.isNullOrEmpty(solicitanteAdd.getNome())) {
+            solicitanteAdd.setAnonimo(Anonimo.NAO);
+        }
+
+        solicitantes.add(solicitanteAdd);
+
+        naturezas.add(naturezaAdd);
+
         ocorrencia.setOrganizacoes(organizacoes);
         ocorrencia.setNaturezas(naturezas);
         ocorrencia.setPessoasEnvolvidas(pessoasEnvolvidas);
         ocorrencia.setQualificacoesVeiculos(qualificacoesVeiculos);
         ocorrencia.setEndereco(endereco);
-
         ocorrencia.setSolicitantes(solicitantes);
+
         if (ocorrencia.getId() == null) {
             organizacoesPorLatitudeELongitude(endereco.getLatitude(), endereco.getLongitude());
         }
@@ -197,8 +203,7 @@ public class AtendimentoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implem
     @Override
     public void postSave() {
         latLong = (endereco.getLatitude() + "," + endereco.getLongitude());
-        enderecoTemp = new Endereco();
-        zoom = "16";
+
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('widgetOcorrencia').hide();");
         context.execute("PF('widgetListarOcorrencia').hide();");
@@ -430,14 +435,18 @@ public class AtendimentoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implem
         qualificacoesVeiculos = new ArrayList<QualificacaoDeVeiculo>();
         latLong = "-5.0903678,-42.8105988";
         ocorrenciasMesma = new ArrayList<Ocorrencia>();
+        enderecoTemp = new Endereco();
         zoom = "12";
     }
 
     public void carregarListas(Ocorrencia ocor) {
         ocorrencia = ocor;
         solicitantes = getBO().getDAO().getInitialized(ocorrencia.getSolicitantes());
+        solicitanteAdd = solicitantes.get(0);
+        telefone = getDAO().getInitialized(solicitanteAdd.getTelefone());
         endereco = getBO().getDAO().getInitialized(ocorrencia.getEndereco());
         naturezas = getBO().getDAO().getInitialized(ocorrencia.getNaturezas());
+        naturezaAdd = naturezas.get(0);
         pessoasEnvolvidas = getBO().getDAO().getInitialized(ocorrencia.getPessoasEnvolvidas());
         qualificacoesVeiculos = getBO().getDAO().getInitialized(ocorrencia.getQualificacoesVeiculos());
         organizacoes = getBO().getDAO().getInitialized(ocorrencia.getOrganizacoes());
@@ -773,5 +782,14 @@ public class AtendimentoOcorrenciaMB extends AbstractBaseBean<Ocorrencia> implem
 
     public void setOcorrenciasMesma(List<Ocorrencia> ocorrenciasMesma) {
         this.ocorrenciasMesma = ocorrenciasMesma;
+    }
+
+    public String getDataOcorrencia() {
+        String data = "";
+
+        data = data.concat(Utils.convertDateToString(getEntity().getDataOcorrencia(), "dd/MM/yyyy"));
+        data = data.concat(" ").concat(Utils.convertDateToString(new Date(), "HH:mm"));
+
+        return data;
     }
 }

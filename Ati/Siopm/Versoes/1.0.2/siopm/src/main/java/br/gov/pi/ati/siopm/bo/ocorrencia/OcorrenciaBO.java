@@ -386,7 +386,6 @@ public class OcorrenciaBO extends AbstractBusinessObject<Ocorrencia> {
             ocorrenciaVO.setSituacao(ocorrencia.getSituacao().getDescricao());
             ocorrenciaVO.setTipoChamada(ocorrencia.getTipoChamada().getDescricao());
             ocorrenciaVO.setClassificacaoChamada(ocorrencia.getClassificacaoChamada().getDescricao());
-            ocorrenciaVO.setClassificacaoOcorrencia(ocorrencia.getClassificacaoOcorrencia().getDescricao());
 
             List<Solicitante> solicitantes = getDAO().getInitialized(ocorrencia.getSolicitantes());
 

@@ -88,6 +88,7 @@ import br.gov.pi.ati.siopm.modelo.enums.SituacaoObjeto;
 import br.gov.pi.ati.siopm.modelo.enums.StatusViaturaEnum;
 import br.gov.pi.ati.siopm.modelo.enums.TipoApoio;
 import br.gov.pi.ati.siopm.modelo.enums.TipoChamada;
+import br.gov.pi.ati.siopm.modelo.enums.TipoComponenteGuarnicao;
 import br.gov.pi.ati.siopm.modelo.enums.TipoPoliciamento;
 import br.gov.pi.ati.siopm.modelo.enums.TipoPoligono;
 import javax.faces.bean.ManagedBean;
@@ -461,5 +462,9 @@ public class ClassMB {
 
     public Class getIconeViatura() {
         return IconeViatura.class;
+    }
+
+    public Class getTipoComponenteGuarnicao() {
+        return TipoComponenteGuarnicao.class;
     }
 }

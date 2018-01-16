@@ -336,7 +336,6 @@ public class Utils {
 //            retorno = retorno.concat("Classificação: ").concat(ocorrencia.getClassificacaoOcorrencia().getDescricao());
 //            retorno = retorno.concat("\n");
 //        }
-
         if (ocorrencia.getDataOcorrencia() != null) {
             if (ocorrencia.getDataOcorrencia() != null) {
                 retorno = retorno.concat("Data: ".concat(Utils.convertDateToString(ocorrencia.getDataOcorrencia(), "dd/MM/yyyy")));
@@ -508,5 +507,13 @@ public class Utils {
         dataTemp.set(Calendar.MINUTE, horaTemp.get(Calendar.MINUTE));
 
         return dataTemp.getTime();
+    }
+
+    public static Date convertStringToDate(String dataString, String formato) throws ParseException {
+        if (isNullOrEmpty(dataString)) {
+            return null;
+        }
+        SimpleDateFormat formatter = new SimpleDateFormat(formato);
+        return formatter.parse(dataString);
     }
 }

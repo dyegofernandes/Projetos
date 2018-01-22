@@ -13,19 +13,22 @@
             <p:tab title="Maker">
 
                 <x:maker managedBean="br.gov.pi.ati.mb"   
-                          businessObject="br.gov.pi.ati.bo"   
-                          dao="br.gov.pi.ati.dao"   
-                          daoImpl="br.gov.pi.ati.dao.impl"   
-                          baseDAO="br.gov.pi.ati.application.BaseDAOImpl"   
-                          viewPath="/view"
-                          resourceBundle="msg"   
-                          template="/template/mainTemplate.xhtml"/>  
+                         businessObject="br.gov.pi.ati.bo"   
+                         dao="br.gov.pi.ati.dao"   
+                         daoImpl="br.gov.pi.ati.dao.impl"   
+                         baseDAO="br.gov.pi.ati.application.BaseDAOImpl"   
+                         viewPath="/view"
+                         resourceBundle="msg"   
+                         template="/template/mainTemplate.xhtml"/>  
 
             </p:tab>
             <p:tab title="Geração de Dados">
                 <h:form>
                     <p:messages/>
                     <p:commandButton action="#{geracaoDadosMB.gerarDados}" value="Gerar Dados" update="@form" process="@this"/>
+                    <p:commandButton action="#{geracaoDadosMB.updateSequences}" 
+                                     value="Update Sequences"
+                                     update="@form" process="@this"/>
                 </h:form>
             </p:tab>
         </p:tabView>

@@ -1,5 +1,6 @@
 package br.gov.pi.ati.mb.padrao;
 
+import br.gov.pi.ati.modelo.cadastro.AcaoOrcamentaria;
 import br.gov.pi.ati.modelo.cadastro.Produto;
 import br.gov.pi.ati.modelo.cadastro.AcaoEstrategica;
 import br.gov.pi.ati.modelo.cadastro.NaturezaDeReceita;
@@ -179,6 +180,10 @@ public class ClassMB {
     }
     public Class getAcaoEstrategica() {
         return AcaoEstrategica.class;
+    }
+
+    public Class getAcaoOrcamentaria() {
+        return AcaoOrcamentaria.class;
     }
 
 }

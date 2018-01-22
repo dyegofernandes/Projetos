@@ -4,47 +4,47 @@
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
-    
-  
+
+
     <h:form id="formCreateUnidadeOrcamentaria" >
         <p:fieldset legend="#{xmsg['generalData']}">
             <x:modalMessages/>
 
             <div class="container-fluid">
-                 <div class="row">
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="unidadeGestora" value="* #{msg['unidadeOrcamentaria.unidadeGestora']}:" />
-                         <h:selectOneMenu id="unidadeGestora" value="#{unidadeOrcamentariaMB.entity.unidadeGestora}" converter="entityConverter" styleClass="form-control" >
-                             <x:initializer/>
-                             <f:selectItem itemLabel="#{xmsg['select']}" />
-                             <f:selectItems value="#{findAllBean.get(classMB.unidadeGestora)}" 
-                                            var="unidadeGestora"
-                                            itemLabel="#{unidadeGestora}"/>
-                         </h:selectOneMenu>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="codigo" value="* #{msg['unidadeOrcamentaria.codigo']}:" />
-                         <p:inputText id="codigo" value="#{unidadeOrcamentariaMB.entity.codigo}" maxlength="50"  styleClass="form-control"  />
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="nome" value="* #{msg['unidadeOrcamentaria.nome']}:" />
-                         <p:inputText id="nome" value="#{unidadeOrcamentariaMB.entity.nome}" maxlength="250"  styleClass="form-control"  />
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="mnemonico" value="#{msg['unidadeOrcamentaria.mnemonico']}:" />
-                         <p:inputText id="mnemonico" value="#{unidadeOrcamentariaMB.entity.mnemonico}" maxlength="50"  styleClass="form-control"  />
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <div class="checkbox">
-                             <label>
-                                 <h:selectBooleanCheckbox id="ativo" value="#{unidadeOrcamentariaMB.entity.ativo}" />
-                                 #{msg['unidadeOrcamentaria.ativo']}
-                             </label>
-                         </div>
-                     </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="orgao" value="* Órgão:" />
+                        <h:selectOneMenu id="orgao" value="#{unidadeOrcamentariaMB.entity.orgao}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.orgao)}" 
+                                           var="orgao"
+                                           itemLabel="#{orgao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="codigo" value="* #{msg['unidadeOrcamentaria.codigo']}:" />
+                        <p:inputText id="codigo" value="#{unidadeOrcamentariaMB.entity.codigo}" maxlength="50"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="* #{msg['unidadeOrcamentaria.nome']}:" />
+                        <p:inputText id="nome" value="#{unidadeOrcamentariaMB.entity.nome}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="mnemonico" value="#{msg['unidadeOrcamentaria.mnemonico']}:" />
+                        <p:inputText id="mnemonico" value="#{unidadeOrcamentariaMB.entity.mnemonico}" maxlength="50"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="ativo" value="#{unidadeOrcamentariaMB.entity.ativo}" />
+                                #{msg['unidadeOrcamentaria.ativo']}
+                            </label>
+                        </div>
+                    </div>
 
-                 </div>
-             </div>
+                </div>
+            </div>
         </p:fieldset>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">

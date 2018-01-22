@@ -8,8 +8,8 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['acaoEstrategica.orgao']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{acaoEstrategicaMB.entity.orgao}" styleClass="uix-content-detail">
+                    <h:outputLabel value="Unidade Orçamentária:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{acaoEstrategicaMB.entity.unidadeOrcamentaria}" styleClass="uix-content-detail">
                         <x:initializer/>
                     </h:outputText>
                 </div>
@@ -21,8 +21,8 @@
                     <h:outputLabel value="#{msg['acaoEstrategica.ativo']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{acaoEstrategicaMB.entity.ativo}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
                 </div>
-           </div>
-         </div>
+            </div>
+        </div>
         <p:separator/>
         <div class="uix-center">
             <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetAcaoEstrategicaDetail').hide()" />

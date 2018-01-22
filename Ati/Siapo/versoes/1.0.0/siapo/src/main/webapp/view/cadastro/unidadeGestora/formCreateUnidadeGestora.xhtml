@@ -13,13 +13,13 @@
             <div class="container-fluid">
                  <div class="row">
                       <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="orgao" value="* #{msg['unidadeGestora.orgao']}:" />
-                         <h:selectOneMenu id="orgao" value="#{unidadeGestoraMB.entity.orgao}" converter="entityConverter" styleClass="form-control" >
+                         <h:outputLabel for="unidade" value="* Unidade Orçamentária:" />
+                         <h:selectOneMenu id="unidade" value="#{unidadeGestoraMB.entity.unidadeOrcamentaria}" converter="entityConverter" styleClass="form-control" >
                              <x:initializer/>
                              <f:selectItem itemLabel="#{xmsg['select']}" />
-                             <f:selectItems value="#{findAllBean.get(classMB.orgao)}" 
-                                            var="orgao"
-                                            itemLabel="#{orgao}"/>
+                             <f:selectItems value="#{findAllBean.get(classMB.unidadeOrcamentaria)}" 
+                                            var="unidade"
+                                            itemLabel="#{unidade}"/>
                          </h:selectOneMenu>
                      </div>
                       <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">

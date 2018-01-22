@@ -12,7 +12,7 @@
             <x:modalMessages/>
 
             <x:dataTableActions fileName="programaDeGoverno_export" target=":formListProgramaDeGoverno:dataTableProgramaDeGoverno"
-                                     widgetVar="dataTableProgramaDeGovernoWidget"  />
+                                widgetVar="dataTableProgramaDeGovernoWidget"  />
 
             <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                          var="programaDeGoverno" rowIndexVar="index" id="dataTableProgramaDeGoverno" widgetVar="dataTableProgramaDeGovernoWidget" styleClass="table-responsive"
@@ -23,18 +23,25 @@
                     <h:outputText value="#{index+1}"/>
                 </p:column>
                 <p:column headerText="#{msg['programaDeGoverno.codigo']}" sortBy="#{programaDeGoverno.codigo}"
-                    filterBy="#{programaDeGoverno.codigo}"   >
+                          filterBy="#{programaDeGoverno.codigo}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['programaDeGoverno.codigo']}" />
                     </f:facet>
                     <h:outputText value="#{programaDeGoverno.codigo}"/>
                 </p:column>
                 <p:column headerText="#{msg['programaDeGoverno.nome']}" sortBy="#{programaDeGoverno.nome}"
-                    filterBy="#{programaDeGoverno.nome}"   >
+                          filterBy="#{programaDeGoverno.nome}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['programaDeGoverno.nome']}" />
                     </f:facet>
                     <h:outputText value="#{programaDeGoverno.nome}"/>
+                </p:column>
+                <p:column headerText="Poder" sortBy="#{programaDeGoverno.poder}"
+                          filterBy="#{programaDeGoverno.poder}"  filterOptions="#{findAllBean.getSelect(classMB.tipoDePoder)}" >
+                    <f:facet name="header">
+                        <h:outputText value="Poder" />
+                    </f:facet>
+                    <h:outputText value="#{programaDeGoverno.poder}"/>
                 </p:column>
                 <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
                     <f:facet name="header">
@@ -67,7 +74,7 @@
 
         <p:dialog widgetVar="widgetProgramaDeGovernoDetail" header="#{msg['programaDeGoverno.detail']}" appendTo="@(body)" 
                   modal="true" styleClass="uix-dialog-fluid" >
-                  <ui:include src="detailProgramaDeGoverno.xhtml" />
+            <ui:include src="detailProgramaDeGoverno.xhtml" />
         </p:dialog>
     </ui:define>
 </ui:composition>

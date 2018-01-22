@@ -3,6 +3,8 @@ package br.gov.pi.ati;
 import br.gov.pi.ati.dao.DAO;
 import br.gov.pi.ati.modelo.controleacesso.*;
 import com.xpert.persistence.dao.BaseDAO;
+import com.xpert.persistence.utils.PostgreSQLSequenceUpdater;
+import com.xpert.persistence.utils.SequenceUpdater;
 import com.xpert.utils.Encryption;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -105,6 +107,11 @@ public class GeracaoDadosSistema {
         } catch (Exception ex) {
             logger.log(Level.SEVERE, ex.getMessage(), ex);
         }
+    }
+
+    public void updateSequences() {
+        SequenceUpdater sequenceUpdater = new PostgreSQLSequenceUpdater(dao.getEntityManager());
+        sequenceUpdater.updateSequences();
     }
 
 }

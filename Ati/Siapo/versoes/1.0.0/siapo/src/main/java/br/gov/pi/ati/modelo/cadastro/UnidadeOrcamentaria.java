@@ -33,7 +33,7 @@ public class UnidadeOrcamentaria implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
-    private UnidadeGestora unidadeGestora;
+    private Orgao orgao;
 
     @Size(max = 50)
     @NotBlank
@@ -54,7 +54,15 @@ public class UnidadeOrcamentaria implements Serializable {
 
     @OneToMany(mappedBy = "unidadeOrcamentaria")
     @NotAudited
-    private List<ProgramaDeGoverno> programas;
+    private List<AcaoOrcamentaria> acoesOrcamentarias;
+
+    @OneToMany(mappedBy = "unidadeOrcamentaria")
+    @NotAudited
+    private List<AcaoEstrategica> acoesEstrategicas;
+
+    @OneToMany(mappedBy = "unidadeOrcamentaria")
+    @NotAudited
+    private List<UnidadeGestora> unidadesGestoras;
 
     @Override
     public String toString() {
@@ -101,12 +109,12 @@ public class UnidadeOrcamentaria implements Serializable {
         this.ativo = ativo;
     }
 
-    public UnidadeGestora getUnidadeGestora() {
-        return unidadeGestora;
+    public Orgao getOrgao() {
+        return orgao;
     }
 
-    public void setUnidadeGestora(UnidadeGestora unidadeGestora) {
-        this.unidadeGestora = unidadeGestora;
+    public void setOrgao(Orgao orgao) {
+        this.orgao = orgao;
     }
 
     public List<DiretrizeDeGoverno> getDiretrizes() {
@@ -117,12 +125,28 @@ public class UnidadeOrcamentaria implements Serializable {
         this.diretrizes = diretrizes;
     }
 
-    public List<ProgramaDeGoverno> getProgramas() {
-        return programas;
+    public List<AcaoOrcamentaria> getAcoesOrcamentarias() {
+        return acoesOrcamentarias;
     }
 
-    public void setProgramas(List<ProgramaDeGoverno> programas) {
-        this.programas = programas;
+    public void setAcoesOrcamentarias(List<AcaoOrcamentaria> acoesOrcamentarias) {
+        this.acoesOrcamentarias = acoesOrcamentarias;
+    }
+
+    public List<UnidadeGestora> getUnidadesGestoras() {
+        return unidadesGestoras;
+    }
+
+    public void setUnidadesGestoras(List<UnidadeGestora> unidadesGestoras) {
+        this.unidadesGestoras = unidadesGestoras;
+    }
+
+    public List<AcaoEstrategica> getAcoesEstrategicas() {
+        return acoesEstrategicas;
+    }
+
+    public void setAcoesEstrategicas(List<AcaoEstrategica> acoesEstrategicas) {
+        this.acoesEstrategicas = acoesEstrategicas;
     }
 
     @Override

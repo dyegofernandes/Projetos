@@ -1,6 +1,7 @@
 package br.gov.pi.ati.modelo.controleacesso;
 
 import br.gov.pi.ati.modelo.cadastro.UnidadeGestora;
+import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
 import com.xpert.audit.NotAudited;
 import com.xpert.security.model.User;
 import java.io.Serializable;
@@ -70,8 +71,8 @@ public class Usuario implements Serializable, User {
 
     private Boolean autenticacaoLdap;
 
-    @ManyToMany(targetEntity = UnidadeGestora.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
-    private List<UnidadeGestora> unidadesDeAcesso = new ArrayList<UnidadeGestora>();
+    @ManyToMany(targetEntity = UnidadeOrcamentaria.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    private List<UnidadeOrcamentaria> unidadesDeAcesso = new ArrayList<UnidadeOrcamentaria>();
 
     public Boolean getAutenticacaoLdap() {
         if (autenticacaoLdap == null) {
@@ -209,11 +210,11 @@ public class Usuario implements Serializable, User {
         this.perfis = perfis;
     }
 
-    public List<UnidadeGestora> getUnidadesDeAcesso() {
+    public List<UnidadeOrcamentaria> getUnidadesDeAcesso() {
         return unidadesDeAcesso;
     }
 
-    public void setUnidadesDeAcesso(List<UnidadeGestora> unidadesDeAcesso) {
+    public void setUnidadesDeAcesso(List<UnidadeOrcamentaria> unidadesDeAcesso) {
         this.unidadesDeAcesso = unidadesDeAcesso;
     }
 

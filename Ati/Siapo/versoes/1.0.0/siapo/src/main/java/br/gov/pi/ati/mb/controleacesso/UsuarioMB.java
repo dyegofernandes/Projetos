@@ -5,6 +5,7 @@ import br.gov.pi.ati.bo.controleacesso.UsuarioBO;
 import br.gov.pi.ati.bo.controleacesso.UsuarioMenuBO;
 import br.gov.pi.ati.dao.controleacesso.AcessoSistemaDAO;
 import br.gov.pi.ati.modelo.cadastro.UnidadeGestora;
+import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
 import br.gov.pi.ati.modelo.controleacesso.AcessoSistema;
 import br.gov.pi.ati.modelo.controleacesso.TipoRecuperacaoSenha;
 import br.gov.pi.ati.modelo.controleacesso.Usuario;
@@ -43,17 +44,17 @@ public class UsuarioMB extends AbstractBaseBean<Usuario> implements Serializable
 
     private LazyDataModelImpl<AcessoSistema> ultimosAcessos;
 
-    private List<UnidadeGestora> unidadesAcesso;
+    private List<UnidadeOrcamentaria> unidadesAcesso;
 
-    private UnidadeGestora unidadeGestora;
+    private UnidadeOrcamentaria unidadeOrcamentaria;
 
     @Override
     public void init() {
-        unidadeGestora = new UnidadeGestora();
-        unidadesAcesso = new ArrayList<UnidadeGestora>();
+        unidadeOrcamentaria = new UnidadeOrcamentaria();
+        unidadesAcesso = new ArrayList<UnidadeOrcamentaria>();
 
         if (getEntity().getId() != null) {
-            unidadesAcesso = (List<UnidadeGestora>) getBO().getDAO().getInitialized(getEntity().getUnidadesDeAcesso());
+            unidadesAcesso = (List<UnidadeOrcamentaria>) getBO().getDAO().getInitialized(getEntity().getUnidadesDeAcesso());
         }
     }
 
@@ -137,21 +138,30 @@ public class UsuarioMB extends AbstractBaseBean<Usuario> implements Serializable
         this.ultimosAcessos = ultimosAcessos;
     }
 
-    public List<UnidadeGestora> getUnidadesAcesso() {
+    public List<UnidadeOrcamentaria> getUnidadesAcesso() {
         return unidadesAcesso;
     }
 
-    public void setUnidadesAcesso(List<UnidadeGestora> unidadesAcesso) {
+    public void setUnidadesAcesso(List<UnidadeOrcamentaria> unidadesAcesso) {
         this.unidadesAcesso = unidadesAcesso;
     }
 
+    public UnidadeOrcamentaria getUnidadeOrcamentaria() {
+        return unidadeOrcamentaria;
+    }
+
+    public void setUnidadeOrcamentaria(UnidadeOrcamentaria unidadeOrcamentaria) {
+        this.unidadeOrcamentaria = unidadeOrcamentaria;
+    }
+
+   
     public void addUnidadeAcesso() {
-        if (unidadeGestora != null) {
-            if (unidadeGestoraJahAdd(unidadeGestora)) {
+        if (unidadeOrcamentaria != null) {
+            if (unidadeGestoraJahAdd(unidadeOrcamentaria)) {
                 FacesMessageUtils.error("Unidade Gestora já adicionada!");
             } else {
-                unidadesAcesso.add(unidadeGestora);
-                unidadeGestora = new UnidadeGestora();
+                unidadesAcesso.add(unidadeOrcamentaria);
+                unidadeOrcamentaria = new UnidadeOrcamentaria();
 
             }
         } else {
@@ -163,8 +173,8 @@ public class UsuarioMB extends AbstractBaseBean<Usuario> implements Serializable
         unidadesAcesso.remove(unidade);
     }
 
-    private boolean unidadeGestoraJahAdd(UnidadeGestora unidade) {
-        for (UnidadeGestora unid : unidadesAcesso) {
+    private boolean unidadeGestoraJahAdd(UnidadeOrcamentaria unidade) {
+        for (UnidadeOrcamentaria unid : unidadesAcesso) {
             if (unid.equals(unidade)) {
                 return true;
             }

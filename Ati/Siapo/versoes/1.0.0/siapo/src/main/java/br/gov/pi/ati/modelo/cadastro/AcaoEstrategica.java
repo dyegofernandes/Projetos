@@ -5,13 +5,16 @@
  */
 package br.gov.pi.ati.modelo.cadastro;
 
+import com.xpert.audit.NotAudited;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
@@ -30,13 +33,17 @@ public class AcaoEstrategica implements Serializable {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    private Orgao orgao;
+    private UnidadeOrcamentaria unidadeOrcamentaria;
 
     @Column(columnDefinition = "Text")
     @NotBlank
     private String nome;
 
     private boolean ativo = true;
+
+    @OneToMany(mappedBy = "acao")
+    @NotAudited
+    private List<Produto> produtos;
 
     @Override
     public String toString() {
@@ -51,13 +58,14 @@ public class AcaoEstrategica implements Serializable {
         this.id = id;
     }
 
-    public Orgao getOrgao() {
-        return orgao;
+    public UnidadeOrcamentaria getUnidadeOrcamentaria() {
+        return unidadeOrcamentaria;
     }
 
-    public void setOrgao(Orgao orgao) {
-        this.orgao = orgao;
+    public void setUnidadeOrcamentaria(UnidadeOrcamentaria unidadeOrcamentaria) {
+        this.unidadeOrcamentaria = unidadeOrcamentaria;
     }
+
 
     public String getNome() {
         return nome;
@@ -73,6 +81,14 @@ public class AcaoEstrategica implements Serializable {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
     }
 
     @Override
@@ -97,5 +113,4 @@ public class AcaoEstrategica implements Serializable {
         return true;
     }
 
-    
 }

@@ -62,15 +62,7 @@ public class Orgao implements Serializable {
 
     @OneToMany(mappedBy = "orgao")
     @NotAudited
-    private List<UnidadeGestora> unidadesGestoras;
-
-    @NotAudited
-    @OneToMany(mappedBy = "orgao")
-    private List<Produto> produtos;
-
-    @NotAudited
-    @OneToMany(mappedBy = "orgao")
-    private List<AcaoEstrategica> acoes;
+    private List<UnidadeOrcamentaria> unidades;
 
     @Override
     public String toString() {
@@ -141,28 +133,12 @@ public class Orgao implements Serializable {
         this.filhos = filhos;
     }
 
-    public List<UnidadeGestora> getUnidadesGestoras() {
-        return unidadesGestoras;
+    public List<UnidadeOrcamentaria> getUnidades() {
+        return unidades;
     }
 
-    public void setUnidadesGestoras(List<UnidadeGestora> unidadesGestoras) {
-        this.unidadesGestoras = unidadesGestoras;
-    }
-
-    public List<Produto> getProdutos() {
-        return produtos;
-    }
-
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
-    }
-
-    public List<AcaoEstrategica> getAcoes() {
-        return acoes;
-    }
-
-    public void setAcoes(List<AcaoEstrategica> acoes) {
-        this.acoes = acoes;
+    public void setUnidades(List<UnidadeOrcamentaria> unidades) {
+        this.unidades = unidades;
     }
 
     @Override

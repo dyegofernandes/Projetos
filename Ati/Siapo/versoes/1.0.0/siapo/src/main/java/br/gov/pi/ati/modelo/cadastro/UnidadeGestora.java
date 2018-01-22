@@ -33,7 +33,7 @@ public class UnidadeGestora implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
-    private Orgao orgao;
+    private UnidadeOrcamentaria unidadeOrcamentaria;
 
     @Size(max = 50)
     @NotBlank
@@ -48,10 +48,6 @@ public class UnidadeGestora implements Serializable {
 
     private boolean ativo = true;
 
-    @OneToMany(mappedBy = "unidadeGestora")
-    @NotAudited
-    private List<UnidadeOrcamentaria> unidadesOrcamentarias;
-
     @Override
     public String toString() {
         return codigo.concat("- ").concat(nome);
@@ -65,12 +61,12 @@ public class UnidadeGestora implements Serializable {
         this.id = id;
     }
 
-    public Orgao getOrgao() {
-        return orgao;
+    public UnidadeOrcamentaria getUnidadeOrcamentaria() {
+        return unidadeOrcamentaria;
     }
 
-    public void setOrgao(Orgao orgao) {
-        this.orgao = orgao;
+    public void setUnidadeOrcamentaria(UnidadeOrcamentaria unidadeOrcamentaria) {
+        this.unidadeOrcamentaria = unidadeOrcamentaria;
     }
 
     public String getCodigo() {
@@ -95,14 +91,6 @@ public class UnidadeGestora implements Serializable {
 
     public void setSigla(String sigla) {
         this.sigla = sigla;
-    }
-
-    public List<UnidadeOrcamentaria> getUnidadesOrcamentarias() {
-        return unidadesOrcamentarias;
-    }
-
-    public void setUnidadesOrcamentarias(List<UnidadeOrcamentaria> unidadesOrcamentarias) {
-        this.unidadesOrcamentarias = unidadesOrcamentarias;
     }
 
     public boolean isAtivo() {

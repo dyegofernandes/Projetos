@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -31,16 +30,15 @@ public class Produto implements Serializable {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    private Orgao orgao;
+    private AcaoEstrategica acao;
 
     @Column(columnDefinition = "Text")
     @NotBlank
     private String nome;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    private UnidadeDeMedida unidade;
-
+//    @NotNull
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private UnidadeDeMedida unidade;
     private boolean ativo = true;
 
     @Override
@@ -56,12 +54,12 @@ public class Produto implements Serializable {
         this.id = id;
     }
 
-    public Orgao getOrgao() {
-        return orgao;
+    public AcaoEstrategica getAcao() {
+        return acao;
     }
 
-    public void setOrgao(Orgao orgao) {
-        this.orgao = orgao;
+    public void setAcao(AcaoEstrategica acao) {
+        this.acao = acao;
     }
 
     public String getNome() {
@@ -70,14 +68,6 @@ public class Produto implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public UnidadeDeMedida getUnidade() {
-        return unidade;
-    }
-
-    public void setUnidade(UnidadeDeMedida unidade) {
-        this.unidade = unidade;
     }
 
     public boolean isAtivo() {

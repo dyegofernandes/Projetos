@@ -12,7 +12,7 @@
             <x:modalMessages/>
 
             <x:dataTableActions fileName="acaoEstrategica_export" target=":formListAcaoEstrategica:dataTableAcaoEstrategica"
-                                     widgetVar="dataTableAcaoEstrategicaWidget"  />
+                                widgetVar="dataTableAcaoEstrategicaWidget"  />
 
             <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                          var="acaoEstrategica" rowIndexVar="index" id="dataTableAcaoEstrategica" widgetVar="dataTableAcaoEstrategicaWidget" styleClass="table-responsive"
@@ -22,31 +22,31 @@
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="#{msg['acaoEstrategica.orgao']}" sortBy="#{acaoEstrategica.orgao.codigo}"
-                       filterBy="#{acaoEstrategica.orgao.codigo}">
+                <p:column headerText="Unidade Orçamentaria" sortBy="#{acaoEstrategica.unidadeOrcamentaria.nome}"
+                          filterBy="#{acaoEstrategica.unidadeOrcamentaria.nome}">
                     <f:facet name="header">
-                        <h:outputText value="#{msg['acaoEstrategica.orgao']}" />
+                        <h:outputText value="Unidade Orçamentaria" />
                     </f:facet>
-                    <h:outputText value="#{acaoEstrategica.orgao}">
+                    <h:outputText value="#{acaoEstrategica.unidadeOrcamentaria}">
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="Código" sortBy="#{acaoEstrategica.id}"
-                    filterBy="#{acaoEstrategica.id}"   >
+                          filterBy="#{acaoEstrategica.id}"   >
                     <f:facet name="header">
                         <h:outputText value="Código" />
                     </f:facet>
                     <h:outputText value="#{acaoEstrategica.id}"/>
                 </p:column>
                 <p:column headerText="#{msg['acaoEstrategica.nome']}" sortBy="#{acaoEstrategica.nome}"
-                    filterBy="#{acaoEstrategica.nome}"   >
+                          filterBy="#{acaoEstrategica.nome}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['acaoEstrategica.nome']}" />
                     </f:facet>
                     <h:outputText value="#{acaoEstrategica.nome}"/>
                 </p:column>
                 <p:column headerText="#{msg['acaoEstrategica.ativo']}" sortBy="#{acaoEstrategica.ativo}"
-                    filterBy="#{acaoEstrategica.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                          filterBy="#{acaoEstrategica.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['acaoEstrategica.ativo']}" />
                     </f:facet>
@@ -83,7 +83,7 @@
 
         <p:dialog widgetVar="widgetAcaoEstrategicaDetail" header="#{msg['acaoEstrategica.detail']}" appendTo="@(body)" 
                   modal="true" styleClass="uix-dialog-fluid" >
-                  <ui:include src="detailAcaoEstrategica.xhtml" />
+            <ui:include src="detailAcaoEstrategica.xhtml" />
         </p:dialog>
     </ui:define>
 </ui:composition>

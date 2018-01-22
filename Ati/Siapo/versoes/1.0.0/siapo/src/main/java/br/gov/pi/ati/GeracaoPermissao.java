@@ -216,12 +216,22 @@ public class GeracaoPermissao {
         create(new Permissao("territorio.audit", "Auditoria de Territorio"), "territorio");
         create(new Permissao("territorio.delete", "Exclusão de Territorio"), "territorio");
 
+        //Acao Orcamentaria
+        create(new Permissao("acoes", "Acões", true), "cadastro");
+
         //Acao Estrategica
-        create(new Permissao("acaoEstrategica", "Acao Estrategica", false), "cadastro");
-        create(new Permissao("acaoEstrategica.create", "Cadastro de Acao Estrategica", "/view/cadastro/acaoEstrategica/createAcaoEstrategica.jsf", false), "acaoEstrategica");
-        create(new Permissao("acaoEstrategica.list", "Acões Estrategicas", "/view/cadastro/acaoEstrategica/listAcaoEstrategica.jsf", true), "cadastro");
-        create(new Permissao("acaoEstrategica.audit", "Auditoria de Acao Estrategica"), "acaoEstrategica");
-        create(new Permissao("acaoEstrategica.delete", "Exclusão de Acao Estrategica"), "acaoEstrategica");
+        create(new Permissao("acaoEstrategica", "Ação Estrategica", false), "acoes");
+        create(new Permissao("acaoEstrategica.create", "Cadastro de Ação Estrategica", "/view/cadastro/acaoEstrategica/createAcaoEstrategica.jsf", false), "acaoEstrategica");
+        create(new Permissao("acaoEstrategica.list", "Estratégicas", "/view/cadastro/acaoEstrategica/listAcaoEstrategica.jsf", true), "acoes");
+        create(new Permissao("acaoEstrategica.audit", "Auditoria de Ação Estrategica"), "acaoEstrategica");
+        create(new Permissao("acaoEstrategica.delete", "Exclusão de Ação Estrategica"), "acaoEstrategica");
+
+        //Acao Orcamentaria
+        create(new Permissao("acaoOrcamentaria", "Ação Orçamentárias", false), "acoes");
+        create(new Permissao("acaoOrcamentaria.create", "Cadastro de Ação Orçamentárias", "/view/cadastro/acaoOrcamentaria/createAcaoOrcamentaria.jsf", false), "acaoOrcamentaria");
+        create(new Permissao("acaoOrcamentaria.list", "Orçamentárias", "/view/cadastro/acaoOrcamentaria/listAcaoOrcamentaria.jsf", true), "acoes");
+        create(new Permissao("acaoOrcamentaria.audit", "Auditoria de Ação Orçamentárias"), "acaoOrcamentaria");
+        create(new Permissao("acaoOrcamentaria.delete", "Exclusão de Ação Orçamentárias"), "acaoOrcamentaria");
 
 //Produto
         create(new Permissao("produto", "Produto", false), "cadastro");

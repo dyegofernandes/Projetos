@@ -22,12 +22,12 @@
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="#{msg['unidadeGestora.orgao']}" sortBy="#{unidadeGestora.orgao}"
-                       >
+                <p:column headerText="Unidade Orçamentária" sortBy="#{unidadeGestora.unidadeOrcamentaria.nome}"
+                          filterBy="#{unidadeGestora.unidadeOrcamentaria.nome}" >
                     <f:facet name="header">
-                        <h:outputText value="#{msg['unidadeGestora.orgao']}" />
+                        <h:outputText value="Unidade Orçamentária" />
                     </f:facet>
-                    <h:outputText value="#{unidadeGestora.orgao}">
+                    <h:outputText value="#{unidadeGestora.unidadeOrcamentaria}">
                         <x:initializer/>
                     </h:outputText>
                 </p:column>

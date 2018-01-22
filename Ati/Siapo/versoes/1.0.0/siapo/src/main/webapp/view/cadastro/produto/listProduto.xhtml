@@ -12,7 +12,7 @@
             <x:modalMessages/>
 
             <x:dataTableActions fileName="produto_export" target=":formListProduto:dataTableProduto"
-                                     widgetVar="dataTableProdutoWidget"  />
+                                widgetVar="dataTableProdutoWidget"  />
 
             <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                          var="produto" rowIndexVar="index" id="dataTableProduto" widgetVar="dataTableProdutoWidget" styleClass="table-responsive"
@@ -22,33 +22,25 @@
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="#{msg['produto.orgao']}" sortBy="#{produto.orgao}"
-                       >
+                <p:column headerText="Ação Estratégica" sortBy="#{produto.acao}"
+                          >
                     <f:facet name="header">
-                        <h:outputText value="#{msg['produto.orgao']}" />
+                        <h:outputText value="Ação Estratégica" />
                     </f:facet>
-                    <h:outputText value="#{produto.orgao}">
+                    <h:outputText value="#{produto.acao}">
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{msg['produto.nome']}" sortBy="#{produto.nome}"
-                    filterBy="#{produto.nome}"   >
+                          filterBy="#{produto.nome}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['produto.nome']}" />
                     </f:facet>
                     <h:outputText value="#{produto.nome}"/>
                 </p:column>
-                <p:column headerText="#{msg['produto.unidade']}" sortBy="#{produto.unidade}"
-                       >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['produto.unidade']}" />
-                    </f:facet>
-                    <h:outputText value="#{produto.unidade}">
-                        <x:initializer/>
-                    </h:outputText>
-                </p:column>
+
                 <p:column headerText="#{msg['produto.ativo']}" sortBy="#{produto.ativo}"
-                    filterBy="#{produto.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                          filterBy="#{produto.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['produto.ativo']}" />
                     </f:facet>
@@ -85,7 +77,7 @@
 
         <p:dialog widgetVar="widgetProdutoDetail" header="#{msg['produto.detail']}" appendTo="@(body)" 
                   modal="true" styleClass="uix-dialog-fluid" >
-                  <ui:include src="detailProduto.xhtml" />
+            <ui:include src="detailProduto.xhtml" />
         </p:dialog>
     </ui:define>
 </ui:composition>

@@ -1,0 +1,89 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['acaoOrcamentaria.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuAcaoOrcamentaria.xhtml" />
+        <h:form id="formListAcaoOrcamentaria">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="acaoOrcamentaria_export" target=":formListAcaoOrcamentaria:dataTableAcaoOrcamentaria"
+                                     widgetVar="dataTableAcaoOrcamentariaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="acaoOrcamentaria" rowIndexVar="index" id="dataTableAcaoOrcamentaria" widgetVar="dataTableAcaoOrcamentariaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{acaoOrcamentariaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{acaoOrcamentariaMB.dataModel.paginatorTemplate}"
+                         value="#{acaoOrcamentariaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['acaoOrcamentaria.unidadeOrcamentaria']}" sortBy="#{acaoOrcamentaria.unidadeOrcamentaria.nome}"
+                          filterBy="#{acaoOrcamentaria.unidadeOrcamentaria.nome}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['acaoOrcamentaria.unidadeOrcamentaria']}" />
+                    </f:facet>
+                    <h:outputText value="#{acaoOrcamentaria.unidadeOrcamentaria}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                 <p:column headerText="Codigo" sortBy="#{acaoOrcamentaria.codigo}"
+                    filterBy="#{acaoOrcamentaria.codigo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Código" />
+                    </f:facet>
+                    <h:outputText value="#{acaoOrcamentaria.codigo}"/>
+                </p:column>
+                <p:column headerText="#{msg['acaoOrcamentaria.nome']}" sortBy="#{acaoOrcamentaria.nome}"
+                    filterBy="#{acaoOrcamentaria.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['acaoOrcamentaria.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{acaoOrcamentaria.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['acaoOrcamentaria.ativo']}" sortBy="#{acaoOrcamentaria.ativo}"
+                    filterBy="#{acaoOrcamentaria.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['acaoOrcamentaria.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{acaoOrcamentaria.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetAcaoOrcamentariaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailAcaoOrcamentaria" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{acaoOrcamentaria}" target="#{acaoOrcamentariaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="acaoOrcamentaria.create">
+                        <p:button icon="ui-icon-pencil" outcome="createAcaoOrcamentaria" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{acaoOrcamentaria.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="acaoOrcamentaria.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{acaoOrcamentariaMB.delete}" >
+                            <f:setPropertyActionListener value="#{acaoOrcamentaria.id}" target="#{acaoOrcamentariaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{acaoOrcamentaria}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="acaoOrcamentaria.audit">
+                    <x:auditDelete for="#{acaoOrcamentariaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetAcaoOrcamentariaDetail" header="#{msg['acaoOrcamentaria.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailAcaoOrcamentaria.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

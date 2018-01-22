@@ -10,10 +10,8 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -31,10 +29,9 @@ public class ProgramaDeGoverno implements Serializable {
     @GeneratedValue(generator = "ProgramaDeGoverno")
     private Long id;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    private UnidadeOrcamentaria unidadeOrcamentaria;
-
+//    @NotNull
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private UnidadeGestora unidadeGestora;
     @NotBlank
     @Size(max = 260)
     private String codigo;
@@ -49,6 +46,9 @@ public class ProgramaDeGoverno implements Serializable {
     @Enumerated(EnumType.STRING)
     private TipoDePoder poder;
 
+//    @OneToMany(mappedBy = "programa")
+//    @NotAudited
+//    private List<AcaoEstrategica> acoes;
     @Override
     public String toString() {
         return codigo.concat(" - ").concat(nome);
@@ -77,14 +77,14 @@ public class ProgramaDeGoverno implements Serializable {
     public void setNome(String nome) {
         this.nome = nome;
     }
-
-    public UnidadeOrcamentaria getUnidadeOrcamentaria() {
-        return unidadeOrcamentaria;
-    }
-
-    public void setUnidadeOrcamentaria(UnidadeOrcamentaria unidadeOrcamentaria) {
-        this.unidadeOrcamentaria = unidadeOrcamentaria;
-    }
+//
+//    public UnidadeGestora getUnidadeGestora() {
+//        return unidadeGestora;
+//    }
+//
+//    public void setUnidadeGestora(UnidadeGestora unidadeGestora) {
+//        this.unidadeGestora = unidadeGestora;
+//    }
 
     public boolean isAtivo() {
         return ativo;

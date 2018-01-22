@@ -41,11 +41,10 @@ public class UnidadeDeMedida implements Serializable {
     private String descricao;
 
     private boolean ativo = true;
-    
-    @NotAudited
-    @OneToMany(mappedBy = "unidade")
-    private List<Produto> produtos;
 
+//    @NotAudited
+//    @OneToMany(mappedBy = "unidade")
+//    private List<Produto> produtos;
     @Override
     public String toString() {
         return codigo.concat(" - ").concat(nome); //To change body of generated methods, choose Tools | Templates.
@@ -89,14 +88,6 @@ public class UnidadeDeMedida implements Serializable {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
-    }
-
-    public List<Produto> getProdutos() {
-        return produtos;
-    }
-
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
     }
 
     @Override

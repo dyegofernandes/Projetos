@@ -12,7 +12,7 @@
             <x:modalMessages/>
 
             <x:dataTableActions fileName="unidadeOrcamentaria_export" target=":formListUnidadeOrcamentaria:dataTableUnidadeOrcamentaria"
-                                     widgetVar="dataTableUnidadeOrcamentariaWidget"  />
+                                widgetVar="dataTableUnidadeOrcamentariaWidget"  />
 
             <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                          var="unidadeOrcamentaria" rowIndexVar="index" id="dataTableUnidadeOrcamentaria" widgetVar="dataTableUnidadeOrcamentariaWidget" styleClass="table-responsive"
@@ -22,38 +22,38 @@
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="#{msg['unidadeOrcamentaria.unidadeGestora']}" sortBy="#{unidadeOrcamentaria.unidadeGestora}"
-                       >
+                <p:column headerText="Órgão" sortBy="#{unidadeOrcamentaria.orgao.nome}"
+                          filterBy="#{unidadeOrcamentaria.orgao.nome}" >
                     <f:facet name="header">
-                        <h:outputText value="#{msg['unidadeOrcamentaria.unidadeGestora']}" />
+                        <h:outputText value="Órgão" />
                     </f:facet>
-                    <h:outputText value="#{unidadeOrcamentaria.unidadeGestora}">
+                    <h:outputText value="#{unidadeOrcamentaria.orgao}">
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{msg['unidadeOrcamentaria.codigo']}" sortBy="#{unidadeOrcamentaria.codigo}"
-                    filterBy="#{unidadeOrcamentaria.codigo}"   >
+                          filterBy="#{unidadeOrcamentaria.codigo}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['unidadeOrcamentaria.codigo']}" />
                     </f:facet>
                     <h:outputText value="#{unidadeOrcamentaria.codigo}"/>
                 </p:column>
                 <p:column headerText="#{msg['unidadeOrcamentaria.nome']}" sortBy="#{unidadeOrcamentaria.nome}"
-                    filterBy="#{unidadeOrcamentaria.nome}"   >
+                          filterBy="#{unidadeOrcamentaria.nome}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['unidadeOrcamentaria.nome']}" />
                     </f:facet>
                     <h:outputText value="#{unidadeOrcamentaria.nome}"/>
                 </p:column>
                 <p:column headerText="#{msg['unidadeOrcamentaria.mnemonico']}" sortBy="#{unidadeOrcamentaria.mnemonico}"
-                    filterBy="#{unidadeOrcamentaria.mnemonico}"   >
+                          filterBy="#{unidadeOrcamentaria.mnemonico}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['unidadeOrcamentaria.mnemonico']}" />
                     </f:facet>
                     <h:outputText value="#{unidadeOrcamentaria.mnemonico}"/>
                 </p:column>
                 <p:column headerText="#{msg['unidadeOrcamentaria.ativo']}" sortBy="#{unidadeOrcamentaria.ativo}"
-                    filterBy="#{unidadeOrcamentaria.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                          filterBy="#{unidadeOrcamentaria.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['unidadeOrcamentaria.ativo']}" />
                     </f:facet>
@@ -90,7 +90,7 @@
 
         <p:dialog widgetVar="widgetUnidadeOrcamentariaDetail" header="#{msg['unidadeOrcamentaria.detail']}" appendTo="@(body)" 
                   modal="true" styleClass="uix-dialog-fluid" >
-                  <ui:include src="detailUnidadeOrcamentaria.xhtml" />
+            <ui:include src="detailUnidadeOrcamentaria.xhtml" />
         </p:dialog>
     </ui:define>
 </ui:composition>

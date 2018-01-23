@@ -32,10 +32,6 @@ public class AcaoOrcamentaria implements Serializable {
     @NotNull
     private UnidadeOrcamentaria unidadeOrcamentaria;
 
-    @Size(max = 50)
-    @NotBlank
-    private String codigo;
-    
     @Size(max = 250)
     @NotBlank
     private String nome;
@@ -44,7 +40,7 @@ public class AcaoOrcamentaria implements Serializable {
 
     @Override
     public String toString() {
-        return nome; 
+        return nome;
     }
 
     public Long getId() {
@@ -79,14 +75,6 @@ public class AcaoOrcamentaria implements Serializable {
         this.ativo = ativo;
     }
 
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-
     @Override
     public int hashCode() {
         int hash = 7;
@@ -108,6 +96,5 @@ public class AcaoOrcamentaria implements Serializable {
         }
         return true;
     }
-    
-    
+
 }

@@ -1,5 +1,7 @@
 package br.gov.pi.ati.mb.padrao;
 
+import br.gov.pi.ati.modelo.cadastro.CompentenciaPPA;
+import br.gov.pi.ati.modelo.cadastro.AreaTematica;
 import br.gov.pi.ati.modelo.cadastro.AcaoOrcamentaria;
 import br.gov.pi.ati.modelo.cadastro.Produto;
 import br.gov.pi.ati.modelo.cadastro.AcaoEstrategica;
@@ -25,7 +27,9 @@ import br.gov.pi.ati.modelo.cadastro.NaturezaDeDespesa;
 import br.gov.pi.ati.modelo.cadastro.enums.TipoDePoder;
 import br.gov.pi.ati.modelo.cadastro.ProgramaDeGoverno;
 import br.gov.pi.ati.modelo.cadastro.ClassificacaoDaDespesa;
+import br.gov.pi.ati.modelo.cadastro.enums.DiretrizPPA;
 import br.gov.pi.ati.modelo.cadastro.enums.TipoDeFonte;
+import br.gov.pi.ati.modelo.cadastro.enums.TipoDePrograma;
 import br.gov.pi.ati.modelo.controleacesso.Permissao;
 import br.gov.pi.ati.modelo.controleacesso.Usuario;
 import br.gov.pi.ati.modelo.configuracao.ErroSistema;
@@ -146,12 +150,15 @@ public class ClassMB {
     public Class getTipoDeFonte() {
         return TipoDeFonte.class;
     }
+
     public Class getDiretrizeDeGoverno() {
         return DiretrizeDeGoverno.class;
     }
+
     public Class getElementoDeDespesa() {
         return ElementoDeDespesa.class;
     }
+
     public Class getCategoriaDeDespesa() {
         return CategoriaDeDespesa.class;
     }
@@ -159,18 +166,23 @@ public class ClassMB {
     public Class getNaturezaDeReceita() {
         return NaturezaDeReceita.class;
     }
+
     public Class getModalidadeDeAplicacao() {
         return ModalidadeDeAplicacao.class;
     }
+
     public Class getTerritorio() {
         return Territorio.class;
     }
+
     public Class getIndicadorResultado() {
         return IndicadorResultado.class;
     }
+
     public Class getGrupoDeDespesa() {
         return GrupoDeDespesa.class;
     }
+
     public Class getTipoDeNaturezaReceita() {
         return TipoDeNaturezaReceita.class;
     }
@@ -178,12 +190,27 @@ public class ClassMB {
     public Class getProduto() {
         return Produto.class;
     }
+
     public Class getAcaoEstrategica() {
         return AcaoEstrategica.class;
     }
 
     public Class getAcaoOrcamentaria() {
         return AcaoOrcamentaria.class;
+    }
+
+    public Class getDiretrizPPA() {
+        return DiretrizPPA.class;
+    }
+
+    public Class getTipoDePrograma() {
+        return TipoDePrograma.class;
+    }
+    public Class getCompentenciaPPA() {
+        return CompentenciaPPA.class;
+    }
+    public Class getAreaTematica() {
+        return AreaTematica.class;
     }
 
 }

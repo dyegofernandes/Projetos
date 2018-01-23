@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -34,6 +35,10 @@ public class AcaoEstrategica implements Serializable {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private UnidadeOrcamentaria unidadeOrcamentaria;
+
+    @Size(max = 50)
+    @NotBlank
+    private String codigo;
 
     @Column(columnDefinition = "Text")
     @NotBlank
@@ -66,7 +71,6 @@ public class AcaoEstrategica implements Serializable {
         this.unidadeOrcamentaria = unidadeOrcamentaria;
     }
 
-
     public String getNome() {
         return nome;
     }
@@ -89,6 +93,14 @@ public class AcaoEstrategica implements Serializable {
 
     public void setProdutos(List<Produto> produtos) {
         this.produtos = produtos;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     @Override

@@ -78,4 +78,16 @@ public class Utils {
             throw new RuntimeException(e);
         }
     }
+
+    public static String getAno(Date data) {
+        SimpleDateFormat formataData = null;
+
+        if (data == null) {
+            return "";
+        }
+
+        formataData = new SimpleDateFormat("yyyy");
+
+        return formataData.format(data);
+    }
 }

@@ -240,6 +240,19 @@ public class GeracaoPermissao {
         create(new Permissao("produto.audit", "Auditoria de Produto"), "produto");
         create(new Permissao("produto.delete", "Exclusão de Produto"), "produto");
 
+        //Area Tematica
+        create(new Permissao("areaTematica", "Area Tematica", false), "cadastro");
+        create(new Permissao("areaTematica.create", "Cadastro de Area Tematica", "/view/cadastro/areaTematica/createAreaTematica.jsf", false), "areaTematica");
+        create(new Permissao("areaTematica.list", "Áreas Tematicas", "/view/cadastro/areaTematica/listAreaTematica.jsf", true), "cadastro");
+        create(new Permissao("areaTematica.audit", "Auditoria de Area Tematica"), "areaTematica");
+        create(new Permissao("areaTematica.delete", "Exclusão de Area Tematica"), "areaTematica");
+
+//Compentencia PPA
+        create(new Permissao("compentenciaPPA", "Compentencia PPA", false), "cadastro");
+        create(new Permissao("compentenciaPPA.create", "Cadastro de Compentencia PPA", "/view/cadastro/compentenciaPPA/createCompentenciaPPA.jsf", false), "compentenciaPPA");
+        create(new Permissao("compentenciaPPA.list", "Compentências PPA", "/view/cadastro/compentenciaPPA/listCompentenciaPPA.jsf", true), "cadastro");
+        create(new Permissao("compentenciaPPA.audit", "Auditoria de Compentencia PPA"), "compentenciaPPA");
+        create(new Permissao("compentenciaPPA.delete", "Exclusão de Compentencia PPA"), "compentenciaPPA");
 
         /*
          * Configuracao

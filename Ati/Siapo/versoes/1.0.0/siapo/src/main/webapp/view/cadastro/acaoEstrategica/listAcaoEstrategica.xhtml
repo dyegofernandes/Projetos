@@ -31,12 +31,12 @@
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="Código" sortBy="#{acaoEstrategica.id}"
-                          filterBy="#{acaoEstrategica.id}"   >
+                <p:column headerText="Código" sortBy="#{acaoEstrategica.codigo}"
+                          filterBy="#{acaoEstrategica.codigo}"   >
                     <f:facet name="header">
                         <h:outputText value="Código" />
                     </f:facet>
-                    <h:outputText value="#{acaoEstrategica.id}"/>
+                    <h:outputText value="#{acaoEstrategica.codigo}"/>
                 </p:column>
                 <p:column headerText="#{msg['acaoEstrategica.nome']}" sortBy="#{acaoEstrategica.nome}"
                           filterBy="#{acaoEstrategica.nome}"   >

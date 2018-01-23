@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -31,6 +32,10 @@ public class Produto implements Serializable {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private AcaoEstrategica acao;
+
+    @Size(max = 50)
+    @NotBlank
+    private String codigo;
 
     @Column(columnDefinition = "Text")
     @NotBlank
@@ -76,6 +81,14 @@ public class Produto implements Serializable {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     @Override

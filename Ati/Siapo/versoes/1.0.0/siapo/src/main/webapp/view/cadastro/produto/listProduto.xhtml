@@ -22,14 +22,21 @@
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="Ação Estratégica" sortBy="#{produto.acao}"
-                          >
+                <p:column headerText="Ação Estratégica" sortBy="#{produto.acao.nome}"
+                          filterBy="#{produto.acao.nome}">
                     <f:facet name="header">
                         <h:outputText value="Ação Estratégica" />
                     </f:facet>
                     <h:outputText value="#{produto.acao}">
                         <x:initializer/>
                     </h:outputText>
+                </p:column>
+                <p:column headerText="Código" sortBy="#{produto.codigo}"
+                          filterBy="#{produto.codigo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Código" />
+                    </f:facet>
+                    <h:outputText value="#{produto.nome}"/>
                 </p:column>
                 <p:column headerText="#{msg['produto.nome']}" sortBy="#{produto.nome}"
                           filterBy="#{produto.nome}"   >

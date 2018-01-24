@@ -65,52 +65,14 @@ public class Utils {
         return ano;
     }
 
-    public static String convertDateToString(Date date, int tipo) {
+    public static String convertDateToString(Date date, String pattern) {
         SimpleDateFormat formataData = null;
 
         if (date == null) {
             return "";
         }
-        if (tipo == 1) {
-            formataData = new SimpleDateFormat("dd/MM/yyyy");
-        }
 
-        if (tipo == 2) {
-            formataData = new SimpleDateFormat("yyyy-MM-dd");
-        }
-
-        if (tipo == 3) {
-            formataData = new SimpleDateFormat("HH:mm");
-        }
-
-        if (tipo == 4) {
-            formataData = new SimpleDateFormat("MMyy");
-        }
-        if (tipo == 5) {
-            formataData = new SimpleDateFormat("HH:mm:ss");
-        }
-        if (tipo == 6) {
-            formataData = new SimpleDateFormat("yyMM");
-        }
-        if (tipo == 7) {
-            formataData = new SimpleDateFormat("yyMMdd");
-        }
-        if (tipo == 8) {
-            formataData = new SimpleDateFormat("MM/yyyy");
-        }
-        if (tipo == 9) {
-            formataData = new SimpleDateFormat("yyyyMM");
-        }
-        if (tipo == 10) {
-            formataData = new SimpleDateFormat("ddMMyyyy");
-        }
-        if (tipo == 11) {
-            formataData = new SimpleDateFormat("yyyy");
-
-        }
-        if (tipo == 12) {
-            formataData = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        }
+        formataData = new SimpleDateFormat(pattern);
 
         String data = formataData.format(date);
 
@@ -430,13 +392,13 @@ public class Utils {
 
         return periodo;
     }
-    
-    public static boolean stringEhDoobleValido (String s) {
-    try {
-        Double.parseDouble (s); 
-        return true;
-    } catch (NumberFormatException ex) {
-        return false;
+
+    public static boolean stringEhDoobleValido(String s) {
+        try {
+            Double.parseDouble(s);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
     }
-}
 }

@@ -33,12 +33,8 @@ public class Territorio implements Serializable {
     @NotBlank
     private String nome;
 
-    @Size(max = 2)
-    @NotBlank
-    private String estado;
-    
     private boolean ativo = true;
-    
+
     @Override
     public String toString() {
         return codigo.concat(" - ").concat(nome);
@@ -66,14 +62,6 @@ public class Territorio implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
     }
 
     public boolean isAtivo() {
@@ -105,7 +93,5 @@ public class Territorio implements Serializable {
         }
         return true;
     }
-    
-    
 
 }

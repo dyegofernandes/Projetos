@@ -8,6 +8,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.sisforms.modelo.servicos.LocalReserva;
+import com.xpert.core.validation.UniqueFields;
 
 /**
  *
@@ -18,7 +19,7 @@ public class LocalReservaBO extends AbstractBusinessObject<LocalReserva> {
 
     @EJB
     private LocalReservaDAO localReservaDAO;
-    
+
     @Override
     public LocalReservaDAO getDAO() {
         return localReservaDAO;
@@ -26,7 +27,7 @@ public class LocalReservaBO extends AbstractBusinessObject<LocalReserva> {
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return null;
+        return new UniqueFields().add("nome");
     }
 
     @Override

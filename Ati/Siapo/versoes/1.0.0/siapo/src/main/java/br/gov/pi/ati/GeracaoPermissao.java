@@ -248,12 +248,20 @@ public class GeracaoPermissao {
         create(new Permissao("areaTematica.delete", "Exclusão de Area Tematica"), "areaTematica");
 
 //Compentencia PPA
-        create(new Permissao("compentenciaPPA", "Compentencia PPA", false), "cadastro");
-        create(new Permissao("compentenciaPPA.create", "Cadastro de Compentencia PPA", "/view/cadastro/compentenciaPPA/createCompentenciaPPA.jsf", false), "compentenciaPPA");
-        create(new Permissao("compentenciaPPA.list", "Compentências PPA", "/view/cadastro/compentenciaPPA/listCompentenciaPPA.jsf", true), "cadastro");
-        create(new Permissao("compentenciaPPA.audit", "Auditoria de Compentencia PPA"), "compentenciaPPA");
-        create(new Permissao("compentenciaPPA.delete", "Exclusão de Compentencia PPA"), "compentenciaPPA");
+        create(new Permissao("compentencia", "Competencias", true), "cadastro");
 
+        create(new Permissao("compentenciaPPA", "Competencia PPA", false), "compentencia");
+        create(new Permissao("compentenciaPPA.create", "Cadastro de Competencia PPA", "/view/cadastro/compentenciaPPA/createCompentenciaPPA.jsf", false), "compentenciaPPA");
+        create(new Permissao("compentenciaPPA.list", "PPA", "/view/cadastro/compentenciaPPA/listCompentenciaPPA.jsf", true), "compentencia");
+        create(new Permissao("compentenciaPPA.audit", "Auditoria de Competencia PPA"), "compentenciaPPA");
+        create(new Permissao("compentenciaPPA.delete", "Exclusão de Competencia PPA"), "compentenciaPPA");
+
+        //Municipio
+        create(new Permissao("municipio", "Municipio", false), "cadastro");
+        create(new Permissao("municipio.create", "Cadastro de Municipio", "/view/cadastro/municipio/createMunicipio.jsf", false), "municipio");
+        create(new Permissao("municipio.list", "Municipios", "/view/cadastro/municipio/listMunicipio.jsf", true), "municipio");
+        create(new Permissao("municipio.audit", "Auditoria de Municipio"), "municipio");
+        create(new Permissao("municipio.delete", "Exclusão de Municipio"), "municipio");
         /*
          * Configuracao
          */

@@ -284,11 +284,12 @@ public class GeracaoPermissao {
 
 //Reserva Local
         create(new Permissao("reservaLocal", "Reserva Local", false), "formularios");
-//        create(new Permissao("reservaLocal.create", "Cadastro de Reserva Local", "/view/servicos/reservaLocal/createReservaLocal.jsf", false), "reservaLocal");
-        create(new Permissao("reservaLocal.list", "Reservas de Locais", "/view/servicos/reservaLocal/cadastroDeReservas.jsf", true), "formularios");
-        create(new Permissao("reservaLocal.create", "Cadastrar Reserva de Local"), "reservaLocal");
+        create(new Permissao("reservaLocal.create", "Cadastro de Reserva Local", "/view/servicos/reservaLocal/createReservaLocal.jsf", false), "reservaLocal");
+        create(new Permissao("reservaLocal.list", "Reservas", "/view/servicos/reservaLocal/listReservaLocal.jsf", true), "formularios");
         create(new Permissao("reservaLocal.audit", "Auditoria de Reserva Local"), "reservaLocal");
         create(new Permissao("reservaLocal.delete", "Exclusão de Reserva Local"), "reservaLocal");
+        create(new Permissao("reservaLocal.reservar", "Reservas de Locais", "/view/servicos/reservaLocal/cadastroDeReservas.jsf", true), "formularios");
+
 
         /*
          * Configuracao

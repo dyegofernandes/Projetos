@@ -6,11 +6,14 @@
 package br.gov.pi.ati.modelo.cadastro;
 
 import br.gov.pi.ati.util.Utils;
+import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -37,6 +40,10 @@ public class CompentenciaPPA implements Serializable {
     private Date dataFinal;
 
     private boolean ativo = true;
+    
+    @OneToMany(mappedBy = "competencia")
+    @NotAudited
+    private List<ProgramaPPA> programas;
 
     @Override
     public String toString() {
@@ -73,6 +80,14 @@ public class CompentenciaPPA implements Serializable {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public List<ProgramaPPA> getProgramas() {
+        return programas;
+    }
+
+    public void setProgramas(List<ProgramaPPA> programas) {
+        this.programas = programas;
     }
 
     @Override

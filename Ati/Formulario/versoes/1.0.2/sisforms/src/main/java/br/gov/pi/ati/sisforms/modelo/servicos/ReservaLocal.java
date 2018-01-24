@@ -45,25 +45,17 @@ public class ReservaLocal implements Serializable {
     @NotBlank
     private String nomeSolicitante;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @NotNull
     private Date dataInicio;
 
-    @Temporal(TemporalType.TIME)
-    @NotNull
-    private Date horaInicio;
-
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @NotNull
     private Date dataFinal;
 
-    @Temporal(TemporalType.TIME)
-    @NotNull
-    private Date horaFinal;
-
     @Column(columnDefinition = "Text")
     private String observacao;
-    
+
     @ManyToMany(targetEntity = Arquivo.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<Arquivo> arquivos = new ArrayList<Arquivo>();
 
@@ -99,28 +91,12 @@ public class ReservaLocal implements Serializable {
         this.dataInicio = dataInicio;
     }
 
-    public Date getHoraInicio() {
-        return horaInicio;
-    }
-
-    public void setHoraInicio(Date horaInicio) {
-        this.horaInicio = horaInicio;
-    }
-
     public Date getDataFinal() {
         return dataFinal;
     }
 
     public void setDataFinal(Date dataFinal) {
         this.dataFinal = dataFinal;
-    }
-
-    public Date getHoraFinal() {
-        return horaFinal;
-    }
-
-    public void setHoraFinal(Date horaFinal) {
-        this.horaFinal = horaFinal;
     }
 
     public String getObservacao() {

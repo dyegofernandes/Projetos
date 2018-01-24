@@ -85,8 +85,8 @@ public class FormSeloAtitudeMulherMB extends AbstractBaseBean<FormSeloAtitudeMul
         params.put("FONE_REPRE", "Fone: ".concat(form.getTelefoneRepresentante() != null ? form.getTelefoneRepresentante() : ""));
         params.put("EMAIL_REPRE", "E-mail: ".concat(form.getEmailRepresentante() != null ? form.getEmailRepresentante() : ""));
         params.put("JUSTIFICATIVA", form.getJustificativa() != null ? form.getJustificativa() : "");
-        params.put("DATA_EMISSAO", Utils.convertDateToString(form.getDataEmissao(), 1));
-        params.put("ANO", Utils.convertDateToString(new Date(), 11));
+        params.put("DATA_EMISSAO", Utils.convertDateToString(form.getDataEmissao(), "dd/MM/yyyy"));
+        params.put("ANO", Utils.convertDateToString(new Date(), "yyyy"));
 
         FacesJasper.createJasperReport(null, params,
                 "/WEB-INF/report/formulario/formularioSeloAtitudeMulher.jasper", "Formulario Selo Atitude Mulher" + ".pdf");

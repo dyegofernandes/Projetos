@@ -116,7 +116,7 @@ public class FormCriacaoEmailMB extends AbstractBaseBean<FormCriacaoEmail> imple
         params.put("LOGO_PI", imgLogoPI);
         params.put("LOGO_ATI", imgLogoAti);
         params.put("ORGAO", formCriacaoEmailBO.getDAO().getInitialized(form.getOrgao()).getNome());
-        params.put("DATA_EMISSAO", Utils.convertDateToString(form.getDataCriacao(), 1));
+        params.put("DATA_EMISSAO", Utils.convertDateToString(form.getDataCriacao(), "dd/MM/yyyy"));
         carregarItens(form);
 
         FacesJasper.createJasperReport(itens, params,

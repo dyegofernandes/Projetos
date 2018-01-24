@@ -191,11 +191,11 @@ public class RequisicaoDeMaterialMB extends AbstractBaseBean<RequisicaoDeMateria
         params.put("CAMINHO_LOGO", imgLogoAti);
         params.put("GERENCIA", requisicao.getGerencia());
         params.put("COORDENADORIA", requisicao.getCoordenadoria());
-        params.put("DATA_EMISSAO", Utils.convertDateToString(requisicao.getDataDaEmissao(), 1));
+        params.put("DATA_EMISSAO", Utils.convertDateToString(requisicao.getDataDaEmissao(), "dd/MM/yyyy"));
         params.put("REQUISITADO_POR", requisicao.getRequisitadoPor());
         params.put("AUTORIZADO_POR", requisicao.getAutorizadoPor());
         params.put("VISTO", requisicao.getVisto());
-        params.put("ATENDIDO", requisicao.getAtendido() != null ? "ATENDIDO EM " + Utils.convertDateToString(requisicao.getAtendido(), 1)
+        params.put("ATENDIDO", requisicao.getAtendido() != null ? "ATENDIDO EM " + Utils.convertDateToString(requisicao.getAtendido(), "dd/MM/yyyy")
                 : "ATENDIDO EM ___/___/_____");
 
         FacesJasper.createJasperReport(itensTemp, params,

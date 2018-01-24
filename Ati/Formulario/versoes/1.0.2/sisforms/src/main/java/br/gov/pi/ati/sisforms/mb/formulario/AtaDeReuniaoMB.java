@@ -409,23 +409,23 @@ public class AtaDeReuniaoMB extends AbstractBaseBean<AtaDeReuniao> implements Se
         params.put("ORGAO", ataDeReuniaoBO.getDAO().getInitialized(form.getOrgao()).getNome());
 
         if (form.getDataDaReuniao() != null) {
-            params.put("DATA_REUNIAO", Utils.convertDateToString(form.getDataDaReuniao(), 1));
+            params.put("DATA_REUNIAO", Utils.convertDateToString(form.getDataDaReuniao(), "dd/MM/yyyy"));
         }
         if (form.getHoraInicio() != null) {
-            params.put("HORA_INICIO", Utils.convertDateToString(form.getHoraInicio(), 3));
+            params.put("HORA_INICIO", Utils.convertDateToString(form.getHoraInicio(), "HH:mm"));
         }
         if (form.getHoraTermino() != null) {
-            params.put("HORA_TERMINO", Utils.convertDateToString(form.getHoraTermino(), 3));
+            params.put("HORA_TERMINO", Utils.convertDateToString(form.getHoraTermino(), "HH:mm"));
         }
         params.put("LOCAL", form.getLocalReuniao());
         params.put("REDATOR", form.getRedator());
         params.put("ASSUNTO", form.getAssunto());
         params.put("RESUMO", form.getResumoReuniao());
         if (form.getDataDaProximaReuniao() != null) {
-            params.put("PROX_DATA", Utils.convertDateToString(form.getDataDaProximaReuniao(), 1));
+            params.put("PROX_DATA", Utils.convertDateToString(form.getDataDaProximaReuniao(), "dd/MM/yyyy"));
         }
         if (form.getHoraDaProximaReuniao() != null) {
-            params.put("PROX_HORA", Utils.convertDateToString(form.getHoraDaProximaReuniao(), 3));
+            params.put("PROX_HORA", Utils.convertDateToString(form.getHoraDaProximaReuniao(), "HH:mm"));
         }
         params.put("PROX_LOCAL", form.getLocalProximaReuniao());
         params.put("SUBREPORT_DIR", dirSubReports);
@@ -449,7 +449,7 @@ public class AtaDeReuniaoMB extends AbstractBaseBean<AtaDeReuniao> implements Se
             PendenciaVO pendenciaVO = new PendenciaVO();
             pendenciaVO.setOrgao(getBO().getDAO().getInitialized(pendenciaTemp.getOrgao()).getNome());
             pendenciaVO.setPendencia(pendenciaTemp.getPendencia());
-            pendenciaVO.setDataPrevista(Utils.convertDateToString(pendenciaTemp.getDataPrevista(), 1));
+            pendenciaVO.setDataPrevista(Utils.convertDateToString(pendenciaTemp.getDataPrevista(), "dd/MM/yyyy"));
             pendenciaVO.setResponsavel(pendenciaTemp.getResponsavel());
             pendenciasVO.add(pendenciaVO);
         }

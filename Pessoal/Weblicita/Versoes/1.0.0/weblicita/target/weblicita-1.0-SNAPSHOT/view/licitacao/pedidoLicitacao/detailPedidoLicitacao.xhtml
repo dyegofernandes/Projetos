@@ -1,0 +1,72 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailPedidoLicitacao" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pedidoLicitacao.rubricaOrcamentaria']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pedidoLicitacaoMB.entity.rubricaOrcamentaria}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pedidoLicitacao.orgaoSolicitante']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pedidoLicitacaoMB.entity.orgaoSolicitante}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pedidoLicitacao.usuario']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pedidoLicitacaoMB.entity.usuario}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pedidoLicitacao.codigo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pedidoLicitacaoMB.entity.codigo}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pedidoLicitacao.numeroProcessoAdministrativo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pedidoLicitacaoMB.entity.numeroProcessoAdministrativo}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pedidoLicitacao.dataRequisicao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pedidoLicitacaoMB.entity.dataRequisicao}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pedidoLicitacao.objeto']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pedidoLicitacaoMB.entity.objeto}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pedidoLicitacao.observacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pedidoLicitacaoMB.entity.observacao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pedidoLicitacao.dataDoReqistro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pedidoLicitacaoMB.entity.dataDoReqistro}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pedidoLicitacao.situacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pedidoLicitacaoMB.entity.situacao}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+            </div>
+        </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetPedidoLicitacaoDetail').hide()" />
+            <x:securityArea rolesAllowed="pedidoLicitacao.audit">
+                <x:audit for="#{pedidoLicitacaoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

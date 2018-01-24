@@ -29,44 +29,24 @@
                       <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                          <h:outputLabel for="dataInicio" value="* #{msg['reservaLocal.dataInicio']}:" />
                          <p:calendar id="dataInicio" value="#{reservaLocalMB.entity.dataInicio}" 
-                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
-                             <x:mask/>
+                                     showOn="button" pattern="dd/MM/yyyy HH:mm" styleClass="uix-calendar"  >
+                             <x:mask />
                          </p:calendar>
                      </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="horaInicio" value="* #{msg['reservaLocal.horaInicio']}:" />
-                         <p:calendar id="horaInicio" value="#{reservaLocalMB.entity.horaInicio}" 
-                                     showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
-                             <x:mask/>
-                         </p:calendar>
-                     </div>
+                      
                       <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                          <h:outputLabel for="dataFinal" value="* #{msg['reservaLocal.dataFinal']}:" />
                          <p:calendar id="dataFinal" value="#{reservaLocalMB.entity.dataFinal}" 
-                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                     showOn="button" pattern="dd/MM/yyyy HH:mm" styleClass="uix-calendar"  >
                              <x:mask/>
                          </p:calendar>
                      </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="horaFinal" value="* #{msg['reservaLocal.horaFinal']}:" />
-                         <p:calendar id="horaFinal" value="#{reservaLocalMB.entity.horaFinal}" 
-                                     showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
-                             <x:mask/>
-                         </p:calendar>
-                     </div>
+                     
                       <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                          <h:outputLabel for="observacao" value="#{msg['reservaLocal.observacao']}:" />
                          <p:inputText id="observacao" value="#{reservaLocalMB.entity.observacao}" maxlength="255"  styleClass="form-control"  />
                      </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel value="#{msg['reservaLocal.arquivos']}:" />
-                         <h:selectManyCheckbox id="arquivos" value="#{reservaLocalMB.entity.arquivos}" converter="entityConverter" >
-                             <x:initializer/>
-                             <f:selectItems value="#{findAllBean.get(classMB.arquivo)}" 
-                                            var="arquivo"
-                                            itemLabel="#{arquivo}"/>
-                         </h:selectManyCheckbox>
-                     </div>
+                      
 
                  </div>
              </div>

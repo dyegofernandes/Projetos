@@ -1,5 +1,6 @@
 package br.gov.pi.ati.mb.padrao;
 
+import br.gov.pi.ati.modelo.cadastro.Municipio;
 import br.gov.pi.ati.modelo.cadastro.CompentenciaPPA;
 import br.gov.pi.ati.modelo.cadastro.AreaTematica;
 import br.gov.pi.ati.modelo.cadastro.AcaoOrcamentaria;
@@ -211,6 +212,10 @@ public class ClassMB {
     }
     public Class getAreaTematica() {
         return AreaTematica.class;
+    }
+
+    public Class getMunicipio() {
+        return Municipio.class;
     }
 
 }

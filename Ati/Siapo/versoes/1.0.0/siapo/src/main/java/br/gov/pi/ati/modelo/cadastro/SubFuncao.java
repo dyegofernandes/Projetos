@@ -5,12 +5,15 @@
  */
 package br.gov.pi.ati.modelo.cadastro;
 
+import com.xpert.audit.NotAudited;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -35,11 +38,11 @@ public class SubFuncao implements Serializable {
     @Size(max = 260)
     @NotBlank
     private String nome;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @NotNull
-//    private Funcao funcao;
-    
+
+    @OneToMany(mappedBy = "subfuncao")
+    @NotAudited
+    private List<AcaoOrcamentaria> acoes;
+
     private boolean ativo = true;
 
     @Override
@@ -78,13 +81,20 @@ public class SubFuncao implements Serializable {
 //    public void setFuncao(Funcao funcao) {
 //        this.funcao = funcao;
 //    }
-
     public boolean isAtivo() {
         return ativo;
     }
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public List<AcaoOrcamentaria> getAcoes() {
+        return acoes;
+    }
+
+    public void setAcoes(List<AcaoOrcamentaria> acoes) {
+        this.acoes = acoes;
     }
 
     @Override
@@ -109,5 +119,4 @@ public class SubFuncao implements Serializable {
         return true;
     }
 
-    
 }

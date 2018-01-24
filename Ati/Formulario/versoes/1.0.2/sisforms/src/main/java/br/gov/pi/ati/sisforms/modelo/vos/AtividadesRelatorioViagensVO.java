@@ -20,7 +20,7 @@ public class AtividadesRelatorioViagensVO {
 
     public AtividadesRelatorioViagensVO(AtividadeRelatorioViagem atividade) {
         this.descricao = atividade.getDescricao();
-        this.dataAtividade = Utils.convertDateToString(atividade.getDataAtividade(), 1);
+        this.dataAtividade = Utils.convertDateToString(atividade.getDataAtividade(), "dd/MM/yyyy");
     }
 
     public String getDescricao() {

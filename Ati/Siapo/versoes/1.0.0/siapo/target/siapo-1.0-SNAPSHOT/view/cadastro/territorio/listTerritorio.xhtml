@@ -36,13 +36,7 @@
                     </f:facet>
                     <h:outputText value="#{territorio.nome}"/>
                 </p:column>
-                <p:column headerText="#{msg['territorio.estado']}" sortBy="#{territorio.estado}"
-                    filterBy="#{territorio.estado}"   >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['territorio.estado']}" />
-                    </f:facet>
-                    <h:outputText value="#{territorio.estado}"/>
-                </p:column>
+                
                 <p:column headerText="#{msg['territorio.ativo']}" sortBy="#{territorio.ativo}"
                     filterBy="#{territorio.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
                     <f:facet name="header">

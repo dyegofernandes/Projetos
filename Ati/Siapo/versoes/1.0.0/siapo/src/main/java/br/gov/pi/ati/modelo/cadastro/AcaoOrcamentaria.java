@@ -32,6 +32,18 @@ public class AcaoOrcamentaria implements Serializable {
     @NotNull
     private UnidadeOrcamentaria unidadeOrcamentaria;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    private Funcao funcao;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    private SubFuncao subfuncao;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    private ProgramaPPA programa;
+
     @Size(max = 250)
     @NotBlank
     private String nome;
@@ -73,6 +85,30 @@ public class AcaoOrcamentaria implements Serializable {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public Funcao getFuncao() {
+        return funcao;
+    }
+
+    public void setFuncao(Funcao funcao) {
+        this.funcao = funcao;
+    }
+
+    public SubFuncao getSubfuncao() {
+        return subfuncao;
+    }
+
+    public void setSubfuncao(SubFuncao subfuncao) {
+        this.subfuncao = subfuncao;
+    }
+
+    public ProgramaPPA getPrograma() {
+        return programa;
+    }
+
+    public void setPrograma(ProgramaPPA programa) {
+        this.programa = programa;
     }
 
     @Override

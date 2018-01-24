@@ -106,7 +106,7 @@ public class FormAcessoConteudoMB extends AbstractBaseBean<FormAcessoConteudo> i
         params.put("LOGO_PI", imgLogoPI);
         params.put("LOGO_ATI", imgLogoAti);
         params.put("ORGAO", formAcessoConteudoBO.getDAO().getInitialized(form.getOrgao()).getNome());
-        params.put("DATA_EMISSAO", Utils.convertDateToString(form.getDataCriacao(), 1));
+        params.put("DATA_EMISSAO", Utils.convertDateToString(form.getDataCriacao(), "dd/MM/yyyy"));
         carregarItens(form);
         params.put("NOME_COMPLETO", form.getNomeCompleto());
         params.put("MATRICULA", form.getMatriculaEstado());

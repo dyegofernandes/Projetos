@@ -5,13 +5,19 @@
  */
 package br.gov.pi.ati.modelo.cadastro;
 
-import br.gov.pi.ati.modelo.cadastro.enums.TipoDePoder;
+import br.gov.pi.ati.modelo.cadastro.enums.DiretrizPPA;
+import br.gov.pi.ati.modelo.cadastro.enums.TipoDePrograma;
+import com.xpert.audit.NotAudited;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -29,9 +35,6 @@ public class ProgramaDeGoverno implements Serializable {
     @GeneratedValue(generator = "ProgramaDeGoverno")
     private Long id;
 
-//    @NotNull
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    private UnidadeGestora unidadeGestora;
     @NotBlank
     @Size(max = 260)
     private String codigo;
@@ -40,15 +43,22 @@ public class ProgramaDeGoverno implements Serializable {
     @NotBlank
     private String nome;
 
-    private boolean ativo = true;
-
     @NotNull
     @Enumerated(EnumType.STRING)
-    private TipoDePoder poder;
+    private DiretrizPPA diretriz;
 
-//    @OneToMany(mappedBy = "programa")
-//    @NotAudited
-//    private List<AcaoEstrategica> acoes;
+    @Enumerated(EnumType.STRING)
+    private TipoDePrograma tipo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private AreaTematica areaTematica;
+
+    private boolean ativo = true;
+
+    @OneToMany(mappedBy = "programa")
+    @NotAudited
+    private List<ProgramaPPA> programas;
+
     @Override
     public String toString() {
         return codigo.concat(" - ").concat(nome);
@@ -77,14 +87,14 @@ public class ProgramaDeGoverno implements Serializable {
     public void setNome(String nome) {
         this.nome = nome;
     }
-//
-//    public UnidadeGestora getUnidadeGestora() {
-//        return unidadeGestora;
-//    }
-//
-//    public void setUnidadeGestora(UnidadeGestora unidadeGestora) {
-//        this.unidadeGestora = unidadeGestora;
-//    }
+
+    public List<ProgramaPPA> getProgramas() {
+        return programas;
+    }
+
+    public void setProgramas(List<ProgramaPPA> programas) {
+        this.programas = programas;
+    }
 
     public boolean isAtivo() {
         return ativo;
@@ -94,12 +104,28 @@ public class ProgramaDeGoverno implements Serializable {
         this.ativo = ativo;
     }
 
-    public TipoDePoder getPoder() {
-        return poder;
+    public DiretrizPPA getDiretriz() {
+        return diretriz;
     }
 
-    public void setPoder(TipoDePoder poder) {
-        this.poder = poder;
+    public void setDiretriz(DiretrizPPA diretriz) {
+        this.diretriz = diretriz;
+    }
+
+    public TipoDePrograma getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoDePrograma tipo) {
+        this.tipo = tipo;
+    }
+
+    public AreaTematica getAreaTematica() {
+        return areaTematica;
+    }
+
+    public void setAreaTematica(AreaTematica areaTematica) {
+        this.areaTematica = areaTematica;
     }
 
     @Override

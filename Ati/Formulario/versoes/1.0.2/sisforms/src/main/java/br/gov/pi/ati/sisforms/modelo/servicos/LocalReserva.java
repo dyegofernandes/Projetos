@@ -6,7 +6,6 @@
 package br.gov.pi.ati.sisforms.modelo.servicos;
 
 import br.gov.pi.ati.sisforms.modelo.enums.TipoLocal;
-import br.gov.pi.ati.sisforms.modelo.servicos.ReservaLocal;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.List;
@@ -41,6 +40,7 @@ public class LocalReserva implements Serializable {
     @Enumerated(EnumType.STRING)
     private TipoLocal tipo;
     
+    @NotNull
     private Integer quantidadeLugares;
     
     private boolean ativo = true;

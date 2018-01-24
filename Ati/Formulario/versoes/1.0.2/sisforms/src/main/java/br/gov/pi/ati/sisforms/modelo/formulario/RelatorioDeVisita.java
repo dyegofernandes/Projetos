@@ -48,7 +48,7 @@ public class RelatorioDeVisita implements Serializable {
     private Integer numero = 1;
 
     @NotNull
-    private Integer ano = new Integer(Utils.convertDateToString(new Date(), 11));
+    private Integer ano = new Integer(Utils.convertDateToString(new Date(), "yyyy"));
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull

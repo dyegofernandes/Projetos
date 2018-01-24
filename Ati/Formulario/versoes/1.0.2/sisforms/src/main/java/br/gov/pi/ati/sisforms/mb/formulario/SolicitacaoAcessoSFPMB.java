@@ -131,7 +131,7 @@ public class SolicitacaoAcessoSFPMB extends AbstractBaseBean<SolicitacaoAcessoSF
         params.put("LOGO_PI", imgLogoPI);
         params.put("ORGAO", form.getOrgao() != null ? "ÓRGÃO: ".concat(solicitacaoAcessoSFPBO.getDAO().getInitialized(form.getOrgao()).getNome())
                 : "ÓRGÃO:");
-        params.put("DATA_EMISSAO", Utils.convertDateToString(form.getDataEmissao(), 12));
+        params.put("DATA_EMISSAO", Utils.convertDateToString(form.getDataEmissao(), "dd/MM/yyyy HH:mm"));
 
         params.put("CPF", form.getCpf() != null ? "CPF: ".concat(Utils.format("###.###.###-##", form.getCpf())) : "CPF:");
         params.put("MATRICULA", form.getMatricula() != null ? "MATRÍCULA: ".concat(form.getMatricula()) : "MATRÍCULA:");

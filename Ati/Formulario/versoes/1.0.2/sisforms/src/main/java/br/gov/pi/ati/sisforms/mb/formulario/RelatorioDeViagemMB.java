@@ -228,13 +228,13 @@ public class RelatorioDeViagemMB extends AbstractBaseBean<RelatorioDeViagem> imp
         params.put("CPF", form.getCpf() != null ? "CPF: ".concat(form.getCpf()) : "CPF: ");
         params.put("MATRICULA", form.getMatricula() != null ? "Matricula: ".concat(form.getMatricula()) : "Matricula: ");
         params.put("TRAJETO", form.getTrajeto() != null ? "Trajeto: ".concat(form.getTrajeto()) : "Trajeto: ");
-        params.put("DATA_SAIDA", form.getDataSaida() != null ? "Data Saída: ".concat(Utils.convertDateToString(form.getDataSaida(), 1)) : "Data Saída: ");
-        params.put("DATA_CHEGATA", form.getDataChegada() != null ? "Data Chegada: ".concat(Utils.convertDateToString(form.getDataChegada(), 1)) : "Data Chegada: ");
+        params.put("DATA_SAIDA", form.getDataSaida() != null ? "Data Saída: ".concat(Utils.convertDateToString(form.getDataSaida(), "dd/MM/yyyy")) : "Data Saída: ");
+        params.put("DATA_CHEGATA", form.getDataChegada() != null ? "Data Chegada: ".concat(Utils.convertDateToString(form.getDataChegada(), "dd/MM/yyyy")) : "Data Chegada: ");
         params.put("DURACAO_AFASTAMENTO", form.getDuracaoAfastamento() != null ? "Duração do Afastamento: "
                 .concat(form.getDuracaoAfastamento().toString()) : "Duração do Afastamento: ");
         params.put("MODALIDADE", form.getModalidadeDoTransporte() != null ? "Modalidade do Transporte: "
                 .concat(form.getModalidadeDoTransporte()) : "Modalidade do Transporte: ");
-        params.put("DATA_EMISSAO", form.getDataEmissao() != null ? Utils.convertDateToString(form.getDataEmissao(), 12) : "");
+        params.put("DATA_EMISSAO", form.getDataEmissao() != null ? Utils.convertDateToString(form.getDataEmissao(), "dd/MM/yyyy HH:mm") : "");
         params.put("RELATO_VIAGEM", form.getRelatoViagem() != null ? "Relato da Viagem: ".concat(form.getRelatoViagem()) : "Relato da Viagem:");
 
         params.put("SUBREPORT_DIR", caminhoSubrelatorio);

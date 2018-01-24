@@ -198,7 +198,7 @@ public class RoteiroDeTriagemDoUsuarioLGBTMB extends AbstractBaseBean<RoteiroDeT
         params.put("CPF", form.getCpf());
         params.put("REG_SOCIAL", (form.getRegistroSocialNum() != null ? form.getRegistroSocialNum() + "/" + form.getRegistroSocialAno()
                 : ""));
-        params.put("DATA_NASCIMENTO", form.getDataNascimento() != null ? "".concat(Utils.convertDateToString(form.getDataNascimento(), 1))
+        params.put("DATA_NASCIMENTO", form.getDataNascimento() != null ? "".concat(Utils.convertDateToString(form.getDataNascimento(), "dd/MM/yyyy"))
                 : "");
 
         FacesJasper.createJasperReport(null, params,

@@ -107,7 +107,7 @@ public class RelatorioDeVisitaMB extends AbstractBaseBean<RelatorioDeVisita> imp
 
     private Integer ultimoRelatorioVisitaNoAno() {
         Integer maximo = (Integer) relatorioDeVisitaBO.getDAO().getQueryBuilder().from(RelatorioDeVisita.class)
-                .add("ano", new Integer(Utils.convertDateToString(new Date(), 11))).max("numero");
+                .add("ano", new Integer(Utils.convertDateToString(new Date(), "yyyy"))).max("numero");
 
         return maximo != null ? maximo : null;
     }
@@ -119,7 +119,7 @@ public class RelatorioDeVisitaMB extends AbstractBaseBean<RelatorioDeVisita> imp
         params.put("LOGO_ATI", imgLogoAti);
         params.put("ORGAO", form.getOrgao() != null ? "Órgão Solicitante: ".concat(relatorioDeVisitaBO.getDAO().getInitialized(form.getOrgao()).getNome())
                 : "Órgão Solicitante: ");
-        params.put("DATA_EMISSAO", form.getDataEmissao() != null ? "".concat(Utils.convertDateToString(form.getDataEmissao(), 12))
+        params.put("DATA_EMISSAO", form.getDataEmissao() != null ? "".concat(Utils.convertDateToString(form.getDataEmissao(), "dd/MM/yyyy HH:mm"))
                 : "");
         params.put("ANO", form.getAno() != null ? form.getAno().toString() : "");
         params.put("NUMERO", form.getNumero() != null ? form.getNumero().toString() : "");
@@ -127,10 +127,10 @@ public class RelatorioDeVisitaMB extends AbstractBaseBean<RelatorioDeVisita> imp
         params.put("CONTATO", form.getContato() != null ? "Contato: ".concat(form.getContato()) : "Contato: ");
         params.put("TELEFONE", form.getTelefone() != null ? "Telefone: ".concat(form.getTelefone()) : "Telefone: ");
         params.put("EMAIL", form.getEmail() != null ? "Email: ".concat(form.getEmail()) : "Email: ");
-        params.put("DATA_INICIO", form.getDataInicioVisita() != null ? Utils.convertDateToString(form.getDataInicioVisita(), 1) : "");
-        params.put("DATA_CONCLUSAO", form.getDataConclusaoVisita() != null ? Utils.convertDateToString(form.getDataConclusaoVisita(), 1) : "");
-        params.put("HORA_INICIO", form.getHoraInicioVisita() != null ? Utils.convertDateToString(form.getHoraInicioVisita(), 3) : "");
-        params.put("HORA_CONCLUSAO", form.getHoraConclusaoVisita() != null ? Utils.convertDateToString(form.getHoraConclusaoVisita(), 3) : "");
+        params.put("DATA_INICIO", form.getDataInicioVisita() != null ? Utils.convertDateToString(form.getDataInicioVisita(), "dd/MM/yyyy") : "");
+        params.put("DATA_CONCLUSAO", form.getDataConclusaoVisita() != null ? Utils.convertDateToString(form.getDataConclusaoVisita(), "dd/MM/yyyy") : "");
+        params.put("HORA_INICIO", form.getHoraInicioVisita() != null ? Utils.convertDateToString(form.getHoraInicioVisita(), "HH:mm") : "");
+        params.put("HORA_CONCLUSAO", form.getHoraConclusaoVisita() != null ? Utils.convertDateToString(form.getHoraConclusaoVisita(), "HH:mm") : "");
         params.put("RESUMO", form.getResumo() != null ? form.getResumo() : "");
         params.put("SOLICITACAO", form.getSolicitacao() != null ? "Solicitação: ".concat(form.getSolicitacao()) : "Solicitação:");
         params.put("CONSTATACAO", form.getConstatacaoTecnica() != null ? "Constatação: ".concat(form.getConstatacaoTecnica()) : "Constatação: ");

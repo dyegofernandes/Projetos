@@ -38,9 +38,9 @@ public class Funcao implements Serializable {
 
     private boolean ativo = true;
 
-//    @NotAudited
-//    @OneToMany(mappedBy = "funcao")
-//    private List<SubFuncao> subFuncoes;
+    @OneToMany(mappedBy = "funcao")
+    @NotAudited
+    private List<AcaoOrcamentaria> acoes;
 
     @Override
     public String toString() {
@@ -70,14 +70,15 @@ public class Funcao implements Serializable {
     public void setNome(String nome) {
         this.nome = nome;
     }
-//
-//    public List<SubFuncao> getSubFuncoes() {
-//        return subFuncoes;
-//    }
-//
-//    public void setSubFuncoes(List<SubFuncao> subFuncoes) {
-//        this.subFuncoes = subFuncoes;
-//    }
+
+    public List<AcaoOrcamentaria> getAcoes() {
+        return acoes;
+    }
+
+    public void setAcoes(List<AcaoOrcamentaria> acoes) {
+        this.acoes = acoes;
+    }
+
 
     public boolean isAtivo() {
         return ativo;

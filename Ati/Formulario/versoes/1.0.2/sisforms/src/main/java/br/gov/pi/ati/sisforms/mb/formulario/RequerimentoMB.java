@@ -62,7 +62,7 @@ public class RequerimentoMB extends AbstractBaseBean<Requerimento> implements Se
         params.put("URL_IMG_ICON_FACE", imgFace);
         params.put("URL_IMG_ICON_INSTAGRAM", imgInstagram);
         params.put("URL_IMG_ICON_TWITTER", imgTwitter);
-        params.put("DATA_SOLICITACAO", Utils.convertDateToString(requerimento.getDataSolicitacao(), 12));
+        params.put("DATA_SOLICITACAO", Utils.convertDateToString(requerimento.getDataSolicitacao(), "dd/MM/yyyy HH:mm" ));
 
         List<RequerimentoVO> requerimentos = new ArrayList<RequerimentoVO>();
 

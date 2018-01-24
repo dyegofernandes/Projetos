@@ -22,8 +22,8 @@
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="#{msg['reservaLocal.localReserva']}" sortBy="#{reservaLocal.localReserva}"
-                       >
+                <p:column headerText="#{msg['reservaLocal.localReserva']}" sortBy="#{reservaLocal.localReserva.nome}"
+                          filterBy="#{reservaLocal.localReserva.nome}" >
                     <f:facet name="header">
                         <h:outputText value="#{msg['reservaLocal.localReserva']}" />
                     </f:facet>
@@ -42,21 +42,13 @@
                     filterBy="#{reservaLocal.dataInicio}"   style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['reservaLocal.dataInicio']}" />
-                        <x:dateFilter/>
+                        <x:dateFilter />
                     </f:facet>
                     <h:outputText value="#{reservaLocal.dataInicio}">
-                        <f:convertDateTime />
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{msg['reservaLocal.horaInicio']}" sortBy="#{reservaLocal.horaInicio}"
-                       style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['reservaLocal.horaInicio']}" />
-                    </f:facet>
-                    <h:outputText value="#{reservaLocal.horaInicio}">
-                        <f:convertDateTime pattern="HH:mm"/>
-                    </h:outputText>
-                </p:column>
+                
                 <p:column headerText="#{msg['reservaLocal.dataFinal']}" sortBy="#{reservaLocal.dataFinal}"
                     filterBy="#{reservaLocal.dataFinal}"   style="text-align: center;">
                     <f:facet name="header">
@@ -64,18 +56,10 @@
                         <x:dateFilter/>
                     </f:facet>
                     <h:outputText value="#{reservaLocal.dataFinal}">
-                        <f:convertDateTime />
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{msg['reservaLocal.horaFinal']}" sortBy="#{reservaLocal.horaFinal}"
-                       style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['reservaLocal.horaFinal']}" />
-                    </f:facet>
-                    <h:outputText value="#{reservaLocal.horaFinal}">
-                        <f:convertDateTime pattern="HH:mm"/>
-                    </h:outputText>
-                </p:column>
+                
                 <p:column headerText="#{msg['reservaLocal.observacao']}" sortBy="#{reservaLocal.observacao}"
                     filterBy="#{reservaLocal.observacao}"   >
                     <f:facet name="header">

@@ -60,7 +60,7 @@ public class PendenciaVO implements Serializable{
         this.orgao = pendencia.getOrgao().getNome();
         this.pendencia = pendencia.getPendencia();
         this.responsavel = pendencia.getResponsavel();
-        this.dataPrevista = Utils.convertDateToString(pendencia.getDataPrevista(), 1);
+        this.dataPrevista = Utils.convertDateToString(pendencia.getDataPrevista(), "dd/MM/yyyy");
     }
 
     public PendenciaVO() {

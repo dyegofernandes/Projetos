@@ -1,0 +1,54 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <script type="text/javascript">
+        PrimeFaces.widget.Schedule.prototype._oldInit = PrimeFaces.widget.Schedule.prototype.init;
+        PrimeFaces.widget.Schedule.prototype.init = function (cfg) {
+            cfg.columnFormat = {
+                month: 'ddd',
+                week: 'ddd d/M',
+                day: 'dddd d/M'
+            };
+
+            this._oldInit.apply(this, arguments);
+        };
+    </script>
+
+    <h:form id="formCreateReserva" >
+        <p:growl id="messages" showDetail="true" />
+        <x:modalMessages autoUpdate="true"/>
+
+        <h:panelGrid columnClasses="value">
+            <h3 style="margin-top: 0">Editable Schedule</h3>
+            <p:schedule id="schedule" value="#{reservasMB.eventModel}" widgetVar="myschedule" timeZone="GMT+3">
+
+                <p:ajax event="dateSelect" listener="#{reservasMB.selecionarData}" update="formCreateReservaLocal" oncomplete="PF('eventDialog').show();" />
+                <p:ajax event="eventSelect" listener="#{reservasMB.selecionarEvento}" update="formCreateReservaLocal" oncomplete="PF('eventDialog').show();" />
+                <p:ajax event="eventMove" listener="#{reservasMB.moverEvento}" update="messages" />
+                <p:ajax event="eventResize" listener="#{reservasMB.redimensionarEvento}" update="messages" />
+
+            </p:schedule>
+
+
+        </h:panelGrid>
+
+        <p:dialog widgetVar="eventDialog" header="Cadastrar Reserva Local" appendTo="@(body)"
+                  modal="true" styleClass="uix-dialog-fluid">
+            <ui:include src="formCreateReservaLocal.xhtml" />
+            <p:ajax event="close" update=":formCreateReserva" listener="#{findAllBean.setReload(true)}"
+                    />
+        </p:dialog>
+
+    </h:form>
+
+    <style type="text/css">
+        .value {
+            width: 1000px;
+        }
+    </style>
+
+
+</ui:composition>

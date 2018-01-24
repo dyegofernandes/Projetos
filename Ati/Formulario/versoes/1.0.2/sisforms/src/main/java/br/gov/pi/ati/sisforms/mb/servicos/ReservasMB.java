@@ -6,19 +6,34 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.sisforms.bo.servicos.ReservaLocalBO;
+import br.gov.pi.ati.sisforms.modelo.cadastro.Arquivo;
 import br.gov.pi.ati.sisforms.modelo.servicos.ReservaLocal;
-import java.util.Calendar;
+import com.lowagie.text.pdf.codec.Base64;
+import com.xpert.core.exception.BusinessException;
+import com.xpert.faces.utils.FacesMessageUtils;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
+import static org.apache.commons.io.FilenameUtils.getExtension;
+import org.hibernate.proxy.HibernateProxy;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.ScheduleEntryMoveEvent;
 import org.primefaces.event.ScheduleEntryResizeEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -28,12 +43,17 @@ import org.primefaces.model.ScheduleModel;
 @ViewScoped
 public class ReservasMB extends AbstractBaseBean<ReservaLocal> implements Serializable {
 
-    @EJB
-    private ReservaLocalBO reservaLocalBO;
+    private List<Arquivo> arquivos = new ArrayList<Arquivo>();
+    ;
+
+    private ScheduleEvent event = new DefaultScheduleEvent();
 
     private ScheduleModel eventModel;
-    
-    private ScheduleEvent event = new DefaultScheduleEvent();
+
+    private ReservaLocal reserva;
+
+    @EJB
+    private ReservaLocalBO reservaLocalBO;
 
     @Override
     public ReservaLocalBO getBO() {
@@ -47,101 +67,120 @@ public class ReservasMB extends AbstractBaseBean<ReservaLocal> implements Serial
 
     @Override
     public void init() {
+        iniciarReservas();
+        reserva = new ReservaLocal();
+    }
+
+    @Override
+    public void save() {
+
+        getEntity().setArquivos(arquivos);
+
+        super.save();
+
+    }
+
+    @Override
+    public void postSave() {
+        reserva = new ReservaLocal();
+        iniciarReservas();
+        super.postSave();
+    }
+
+    public ReservasMB() {
+
+    }
+
+    public void iniciarReservas() {
         eventModel = new DefaultScheduleModel();
-        
-        eventModel.addEvent(new DefaultScheduleEvent("Champions League Match", previousDay8Pm(), previousDay11Pm()));
-        eventModel.addEvent(new DefaultScheduleEvent("Birthday Party", today1Pm(), today6Pm()));
-        eventModel.addEvent(new DefaultScheduleEvent("Breakfast at Tiffanys", nextDay9Am(), nextDay11Am()));
-        eventModel.addEvent(new DefaultScheduleEvent("Plant the new garden stuff", theDayAfter3Pm(), fourDaysLater3pm()));
-         
+        List<ReservaLocal> reservas = getBO().getDAO().listAll();
+        for (ReservaLocal reserva : reservas) {
+            ScheduleEvent eventTemp = new DefaultScheduleEvent(reserva.getId() + " - " + reserva.getNomeSolicitante(), reserva.getDataInicio(), reserva.getDataFinal());
+            eventModel.addEvent(eventTemp);
+        }
+
     }
 
-    public ScheduleModel getEventModel() {
-        return eventModel;
+    public void selecionarEvento(SelectEvent selectEvent) {
+
+        event = (ScheduleEvent) selectEvent.getObject();
+
+        String titulo = event.getTitle();
+
+        Long id = Long.parseLong(titulo.split(" ")[0]);
+
+        ReservaLocal reserva = getBO().getDAO().getInitialized(getBO().getDAO().unique("id", id));
+
+        setEntity(reserva);
+
+        arquivos = getBO().getDAO().getInitialized(reserva.getArquivos());
     }
 
-    public Date getInitialDate() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(calendar.get(Calendar.YEAR), Calendar.FEBRUARY, calendar.get(Calendar.DATE), 0, 0, 0);
-
-        return calendar.getTime();
+    public void selecionarData(SelectEvent selectEvent) {
+        setEntity(new ReservaLocal());
+        arquivos = new ArrayList<Arquivo>();
+        getEntity().setDataInicio((Date) selectEvent.getObject());
+        getEntity().setDataFinal((Date) selectEvent.getObject());
     }
 
-    private Calendar today() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
+    public void moverEvento(ScheduleEntryMoveEvent event) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Evento Movido", "Dia delta:" + event.getDayDelta() + ", Minuto delta:" + event.getMinuteDelta());
 
-        return calendar;
+        addMessage(message);
     }
 
-    private Date previousDay8Pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.DATE, t.get(Calendar.DATE) - 1);
-        t.set(Calendar.HOUR, 8);
+    public void redimensionarEvento(ScheduleEntryResizeEvent event) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Evento redimensionado", "Dia delta:" + event.getDayDelta() + ", Minuto delta:" + event.getMinuteDelta());
 
-        return t.getTime();
+        addMessage(message);
     }
 
-    private Date previousDay11Pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.DATE, t.get(Calendar.DATE) - 1);
-        t.set(Calendar.HOUR, 11);
-
-        return t.getTime();
+    private void addMessage(FacesMessage message) {
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    private Date today1Pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.HOUR, 1);
+    public StreamedContent download(Arquivo arquivo) throws IOException {
 
-        return t.getTime();
+        if (arquivo instanceof HibernateProxy) {
+            HibernateProxy proxy = (HibernateProxy) arquivo;
+            arquivo = (Arquivo) proxy.getHibernateLazyInitializer().getImplementation();
+        }
+
+        String nomeArquivo = arquivo.getNome();
+        String extensaoArquivo = arquivo.getExtensao();
+
+        File file = File.createTempFile(nomeArquivo, extensaoArquivo);
+
+        FileOutputStream outputStream = new FileOutputStream(file);
+        outputStream.write(Base64.decode(arquivo.getConteudo()));
+        outputStream.flush();
+        outputStream.close();
+
+        return new DefaultStreamedContent(new FileInputStream(file), extensaoArquivo, nomeArquivo);
     }
 
-    private Date theDayAfter3Pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.DATE, t.get(Calendar.DATE) + 2);
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.HOUR, 3);
-
-        return t.getTime();
+    public void removerArquivo(Arquivo arquivo) throws IOException {
+        arquivos.remove(arquivo);
     }
 
-    private Date today6Pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.HOUR, 6);
+    public void upload(FileUploadEvent event) throws FileNotFoundException, IOException {
 
-        return t.getTime();
+        UploadedFile uploadedFile = event.getFile();
+        String base64AsString = new String(Base64.encodeBytes(uploadedFile.getContents()));
+
+        Arquivo arquivo = new Arquivo();
+        arquivo.setNome(uploadedFile.getFileName());
+        arquivo.setExtensao(getExtension(uploadedFile.getFileName()));
+        arquivo.setConteudo(base64AsString);
+        arquivos.add(arquivo);
     }
 
-    private Date nextDay9Am() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.AM);
-        t.set(Calendar.DATE, t.get(Calendar.DATE) + 1);
-        t.set(Calendar.HOUR, 9);
-
-        return t.getTime();
+    public List<Arquivo> getArquivos() {
+        return arquivos;
     }
 
-    private Date nextDay11Am() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.AM);
-        t.set(Calendar.DATE, t.get(Calendar.DATE) + 1);
-        t.set(Calendar.HOUR, 11);
-
-        return t.getTime();
-    }
-
-    private Date fourDaysLater3pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.DATE, t.get(Calendar.DATE) + 4);
-        t.set(Calendar.HOUR, 3);
-
-        return t.getTime();
+    public void setArquivos(List<Arquivo> arquivos) {
+        this.arquivos = arquivos;
     }
 
     public ScheduleEvent getEvent() {
@@ -152,36 +191,31 @@ public class ReservasMB extends AbstractBaseBean<ReservaLocal> implements Serial
         this.event = event;
     }
 
-    public void onEventMove(ScheduleEntryMoveEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event moved", "Day delta:" + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta());
-
-        addMessage(message);
+    public ScheduleModel getEventModel() {
+        return eventModel;
     }
 
-    public void onEventResize(ScheduleEntryResizeEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event resized", "Day delta:" + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta());
-
-        addMessage(message);
+    public void setEventModel(ScheduleModel eventModel) {
+        this.eventModel = eventModel;
     }
 
-    private void addMessage(FacesMessage message) {
-        FacesContext.getCurrentInstance().addMessage(null, message);
+    public ReservaLocal getReserva() {
+        return reserva;
     }
-    
-    public void addEvent(ActionEvent actionEvent) {
-        if(event.getId() == null)
-            eventModel.addEvent(event);
-        else
-            eventModel.updateEvent(event);
-         
-        event = new DefaultScheduleEvent();
+
+    public void setReserva(ReservaLocal reserva) {
+        this.reserva = reserva;
     }
-    
-    public void onEventSelect(SelectEvent selectEvent) {
-        event = (ScheduleEvent) selectEvent.getObject();
+
+    public void saveAll() throws BusinessException {
+        if (reserva != null) {
+            try {
+                getBO().saveAll(getBO().locaisPelaReserva(reserva));
+                FacesMessageUtils.info("Reserva (s) Gerada (s) Com Sucesso!");
+            } catch (BusinessException ex) {
+                FacesMessageUtils.error(ex);
+            }
+        }
     }
-    
-    public void onDateSelect(SelectEvent selectEvent) {
-        event = new DefaultScheduleEvent("", (Date) selectEvent.getObject(), (Date) selectEvent.getObject());
-    }
+
 }

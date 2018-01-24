@@ -8,11 +8,10 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.sisforms.modelo.servicos.ReservaLocal;
-import br.gov.pi.ati.sisforms.util.Utils;
-import static com.xpert.Configuration.getEntityManager;
 import com.xpert.persistence.query.Restrictions;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-import javax.persistence.Query;
 import javax.persistence.TemporalType;
 
 /**
@@ -37,19 +36,26 @@ public class ReservaLocalBO extends AbstractBusinessObject<ReservaLocal> {
 
     @Override
     public void validate(ReservaLocal reservaLocal) throws BusinessException {
-        Restrictions restrictions;
+
+        BusinessException exception = new BusinessException();
 
         if (reservaLocal.getDataInicio().after(reservaLocal.getDataFinal())) {
-            throw new BusinessException("Data inicial não pode ser maior que a data final.");
+            exception.add("Data inicial não pode ser maior que a data final.");
         }
+
+        exception.check();
 
         if (reservaLocal.getDataInicio().before(new Date())) {
-            throw new BusinessException("Data inicial deve ser maior ou igual a data atual.");
+            exception.add("Data inicial deve ser maior ou igual a data atual.");
         }
+        
+        exception.check();
 
-        if (verificarSeTaNoIntervalo(reservaLocal.getDataInicio(), reservaLocal.getDataFinal())) {
-            throw new BusinessException("Já existe reservas para esse local nas datas informadas!");
+        if (verificarSeTaNoIntervalo(reservaLocal)) {
+            exception.add("Já existe reservas para esse local nas datas informadas!");
         }
+        
+        exception.check();
     }
 
     @Override
@@ -58,23 +64,70 @@ public class ReservaLocalBO extends AbstractBusinessObject<ReservaLocal> {
     }
 
     //        where (s2 < e1 and e2 > s1) or (s1 < e2 and e1 > s2)
-    private boolean verificarSeTaNoIntervalo(Date dataInicio, Date dataFim) {
+    private boolean verificarSeTaNoIntervalo(ReservaLocal reserva) {
+        Restrictions restrictions = new Restrictions();
+        restrictions.add("l", reserva.getLocalReserva());
+        restrictions.startGroup();
+        restrictions.startGroup().greaterThan("r.dataFinal", reserva.getDataInicio(), TemporalType.TIMESTAMP).lessThan("dataInicio", reserva.getDataFinal(), TemporalType.TIMESTAMP).endGroup();
+        restrictions.or();
+        restrictions.startGroup().lessThan("r.dataInicio", reserva.getDataFinal(), TemporalType.TIMESTAMP).greaterThan("r.dataFinal ", reserva.getDataInicio(), TemporalType.TIMESTAMP).endGroup();
+        restrictions.endGroup();
+        List<ReservaLocal> reservas = getDAO().getQueryBuilder().select("r").from(ReservaLocal.class, "r").leftJoinFetch("r.localReserva", "l")
+                .add(restrictions).getResultList();
 
-        String queryString = ("select * from reservalocal r where ('DATA_INICIO' < r.datafinal and 'DATA_FIM' > r.datainicio) or (r.datainicio < 'DATA_FIM' and datafinal > 'DATA_INICIO')"
-                .replace("DATA_INICIO", Utils.convertDateToString(dataInicio, "yyyy-MM-dd HH:mm"))
-                .replace("DATA_FIM", Utils.convertDateToString(dataFim, "yyyy-MM-dd HH:mm")));
-
-        Query query;
-
-        query = getEntityManager().createNativeQuery(queryString);
-
-        List<Object[]> resultado = query.getResultList();
-
-        if (resultado.size() > 0) {
+        if (reservas.size() > 0) {
             return true;
         }
 
         return false;
+    }
+
+    public List<ReservaLocal> locaisPelaReserva(ReservaLocal reserva) {
+
+        List<ReservaLocal> reservas = new ArrayList<ReservaLocal>();
+
+        Calendar inicio = Calendar.getInstance();
+        inicio.setTime(reserva.getDataInicio());
+        Calendar fim = Calendar.getInstance();
+        fim.setTime(reserva.getDataFinal());
+
+        Calendar calInicio = Calendar.getInstance();
+        calInicio.setTime(inicio.getTime());
+
+        for (Date dt = inicio.getTime(); dt.compareTo(fim.getTime()) <= 0;) {
+            calInicio.add(Calendar.DATE, +1);
+
+            Calendar calFim = Calendar.getInstance();
+            calFim.setTime(calInicio.getTime());
+            calFim.set(Calendar.HOUR_OF_DAY, fim.get(Calendar.HOUR_OF_DAY));
+
+            ReservaLocal reservaTemp = new ReservaLocal();
+
+            reservaTemp.setLocalReserva(reserva.getLocalReserva());
+            reservaTemp.setDataInicio(calInicio.getTime());
+
+            reservaTemp.setDataFinal(calFim.getTime());
+            reservaTemp.setNomeSolicitante(reserva.getNomeSolicitante());
+            reservaTemp.setObservacao(reserva.getObservacao());
+            reservaTemp.setArquivos(reserva.getArquivos());
+
+            reservas.add(reservaTemp);
+            dt = calInicio.getTime();
+        }
+
+        return reservas;
+    }
+
+    public void saveAll(List<ReservaLocal> reservas) throws BusinessException {
+
+        for (ReservaLocal reserva : reservas) {
+            try {
+                save(reserva);
+            } catch (Exception e) {
+
+            }
+
+        }
     }
 
 }

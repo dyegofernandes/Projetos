@@ -277,6 +277,15 @@ public class GeracaoPermissao {
         create(new Permissao("naturezaDeReceita.audit", "Auditoria de Natureza De Receita"), "naturezaDeReceita");
         create(new Permissao("naturezaDeReceita.delete", "Exclusão de Natureza De Receita"), "naturezaDeReceita");
 
+        //Meta PPA
+        create(new Permissao("orcamento", "Orçamento", true), null);
+        
+        create(new Permissao("metaPPA", "Meta PPA", false), "orcamento");
+        create(new Permissao("metaPPA.create", "Cadastro de Meta PPA", "/view/orcamento/metaPPA/createMetaPPA.jsf", false), "metaPPA");
+        create(new Permissao("metaPPA.list", "Metas PPA", "/view/orcamento/metaPPA/listMetaPPA.jsf", true), "orcamento");
+        create(new Permissao("metaPPA.audit", "Auditoria de Meta PPA"), "metaPPA");
+        create(new Permissao("metaPPA.delete", "Exclusão de Meta PPA"), "metaPPA");
+
         /*
          * Configuracao
          */

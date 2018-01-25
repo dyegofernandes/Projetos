@@ -47,7 +47,6 @@ public class MetaPPA implements Serializable {
     private UnidadeDeMedida unidadeMedida;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
     private BigDecimal valorMeta;
 
     @ManyToMany(targetEntity = Ldo.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})

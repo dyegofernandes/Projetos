@@ -1,0 +1,95 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['metaPPA.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuMetaPPA.xhtml" />
+        <h:form id="formListMetaPPA">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="metaPPA_export" target=":formListMetaPPA:dataTableMetaPPA"
+                                widgetVar="dataTableMetaPPAWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="metaPPA" rowIndexVar="index" id="dataTableMetaPPA" widgetVar="dataTableMetaPPAWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{metaPPAMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{metaPPAMB.dataModel.paginatorTemplate}"
+                         value="#{metaPPAMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['metaPPA.programa']}" sortBy="#{metaPPA.programa}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['metaPPA.programa']}" />
+                    </f:facet>
+                    <h:outputText value="#{metaPPA.programa}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['metaPPA.produto']}" sortBy="#{metaPPA.produto}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['metaPPA.produto']}" />
+                    </f:facet>
+                    <h:outputText value="#{metaPPA.produto}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['metaPPA.unidadeMedida']}" sortBy="#{metaPPA.unidadeMedida}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['metaPPA.unidadeMedida']}" />
+                    </f:facet>
+                    <h:outputText value="#{metaPPA.unidadeMedida}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['metaPPA.valorMeta']}" sortBy="#{metaPPA.valorMeta}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['metaPPA.valorMeta']}" />
+                    </f:facet>
+                    <h:outputText value="#{metaPPA.valorMeta}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetMetaPPADetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailMetaPPA" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{metaPPA}" target="#{metaPPAMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="metaPPA.create">
+                        <p:button icon="ui-icon-pencil" outcome="createMetaPPA" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{metaPPA.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="metaPPA.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{metaPPAMB.delete}" >
+                            <f:setPropertyActionListener value="#{metaPPA.id}" target="#{metaPPAMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{metaPPA}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="metaPPA.audit">
+                    <x:auditDelete for="#{metaPPAMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetMetaPPADetail" header="#{msg['metaPPA.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailMetaPPA.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

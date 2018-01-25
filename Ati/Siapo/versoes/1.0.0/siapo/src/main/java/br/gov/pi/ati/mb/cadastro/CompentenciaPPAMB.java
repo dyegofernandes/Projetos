@@ -1,6 +1,5 @@
 package br.gov.pi.ati.mb.cadastro;
 
-
 import java.io.Serializable;
 import com.xpert.core.crud.AbstractBaseBean;
 import javax.ejb.EJB;
@@ -8,6 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.bo.cadastro.CompentenciaPPABO;
 import br.gov.pi.ati.modelo.cadastro.CompentenciaPPA;
+import java.util.List;
 
 /**
  *
@@ -28,5 +28,9 @@ public class CompentenciaPPAMB extends AbstractBaseBean<CompentenciaPPA> impleme
     @Override
     public String getDataModelOrder() {
         return "id";
+    }
+
+    public List<Integer> competencias() {
+        return getBO().periodoPelaCompetencia();
     }
 }

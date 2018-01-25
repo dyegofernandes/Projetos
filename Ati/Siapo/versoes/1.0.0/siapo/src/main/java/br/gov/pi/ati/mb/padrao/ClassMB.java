@@ -1,5 +1,8 @@
 package br.gov.pi.ati.mb.padrao;
 
+import br.gov.pi.ati.modelo.orcamento.TerritorioPPA;
+import br.gov.pi.ati.modelo.orcamento.MetaPPA;
+import br.gov.pi.ati.modelo.orcamento.Ldo;
 import br.gov.pi.ati.modelo.cadastro.Municipio;
 import br.gov.pi.ati.modelo.cadastro.CompentenciaPPA;
 import br.gov.pi.ati.modelo.cadastro.AreaTematica;
@@ -223,6 +226,16 @@ public class ClassMB {
 
     public Class getProgramaPPA() {
         return ProgramaPPA.class;
+    }
+
+    public Class getTerritorioPPA() {
+        return TerritorioPPA.class;
+    }
+    public Class getMetaPPA() {
+        return MetaPPA.class;
+    }
+    public Class getLdo() {
+        return Ldo.class;
     }
 
 }

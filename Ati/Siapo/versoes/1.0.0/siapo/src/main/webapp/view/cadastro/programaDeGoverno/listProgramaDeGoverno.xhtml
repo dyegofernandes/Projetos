@@ -36,12 +36,28 @@
                     </f:facet>
                     <h:outputText value="#{programaDeGoverno.nome}"/>
                 </p:column>
-                <p:column headerText="Poder" sortBy="#{programaDeGoverno.poder}"
-                          filterBy="#{programaDeGoverno.poder}"  filterOptions="#{findAllBean.getSelect(classMB.tipoDePoder)}" >
+                <p:column headerText="Diretriz" sortBy="#{programaDeGoverno.diretriz}"
+                          filterBy="#{programaDeGoverno.diretriz}"  filterOptions="#{findAllBean.getSelect(classMB.diretrizPPA)}" >
                     <f:facet name="header">
-                        <h:outputText value="Poder" />
+                        <h:outputText value="Diretriz" />
                     </f:facet>
-                    <h:outputText value="#{programaDeGoverno.poder}"/>
+                    <h:outputText value="#{programaDeGoverno.diretriz}"/>
+                </p:column>
+                <p:column headerText="Tipo" sortBy="#{programaDeGoverno.tipo}"
+                          filterBy="#{programaDeGoverno.tipo}"  filterOptions="#{findAllBean.getSelect(classMB.tipoDePrograma)}" >
+                    <f:facet name="header">
+                        <h:outputText value="Tipo" />
+                    </f:facet>
+                    <h:outputText value="#{programaDeGoverno.tipo}"/>
+                </p:column>
+                <p:column headerText="Área Tematica" sortBy="#{programaDeGoverno.areaTematica.nome}"
+                          filterBy="#{programaDeGoverno.areaTematica.nome}">
+                    <f:facet name="header">
+                        <h:outputText value="Área Tematica" />
+                    </f:facet>
+                    <h:outputText value="#{programaDeGoverno.areaTematica}">
+                        <x:initializer/>
+                    </h:outputText>
                 </p:column>
                 <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
                     <f:facet name="header">

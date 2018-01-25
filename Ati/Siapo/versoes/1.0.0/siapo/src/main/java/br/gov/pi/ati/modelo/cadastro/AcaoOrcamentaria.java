@@ -43,6 +43,10 @@ public class AcaoOrcamentaria implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     private ProgramaPPA programa;
+    
+    @Size(max = 50)
+    @NotBlank
+    private String codigo;
 
     @Size(max = 250)
     @NotBlank
@@ -109,6 +113,14 @@ public class AcaoOrcamentaria implements Serializable {
 
     public void setPrograma(ProgramaPPA programa) {
         this.programa = programa;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     @Override

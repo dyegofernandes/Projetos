@@ -12,7 +12,7 @@
             <x:modalMessages/>
 
             <x:dataTableActions fileName="acaoOrcamentaria_export" target=":formListAcaoOrcamentaria:dataTableAcaoOrcamentaria"
-                                     widgetVar="dataTableAcaoOrcamentariaWidget"  />
+                                widgetVar="dataTableAcaoOrcamentariaWidget"  />
 
             <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                          var="acaoOrcamentaria" rowIndexVar="index" id="dataTableAcaoOrcamentaria" widgetVar="dataTableAcaoOrcamentariaWidget" styleClass="table-responsive"
@@ -31,16 +31,49 @@
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
-                
+                <p:column headerText="Função" sortBy="#{acaoOrcamentaria.funcao.nome}"
+                          filterBy="#{acaoOrcamentaria.funcao.nome}" >
+                    <f:facet name="header">
+                        <h:outputText value="Função" />
+                    </f:facet>
+                    <h:outputText value="#{acaoOrcamentaria.funcao}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Subfunção" sortBy="#{acaoOrcamentaria.subfuncao.nome}"
+                          filterBy="#{acaoOrcamentaria.subfuncao.nome}" >
+                    <f:facet name="header">
+                        <h:outputText value="Subfunção" />
+                    </f:facet>
+                    <h:outputText value="#{acaoOrcamentaria.subfuncao}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Programa" sortBy="#{acaoOrcamentaria.programa.programa.nome}"
+                          filterBy="#{acaoOrcamentaria.programa.programa.nome}" >
+                    <f:facet name="header">
+                        <h:outputText value="Programa" />
+                    </f:facet>
+                    <h:outputText value="#{acaoOrcamentaria.programa.programa}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Código" sortBy="#{acaoOrcamentaria.codigo}"
+                          filterBy="#{acaoOrcamentaria.codigo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Código" />
+                    </f:facet>
+                    <h:outputText value="#{acaoOrcamentaria.codigo}"/>
+                </p:column>
                 <p:column headerText="#{msg['acaoOrcamentaria.nome']}" sortBy="#{acaoOrcamentaria.nome}"
-                    filterBy="#{acaoOrcamentaria.nome}"   >
+                          filterBy="#{acaoOrcamentaria.nome}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['acaoOrcamentaria.nome']}" />
                     </f:facet>
                     <h:outputText value="#{acaoOrcamentaria.nome}"/>
                 </p:column>
                 <p:column headerText="#{msg['acaoOrcamentaria.ativo']}" sortBy="#{acaoOrcamentaria.ativo}"
-                    filterBy="#{acaoOrcamentaria.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                          filterBy="#{acaoOrcamentaria.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['acaoOrcamentaria.ativo']}" />
                     </f:facet>
@@ -77,7 +110,7 @@
 
         <p:dialog widgetVar="widgetAcaoOrcamentariaDetail" header="#{msg['acaoOrcamentaria.detail']}" appendTo="@(body)" 
                   modal="true" styleClass="uix-dialog-fluid" >
-                  <ui:include src="detailAcaoOrcamentaria.xhtml" />
+            <ui:include src="detailAcaoOrcamentaria.xhtml" />
         </p:dialog>
     </ui:define>
 </ui:composition>

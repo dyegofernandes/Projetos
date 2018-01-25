@@ -12,7 +12,7 @@
 
             <div class="container-fluid">
                 <div class="row">
-                   
+
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="codigo" value="* #{msg['programaDeGoverno.codigo']}:" />
                         <p:inputText id="codigo" value="#{programaDeGovernoMB.entity.codigo}" maxlength="260"  styleClass="form-control"  />
@@ -22,12 +22,31 @@
                         <p:inputText id="nome" value="#{programaDeGovernoMB.entity.nome}" maxlength="260"  styleClass="form-control"  />
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="poder" value="* Poder:" />
-                        <h:selectOneMenu id="poder" value="#{programaDeGovernoMB.entity.poder}"  styleClass="form-control" >
+                        <h:outputLabel for="diretriz" value="* Diretriz:" />
+                        <h:selectOneMenu id="diretriz" value="#{programaDeGovernoMB.entity.diretriz}"  styleClass="form-control" >
                             <f:selectItem itemLabel="#{xmsg['select']}" />
-                            <f:selectItems value="#{findAllBean.get(classMB.tipoDePoder)}" 
+                            <f:selectItems value="#{findAllBean.get(classMB.diretrizPPA)}" 
+                                           var="diretriz"
+                                           itemLabel="#{diretriz.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tipo" value="* Tipo:" />
+                        <h:selectOneMenu id="tipo" value="#{programaDeGovernoMB.entity.tipo}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.tipoDePrograma)}" 
                                            var="tipo"
                                            itemLabel="#{tipo.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="areaTematica" value="Area Tematica:" />
+                        <h:selectOneMenu id="areaTematica" value="#{programaDeGovernoMB.entity.areaTematica}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.areaTematica)}" 
+                                           var="areaTematica"
+                                           itemLabel="#{areaTematica}"/>
                         </h:selectOneMenu>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">

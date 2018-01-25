@@ -28,6 +28,7 @@ import br.gov.pi.ati.modelo.cadastro.NaturezaDeDespesa;
 import br.gov.pi.ati.modelo.cadastro.enums.TipoDePoder;
 import br.gov.pi.ati.modelo.cadastro.ProgramaDeGoverno;
 import br.gov.pi.ati.modelo.cadastro.ClassificacaoDaDespesa;
+import br.gov.pi.ati.modelo.cadastro.ProgramaPPA;
 import br.gov.pi.ati.modelo.cadastro.enums.DiretrizPPA;
 import br.gov.pi.ati.modelo.cadastro.enums.TipoDeFonte;
 import br.gov.pi.ati.modelo.cadastro.enums.TipoDePrograma;
@@ -207,15 +208,21 @@ public class ClassMB {
     public Class getTipoDePrograma() {
         return TipoDePrograma.class;
     }
+
     public Class getCompentenciaPPA() {
         return CompentenciaPPA.class;
     }
+
     public Class getAreaTematica() {
         return AreaTematica.class;
     }
 
     public Class getMunicipio() {
         return Municipio.class;
+    }
+
+    public Class getProgramaPPA() {
+        return ProgramaPPA.class;
     }
 
 }

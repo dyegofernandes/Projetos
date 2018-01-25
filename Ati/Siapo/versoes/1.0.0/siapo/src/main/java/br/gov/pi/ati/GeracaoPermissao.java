@@ -83,13 +83,6 @@ public class GeracaoPermissao {
         create(new Permissao("configuracaoEmail.audit", "Auditoria de Configuração de Email"), "configuracaoEmail");
         create(new Permissao("configuracaoEmail.delete", "Exclusão de Configuração de Email"), "configuracaoEmail");
 
-        //Classificacao Da Despesa
-        create(new Permissao("classificacaoDaDespesa", "Classificacao Da Despesa", false), "cadastro");
-        create(new Permissao("classificacaoDaDespesa.create", "Cadastro de Classificacao Da Despesa", "/view/cadastro/classificacaoDaDespesa/createClassificacaoDaDespesa.jsf", false), "classificacaoDaDespesa");
-        create(new Permissao("classificacaoDaDespesa.list", "Classificacões da Despesa", "/view/cadastro/classificacaoDaDespesa/listClassificacaoDaDespesa.jsf", true), "cadastro");
-        create(new Permissao("classificacaoDaDespesa.audit", "Auditoria de Classificacao Da Despesa"), "classificacaoDaDespesa");
-        create(new Permissao("classificacaoDaDespesa.delete", "Exclusão de Classificacao Da Despesa"), "classificacaoDaDespesa");
-
         create(new Permissao("fontes", "Fontes", true), "cadastro");
 //Fonte De Recurso
         create(new Permissao("fonteDeRecurso", "Fonte De Recurso", false), "fontes");
@@ -121,12 +114,22 @@ public class GeracaoPermissao {
         create(new Permissao("subFuncao.audit", "Auditoria de Sub Função"), "subFuncao");
         create(new Permissao("subFuncao.delete", "Exclusão de Sub Função"), "subFuncao");
 
+        //programa
+        create(new Permissao("programa", "Programas", true), "cadastro");
+
 //Programa De Governo
-        create(new Permissao("programaDeGoverno", "Programa De Governo", false), "cadastro");
+        create(new Permissao("programaDeGoverno", "Governo", false), "programa");
         create(new Permissao("programaDeGoverno.create", "Cadastro de Programa De Governo", "/view/cadastro/programaDeGoverno/createProgramaDeGoverno.jsf", false), "programaDeGoverno");
-        create(new Permissao("programaDeGoverno.list", "Programas de Governo", "/view/cadastro/programaDeGoverno/listProgramaDeGoverno.jsf", true), "cadastro");
+        create(new Permissao("programaDeGoverno.list", "Governo", "/view/cadastro/programaDeGoverno/listProgramaDeGoverno.jsf", true), "programa");
         create(new Permissao("programaDeGoverno.audit", "Auditoria de Programa De Governo"), "programaDeGoverno");
         create(new Permissao("programaDeGoverno.delete", "Exclusão de Programa De Governo"), "programaDeGoverno");
+
+        //Programa PPA
+        create(new Permissao("programaPPA", "Programa PPA", false), "programa");
+        create(new Permissao("programaPPA.create", "Cadastro de Programa PPA", "/view/cadastro/programaPPA/createProgramaPPA.jsf", false), "programaPPA");
+        create(new Permissao("programaPPA.list", "PPA", "/view/cadastro/programaPPA/listProgramaPPA.jsf", true), "programa");
+        create(new Permissao("programaPPA.audit", "Auditoria de Programa PPA"), "programaPPA");
+        create(new Permissao("programaPPA.delete", "Exclusão de Programa PPA"), "programaPPA");
 
         //Orgao
         create(new Permissao("orgao", "Orgao", false), "cadastro");
@@ -158,63 +161,12 @@ public class GeracaoPermissao {
         create(new Permissao("unidadeDeMedida.audit", "Auditoria de Unidade De Medida"), "unidadeDeMedida");
         create(new Permissao("unidadeDeMedida.delete", "Exclusão de Unidade De Medida"), "unidadeDeMedida");
 
-        //Categoria De Despesa
-        create(new Permissao("categoriaDeDespesa", "Categoria De Despesa", false), "cadastro");
-        create(new Permissao("categoriaDeDespesa.create", "Cadastro de Categoria De Despesa", "/view/cadastro/categoriaDeDespesa/createCategoriaDeDespesa.jsf", false), "categoriaDeDespesa");
-        create(new Permissao("categoriaDeDespesa.list", "Categorias de Despesas", "/view/cadastro/categoriaDeDespesa/listCategoriaDeDespesa.jsf", true), "cadastro");
-        create(new Permissao("categoriaDeDespesa.audit", "Auditoria de Categoria De Despesa"), "categoriaDeDespesa");
-        create(new Permissao("categoriaDeDespesa.delete", "Exclusão de Categoria De Despesa"), "categoriaDeDespesa");
-
-//Diretrize De Governo
-        create(new Permissao("diretrizeDeGoverno", "Diretrize De Governo", false), "cadastro");
-        create(new Permissao("diretrizeDeGoverno.create", "Cadastro de Diretrize De Governo", "/view/cadastro/diretrizeDeGoverno/createDiretrizeDeGoverno.jsf", false), "diretrizeDeGoverno");
-        create(new Permissao("diretrizeDeGoverno.list", "Diretrizes de Governos", "/view/cadastro/diretrizeDeGoverno/listDiretrizeDeGoverno.jsf", true), "cadastro");
-        create(new Permissao("diretrizeDeGoverno.audit", "Auditoria de Diretrize De Governo"), "diretrizeDeGoverno");
-        create(new Permissao("diretrizeDeGoverno.delete", "Exclusão de Diretrize De Governo"), "diretrizeDeGoverno");
-
-//Elemento De Despesa
-        create(new Permissao("elementoDeDespesa", "Elemento De Despesa", false), "cadastro");
-        create(new Permissao("elementoDeDespesa.create", "Cadastro de Elemento De Despesa", "/view/cadastro/elementoDeDespesa/createElementoDeDespesa.jsf", false), "elementoDeDespesa");
-        create(new Permissao("elementoDeDespesa.list", "Elementos de Despesas", "/view/cadastro/elementoDeDespesa/listElementoDeDespesa.jsf", true), "cadastro");
-        create(new Permissao("elementoDeDespesa.audit", "Auditoria de Elemento De Despesa"), "elementoDeDespesa");
-        create(new Permissao("elementoDeDespesa.delete", "Exclusão de Elemento De Despesa"), "elementoDeDespesa");
-
-//Grupo De Despesa
-        create(new Permissao("grupoDeDespesa", "Grupo De Despesa", false), "cadastro");
-        create(new Permissao("grupoDeDespesa.create", "Cadastro de Grupo De Despesa", "/view/cadastro/grupoDeDespesa/createGrupoDeDespesa.jsf", false), "grupoDeDespesa");
-        create(new Permissao("grupoDeDespesa.list", "Grupos de Despesas", "/view/cadastro/grupoDeDespesa/listGrupoDeDespesa.jsf", true), "cadastro");
-        create(new Permissao("grupoDeDespesa.audit", "Auditoria de Grupo De Despesa"), "grupoDeDespesa");
-        create(new Permissao("grupoDeDespesa.delete", "Exclusão de Grupo De Despesa"), "grupoDeDespesa");
-
 //Modalidade De Aplicacao
         create(new Permissao("modalidadeDeAplicacao", "Modalidade De Aplicacao", false), "cadastro");
         create(new Permissao("modalidadeDeAplicacao.create", "Cadastro de Modalidade De Aplicacao", "/view/cadastro/modalidadeDeAplicacao/createModalidadeDeAplicacao.jsf", false), "modalidadeDeAplicacao");
         create(new Permissao("modalidadeDeAplicacao.list", "Modalidades de Aplicações", "/view/cadastro/modalidadeDeAplicacao/listModalidadeDeAplicacao.jsf", true), "cadastro");
         create(new Permissao("modalidadeDeAplicacao.audit", "Auditoria de Modalidade De Aplicacao"), "modalidadeDeAplicacao");
         create(new Permissao("modalidadeDeAplicacao.delete", "Exclusão de Modalidade De Aplicacao"), "modalidadeDeAplicacao");
-
-        create(new Permissao("naturezas", "Naturezas", true), "cadastro");
-
-        //Natureza De Despesa
-        create(new Permissao("naturezaDeDespesa", "Natureza De Despesa", false), "naturezas");
-        create(new Permissao("naturezaDeDespesa.create", "Cadastro de Natureza De Despesa", "/view/cadastro/naturezaDeDespesa/createNaturezaDeDespesa.jsf", false), "naturezaDeDespesa");
-        create(new Permissao("naturezaDeDespesa.list", "Despesas", "/view/cadastro/naturezaDeDespesa/listNaturezaDeDespesa.jsf", true), "naturezas");
-        create(new Permissao("naturezaDeDespesa.audit", "Auditoria de Natureza De Despesa"), "naturezaDeDespesa");
-        create(new Permissao("naturezaDeDespesa.delete", "Exclusão de Natureza De Despesa"), "naturezaDeDespesa");
-
-//Natureza De Receita
-        create(new Permissao("naturezaDeReceita", "Natureza De Receita", false), "naturezas");
-        create(new Permissao("naturezaDeReceita.create", "Cadastro de Natureza De Receita", "/view/cadastro/naturezaDeReceita/createNaturezaDeReceita.jsf", false), "naturezaDeReceita");
-        create(new Permissao("naturezaDeReceita.list", "Receitas", "/view/cadastro/naturezaDeReceita/listNaturezaDeReceita.jsf", true), "naturezas");
-        create(new Permissao("naturezaDeReceita.audit", "Auditoria de Natureza De Receita"), "naturezaDeReceita");
-        create(new Permissao("naturezaDeReceita.delete", "Exclusão de Natureza De Receita"), "naturezaDeReceita");
-
-//Territorio
-        create(new Permissao("territorio", "Territorio", false), "cadastro");
-        create(new Permissao("territorio.create", "Cadastro de Territorio", "/view/cadastro/territorio/createTerritorio.jsf", false), "territorio");
-        create(new Permissao("territorio.list", "Territórios", "/view/cadastro/territorio/listTerritorio.jsf", true), "cadastro");
-        create(new Permissao("territorio.audit", "Auditoria de Territorio"), "territorio");
-        create(new Permissao("territorio.delete", "Exclusão de Territorio"), "territorio");
 
         //Acao Orcamentaria
         create(new Permissao("acoes", "Acões", true), "cadastro");
@@ -240,13 +192,6 @@ public class GeracaoPermissao {
         create(new Permissao("produto.audit", "Auditoria de Produto"), "produto");
         create(new Permissao("produto.delete", "Exclusão de Produto"), "produto");
 
-        //Area Tematica
-        create(new Permissao("areaTematica", "Area Tematica", false), "cadastro");
-        create(new Permissao("areaTematica.create", "Cadastro de Area Tematica", "/view/cadastro/areaTematica/createAreaTematica.jsf", false), "areaTematica");
-        create(new Permissao("areaTematica.list", "Áreas Tematicas", "/view/cadastro/areaTematica/listAreaTematica.jsf", true), "cadastro");
-        create(new Permissao("areaTematica.audit", "Auditoria de Area Tematica"), "areaTematica");
-        create(new Permissao("areaTematica.delete", "Exclusão de Area Tematica"), "areaTematica");
-
 //Compentencia PPA
         create(new Permissao("compentencia", "Competencias", true), "cadastro");
 
@@ -256,12 +201,82 @@ public class GeracaoPermissao {
         create(new Permissao("compentenciaPPA.audit", "Auditoria de Competencia PPA"), "compentenciaPPA");
         create(new Permissao("compentenciaPPA.delete", "Exclusão de Competencia PPA"), "compentenciaPPA");
 
+        create(new Permissao("governo", "Governo", true), "cadastro");
+
         //Municipio
-        create(new Permissao("municipio", "Municipio", false), "cadastro");
+        create(new Permissao("municipio", "Municipio", false), "governo");
         create(new Permissao("municipio.create", "Cadastro de Municipio", "/view/cadastro/municipio/createMunicipio.jsf", false), "municipio");
-        create(new Permissao("municipio.list", "Municipios", "/view/cadastro/municipio/listMunicipio.jsf", true), "municipio");
+        create(new Permissao("municipio.list", "Municipios", "/view/cadastro/municipio/listMunicipio.jsf", true), "governo");
         create(new Permissao("municipio.audit", "Auditoria de Municipio"), "municipio");
         create(new Permissao("municipio.delete", "Exclusão de Municipio"), "municipio");
+
+        //Area Tematica
+        create(new Permissao("areaTematica", "Area Tematica", false), "governo");
+        create(new Permissao("areaTematica.create", "Cadastro de Area Tematica", "/view/cadastro/areaTematica/createAreaTematica.jsf", false), "areaTematica");
+        create(new Permissao("areaTematica.list", "Áreas Tematicas", "/view/cadastro/areaTematica/listAreaTematica.jsf", true), "governo");
+        create(new Permissao("areaTematica.audit", "Auditoria de Area Tematica"), "areaTematica");
+        create(new Permissao("areaTematica.delete", "Exclusão de Area Tematica"), "areaTematica");
+
+        //Territorio
+        create(new Permissao("territorio", "Territorio", false), "governo");
+        create(new Permissao("territorio.create", "Cadastro de Territorio", "/view/cadastro/territorio/createTerritorio.jsf", false), "territorio");
+        create(new Permissao("territorio.list", "Territórios", "/view/cadastro/territorio/listTerritorio.jsf", true), "governo");
+        create(new Permissao("territorio.audit", "Auditoria de Territorio"), "territorio");
+        create(new Permissao("territorio.delete", "Exclusão de Territorio"), "territorio");
+
+        //Diretrize De Governo
+        create(new Permissao("diretrizeDeGoverno", "Diretrize De Governo", false), "governo");
+        create(new Permissao("diretrizeDeGoverno.create", "Cadastro de Diretrize De Governo", "/view/cadastro/diretrizeDeGoverno/createDiretrizeDeGoverno.jsf", false), "diretrizeDeGoverno");
+        create(new Permissao("diretrizeDeGoverno.list", "Diretrizes de Governos", "/view/cadastro/diretrizeDeGoverno/listDiretrizeDeGoverno.jsf", true), "governo");
+        create(new Permissao("diretrizeDeGoverno.audit", "Auditoria de Diretrize De Governo"), "diretrizeDeGoverno");
+        create(new Permissao("diretrizeDeGoverno.delete", "Exclusão de Diretrize De Governo"), "diretrizeDeGoverno");
+
+        create(new Permissao("despesas", "Despesa", true), "cadastro");
+
+        //Natureza De Despesa
+        create(new Permissao("naturezaDeDespesa", "Natureza De Despesa", false), "despesas");
+        create(new Permissao("naturezaDeDespesa.create", "Cadastro de Natureza De Despesa", "/view/cadastro/naturezaDeDespesa/createNaturezaDeDespesa.jsf", false), "naturezaDeDespesa");
+        create(new Permissao("naturezaDeDespesa.list", "Despesas", "/view/cadastro/naturezaDeDespesa/listNaturezaDeDespesa.jsf", true), "despesas");
+        create(new Permissao("naturezaDeDespesa.audit", "Auditoria de Natureza De Despesa"), "naturezaDeDespesa");
+        create(new Permissao("naturezaDeDespesa.delete", "Exclusão de Natureza De Despesa"), "naturezaDeDespesa");
+
+        //Elemento De Despesa
+        create(new Permissao("elementoDeDespesa", "Elemento De Despesa", false), "despesas");
+        create(new Permissao("elementoDeDespesa.create", "Cadastro de Elemento De Despesa", "/view/cadastro/elementoDeDespesa/createElementoDeDespesa.jsf", false), "elementoDeDespesa");
+        create(new Permissao("elementoDeDespesa.list", "Elementos de Despesas", "/view/cadastro/elementoDeDespesa/listElementoDeDespesa.jsf", true), "despesas");
+        create(new Permissao("elementoDeDespesa.audit", "Auditoria de Elemento De Despesa"), "elementoDeDespesa");
+        create(new Permissao("elementoDeDespesa.delete", "Exclusão de Elemento De Despesa"), "elementoDeDespesa");
+
+//Grupo De Despesa
+        create(new Permissao("grupoDeDespesa", "Grupo De Despesa", false), "despesas");
+        create(new Permissao("grupoDeDespesa.create", "Cadastro de Grupo De Despesa", "/view/cadastro/grupoDeDespesa/createGrupoDeDespesa.jsf", false), "grupoDeDespesa");
+        create(new Permissao("grupoDeDespesa.list", "Grupos de Despesas", "/view/cadastro/grupoDeDespesa/listGrupoDeDespesa.jsf", true), "despesas");
+        create(new Permissao("grupoDeDespesa.audit", "Auditoria de Grupo De Despesa"), "grupoDeDespesa");
+        create(new Permissao("grupoDeDespesa.delete", "Exclusão de Grupo De Despesa"), "grupoDeDespesa");
+
+        //Categoria De Despesa
+        create(new Permissao("categoriaDeDespesa", "Categoria De Despesa", false), "despesas");
+        create(new Permissao("categoriaDeDespesa.create", "Cadastro de Categoria De Despesa", "/view/cadastro/categoriaDeDespesa/createCategoriaDeDespesa.jsf", false), "categoriaDeDespesa");
+        create(new Permissao("categoriaDeDespesa.list", "Categorias de Despesas", "/view/cadastro/categoriaDeDespesa/listCategoriaDeDespesa.jsf", true), "despesas");
+        create(new Permissao("categoriaDeDespesa.audit", "Auditoria de Categoria De Despesa"), "categoriaDeDespesa");
+        create(new Permissao("categoriaDeDespesa.delete", "Exclusão de Categoria De Despesa"), "categoriaDeDespesa");
+
+        //Classificacao Da Despesa
+        create(new Permissao("classificacaoDaDespesa", "Classificacao Da Despesa", false), "despesas");
+        create(new Permissao("classificacaoDaDespesa.create", "Cadastro de Classificacao Da Despesa", "/view/cadastro/classificacaoDaDespesa/createClassificacaoDaDespesa.jsf", false), "classificacaoDaDespesa");
+        create(new Permissao("classificacaoDaDespesa.list", "Classificacões da Despesa", "/view/cadastro/classificacaoDaDespesa/listClassificacaoDaDespesa.jsf", true), "despesas");
+        create(new Permissao("classificacaoDaDespesa.audit", "Auditoria de Classificacao Da Despesa"), "classificacaoDaDespesa");
+        create(new Permissao("classificacaoDaDespesa.delete", "Exclusão de Classificacao Da Despesa"), "classificacaoDaDespesa");
+
+        create(new Permissao("receitas", "Receita", true), "cadastro");
+
+        //Natureza De Receita
+        create(new Permissao("naturezaDeReceita", "Natureza De Receita", false), "receitas");
+        create(new Permissao("naturezaDeReceita.create", "Cadastro de Natureza De Receita", "/view/cadastro/naturezaDeReceita/createNaturezaDeReceita.jsf", false), "naturezaDeReceita");
+        create(new Permissao("naturezaDeReceita.list", "Receitas", "/view/cadastro/naturezaDeReceita/listNaturezaDeReceita.jsf", true), "receitas");
+        create(new Permissao("naturezaDeReceita.audit", "Auditoria de Natureza De Receita"), "naturezaDeReceita");
+        create(new Permissao("naturezaDeReceita.delete", "Exclusão de Natureza De Receita"), "naturezaDeReceita");
+
         /*
          * Configuracao
          */

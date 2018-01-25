@@ -5,10 +5,14 @@
  */
 package br.gov.pi.ati.modelo.cadastro;
 
+import br.gov.pi.ati.modelo.orcamento.TerritorioPPA;
+import com.xpert.audit.NotAudited;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
@@ -34,6 +38,10 @@ public class Territorio implements Serializable {
     private String nome;
 
     private boolean ativo = true;
+
+    @OneToMany(mappedBy = "territorio")
+    @NotAudited
+    private List<TerritorioPPA> territoriosPpa;
 
     @Override
     public String toString() {
@@ -70,6 +78,14 @@ public class Territorio implements Serializable {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public List<TerritorioPPA> getTerritoriosPpa() {
+        return territoriosPpa;
+    }
+
+    public void setTerritoriosPpa(List<TerritorioPPA> territoriosPpa) {
+        this.territoriosPpa = territoriosPpa;
     }
 
     @Override

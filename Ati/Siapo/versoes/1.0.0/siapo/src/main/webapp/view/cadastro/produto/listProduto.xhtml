@@ -31,13 +31,7 @@
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="Código" sortBy="#{produto.codigo}"
-                          filterBy="#{produto.codigo}"   >
-                    <f:facet name="header">
-                        <h:outputText value="Código" />
-                    </f:facet>
-                    <h:outputText value="#{produto.nome}"/>
-                </p:column>
+               
                 <p:column headerText="#{msg['produto.nome']}" sortBy="#{produto.nome}"
                           filterBy="#{produto.nome}"   >
                     <f:facet name="header">

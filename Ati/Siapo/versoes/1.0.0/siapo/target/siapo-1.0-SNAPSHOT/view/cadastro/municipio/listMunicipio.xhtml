@@ -1,0 +1,73 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['municipio.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuMunicipio.xhtml" />
+        <h:form id="formListMunicipio">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="municipio_export" target=":formListMunicipio:dataTableMunicipio"
+                                     widgetVar="dataTableMunicipioWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="municipio" rowIndexVar="index" id="dataTableMunicipio" widgetVar="dataTableMunicipioWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{municipioMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{municipioMB.dataModel.paginatorTemplate}"
+                         value="#{municipioMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['municipio.codigo']}" sortBy="#{municipio.codigo}"
+                    filterBy="#{municipio.codigo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['municipio.codigo']}" />
+                    </f:facet>
+                    <h:outputText value="#{municipio.codigo}"/>
+                </p:column>
+                <p:column headerText="#{msg['municipio.nome']}" sortBy="#{municipio.nome}"
+                    filterBy="#{municipio.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['municipio.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{municipio.nome}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetMunicipioDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailMunicipio" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{municipio}" target="#{municipioMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="municipio.create">
+                        <p:button icon="ui-icon-pencil" outcome="createMunicipio" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{municipio.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="municipio.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{municipioMB.delete}" >
+                            <f:setPropertyActionListener value="#{municipio.id}" target="#{municipioMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{municipio}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="municipio.audit">
+                    <x:auditDelete for="#{municipioMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetMunicipioDetail" header="#{msg['municipio.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailMunicipio.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

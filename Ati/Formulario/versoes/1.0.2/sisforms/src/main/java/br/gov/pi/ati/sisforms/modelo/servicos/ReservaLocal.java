@@ -59,6 +59,12 @@ public class ReservaLocal implements Serializable {
     @ManyToMany(targetEntity = Arquivo.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<Arquivo> arquivos = new ArrayList<Arquivo>();
 
+    @Override
+    public String toString() {
+        return nomeSolicitante; 
+    }
+
+    
     public Long getId() {
         return id;
     }

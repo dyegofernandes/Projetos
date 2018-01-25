@@ -13,7 +13,30 @@
                         <x:initializer/>
                     </h:outputText>
                 </div>
-               
+
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="Função:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{acaoOrcamentariaMB.entity.funcao}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="Subfunção:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{acaoOrcamentariaMB.entity.subfuncao}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="Programa:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{acaoOrcamentariaMB.entity.programa}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="Código:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{acaoOrcamentariaMB.entity.codigo}" styleClass="uix-content-detail"/>
+                </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['acaoOrcamentaria.nome']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{acaoOrcamentariaMB.entity.nome}" styleClass="uix-content-detail"/>
@@ -22,8 +45,8 @@
                     <h:outputLabel value="#{msg['acaoOrcamentaria.ativo']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{acaoOrcamentariaMB.entity.ativo}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
                 </div>
-           </div>
-         </div>
+            </div>
+        </div>
         <p:separator/>
         <div class="uix-center">
             <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetAcaoOrcamentariaDetail').hide()" />

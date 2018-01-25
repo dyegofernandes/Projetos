@@ -5,6 +5,7 @@
  */
 package br.gov.pi.ati.modelo.cadastro;
 
+import br.gov.pi.ati.modelo.orcamento.MetaPPA;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -46,6 +47,10 @@ public class ProgramaPPA implements Serializable {
     @OneToMany(mappedBy = "programa")
     @NotAudited
     private List<AcaoOrcamentaria> acoes;
+    
+    @OneToMany(mappedBy = "programa")
+    @NotAudited
+    private List<MetaPPA> metasPPA;
 
     public Long getId() {
         return id;
@@ -93,6 +98,14 @@ public class ProgramaPPA implements Serializable {
 
     public void setAcoes(List<AcaoOrcamentaria> acoes) {
         this.acoes = acoes;
+    }
+
+    public List<MetaPPA> getMetasPPA() {
+        return metasPPA;
+    }
+
+    public void setMetasPPA(List<MetaPPA> metasPPA) {
+        this.metasPPA = metasPPA;
     }
 
     @Override

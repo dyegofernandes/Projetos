@@ -5,6 +5,7 @@
  */
 package br.gov.pi.ati.modelo.cadastro;
 
+import br.gov.pi.ati.modelo.orcamento.MetaPPA;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.List;
@@ -42,9 +43,10 @@ public class UnidadeDeMedida implements Serializable {
 
     private boolean ativo = true;
 
-//    @NotAudited
-//    @OneToMany(mappedBy = "unidade")
-//    private List<Produto> produtos;
+    @OneToMany(mappedBy = "unidadeMedida")
+    @NotAudited
+    private List<MetaPPA> metasPPA;
+
     @Override
     public String toString() {
         return codigo.concat(" - ").concat(nome); //To change body of generated methods, choose Tools | Templates.
@@ -88,6 +90,14 @@ public class UnidadeDeMedida implements Serializable {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public List<MetaPPA> getMetasPPA() {
+        return metasPPA;
+    }
+
+    public void setMetasPPA(List<MetaPPA> metasPPA) {
+        this.metasPPA = metasPPA;
     }
 
     @Override

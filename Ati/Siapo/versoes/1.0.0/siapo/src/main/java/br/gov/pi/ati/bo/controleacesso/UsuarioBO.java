@@ -127,6 +127,9 @@ public class UsuarioBO extends AbstractBusinessObject<Usuario> {
 
     @Override
     public void validate(Usuario usuario) throws BusinessException {
+        if (!usuario.isSuperUsuario() && usuario.getUnidadesDeAcesso().size() < 1) {
+            throw new BusinessException("Informe a (s) Unidade (s) Orçamentária (s) de Acesso!");
+        }
     }
 
     @Override

@@ -157,23 +157,22 @@ public class UsuarioMB extends AbstractBaseBean<Usuario> implements Serializable
    
     public void addUnidadeAcesso() {
         if (unidadeOrcamentaria != null) {
-            if (unidadeGestoraJahAdd(unidadeOrcamentaria)) {
+            if (unidadeOrcamentariaJahAdd(unidadeOrcamentaria)) {
                 FacesMessageUtils.error("Unidade Gestora já adicionada!");
             } else {
                 unidadesAcesso.add(unidadeOrcamentaria);
                 unidadeOrcamentaria = new UnidadeOrcamentaria();
-
             }
         } else {
             FacesMessageUtils.error("Unidade Gestora é obrigatória!");
         }
     }
 
-    public void removerUnidadeAcesso(UnidadeGestora unidade) {
+    public void removerUnidadeAcesso(UnidadeOrcamentaria unidade) {
         unidadesAcesso.remove(unidade);
     }
 
-    private boolean unidadeGestoraJahAdd(UnidadeOrcamentaria unidade) {
+    private boolean unidadeOrcamentariaJahAdd(UnidadeOrcamentaria unidade) {
         for (UnidadeOrcamentaria unid : unidadesAcesso) {
             if (unid.equals(unidade)) {
                 return true;
@@ -181,4 +180,6 @@ public class UsuarioMB extends AbstractBaseBean<Usuario> implements Serializable
         }
         return false;
     }
+    
+    
 }

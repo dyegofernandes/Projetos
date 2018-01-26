@@ -30,10 +30,9 @@ public class UnidadeDeMedida implements Serializable {
     @GeneratedValue(generator = "UnidadeDeMedida")
     private Long id;
 
-    @Size(max = 50)
-    @NotBlank
-    private String codigo;
-
+//    @Size(max = 50)
+//    @NotBlank
+//    private String codigo;
     @Size(max = 250)
     @NotBlank
     private String nome;
@@ -49,7 +48,7 @@ public class UnidadeDeMedida implements Serializable {
 
     @Override
     public String toString() {
-        return codigo.concat(" - ").concat(nome); //To change body of generated methods, choose Tools | Templates.
+        return nome; //To change body of generated methods, choose Tools | Templates.
     }
 
     public Long getId() {
@@ -58,14 +57,6 @@ public class UnidadeDeMedida implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
     }
 
     public String getNome() {

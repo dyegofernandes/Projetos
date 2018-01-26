@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.bo.cadastro.MunicipioBO;
 import br.gov.pi.ati.modelo.cadastro.Municipio;
+import java.util.List;
 
 /**
  *
@@ -28,5 +29,9 @@ public class MunicipioMB extends AbstractBaseBean<Municipio> implements Serializ
     @Override
     public String getDataModelOrder() {
         return "id";
+    }
+    
+    public List<Municipio> autocomplete(String nome) {
+        return getBO().municipiosPeloNome(nome);
     }
 }

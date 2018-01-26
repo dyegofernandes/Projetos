@@ -59,6 +59,15 @@ public class MetaPPAMB extends AbstractBaseBean<MetaPPA> implements Serializable
         }
     }
 
+    @Override
+    public void save() {
+        getEntity().setLdos(ldos);
+        getEntity().setTerritorios(territorios);
+        super.save();
+    }
+    
+    
+
     public void addLdo() {
         if (getEntity().getValorMeta() != null) {
             if (getEntity().getValorMeta().compareTo(BigDecimal.ZERO) > 0) {

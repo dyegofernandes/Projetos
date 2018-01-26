@@ -4,29 +4,26 @@
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
-    
-  
+
+
     <h:form id="formCreateUnidadeDeMedida" >
         <p:fieldset legend="#{xmsg['generalData']}">
             <x:modalMessages/>
 
             <div class="container-fluid">
-                 <div class="row">
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="codigo" value="* #{msg['unidadeDeMedida.codigo']}:" />
-                         <p:inputText id="codigo" value="#{unidadeDeMedidaMB.entity.codigo}" maxlength="50"  styleClass="form-control"  />
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="nome" value="* #{msg['unidadeDeMedida.nome']}:" />
-                         <p:inputText id="nome" value="#{unidadeDeMedidaMB.entity.nome}" maxlength="250"  styleClass="form-control"  />
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="descricao" value="#{msg['unidadeDeMedida.descricao']}:" />
-                         <p:inputText id="descricao" value="#{unidadeDeMedidaMB.entity.descricao}" maxlength="255"  styleClass="form-control"  />
-                     </div>
+                <div class="row">
 
-                 </div>
-             </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="* #{msg['unidadeDeMedida.nome']}:" />
+                        <p:inputText id="nome" value="#{unidadeDeMedidaMB.entity.nome}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="descricao" value="#{msg['unidadeDeMedida.descricao']}:" />
+                        <p:inputText id="descricao" value="#{unidadeDeMedidaMB.entity.descricao}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+
+                </div>
+            </div>
         </p:fieldset>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">

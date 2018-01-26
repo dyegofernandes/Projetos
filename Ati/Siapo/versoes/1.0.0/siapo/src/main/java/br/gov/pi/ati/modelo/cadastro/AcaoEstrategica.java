@@ -52,7 +52,7 @@ public class AcaoEstrategica implements Serializable {
 
     @Override
     public String toString() {
-        return nome;
+        return codigo.concat(" - ").concat(nome);
     }
 
     public Long getId() {

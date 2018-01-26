@@ -8,7 +8,11 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
+import br.gov.pi.ati.modelo.controleacesso.Usuario;
+import br.gov.pi.ati.util.SessaoUtils;
+import br.gov.pi.ati.util.Utils;
 import com.xpert.core.validation.UniqueFields;
+import com.xpert.persistence.query.Restrictions;
 
 /**
  *
@@ -20,6 +24,8 @@ public class UnidadeOrcamentariaBO extends AbstractBusinessObject<UnidadeOrcamen
     @EJB
     private UnidadeOrcamentariaDAO unidadeOrcamentariaDAO;
 
+    private Usuario usuarioAtual = SessaoUtils.getUser();
+
     @Override
     public UnidadeOrcamentariaDAO getDAO() {
         return unidadeOrcamentariaDAO;
@@ -27,7 +33,7 @@ public class UnidadeOrcamentariaBO extends AbstractBusinessObject<UnidadeOrcamen
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return new UniqueFields().add("codigo,unidadeGestora").add("nome,unidadeGestora").add("mnemonico,unidadeGestora");
+        return new UniqueFields().add("codigo,orgao").add("nome,orgao").add("mnemonico,orgao");
     }
 
     @Override
@@ -39,4 +45,39 @@ public class UnidadeOrcamentariaBO extends AbstractBusinessObject<UnidadeOrcamen
         return true;
     }
 
+    public List<UnidadeOrcamentaria> unidadePeloNomeEunidadeDeAcesso(String nome) {
+
+        List<UnidadeOrcamentaria> unidadeComAcesso = getDAO().getInitialized(usuarioAtual.getUnidadesDeAcesso());
+
+        Restrictions restrictions = new Restrictions();
+
+        restrictions.add("uo.ativo", true);
+
+        if (!Utils.isNullOrEmpty(nome)) {
+            restrictions.like("uo.nome", nome);
+        }
+
+        if (unidadeComAcesso != null) {
+            if (unidadeComAcesso.size() > 0) {
+                restrictions.in("uo", unidadeComAcesso);
+            }
+        }
+
+        return getDAO().getQueryBuilder().select("uo").from(UnidadeOrcamentaria.class, "uo").add(restrictions).orderBy("uo.nome").getResultList();
+
+    }
+    
+    public List<UnidadeOrcamentaria> unidadePeloNome(String nome) {
+
+        Restrictions restrictions = new Restrictions();
+
+        restrictions.add("uo.ativo", true);
+
+        if (!Utils.isNullOrEmpty(nome)) {
+            restrictions.like("uo.nome", nome);
+        }
+
+        return getDAO().getQueryBuilder().select("uo").from(UnidadeOrcamentaria.class, "uo").add(restrictions).orderBy("uo.nome").getResultList();
+
+    }
 }

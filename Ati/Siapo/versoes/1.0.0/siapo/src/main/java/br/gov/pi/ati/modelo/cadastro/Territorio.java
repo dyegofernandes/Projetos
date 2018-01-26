@@ -8,10 +8,14 @@ package br.gov.pi.ati.modelo.cadastro;
 import br.gov.pi.ati.modelo.orcamento.TerritorioPPA;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Size;
@@ -38,6 +42,9 @@ public class Territorio implements Serializable {
     private String nome;
 
     private boolean ativo = true;
+
+    @ManyToMany(targetEntity = Municipio.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    private List<Municipio> municipios = new ArrayList<Municipio>();
 
     @OneToMany(mappedBy = "territorio")
     @NotAudited
@@ -86,6 +93,14 @@ public class Territorio implements Serializable {
 
     public void setTerritoriosPpa(List<TerritorioPPA> territoriosPpa) {
         this.territoriosPpa = territoriosPpa;
+    }
+
+    public List<Municipio> getMunicipios() {
+        return municipios;
+    }
+
+    public void setMunicipios(List<Municipio> municipios) {
+        this.municipios = municipios;
     }
 
     @Override

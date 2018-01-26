@@ -8,7 +8,9 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.modelo.cadastro.Produto;
+import br.gov.pi.ati.util.Utils;
 import com.xpert.core.validation.UniqueFields;
+import com.xpert.persistence.query.Restrictions;
 
 /**
  *
@@ -19,7 +21,7 @@ public class ProdutoBO extends AbstractBusinessObject<Produto> {
 
     @EJB
     private ProdutoDAO produtoDAO;
-    
+
     @Override
     public ProdutoDAO getDAO() {
         return produtoDAO;
@@ -27,7 +29,7 @@ public class ProdutoBO extends AbstractBusinessObject<Produto> {
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return new UniqueFields().add("orgao", "nome");
+        return new UniqueFields().add("acao", "nome");
     }
 
     @Override
@@ -37,6 +39,18 @@ public class ProdutoBO extends AbstractBusinessObject<Produto> {
     @Override
     public boolean isAudit() {
         return true;
+    }
+
+    public List<Produto> produtoPeloNome(String nome) {
+        Restrictions restrictions = new Restrictions();
+
+        restrictions.add("ativo", true);
+
+        if (!Utils.isNullOrEmpty(nome)) {
+            restrictions.like("nome", nome);
+        }
+
+        return getDAO().list(restrictions, "nome");
     }
 
 }

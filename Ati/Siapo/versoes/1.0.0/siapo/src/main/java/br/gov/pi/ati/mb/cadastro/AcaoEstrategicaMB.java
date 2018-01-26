@@ -29,4 +29,6 @@ public class AcaoEstrategicaMB extends AbstractBaseBean<AcaoEstrategica> impleme
     public String getDataModelOrder() {
         return "id";
     }
+    
+    
 }

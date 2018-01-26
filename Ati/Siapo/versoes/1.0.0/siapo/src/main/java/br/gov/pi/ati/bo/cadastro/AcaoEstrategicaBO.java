@@ -8,7 +8,10 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.modelo.cadastro.AcaoEstrategica;
+import br.gov.pi.ati.modelo.cadastro.ProgramaDeGoverno;
+import br.gov.pi.ati.util.Utils;
 import com.xpert.core.validation.UniqueFields;
+import com.xpert.persistence.query.Restrictions;
 
 /**
  *
@@ -27,7 +30,7 @@ public class AcaoEstrategicaBO extends AbstractBusinessObject<AcaoEstrategica> {
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return new UniqueFields().add("orgao", "nome");
+        return new UniqueFields().add("unidadeOrcamentaria", "nome");
     }
 
     @Override
@@ -37,6 +40,18 @@ public class AcaoEstrategicaBO extends AbstractBusinessObject<AcaoEstrategica> {
     @Override
     public boolean isAudit() {
         return true;
+    }
+
+    public List<AcaoEstrategica> programaPeloNome(String nome) {
+        Restrictions restrictions = new Restrictions();
+
+        restrictions.add("ativo", true);
+
+        if (!Utils.isNullOrEmpty(nome)) {
+            restrictions.like("nome", nome);
+        }
+
+        return getDAO().list(restrictions, "nome");
     }
 
 }

@@ -236,7 +236,7 @@ public class GeracaoPermissao {
         //Natureza De Despesa
         create(new Permissao("naturezaDeDespesa", "Natureza De Despesa", false), "despesas");
         create(new Permissao("naturezaDeDespesa.create", "Cadastro de Natureza De Despesa", "/view/cadastro/naturezaDeDespesa/createNaturezaDeDespesa.jsf", false), "naturezaDeDespesa");
-        create(new Permissao("naturezaDeDespesa.list", "Despesas", "/view/cadastro/naturezaDeDespesa/listNaturezaDeDespesa.jsf", true), "despesas");
+        create(new Permissao("naturezaDeDespesa.list", "Naturezas", "/view/cadastro/naturezaDeDespesa/listNaturezaDeDespesa.jsf", true), "despesas");
         create(new Permissao("naturezaDeDespesa.audit", "Auditoria de Natureza De Despesa"), "naturezaDeDespesa");
         create(new Permissao("naturezaDeDespesa.delete", "Exclusão de Natureza De Despesa"), "naturezaDeDespesa");
 
@@ -273,7 +273,7 @@ public class GeracaoPermissao {
         //Natureza De Receita
         create(new Permissao("naturezaDeReceita", "Natureza De Receita", false), "receitas");
         create(new Permissao("naturezaDeReceita.create", "Cadastro de Natureza De Receita", "/view/cadastro/naturezaDeReceita/createNaturezaDeReceita.jsf", false), "naturezaDeReceita");
-        create(new Permissao("naturezaDeReceita.list", "Receitas", "/view/cadastro/naturezaDeReceita/listNaturezaDeReceita.jsf", true), "receitas");
+        create(new Permissao("naturezaDeReceita.list", "Naturezas", "/view/cadastro/naturezaDeReceita/listNaturezaDeReceita.jsf", true), "receitas");
         create(new Permissao("naturezaDeReceita.audit", "Auditoria de Natureza De Receita"), "naturezaDeReceita");
         create(new Permissao("naturezaDeReceita.delete", "Exclusão de Natureza De Receita"), "naturezaDeReceita");
 

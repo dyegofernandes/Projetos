@@ -8,6 +8,9 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.modelo.cadastro.Municipio;
+import br.gov.pi.ati.util.Utils;
+import com.xpert.core.validation.UniqueFields;
+import com.xpert.persistence.query.Restrictions;
 
 /**
  *
@@ -18,7 +21,7 @@ public class MunicipioBO extends AbstractBusinessObject<Municipio> {
 
     @EJB
     private MunicipioDAO municipioDAO;
-    
+
     @Override
     public MunicipioDAO getDAO() {
         return municipioDAO;
@@ -26,7 +29,7 @@ public class MunicipioBO extends AbstractBusinessObject<Municipio> {
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return null;
+        return new UniqueFields().add("codigo").add("nome");
     }
 
     @Override
@@ -36,6 +39,16 @@ public class MunicipioBO extends AbstractBusinessObject<Municipio> {
     @Override
     public boolean isAudit() {
         return true;
+    }
+
+    public List<Municipio> municipiosPeloNome(String nome) {
+        Restrictions restrictions = new Restrictions();
+
+        if (!Utils.isNullOrEmpty(nome)) {
+            restrictions.like("nome", nome);
+        }
+
+        return getDAO().list(restrictions, "nome");
     }
 
 }

@@ -20,14 +20,35 @@
                          paginatorTemplate="#{metaPPAMB.dataModel.paginatorTemplate}"
                          value="#{metaPPAMB.dataModel}" lazy="true" >
                 <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">
+                        <h:outputText value="" />
+                    </f:facet>
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="#{msg['metaPPA.programa']}" sortBy="#{metaPPA.programa}"
+                <p:column headerText="#{msg['metaPPA.programa']}" sortBy="#{metaPPA.programa.programa}"
                           >
                     <f:facet name="header">
                         <h:outputText value="#{msg['metaPPA.programa']}" />
                     </f:facet>
-                    <h:outputText value="#{metaPPA.programa}">
+                    <h:outputText value="#{metaPPA.programa.programa}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Unidade Orçamentária" sortBy="#{metaPPA.produto.acao.unidadeOrcamentaria}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="Unidade Orçamentária" />
+                    </f:facet>
+                    <h:outputText value="#{metaPPA.produto.acao.unidadeOrcamentaria}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Ação Estratégica" sortBy="#{metaPPA.produto.acao}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="Ação Estratégica" />
+                    </f:facet>
+                    <h:outputText value="#{metaPPA.produto.acao}">
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
@@ -40,6 +61,7 @@
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
+
                 <p:column headerText="#{msg['metaPPA.unidadeMedida']}" sortBy="#{metaPPA.unidadeMedida}"
                           >
                     <f:facet name="header">

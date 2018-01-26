@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.bo.cadastro.ProgramaDeGovernoBO;
 import br.gov.pi.ati.modelo.cadastro.ProgramaDeGoverno;
+import java.util.List;
 
 /**
  *
@@ -28,5 +29,9 @@ public class ProgramaDeGovernoMB extends AbstractBaseBean<ProgramaDeGoverno> imp
     @Override
     public String getDataModelOrder() {
         return "id";
+    }
+    
+    public List<ProgramaDeGoverno> autocomplete(String nome) {
+        return getBO().programaPeloNome(nome);
     }
 }

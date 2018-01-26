@@ -12,7 +12,7 @@
             <x:modalMessages/>
 
             <x:dataTableActions fileName="estado_export" target=":formListEstado:dataTableEstado"
-                                     widgetVar="dataTableEstadoWidget"  />
+                                widgetVar="dataTableEstadoWidget"  />
 
             <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                          var="estado" rowIndexVar="index" id="dataTableEstado" widgetVar="dataTableEstadoWidget" styleClass="table-responsive"
@@ -20,17 +20,20 @@
                          paginatorTemplate="#{estadoMB.dataModel.paginatorTemplate}"
                          value="#{estadoMB.dataModel}" lazy="true" >
                 <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">
+                        <h:outputText value="" />
+                    </f:facet>
                     <h:outputText value="#{index+1}"/>
                 </p:column>
                 <p:column headerText="#{msg['estado.sigla']}" sortBy="#{estado.sigla}"
-                    filterBy="#{estado.sigla}"   >
+                          filterBy="#{estado.sigla}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['estado.sigla']}" />
                     </f:facet>
                     <h:outputText value="#{estado.sigla}"/>
                 </p:column>
                 <p:column headerText="#{msg['estado.nome']}" sortBy="#{estado.nome}"
-                    filterBy="#{estado.nome}"   >
+                          filterBy="#{estado.nome}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['estado.nome']}" />
                     </f:facet>
@@ -67,7 +70,7 @@
 
         <p:dialog widgetVar="widgetEstadoDetail" header="#{msg['estado.detail']}" appendTo="@(body)" 
                   modal="true" styleClass="uix-dialog-fluid" >
-                  <ui:include src="detailEstado.xhtml" />
+            <ui:include src="detailEstado.xhtml" />
         </p:dialog>
     </ui:define>
 </ui:composition>

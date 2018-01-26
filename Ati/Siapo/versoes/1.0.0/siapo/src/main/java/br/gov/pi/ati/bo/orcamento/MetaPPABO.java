@@ -11,7 +11,6 @@ import javax.ejb.Stateless;
 import br.gov.pi.ati.modelo.orcamento.MetaPPA;
 import br.gov.pi.ati.modelo.orcamento.TerritorioPPA;
 import java.math.BigDecimal;
-import java.math.MathContext;
 
 /**
  *
@@ -68,5 +67,6 @@ public class MetaPPABO extends AbstractBusinessObject<MetaPPA> {
     public boolean isAudit() {
         return true;
     }
+    
 
 }

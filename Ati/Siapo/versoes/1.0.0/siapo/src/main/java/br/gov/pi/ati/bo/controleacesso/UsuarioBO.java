@@ -4,6 +4,7 @@ import br.gov.pi.ati.util.SessaoUtils;
 import br.gov.pi.ati.dao.controleacesso.HistoricoSituacaoUsuarioDAO;
 import br.gov.pi.ati.dao.controleacesso.PerfilDAO;
 import br.gov.pi.ati.dao.controleacesso.UsuarioDAO;
+import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
 import br.gov.pi.ati.modelo.controleacesso.HistoricoSituacaoUsuario;
 import br.gov.pi.ati.modelo.controleacesso.Perfil;
 import br.gov.pi.ati.modelo.controleacesso.SituacaoUsuario;
@@ -127,9 +128,11 @@ public class UsuarioBO extends AbstractBusinessObject<Usuario> {
 
     @Override
     public void validate(Usuario usuario) throws BusinessException {
-        if (!usuario.isSuperUsuario() && usuario.getUnidadesDeAcesso().size() < 1) {
-            throw new BusinessException("Informe a (s) Unidade (s) Orçamentária (s) de Acesso!");
-        }
+//        List<UnidadeOrcamentaria> unidades = (List<UnidadeOrcamentaria>) getDAO().getInitialized(usuario.getUnidadesDeAcesso());
+//        if (!usuario.isSuperUsuario() && unidades.size() < 1) {
+//
+//            throw new BusinessException("Informe a (s) Unidade (s) Orçamentária (s) de Acesso!");
+//        }
     }
 
     @Override

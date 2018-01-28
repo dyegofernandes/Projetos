@@ -97,15 +97,7 @@
                         <f:convertDateTime />
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{msg['pedidoLicitacao.situacao']}" sortBy="#{pedidoLicitacao.situacao}"
-                          filterBy="#{pedidoLicitacao.situacao}"  >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['pedidoLicitacao.situacao']}" />
-                    </f:facet>
-                    <h:outputText value="#{pedidoLicitacao.situacao}">
-                        <x:initializer/>
-                    </h:outputText>
-                </p:column>
+                
                 <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
                     <f:facet name="header">
                         <h:outputText value="#{xmsg['actions']}"/>

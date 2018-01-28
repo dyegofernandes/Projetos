@@ -9,6 +9,9 @@ import br.com.weblicita.modelo.cadastro.Documento;
 import br.com.weblicita.modelo.cadastro.Item;
 import br.com.weblicita.modelo.cadastro.Orgao;
 import br.com.weblicita.modelo.cadastro.RubricaOrcamentaria;
+import br.com.weblicita.modelo.cadastro.enums.EditaPedido;
+import br.com.weblicita.modelo.cadastro.enums.ParecerJuridico;
+import br.com.weblicita.modelo.cadastro.enums.SituacaoPedido;
 import br.com.weblicita.modelo.controleacesso.Usuario;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,6 +20,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -76,17 +81,38 @@ public class PedidoLicitacao implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date dataDoReqistro = new Date();
 
-    @ManyToMany(targetEntity = Item.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
-    private List<Item> itens = new ArrayList<Item>();
+    @ManyToMany(targetEntity = ItemLicitacao.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    private List<ItemLicitacao> itens = new ArrayList<ItemLicitacao>();
 
     @ManyToMany(targetEntity = Documento.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<Documento> documentos = new ArrayList<Documento>();
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    private SituacaoPedidoLicitacao situacao;
+
+    @Enumerated(EnumType.STRING)
+    private SituacaoPedido situacaoPedido;
+
+    @Enumerated(EnumType.STRING)
+    private EditaPedido editalPedido;
+
+    @Enumerated(EnumType.STRING)
+    private ParecerJuridico parecerJuridico;
+
+    @NotBlank
+    @Size(max = 250)
+    private String nomeSolicitante;
+
+    @NotBlank
+    @Size(max = 250)
+    private String cargoSolicitante;
+
+    private boolean ativo = true;
 
     public Long getId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return numeroProcessoAdministrativo.concat(" - ").concat(objeto.substring(0, objeto.length() < 100 ? objeto.length() : 100));
     }
 
     public void setId(Long id) {
@@ -165,11 +191,11 @@ public class PedidoLicitacao implements Serializable {
         this.dataDoReqistro = dataDoReqistro;
     }
 
-    public List<Item> getItens() {
+    public List<ItemLicitacao> getItens() {
         return itens;
     }
 
-    public void setItens(List<Item> itens) {
+    public void setItens(List<ItemLicitacao> itens) {
         this.itens = itens;
     }
 
@@ -181,12 +207,52 @@ public class PedidoLicitacao implements Serializable {
         this.documentos = documentos;
     }
 
-    public SituacaoPedidoLicitacao getSituacao() {
-        return situacao;
+    public SituacaoPedido getSituacaoPedido() {
+        return situacaoPedido;
     }
 
-    public void setSituacao(SituacaoPedidoLicitacao situacao) {
-        this.situacao = situacao;
+    public void setSituacaoPedido(SituacaoPedido situacaoPedido) {
+        this.situacaoPedido = situacaoPedido;
+    }
+
+    public EditaPedido getEditalPedido() {
+        return editalPedido;
+    }
+
+    public void setEditalPedido(EditaPedido editalPedido) {
+        this.editalPedido = editalPedido;
+    }
+
+    public ParecerJuridico getParecerJuridico() {
+        return parecerJuridico;
+    }
+
+    public void setParecerJuridico(ParecerJuridico parecerJuridico) {
+        this.parecerJuridico = parecerJuridico;
+    }
+
+    public String getNomeSolicitante() {
+        return nomeSolicitante;
+    }
+
+    public void setNomeSolicitante(String nomeSolicitante) {
+        this.nomeSolicitante = nomeSolicitante;
+    }
+
+    public String getCargoSolicitante() {
+        return cargoSolicitante;
+    }
+
+    public void setCargoSolicitante(String cargoSolicitante) {
+        this.cargoSolicitante = cargoSolicitante;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 
     @Override
@@ -210,7 +276,5 @@ public class PedidoLicitacao implements Serializable {
         }
         return true;
     }
-    
-    
 
 }

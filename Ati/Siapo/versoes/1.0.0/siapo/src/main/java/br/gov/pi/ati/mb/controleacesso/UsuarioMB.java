@@ -158,13 +158,13 @@ public class UsuarioMB extends AbstractBaseBean<Usuario> implements Serializable
     public void addUnidadeAcesso() {
         if (unidadeOrcamentaria != null) {
             if (unidadeOrcamentariaJahAdd(unidadeOrcamentaria)) {
-                FacesMessageUtils.error("Unidade Gestora já adicionada!");
+                FacesMessageUtils.error("Unidade Orçamentária já adicionada!");
             } else {
                 unidadesAcesso.add(unidadeOrcamentaria);
                 unidadeOrcamentaria = new UnidadeOrcamentaria();
             }
         } else {
-            FacesMessageUtils.error("Unidade Gestora é obrigatória!");
+            FacesMessageUtils.error("Unidade Orçamentária é obrigatória!");
         }
     }
 

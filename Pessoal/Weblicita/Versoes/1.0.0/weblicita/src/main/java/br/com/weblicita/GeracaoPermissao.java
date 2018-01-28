@@ -136,13 +136,12 @@ public class GeracaoPermissao {
         create(new Permissao("orgao.editar", "Editar Orgao"), "orgao");
         create(new Permissao("orgao.buscar", "Buscar Orgao"), "orgao");
 
-        //Item Licitacao
-        create(new Permissao("itemLicitacao", "Item Licitacao", false), "cadastro");
-        create(new Permissao("itemLicitacao.create", "Cadastro de Item Licitacao", "/view/cadastro/itemLicitacao/createItemLicitacao.jsf", false), "itemLicitacao");
-        create(new Permissao("itemLicitacao.list", "Itens para Licitacão", "/view/cadastro/itemLicitacao/listItemLicitacao.jsf", true), "cadastro");
-        create(new Permissao("itemLicitacao.audit", "Auditoria de Item Licitacao"), "itemLicitacao");
-        create(new Permissao("itemLicitacao.delete", "Exclusão de Item Licitacao"), "itemLicitacao");
-
+//Item
+        create(new Permissao("item", "Item", false), "cadastro");
+        create(new Permissao("item.create", "Cadastro de Item", "/view/cadastro/item/createItem.jsf", false), "item");
+        create(new Permissao("item.list", "Itens", "/view/cadastro/item/listItem.jsf", true), "item");
+        create(new Permissao("item.audit", "Auditoria de Item"), "item");
+        create(new Permissao("item.delete", "Exclusão de Item"), "item");
         //Rubrica Orcamentaria
         create(new Permissao("rubricaOrcamentaria", "Rubrica Orcamentaria", false), "cadastro");
         create(new Permissao("rubricaOrcamentaria.create", "Cadastro de Rubrica Orcamentaria", "/view/cadastro/rubricaOrcamentaria/createRubricaOrcamentaria.jsf", false), "rubricaOrcamentaria");
@@ -153,7 +152,7 @@ public class GeracaoPermissao {
         //Tipo Modalidade
         create(new Permissao("tipoModalidade", "Tipo Modalidade", false), "cadastro");
         create(new Permissao("tipoModalidade.create", "Cadastro de Tipo Modalidade", "/view/cadastro/tipoModalidade/createTipoModalidade.jsf", false), "tipoModalidade");
-        create(new Permissao("tipoModalidade.list", "Tipos Modalidades", "/view/cadastro/tipoModalidade/listTipoModalidade.jsf", true), "cadastro");
+        create(new Permissao("tipoModalidade.list", "Tipos Modalidades", "/view/cadastro/tipoModalidade/listTipoModalidade.jsf", false), "cadastro");
         create(new Permissao("tipoModalidade.audit", "Auditoria de Tipo Modalidade"), "tipoModalidade");
         create(new Permissao("tipoModalidade.delete", "Exclusão de Tipo Modalidade"), "tipoModalidade");
 
@@ -170,6 +169,13 @@ public class GeracaoPermissao {
         create(new Permissao("contrato.list", "Contratos", "/view/contrato/contrato/listContrato.jsf", true), "contrato");
         create(new Permissao("contrato.audit", "Auditoria de Contrato"), "contrato");
         create(new Permissao("contrato.delete", "Exclusão de Contrato"), "contrato");
+
+        //Intencao De Registro De Preco
+        create(new Permissao("intencaoDeRegistroDePreco", "Intencao De Registro De Preco", false), "licitacao");
+        create(new Permissao("intencaoDeRegistroDePreco.create", "Cadastro de Intencao De Registro De Preco", "/view/licitacao/intencaoDeRegistroDePreco/createIntencaoDeRegistroDePreco.jsf", false), "intencaoDeRegistroDePreco");
+        create(new Permissao("intencaoDeRegistroDePreco.list", "Intenções de Preços", "/view/licitacao/intencaoDeRegistroDePreco/listIntencaoDeRegistroDePreco.jsf", true), "licitacao");
+        create(new Permissao("intencaoDeRegistroDePreco.audit", "Auditoria de Intencao De Registro De Preco"), "intencaoDeRegistroDePreco");
+        create(new Permissao("intencaoDeRegistroDePreco.delete", "Exclusão de Intencao De Registro De Preco"), "intencaoDeRegistroDePreco");
 
         /*
          * Configuracao

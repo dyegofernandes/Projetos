@@ -11,37 +11,30 @@
     <ui:define name="menu"/>  
     <ui:define name="header"/>  
     <ui:define name="body">  
-
-
-        <h:form>
+        <h:form style="margin:0 5px;padding:0px;">
             <x:modalMessages autoUpdate="true"/> 
-
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
-                        <h:outputLabel value="#{msg['usuario.userLogin']}:"/>
-                        <p:inputText id="user" value="#{loginMB.userLogin}" required="true" requiredMessage="#{msg['required.usuario']}" styleClass="form-control"  />
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <h:outputLabel value="#{msg['usuario.userPassword']}:"/>
-                        <p:password id="password" feedback="false" autocomplete="false" value="#{loginMB.userPassword}" required="true" maxlength="20" requiredMessage="#{msg['required.password']}" styleClass="form-control"/>
-                    </div>
-                </div>
-
-                <p:commandButton value="#{msg['entrar']}" action="#{loginMB.login}" process="@form" update="@form" styleClass="col-lg-12  col-md-12 col-sm-12 col-xs-12 " />   
-                <br/>
-                <br/>
-                <div class="text-right">
-                    <h:link outcome="/esqueciSenha.jsf" value="#{msg['solicitacaoRecuperacaoSenha.esqueciMinhaSenha']}"/>
-                </div>
-                <p:focus/>
+            <div style="float:right;width:90px;text-align:center;">
+                <div style="height: 34px"/>
+                <p:commandButton value="#{msg['entrar']}" action="#{loginMB.login}" process="@form" update="@form" styleClass="button-login" />   
             </div>
+            <div style="float:right;width:390px;" class="container-fluid">
+                <p:panel id="panel" style="background-color: transparent">
+                    <h:panelGrid columns="2" width="100%" style="background-color:transparent">
+                        
 
-
-        </h:form>                   
+                        <h:outputLabel value="#{msg['usuario.userLogin']}:" style="color: #FFFFFF" styleClass="labelField"/>
+                        <h:outputLabel value="#{msg['usuario.userPassword']}:" style="color: #FFFFFF" styleClass="labelField"/>
+                        <p:inputText id="user" value="#{loginMB.userLogin}" required="true" requiredMessage="#{msg['required.usuario']}" styleClass="form-control"  />
+                        <p:password id="password" feedback="false" autocomplete="false" value="#{loginMB.userPassword}" required="true" maxlength="20" requiredMessage="#{msg['required.password']}" styleClass="form-control"/>
+                        
+                        <h:outputFormat value=""/>
+                        <div style="text-align:right;width:100%;margin-top:5px;">
+                            <h:link outcome="/esqueciSenha.jsf" value="#{msg['solicitacaoRecuperacaoSenha.esqueciMinhaSenha']}" styleClass="aEsqueci"/>
+                        </div>
+                        <p:focus/>
+                    </h:panelGrid>
+                </p:panel>
+            </div>
+        </h:form>
     </ui:define>
 </ui:composition>

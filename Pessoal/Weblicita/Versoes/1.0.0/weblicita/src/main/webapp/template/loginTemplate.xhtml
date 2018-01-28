@@ -17,7 +17,7 @@
             <ui:include src="/template/ajaxStatus.xhtml" /> 
             <header>
             </header>
-            <section class="container">  
+            <!--section class="container">  
                 <div class="row">
                     <div class="col-xs-12">                        
                         <div class="login-wraper">
@@ -40,7 +40,47 @@
                         </div>
                     </div>
                 </div>
-            </section>    
+            </section-->    
+            
+            <p:layout fullPage="true">
+                <p:layoutUnit position="north">
+                    <div class="login-top" style="height:auto;overflow:auto;">
+                        <div style="float:left;margin-left: 5px;margin-top: 20px;">
+                            <IMG SRC="#{request.contextPath}/images/logoOld.png"  />
+                        </div>
+                        <ui:insert name="body"/>
+                    </div>
+                </p:layoutUnit>
+                
+                <p:layoutUnit position="center" styleClass="login-center">
+                    <div style="height:100%;overflow:auto;" class="login-center">
+                        <div style="padding: 5px;height:600px;width:600px;font-size:20px;float:left;">
+                                <br/><br/><br/><br/><br/><br/>
+                                <b>Licitações com praticidade e segurança</b>
+                                <br/><br/>
+                                <b>Controle simples e eficiente em:</b>
+                                <br/>
+                                <ul>
+                                        <li>Licitações em andamento</li>
+                                        <li>Cadastro de fornecedores</li>
+                                        <li>Processo licitátorio</li>
+                                        <li>Cadastro de itens</li>					
+                                </ul>
+                                <br/><br/>
+                                <b>Tudo isso com rapidez e facilidade de uso</b>
+                        </div>
+                        <div style="margin-left:355px;">
+                            
+                        </div>
+                    </div>
+                </p:layoutUnit>
+                
+                <p:layoutUnit position="south">
+                    <p:panel styleClass="login-bottom" style="text-align:center;font-weight:bold;font-size:14px;">
+                         <span style="color:#FFFFFF;">WebLicita - Todos os direitos reservados</span>
+                    </p:panel>
+                </p:layoutUnit>
+            </p:layout>
         </h:body>
     </f:view>
 

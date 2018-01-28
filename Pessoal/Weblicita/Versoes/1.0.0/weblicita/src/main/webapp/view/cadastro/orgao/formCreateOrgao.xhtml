@@ -81,7 +81,7 @@
            
             <div class="row">
                 <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel for="endereco" value="Endereço:" />
+                    <h:outputLabel for="endereco" value="* Endereço:" />
                     <p:inputText id="endereco" value="#{orgaoMB.entity.endereco.endereco}" maxlength="255"  styleClass="form-control" 
                                  disabled="#{orgaoMB.flagHabilitarCampos}"/>
                 </div>
@@ -118,7 +118,7 @@
             </div>
             <div class="row">
                 <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                    <h:outputLabel for="cep" value="CEP:" />
+                    <h:outputLabel for="cep" value="* CEP:" />
                     <p:inputMask id="cep" value="#{orgaoMB.entity.endereco.cep}" mask="99999-999"  styleClass="form-control" 
                                  disabled="#{orgaoMB.flagHabilitarCampos}"/>
                 </div>

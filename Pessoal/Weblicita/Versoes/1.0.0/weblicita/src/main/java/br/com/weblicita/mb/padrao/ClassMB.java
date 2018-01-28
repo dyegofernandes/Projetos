@@ -1,5 +1,7 @@
 package br.com.weblicita.mb.padrao;
 
+import br.com.weblicita.modelo.licitacao.IntencaoDeRegistroDePreco;
+import br.com.weblicita.modelo.licitacao.ItemLicitacao;
 import br.com.weblicita.modelo.cadastro.Arquivo;
 import br.com.weblicita.modelo.contrato.Contrato;
 import br.com.weblicita.modelo.cadastro.Gerente;
@@ -18,6 +20,9 @@ import br.com.weblicita.modelo.cadastro.Endereco;
 import br.com.weblicita.modelo.cadastro.Orgao;
 import br.com.weblicita.modelo.cadastro.Estado;
 import br.com.weblicita.modelo.cadastro.Telefone;
+import br.com.weblicita.modelo.cadastro.enums.EditaPedido;
+import br.com.weblicita.modelo.cadastro.enums.ParecerJuridico;
+import br.com.weblicita.modelo.cadastro.enums.SituacaoPedido;
 import br.com.weblicita.modelo.cadastro.enums.TipoDeSocio;
 import br.com.weblicita.modelo.cadastro.enums.TipoTelefone;
 import br.com.weblicita.modelo.controleacesso.Permissao;
@@ -148,6 +153,7 @@ public class ClassMB {
     public Class getTipoTelefone() {
         return TipoTelefone.class;
     }
+
     public Class getPais() {
         return Pais.class;
     }
@@ -159,8 +165,33 @@ public class ClassMB {
     public Class getArquivo() {
         return Arquivo.class;
     }
+
     public Class getContrato() {
         return Contrato.class;
+    }
+
+    public Class getItem() {
+        return Item.class;
+    }
+
+    public Class getSituacaoPedido() {
+        return SituacaoPedido.class;
+    }
+
+    public Class getEditaPedido() {
+        return EditaPedido.class;
+    }
+
+    public Class getParecerJuridico() {
+        return ParecerJuridico.class;
+    }
+
+    public Class getItemPedidoLicitacao() {
+        return ItemLicitacao.class;
+    }
+
+    public Class getIntencaoDeRegistroDePreco() {
+        return IntencaoDeRegistroDePreco.class;
     }
 
 }

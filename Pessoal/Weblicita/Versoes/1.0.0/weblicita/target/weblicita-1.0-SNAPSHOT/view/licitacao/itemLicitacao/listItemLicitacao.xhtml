@@ -1,0 +1,73 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['itemLicitacao.list']}" />
+        <h:form id="formListItemLicitacao">
+            <x:modalMessages/>
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="itemLicitacao" rowIndexVar="index" id="dataTableItemLicitacao" widgetVar="dataTableItemLicitacaoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{itemLicitacaoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{itemLicitacaoMB.dataModel.paginatorTemplate}"
+                         value="#{itemLicitacaoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['itemLicitacao.item']}" sortBy="#{itemLicitacao.item}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemLicitacao.item']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemLicitacao.item}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['itemLicitacao.unidade']}" sortBy="#{itemLicitacao.unidade}"
+                    filterBy="#{itemLicitacao.unidade}"  filterOptions="#{findAllBean.getSelect(classMB.unidadeItem)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemLicitacao.unidade']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemLicitacao.unidade}"/>
+                </p:column>
+                <p:column headerText="#{msg['itemLicitacao.quantidade']}" sortBy="#{itemLicitacao.quantidade}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemLicitacao.quantidade']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemLicitacao.quantidade}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetItemLicitacaoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailItemLicitacao" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{itemLicitacao}" target="#{itemLicitacaoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="itemLicitacao.create">
+                        <p:button icon="ui-icon-pencil" outcome="createItemLicitacao" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{itemLicitacao.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="itemLicitacao.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{itemLicitacaoMB.delete}" >
+                            <f:setPropertyActionListener value="#{itemLicitacao.id}" target="#{itemLicitacaoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{itemLicitacao}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="itemLicitacao.audit">
+                    <x:auditDelete for="#{itemLicitacaoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+</ui:composition>

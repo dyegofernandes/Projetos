@@ -19,7 +19,7 @@
                     <h:outputLabel value="#{msg['orgao.cnpj']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{orgaoMB.entity.cnpj}" styleClass="uix-content-detail"/>
                 </div>
-               
+
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['orgao.email']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{orgaoMB.entity.email}" styleClass="uix-content-detail"/>
@@ -30,7 +30,9 @@
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['orgao.endereco']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{orgaoMB.entity.endereco}" styleClass="uix-content-detail"/>
+                    <h:outputText value="#{orgaoMB.entity.endereco}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['orgao.observacao']}:" styleClass="control-label" /><br/>
@@ -42,8 +44,8 @@
                         <f:convertDateTime />
                     </h:outputText>
                 </div>
-           </div>
-         </div>
+            </div>
+        </div>
         <p:separator/>
         <div class="uix-center">
             <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetOrgaoDetail').hide()" />

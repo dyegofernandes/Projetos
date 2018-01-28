@@ -1,0 +1,167 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreatePedidoLicitacao" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="numeroProcessoAdministrativo" value="* #{msg['pedidoLicitacao.numeroProcessoAdministrativo']}:" />
+                        <p:inputText id="numeroProcessoAdministrativo" value="#{pedidoLicitacaoMB.entity.numeroProcessoAdministrativo}" maxlength="60"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="codigo" value="* #{msg['pedidoLicitacao.codigo']}:" />
+                        <p:inputText id="codigo" value="#{pedidoLicitacaoMB.entity.codigo}" maxlength="60"  styleClass="form-control"
+                                     disabled="true"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataRequisicao" value="* #{msg['pedidoLicitacao.dataRequisicao']}:" />
+                        <p:calendar id="dataRequisicao" value="#{pedidoLicitacaoMB.entity.dataRequisicao}"
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="rubricaOrcamentaria" value="* #{msg['pedidoLicitacao.rubricaOrcamentaria']}:" />
+                        <h:selectOneMenu id="rubricaOrcamentaria" value="#{pedidoLicitacaoMB.entity.rubricaOrcamentaria}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.rubricaOrcamentaria)}" 
+                                           var="rubricaOrcamentaria"
+                                           itemLabel="#{rubricaOrcamentaria}"/>
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="orgaoSolicitante" value="* #{msg['pedidoLicitacao.orgaoSolicitante']}:" />
+                        <h:selectOneMenu id="orgaoSolicitante" value="#{pedidoLicitacaoMB.entity.orgaoSolicitante}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.orgao)}" 
+                                           var="orgao"
+                                           itemLabel="#{orgao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="objeto" value="* #{msg['pedidoLicitacao.objeto']}:" />
+                        <p:inputTextarea id="objeto" rows="5" cols="192" value ="#{pedidoLicitacaoMB.entity.objeto}"
+                                         />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Selecionar Itens:" /> 
+
+                    </div>
+                    <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12"> 
+                        <p:commandLink value="clique aqui" process="@this" update=":formCreateItemLicitacao" style="font-weight:bold" 
+                                       actionListener="#{pedidoLicitacaoMB.abrirTelaItem()}" />
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="observacao" value="#{msg['pedidoLicitacao.observacao']}:" />
+                        <p:inputTextarea id="observacao" rows="5" cols="192" value ="#{pedidoLicitacaoMB.entity.observacao}"
+                                         />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="arquivo" value="Anexar projeto (s) / Termo de referência" />
+                        <p:fileUpload id="arquivo" mode="advanced" requiredMessage="É necessário o envio de pelo menos um arquivo!"
+                                      allowTypes="/(\.|\/)(gif|jpeg|jpg|rtf|odt|ods|png|doc|docx|xls|xlsx|pps|ppsx|ppt|pptx|pdf|jpg|zip|txt|7z|rar|dcm|mp4)$/"
+                                      invalidFileMessage="Tipo de arquivo não permitido" invalidSizeMessage="Arquivo com tamanho acima do permitido" 
+                                      uploadLabel="Carregar" update="panelArquivos" cancelLabel="Cancelar" label="Selecionar" multiple="false" 
+                                      sizeLimit="10485760" fileUploadListener="#{pedidoLicitacaoMB.upload}" styleClass="grid_9" />
+                    </div>
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+
+
+                        <h:panelGroup id="panelArquivos"  >
+                            <h:panelGroup rendered="#{pedidoLicitacaoMB.documentos.size()>0}" >
+                                <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                             var="arquivo" rowIndexVar="index" id="dataTableArquivo" widgetVar="dataTableArquivoWidget" styleClass="table-responsive"
+                                             value="#{pedidoLicitacaoMB.documentos}" >
+                                    <p:column styleClass="uix-datatable-index">
+                                        <h:outputText value="#{index+1}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Nome" width="80%" style="text-align: center;">
+                                        <f:facet name="header">
+                                            <h:outputText value="Nome" />
+                                        </f:facet>
+                                        <h:outputText value="#{arquivo.nome}"/>
+                                    </p:column>
+                                    <p:column headerText="Extensão" width="20%" style="text-align: center;">
+                                        <f:facet name="header">
+                                            <h:outputText value="Extensão" />
+                                        </f:facet>
+                                        <h:outputText value="#{arquivo.extensao}"/>
+                                    </p:column>
+
+                                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{xmsg['actions']}"/>
+                                        </f:facet>          
+                                        <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Download" ajax="false" immediate="true" update="formCreateDenuncia">
+                                            <p:fileDownload value="#{pedidoLicitacaoMB.download(arquivo)}" />
+                                        </p:commandButton>
+                                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="formCreatePedidoLicitacao:panelArquivos" 
+                                                         action="#{pedidoLicitacaoMB.removerArquivo(arquivo)}" >
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+                            </h:panelGroup>
+                        </h:panelGroup>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nomeSolicitante" value="* Nome completo do Solicitante:" />
+                        <p:inputText id="nomeSolicitante" value="#{pedidoLicitacaoMB.entity.nomeSolicitante}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cargoSolicitante" value="* Cargo do Solicitante:" />
+                        <p:inputText id="cargoSolicitante" value="#{pedidoLicitacaoMB.entity.cargoSolicitante}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+                </div>
+
+            </div>
+        </p:fieldset>
+
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="pedidoLicitacao.create">
+                <p:commandButton process="@form" update="@form" action="#{pedidoLicitacaoMB.save}" value="Gerar Pedido para Licitação" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="pedidoLicitacao.audit">
+                <x:audit for="#{pedidoLicitacaoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+    <p:dialog widgetVar="widgetListarItem" header="Selecionar Itens" appendTo="@(body)" 
+              modal="true" styleClass="uix-dialog-fluid" >
+        <ui:include src="formCreateItemLicitacao.xhtml" />
+        
+    </p:dialog>
+
+</ui:composition>

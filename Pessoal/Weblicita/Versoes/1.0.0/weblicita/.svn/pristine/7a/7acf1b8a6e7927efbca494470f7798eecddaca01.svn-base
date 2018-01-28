@@ -1,0 +1,95 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateItemLicitacao" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:fieldset legend="Adicionar Item" id="fieldSetItem">
+
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="item" value="#{msg['itemLicitacao.item']}:" />
+                        <h:selectOneMenu id="item" value="#{pedidoLicitacaoMB.itemAdd.item}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.item)}" 
+                                           var="item"
+                                           itemLabel="#{item}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="unidade" value="#{msg['itemLicitacao.unidade']}:" />
+                        <h:selectOneMenu id="unidade" value="#{pedidoLicitacaoMB.itemAdd.unidade}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.unidadeItem)}" 
+                                           var="unidadeItem"
+                                           itemLabel="#{unidadeItem}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="quantidade" value="#{msg['itemLicitacao.quantidade']}:" />
+                        <x:inputNumber id="quantidade" value="#{pedidoLicitacaoMB.itemAdd.quantidade}" styleClass="form-control"/>
+                    </div>
+
+                </div>
+            </div>
+            <div class="uix-center">
+                <p:commandButton process="@this fieldSetItem" update="fieldSetItem dataTableItemLicitacao" value="Adicionar" 
+                                 action="#{pedidoLicitacaoMB.addItem()}" />
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Itens Selecionados">
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="itemLicitacao" rowIndexVar="index" id="dataTableItemLicitacao" widgetVar="dataTableItemLicitacaoWidget" styleClass="table-responsive"
+                         value="#{pedidoLicitacaoMB.itens}" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['itemLicitacao.item']}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemLicitacao.item']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemLicitacao.item}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['itemLicitacao.unidade']}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemLicitacao.unidade']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemLicitacao.unidade}"/>
+                </p:column>
+                <p:column headerText="#{msg['itemLicitacao.quantidade']}" style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemLicitacao.quantidade']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemLicitacao.quantidade}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+
+                    <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="@form" 
+                                     action="#{pedidoLicitacaoMB.removerItem(itemLicitacao)}" >
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetListarItem').hide()" />
+
+        </div>
+
+    </h:form>
+
+</ui:composition>

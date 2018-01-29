@@ -1,0 +1,121 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateFornecedor" >
+        <p:fieldset>
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="margin-left: -15px;">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                                <h:outputLabel for="numeroCADUF" value="* #{msg['fornecedor.numeroCADUF']}:" />
+                                <p:inputText id="numeroCADUF" value="#{fornecedorMB.entity.numeroCADUF}" maxlength="200" styleClass="form-control"  readonly="true" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                                <h:outputLabel for="dataDoCadastro" value="* #{msg['fornecedor.dataDoCadastro']}:" />
+                                <p:calendar id="dataDoCadastro" value="#{fornecedorMB.entity.dataDoCadastro}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar" readonly="true" >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                                <h:outputLabel for="cnpj" value="* #{msg['fornecedor.cnpj']}:" />
+                                <p:inputText id="cnpj" value="#{fornecedorMB.entity.cnpj}" maxlength="20"  styleClass="form-control"  />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                                <h:outputLabel for="dataAbertura" value="#{msg['fornecedor.dataAbertura']}:" />
+                                <p:calendar id="dataAbertura" value="#{fornecedorMB.entity.dataAbertura}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                                <h:outputLabel for="capitalSocial" value="* #{msg['fornecedor.capitalSocial']}:" />
+                                <p:inputText id="capitalSocial" value="#{fornecedorMB.entity.numeroCADUF}" maxlength="200"  styleClass="form-control"  />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12 box-actions">
+                        <div class="box-actions-div-title">Situação Cadastral</div>
+                        Aprovado pelo Presidente da CPL<br/>
+                        Documentos Conferidos<br/>
+                        Possui Pendências<br/>
+                        <br/>
+                        Cadastrado desde <span style="color: red;">00/00/0000</span><br/>
+                        Última atualização em <span style="color: red;">00/00/0000</span><br/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                        <h:outputLabel for="nomeFantasia" value="* #{msg['fornecedor.nomeFantasia']}:" />
+                        <p:inputText id="nomeFantasia" value="#{fornecedorMB.entity.nomeFantasia}" maxlength="200"  styleClass="form-control"  />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                        <h:outputLabel for="razaoSocial" value="* #{msg['fornecedor.razaoSocial']}:" />
+                        <p:inputText id="razaoSocial" value="#{fornecedorMB.entity.razaoSocial}" maxlength="200"  styleClass="form-control"  />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                        <h:outputLabel for="ramoAtividade" value="#{msg['fornecedor.ramoAtividade']}:" />
+                        <p:inputText id="ramoAtividade" value="#{fornecedorMB.entity.ramoAtividade}" maxlength="200"  styleClass="form-control"  />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                        <h:outputLabel for="email" value="#{msg['fornecedor.email']}:" />
+                        <p:inputText id="email" value="#{fornecedorMB.entity.email}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                        <h:outputLabel for="site" value="#{msg['fornecedor.site']}:" />
+                        <p:inputText id="site" value="#{fornecedorMB.entity.site}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%" >
+                        <h:outputLabel for="observacao" value="#{msg['fornecedor.observacao']}:"/>
+                        <p:inputTextarea id="observacao" value="#{fornecedorMB.entity.observacao}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="fornecedor.create">
+                <p:commandButton process="@form" update="@form" action="#{fornecedorMB.save}" value="#{xmsg['save']}" styleClass="button-save" />
+            </x:securityArea>
+            <div class="div-audit">
+                <x:securityArea rolesAllowed="fornecedor.audit">
+                    <x:audit for="#{fornecedorMB.entity}"/>
+                </x:securityArea>
+            </div>
+        </div>
+    </h:form>
+
+</ui:composition>

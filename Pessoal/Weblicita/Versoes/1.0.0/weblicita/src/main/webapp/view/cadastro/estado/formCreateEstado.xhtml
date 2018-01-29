@@ -7,20 +7,22 @@
 
 
     <h:form id="formCreateEstado" >
-        <p:fieldset legend="#{xmsg['generalData']}">
+        <p:fieldset>
             <x:modalMessages/>
 
             <div class="container-fluid">
                 <div class="row">
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 30%">
                         <h:outputLabel for="nome" value="* #{msg['estado.nome']}:" />
                         <p:inputText id="nome" value="#{estadoMB.entity.nome}" maxlength="200"  styleClass="form-control"  />
                     </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 20%">
                         <h:outputLabel for="sigla" value="* #{msg['estado.sigla']}:" />
                         <p:inputText id="sigla" value="#{estadoMB.entity.sigla}" maxlength="2"  styleClass="form-control"  />
                     </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
                         <h:outputLabel for="pais" value="* #{msg['estado.pais']}:" />
                         <h:selectOneMenu id="pais" value="#{estadoMB.entity.pais}" converter="entityConverter" styleClass="form-control" >
                             <x:initializer/>
@@ -36,11 +38,13 @@
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">
             <x:securityArea rolesAllowed="estado.create">
-                <p:commandButton process="@form" update="@form" action="#{estadoMB.save}" value="#{xmsg['save']}" />
+                <p:commandButton process="@form" update="@form" action="#{estadoMB.save}" value="#{xmsg['save']}" styleClass="button-save"/>
             </x:securityArea>
-            <x:securityArea rolesAllowed="estado.audit">
-                <x:audit for="#{estadoMB.entity}"/>
-            </x:securityArea>
+            <div class="div-audit">
+                <x:securityArea rolesAllowed="estado.audit">
+                    <x:audit for="#{estadoMB.entity}"/>
+                </x:securityArea>
+            </div>
         </div>
     </h:form>
 

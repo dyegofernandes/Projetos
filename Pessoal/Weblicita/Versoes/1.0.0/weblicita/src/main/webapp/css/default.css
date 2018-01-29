@@ -150,7 +150,6 @@ section.conteudo h1.page-header  span{vertical-align: middle;}
 .ui-corner-all { border-radius: 0px; }
 .ui-layout-unit{ padding: 0 !important; margin: 0 !important;}
 .ui-layout-unit .ui-layout-unit-content{ padding: 0 !important; margin: 0 !important;}
-.ui-layout-unit.ui-widget.ui-widget-content.ui-corner-all.ui-layout-center { height: 100% !important; }
 .labelField { font-weight: bold; font-size: 14px;}
 .aEsqueci:link {
     color: #FFFFFF;
@@ -210,6 +209,7 @@ section.conteudo h1.page-header  span{vertical-align: middle;}
 .ui-layout-north .ui-layout-unit-content {
     overflow: visible !important;
 }
+
 .page-header {
     margin: 10px 0 20px;
 }
@@ -280,4 +280,149 @@ section.conteudo h1.page-header  span{vertical-align: middle;}
 }
 .ui-menu.ui-widget li > .ui-menuitem-link {
     color: #ffffff;
+}
+.input-finds_left {
+    float: left;
+    width: 90%
+}
+.input-finds {
+    position: absolute;
+    width: 95%;
+}
+.button-finds {
+    height: 33px;
+    float: right;
+    background: #b3b3b3 !important;
+    border: 2px #a9a9a9 solid !important;
+    color: #FFFFFF !important;
+    border-radius: 0px !important;
+    margin-right: -15px;
+}
+.div-button-new {
+    float: left;
+    width: 30%;
+    text-align: left;
+}
+.div-button-new {
+    float: left;
+    width: 30%;
+    text-align: left;
+}
+.button-new {
+    height: 33px;
+    width: 100%;
+    background: #204afb !important;
+    border: 2px #193bce solid !important;
+    color: #FFFFFF !important;
+    border-radius: 0px !important;
+}
+.div-button-edit {
+    float: left;
+    width: 30%;
+    text-align: center;
+    margin-left: 5% !important;
+    margin-right: 5% !important;
+}
+.button-edit {
+    height: 33px;
+    width: 100%;
+    background: #f7b031 !important;
+    border: 2px #f18930 solid !important;
+    color: #FFFFFF !important;
+    border-radius: 0px !important;
+}
+.div-button-delete {
+    float: right;
+    width: 30%;
+    text-align: right;
+    margin-right: -15px !important;
+}
+.button-delete {
+    height: 33px;
+    width: 100%;
+    background: #ed462f !important;
+    border: 2px #cf3b28 solid !important;
+    color: #FFFFFF !important;
+    border-radius: 0px !important;
+}
+.div-button-disable {
+    float: right;
+    width: 30%;
+    text-align: right;
+    margin-right: -15px !important;
+}
+.button-disable {
+    height: 33px;
+    width: 100%;
+    background: #ed462f !important;
+    border: 2px #cf3b28 solid !important;
+    color: #FFFFFF !important;
+    border-radius: 0px !important;
+}
+.box-actions {
+    background: #FFFFFF !important;
+    border: 1px #000000 solid;
+    padding: 5px !important;
+}
+.box-actions-div-title {
+    background: gray;
+    color:white;
+    text-align: center;
+    padding: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.button-save {
+    height: 33px;
+    width: 100%;
+    background: #62bd01 !important;
+    border: 2px #427f01 solid !important;
+    color: #FFFFFF !important;
+    border-radius: 0px !important;
+}
+.button-generate {
+    height: 33px;
+    width: 100%;
+    background: #808080 !important;
+    border: 2px #7c7c7c solid !important;
+    color: #FFFFFF !important;
+    border-radius: 0px !important;
+}
+.div-audit {
+    width: 100%;
+    text-align: right;
+    margin-top: 5px;
+}
+.aLinkIncluir:link {
+    color: red;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 	 14px;
+}
+.aLinkIncluir:visited {
+    color: red;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 	 14px;
+}
+.aLinkIncluir:hover {
+    color: red;
+    text-decoration: underline;
+    font-weight: bold;
+    font-size: 	 14px;
+}
+.aLinkIncluir:active {
+    color: red;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 	 14px;
+} 
+.ui-inputfield[disabled] {
+    background-color: #a9a9a9;
+    opacity: .9 !important;
+    color: #000000 !important;
+    font-weight: bold;
+    text-shadow: none !important;
 }

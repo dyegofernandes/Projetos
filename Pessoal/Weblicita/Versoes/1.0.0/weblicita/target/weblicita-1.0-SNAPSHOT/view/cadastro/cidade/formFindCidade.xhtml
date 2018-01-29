@@ -1,0 +1,43 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formFindCidade" >
+        <x:modalMessages/>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
+                    <div style="input-finds_left">
+                        <p:inputText id="nome" value="#{cidadeMB.entity.nome}" placeholder="#{msg['cidade.find.nome']}" maxlength="20"  styleClass="form-control input-finds"  />
+                    </div>
+                    <p:commandButton process="@form" update="@form"  value="#{msg['cidade.find']}" class="button-finds" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
+                    <div class="div-button-new">
+                        <x:securityArea rolesAllowed="cidade.create">
+                           <p:commandButton process="@form" update="@form"  value="#{msg['cidade.new']}" class="button-new" />
+                        </x:securityArea>
+                    </div>
+                    <div class="div-button-edit">
+                        <x:securityArea rolesAllowed="cidade.editar">
+                           <p:commandButton process="@form" update="@form"  value="#{msg['cidade.edit']}" class="button-edit" />
+                        </x:securityArea>
+                    </div>
+                    <div class="div-button-delete">
+                        <x:securityArea rolesAllowed="cidade.delete">
+                           <p:commandButton process="@form" update="@form"  value="#{msg['cidade.delete']}" class="button-delete" />
+                        </x:securityArea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:form>
+
+</ui:composition>

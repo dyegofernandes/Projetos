@@ -7,32 +7,32 @@
 
 
     <h:form id="formCreatePedidoLicitacao" >
-        <p:fieldset legend="#{xmsg['generalData']}">
+        <p:fieldset>
             <x:modalMessages/>
 
             <div class="container-fluid">
                 <div class="row">
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12"  style="width: 40%">
                         <h:outputLabel for="numeroProcessoAdministrativo" value="* #{msg['pedidoLicitacao.numeroProcessoAdministrativo']}:" />
                         <p:inputText id="numeroProcessoAdministrativo" value="#{pedidoLicitacaoMB.entity.numeroProcessoAdministrativo}" maxlength="60"  styleClass="form-control"  />
                     </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12"  style="width: 40%">
                         <h:outputLabel for="codigo" value="* #{msg['pedidoLicitacao.codigo']}:" />
                         <p:inputText id="codigo" value="#{pedidoLicitacaoMB.entity.codigo}" maxlength="60"  styleClass="form-control"
-                                     disabled="true"/>
+                                     readonly="true"/>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 40%">
                         <h:outputLabel for="dataRequisicao" value="* #{msg['pedidoLicitacao.dataRequisicao']}:" />
                         <p:calendar id="dataRequisicao" value="#{pedidoLicitacaoMB.entity.dataRequisicao}"
-                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar">
                             <x:mask/>
                         </p:calendar>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12"  style="width: 40%">
                         <h:outputLabel for="rubricaOrcamentaria" value="* #{msg['pedidoLicitacao.rubricaOrcamentaria']}:" />
                         <h:selectOneMenu id="rubricaOrcamentaria" value="#{pedidoLicitacaoMB.entity.rubricaOrcamentaria}" converter="entityConverter" styleClass="form-control" >
                             <x:initializer/>
@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
                         <h:outputLabel for="orgaoSolicitante" value="* #{msg['pedidoLicitacao.orgaoSolicitante']}:" />
                         <h:selectOneMenu id="orgaoSolicitante" value="#{pedidoLicitacaoMB.entity.orgaoSolicitante}" converter="entityConverter" styleClass="form-control" >
                             <x:initializer/>
@@ -56,14 +56,13 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%" >
                         <h:outputLabel for="objeto" value="* Objeto - Descrição do (s) Bens e/ou Serviço (s) pretendidos:" />
-                        <p:inputTextarea id="objeto" rows="5" cols="192" value ="#{pedidoLicitacaoMB.entity.objeto}"
-                                         />
+                        <p:inputTextarea id="objeto" rows="5" cols="192" value ="#{pedidoLicitacaoMB.entity.objeto}" styleClass="form-control"  />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12" style="width: auto">
                         <h:outputLabel value="Selecionar Itens:" /> 
 
                     </div>
@@ -75,10 +74,9 @@
                 </div>
 
                 <div class="row">
-                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%" >
                         <h:outputLabel for="observacao" value="#{msg['pedidoLicitacao.observacao']}:" />
-                        <p:inputTextarea id="observacao" rows="5" cols="192" value ="#{pedidoLicitacaoMB.entity.observacao}"
-                                         />
+                        <p:inputTextarea id="observacao" rows="5" cols="192" value ="#{pedidoLicitacaoMB.entity.observacao}" styleClass="form-control"  />
                     </div>
                 </div>
                 <div class="row">
@@ -133,13 +131,13 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12" style="width: 100%" >
                         <h:outputLabel for="nomeSolicitante" value="* Nome completo do Solicitante:" />
                         <p:inputText id="nomeSolicitante" value="#{pedidoLicitacaoMB.entity.nomeSolicitante}" maxlength="250"  styleClass="form-control"  />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12" style="width: 100%" >
                         <h:outputLabel for="cargoSolicitante" value="* Cargo do Solicitante:" />
                         <p:inputText id="cargoSolicitante" value="#{pedidoLicitacaoMB.entity.cargoSolicitante}" maxlength="250"  styleClass="form-control"  />
                     </div>
@@ -151,11 +149,14 @@
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">
             <x:securityArea rolesAllowed="pedidoLicitacao.create">
-                <p:commandButton process="@form" update="@form" action="#{pedidoLicitacaoMB.save}" value="Gerar Pedido para Licitação" />
+                <p:commandButton process="@form" update="@form" action="#{pedidoLicitacaoMB.save}" value="Gerar Pedido para Licitação" styleClass="button-generate" />
             </x:securityArea>
-            <x:securityArea rolesAllowed="pedidoLicitacao.audit">
-                <x:audit for="#{pedidoLicitacaoMB.entity}"/>
-            </x:securityArea>
+
+            <div class="div-audit">
+                <x:securityArea rolesAllowed="pedidoLicitacao.audit">
+                    <x:audit for="#{pedidoLicitacaoMB.entity}"/>
+                </x:securityArea>
+            </div>
         </div>
     </h:form>
     <p:dialog widgetVar="widgetListarItem" header="Selecionar Itens" appendTo="@(body)" 

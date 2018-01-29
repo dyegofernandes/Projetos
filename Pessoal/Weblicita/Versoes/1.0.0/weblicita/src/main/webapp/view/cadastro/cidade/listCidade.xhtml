@@ -24,14 +24,14 @@
                 </p:column>
                 
                 <p:column headerText="#{msg['cidade.nome']}" sortBy="#{cidade.nome}"
-                    filterBy="#{cidade.nome}"   >
+                    filterBy="#{cidade.nome}" style="text-align: center;"  >
                     <f:facet name="header">
                         <h:outputText value="#{msg['cidade.nome']}" />
                     </f:facet>
                     <h:outputText value="#{cidade.nome}"/>
                 </p:column>
                 <p:column headerText="#{msg['cidade.estado']}" sortBy="#{cidade.estado}"
-                       >
+                       style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['cidade.estado']}" />
                     </f:facet>

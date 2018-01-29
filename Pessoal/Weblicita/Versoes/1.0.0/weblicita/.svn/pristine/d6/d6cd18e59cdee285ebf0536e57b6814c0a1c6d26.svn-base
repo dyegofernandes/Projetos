@@ -1,0 +1,108 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateIntencaoDeRegistroDePreco" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="orgaoReceptor" value="* #{msg['intencaoDeRegistroDePreco.orgaoReceptor']}:" />
+                        <h:selectOneMenu id="orgaoReceptor" value="#{intencaoDeRegistroDePrecoMB.entity.orgaoReceptor}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.orgao)}" 
+                                           var="orgao"
+                                           itemLabel="#{orgao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="objetoDeInteresse" value="* Selecione o objeto do seu interesse:" />
+                        <h:selectOneMenu id="objetoDeInteresse" value="#{intencaoDeRegistroDePrecoMB.entity.objetoDeInteresse}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.pedidoLicitacao)}" 
+                                           var="pedidoLicitacao"
+                                           itemLabel="#{pedidoLicitacao}"/>
+                            <p:ajax process="@this" update="descricaoObjeto dataTableItemLicitacao" listener="#{intencaoDeRegistroDePrecoMB.carregaDadosObjeto()}"/>
+
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="descricaoObjeto" value="Descrição do Objeto:" />
+                        <p:inputTextarea id="descricaoObjeto" rows="5" cols="192" value ="#{intencaoDeRegistroDePrecoMB.descricaoObjeto}"
+                                         disabled="true" />
+                    </div>
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                     var="itemLicitacao" rowIndexVar="index" id="dataTableItemLicitacao" widgetVar="dataTableItemLicitacaoWidget" styleClass="table-responsive"
+                                     value="#{intencaoDeRegistroDePrecoMB.itens}" >
+                            <p:column styleClass="uix-datatable-index" width="5%">
+                                <h:outputText value="#{index+1}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['itemLicitacao.item']}" width="45%" >
+                                <f:facet name="header">
+                                    <h:outputText value="#{msg['itemLicitacao.item']}" />
+                                </f:facet>
+                                <h:outputText value="#{itemLicitacao.item}">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{msg['itemLicitacao.unidade']}" width="30%">
+                                <f:facet name="header">
+                                    <h:outputText value="#{msg['itemLicitacao.unidade']}" />
+                                </f:facet>
+                                <h:selectOneMenu id="unidade" value="#{itemLicitacao.unidade}"  styleClass="form-control" >
+                                    <f:selectItems value="#{findAllBean.get(classMB.unidadeItem)}" 
+                                                   var="unidadeItem"
+                                                   itemLabel="#{unidadeItem}"/>
+                                </h:selectOneMenu>
+                            </p:column>
+                            <p:column headerText="#{msg['itemLicitacao.quantidade']}" style="text-align: right;" width="20%">
+                                <f:facet name="header">
+                                    <h:outputText value="#{msg['itemLicitacao.quantidade']}" />
+                                </f:facet>
+                                <x:inputNumber value="#{itemLicitacao.quantidade}" styleClass="form-control"/>
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </div>
+
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataDaManifestacao" value="* #{msg['intencaoDeRegistroDePreco.dataDaManifestacao']}:" />
+                        <p:calendar id="dataDaManifestacao" value="#{intencaoDeRegistroDePrecoMB.entity.dataDaManifestacao}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar" disabled="true" >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nomeSolicitante" value="* #{msg['intencaoDeRegistroDePreco.nomeSolicitante']}:" />
+                        <p:inputText id="nomeSolicitante" value="#{intencaoDeRegistroDePrecoMB.entity.nomeSolicitante}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cargoSolicitante" value="* #{msg['intencaoDeRegistroDePreco.cargoSolicitante']}:" />
+                        <p:inputText id="cargoSolicitante" value="#{intencaoDeRegistroDePrecoMB.entity.cargoSolicitante}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="intencaoDeRegistroDePreco.create">
+                <p:commandButton process="@form" update="@form" action="#{intencaoDeRegistroDePrecoMB.save}" value="Imprimir" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="intencaoDeRegistroDePreco.audit">
+                <x:audit for="#{intencaoDeRegistroDePrecoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

@@ -7,38 +7,40 @@
     
   
     <h:form id="formCreateCidade" >
-        <p:fieldset legend="#{xmsg['generalData']}">
+        <p:fieldset>
             <x:modalMessages/>
 
             <div class="container-fluid">
-                 <div class="row">
-                      
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="nome" value="* #{msg['cidade.nome']}:" />
-                         <p:inputText id="nome" value="#{cidadeMB.entity.nome}" maxlength="200"  styleClass="form-control"  />
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="estado" value="#{msg['cidade.estado']}:" />
-                         <h:selectOneMenu id="estado" value="#{cidadeMB.entity.estado}" converter="entityConverter" styleClass="form-control" >
-                             <x:initializer/>
-                             <f:selectItem itemLabel="#{xmsg['select']}" />
-                             <f:selectItems value="#{findAllBean.get(classMB.estado)}" 
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                       <h:outputLabel for="nome" value="* #{msg['cidade.nome']}:" />
+                       <p:inputText id="nome" value="#{cidadeMB.entity.nome}" maxlength="200"  styleClass="form-control"  />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                        <h:outputLabel for="estado" value="#{msg['cidade.estado']}:" />
+                        <h:selectOneMenu id="estado" value="#{cidadeMB.entity.estado}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.estado)}" 
                                             var="estado"
                                             itemLabel="#{estado}"/>
-                         </h:selectOneMenu>
-                     </div>
-
-                 </div>
+                        </h:selectOneMenu>
+                    </div>
+                </div>
              </div>
         </p:fieldset>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">
             <x:securityArea rolesAllowed="cidade.create">
-                <p:commandButton process="@form" update="@form" action="#{cidadeMB.save}" value="#{xmsg['save']}" />
+                <p:commandButton process="@form" update="@form" action="#{cidadeMB.save}" value="#{xmsg['save']}" styleClass="button-save"/>
             </x:securityArea>
-            <x:securityArea rolesAllowed="cidade.audit">
-                <x:audit for="#{cidadeMB.entity}"/>
-            </x:securityArea>
+            <div class="div-audit">
+                <x:securityArea rolesAllowed="cidade.audit">
+                    <x:audit for="#{cidadeMB.entity}"/>
+                </x:securityArea>
+            </div>
         </div>
     </h:form>
 

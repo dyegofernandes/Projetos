@@ -1,0 +1,101 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['intencaoDeRegistroDePreco.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuIntencaoDeRegistroDePreco.xhtml" />
+        <h:form id="formListIntencaoDeRegistroDePreco">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="intencaoDeRegistroDePreco_export" target=":formListIntencaoDeRegistroDePreco:dataTableIntencaoDeRegistroDePreco"
+                                     widgetVar="dataTableIntencaoDeRegistroDePrecoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="intencaoDeRegistroDePreco" rowIndexVar="index" id="dataTableIntencaoDeRegistroDePreco" widgetVar="dataTableIntencaoDeRegistroDePrecoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{intencaoDeRegistroDePrecoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{intencaoDeRegistroDePrecoMB.dataModel.paginatorTemplate}"
+                         value="#{intencaoDeRegistroDePrecoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['intencaoDeRegistroDePreco.orgaoReceptor']}" sortBy="#{intencaoDeRegistroDePreco.orgaoReceptor}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['intencaoDeRegistroDePreco.orgaoReceptor']}" />
+                    </f:facet>
+                    <h:outputText value="#{intencaoDeRegistroDePreco.orgaoReceptor}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['intencaoDeRegistroDePreco.objetoDeInteresse']}" sortBy="#{intencaoDeRegistroDePreco.objetoDeInteresse}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['intencaoDeRegistroDePreco.objetoDeInteresse']}" />
+                    </f:facet>
+                    <h:outputText value="#{intencaoDeRegistroDePreco.objetoDeInteresse}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['intencaoDeRegistroDePreco.dataDaManifestacao']}" sortBy="#{intencaoDeRegistroDePreco.dataDaManifestacao}"
+                    filterBy="#{intencaoDeRegistroDePreco.dataDaManifestacao}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['intencaoDeRegistroDePreco.dataDaManifestacao']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{intencaoDeRegistroDePreco.dataDaManifestacao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['intencaoDeRegistroDePreco.nomeSolicitante']}" sortBy="#{intencaoDeRegistroDePreco.nomeSolicitante}"
+                    filterBy="#{intencaoDeRegistroDePreco.nomeSolicitante}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['intencaoDeRegistroDePreco.nomeSolicitante']}" />
+                    </f:facet>
+                    <h:outputText value="#{intencaoDeRegistroDePreco.nomeSolicitante}"/>
+                </p:column>
+                <p:column headerText="#{msg['intencaoDeRegistroDePreco.cargoSolicitante']}" sortBy="#{intencaoDeRegistroDePreco.cargoSolicitante}"
+                    filterBy="#{intencaoDeRegistroDePreco.cargoSolicitante}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['intencaoDeRegistroDePreco.cargoSolicitante']}" />
+                    </f:facet>
+                    <h:outputText value="#{intencaoDeRegistroDePreco.cargoSolicitante}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetIntencaoDeRegistroDePrecoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailIntencaoDeRegistroDePreco" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{intencaoDeRegistroDePreco}" target="#{intencaoDeRegistroDePrecoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="intencaoDeRegistroDePreco.create">
+                        <p:button icon="ui-icon-pencil" outcome="createIntencaoDeRegistroDePreco" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{intencaoDeRegistroDePreco.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="intencaoDeRegistroDePreco.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{intencaoDeRegistroDePrecoMB.delete}" >
+                            <f:setPropertyActionListener value="#{intencaoDeRegistroDePreco.id}" target="#{intencaoDeRegistroDePrecoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{intencaoDeRegistroDePreco}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="intencaoDeRegistroDePreco.audit">
+                    <x:auditDelete for="#{intencaoDeRegistroDePrecoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetIntencaoDeRegistroDePrecoDetail" header="#{msg['intencaoDeRegistroDePreco.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailIntencaoDeRegistroDePreco.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

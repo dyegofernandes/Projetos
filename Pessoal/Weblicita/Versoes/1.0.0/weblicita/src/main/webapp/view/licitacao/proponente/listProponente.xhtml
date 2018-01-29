@@ -1,0 +1,78 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['proponente.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuProponente.xhtml" />
+        <h:form id="formListProponente">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="proponente_export" target=":formListProponente:dataTableProponente"
+                                     widgetVar="dataTableProponenteWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="proponente" rowIndexVar="index" id="dataTableProponente" widgetVar="dataTableProponenteWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{proponenteMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{proponenteMB.dataModel.paginatorTemplate}"
+                         value="#{proponenteMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['proponente.anexada']}" sortBy="#{proponente.anexada}"
+                    filterBy="#{proponente.anexada}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['proponente.anexada']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{proponente.anexada}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['proponente.fornecedor']}" sortBy="#{proponente.fornecedor}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['proponente.fornecedor']}" />
+                    </f:facet>
+                    <h:outputText value="#{proponente.fornecedor}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetProponenteDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailProponente" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{proponente}" target="#{proponenteMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="proponente.create">
+                        <p:button icon="ui-icon-pencil" outcome="createProponente" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{proponente.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="proponente.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{proponenteMB.delete}" >
+                            <f:setPropertyActionListener value="#{proponente.id}" target="#{proponenteMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{proponente}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="proponente.audit">
+                    <x:auditDelete for="#{proponenteMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetProponenteDetail" header="#{msg['proponente.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailProponente.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

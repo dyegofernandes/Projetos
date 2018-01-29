@@ -7,43 +7,47 @@
     
   
     <h:form id="formCreatePais" >
-        <p:fieldset legend="#{xmsg['generalData']}">
+        <p:fieldset>
             <x:modalMessages/>
 
             <div class="container-fluid">
                  <div class="row">
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 30%">
                          <h:outputLabel for="nome" value="* #{msg['pais.nome']}:" />
                          <p:inputText id="nome" value="#{paisMB.entity.nome}" maxlength="200"  styleClass="form-control"  />
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 20%">
                          <h:outputLabel for="sigla" value="* #{msg['pais.sigla']}:" />
                          <p:inputText id="sigla" value="#{paisMB.entity.sigla}" maxlength="2"  styleClass="form-control"  />
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="nacionalidade" value="* #{msg['pais.nacionalidade']}:" />
-                         <p:inputText id="nacionalidade" value="#{paisMB.entity.nacionalidade}" maxlength="200"  styleClass="form-control"  />
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="" />
                          <div class="checkbox">
                              <label>
                                  <h:selectBooleanCheckbox id="ativo" value="#{paisMB.entity.ativo}" />
                                  #{msg['pais.ativo']}
                              </label>
                          </div>
+                    </div>
+                </div>
+                <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                         <h:outputLabel for="nacionalidade" value="* #{msg['pais.nacionalidade']}:" />
+                         <p:inputText id="nacionalidade" value="#{paisMB.entity.nacionalidade}" maxlength="200"  styleClass="form-control"  />
                      </div>
-
                  </div>
              </div>
         </p:fieldset>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">
             <x:securityArea rolesAllowed="pais.create">
-                <p:commandButton process="@form" update="@form" action="#{paisMB.save}" value="#{xmsg['save']}" />
+                <p:commandButton process="@form" update="@form" action="#{paisMB.save}" value="#{xmsg['save']}" styleClass="button-save"/>
             </x:securityArea>
-            <x:securityArea rolesAllowed="pais.audit">
-                <x:audit for="#{paisMB.entity}"/>
-            </x:securityArea>
+            <div class="div-audit">
+                <x:securityArea rolesAllowed="pais.audit">
+                    <x:audit for="#{paisMB.entity}"/>
+                </x:securityArea>
+            </div>
         </div>
     </h:form>
 

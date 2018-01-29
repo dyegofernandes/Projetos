@@ -1,0 +1,101 @@
+package br.com.weblicita.bo.licitacao;
+
+import com.xpert.core.crud.AbstractBusinessObject;
+import br.com.weblicita.dao.licitacao.PedidoLicitacaoDAO;
+import br.com.weblicita.modelo.cadastro.enums.Formato;
+import br.com.weblicita.modelo.licitacao.ItemLicitacao;
+import com.xpert.core.validation.UniqueField;
+import com.xpert.core.exception.BusinessException;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import br.com.weblicita.modelo.licitacao.PedidoLicitacao;
+import br.com.weblicita.util.Utils;
+import com.xpert.core.validation.UniqueFields;
+import com.xpert.persistence.query.Restrictions;
+import java.util.Date;
+
+/**
+ *
+ * @author Juniel
+ */
+@Stateless
+public class PedidoLicitacaoBO extends AbstractBusinessObject<PedidoLicitacao> {
+
+    @EJB
+    private PedidoLicitacaoDAO pedidoLicitacaoDAO;
+
+    @Override
+    public PedidoLicitacaoDAO getDAO() {
+        return pedidoLicitacaoDAO;
+    }
+
+    @Override
+    public List<UniqueField> getUniqueFields() {
+        return new UniqueFields()
+                .add("codigo");
+    }
+
+    @Override
+    public void validate(PedidoLicitacao pedidoLicitacao) throws BusinessException {
+        List<ItemLicitacao> itens = getDAO().getInitialized(pedidoLicitacao.getItens());
+
+        if (itens == null) {
+            throw new BusinessException("Um ou mais itens são obrigatórios!");
+        } else {
+            if (itens.size() < 1) {
+                throw new BusinessException("Um ou mais itens são obrigatórios!");
+            }
+        }
+    }
+
+    @Override
+    public boolean isAudit() {
+        return true;
+    }
+
+    public String gerarCodigoPedido() {
+        String codigo = "";
+
+        String anoAtual = Utils.getAno(new Date());
+
+        Long id = (Long) getDAO().getQueryBuilder().from(PedidoLicitacao.class).max("id");
+
+        PedidoLicitacao pedido = getDAO().unique("id", id);
+
+        if (pedido != null) {
+            String[] codigoTemp = new String[2];
+
+            codigoTemp = pedido.getCodigo().split("\\.");
+
+            String anoPedido = codigoTemp[1];
+
+            Integer sequencial = new Integer(codigoTemp[0]);
+
+            if (anoAtual.equals(anoPedido)) {
+                sequencial++;
+                codigo = codigo.concat(Utils.inserirCaractere(sequencial.toString(), 10, Formato.NUMERO)).concat(".").concat(anoPedido);
+            } else {
+                codigo = codigo.concat(Utils.inserirCaractere("1", 10, Formato.NUMERO)).concat(".").concat(anoAtual);
+            }
+
+        } else {
+            codigo = codigo.concat(Utils.inserirCaractere("1", 10, Formato.NUMERO)).concat(".").concat(anoAtual);
+        }
+
+        return codigo;
+    }
+
+    public List<PedidoLicitacao> listaPeloNumProcessoAdmin(String numero) {
+        Restrictions restrictions = new Restrictions();
+
+        restrictions.add("ativo", true);
+
+        if (!Utils.isNullOrEmpty(numero)) {
+            restrictions.like("numeroProcessoAdministrativo", numero);
+        }
+
+        return getDAO().list(restrictions, "numeroProcessoAdministrativo");
+    }
+
+}

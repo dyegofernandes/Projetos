@@ -1,18 +1,20 @@
 package br.com.weblicita.mb.cadastro;
 
-import br.com.weblicita.bo.cadastro.AdministradorFornecedorBO;
 import java.io.Serializable;
 import com.xpert.core.crud.AbstractBaseBean;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.com.weblicita.bo.cadastro.FornecedorBO;
-import br.com.weblicita.bo.cadastro.TelefoneBO;
 import br.com.weblicita.modelo.cadastro.AdministradorFornecedor;
 import br.com.weblicita.modelo.cadastro.Fornecedor;
 import br.com.weblicita.modelo.cadastro.Telefone;
 import br.com.weblicita.modelo.cadastro.enums.TipoDeSocio;
+import br.com.weblicita.util.Utils;
 import com.xpert.faces.utils.FacesMessageUtils;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -25,51 +27,21 @@ public class FornecedorMB extends AbstractBaseBean<Fornecedor> implements Serial
     @EJB
     private FornecedorBO fornecedorBO;
 
-    @EJB
-    private TelefoneBO telefoneBO;
+    private Telefone telefoneAdd;
 
-    @EJB
-    private AdministradorFornecedorBO administradoresBO;
+    private List<Telefone> telefones;
 
-    private String telefone = "";
+    private AdministradorFornecedor socioAdd;
 
-    private String nome = "";
+    private List<AdministradorFornecedor> socios;
 
-    private String cpf = "";
+    private String cnpjBusca = "";
 
-    private TipoDeSocio tipo = null;
+    private boolean habilitarEditar;
 
-    public String getTelefone() {
-        return telefone;
-    }
+    private boolean habilitarForm;
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public TipoDeSocio getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(TipoDeSocio tipo) {
-        this.tipo = tipo;
-    }
+    private boolean flagHabilitarCampos;
 
     @Override
     public FornecedorBO getBO() {
@@ -83,24 +55,31 @@ public class FornecedorMB extends AbstractBaseBean<Fornecedor> implements Serial
 
     @Override
     public void init() {
+        habilitarForm = false;
+        habilitarEditar = false;
+        flagHabilitarCampos = true;
         if (getEntity().getId() != null) {
+            getEntity().setDataAtualizacao(new Date());
         }
     }
 
     @Override
     public void save() {
+        getEntity().setTelefones(telefones);
+        getEntity().setAdministradores(socios);
+
+        if (getEntity().getId() == null) {
+            getEntity().setNumeroCADUF(getBO().gerarCADUF());
+        }
         super.save();
     }
 
     public void addTelefone() {
-        if (telefone.equals("")) {
+        if (Utils.isNullOrEmpty(telefoneAdd.getNumero())) {
             FacesMessageUtils.error("O número do telefone é obrigatório!");
         } else {
-            Telefone telefoneTemp = new Telefone();
-            telefoneTemp.setNumero(telefone);
-            getEntity().getTelefones().add(telefoneTemp);
-
-            telefone = "";
+            telefones.add(telefoneAdd);
+            telefoneAdd = new Telefone();
         }
     }
 
@@ -109,18 +88,17 @@ public class FornecedorMB extends AbstractBaseBean<Fornecedor> implements Serial
     }
 
     public void addAdministrador() {
-        if (nome.equals("")) {
+        if (Utils.isNullOrEmpty(socioAdd.getNome())) {
             FacesMessageUtils.error("O nome é obrigatório!");
         } else {
-            if (tipo != null) {
-                AdministradorFornecedor adminTemp = new AdministradorFornecedor();
-                adminTemp.setCpf(cpf);
-                adminTemp.setNome(nome);
-                adminTemp.setTipo(tipo);
-                getEntity().getAdministradores().add(adminTemp);
-                cpf = "";
-                nome = "";
-                tipo = null;
+            if (socioAdd.getTipo() != null) {
+                if (Utils.isNullOrEmpty(socioAdd.getCpf())) {
+                    FacesMessageUtils.error("Cpf é obrigatório!");
+                } else {
+                    socios.add(socioAdd);
+                    socioAdd = new AdministradorFornecedor();
+                }
+
             } else {
                 FacesMessageUtils.error("O Tipo é obrigatório!");
             }
@@ -128,8 +106,131 @@ public class FornecedorMB extends AbstractBaseBean<Fornecedor> implements Serial
         }
     }
 
+    public void novo() {
+        setEntity(new Fornecedor());
+        getEntity().setNumeroCADUF(getBO().gerarCADUF());
+        telefoneAdd = new Telefone();
+
+        telefones = new ArrayList<Telefone>();
+
+        socioAdd = new AdministradorFornecedor();
+
+        socios = new ArrayList<AdministradorFornecedor>();
+
+        habilitarForm = true;
+        habilitarEditar = true;
+    }
+
+    public void desativar() {
+
+        if (getEntity().getId() != null) {
+            getEntity().setAtivo(false);
+            super.save();
+            habilitarEditar = false;
+        } else {
+            FacesMessageUtils.error("Informe o Fornecedor a ser desativado!");
+        }
+
+    }
+
+    public void editar() {
+        if (getEntity().getId() != null) {
+            habilitarEditar = true;
+        } else {
+            FacesMessageUtils.error("Informe o Fornecedor a ser editado!");
+        }
+
+    }
+
+    public void buscarFornecedor() {
+        if (!Utils.isNullOrEmpty(cnpjBusca)) {
+            Fornecedor fornecedorTemp = getBO().fornecedorPeloCnpj(cnpjBusca);
+            if (fornecedorTemp != null) {
+                habilitarForm = true;
+                setEntity(fornecedorTemp);
+                telefones = getDAO().getInitialized(fornecedorTemp.getTelefones());
+                socios = getDAO().getInitialized(fornecedorTemp.getAdministradores());
+            } else {
+                habilitarForm = false;
+                FacesMessageUtils.error("Fornecedor não encontrado!");
+            }
+
+        } else {
+            habilitarForm = false;
+            FacesMessageUtils.error("Informe o cnpj para busca!");
+        }
+    }
+
     public void removerAdministrador(AdministradorFornecedor admin) {
         getEntity().getAdministradores().remove(admin);
+    }
+
+    public List<Fornecedor> autocomplete(String nome) {
+        return getBO().fornecedorPeloNomeOuCNPJ(nome);
+    }
+
+    public String getCnpjBusca() {
+        return cnpjBusca;
+    }
+
+    public void setCnpjBusca(String cnpjBusca) {
+        this.cnpjBusca = cnpjBusca;
+    }
+
+    public boolean isHabilitarEditar() {
+        return habilitarEditar;
+    }
+
+    public void setHabilitarEditar(boolean habilitarEditar) {
+        this.habilitarEditar = habilitarEditar;
+    }
+
+    public boolean isHabilitarForm() {
+        return habilitarForm;
+    }
+
+    public void setHabilitarForm(boolean habilitarForm) {
+        this.habilitarForm = habilitarForm;
+    }
+
+    public Telefone getTelefoneAdd() {
+        return telefoneAdd;
+    }
+
+    public void setTelefoneAdd(Telefone telefoneAdd) {
+        this.telefoneAdd = telefoneAdd;
+    }
+
+    public List<Telefone> getTelefones() {
+        return telefones;
+    }
+
+    public void setTelefones(List<Telefone> telefones) {
+        this.telefones = telefones;
+    }
+
+    public AdministradorFornecedor getSocioAdd() {
+        return socioAdd;
+    }
+
+    public void setSocioAdd(AdministradorFornecedor socioAdd) {
+        this.socioAdd = socioAdd;
+    }
+
+    public List<AdministradorFornecedor> getSocios() {
+        return socios;
+    }
+
+    public void setSocios(List<AdministradorFornecedor> socios) {
+        this.socios = socios;
+    }
+
+    public boolean isFlagHabilitarCampos() {
+        return flagHabilitarCampos;
+    }
+
+    public void setFlagHabilitarCampos(boolean flagHabilitarCampos) {
+        this.flagHabilitarCampos = flagHabilitarCampos;
     }
 
 }

@@ -154,6 +154,16 @@ public class GeracaoPermissao {
         create(new Permissao("item.desativar", "Desativar de Item"), "item");
         create(new Permissao("item.buscar", "Buscar de Item"), "item");
 
+        //Unidade De Medida
+        create(new Permissao("unidadeDeMedida", "Unidade De Medida", false), "cadastro");
+        create(new Permissao("unidadeDeMedida.create", "Unidades de Medidas", "/view/cadastro/unidadeDeMedida/createUnidadeDeMedida.jsf", true), "cadastro");
+        create(new Permissao("unidadeDeMedida.list", "Consulta de Unidade De Medida", "/view/cadastro/unidadeDeMedida/listUnidadeDeMedida.jsf", false), "unidadeDeMedida");
+        create(new Permissao("unidadeDeMedida.audit", "Auditoria de Unidade De Medida"), "unidadeDeMedida");
+        create(new Permissao("unidadeDeMedida.delete", "Exclusão de Unidade De Medida"), "unidadeDeMedida");
+        create(new Permissao("unidadeDeMedida.editar", "Editar de Unidade De Medida"), "unidadeDeMedida");
+        create(new Permissao("unidadeDeMedida.desativar", "Desativar de Unidade De Medida"), "unidadeDeMedida");
+        create(new Permissao("unidadeDeMedida.buscar", "Busca de Unidade De Medida"), "unidadeDeMedida");
+
         //Rubrica Orcamentaria
         create(new Permissao("rubricaOrcamentaria", "Rubrica Orcamentaria", false), "cadastro");
         create(new Permissao("rubricaOrcamentaria.create", "Rúbricas Orcamentárias", "/view/cadastro/rubricaOrcamentaria/createRubricaOrcamentaria.jsf", true), "cadastro");
@@ -163,7 +173,6 @@ public class GeracaoPermissao {
         create(new Permissao("rubricaOrcamentaria.editar", "Editar de Rubrica Orcamentaria"), "rubricaOrcamentaria");
         create(new Permissao("rubricaOrcamentaria.desativar", "Desativar de Rubrica Orcamentaria"), "rubricaOrcamentaria");
         create(new Permissao("rubricaOrcamentaria.buscar", "Buscar de Rubrica Orcamentaria"), "rubricaOrcamentaria");
-
 
         //Pedido Licitacao
         create(new Permissao("pedidoLicitacao", "Pedido Licitação", false), "licitacao");

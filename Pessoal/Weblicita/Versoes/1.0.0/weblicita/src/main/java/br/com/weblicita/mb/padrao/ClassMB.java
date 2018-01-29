@@ -1,5 +1,6 @@
 package br.com.weblicita.mb.padrao;
 
+import br.com.weblicita.modelo.cadastro.UnidadeDeMedida;
 import br.com.weblicita.modelo.licitacao.Licitante;
 import br.com.weblicita.modelo.licitacao.PesquisaDePreco;
 import br.com.weblicita.modelo.licitacao.Proponente;
@@ -205,6 +206,10 @@ public class ClassMB {
     }
     public Class getProponente() {
         return Proponente.class;
+    }
+
+    public Class getUnidadeDeMedida() {
+        return UnidadeDeMedida.class;
     }
 
 }

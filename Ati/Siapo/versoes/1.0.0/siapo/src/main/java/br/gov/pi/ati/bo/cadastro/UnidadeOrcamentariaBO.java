@@ -24,7 +24,6 @@ public class UnidadeOrcamentariaBO extends AbstractBusinessObject<UnidadeOrcamen
     @EJB
     private UnidadeOrcamentariaDAO unidadeOrcamentariaDAO;
 
-    private Usuario usuarioAtual = SessaoUtils.getUser();
 
     @Override
     public UnidadeOrcamentariaDAO getDAO() {
@@ -46,6 +45,7 @@ public class UnidadeOrcamentariaBO extends AbstractBusinessObject<UnidadeOrcamen
     }
 
     public List<UnidadeOrcamentaria> unidadePeloNomeEunidadeDeAcesso(String nome) {
+        Usuario usuarioAtual = SessaoUtils.getUser();
 
         List<UnidadeOrcamentaria> unidadeComAcesso = getDAO().getInitialized(usuarioAtual.getUnidadesDeAcesso());
 
@@ -63,7 +63,8 @@ public class UnidadeOrcamentariaBO extends AbstractBusinessObject<UnidadeOrcamen
             }
         }
 
-        return getDAO().getQueryBuilder().select("uo").from(UnidadeOrcamentaria.class, "uo").add(restrictions).orderBy("uo.nome").getResultList();
+        return getDAO().getQueryBuilder().select("uo").from(UnidadeOrcamentaria.class, "uo").leftJoinFetch("uo.programa", "progppa")
+                .leftJoinFetch("progppa.programa", "programa").add(restrictions).orderBy("uo.nome").getResultList();
 
     }
     

@@ -1,6 +1,5 @@
 package br.gov.pi.ati.modelo.controleacesso;
 
-import br.gov.pi.ati.modelo.cadastro.UnidadeGestora;
 import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
 import com.xpert.audit.NotAudited;
 import com.xpert.security.model.User;

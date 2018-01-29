@@ -1,0 +1,66 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['unidadeDeMedida.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuUnidadeDeMedida.xhtml" />
+        <h:form id="formListUnidadeDeMedida">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="unidadeDeMedida_export" target=":formListUnidadeDeMedida:dataTableUnidadeDeMedida"
+                                     widgetVar="dataTableUnidadeDeMedidaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="unidadeDeMedida" rowIndexVar="index" id="dataTableUnidadeDeMedida" widgetVar="dataTableUnidadeDeMedidaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{unidadeDeMedidaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{unidadeDeMedidaMB.dataModel.paginatorTemplate}"
+                         value="#{unidadeDeMedidaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['unidadeDeMedida.nome']}" sortBy="#{unidadeDeMedida.nome}"
+                    filterBy="#{unidadeDeMedida.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['unidadeDeMedida.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{unidadeDeMedida.nome}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetUnidadeDeMedidaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailUnidadeDeMedida" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{unidadeDeMedida}" target="#{unidadeDeMedidaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="unidadeDeMedida.create">
+                        <p:button icon="ui-icon-pencil" outcome="createUnidadeDeMedida" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{unidadeDeMedida.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="unidadeDeMedida.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{unidadeDeMedidaMB.delete}" >
+                            <f:setPropertyActionListener value="#{unidadeDeMedida.id}" target="#{unidadeDeMedidaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{unidadeDeMedida}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="unidadeDeMedida.audit">
+                    <x:auditDelete for="#{unidadeDeMedidaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetUnidadeDeMedidaDetail" header="#{msg['unidadeDeMedida.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailUnidadeDeMedida.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -7,23 +7,29 @@
     
   
     <h:form id="formCreateItem" >
-        <p:fieldset legend="#{xmsg['generalData']}">
+        <p:fieldset>
             <x:modalMessages/>
 
             <div class="container-fluid">
                  <div class="row">
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 30%;">
                          <h:outputLabel for="codigo" value="* #{msg['item.codigo']}:" />
-                         <p:inputText id="codigo" value="#{itemMB.entity.codigo}" maxlength="100"  styleClass="form-control"  />
+                         <p:inputText id="codigo" value="#{itemMB.entity.codigo}" maxlength="100"  styleClass="form-control" disabled="true" />
                      </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                 </div>
+                 <div class="row">
+                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
                          <h:outputLabel for="descricao" value="* #{msg['item.descricao']}:" />
                          <p:inputText id="descricao" value="#{itemMB.entity.descricao}" maxlength="255"  styleClass="form-control"  />
                      </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                 </div>
+                <div class="row" style="background:#c7c9c9;padding: 5px;">
+                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%;">
                          <h:outputLabel for="outro" value="#{msg['item.outro']}:" />
                          <p:inputText id="outro" value="#{itemMB.entity.outro}" maxlength="100"  styleClass="form-control"  />
                      </div>
+                 </div>
+                 <div class="row">
                       <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                          <div class="checkbox">
                              <label>
@@ -34,16 +40,19 @@
                      </div>
 
                  </div>
-             </div>
+            </div>
         </p:fieldset>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">
             <x:securityArea rolesAllowed="item.create">
-                <p:commandButton process="@form" update="@form" action="#{itemMB.save}" value="#{xmsg['save']}" />
+                <p:commandButton process="@form" update="@form" action="#{itemMB.save}" value="#{xmsg['save']}" styleClass="button-save" />
             </x:securityArea>
-            <x:securityArea rolesAllowed="item.audit">
-                <x:audit for="#{itemMB.entity}"/>
-            </x:securityArea>
+
+                <div class="div-audit">
+                    <x:securityArea rolesAllowed="item.audit">
+                        <x:audit for="#{itemMB.entity}"/>
+                    </x:securityArea>
+                </div>  
         </div>
     </h:form>
 

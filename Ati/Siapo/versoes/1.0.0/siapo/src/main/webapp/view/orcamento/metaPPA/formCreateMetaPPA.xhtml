@@ -17,18 +17,18 @@
                         <div class="row">
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="programa" value="* #{msg['metaPPA.programa']}:" />
-                                <p:autoComplete id="programa" value="#{metaPPAMB.entity.programa}" 
+                                <p:autoComplete id="programa" value="#{metaPPAMB.entity.programa.programa}" 
 
                                                 completeMethod="#{programaPPAMB.autocomplete}" styleClass="uix-autocomplete" 
 
                                                 minQueryLength="3" forceSelection="true" dropdown="true"
 
-                                                var="p" itemLabel="#{p.programa.nome}" itemValue="#{p}" converter="entityConverter"> 
+                                                var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"> 
                                     <x:initializer/>
                                     <p:column> 
 
-                                        <h:outputText value="#{p.programa.nome}">
-                                            
+                                        <h:outputText value="#{p.programa.codigo} - #{p.programa.nome}">
+
                                         </h:outputText>
 
                                     </p:column> 
@@ -90,11 +90,17 @@
                 <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                              var="ldo" rowIndexVar="index" id="dataTableMetaPPA" widgetVar="dataTableMetaPPAWidget" styleClass="table-responsive"
                              value="#{metaPPAMB.ldos}" >
-
-                    <p:column headerText="#{msg['metaPPA.valorMeta']}" >
+                    <p:column headerText="Ano" style="text-align: right;" >
+                        <f:facet name="header">
+                            <h:outputText value="Ano" />
+                        </f:facet>
+                        <h:outputText value="#{ldo.ano}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['metaPPA.valorMeta']}" style="text-align: right;">
                         <f:facet name="header">
                             <h:outputText value="#{msg['metaPPA.valorMeta']}" />
                         </f:facet>
+
                         <h:outputText value="#{ldo.valor}">
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                         </h:outputText>
@@ -112,7 +118,36 @@
 
             </p:tab>
             <p:tab title="Territórios">
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="territorio" rowIndexVar="index" id="dataTableMetaPPATerritorios" widgetVar="dataTableMetaPPAWidget" styleClass="table-responsive"
+                             value="#{metaPPAMB.territorios}" >
+                    <p:column headerText="Territorio" style="text-align: left;" >
+                        <f:facet name="header">
+                            <h:outputText value="Territorio" />
+                        </f:facet>
+                        <h:outputText value="#{territorio.territorio}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Valor" style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="Valor" />
+                        </f:facet>
 
+                        <h:outputText value="#{territorio.valor}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{metaPPAMB.removerTerritorio(territorio)}" >
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
             </p:tab>
 
         </p:tabView>

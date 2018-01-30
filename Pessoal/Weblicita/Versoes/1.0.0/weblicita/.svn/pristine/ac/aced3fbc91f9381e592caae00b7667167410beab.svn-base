@@ -1,0 +1,147 @@
+package br.com.weblicita.mb.cadastro;
+
+import java.io.Serializable;
+import com.xpert.core.crud.AbstractBaseBean;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import br.com.weblicita.bo.cadastro.CidadeBO;
+import br.com.weblicita.modelo.cadastro.Cidade;
+import br.com.weblicita.modelo.cadastro.Estado;
+import br.com.weblicita.util.Utils;
+import com.xpert.faces.utils.FacesMessageUtils;
+import java.util.List;
+
+/**
+ *
+ * @author Juniel
+ */
+@ManagedBean
+@ViewScoped
+public class CidadeMB extends AbstractBaseBean<Cidade> implements Serializable {
+
+    @EJB
+    private CidadeBO cidadeBO;
+
+    private boolean renderizarCampo;
+
+    private boolean somenteLeitura;
+
+    private boolean renderizarFormulario;
+
+    private String nome = "";
+
+    @Override
+    public CidadeBO getBO() {
+        return cidadeBO;
+    }
+
+    @Override
+    public String getDataModelOrder() {
+        return "id";
+    }
+
+    public List<Cidade> autocomplete(String nome) {
+        return getBO().produtoPeloNome(nome);
+    }
+
+    @Override
+    public void init() {
+        renderizarCampo = false;
+        somenteLeitura = false;
+        renderizarFormulario = false;
+    }
+
+    @Override
+    public void postSave() {
+        renderizarCampo = false;
+        somenteLeitura = false;
+        renderizarFormulario = false;
+        setEntity(new Cidade());
+    }
+
+    @Override
+    public void save() {
+        super.save(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void novo() {
+        setEntity(new Cidade());
+        renderizarCampo = true;
+        somenteLeitura = false;
+        renderizarFormulario = true;
+    }
+
+    public void desativar() {
+        if (getEntity().getId() != null) {
+            getEntity().setAtivo(false);
+            super.save();
+        } else {
+            FacesMessageUtils.error("Informe o Cidade a ser desativada!");
+        }
+    }
+
+    public void editar() {
+        if (getEntity().getId() != null) {
+            renderizarCampo = true;
+            somenteLeitura = false;
+            renderizarFormulario = true;
+        } else {
+            FacesMessageUtils.error("Informe a Cidade a ser editada!");
+        }
+    }
+
+    public void buscar() {
+        if (!Utils.isNullOrEmpty(nome)) {
+            Cidade retorno = getDAO().unique("nome", nome);
+            if (retorno != null) {
+                renderizarCampo = false;
+                somenteLeitura = true;
+                renderizarFormulario = true;
+                setEntity(retorno);
+            } else {
+                renderizarCampo = false;
+                somenteLeitura = true;
+                renderizarFormulario = false;
+                FacesMessageUtils.error("Cidade não encontrada!");
+            }
+        } else {
+            renderizarCampo = false;
+            somenteLeitura = true;
+            renderizarFormulario = false;
+            FacesMessageUtils.error("Informe o nome para busca!");
+        }
+    }
+
+    public boolean isRenderizarCampo() {
+        return renderizarCampo;
+    }
+
+    public void setRenderizarCampo(boolean renderizarCampo) {
+        this.renderizarCampo = renderizarCampo;
+    }
+
+    public boolean isSomenteLeitura() {
+        return somenteLeitura;
+    }
+
+    public void setSomenteLeitura(boolean somenteLeitura) {
+        this.somenteLeitura = somenteLeitura;
+    }
+
+    public boolean isRenderizarFormulario() {
+        return renderizarFormulario;
+    }
+
+    public void setRenderizarFormulario(boolean renderizarFormulario) {
+        this.renderizarFormulario = renderizarFormulario;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+}

@@ -11,13 +11,13 @@
             <x:modalMessages/>
             <div class="container-fluid">
                 <div class="row">
-                    <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 50%">
+                    <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 25%">
                         <h:outputLabel for="codigo" value="* #{msg['orgao.codigo']}/Órgão:" />
                         <p:inputMask id="codigo" value="#{orgaoMB.entity.codigo}" mask="9?9999999999"  styleClass="form-control" readonly="true" />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 50%">
+                    <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 25%">
                         <h:outputLabel for="dataDoCadastro" value="* #{msg['orgao.dataDoCadastro']}:" />
                         <p:calendar id="dataDoCadastro" value="#{orgaoMB.entity.dataDoCadastro}" readonly="true"
                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
@@ -26,38 +26,34 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 50%">
+                    <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 25%">
                         <h:outputLabel for="cnpj" value="* #{msg['orgao.cnpj']}:" />
-                        <x:cnpj id="cnpj" value="#{orgaoMB.entity.cnpj}" styleClass="form-control"  disabled="#{orgaoMB.flagHabilitarCampos}"/>
+                        <x:cnpj id="cnpj" value="#{orgaoMB.entity.cnpj}" styleClass="form-control"/>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
                         <h:outputLabel for="nomeDoOrgao" value="* #{msg['orgao.nomeDoOrgao']}:" />
-                        <p:inputText id="nomeDoOrgao" value="#{orgaoMB.entity.nomeDoOrgao}" maxlength="200"  styleClass="form-control"  
-                                     disabled="#{orgaoMB.flagHabilitarCampos}"/>
+                        <p:inputText id="nomeDoOrgao" value="#{orgaoMB.entity.nomeDoOrgao}" maxlength="200"  styleClass="form-control"/>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
                         <h:outputLabel for="endereco" value="* Endereço:" />
-                        <p:inputText id="endereco" value="#{orgaoMB.entity.endereco.endereco}" maxlength="255"  styleClass="form-control" 
-                                     disabled="#{orgaoMB.flagHabilitarCampos}"/>
+                        <p:inputText id="endereco" value="#{orgaoMB.entity.endereco.endereco}" maxlength="255"  styleClass="form-control"/>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 50%">
+                    <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 25%">
                         <h:outputLabel for="complemento" value="Complemento:" />
-                        <p:inputText id="complemento" value="#{orgaoMB.entity.endereco.complemento}" maxlength="255"  styleClass="form-control" 
-                                     disabled="#{orgaoMB.flagHabilitarCampos}"/>
+                        <p:inputText id="complemento" value="#{orgaoMB.entity.endereco.complemento}" maxlength="255"  styleClass="form-control" />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 50%">
+                    <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 25%">
                         <h:outputLabel for="cidade" value="* #{msg['endereco.cidade']}:" />
-                        <h:selectOneMenu id="cidade" value="#{orgaoMB.entity.endereco.cidade}" converter="entityConverter" styleClass="form-control" 
-                                         disabled="#{orgaoMB.flagHabilitarCampos}">
+                        <h:selectOneMenu id="cidade" value="#{orgaoMB.entity.endereco.cidade}" converter="entityConverter" styleClass="form-control">
                             <x:initializer/>
                             <f:selectItem itemLabel="#{xmsg['select']}" />
                             <f:selectItems value="#{findAllBean.get(classMB.cidade)}" 
@@ -68,7 +64,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 25%">
+                    <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 15%">
                         <h:outputLabel for="uf" value="UF:" />
                         <p:inputText id="uf" value="#{orgaoMB.entity.endereco.cidade.estado.nome}" maxlength="255"  styleClass="form-control" disabled="true" >
                             <x:initializer/>
@@ -76,25 +72,24 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 50%">
+                    <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 25%">
                         <h:outputLabel for="cep" value="* CEP:" />
-                        <p:inputMask id="cep" value="#{orgaoMB.entity.endereco.cep}" mask="99999-999"  styleClass="form-control" 
-                                     disabled="#{orgaoMB.flagHabilitarCampos}"/>
+                        <p:inputMask id="cep" value="#{orgaoMB.entity.endereco.cep}" mask="99999-999"  styleClass="form-control" />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-4" style="width: 50%">
+                    <div class="col-lg-4" style="width: 25%">
                         <h:outputLabel for="telefone" value="Telefone:" />
                         <div class="input-group">
 
                             <p:inputMask id="telefone" value="#{orgaoMB.telefone}" mask="(99) 9999-9999" styleClass="form-control"
-                                         disabled="#{orgaoMB.flagHabilitarCampos}"/>
+                                         />
                             <span class="input-group-btn">
 
                                 <p:commandButton icon="ui-icon-plusthick" 
                                                  id="buttonAddTelefone" styleClass="pull-left"
                                                  style="font-size: 18px;" actionListener="#{orgaoMB.addTelefone()}" process="telefone @this"
-                                                 update="formCreateOrgao:panelTelefones telefone" disabled="#{orgaoMB.flagHabilitarCampos}" />    
+                                                 update="formCreateOrgao:panelTelefones telefone"  />    
                             </span>
                         </div> 
                     </div> 
@@ -112,7 +107,7 @@
                                     <p:column style="text-align: center;" width="10%">
                                         <p:commandButton icon="ui-icon-minusthick" style="font-size: 14px;" 
                                                          actionListener="#{orgaoMB.removerTelefone(telefone)}" 
-                                                         process="@this" update="formCreateOrgao:panelTelefones" disabled="#{orgaoMB.flagHabilitarCampos}"/>
+                                                         process="@this" update="formCreateOrgao:panelTelefones"/>
                                     </p:column>
                                 </p:dataTable>
 
@@ -124,22 +119,20 @@
                 <div class="row">
                     <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 100%">
                         <h:outputLabel for="email" value="#{msg['orgao.email']}:" />
-                        <p:inputText id="email" value="#{orgaoMB.entity.email}" maxlength="255"  styleClass="form-control"  
-                                     disabled="#{orgaoMB.flagHabilitarCampos}"/>
+                        <p:inputText id="email" value="#{orgaoMB.entity.email}" maxlength="255"  styleClass="form-control"/>
                     </div>   
                 </div>
                 <div class="row">
                     <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 100%">
                         <h:outputLabel for="site" value="#{msg['orgao.site']}:" />
-                        <p:inputText id="site" value="#{orgaoMB.entity.site}" maxlength="255"  styleClass="form-control" 
-                                     disabled="#{orgaoMB.flagHabilitarCampos}"/>
+                        <p:inputText id="site" value="#{orgaoMB.entity.site}" maxlength="255"  styleClass="form-control" />
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
                         <h:outputLabel for="observacao" value="#{msg['orgao.observacao']}:" />
                         <p:inputTextarea id="observacao" rows="10" cols="192" value ="#{orgaoMB.entity.observacao}"
-                                         disabled="#{orgaoMB.flagHabilitarCampos}" styleClass="form-control"/>
+                                         styleClass="form-control"/>
                     </div>
                 </div>
             </div>
@@ -148,7 +141,7 @@
         <div class="uix-center">
             <x:securityArea rolesAllowed="orgao.create">
                 <p:commandButton process="@form" update="@form" action="#{orgaoMB.save}" value="#{xmsg['save']}"
-                                  styleClass="button-save" rendered="#{!orgaoMB.flagHabilitarCampos}"/>
+                                  styleClass="button-save"/>
             </x:securityArea>
             <div class="div-audit">
                 <x:securityArea rolesAllowed="orgao.audit">

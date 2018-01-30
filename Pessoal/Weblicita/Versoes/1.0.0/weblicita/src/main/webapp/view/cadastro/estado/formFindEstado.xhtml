@@ -4,8 +4,8 @@
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
-    
-  
+
+
     <h:form id="formFindEstado" >
         <x:modalMessages/>
 
@@ -13,26 +13,30 @@
             <div class="row">
                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
                     <div style="input-finds_left">
-                        <p:inputText id="nome" value="#{estadoMB.entity.nome}" placeholder="#{msg['estado.find.nome']}" maxlength="20"  styleClass="form-control input-finds"  />
+                        <p:inputText id="nomeBusca" value="#{estadoMB.nome}" placeholder="#{msg['estado.find.nome']}" maxlength="20"  styleClass="form-control input-finds"  />
                     </div>
-                    <p:commandButton process="@form" update="@form"  value="#{msg['estado.find']}" class="button-finds" />
+                    <p:commandButton process="@this nomeBusca" update="formFindEstado formCreateEstado"  value="#{msg['estado.find']}" class="button-finds" 
+                                     actionListener="#{estadoMB.buscar()}"/>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
                     <div class="div-button-new">
                         <x:securityArea rolesAllowed="estado.create">
-                           <p:commandButton process="@form" update="@form"  value="#{msg['estado.new']}" class="button-new" />
+                            <p:commandButton process="@form" update="formFindEstado formCreateEstado"  value="#{msg['estado.new']}" class="button-new"
+                                             actionListener="#{estadoMB.novo()}" />
                         </x:securityArea>
                     </div>
                     <div class="div-button-edit">
                         <x:securityArea rolesAllowed="estado.editar">
-                           <p:commandButton process="@form" update="@form"  value="#{msg['estado.edit']}" class="button-edit" />
+                            <p:commandButton process="@form" update="formFindEstado formCreateEstado"  value="#{msg['estado.edit']}" class="button-edit" 
+                                             actionListener="#{estadoMB.editar()}" rendered="#{estadoMB.entity.id!=null}"/>
                         </x:securityArea>
                     </div>
                     <div class="div-button-delete">
                         <x:securityArea rolesAllowed="estado.delete">
-                           <p:commandButton process="@form" update="@form"  value="#{msg['estado.delete']}" class="button-delete" />
+                            <p:commandButton process="@form" update="formFindEstado formCreateEstado"  value="#{msg['estado.delete']}" class="button-delete" 
+                                             actionListener="#{estadoMB.excluir()}" rendered="#{estadoMB.entity.id!=null}"/>
                         </x:securityArea>
                     </div>
                 </div>

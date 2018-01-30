@@ -13,26 +13,30 @@
             <div class="row">
                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
                     <div style="input-finds_left">
-                        <p:inputText id="nome" value="#{cidadeMB.entity.nome}" placeholder="#{msg['cidade.find.nome']}" maxlength="20"  styleClass="form-control input-finds"  />
+                        <p:inputText id="nomeBusca" value="#{cidadeMB.nome}" placeholder="#{msg['cidade.find.nome']}" maxlength="20"  styleClass="form-control input-finds"  />
                     </div>
-                    <p:commandButton process="@form" update="@form"  value="#{msg['cidade.find']}" class="button-finds" />
+                    <p:commandButton process="@this nomeBusca" update="formFindCidade formCreateCidade"  value="#{msg['cidade.find']}" class="button-finds" 
+                                     actionListener="#{cidadeMB.buscar()}"/>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
                     <div class="div-button-new">
                         <x:securityArea rolesAllowed="cidade.create">
-                           <p:commandButton process="@form" update="@form"  value="#{msg['cidade.new']}" class="button-new" />
+                           <p:commandButton process="@form" update="formFindCidade formCreateCidade"  value="#{msg['cidade.new']}" class="button-new" 
+                                            actionListener="#{cidadeMB.novo()}" />
                         </x:securityArea>
                     </div>
                     <div class="div-button-edit">
                         <x:securityArea rolesAllowed="cidade.editar">
-                           <p:commandButton process="@form" update="@form"  value="#{msg['cidade.edit']}" class="button-edit" />
+                           <p:commandButton process="@form" update="formFindCidade formCreateCidade"  value="#{msg['cidade.edit']}" class="button-edit" 
+                                            actionListener="#{cidadeMB.editar()}" rendered="#{cidadeMB.entity.id!=null}"/>
                         </x:securityArea>
                     </div>
                     <div class="div-button-delete">
                         <x:securityArea rolesAllowed="cidade.delete">
-                           <p:commandButton process="@form" update="@form"  value="#{msg['cidade.delete']}" class="button-delete" />
+                           <p:commandButton process="@form" update="formFindCidade formCreateCidade"  value="#{msg['cidade.delete']}" class="button-delete" 
+                                            actionListener="#{cidadeMB.excluir()}" rendered="#{cidadeMB.entity.id!=null}"/>
                         </x:securityArea>
                     </div>
                 </div>

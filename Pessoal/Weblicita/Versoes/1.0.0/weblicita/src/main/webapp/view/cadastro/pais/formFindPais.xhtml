@@ -4,8 +4,8 @@
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
-    
-  
+
+
     <h:form id="formFindPais" >
         <x:modalMessages/>
 
@@ -13,26 +13,30 @@
             <div class="row">
                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
                     <div style="input-finds_left">
-                        <p:inputText id="nome" value="#{paisMB.entity.nome}" placeholder="#{msg['pais.find.nome']}" maxlength="20"  styleClass="form-control input-finds"  />
+                        <p:inputText id="nomeBusca" value="#{paisMB.nome}" placeholder="#{msg['pais.find.nome']}" maxlength="20"  styleClass="form-control input-finds"  />
                     </div>
-                    <p:commandButton process="@form" update="@form"  value="#{msg['pais.find']}" class="button-finds" />
+                    <p:commandButton process="@this nomeBusca" update="formFindPais formCreatePais"  value="#{msg['pais.find']}" class="button-finds" 
+                                     actionListener="#{paisMB.buscar()}"/>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
                     <div class="div-button-new">
                         <x:securityArea rolesAllowed="pais.create">
-                           <p:commandButton process="@form" update="@form"  value="#{msg['pais.new']}" class="button-new" />
+                            <p:commandButton process="@form" update="formFindPais formCreatePais"  value="#{msg['pais.new']}" class="button-new"
+                                             actionListener="#{paisMB.novo()}"/>
                         </x:securityArea>
                     </div>
                     <div class="div-button-edit">
                         <x:securityArea rolesAllowed="pais.editar">
-                           <p:commandButton process="@form" update="@form"  value="#{msg['pais.edit']}" class="button-edit" />
+                            <p:commandButton process="@form" update="formFindPais formCreatePais"  value="#{msg['pais.edit']}" class="button-edit" 
+                                             rendered="#{paisMB.entity.id!=null}" actionListener="#{paisMB.editar()}"/>
                         </x:securityArea>
                     </div>
                     <div class="div-button-delete">
                         <x:securityArea rolesAllowed="pais.delete">
-                           <p:commandButton process="@form" update="@form"  value="#{msg['pais.delete']}" class="button-delete" />
+                            <p:commandButton process="@form" update="formFindPais formCreatePais"  value="#{msg['pais.delete']}" class="button-delete" 
+                                             rendered="#{paisMB.entity.id!=null}" actionListener="#{paisMB.excluir()}"/>
                         </x:securityArea>
                     </div>
                 </div>

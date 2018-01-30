@@ -390,6 +390,14 @@ section.conteudo h1.page-header  span{vertical-align: middle;}
     color: #FFFFFF !important;
     border-radius: 0px !important;
 }
+.button-print {
+    height: 33px;
+    width: 100%;
+    background: #808080 !important;
+    border: 2px #7c7c7c solid !important;
+    color: #FFFFFF !important;
+    border-radius: 0px !important;
+}
 .div-audit {
     width: 100%;
     text-align: right;
@@ -425,4 +433,76 @@ section.conteudo h1.page-header  span{vertical-align: middle;}
     color: #000000 !important;
     font-weight: bold;
     text-shadow: none !important;
+}
+
+.aLinkVisualizar:link {
+    color: blue;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 	 14px;
+}
+.aLinkVisualizar:visited {
+    color: blue;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 	 14px;
+}
+.aLinkVisualizar:hover {
+    color: blue;
+    text-decoration: underline;
+    font-weight: bold;
+    font-size: 	 14px;
+}
+.aLinkVisualizar:active {
+    color: blue;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 	 14px;
+} 
+
+.tableItem thead > tr > th {
+    background: #c7c9c9 !important;
+    border-radius: 0px !important;
+	color: black !important;
+    border: 1px solid gray!important;
+}
+.tableItem tbody > tr > td {
+    border: 1px solid gray !important;
+    text-align: center !important;
+}
+.tableTelefone thead > tr > th {
+    background: #c7c9c9 !important;
+    border-radius: 0px !important;
+	color: black !important;
+    border: 1px solid gray!important;
+}
+.tableTelefone tbody > tr > td {
+    border: 1px solid gray !important;
+    text-align: center !important;
+}
+.tableSocio thead > tr > th {
+    background: #c7c9c9 !important;
+    border-radius: 0px !important;
+	color: black !important;
+    border: 1px solid gray!important;
+}
+.tableSocio tbody > tr > td {
+    border: 1px solid gray !important;
+    text-align: center !important;
+}
+
+.button-add {    
+    background: green !important;
+    color: white !important;
+    margin-top: 23px !important;
+    border-radius: 0px !important;
+    height: 32px !important;
+    margin-left: -30px !important;
+}
+
+.button-remove {
+    background: red !important;
+    color: white !important;
+    border-radius: 0px !important;
+    height: 32px !important;
 }

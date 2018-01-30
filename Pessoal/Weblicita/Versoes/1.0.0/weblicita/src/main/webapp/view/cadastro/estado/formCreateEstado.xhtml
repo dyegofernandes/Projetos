@@ -7,45 +7,50 @@
 
 
     <h:form id="formCreateEstado" >
-        <p:fieldset>
-            <x:modalMessages/>
+        <x:modalMessages autoUpdate="true"/>
+        <h:panelGroup rendered="#{estadoMB.renderizarFormulario}">
+            <p:fieldset>
 
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 30%">
-                        <h:outputLabel for="nome" value="* #{msg['estado.nome']}:" />
-                        <p:inputText id="nome" value="#{estadoMB.entity.nome}" maxlength="200"  styleClass="form-control"  />
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 30%">
+                            <h:outputLabel for="nome" value="* #{msg['estado.nome']}:" />
+                            <p:inputText id="nome" value="#{estadoMB.entity.nome}" maxlength="200"  styleClass="form-control"  
+                                         readonly="#{estadoMB.somenteLeitura}"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 20%">
+                            <h:outputLabel for="sigla" value="* #{msg['estado.sigla']}:" />
+                            <p:inputText id="sigla" value="#{estadoMB.entity.sigla}" maxlength="2"  styleClass="form-control"  
+                                         readonly="#{estadoMB.somenteLeitura}"/>
+                        </div>
                     </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 20%">
-                        <h:outputLabel for="sigla" value="* #{msg['estado.sigla']}:" />
-                        <p:inputText id="sigla" value="#{estadoMB.entity.sigla}" maxlength="2"  styleClass="form-control"  />
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                            <h:outputLabel for="pais" value="* #{msg['estado.pais']}:" />
+                            <h:selectOneMenu id="pais" value="#{estadoMB.entity.pais}" converter="entityConverter" styleClass="form-control" 
+                                             readonly="#{estadoMB.somenteLeitura}">
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.pais)}" 
+                                               var="pais"
+                                               itemLabel="#{pais}" itemDisabled="#{estadoMB.somenteLeitura}"/>
+                            </h:selectOneMenu>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
-                        <h:outputLabel for="pais" value="* #{msg['estado.pais']}:" />
-                        <h:selectOneMenu id="pais" value="#{estadoMB.entity.pais}" converter="entityConverter" styleClass="form-control" >
-                            <x:initializer/>
-                            <f:selectItem itemLabel="#{xmsg['select']}" />
-                            <f:selectItems value="#{findAllBean.get(classMB.pais)}" 
-                                           var="pais"
-                                           itemLabel="#{pais}"/>
-                        </h:selectOneMenu>
-                    </div>
-                </div>
-            </div>
-        </p:fieldset>
-        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
-        <div class="uix-center">
-            <x:securityArea rolesAllowed="estado.create">
-                <p:commandButton process="@form" update="@form" action="#{estadoMB.save}" value="#{xmsg['save']}" styleClass="button-save"/>
-            </x:securityArea>
-            <div class="div-audit">
-                <x:securityArea rolesAllowed="estado.audit">
-                    <x:audit for="#{estadoMB.entity}"/>
+            </p:fieldset>
+            <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+            <div class="uix-center">
+                <x:securityArea rolesAllowed="estado.create">
+                    <p:commandButton process="@form" update="@form formFindEstado" action="#{estadoMB.save}" value="#{xmsg['save']}" styleClass="button-save"
+                                     rendered="#{estadoMB.renderizarCampo}"/>
                 </x:securityArea>
+
             </div>
-        </div>
+        </h:panelGroup>
+
+
     </h:form>
 
 </ui:composition>

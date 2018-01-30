@@ -39,7 +39,7 @@
                     <div class="div-button-delete">
                         <x:securityArea rolesAllowed="fornecedor.delete">
                             <p:commandButton process="@form" update="formFindFornecedor formCreateFornecedor"  value="#{msg['fornecedor.delete']}" class="button-delete" 
-                                             rendered="#{fornecedorMB.entity.id!=null}" actionListener = "#{fornecedorMB.desativar()}"/>
+                                             rendered="#{fornecedorMB.entity.id!=null}" actionListener = "#{fornecedorMB.excluir()}"/>
                         </x:securityArea>
 
                     </div>

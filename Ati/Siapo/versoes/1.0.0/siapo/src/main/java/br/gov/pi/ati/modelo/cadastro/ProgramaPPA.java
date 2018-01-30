@@ -33,7 +33,7 @@ public class ProgramaPPA implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
-    private ProgramaDeGoverno programa;
+    private ProgramaDeGoverno programaGov;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
@@ -60,13 +60,15 @@ public class ProgramaPPA implements Serializable {
         this.id = id;
     }
 
-    public ProgramaDeGoverno getPrograma() {
-        return programa;
+    public ProgramaDeGoverno getProgramaGov() {
+        return programaGov;
     }
 
-    public void setPrograma(ProgramaDeGoverno programa) {
-        this.programa = programa;
+    public void setProgramaGov(ProgramaDeGoverno programaGov) {
+        this.programaGov = programaGov;
     }
+
+   
 
     public CompentenciaPPA getCompetencia() {
         return competencia;

@@ -55,7 +55,7 @@ public class ProgramaDeGoverno implements Serializable {
 
     private boolean ativo = true;
 
-    @OneToMany(mappedBy = "programa")
+    @OneToMany(mappedBy = "programaGov")
     @NotAudited
     private List<ProgramaPPA> programas;
 

@@ -1,6 +1,5 @@
 package br.gov.pi.ati.mb.cadastro;
 
-
 import java.io.Serializable;
 import com.xpert.core.crud.AbstractBaseBean;
 import javax.ejb.EJB;
@@ -8,6 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.bo.cadastro.AcaoEstrategicaBO;
 import br.gov.pi.ati.modelo.cadastro.AcaoEstrategica;
+import java.util.List;
 
 /**
  *
@@ -29,6 +29,9 @@ public class AcaoEstrategicaMB extends AbstractBaseBean<AcaoEstrategica> impleme
     public String getDataModelOrder() {
         return "id";
     }
-    
-    
+
+    public List<AcaoEstrategica> autocomplete(String nome) {
+        return getBO().acaoPeloNomeEUnidades(nome);
+    }
+
 }

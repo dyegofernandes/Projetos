@@ -1,16 +1,20 @@
 package br.gov.pi.ati.mb.orcamento;
 
+import br.gov.pi.ati.bo.cadastro.ProdutoBO;
 import java.io.Serializable;
 import com.xpert.core.crud.AbstractBaseBean;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.bo.orcamento.MetaPPABO;
+import br.gov.pi.ati.modelo.cadastro.AcaoEstrategica;
+import br.gov.pi.ati.modelo.cadastro.Produto;
 import br.gov.pi.ati.modelo.cadastro.Territorio;
 import br.gov.pi.ati.modelo.orcamento.Ldo;
 import br.gov.pi.ati.modelo.orcamento.MetaPPA;
 import br.gov.pi.ati.modelo.orcamento.TerritorioPPA;
 import com.xpert.faces.utils.FacesMessageUtils;
+import com.xpert.persistence.query.JoinBuilder;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +39,13 @@ public class MetaPPAMB extends AbstractBaseBean<MetaPPA> implements Serializable
 
     private BigDecimal valorTerritorio;
 
+    private AcaoEstrategica acao;
+
     @EJB
     private MetaPPABO metaPPABO;
+
+    @EJB
+    private ProdutoBO produtoBO;
 
     @Override
     public MetaPPABO getBO() {
@@ -47,6 +56,12 @@ public class MetaPPAMB extends AbstractBaseBean<MetaPPA> implements Serializable
     public String getDataModelOrder() {
         return "id";
     }
+    
+    @Override
+    public JoinBuilder getDataModelJoinBuilder() {
+        return new JoinBuilder("meta").leftJoinFetch("meta.programa", "pp").leftJoinFetch("pp.programagov", "pg");
+                
+    }
 
     @Override
     public void init() {
@@ -56,6 +71,8 @@ public class MetaPPAMB extends AbstractBaseBean<MetaPPA> implements Serializable
         if (getEntity().getId() != null) {
             ldos = getDAO().getInitialized(getEntity().getLdos());
             territorios = getDAO().getInitialized(getEntity().getTerritorios());
+            Produto produtoTemp = getDAO().getInitialized(getEntity().getProduto());
+            acao = getDAO().getInitialized(produtoTemp.getAcao());
         }
     }
 
@@ -65,8 +82,6 @@ public class MetaPPAMB extends AbstractBaseBean<MetaPPA> implements Serializable
         getEntity().setTerritorios(territorios);
         super.save();
     }
-    
-    
 
     public void addLdo() {
         if (getEntity().getValorMeta() != null) {
@@ -208,6 +223,34 @@ public class MetaPPAMB extends AbstractBaseBean<MetaPPA> implements Serializable
     public void setValorTerritorio(BigDecimal valorTerritorio) {
         this.valorTerritorio = valorTerritorio;
     }
+
+    public MetaPPABO getMetaPPABO() {
+        return metaPPABO;
+    }
+
+    public void setMetaPPABO(MetaPPABO metaPPABO) {
+        this.metaPPABO = metaPPABO;
+    }
+
+    public AcaoEstrategica getAcao() {
+        return acao;
+    }
+
+    public void setAcao(AcaoEstrategica acao) {
+        this.acao = acao;
+    }
+
+    public List<Produto> autocompleteProduto(String nome) {
+        List<Produto> produtos = new ArrayList<Produto>();
+
+        if (acao != null) {
+            produtoBO.produtoPeloNomeComAcao(acao, nome);
+        }
+
+        return produtos;
+    }
     
-    
+    public void chanceProduto(){
+        getEntity().setProduto(null);
+    }
 }

@@ -2,7 +2,6 @@ package br.gov.pi.ati.bo.cadastro;
 
 import com.xpert.core.crud.AbstractBusinessObject;
 import br.gov.pi.ati.dao.cadastro.ProgramaPPADAO;
-import br.gov.pi.ati.modelo.cadastro.ProgramaDeGoverno;
 import com.xpert.core.validation.UniqueField;
 import com.xpert.core.exception.BusinessException;
 import java.util.List;
@@ -50,7 +49,7 @@ public class ProgramaPPABO extends AbstractBusinessObject<ProgramaPPA> {
             restrictions.like("p.nome", nome);
         }
 
-        return getDAO().getQueryBuilder().select("pp").from(ProgramaPPA.class, "pp").leftJoinFetch("pp.programa", "p").add(restrictions).orderBy("p.nome").getResultList();
+        return getDAO().getQueryBuilder().select("pp").from(ProgramaPPA.class, "pp").leftJoinFetch("pp.programaGov", "p").add(restrictions).orderBy("p.nome").getResultList();
     }
 
 }

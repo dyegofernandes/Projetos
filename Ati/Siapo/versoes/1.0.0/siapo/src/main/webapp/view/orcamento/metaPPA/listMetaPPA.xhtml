@@ -25,12 +25,12 @@
                     </f:facet>
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="#{msg['metaPPA.programa']}" sortBy="#{metaPPA.programa.programa}"
+                <p:column headerText="#{msg['metaPPA.programa']}" sortBy="#{metaPPA.programa.programaGov}"
                           >
                     <f:facet name="header">
                         <h:outputText value="#{msg['metaPPA.programa']}" />
                     </f:facet>
-                    <h:outputText value="#{metaPPA.programa.programa}">
+                    <h:outputText value="#{metaPPA.programa.programaGov}">
                         <x:initializer/>
                     </h:outputText>
                 </p:column>

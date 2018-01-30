@@ -22,12 +22,12 @@
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="#{msg['programaPPA.programa']}" sortBy="#{programaPPA.programa}"
+                <p:column headerText="#{msg['programaPPA.programa']}" sortBy="#{programaPPA.programaGov}"
                        >
                     <f:facet name="header">
                         <h:outputText value="#{msg['programaPPA.programa']}" />
                     </f:facet>
-                    <h:outputText value="#{programaPPA.programa}">
+                    <h:outputText value="#{programaPPA.programaGov}">
                         <x:initializer/>
                     </h:outputText>
                 </p:column>

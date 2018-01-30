@@ -17,17 +17,24 @@
                         <div class="row">
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="programa" value="* #{msg['metaPPA.programa']}:" />
-                                <p:autoComplete id="programa" value="#{metaPPAMB.entity.programa.programa}" 
+                                <p:autoComplete id="programa" value="#{metaPPAMB.entity.programa}" 
 
                                                 completeMethod="#{programaPPAMB.autocomplete}" styleClass="uix-autocomplete" 
 
                                                 minQueryLength="3" forceSelection="true" dropdown="true"
 
-                                                var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"> 
+                                                var="p" itemLabel="#{p.programaGov}" itemValue="#{p}" converter="entityConverter"> 
                                     <x:initializer/>
                                     <p:column> 
 
-                                        <h:outputText value="#{p.programa.codigo} - #{p.programa.nome}">
+                                        <h:outputText value="#{p.programaGov.codigo}">
+
+                                        </h:outputText>
+
+                                    </p:column> 
+                                    <p:column> 
+
+                                        <h:outputText value="#{p.programaGov.nome}">
 
                                         </h:outputText>
 
@@ -36,21 +43,26 @@
                                 </p:autoComplete>
 
                             </div>
+
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="produto" value="* #{msg['metaPPA.produto']}:" />
                                 <p:autoComplete id="produto" value="#{metaPPAMB.entity.produto}" 
 
-                                                completeMethod="#{produtoMB.autocomplete}" styleClass="uix-autocomplete" 
+                                                completeMethod="#{produtoMB.autocompletePeloNome}" styleClass="uix-autocomplete" 
 
-                                                minQueryLength="3" forceSelection="true" dropdown="true"
+                                                minQueryLength="3" forceSelection="true" dropdown="true" 
 
-                                                var="p" itemLabel="#{p.nome}" itemValue="#{p}" converter="entityConverter"> 
+                                                var="p" itemLabel="#{p.nome}" itemValue="#{p}" converter="entityConverter"
+                                                > 
+
                                     <x:initializer/>
                                     <p:column> 
-
-                                        <h:outputText value="#{p.nome}"/>
-
+                                        <h:outputText value="#{p.acao}"/>
                                     </p:column> 
+                                    <p:column> 
+                                        <h:outputText value="#{p.nome}"/>
+                                    </p:column> 
+
 
                                 </p:autoComplete>
 

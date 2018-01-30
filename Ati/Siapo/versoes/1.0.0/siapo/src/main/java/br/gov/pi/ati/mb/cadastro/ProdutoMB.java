@@ -6,6 +6,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.bo.cadastro.ProdutoBO;
+import br.gov.pi.ati.modelo.cadastro.AcaoEstrategica;
 import br.gov.pi.ati.modelo.cadastro.Produto;
 import java.util.List;
 
@@ -20,6 +21,8 @@ public class ProdutoMB extends AbstractBaseBean<Produto> implements Serializable
     @EJB
     private ProdutoBO produtoBO;
 
+    private AcaoEstrategica acao;
+
     @Override
     public ProdutoBO getBO() {
         return produtoBO;
@@ -30,8 +33,12 @@ public class ProdutoMB extends AbstractBaseBean<Produto> implements Serializable
         return "id";
     }
 
-    public List<Produto> autocomplete(String nome) {
+    public List<Produto> autocompletePeloNome(String nome) {
         return getBO().produtoPeloNome(nome);
+    }
+
+    public List<Produto> autocompletePeloNomeEacao(String nome) {
+        return getBO().produtoPeloNomeComAcao(acao, nome);
     }
 
 }

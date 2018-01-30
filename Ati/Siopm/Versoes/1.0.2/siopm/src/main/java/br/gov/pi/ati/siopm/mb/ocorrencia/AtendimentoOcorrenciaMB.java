@@ -9,7 +9,6 @@ import br.gov.pi.ati.siopm.bo.cadastro.NaturezaOcorrenciaBO;
 import br.gov.pi.ati.siopm.bo.cadastro.OpcBO;
 import br.gov.pi.ati.siopm.bo.cadastro.OpmBO;
 import br.gov.pi.ati.siopm.bo.cadastro.ParametroSistemaBO;
-import br.gov.pi.ati.siopm.bo.cadastro.PoligonoBO;
 import br.gov.pi.ati.siopm.bo.cadastro.ResultadoOcorrenciaBO;
 import br.gov.pi.ati.siopm.bo.cadastro.TerritorioBO;
 import br.gov.pi.ati.siopm.bo.ocorrencia.OcorrenciaBO;

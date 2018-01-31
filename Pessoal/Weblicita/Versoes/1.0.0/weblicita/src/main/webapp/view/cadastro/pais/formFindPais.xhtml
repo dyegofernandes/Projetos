@@ -36,7 +36,9 @@
                     <div class="div-button-delete">
                         <x:securityArea rolesAllowed="pais.delete">
                             <p:commandButton process="@form" update="formFindPais formCreatePais"  value="#{msg['pais.delete']}" class="button-delete" 
-                                             rendered="#{paisMB.entity.id!=null}" actionListener="#{paisMB.excluir()}"/>
+                                             rendered="#{paisMB.entity.id!=null}" actionListener="#{paisMB.excluir()}">
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{paisMB.entity.nome}" />
+                            </p:commandButton>
                         </x:securityArea>
                     </div>
                 </div>

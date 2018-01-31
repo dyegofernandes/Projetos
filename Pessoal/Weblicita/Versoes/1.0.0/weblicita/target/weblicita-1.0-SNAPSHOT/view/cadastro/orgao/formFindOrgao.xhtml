@@ -4,8 +4,8 @@
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
-    
-  
+
+
     <h:form id="formFindOrgao" >
         <x:modalMessages/>
 
@@ -13,26 +13,40 @@
             <div class="row">
                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
                     <div style="input-finds_left">
-                        <p:inputText id="cnpj" value="#{orgaoMB.entity.cnpj}" placeholder="#{msg['orgao.find.cnpj']}" maxlength="20"  styleClass="form-control input-finds"  />
+                        <x:cnpj id="cnpjBusca" value="#{orgaoMB.cnpj}" placeholder="#{msg['orgao.find.cnpj']}"   styleClass="form-control input-finds"  />
                     </div>
-                    <p:commandButton process="@form" update="@form"  value="#{msg['orgao.find']}" class="button-finds" />
+                    <p:commandButton process="@this cnpjBusca" update="formFindOrgao formCreateOrgao"  value="#{msg['orgao.find']}" class="button-finds" 
+                                     actionListener="#{orgaoMB.buscar()}"/>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
                     <div class="div-button-new">
                         <x:securityArea rolesAllowed="orgao.create">
-                           <p:commandButton process="@form" update="@form"  value="#{msg['orgao.new']}" class="button-new" />
+                            <p:commandButton process="@form" update="formFindOrgao formCreateOrgao"  value="#{msg['orgao.new']}" class="button-new" 
+                                             actionListener="#{orgaoMB.novo()}"/>
                         </x:securityArea>
                     </div>
                     <div class="div-button-edit">
                         <x:securityArea rolesAllowed="orgao.editar">
-                           <p:commandButton process="@form" update="@form"  value="#{msg['orgao.edit']}" class="button-edit" />
+                            <p:commandButton process="@form" update="formFindOrgao formCreateOrgao"  value="#{msg['orgao.edit']}" class="button-edit" 
+                                             actionListener="#{orgaoMB.editar()}" rendered="#{orgaoMB.entity.id!=null}"/>
                         </x:securityArea>
                     </div>
                     <div class="div-button-delete">
                         <x:securityArea rolesAllowed="orgao.desativar">
-                           <p:commandButton process="@form" update="@form"  value="#{msg['orgao.disable']}" class="button-disable" />
+                            <p:commandButton process="@form" update="formFindOrgao formCreateOrgao"  value="#{msg['orgao.disable']}" class="button-disable" 
+                                             actionListener="#{orgaoMB.desativar()}" rendered="#{orgaoMB.habilitarBotaoDesativar()}">
+                                <x:confirmation message="#{msg['confirmDisable']} - #{orgaoMB.entity.nomeDoOrgao}" />
+                            </p:commandButton>
+                        </x:securityArea>
+                    </div>
+                    <div class="div-button-delete">
+                        <x:securityArea rolesAllowed="orgao.ativar">
+                            <p:commandButton process="@form" update="formFindOrgao formCreateOrgao"  value="#{msg['orgao.ativa']}" class="button-disable" 
+                                             actionListener="#{orgaoMB.ativar()}" rendered="#{orgaoMB.habilitarBotaoAtivar()}">
+                                <x:confirmation message="#{msg['confirmEnable']} - #{orgaoMB.entity.nomeDoOrgao}" />
+                            </p:commandButton>
                         </x:securityArea>
                     </div>
                 </div>

@@ -4,8 +4,8 @@
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
-    
-  
+
+
     <h:form id="formFindUnidadeDeMedida" >
         <x:modalMessages/>
 
@@ -13,26 +13,40 @@
             <div class="row">
                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
                     <div style="input-finds_left">
-                        <p:inputText id="nome" value="#{unidadeDeMedidaMB.entity.nome}" placeholder="#{msg['unidadeDeMedida.find.nome']}" maxlength="20"  styleClass="form-control input-finds"  />
+                        <p:inputText id="nomeBusca" value="#{unidadeDeMedidaMB.nome}" placeholder="#{msg['unidadeDeMedida.find.nome']}" maxlength="20"  styleClass="form-control input-finds"  />
                     </div>
-                    <p:commandButton process="@form" update="@form"  value="#{msg['unidadeDeMedida.find']}" class="button-finds" />
+                    <p:commandButton process="@this nomeBusca" update="formFindUnidadeDeMedida formCreateUnidadeDeMedida"  value="#{msg['unidadeDeMedida.find']}" class="button-finds"
+                                     actionListener="#{unidadeDeMedidaMB.buscar()}"/>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
                     <div class="div-button-new">
                         <x:securityArea rolesAllowed="unidadeDeMedida.create">
-                           <p:commandButton process="@form" update="@form"  value="#{msg['unidadeDeMedida.new']}" class="button-new" />
+                            <p:commandButton process="@form" update="formFindUnidadeDeMedida formCreateUnidadeDeMedida"  value="#{msg['unidadeDeMedida.new']}" class="button-new" 
+                                             actionListener="#{unidadeDeMedidaMB.novo()}"/>
                         </x:securityArea>
                     </div>
                     <div class="div-button-edit">
                         <x:securityArea rolesAllowed="unidadeDeMedida.editar">
-                           <p:commandButton process="@form" update="@form"  value="#{msg['unidadeDeMedida.edit']}" class="button-edit" />
+                            <p:commandButton process="@form" update="formFindUnidadeDeMedida formCreateUnidadeDeMedida"  value="#{msg['unidadeDeMedida.edit']}" class="button-edit"
+                                             actionListener="#{unidadeDeMedidaMB.editar()}" rendered="#{unidadeDeMedidaMB.entity.id!=null}"/>
                         </x:securityArea>
                     </div>
                     <div class="div-button-delete">
                         <x:securityArea rolesAllowed="unidadeDeMedida.desativar">
-                           <p:commandButton process="@form" update="@form"  value="#{msg['unidadeDeMedida.disable']}" class="button-disable" />
+                            <p:commandButton process="@form" update="formFindUnidadeDeMedida formCreateUnidadeDeMedida"  value="#{msg['unidadeDeMedida.disable']}" class="button-disable" 
+                                             actionListener="#{unidadeDeMedidaMB.desativar()}" rendered="#{unidadeDeMedidaMB.habilitarBotaoDesativar()}">
+                                <x:confirmation message="#{msg['confirmDisable']} - #{unidadeDeMedidaMB.entity.nome}" />
+                            </p:commandButton>
+                        </x:securityArea>
+                    </div>
+                    <div class="div-button-delete">
+                        <x:securityArea rolesAllowed="unidadeDeMedida.ativar">
+                            <p:commandButton process="@form" update="formFindUnidadeDeMedida formCreateUnidadeDeMedida"  value="#{msg['unidadeDeMedida.ativar']}" class="button-disable" 
+                                             actionListener="#{unidadeDeMedidaMB.ativar()}" rendered="#{unidadeDeMedidaMB.habilitarBotaoAtivar()}">
+                                <x:confirmation message="#{msg['confirmEnable']} - #{unidadeDeMedidaMB.entity.nome}" />
+                            </p:commandButton>
                         </x:securityArea>
                     </div>
                 </div>

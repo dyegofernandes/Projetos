@@ -20,6 +20,12 @@
                             </span>
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="Órgão:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{usuarioMB.entity.orgao}" styleClass="uix-content-detail">
+                                <x:initializer/>
+                            </h:outputText>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel value="#{msg['usuario.cpf']}:" styleClass="control-label" /><br/>
                             <span class="uix-content-detail">
                                 <h:outputText converter="cpfConverter" value="#{usuarioMB.entity.cpf}"/>

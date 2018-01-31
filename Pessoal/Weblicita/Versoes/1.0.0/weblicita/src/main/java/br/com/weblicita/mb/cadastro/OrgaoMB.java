@@ -6,9 +6,9 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.com.weblicita.bo.cadastro.OrgaoBO;
-import br.com.weblicita.bo.cadastro.TelefoneBO;
 import br.com.weblicita.modelo.cadastro.Orgao;
 import br.com.weblicita.modelo.cadastro.Telefone;
+import br.com.weblicita.util.Utils;
 import com.xpert.faces.utils.FacesMessageUtils;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +24,17 @@ public class OrgaoMB extends AbstractBaseBean<Orgao> implements Serializable {
     @EJB
     private OrgaoBO orgaoBO;
 
-    private String telefone = "";
+    private Telefone telefoneAdd;
 
     private List<Telefone> telefones = new ArrayList<Telefone>();
 
     private String cnpj;
 
-    private boolean flagHabilitarCampos;
+    private boolean renderizarCampo;
+
+    private boolean somenteLeitura;
+
+    private boolean renderizarFormulario;
 
     @Override
     public OrgaoBO getBO() {
@@ -44,28 +48,45 @@ public class OrgaoMB extends AbstractBaseBean<Orgao> implements Serializable {
 
     @Override
     public void init() {
-        flagHabilitarCampos = true;
-        if (getEntity().getId() != null) {
-        } else {
-            Integer novoCodigo = orgaoBO.gerarCodigo();
-            if (novoCodigo != null) {
-                getEntity().setCodigo(novoCodigo);
-            }
+        telefoneAdd = new Telefone();
+        telefones = new ArrayList<Telefone>();
+        if (getEntity().getId() == null) {
+            getEntity().setCodigo(getBO().gerarCodigo());
         }
+        renderizarCampo = false;
+        somenteLeitura = false;
+        renderizarFormulario = false;
+
     }
 
     @Override
     public void save() {
+        if (getEntity().getId() != null) {
+            getEntity().setCodigo(orgaoBO.gerarCodigo());
+        } else {
+            getEntity().setCodigo(getBO().gerarCodigo());
+
+        }
+        getEntity().setTelefones(telefones);
         super.save();
 
     }
 
-    public String getTelefone() {
-        return telefone;
+    @Override
+    public void postSave() {
+        renderizarCampo = false;
+        somenteLeitura = false;
+        renderizarFormulario = false;
+
+        setEntity(new Orgao());
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+    public Telefone getTelefoneAdd() {
+        return telefoneAdd;
+    }
+
+    public void setTelefoneAdd(Telefone telefoneAdd) {
+        this.telefoneAdd = telefoneAdd;
     }
 
     public String getCnpj() {
@@ -74,14 +95,6 @@ public class OrgaoMB extends AbstractBaseBean<Orgao> implements Serializable {
 
     public void setCnpj(String cnpj) {
         this.cnpj = cnpj;
-    }
-
-    public boolean isFlagHabilitarCampos() {
-        return flagHabilitarCampos;
-    }
-
-    public void setFlagHabilitarCampos(boolean flagHabilitarCampos) {
-        this.flagHabilitarCampos = flagHabilitarCampos;
     }
 
     public List<Telefone> getTelefones() {
@@ -93,44 +106,65 @@ public class OrgaoMB extends AbstractBaseBean<Orgao> implements Serializable {
     }
 
     public void addTelefone() {
-        if (telefone.equals("")) {
+        if (Utils.isNullOrEmpty(telefoneAdd.getNumero())) {
             FacesMessageUtils.error("O número do telefone é obrigatório!");
         } else {
-            Telefone telefoneTemp = new Telefone();
-            telefoneTemp.setNumero(telefone);
-            getEntity().getTelefones().add(telefoneTemp);
+            if (telefoneAdd.getTipo() != null) {
+                telefones.add(telefoneAdd);
+                telefoneAdd = new Telefone();
+            } else {
+                FacesMessageUtils.error("Tipo do telefone é obrigatório!");
+            }
 
-            telefone = "";
         }
     }
 
     public void removerTelefone(Telefone telefone) {
-        getEntity().getTelefones().remove(telefone);
+        telefones.remove(telefone);
     }
 
     public void buscar() {
-        Orgao orgao = orgaoBO.getDAO().unique("cnpj", cnpj);
-        if (orgao != null) {
-            setEntity(orgao);
-            telefones = getBO().getDAO().getInitialized(orgao.getTelefones());
+        if (!Utils.isNullOrEmpty(cnpj)) {
+            Orgao orgao = orgaoBO.getDAO().unique("cnpj", cnpj);
+            if (orgao != null) {
+                setEntity(orgao);
+                telefones = getBO().getDAO().getInitialized(orgao.getTelefones());
+                renderizarCampo = false;
+                somenteLeitura = true;
+                renderizarFormulario = true;
+            } else {
+                renderizarCampo = false;
+                somenteLeitura = true;
+                renderizarFormulario = false;
+                FacesMessageUtils.error("Orgão não encontrado!!");
+            }
         } else {
-            FacesMessageUtils.error("Orgão não encontrado!!");
+            renderizarCampo = false;
+            somenteLeitura = true;
+            renderizarFormulario = false;
+            FacesMessageUtils.error("CNPJ da busca é obrigatatório!");
         }
+
     }
 
     public void novo() {
         setEntity(new Orgao());
+        getEntity().setCodigo(orgaoBO.gerarCodigo());
+        telefoneAdd = new Telefone();
+
         telefones = new ArrayList<Telefone>();
-        Integer novoCodigo = orgaoBO.gerarCodigo();
-        if (novoCodigo != null) {
-            getEntity().setCodigo(novoCodigo);
-        }
-        flagHabilitarCampos = false;
+        renderizarCampo = true;
+        somenteLeitura = false;
+        renderizarFormulario = true;
+
     }
 
     public void editar() {
+        telefoneAdd = new Telefone();
         if (getEntity().getId() != null) {
-            flagHabilitarCampos = false;
+            renderizarCampo = true;
+            somenteLeitura = false;
+            renderizarFormulario = true;
         } else {
             FacesMessageUtils.error("Carregue o Órgão que será editado!!");
         }
@@ -139,10 +173,62 @@ public class OrgaoMB extends AbstractBaseBean<Orgao> implements Serializable {
     public void desativar() {
         if (getEntity().getId() != null) {
             getEntity().setAtivo(false);
+            renderizarCampo = false;
+            somenteLeitura = false;
+            renderizarFormulario = false;
             super.save();
+
         } else {
-            FacesMessageUtils.error("Carregue o Órgão que será desabilitado!!");
+            FacesMessageUtils.error("Carregue o Órgão que será desativado!!");
         }
     }
 
+    public void ativar() {
+        if (getEntity().getId() != null) {
+            getEntity().setAtivo(true);
+            renderizarCampo = false;
+            somenteLeitura = false;
+            renderizarFormulario = false;
+            super.save();
+
+        } else {
+            FacesMessageUtils.error("Carregue o Órgão que será ativado!!");
+        }
+    }
+
+    public boolean isRenderizarCampo() {
+        return renderizarCampo;
+    }
+
+    public void setRenderizarCampo(boolean renderizarCampo) {
+        this.renderizarCampo = renderizarCampo;
+    }
+
+    public boolean isSomenteLeitura() {
+        return somenteLeitura;
+    }
+
+    public void setSomenteLeitura(boolean somenteLeitura) {
+        this.somenteLeitura = somenteLeitura;
+    }
+
+    public boolean isRenderizarFormulario() {
+        return renderizarFormulario;
+    }
+
+    public void setRenderizarFormulario(boolean renderizarFormulario) {
+        this.renderizarFormulario = renderizarFormulario;
+    }
+
+    public List<Orgao> autocomplete(String nome) {
+        return getBO().orgaoPeloNome(nome);
+    }
+
+    public boolean habilitarBotaoDesativar() {
+        return getEntity().getId() != null && getEntity().isAtivo();
+    }
+
+    public boolean habilitarBotaoAtivar() {
+        return getEntity().getId() != null && !getEntity().isAtivo();
+    }
 }

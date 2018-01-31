@@ -2,13 +2,16 @@ package br.com.weblicita.bo.cadastro;
 
 import com.xpert.core.crud.AbstractBusinessObject;
 import br.com.weblicita.dao.cadastro.RubricaOrcamentariaDAO;
+import br.com.weblicita.modelo.cadastro.Estado;
 import com.xpert.core.validation.UniqueField;
 import com.xpert.core.exception.BusinessException;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.com.weblicita.modelo.cadastro.RubricaOrcamentaria;
+import br.com.weblicita.util.Utils;
 import com.xpert.core.validation.UniqueFields;
+import com.xpert.persistence.query.Restrictions;
 
 /**
  *
@@ -19,7 +22,7 @@ public class RubricaOrcamentariaBO extends AbstractBusinessObject<RubricaOrcamen
 
     @EJB
     private RubricaOrcamentariaDAO rubricaOrcamentariaDAO;
-    
+
     @Override
     public RubricaOrcamentariaDAO getDAO() {
         return rubricaOrcamentariaDAO;
@@ -38,6 +41,18 @@ public class RubricaOrcamentariaBO extends AbstractBusinessObject<RubricaOrcamen
     @Override
     public boolean isAudit() {
         return true;
+    }
+
+    public List<RubricaOrcamentaria> rubricaPelaLegnda(String nome) {
+        Restrictions restrictions = new Restrictions();
+
+        restrictions.add("ativo", true);
+
+        if (!Utils.isNullOrEmpty(nome)) {
+            restrictions.like("legenda", nome);
+        }
+
+        return getDAO().list(restrictions, "legenda");
     }
 
 }

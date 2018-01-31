@@ -141,6 +141,7 @@ public class GeracaoPermissao {
         create(new Permissao("orgao.audit", "Auditoria de Orgao"), "orgao");
         create(new Permissao("orgao.delete", "Exclusão de Orgao"), "orgao");
         create(new Permissao("orgao.desativar", "Desativar Orgao"), "orgao");
+        create(new Permissao("orgao.ativar", "Ativar Orgao"), "orgao");
         create(new Permissao("orgao.editar", "Editar Orgao"), "orgao");
         create(new Permissao("orgao.buscar", "Buscar Orgao"), "orgao");
 
@@ -162,6 +163,7 @@ public class GeracaoPermissao {
         create(new Permissao("unidadeDeMedida.delete", "Exclusão de Unidade De Medida"), "unidadeDeMedida");
         create(new Permissao("unidadeDeMedida.editar", "Editar de Unidade De Medida"), "unidadeDeMedida");
         create(new Permissao("unidadeDeMedida.desativar", "Desativar de Unidade De Medida"), "unidadeDeMedida");
+        create(new Permissao("unidadeDeMedida.ativar", "Ativar de Unidade De Medida"), "unidadeDeMedida");
         create(new Permissao("unidadeDeMedida.buscar", "Busca de Unidade De Medida"), "unidadeDeMedida");
 
         //Rubrica Orcamentaria

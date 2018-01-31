@@ -4,8 +4,8 @@
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
-    
-  
+
+
     <h:form id="formFindCidade" >
         <x:modalMessages/>
 
@@ -23,20 +23,23 @@
                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
                     <div class="div-button-new">
                         <x:securityArea rolesAllowed="cidade.create">
-                           <p:commandButton process="@form" update="formFindCidade formCreateCidade"  value="#{msg['cidade.new']}" class="button-new" 
-                                            actionListener="#{cidadeMB.novo()}" />
+                            <p:commandButton process="@form" update="formFindCidade formCreateCidade"  value="#{msg['cidade.new']}" class="button-new" 
+                                             actionListener="#{cidadeMB.novo()}" />
                         </x:securityArea>
                     </div>
                     <div class="div-button-edit">
                         <x:securityArea rolesAllowed="cidade.editar">
-                           <p:commandButton process="@form" update="formFindCidade formCreateCidade"  value="#{msg['cidade.edit']}" class="button-edit" 
-                                            actionListener="#{cidadeMB.editar()}" rendered="#{cidadeMB.entity.id!=null}"/>
+                            <p:commandButton process="@form" update="formFindCidade formCreateCidade"  value="#{msg['cidade.edit']}" class="button-edit" 
+                                             actionListener="#{cidadeMB.editar()}" rendered="#{cidadeMB.entity.id!=null}"/>
                         </x:securityArea>
                     </div>
                     <div class="div-button-delete">
                         <x:securityArea rolesAllowed="cidade.delete">
-                           <p:commandButton process="@form" update="formFindCidade formCreateCidade"  value="#{msg['cidade.delete']}" class="button-delete" 
-                                            actionListener="#{cidadeMB.excluir()}" rendered="#{cidadeMB.entity.id!=null}"/>
+                            <p:commandButton process="@form" update="formFindCidade formCreateCidade"  value="#{msg['cidade.delete']}" class="button-delete" 
+                                             actionListener="#{cidadeMB.excluir()}" rendered="#{cidadeMB.entity.id!=null}">
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{cidadeMB.entity.nome}" />
+
+                            </p:commandButton>
                         </x:securityArea>
                     </div>
                 </div>

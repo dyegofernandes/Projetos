@@ -46,8 +46,8 @@ public class Orgao implements Serializable {
     @Size(max = 200)
     private String nomeDoOrgao;
 
-    @NotNull
-    private Integer codigo = 1;
+    @NotBlank
+    private String codigo;
 
     @NotBlank
     @Size(max = 20)
@@ -84,7 +84,7 @@ public class Orgao implements Serializable {
     @NotAudited
     @OneToMany(mappedBy = "orgaoSolicitante")
     private List<PedidoLicitacao> pedidosLicitacoes;
-    
+
     @NotAudited
     @OneToMany(mappedBy = "orgao")
     private List<Contrato> contratos;
@@ -105,11 +105,11 @@ public class Orgao implements Serializable {
         this.nomeDoOrgao = nomeDoOrgao;
     }
 
-    public Integer getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(Integer codigo) {
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 
@@ -128,7 +128,6 @@ public class Orgao implements Serializable {
     public void setGerente(Gerente gerente) {
         this.gerente = gerente;
     }
-
 
     public String getEmail() {
         return email;

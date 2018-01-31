@@ -13,26 +13,32 @@
             <div class="row">
                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
                     <div style="input-finds_left">
-                        <p:inputText id="legenda" value="#{rubricaOrcamentariaMB.entity.legenda}" placeholder="#{msg['rubricaOrcamentaria.find.legenda']}" maxlength="20"  styleClass="form-control input-finds"  />
+                        <p:inputText id="legendaBusca" value="#{rubricaOrcamentariaMB.legenda}" placeholder="#{msg['rubricaOrcamentaria.find.legenda']}" maxlength="20"  styleClass="form-control input-finds"  />
                     </div>
-                    <p:commandButton process="@form" update="@form"  value="#{msg['rubricaOrcamentaria.find']}" class="button-finds" />
+                    <p:commandButton process="@this legendaBusca" update="formFindRubricaOrcamentaria formCreateRubricaOrcamentaria"  value="#{msg['rubricaOrcamentaria.find']}" class="button-finds"
+                                     actionListener="#{rubricaOrcamentariaMB.buscar()}"/>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
                     <div class="div-button-new">
                         <x:securityArea rolesAllowed="rubricaOrcamentaria.create">
-                           <p:commandButton process="@form" update="@form"  value="#{msg['rubricaOrcamentaria.new']}" class="button-new" />
+                            <p:commandButton process="@form" update="formFindRubricaOrcamentaria formCreateRubricaOrcamentaria"  value="#{msg['rubricaOrcamentaria.new']}" class="button-new" 
+                                             actionListener="#{rubricaOrcamentariaMB.novo()}"  />
                         </x:securityArea>
                     </div>
                     <div class="div-button-edit">
                         <x:securityArea rolesAllowed="rubricaOrcamentaria.editar">
-                           <p:commandButton process="@form" update="@form"  value="#{msg['rubricaOrcamentaria.edit']}" class="button-edit" />
+                            <p:commandButton process="@form" update="formFindRubricaOrcamentaria formCreateRubricaOrcamentaria"  value="#{msg['rubricaOrcamentaria.edit']}" class="button-edit" 
+                                             actionListener="#{rubricaOrcamentariaMB.editar()}" rendered="#{rubricaOrcamentariaMB.entity.id!=null}"/>
                         </x:securityArea>
                     </div>
                     <div class="div-button-delete">
                         <x:securityArea rolesAllowed="rubricaOrcamentaria.delete">
-                           <p:commandButton process="@form" update="@form"  value="#{msg['rubricaOrcamentaria.delete']}" class="button-delete" />
+                            <p:commandButton process="@form" update="formFindRubricaOrcamentaria formCreateRubricaOrcamentaria"  value="#{msg['rubricaOrcamentaria.delete']}" class="button-delete" 
+                                             actionListener="#{rubricaOrcamentariaMB.excluir()}" rendered="#{rubricaOrcamentariaMB.entity.id!=null}">
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{rubricaOrcamentariaMB.entity.legenda}" />
+                            </p:commandButton>
                         </x:securityArea>
                     </div>
                 </div>

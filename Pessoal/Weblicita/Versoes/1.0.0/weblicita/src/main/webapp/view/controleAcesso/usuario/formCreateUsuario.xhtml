@@ -23,6 +23,19 @@
 
                     </div>
                     <div class="row">
+                        <div class="form-group col-lg-6 col-md-12 col-sm-12 col-xs-12" >
+                            <h:outputLabel for="orgao" value="Órgão:" />
+                            <h:selectOneMenu id="orgao" value="#{usuarioMB.entity.orgao}" converter="entityConverter" styleClass="form-control" 
+                                             >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.orgao)}" 
+                                               var="orgao"
+                                               itemLabel="#{orgao}" />
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="row">
 
                         <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel value="* #{msg['usuario.cpf']}:" />

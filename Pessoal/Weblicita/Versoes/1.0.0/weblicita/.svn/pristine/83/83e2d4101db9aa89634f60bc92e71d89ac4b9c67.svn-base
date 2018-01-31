@@ -1,0 +1,188 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateOrgao" >
+        <x:modalMessages autoUpdate="true"/>
+        <h:panelGroup rendered="#{orgaoMB.renderizarFormulario}">
+            <p:fieldset>
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 25%">
+                            <h:outputLabel for="codigo" value="* #{msg['orgao.codigo']}/Órgão:" />
+                            <p:inputText id="codigo" value="#{orgaoMB.entity.codigo}" styleClass="form-control" readonly="true" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 25%">
+                            <h:outputLabel for="dataDoCadastro" value="* #{msg['orgao.dataDoCadastro']}:" />
+                            <p:inputText id="dataDoCadastro" value="#{orgaoMB.entity.dataDoCadastro}"  styleClass="form-control"  
+                                                 readonly="true">
+                                        <f:convertDateTime />
+                                    </p:inputText>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 25%">
+                            <h:outputLabel for="cnpj" value="* #{msg['orgao.cnpj']}:" />
+                            <x:cnpj id="cnpj" value="#{orgaoMB.entity.cnpj}" styleClass="form-control" readonly="#{orgaoMB.somenteLeitura}"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                            <h:outputLabel for="nomeDoOrgao" value="* #{msg['orgao.nomeDoOrgao']}:" />
+                            <p:inputText id="nomeDoOrgao" value="#{orgaoMB.entity.nomeDoOrgao}" maxlength="200"  styleClass="form-control" readonly="#{orgaoMB.somenteLeitura}"/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                            <h:outputLabel for="endereco" value="* Endereço:" />
+                            <p:inputText id="endereco" value="#{orgaoMB.entity.endereco.endereco}" maxlength="255"  styleClass="form-control"
+                                         readonly="#{orgaoMB.somenteLeitura}">
+                                <x:initializer/>
+                            </p:inputText>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 25%">
+                            <h:outputLabel for="complemento" value="Complemento:" />
+                            <p:inputText id="complemento" value="#{orgaoMB.entity.endereco.complemento}" maxlength="255"  styleClass="form-control" 
+                                         readonly="#{orgaoMB.somenteLeitura}">
+                            <x:initializer/>
+                            </p:inputText>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 25%">
+                            <h:outputLabel for="cidade" value="* #{msg['endereco.cidade']}:" />
+                            <h:selectOneMenu id="cidade" value="#{orgaoMB.entity.endereco.cidade}" converter="entityConverter" styleClass="form-control" 
+                                             readonly="#{orgaoMB.somenteLeitura}">
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.cidade)}" 
+                                               var="cidade"
+                                               itemLabel="#{cidade.nome}" itemDisabled="#{orgaoMB.somenteLeitura}"/>
+                                <p:ajax process="@this" update="uf" />
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 15%">
+                            <h:outputLabel for="uf" value="UF:" />
+                            <p:inputText id="uf" value="#{orgaoMB.entity.endereco.cidade.estado.nome}" maxlength="255"  styleClass="form-control" disabled="true" >
+                                <x:initializer/>
+                            </p:inputText>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 25%">
+                            <h:outputLabel for="cep" value="* CEP:" />
+                            <p:inputMask id="cep" value="#{orgaoMB.entity.endereco.cep}" mask="99999-999"  styleClass="form-control" 
+                                         readonly="#{orgaoMB.somenteLeitura}">
+                            <x:initializer/>
+                            </p:inputMask>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h:panelGroup rendered="#{orgaoMB.renderizarCampo}" >
+                            <div class="row">
+                                <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12" style="width: 15%">
+                                    <h:outputLabel for="tipo" value="Tipo:" />
+                                    <h:selectOneMenu id="tipoTelefone" value="#{orgaoMB.telefoneAdd.tipo}"  styleClass="form-control" >
+                                        <f:selectItem itemLabel="#{xmsg['select']}" />
+                                        <f:selectItems value="#{findAllBean.get(classMB.tipoTelefone)}" 
+                                                       var="tipo"
+                                                       itemLabel="#{tipo.descricao}" />
+                                    </h:selectOneMenu>
+                                </div>
+                                <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12" style="width: 15%">
+                                    <h:outputLabel for="telefone" value="Telefone:" />
+                                    <p:inputMask id="telefone" value="#{orgaoMB.telefoneAdd.numero}" mask="(99) 9999-9999" styleClass="form-control"/>
+                                </div>
+                                <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12" style="width: 15%">
+                                    <h:outputLabel for="addPhone" value=" " />
+                                    <p:commandButton icon="ui-icon-plusthick" 
+                                                     id="buttonAddTelefone" styleClass="pull-left button-add"
+                                                     title="Adcionar"
+                                                     style="font-size: 18px;" actionListener="#{orgaoMB.addTelefone()}" process="telefone tipoTelefone @this"
+                                                     update="formCreateOrgao:panelTelefones telefone tipoTelefone"/>   
+                                </div> 
+                            </div> 
+                        </h:panelGroup>
+                    </div>
+                    <div class="row">
+                        <div class="row" style="width: 100%;;margin-top:5px;margin-bottom: 5px;">
+                            <h:panelGroup id="panelTelefones" >
+                                <h:panelGroup rendered="#{fornecedorMB.telefones.size()>0}" >
+
+                                    <div class="form-group col-lg-2 col-md-12 col-sm-12 col-xs-12" style="width:30%">
+                                        <p:dataTable id="dataTableTelefone" var="telefone" value="#{orgaoMB.telefones}"
+                                                     class="tableTelefone">
+                                            <p:column width="100">
+                                                <f:facet name="header">
+                                                    <h:outputText value="Tipo" />
+                                                </f:facet>
+                                                <h:outputText value="#{telefone.tipo.descricao}" style="text-align: center;" />
+                                            </p:column>
+
+                                            <p:column >
+                                                <f:facet name="header">
+                                                    <h:outputText value="Número" />
+                                                </f:facet>
+                                                <h:outputText value="#{telefone.numero}" style="text-align: right;" />
+                                            </p:column>
+                                            <p:column style="text-align: center;" width="35">
+                                                <p:commandButton icon="ui-icon-minusthick" style="font-size: 14px;"  class="button-remove"
+                                                                 actionListener="#{orgaoMB.removerTelefone(telefone)}" 
+                                                                 title="Remover"
+                                                                 process="@this" update="formCreateOrgao:panelTelefones" 
+                                                                 rendered="#{orgaoMB.renderizarCampo}"/>
+                                            </p:column>
+                                        </p:dataTable>
+
+                                    </div>
+                                </h:panelGroup>
+                            </h:panelGroup>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 100%">
+                            <h:outputLabel for="email" value="#{msg['orgao.email']}:" />
+                            <p:inputText id="email" value="#{orgaoMB.entity.email}" maxlength="255"  styleClass="form-control"
+                                         readonly="#{orgaoMB.somenteLeitura}"/>
+                        </div>   
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 100%">
+                            <h:outputLabel for="site" value="#{msg['orgao.site']}:" />
+                            <p:inputText id="site" value="#{orgaoMB.entity.site}" maxlength="255"  styleClass="form-control" 
+                                         readonly="#{orgaoMB.somenteLeitura}"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                            <h:outputLabel for="observacao" value="#{msg['orgao.observacao']}:" />
+                            <p:inputTextarea id="observacao" rows="10" cols="192" value ="#{orgaoMB.entity.observacao}"
+                                             styleClass="form-control" readonly="#{orgaoMB.somenteLeitura}"/>
+                        </div>
+                    </div>
+                </div>
+            </p:fieldset>
+            <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+            <div class="uix-center">
+                <x:securityArea rolesAllowed="orgao.create">
+                    <p:commandButton process="@form" update="@form formFindOrgao" action="#{orgaoMB.save}" value="#{xmsg['save']}"
+                                     styleClass="button-save" rendered="#{orgaoMB.renderizarCampo}"/>
+                </x:securityArea>
+
+            </div>
+        </h:panelGroup>
+    </h:form>
+</ui:composition>

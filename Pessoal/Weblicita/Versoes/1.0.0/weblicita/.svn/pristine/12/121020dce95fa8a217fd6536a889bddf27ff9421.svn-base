@@ -1,0 +1,260 @@
+package br.com.weblicita.mb.cadastro;
+
+import java.io.Serializable;
+import com.xpert.core.crud.AbstractBaseBean;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import br.com.weblicita.bo.cadastro.FornecedorBO;
+import br.com.weblicita.modelo.cadastro.AdministradorFornecedor;
+import br.com.weblicita.modelo.cadastro.Fornecedor;
+import br.com.weblicita.modelo.cadastro.Telefone;
+import br.com.weblicita.util.Utils;
+import com.xpert.faces.utils.FacesMessageUtils;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+/**
+ *
+ * @author Juniel
+ */
+@ManagedBean
+@ViewScoped
+public class FornecedorMB extends AbstractBaseBean<Fornecedor> implements Serializable {
+
+    @EJB
+    private FornecedorBO fornecedorBO;
+
+    private Telefone telefoneAdd;
+
+    private List<Telefone> telefones;
+
+    private AdministradorFornecedor socioAdd;
+
+    private List<AdministradorFornecedor> socios;
+
+    private String cnpjBusca = "";
+
+    private boolean renderizarCampo;
+
+    private boolean somenteLeitura;
+
+    private boolean renderizarFormulario;
+
+    @Override
+    public FornecedorBO getBO() {
+        return fornecedorBO;
+    }
+
+    @Override
+    public String getDataModelOrder() {
+        return "id";
+    }
+
+    @Override
+    public void init() {
+        renderizarCampo = false;
+        somenteLeitura = false;
+        renderizarFormulario = false;
+    }
+
+    @Override
+    public void save() {
+        getEntity().setTelefones(telefones);
+        getEntity().setAdministradores(socios);
+
+        if (getEntity().getId() == null) {
+            getEntity().setNumeroCADUF(getBO().gerarCADUF());
+        } else {
+            getEntity().setDataAtualizacao(new Date());
+        }
+        super.save();
+    }
+
+    @Override
+    public void postSave() {
+        renderizarCampo = false;
+        somenteLeitura = false;
+        renderizarFormulario = false;
+        setEntity(new Fornecedor());
+    }
+
+    public void addTelefone() {
+        if (Utils.isNullOrEmpty(telefoneAdd.getNumero())) {
+            FacesMessageUtils.error("O número do telefone é obrigatório!");
+        } else {
+            if (telefoneAdd.getTipo() != null) {
+                telefones.add(telefoneAdd);
+                telefoneAdd = new Telefone();
+            } else {
+                FacesMessageUtils.error("Tipo do telefone é obrigatório!");
+            }
+
+        }
+    }
+
+    public void removerTelefone(Telefone telefone) {
+        telefones.remove(telefone);
+    }
+
+    public void addAdministrador() {
+        if (Utils.isNullOrEmpty(socioAdd.getNome())) {
+            FacesMessageUtils.error("O nome é obrigatório!");
+        } else {
+            if (socioAdd.getTipo() != null) {
+                if (Utils.isNullOrEmpty(socioAdd.getCpf())) {
+                    FacesMessageUtils.error("Cpf é obrigatório!");
+                } else {
+                    socios.add(socioAdd);
+                    socioAdd = new AdministradorFornecedor();
+                }
+
+            } else {
+                FacesMessageUtils.error("O Tipo é obrigatório!");
+            }
+
+        }
+    }
+
+    public void novo() {
+        setEntity(new Fornecedor());
+        getEntity().setNumeroCADUF(getBO().gerarCADUF());
+        telefoneAdd = new Telefone();
+
+        telefones = new ArrayList<Telefone>();
+
+        socioAdd = new AdministradorFornecedor();
+
+        socios = new ArrayList<AdministradorFornecedor>();
+
+        renderizarCampo = true;
+        somenteLeitura = false;
+        renderizarFormulario = true;
+    }
+
+    public void excluir() {
+
+        if (getEntity().getId() != null) {
+            remove();
+            setEntity(new Fornecedor());
+            renderizarCampo = false;
+            somenteLeitura = false;
+            renderizarFormulario = false;
+        } else {
+            FacesMessageUtils.error("Informe o Fornecedor a ser desativado!");
+        }
+
+    }
+
+    public void editar() {
+        if (getEntity().getId() != null) {
+            renderizarCampo = true;
+            somenteLeitura = false;
+            renderizarFormulario = true;
+        } else {
+            FacesMessageUtils.error("Informe o Fornecedor a ser editado!");
+        }
+
+    }
+
+    public void buscarFornecedor() {
+        if (!Utils.isNullOrEmpty(cnpjBusca)) {
+            Fornecedor fornecedorTemp = getBO().fornecedorPeloCnpj(cnpjBusca);
+            if (fornecedorTemp != null) {
+                renderizarCampo = false;
+                somenteLeitura = true;
+                renderizarFormulario = true;
+                setEntity(fornecedorTemp);
+                telefones = getDAO().getInitialized(fornecedorTemp.getTelefones());
+                socios = getDAO().getInitialized(fornecedorTemp.getAdministradores());
+                telefoneAdd = new Telefone();
+                socioAdd = new AdministradorFornecedor();
+            } else {
+                renderizarCampo = false;
+                somenteLeitura = true;
+                renderizarFormulario = false;
+                FacesMessageUtils.error("Fornecedor não encontrado!");
+            }
+
+        } else {
+            renderizarCampo = false;
+            somenteLeitura = true;
+            renderizarFormulario = false;
+            FacesMessageUtils.error("Informe o cnpj para busca!");
+        }
+    }
+
+    public void removerAdministrador(AdministradorFornecedor admin) {
+        socios.remove(admin);
+    }
+
+    public List<Fornecedor> autocomplete(String nome) {
+        return getBO().fornecedorPeloNomeOuCNPJ(nome);
+    }
+
+    public String getCnpjBusca() {
+        return cnpjBusca;
+    }
+
+    public void setCnpjBusca(String cnpjBusca) {
+        this.cnpjBusca = cnpjBusca;
+    }
+
+    public boolean isRenderizarCampo() {
+        return renderizarCampo;
+    }
+
+    public void setRenderizarCampo(boolean renderizarCampo) {
+        this.renderizarCampo = renderizarCampo;
+    }
+
+    public boolean isSomenteLeitura() {
+        return somenteLeitura;
+    }
+
+    public void setSomenteLeitura(boolean somenteLeitura) {
+        this.somenteLeitura = somenteLeitura;
+    }
+
+    public boolean isRenderizarFormulario() {
+        return renderizarFormulario;
+    }
+
+    public void setRenderizarFormulario(boolean renderizarFormulario) {
+        this.renderizarFormulario = renderizarFormulario;
+    }
+
+    public Telefone getTelefoneAdd() {
+        return telefoneAdd;
+    }
+
+    public void setTelefoneAdd(Telefone telefoneAdd) {
+        this.telefoneAdd = telefoneAdd;
+    }
+
+    public List<Telefone> getTelefones() {
+        return telefones;
+    }
+
+    public void setTelefones(List<Telefone> telefones) {
+        this.telefones = telefones;
+    }
+
+    public AdministradorFornecedor getSocioAdd() {
+        return socioAdd;
+    }
+
+    public void setSocioAdd(AdministradorFornecedor socioAdd) {
+        this.socioAdd = socioAdd;
+    }
+
+    public List<AdministradorFornecedor> getSocios() {
+        return socios;
+    }
+
+    public void setSocios(List<AdministradorFornecedor> socios) {
+        this.socios = socios;
+    }
+
+}

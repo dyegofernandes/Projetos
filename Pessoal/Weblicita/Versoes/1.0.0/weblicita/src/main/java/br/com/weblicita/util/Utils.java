@@ -165,7 +165,7 @@ public class Utils {
 
     public static boolean ehInteiro(String s) {
         // cria um array de char
-        char[] c = s.replace(".", "").replace("-", "").toCharArray();
+        char[] c = s.replace(".", "").replace("-", "").replace("/", "").toCharArray();
         boolean d = true;
         for (int i = 0; i < c.length; i++) // verifica se o char não é um dígito
         {

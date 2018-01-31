@@ -4,8 +4,8 @@
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
-    
-  
+
+
     <h:form id="formFindEstado" >
         <x:modalMessages/>
 
@@ -22,17 +22,19 @@
                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
                     <div class="div-button-new">
                         <x:securityArea rolesAllowed="item.create">
-                           <p:commandButton process="@form" update="@form"  value="#{msg['item.new']}" class="button-new" />
+                            <p:commandButton process="@form" update="@form"  value="#{msg['item.new']}" class="button-new" />
                         </x:securityArea>
                     </div>
                     <div class="div-button-edit">
                         <x:securityArea rolesAllowed="item.editar">
-                           <p:commandButton process="@form" update="@form"  value="#{msg['item.edit']}" class="button-edit" />
+                            <p:commandButton process="@form" update="@form"  value="#{msg['item.edit']}" class="button-edit" />
                         </x:securityArea>
                     </div>
                     <div class="div-button-delete">
                         <x:securityArea rolesAllowed="item.desativar">
-                           <p:commandButton process="@form" update="@form"  value="#{msg['item.disable']}" class="button-disable" />
+                            <p:commandButton process="@form" update="@form"  value="#{msg['item.disable']}" class="button-disable" >
+                                <x:confirmation message="#{msg['confirmDisable']} " />
+                            </p:commandButton>
                         </x:securityArea>
                     </div>
                 </div>

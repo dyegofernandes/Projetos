@@ -6,8 +6,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.com.weblicita.bo.cadastro.PaisBO;
-import br.com.weblicita.modelo.cadastro.Estado;
-import br.com.weblicita.modelo.cadastro.Fornecedor;
 import br.com.weblicita.modelo.cadastro.Pais;
 import br.com.weblicita.util.Utils;
 import com.xpert.faces.utils.FacesMessageUtils;

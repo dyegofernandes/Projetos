@@ -25,9 +25,15 @@ public class UnidadeDeMedida implements Serializable {
     @GeneratedValue(generator = "UnidadeDeMedida")
     private Long id;
 
-    @Size(max = 250)
+    @Size(max = 50)
     @NotBlank
     private String nome;
+    
+    @Size(max = 5)
+    @NotBlank
+    private String sigla;
+
+    private boolean ativo = true;
 
     @Override
     public String toString() {
@@ -48,6 +54,22 @@ public class UnidadeDeMedida implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public String getSigla() {
+        return sigla;
+    }
+
+    public void setSigla(String sigla) {
+        this.sigla = sigla;
     }
 
     @Override

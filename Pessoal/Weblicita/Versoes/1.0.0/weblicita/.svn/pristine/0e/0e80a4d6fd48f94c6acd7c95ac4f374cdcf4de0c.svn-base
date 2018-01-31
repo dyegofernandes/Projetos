@@ -1,0 +1,44 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateUnidadeDeMedida" >
+        <x:modalMessages autoUpdate="true"/>
+        <h:panelGroup rendered="#{unidadeDeMedidaMB.renderizarFormulario}">
+            <p:fieldset>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 30%">
+                            <h:outputLabel for="nome" value="* #{msg['unidadeDeMedida.nome']}:" />
+                            <p:inputText id="nome" value="#{unidadeDeMedidaMB.entity.nome}" maxlength="250"  styleClass="form-control"  
+                                         readonly="#{unidadeDeMedidaMB.somenteLeitura}"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 20%">
+                            <h:outputLabel for="sigla" value="* #{msg['unidadeDeMedida.sigla']}:" />
+                            <p:inputText id="sigla" maxlength="5"  value="#{unidadeDeMedidaMB.entity.sigla}" styleClass="form-control" readonly="#{unidadeDeMedidaMB.somenteLeitura}" />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="ativo" value="Ativo" />
+                            <p:inputText id="ativo" maxlength="5"  value="#{unidadeDeMedidaMB.entity.ativo}" styleClass="form-control" readonly="true" converter="yesNoConverter"/>
+
+                        </div>
+                    </div>
+                </div>
+            </p:fieldset>
+            <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+            <div class="uix-center">
+                <x:securityArea rolesAllowed="unidadeDeMedida.create">
+                    <p:commandButton process="@form" update="@form formFindUnidadeDeMedida" action="#{unidadeDeMedidaMB.save}" value="#{xmsg['save']}" styleClass="button-save"
+                                     rendered="#{unidadeDeMedidaMB.renderizarCampo}"/>
+                </x:securityArea>
+
+            </div>
+        </h:panelGroup>
+
+    </h:form>
+
+</ui:composition>

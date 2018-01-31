@@ -7,7 +7,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.com.weblicita.bo.cadastro.FornecedorBO;
 import br.com.weblicita.modelo.cadastro.AdministradorFornecedor;
-import br.com.weblicita.modelo.cadastro.Estado;
 import br.com.weblicita.modelo.cadastro.Fornecedor;
 import br.com.weblicita.modelo.cadastro.Telefone;
 import br.com.weblicita.util.Utils;

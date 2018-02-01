@@ -114,23 +114,6 @@ public class GeracaoPermissao {
         create(new Permissao("subFuncao.audit", "Auditoria de Sub Função"), "subFuncao");
         create(new Permissao("subFuncao.delete", "Exclusão de Sub Função"), "subFuncao");
 
-        //programa
-        create(new Permissao("programa", "Programas", true), "cadastro");
-
-//Programa De Governo
-        create(new Permissao("programaDeGoverno", "Governo", false), "programa");
-        create(new Permissao("programaDeGoverno.create", "Cadastro de Programa De Governo", "/view/cadastro/programaDeGoverno/createProgramaDeGoverno.jsf", false), "programaDeGoverno");
-        create(new Permissao("programaDeGoverno.list", "Governo", "/view/cadastro/programaDeGoverno/listProgramaDeGoverno.jsf", true), "programa");
-        create(new Permissao("programaDeGoverno.audit", "Auditoria de Programa De Governo"), "programaDeGoverno");
-        create(new Permissao("programaDeGoverno.delete", "Exclusão de Programa De Governo"), "programaDeGoverno");
-
-        //Programa PPA
-        create(new Permissao("programaPPA", "Programa PPA", false), "programa");
-        create(new Permissao("programaPPA.create", "Cadastro de Programa PPA", "/view/cadastro/programaPPA/createProgramaPPA.jsf", false), "programaPPA");
-        create(new Permissao("programaPPA.list", "PPA", "/view/cadastro/programaPPA/listProgramaPPA.jsf", true), "programa");
-        create(new Permissao("programaPPA.audit", "Auditoria de Programa PPA"), "programaPPA");
-        create(new Permissao("programaPPA.delete", "Exclusão de Programa PPA"), "programaPPA");
-
         //Orgao
         create(new Permissao("orgao", "Orgao", false), "cadastro");
         create(new Permissao("orgao.create", "Cadastro de Orgao", "/view/cadastro/orgao/createOrgao.jsf", false), "orgao");
@@ -231,6 +214,16 @@ public class GeracaoPermissao {
         create(new Permissao("diretrizeDeGoverno.audit", "Auditoria de Diretrize De Governo"), "diretrizeDeGoverno");
         create(new Permissao("diretrizeDeGoverno.delete", "Exclusão de Diretrize De Governo"), "diretrizeDeGoverno");
 
+        //programa
+        create(new Permissao("programa", "Programas", false), "cadastro");
+
+//Programa De Governo
+        create(new Permissao("programaDeGoverno", "Governo", false), "governo");
+        create(new Permissao("programaDeGoverno.create", "Cadastro de Programa De Governo", "/view/cadastro/programaDeGoverno/createProgramaDeGoverno.jsf", false), "programaDeGoverno");
+        create(new Permissao("programaDeGoverno.list", "Programas", "/view/cadastro/programaDeGoverno/listProgramaDeGoverno.jsf", true), "governo");
+        create(new Permissao("programaDeGoverno.audit", "Auditoria de Programa De Governo"), "programaDeGoverno");
+        create(new Permissao("programaDeGoverno.delete", "Exclusão de Programa De Governo"), "programaDeGoverno");
+
         create(new Permissao("despesas", "Despesa", true), "cadastro");
 
         //Natureza De Despesa
@@ -279,7 +272,14 @@ public class GeracaoPermissao {
 
         //Meta PPA
         create(new Permissao("orcamento", "Orçamento", true), null);
-        
+
+        //Programa PPA
+        create(new Permissao("programaPPA", "Programa PPA", false), "orcamento");
+        create(new Permissao("programaPPA.create", "Cadastro de Programa PPA", "/view/cadastro/programaPPA/createProgramaPPA.jsf", false), "programaPPA");
+        create(new Permissao("programaPPA.list", "Programas", "/view/cadastro/programaPPA/listProgramaPPA.jsf", true), "orcamento");
+        create(new Permissao("programaPPA.audit", "Auditoria de Programa PPA"), "programaPPA");
+        create(new Permissao("programaPPA.delete", "Exclusão de Programa PPA"), "programaPPA");
+
         create(new Permissao("metaPPA", "Meta PPA", false), "orcamento");
         create(new Permissao("metaPPA.create", "Cadastro de Meta PPA", "/view/orcamento/metaPPA/createMetaPPA.jsf", false), "metaPPA");
         create(new Permissao("metaPPA.list", "Metas PPA", "/view/orcamento/metaPPA/listMetaPPA.jsf", true), "orcamento");

@@ -54,13 +54,13 @@ public class MetaPPAMB extends AbstractBaseBean<MetaPPA> implements Serializable
 
     @Override
     public String getDataModelOrder() {
-        return "id";
+        return "meta.id";
     }
-    
+
     @Override
     public JoinBuilder getDataModelJoinBuilder() {
-        return new JoinBuilder("meta").leftJoinFetch("meta.programa", "pp").leftJoinFetch("pp.programagov", "pg");
-                
+        return new JoinBuilder("meta").leftJoinFetch("meta.programa", "pp").leftJoinFetch("pp.programaGov", "pg");
+
     }
 
     @Override
@@ -113,6 +113,26 @@ public class MetaPPAMB extends AbstractBaseBean<MetaPPA> implements Serializable
 
     public void removerLdo(Ldo ldo) {
         ldos.remove(ldo);
+    }
+
+    public BigDecimal totalPorLDO() {
+        BigDecimal total = BigDecimal.ZERO;
+
+        for (Ldo ldoTemp : ldos) {
+            total = total.add(ldoTemp.getValor());
+        }
+
+        return total;
+    }
+
+    public BigDecimal totalPorTerritorio() {
+        BigDecimal total = BigDecimal.ZERO;
+
+        for (TerritorioPPA territorioTemp : territorios) {
+            total = total.add(territorioTemp.getValor());
+        }
+
+        return total;
     }
 
     public void addTerritorio() {
@@ -249,8 +269,9 @@ public class MetaPPAMB extends AbstractBaseBean<MetaPPA> implements Serializable
 
         return produtos;
     }
-    
-    public void chanceProduto(){
+
+    public void chanceProduto() {
         getEntity().setProduto(null);
     }
+
 }

@@ -4,143 +4,131 @@
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
-    
-  
+
+
     <h:form id="formCreateItem" >
-        <p:fieldset>
-            <x:modalMessages/>
+        <x:modalMessages autoUpdate="true"/>
+        <h:panelGroup rendered="#{itemMB.renderizarFormulario}">
 
-            <div class="container-fluid">
-                 <div class="row">
-                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 30%;">
-                         <h:outputLabel for="codigo" value="* #{msg['item.codigo']}:" />
-                         <p:inputText id="codigo" value="#{itemMB.entity.codigo}" maxlength="100"  styleClass="form-control" disabled="true" />
-                     </div>
-                 </div>
-                 <div class="row">
-                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
-                         <h:outputLabel for="descricao" value="* #{msg['item.descricao']}:" />
-                         <p:inputText id="descricao" value="#{itemMB.entity.descricao}" maxlength="255"  styleClass="form-control"  />
-                     </div>
-                 </div>
-                
-                <div class="row">
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%;">
-                        <h:outputLabel for="unidadeDeMedida" value="#{msg['item.unidadeDeMedida']}:" />
-                        <div class="row" style="background:#c7c9c9;padding: 5px;">
-                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 50%;">
-                                <div class="checkbox">
-                                    <label>
-                                        Loop com os impares das unidades de medida (ativas)
-                                    </label>
+            <p:fieldset>
+
+                <div class="container-fluid">
+                    <h:panelGroup rendered="#{itemMB.renderizarCampo}">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                                <h:outputLabel for="descricao" value="* #{msg['item.descricao']}:" />
+                                <p:inputText id="descricao" value="#{itemMB.itemAdd.descricao}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%;">
+                                <h:outputLabel for="unidadeDeMedida" value="#{msg['item.unidadeDeMedida']}:" />
+                                <div class="row" style="background:#c7c9c9;padding: 5px;">
+                                    <h:selectManyCheckbox value="#{itemMB.unidadesSelecionadas}" converter="entityConverter" styleClass="checkbox"
+                                                          layout="responsive" >
+                                        <x:initializer/>
+                                        <x:spread columns="5"/>
+                                        <f:selectItems value="#{itemMB.unidades}" 
+                                                       var="unidade" 
+                                                       itemLabel="#{unidade}"/>
+                                    </h:selectManyCheckbox>
+
                                 </div>
                             </div>
-                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 50%;">
-                                <div class="checkbox">
-                                    <label>
-                                        Loop com os pares das unidades de medida (ativas)
-                                    </label>
-                                </div>
-                                <h:outputLabel for="outro" value="#{msg['item.outro']}:" />
-                                <p:inputText id="outro" value="#{itemMB.entity.outro}" maxlength="100"  styleClass="form-control"  />
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%;text-align: right">
+                                <p:commandLink value="Visualizar Itens Cadastrados" process="@this" update="dataTableItem" style="font-weight:bold" 
+                                               class="aLinkVisualizar" actionListener="#{itemMB.visualizarTabela()}" />
                             </div>
-                         </div>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{itemMB.renderizarTabelaItens}">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%;">
+                                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                             var="item" rowIndexVar="index" id="dataTableItem" widgetVar="dataTableItemWidget" styleClass="table-responsive tableItem"
+                                             value="#{itemMB.itensEmLote}" >
+
+                                    <p:column styleClass="uix-datatable-index">
+                                        <h:outputText value="#{index+1}"/>
+                                    </p:column>
+
+                                    <p:column headerText="#{msg['item.descricao']}" >
+                                        <f:facet name="header">
+                                            <h:outputText value="#{msg['item.descricao']}" />
+                                        </f:facet>
+                                        <h:outputText value="#{item.descricao}"/>
+                                    </p:column>
+
+                                    <p:column headerText="#{msg['item.codigo']}"  >
+                                        <f:facet name="header">
+                                            <h:outputText value="#{msg['item.codigo']}" />
+                                        </f:facet>
+                                        <h:outputText value="#{item.codigo}"/>
+                                    </p:column>
+
+                                    <p:column headerText="#{msg['item.unidadeDeMedida']}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{msg['item.unidadeDeMedida']}" />
+                                        </f:facet>
+                                    </p:column>
+
+
+                                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{xmsg['actions']}"/>
+                                        </f:facet>
+                                        <x:securityArea rolesAllowed="item.editar">
+                                            <p:button icon="ui-icon-pencil" outcome="createItem" title="#{msg['item.edit']}">
+                                                <f:param name="id" value="#{item.id}" />
+                                            </p:button>
+                                        </x:securityArea>
+                                        <x:securityArea rolesAllowed="item.desativar">
+                                            <p:commandButton icon="ui-icon-trash" title="#{msg['item.disable']}" process="@this" update="dataTableItem"
+                                                             actionListener="#{itemMB.excluir(item)}">
+                                                <x:confirmation message="#{msg['item.confirmDisable']} - #{item}" />
+                                            </p:commandButton>
+                                        </x:securityArea>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+
+                    <div class="row">
+                        <h:outputLabel for="outro" value="Órgão responsável pelo item cadastrado: " style="font-weight: bold"/>
+                        <h:outputLabel for="outro" value=" [orgão ao qual o usuário pertence] " style="font-weight: normal; color: red;" />
+                    </div>
+                    <div class="row">
+                        <h:outputLabel for="outro" value="Data do cadastro: " style="font-weight: bold"/>
+                        <h:outputLabel for="outro" value=" [Data do dia por extenso] " style="font-weight: normal; color: red;" />
+                    </div>
+                    <div class="row">
+                        <h:outputLabel for="outro" value="Total de itens cadastrados nessa sessão: " style="font-weight: bold"/>
+                        <h:outputLabel for="outro" value=" [soma de todos os itens da sessao] " style="font-weight: normal; color: red;" />
+                    </div>
+                    <div class="row">
+                        <h:outputLabel for="outro" value="Responsável pelo cadastro: " style="font-weight: bold"/>
+                        <h:outputLabel for="outro" value=" [nome completo do usuario logado] " style="font-weight: normal; color: red;" />
+                    </div>
+                    <div class="row">
+                        <h:outputLabel for="outro" value="Cargo: " style="font-weight: bold"/>
+                        <h:outputLabel for="outro" value=" [cargo do usuario logado] " style="font-weight: normal; color: red;"/>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%;text-align: right">
-                        <p:commandLink value="Visualizar Itens Cadastrados" process="@this" update=":formCreateItem" style="font-weight:bold" 
-                                       class="aLinkVisualizar" />
-                    </div>
-                </div>
-                
-                
-                <div class="row">
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%;">
-                        <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
-                                    var="item" rowIndexVar="index" id="dataTableItem" widgetVar="dataTableItemWidget" styleClass="table-responsive tableItem"
-                                    currentPageReportTemplate="#{itemMB.dataModel.currentPageReportTemplate}"
-                                    paginatorTemplate="#{itemMB.dataModel.paginatorTemplate}"
-                                    value="#{itemMB.dataModel}" lazy="true" >
-                            
-                            <p:column styleClass="uix-datatable-index">
-                                <h:outputText value="#{index+1}"/>
-                            </p:column>
-                            
-                            <p:column headerText="#{msg['item.descricao']}" sortBy="#{item.descricao}" >
-                                <f:facet name="header">
-                                    <h:outputText value="#{msg['item.descricao']}" />
-                                </f:facet>
-                                <h:outputText value="#{item.descricao}"/>
-                            </p:column>
-                            
-                            <p:column headerText="#{msg['item.codigo']}"  >
-                                <f:facet name="header">
-                                    <h:outputText value="#{msg['item.codigo']}" />
-                                </f:facet>
-                                <h:outputText value="#{item.codigo}"/>
-                            </p:column>
-                            
-                            <p:column headerText="#{msg['item.unidadeDeMedida']}">
-                                <f:facet name="header">
-                                    <h:outputText value="#{msg['item.unidadeDeMedida']}" />
-                                </f:facet>
-                            </p:column>
-                            
-                            
-                            <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
-                                <f:facet name="header">
-                                    <h:outputText value="#{xmsg['actions']}"/>
-                                </f:facet>
-                                <x:securityArea rolesAllowed="item.editar">
-                                    <p:button icon="ui-icon-pencil" outcome="createItem" title="#{msg['item.edit']}">
-                                        <f:param name="id" value="#{item.id}" />
-                                    </p:button>
-                                </x:securityArea>
-                                <x:securityArea rolesAllowed="item.desativar">
-                                    <p:commandButton icon="ui-icon-trash" title="#{msg['item.disable']}" process="@form" update="@form">
-                                        <f:setPropertyActionListener value="#{item.id}" target="#{itemMB.id}" />
-                                        <x:confirmation message="#{msg['item.confirmDisable']} - #{item}" />
-                                    </p:commandButton>
-                                </x:securityArea>
-                            </p:column>
-                        </p:dataTable>
-                    </div>
-                </div>
-                <div class="row">
-                    <h:outputLabel for="outro" value="Órgão responsável pelo item cadastrado: " style="font-weight: bold"/>
-                    <h:outputLabel for="outro" value=" [orgão ao qual o usuário pertence] " style="font-weight: normal; color: red;" />
-                </div>
-                <div class="row">
-                    <h:outputLabel for="outro" value="Data do cadastro: " style="font-weight: bold"/>
-                    <h:outputLabel for="outro" value=" [Data do dia por extenso] " style="font-weight: normal; color: red;" />
-                </div>
-                <div class="row">
-                    <h:outputLabel for="outro" value="Total de itens cadastrados nessa sessão: " style="font-weight: bold"/>
-                    <h:outputLabel for="outro" value=" [soma de todos os itens da sessao] " style="font-weight: normal; color: red;" />
-                </div>
-                <div class="row">
-                    <h:outputLabel for="outro" value="Responsável pelo cadastro: " style="font-weight: bold"/>
-                    <h:outputLabel for="outro" value=" [nome completo do usuario logado] " style="font-weight: normal; color: red;" />
-                </div>
-                <div class="row">
-                    <h:outputLabel for="outro" value="Cargo: " style="font-weight: bold"/>
-                    <h:outputLabel for="outro" value=" [cargo do usuario logado] " style="font-weight: normal; color: red;"/>
-                </div>
+            </p:fieldset>
+            <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+            <div class="uix-center">
+                <x:securityArea rolesAllowed="item.create">
+                    <p:commandButton process="@form" update="@form formFindItem" action="#{itemMB.save}" value="#{xmsg['save']}" styleClass="button-save" 
+                                     rendered="#{itemMB.renderizarCampo}"/>
+                </x:securityArea>
+
+
             </div>
-        </p:fieldset>
-        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
-        <div class="uix-center">
-            <x:securityArea rolesAllowed="item.create">
-                <p:commandButton process="@form" update="@form" action="#{itemMB.save}" value="#{xmsg['save']}" styleClass="button-save" />
-            </x:securityArea>
-
-                <div class="div-audit">
-                    <x:securityArea rolesAllowed="item.audit">
-                        <x:audit for="#{itemMB.entity}"/>
-                    </x:securityArea>
-                </div>  
-        </div>
+        </h:panelGroup>
     </h:form>
 
 </ui:composition>

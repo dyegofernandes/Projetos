@@ -1,0 +1,49 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formFindCargo" >
+        <x:modalMessages/>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
+                    <div style="input-finds_left">
+                        <p:inputText id="nomeBusca" value="#{cargoMB.nome}" placeholder="#{msg['cargo.find.nome']}" maxlength="20"  styleClass="form-control input-finds"  />
+                    </div>
+                    <p:commandButton process="@this nomeBusca" update="formFindCargo formCreateCargo"  value="#{msg['cargo.find']}" class="button-finds" 
+                                     actionListener="#{cargoMB.buscar()}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
+                    <div class="div-button-new">
+                        <x:securityArea rolesAllowed="cargo.create">
+                            <p:commandButton process="@form" update="formFindCargo formCreateCargo"  value="#{msg['cargo.new']}" class="button-new"
+                                             actionListener="#{cargoMB.novo()}"/>
+                        </x:securityArea>
+                    </div>
+                    <div class="div-button-edit">
+                        <x:securityArea rolesAllowed="cargo.editar">
+                            <p:commandButton process="@form" update="formFindCargo formCreateCargo"  value="#{msg['cargo.edit']}" class="button-edit" 
+                                             rendered="#{cargoMB.entity.id!=null}" actionListener="#{cargoMB.editar()}"/>
+                        </x:securityArea>
+                    </div>
+                    <div class="div-button-delete">
+                        <x:securityArea rolesAllowed="cargo.delete">
+                            <p:commandButton process="@form" update="formFindCargo formCreateCargo"  value="#{msg['cargo.delete']}" class="button-delete" 
+                                             rendered="#{cargoMB.entity.id!=null}" actionListener="#{cargoMB.excluir()}">
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{cargoMB.entity.nome}" />
+                            </p:commandButton>
+                        </x:securityArea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:form>
+
+</ui:composition>

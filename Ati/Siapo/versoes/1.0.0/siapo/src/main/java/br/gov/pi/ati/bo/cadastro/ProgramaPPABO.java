@@ -52,4 +52,6 @@ public class ProgramaPPABO extends AbstractBusinessObject<ProgramaPPA> {
         return getDAO().getQueryBuilder().select("pp").from(ProgramaPPA.class, "pp").leftJoinFetch("pp.programaGov", "p").add(restrictions).orderBy("p.nome").getResultList();
     }
 
+
+
 }

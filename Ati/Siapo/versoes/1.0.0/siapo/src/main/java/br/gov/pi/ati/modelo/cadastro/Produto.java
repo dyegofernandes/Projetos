@@ -5,6 +5,7 @@
  */
 package br.gov.pi.ati.modelo.cadastro;
 
+import br.gov.pi.ati.modelo.orcamento.DespesaPublica;
 import br.gov.pi.ati.modelo.orcamento.MetaPPA;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
@@ -41,7 +42,7 @@ public class Produto implements Serializable {
     private String nome;
 
     private boolean ativo = true;
-    
+
     @OneToMany(mappedBy = "produto")
     @NotAudited
     private List<MetaPPA> metasPPA;

@@ -5,17 +5,21 @@
  */
 package br.com.weblicita.modelo.cadastro;
 
+import br.com.weblicita.modelo.controleacesso.Usuario;
 import br.com.weblicita.modelo.licitacao.ItemLicitacao;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -28,17 +32,20 @@ public class Item implements Serializable {
     @SequenceGenerator(name = "Item", allocationSize = 1, sequenceName = "item_id_seq")
     @GeneratedValue(generator = "Item")
     private Long id;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Usuario usuario;
 
-    @NotBlank
-    @Size(max = 100)
+//    @NotBlank
+    @Size(max = 50)
     private String codigo;
 
-    @NotBlank
+//    @NotBlank
     @Size(max = 255)
     private String descricao;
 
-    @Size(max = 100)
-    private String outro;
+    @ManyToMany(targetEntity = UnidadeDeMedida.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    private List<UnidadeDeMedida> unidade;
 
     private boolean ativo = true;
 
@@ -75,14 +82,6 @@ public class Item implements Serializable {
         this.descricao = descricao;
     }
 
-    public String getOutro() {
-        return outro;
-    }
-
-    public void setOutro(String outro) {
-        this.outro = outro;
-    }
-
     public boolean isAtivo() {
         return ativo;
     }
@@ -97,6 +96,22 @@ public class Item implements Serializable {
 
     public void setItens(List<ItemLicitacao> itens) {
         this.itens = itens;
+    }
+
+    public List<UnidadeDeMedida> getUnidade() {
+        return unidade;
+    }
+
+    public void setUnidade(List<UnidadeDeMedida> unidade) {
+        this.unidade = unidade;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override

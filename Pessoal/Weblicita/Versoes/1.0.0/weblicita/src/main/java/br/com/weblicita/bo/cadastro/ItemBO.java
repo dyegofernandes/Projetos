@@ -7,8 +7,8 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.com.weblicita.modelo.cadastro.Item;
-import br.com.weblicita.modelo.cadastro.Orgao;
 import br.com.weblicita.util.Utils;
+import com.xpert.core.validation.UniqueFields;
 import java.util.Date;
 
 /**
@@ -28,7 +28,7 @@ public class ItemBO extends AbstractBusinessObject<Item> {
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return null;
+        return new UniqueFields().add("descricao").add("codigo");
     }
 
     @Override

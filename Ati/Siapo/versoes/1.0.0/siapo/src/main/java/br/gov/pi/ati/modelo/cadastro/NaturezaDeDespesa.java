@@ -5,6 +5,7 @@
  */
 package br.gov.pi.ati.modelo.cadastro;
 
+import br.gov.pi.ati.modelo.orcamento.DespesaPublica;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.List;
@@ -46,6 +47,10 @@ public class NaturezaDeDespesa implements Serializable {
     @NotAudited
     @OneToMany(mappedBy = "naturezaDeDespesaPai")
     private List<NaturezaDeDespesa> naturezes;
+    
+    @OneToMany(mappedBy = "naturezaDaDespesa")
+    @NotAudited
+    private List<DespesaPublica> despesas;
 
     @Override
     public String toString() {
@@ -98,6 +103,14 @@ public class NaturezaDeDespesa implements Serializable {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public List<DespesaPublica> getDespesas() {
+        return despesas;
+    }
+
+    public void setDespesas(List<DespesaPublica> despesas) {
+        this.despesas = despesas;
     }
 
     @Override

@@ -72,13 +72,19 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{msg['metaPPA.valorMeta']}" sortBy="#{metaPPA.valorMeta}"
-                          >
+                         style="text-align: right;" >
                     <f:facet name="header">
                         <h:outputText value="#{msg['metaPPA.valorMeta']}" />
                     </f:facet>
                     <h:outputText value="#{metaPPA.valorMeta}">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                     </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{x:sum(metaPPAMB.dataModel, 'meta.valorMeta')}" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                    </f:facet>
+
                 </p:column>
                 <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
                     <f:facet name="header">

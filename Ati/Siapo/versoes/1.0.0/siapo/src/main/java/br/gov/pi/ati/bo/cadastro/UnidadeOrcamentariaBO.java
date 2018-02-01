@@ -24,7 +24,6 @@ public class UnidadeOrcamentariaBO extends AbstractBusinessObject<UnidadeOrcamen
     @EJB
     private UnidadeOrcamentariaDAO unidadeOrcamentariaDAO;
 
-
     @Override
     public UnidadeOrcamentariaDAO getDAO() {
         return unidadeOrcamentariaDAO;
@@ -67,7 +66,7 @@ public class UnidadeOrcamentariaBO extends AbstractBusinessObject<UnidadeOrcamen
                 .leftJoinFetch("progppa.programa", "programa").add(restrictions).orderBy("uo.nome").getResultList();
 
     }
-    
+
     public List<UnidadeOrcamentaria> unidadePeloNome(String nome) {
 
         Restrictions restrictions = new Restrictions();
@@ -77,6 +76,16 @@ public class UnidadeOrcamentariaBO extends AbstractBusinessObject<UnidadeOrcamen
         if (!Utils.isNullOrEmpty(nome)) {
             restrictions.like("uo.nome", nome);
         }
+
+        return getDAO().getQueryBuilder().select("uo").from(UnidadeOrcamentaria.class, "uo").add(restrictions).orderBy("uo.nome").getResultList();
+
+    }
+
+    public List<UnidadeOrcamentaria> unidadesAtivas() {
+
+        Restrictions restrictions = new Restrictions();
+
+        restrictions.add("uo.ativo", true);
 
         return getDAO().getQueryBuilder().select("uo").from(UnidadeOrcamentaria.class, "uo").add(restrictions).orderBy("uo.nome").getResultList();
 

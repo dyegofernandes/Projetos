@@ -20,6 +20,9 @@
                          paginatorTemplate="#{referenciaMB.dataModel.paginatorTemplate}"
                          value="#{referenciaMB.dataModel}" lazy="true" >
                 <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">
+                        <h:outputText value="" />
+                    </f:facet>
                     <h:outputText value="#{index+1}"/>
                 </p:column>
                 <p:column headerText="#{msg['referencia.codigo']}" sortBy="#{referencia.codigo}"
@@ -84,7 +87,7 @@
                         </p:commandButton>
 
                     </x:securityArea> 
-                    
+
                     <x:securityArea rolesAllowed="referencia.gerarGfip">
                         <p:commandButton icon="ui-icon-document-b" title="Gerar Gfip" ajax="false" action="#{referenciaMB.gerarGfip(referencia)}" 
                                          process="@form" update="@form" disabled="#{referencia.status.num==1 || referencia.status.num==2}"

@@ -22,7 +22,7 @@
 
                                                 minQueryLength="3" forceSelection="true" dropdown="true"
 
-                                                var="p" itemLabel="#{p.programaGov}" itemValue="#{p}" converter="entityConverter"> 
+                                                var="p" itemLabel="#{p.programaGov.nome}" itemValue="#{p}" converter="entityConverter"> 
                                     <x:initializer/>
                                     <p:column> 
 
@@ -115,6 +115,11 @@
                         <h:outputText value="#{ldo.valor}">
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                         </h:outputText>
+                        <f:facet name="footer">
+                            <h:outputText value="#{metaPPAMB.totalPorLDO()}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                            </h:outputText>
+                        </f:facet>
                     </p:column>
                     <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
                         <f:facet name="header">
@@ -130,13 +135,13 @@
             </p:tab>
             <p:tab title="Territórios">
                 <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
-                             var="territorio" rowIndexVar="index" id="dataTableMetaPPATerritorios" widgetVar="dataTableMetaPPAWidget" styleClass="table-responsive"
+                             var="territorioPPA" rowIndexVar="index" id="dataTableMetaPPATerritorios" widgetVar="dataTableMetaPPAWidget" styleClass="table-responsive"
                              value="#{metaPPAMB.territorios}" >
                     <p:column headerText="Territorio" style="text-align: left;" >
                         <f:facet name="header">
                             <h:outputText value="Territorio" />
                         </f:facet>
-                        <h:outputText value="#{territorio.territorio}">
+                        <h:outputText value="#{territorioPPA.territorio}">
                             <x:initializer/>
                         </h:outputText>
                     </p:column>
@@ -145,9 +150,14 @@
                             <h:outputText value="Valor" />
                         </f:facet>
 
-                        <h:outputText value="#{territorio.valor}">
+                        <h:outputText value="#{territorioPPA.valor}">
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                         </h:outputText>
+                        <f:facet name="footer">
+                            <h:outputText value="#{metaPPAMB.totalPorTerritorio()}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                            </h:outputText>
+                        </f:facet>
                     </p:column>
                     <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
                         <f:facet name="header">
@@ -155,7 +165,7 @@
                         </f:facet>
 
                         <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
-                                         action="#{metaPPAMB.removerTerritorio(territorio)}" >
+                                         action="#{metaPPAMB.removerTerritorio(territorioPPA)}" >
                         </p:commandButton>
                     </p:column>
                 </p:dataTable>

@@ -216,6 +216,14 @@ public class GeracaoPermissao {
         create(new Permissao("pesquisaDePreco.desativar", "Desativar de Pesquisa De Preco"), "pesquisaDePreco");
         create(new Permissao("pesquisaDePreco.buscar", "Buscar de Pesquisa De Preco"), "pesquisaDePreco");
 
+        //Cargo
+        create(new Permissao("cargo", "Cargo", false), "cadastro");
+        create(new Permissao("cargo.create", "Cargos", "/view/cadastro/cargo/createCargo.jsf", true), "cadastro");
+        create(new Permissao("cargo.list", "Consulta de Cargo", "/view/cadastro/cargo/listCargo.jsf", false), "cargo");
+        create(new Permissao("cargo.audit", "Auditoria de Cargo"), "cargo");
+        create(new Permissao("cargo.delete", "Exclusão de Cargo"), "cargo");
+        create(new Permissao("cargo.editar", "Editar de Cargo"), "cargo");
+        
         /*
          * Configuracao
          */

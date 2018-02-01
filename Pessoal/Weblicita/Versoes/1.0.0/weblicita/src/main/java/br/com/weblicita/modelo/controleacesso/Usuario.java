@@ -1,7 +1,10 @@
 package br.com.weblicita.modelo.controleacesso;
 
+import br.com.weblicita.modelo.cadastro.Cargo;
+import br.com.weblicita.modelo.cadastro.Item;
 import br.com.weblicita.modelo.cadastro.Orgao;
 import br.com.weblicita.modelo.cadastro.Telefone;
+import br.com.weblicita.modelo.licitacao.ItemLicitacao;
 import br.com.weblicita.modelo.licitacao.PedidoLicitacao;
 import com.xpert.audit.NotAudited;
 import com.xpert.security.model.User;
@@ -25,6 +28,9 @@ public class Usuario implements Serializable, User {
     @ManyToOne(fetch = FetchType.LAZY)
     private Orgao orgao;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Cargo cargo;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCadastro;
 
@@ -33,7 +39,7 @@ public class Usuario implements Serializable, User {
 
     @Column(columnDefinition = "bytea")
     private byte[] foto;
-    
+
     @NotBlank
     private String nome;
 
@@ -64,9 +70,6 @@ public class Usuario implements Serializable, User {
     @NotAudited
     @Size(min = 5)
     private String userPassword;
-    
-    @NotBlank
-    private String cargo;
 
     @Column(length = 20)
     @Enumerated(EnumType.STRING)
@@ -81,8 +84,8 @@ public class Usuario implements Serializable, User {
     @OrderBy("dataSituacao DESC")
     @OneToMany(mappedBy = "usuario")
     private List<HistoricoSituacaoUsuario> historicosSituacao;
-    
-    @ManyToMany(targetEntity = Telefone.class, fetch = FetchType.LAZY,cascade={CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REMOVE})
+
+    @ManyToMany(targetEntity = Telefone.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Telefone> telefones = new ArrayList<Telefone>();
 
     private boolean superUsuario;
@@ -90,7 +93,11 @@ public class Usuario implements Serializable, User {
     private Boolean emailCadastroEnviado;
 
     private Boolean senhaCadastrada;
-    
+
+    @NotAudited
+    @OneToMany(mappedBy = "usuario")
+    private List<Item> itens;
+
     @NotAudited
     @OneToMany(mappedBy = "usuario")
     private List<PedidoLicitacao> pedidosLicitacoes;
@@ -260,12 +267,20 @@ public class Usuario implements Serializable, User {
         this.telefones = telefones;
     }
 
-    public String getCargo() {
+    public Cargo getCargo() {
         return cargo;
     }
 
-    public void setCargo(String cargo) {
+    public void setCargo(Cargo cargo) {
         this.cargo = cargo;
+    }
+
+    public List<Item> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<Item> itens) {
+        this.itens = itens;
     }
 
     @Override

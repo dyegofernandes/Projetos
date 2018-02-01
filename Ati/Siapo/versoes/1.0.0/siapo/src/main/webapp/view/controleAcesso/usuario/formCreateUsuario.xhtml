@@ -85,6 +85,16 @@
                     </div>
                 </div>
             </p:tab>
+            <p:tab title="Unidades Orçamentárias">
+                <h:selectManyCheckbox value="#{usuarioMB.entity.unidadesDeAcesso}" converter="entityConverter" styleClass="checkbox">
+                    <x:initializer/>
+                    <x:spread columns="5"/>
+                    <f:selectItems value="#{unidadeOrcamentariaMB.ativas()}" 
+                                   var="unidade" 
+                                   itemLabel="#{unidade.nome}"/>
+                </h:selectManyCheckbox>
+                <h:outputText value="#{msg['usuario.perfisUsuarioInfo']}" styleClass="help-block"/>
+            </p:tab>
             <p:tab title="#{msg['usuario.perfisAcesso']}">
                 <h:selectManyCheckbox value="#{usuarioMB.entity.perfis}" converter="entityConverter" styleClass="checkbox">
                     <x:initializer/>

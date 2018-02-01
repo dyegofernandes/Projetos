@@ -5,12 +5,16 @@
  */
 package br.gov.pi.ati.modelo.cadastro;
 
+import br.gov.pi.ati.modelo.orcamento.DespesaPublica;
+import com.xpert.audit.NotAudited;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -43,7 +47,7 @@ public class AcaoOrcamentaria implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     private ProgramaPPA programa;
-    
+
     @Size(max = 50)
     @NotBlank
     private String codigo;
@@ -53,6 +57,10 @@ public class AcaoOrcamentaria implements Serializable {
     private String nome;
 
     private boolean ativo = true;
+
+    @OneToMany(mappedBy = "acaoOrcamentaria")
+    @NotAudited
+    private List<DespesaPublica> despesas;
 
     @Override
     public String toString() {
@@ -121,6 +129,14 @@ public class AcaoOrcamentaria implements Serializable {
 
     public void setCodigo(String codigo) {
         this.codigo = codigo;
+    }
+
+    public List<DespesaPublica> getDespesas() {
+        return despesas;
+    }
+
+    public void setDespesas(List<DespesaPublica> despesas) {
+        this.despesas = despesas;
     }
 
     @Override

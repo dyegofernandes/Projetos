@@ -4,7 +4,6 @@ import br.gov.pi.ati.bo.controleacesso.SolicitacaoRecuperacaoSenhaBO;
 import br.gov.pi.ati.bo.controleacesso.UsuarioBO;
 import br.gov.pi.ati.bo.controleacesso.UsuarioMenuBO;
 import br.gov.pi.ati.dao.controleacesso.AcessoSistemaDAO;
-import br.gov.pi.ati.modelo.cadastro.UnidadeGestora;
 import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
 import br.gov.pi.ati.modelo.controleacesso.AcessoSistema;
 import br.gov.pi.ati.modelo.controleacesso.TipoRecuperacaoSenha;

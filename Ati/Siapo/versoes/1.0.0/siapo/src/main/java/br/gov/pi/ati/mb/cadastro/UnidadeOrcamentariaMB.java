@@ -37,4 +37,8 @@ public class UnidadeOrcamentariaMB extends AbstractBaseBean<UnidadeOrcamentaria>
     public List<UnidadeOrcamentaria> autocompletePelaUnidadeAcesso(String nome) {
         return getBO().unidadePeloNomeEunidadeDeAcesso(nome);
     }
+    
+    public List<UnidadeOrcamentaria> ativas(){
+        return getBO().unidadesAtivas();
+    }
 }

@@ -20,6 +20,9 @@
                          paginatorTemplate="#{acaoOrcamentariaMB.dataModel.paginatorTemplate}"
                          value="#{acaoOrcamentariaMB.dataModel}" lazy="true" >
                 <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">
+                        <h:outputText value="" />
+                    </f:facet>
                     <h:outputText value="#{index+1}"/>
                 </p:column>
                 <p:column headerText="#{msg['acaoOrcamentaria.unidadeOrcamentaria']}" sortBy="#{acaoOrcamentaria.unidadeOrcamentaria.nome}"
@@ -49,12 +52,12 @@
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="Programa" sortBy="#{acaoOrcamentaria.programa.programa.nome}"
-                          filterBy="#{acaoOrcamentaria.programa.programa.nome}" >
+                <p:column headerText="Programa" sortBy="#{acaoOrcamentaria.programa.programaGov.nome}"
+                          filterBy="#{acaoOrcamentaria.programa.programaGov.nome}" >
                     <f:facet name="header">
                         <h:outputText value="Programa" />
                     </f:facet>
-                    <h:outputText value="#{acaoOrcamentaria.programa.programa}">
+                    <h:outputText value="#{acaoOrcamentaria.programa.programaGov}">
                         <x:initializer/>
                     </h:outputText>
                 </p:column>

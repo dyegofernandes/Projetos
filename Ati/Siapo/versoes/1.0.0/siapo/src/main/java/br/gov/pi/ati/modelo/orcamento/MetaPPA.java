@@ -8,6 +8,7 @@ package br.gov.pi.ati.modelo.orcamento;
 import br.gov.pi.ati.modelo.cadastro.Produto;
 import br.gov.pi.ati.modelo.cadastro.ProgramaPPA;
 import br.gov.pi.ati.modelo.cadastro.UnidadeDeMedida;
+import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
@@ -54,6 +56,10 @@ public class MetaPPA implements Serializable {
 
     @ManyToMany(targetEntity = TerritorioPPA.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<TerritorioPPA> territorios = new ArrayList<TerritorioPPA>();
+
+    @OneToMany(mappedBy = "produtoLDO")
+    @NotAudited
+    private List<DespesaPublica> despesas;
 
     public Long getId() {
         return id;
@@ -109,6 +115,14 @@ public class MetaPPA implements Serializable {
 
     public void setTerritorios(List<TerritorioPPA> territorios) {
         this.territorios = territorios;
+    }
+
+    public List<DespesaPublica> getDespesas() {
+        return despesas;
+    }
+
+    public void setDespesas(List<DespesaPublica> despesas) {
+        this.despesas = despesas;
     }
 
     @Override

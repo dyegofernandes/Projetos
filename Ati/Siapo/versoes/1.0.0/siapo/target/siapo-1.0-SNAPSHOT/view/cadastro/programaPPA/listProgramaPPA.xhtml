@@ -12,7 +12,7 @@
             <x:modalMessages/>
 
             <x:dataTableActions fileName="programaPPA_export" target=":formListProgramaPPA:dataTableProgramaPPA"
-                                     widgetVar="dataTableProgramaPPAWidget"  />
+                                widgetVar="dataTableProgramaPPAWidget"  />
 
             <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                          var="programaPPA" rowIndexVar="index" id="dataTableProgramaPPA" widgetVar="dataTableProgramaPPAWidget" styleClass="table-responsive"
@@ -20,10 +20,13 @@
                          paginatorTemplate="#{programaPPAMB.dataModel.paginatorTemplate}"
                          value="#{programaPPAMB.dataModel}" lazy="true" >
                 <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">
+                        <h:outputText value="" />
+                    </f:facet>
                     <h:outputText value="#{index+1}"/>
                 </p:column>
                 <p:column headerText="#{msg['programaPPA.programa']}" sortBy="#{programaPPA.programaGov}"
-                       >
+                          >
                     <f:facet name="header">
                         <h:outputText value="#{msg['programaPPA.programa']}" />
                     </f:facet>
@@ -32,7 +35,7 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{msg['programaPPA.competencia']}" sortBy="#{programaPPA.competencia}"
-                       >
+                          >
                     <f:facet name="header">
                         <h:outputText value="#{msg['programaPPA.competencia']}" />
                     </f:facet>
@@ -41,16 +44,21 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{msg['programaPPA.valor']}" sortBy="#{programaPPA.valor}"
-                       style="text-align: right;">
+                          style="text-align: right;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['programaPPA.valor']}" />
                     </f:facet>
                     <h:outputText value="#{programaPPA.valor}">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                     </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{x:sum(programaPPAMB.dataModel, 'pp.valor')}" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                    </f:facet>
                 </p:column>
                 <p:column headerText="#{msg['programaPPA.ativo']}" sortBy="#{programaPPA.ativo}"
-                    filterBy="#{programaPPA.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                          filterBy="#{programaPPA.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['programaPPA.ativo']}" />
                     </f:facet>
@@ -87,7 +95,7 @@
 
         <p:dialog widgetVar="widgetProgramaPPADetail" header="#{msg['programaPPA.detail']}" appendTo="@(body)" 
                   modal="true" styleClass="uix-dialog-fluid" >
-                  <ui:include src="detailProgramaPPA.xhtml" />
+            <ui:include src="detailProgramaPPA.xhtml" />
         </p:dialog>
     </ui:define>
 </ui:composition>

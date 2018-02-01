@@ -1,13 +1,22 @@
 package br.com.weblicita.dao.cadastro.impl;
 
-
 import java.io.Serializable;
 import com.xpert.core.crud.AbstractBaseBean;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.com.weblicita.bo.cadastro.ItemBO;
+import br.com.weblicita.bo.cadastro.UnidadeDeMedidaBO;
 import br.com.weblicita.modelo.cadastro.Item;
+import br.com.weblicita.modelo.cadastro.UnidadeDeMedida;
+import br.com.weblicita.modelo.controleacesso.Usuario;
+import br.com.weblicita.util.SessaoUtils;
+import br.com.weblicita.util.Utils;
+import com.xpert.faces.utils.FacesMessageUtils;
+import com.xpert.persistence.exception.DeleteException;
+import com.xpert.persistence.query.Restrictions;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -20,6 +29,27 @@ public class ItemMB extends AbstractBaseBean<Item> implements Serializable {
     @EJB
     private ItemBO itemBO;
 
+    @EJB
+    private UnidadeDeMedidaBO unidadeBO;
+
+    private Item itemAdd;
+
+    private List<Item> itensEmLote;
+
+    private boolean renderizarTabelaItens;
+
+    private boolean renderizarCampo;
+
+    private boolean somenteLeitura;
+
+    private boolean renderizarFormulario;
+
+    private List<UnidadeDeMedida> unidadesSelecionadas;
+
+    private String nome;
+    
+    private Usuario usuarioSistema = SessaoUtils.getUser();;
+
     @Override
     public ItemBO getBO() {
         return itemBO;
@@ -28,5 +58,229 @@ public class ItemMB extends AbstractBaseBean<Item> implements Serializable {
     @Override
     public String getDataModelOrder() {
         return "id";
+    }
+
+    @Override
+    public void init() {
+        itemAdd = new Item();
+        itensEmLote = new ArrayList<Item>();
+        renderizarCampo = false;
+        somenteLeitura = false;
+        renderizarFormulario = false;
+        renderizarTabelaItens = false;
+        nome = "";
+    }
+
+    @Override
+    public void postSave() {
+        renderizarCampo = false;
+        renderizarTabelaItens = false;
+        somenteLeitura = false;
+        renderizarFormulario = false;
+        itemAdd = new Item();
+        itensEmLote = new ArrayList<Item>();
+    }
+
+    @Override
+    public void save() {
+        super.save();
+    }
+
+    public void novo() {
+        itemAdd = new Item();
+        unidadesSelecionadas = new ArrayList<UnidadeDeMedida>();
+        itensEmLote = new ArrayList<Item>();
+        renderizarCampo = true;
+        renderizarFormulario = true;
+        renderizarTabelaItens = false;
+    }
+
+    public void excluir(Item item) throws DeleteException {
+
+        if (item.getId() != null) {
+            try {
+                getBO().remove(item);
+                FacesMessageUtils.sucess();
+                itensEmLote.remove(item);
+            } catch (Exception e) {
+                FacesMessageUtils.error("Item não pode ser removido pois possui dependencia!");
+            }
+
+        } else {
+            itensEmLote.remove(item);
+            FacesMessageUtils.sucess();
+        }
+        renderizarTabelaItens = true;
+    }
+
+    public void editar(Item item) {
+
+        if (item != null) {
+            itensEmLote.remove(item);
+            itemAdd = new Item();
+            itemAdd = item;
+            renderizarCampo = true;
+            renderizarFormulario = true;
+            renderizarTabelaItens = true;
+        } else {
+            FacesMessageUtils.error("Informe o Item a ser editado!");
+        }
+    }
+
+    public void cancelar() {
+
+    }
+
+    public void buscar() {
+        if (!Utils.isNullOrEmpty(nome)) {
+            Restrictions restrictions = new Restrictions();
+            restrictions.like("descricao", nome);
+
+            itensEmLote = getDAO().list(restrictions, "descricao");
+
+            if (itensEmLote != null) {
+                if (itensEmLote.size() > 0) {
+                    renderizarCampo = false;
+                    renderizarFormulario = true;
+                    renderizarTabelaItens = true;
+                }
+
+            } else {
+                renderizarCampo = false;
+                renderizarFormulario = false;
+                renderizarTabelaItens = false;
+                FacesMessageUtils.error("Itens não encontrado!");
+            }
+        } else {
+            renderizarCampo = false;
+            renderizarFormulario = false;
+            renderizarTabelaItens = false;
+            FacesMessageUtils.error("Informe a descrição do item para busca!");
+        }
+    }
+
+    public void salveAll() {
+        for (Item itensEmLote1 : itensEmLote) {
+            if (itensEmLote1.getId() == null) {
+                itensEmLote1.setCodigo(getBO().gerarCodigo());
+                itensEmLote1.setUsuario(usuarioSistema);
+            }
+            setEntity(itensEmLote1);
+            super.save();
+        }
+    }
+
+    public void addItem() {
+        if (itemAdd != null) {
+            if (Utils.isNullOrEmpty(itemAdd.getDescricao())) {
+                if (itemJahAdd(itemAdd)) {
+                    FacesMessageUtils.error("Item já adicionado na lista!");
+                } else {
+                    if (unidadesSelecionadas.size() > 0) {
+                        itemAdd.setCodigo(getBO().gerarCodigo());
+                        itemAdd.setUnidade(unidadesSelecionadas);
+                        
+                        itensEmLote.add(itemAdd);
+                        itemAdd = new Item();
+                        renderizarTabelaItens = false;
+                        renderizarCampo = true;
+                        FacesMessageUtils.info("Item adicionado com sucesso!");
+                    } else {
+                        FacesMessageUtils.info("Uma ou mais unidades são obrigatórias!");
+                    }
+
+                }
+
+            } else {
+                FacesMessageUtils.error("Descrição do item é obrigatória!");
+            }
+        } else {
+            FacesMessageUtils.error("Item é obrigatório!");
+        }
+    }
+
+    private boolean itemJahAdd(Item item) {
+        for (Item itemTem : itensEmLote) {
+            if (itemTem.equals(item)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void visualizarTabela() {
+        if (itensEmLote.size() > 0) {
+            renderizarTabelaItens = true;
+        } else {
+            FacesMessageUtils.error("Lista de Itens vazia!");
+        }
+    }
+
+    public boolean isRenderizarCampo() {
+        return renderizarCampo;
+    }
+
+    public void setRenderizarCampo(boolean renderizarCampo) {
+        this.renderizarCampo = renderizarCampo;
+    }
+
+    public boolean isSomenteLeitura() {
+        return somenteLeitura;
+    }
+
+    public void setSomenteLeitura(boolean somenteLeitura) {
+        this.somenteLeitura = somenteLeitura;
+    }
+
+    public boolean isRenderizarFormulario() {
+        return renderizarFormulario;
+    }
+
+    public void setRenderizarFormulario(boolean renderizarFormulario) {
+        this.renderizarFormulario = renderizarFormulario;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Item getItemAdd() {
+        return itemAdd;
+    }
+
+    public void setItemAdd(Item itemAdd) {
+        this.itemAdd = itemAdd;
+    }
+
+    public List<Item> getItensEmLote() {
+        return itensEmLote;
+    }
+
+    public void setItensEmLote(List<Item> itensEmLote) {
+        this.itensEmLote = itensEmLote;
+    }
+
+    public boolean isRenderizarTabelaItens() {
+        return renderizarTabelaItens;
+    }
+
+    public void setRenderizarTabelaItens(boolean renderizarTabelaItens) {
+        this.renderizarTabelaItens = renderizarTabelaItens;
+    }
+
+    public List<UnidadeDeMedida> getUnidadesSelecionadas() {
+        return unidadesSelecionadas;
+    }
+
+    public void setUnidadesSelecionadas(List<UnidadeDeMedida> unidadesSelecionadas) {
+        this.unidadesSelecionadas = unidadesSelecionadas;
+    }
+
+    public List<UnidadeDeMedida> getUnidades() {
+        return unidadeBO.unidadeAtidas();
     }
 }

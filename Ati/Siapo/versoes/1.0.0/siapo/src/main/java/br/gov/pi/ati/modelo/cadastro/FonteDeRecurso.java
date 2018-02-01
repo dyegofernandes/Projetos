@@ -6,7 +6,10 @@
 package br.gov.pi.ati.modelo.cadastro;
 
 import br.gov.pi.ati.modelo.cadastro.enums.TipoDeFonte;
+import br.gov.pi.ati.modelo.orcamento.DespesaPublica;
+import com.xpert.audit.NotAudited;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -14,6 +17,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -41,7 +45,7 @@ public class FonteDeRecurso implements Serializable {
     @Size(max = 60)
     @NotBlank
     private String mnemonico;
-    
+
     @NotNull
     @Enumerated(EnumType.STRING)
     private TipoDeFonte tipoFonte;
@@ -50,6 +54,10 @@ public class FonteDeRecurso implements Serializable {
     private GrupoDeFonte grupoDeFonte;
 
     private boolean ativo = true;
+
+    @OneToMany(mappedBy = "fonteDeRecurso")
+    @NotAudited
+    private List<DespesaPublica> despesas;
 
     @Override
     public String toString() {
@@ -113,6 +121,14 @@ public class FonteDeRecurso implements Serializable {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public List<DespesaPublica> getDespesas() {
+        return despesas;
+    }
+
+    public void setDespesas(List<DespesaPublica> despesas) {
+        this.despesas = despesas;
     }
 
     @Override

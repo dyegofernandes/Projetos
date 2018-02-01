@@ -45,9 +45,19 @@ public class UnidadeDeMedidaBO extends AbstractBusinessObject<UnidadeDeMedida> {
     public List<UnidadeDeMedida> unidadePeloNome(String nome) {
         Restrictions restrictions = new Restrictions();
 
+        restrictions.add("ativo", true);
+
         if (!Utils.isNullOrEmpty(nome)) {
             restrictions.like("nome", nome);
         }
+
+        return getDAO().list(restrictions, "nome");
+    }
+
+    public List<UnidadeDeMedida> unidadeAtidas() {
+        Restrictions restrictions = new Restrictions();
+
+        restrictions.add("ativo", true);
 
         return getDAO().list(restrictions, "nome");
     }

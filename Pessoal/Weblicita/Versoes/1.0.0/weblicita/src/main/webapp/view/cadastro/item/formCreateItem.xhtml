@@ -22,10 +22,11 @@
                         </div>
 
                         <div class="row">
-                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%;">
+                            <div class="form-group col-lg-12 col-md-12 col-sm-6 col-xs-12" style="width: 100%;">
                                 <h:outputLabel for="unidadeDeMedida" value="#{msg['item.unidadeDeMedida']}:" />
                                 <div class="row" style="background:#c7c9c9;padding: 5px;">
                                     <h:selectManyCheckbox value="#{itemMB.unidadesSelecionadas}" converter="entityConverter" styleClass="checkbox"
+                                                          id="unidadeDeMedida"
                                                           layout="responsive" >
                                         <x:initializer/>
                                         <x:spread columns="5"/>
@@ -37,9 +38,13 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="uix-center">
+                            <p:commandButton process="@form" update="@form" value="Adicionar" 
+                                             action="#{itemMB.addItem()}" />
+                        </div>
                         <div class="row">
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%;text-align: right">
-                                <p:commandLink value="Visualizar Itens Cadastrados" process="@this" update="dataTableItem" style="font-weight:bold" 
+                                <p:commandLink value="Visualizar Itens Cadastrados" process="@this" update="@form" style="font-weight:bold" 
                                                class="aLinkVisualizar" actionListener="#{itemMB.visualizarTabela()}" />
                             </div>
                         </div>
@@ -52,6 +57,9 @@
                                              value="#{itemMB.itensEmLote}" >
 
                                     <p:column styleClass="uix-datatable-index">
+                                        <f:facet name="header">
+                                            <h:outputText value=""/>
+                                        </f:facet>
                                         <h:outputText value="#{index+1}"/>
                                     </p:column>
 
@@ -73,6 +81,7 @@
                                         <f:facet name="header">
                                             <h:outputText value="#{msg['item.unidadeDeMedida']}" />
                                         </f:facet>
+                                        <h:outputText value="#{itemMB.inicializarUnidadades(item)}"/>
                                     </p:column>
 
 
@@ -81,9 +90,10 @@
                                             <h:outputText value="#{xmsg['actions']}"/>
                                         </f:facet>
                                         <x:securityArea rolesAllowed="item.editar">
-                                            <p:button icon="ui-icon-pencil" outcome="createItem" title="#{msg['item.edit']}">
-                                                <f:param name="id" value="#{item.id}" />
-                                            </p:button>
+
+                                            <p:commandButton icon="ui-icon-pencil" title="Editar" process="@this" update="@form"
+                                                             actionListener="#{itemMB.editar(item)}">
+                                            </p:commandButton>
                                         </x:securityArea>
                                         <x:securityArea rolesAllowed="item.desativar">
                                             <p:commandButton icon="ui-icon-trash" title="#{msg['item.disable']}" process="@this" update="dataTableItem"
@@ -96,34 +106,43 @@
                             </div>
                         </div>
                     </h:panelGroup>
+                    <h:panelGroup rendered="#{itemMB.itemAdd.id!=null}">
+                        <div class="row">
+                            <h:outputLabel for="outro" value="Órgão responsável pelo item cadastrado: " style="font-weight: bold">
 
-                    <div class="row">
-                        <h:outputLabel for="outro" value="Órgão responsável pelo item cadastrado: " style="font-weight: bold"/>
-                        <h:outputLabel for="outro" value=" [orgão ao qual o usuário pertence] " style="font-weight: normal; color: red;" />
-                    </div>
-                    <div class="row">
-                        <h:outputLabel for="outro" value="Data do cadastro: " style="font-weight: bold"/>
-                        <h:outputLabel for="outro" value=" [Data do dia por extenso] " style="font-weight: normal; color: red;" />
-                    </div>
-                    <div class="row">
-                        <h:outputLabel for="outro" value="Total de itens cadastrados nessa sessão: " style="font-weight: bold"/>
-                        <h:outputLabel for="outro" value=" [soma de todos os itens da sessao] " style="font-weight: normal; color: red;" />
-                    </div>
-                    <div class="row">
-                        <h:outputLabel for="outro" value="Responsável pelo cadastro: " style="font-weight: bold"/>
-                        <h:outputLabel for="outro" value=" [nome completo do usuario logado] " style="font-weight: normal; color: red;" />
-                    </div>
-                    <div class="row">
-                        <h:outputLabel for="outro" value="Cargo: " style="font-weight: bold"/>
-                        <h:outputLabel for="outro" value=" [cargo do usuario logado] " style="font-weight: normal; color: red;"/>
-                    </div>
+                            </h:outputLabel>
+                            <h:outputLabel for="outro" value="#{itemMB.entity.usuario.orgao}" style="font-weight: normal; color: red;">
+                                <x:initializer/>
+                            </h:outputLabel>
+                        </div>
+                        <div class="row">
+                            <h:outputLabel for="outro" value="Data do cadastro: " style="font-weight: bold"/>
+                            <h:outputLabel for="outro" value="#{itemMB.entity.dataCadastro}" style="font-weight: normal; color: red;" >
+                                <f:convertDateTime dateStyle="full" type="both" />
+                            </h:outputLabel>
+                        </div>
+
+                        <div class="row">
+                            <h:outputLabel for="outro" value="Responsável pelo cadastro: " style="font-weight: bold"/>
+                            <h:outputLabel for="outro" value="#{itemMB.entity.usuario.nome}" style="font-weight: normal; color: red;">
+                                <x:initializer/>
+                            </h:outputLabel>
+                        </div>
+                        <div class="row">
+                            <h:outputLabel for="outro" value="Cargo: " style="font-weight: bold"/>
+                            <h:outputLabel for="outro" value="#{itemMB.entity.usuario.cargo}" style="font-weight: normal; color: red;">
+                                <x:initializer/>
+                            </h:outputLabel>
+                        </div>
+                    </h:panelGroup>
+
                 </div>
             </p:fieldset>
             <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
             <div class="uix-center">
                 <x:securityArea rolesAllowed="item.create">
-                    <p:commandButton process="@form" update="@form formFindItem" action="#{itemMB.save}" value="#{xmsg['save']}" styleClass="button-save" 
-                                     rendered="#{itemMB.renderizarCampo}"/>
+                    <p:commandButton process="@form" update="@form formFindItem" action="#{itemMB.salveAll()}" value="#{xmsg['save']}" styleClass="button-save" 
+                                     rendered="#{itemMB.itensEmLote.size()>0 }"/>
                 </x:securityArea>
 
 

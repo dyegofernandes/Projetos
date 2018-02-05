@@ -273,6 +273,8 @@ public class GeracaoPermissao {
         //Meta PPA
         create(new Permissao("orcamento", "Orçamento", true), null);
 
+        create(new Permissao("metas", "Metas PPA", true), "orcamento");
+        
         //Programa PPA
         create(new Permissao("programaPPA", "Programa PPA", false), "orcamento");
         create(new Permissao("programaPPA.create", "Cadastro de Programa PPA", "/view/cadastro/programaPPA/createProgramaPPA.jsf", false), "programaPPA");
@@ -280,11 +282,14 @@ public class GeracaoPermissao {
         create(new Permissao("programaPPA.audit", "Auditoria de Programa PPA"), "programaPPA");
         create(new Permissao("programaPPA.delete", "Exclusão de Programa PPA"), "programaPPA");
 
-        create(new Permissao("metaPPA", "Meta PPA", false), "orcamento");
-        create(new Permissao("metaPPA.create", "Cadastro de Meta PPA", "/view/orcamento/metaPPA/createMetaPPA.jsf", false), "metaPPA");
-        create(new Permissao("metaPPA.list", "Metas PPA", "/view/orcamento/metaPPA/listMetaPPA.jsf", true), "orcamento");
-        create(new Permissao("metaPPA.audit", "Auditoria de Meta PPA"), "metaPPA");
-        create(new Permissao("metaPPA.delete", "Exclusão de Meta PPA"), "metaPPA");
+        
+        
+        
+        create(new Permissao("metaPPA", "Produto PPA", false), "metas");
+        create(new Permissao("metaPPA.create", "Cadastro de Produto PPA", "/view/orcamento/metaPPA/createMetaPPA.jsf", false), "metaPPA");
+        create(new Permissao("metaPPA.list", "Produtos", "/view/orcamento/metaPPA/listMetaPPA.jsf", true), "metas");
+        create(new Permissao("metaPPA.audit", "Auditoria de Produto PPA"), "metaPPA");
+        create(new Permissao("metaPPA.delete", "Exclusão de Produto PPA"), "metaPPA");
 
         /*
          * Configuracao

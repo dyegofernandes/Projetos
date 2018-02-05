@@ -4,8 +4,8 @@
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
-    
-  
+
+
     <h:form id="formFindPedidoLicitacao" >
         <x:modalMessages/>
 
@@ -13,26 +13,30 @@
             <div class="row">
                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
                     <div style="input-finds_left">
-                        <p:inputText id="numeroProcessoAdministrativo" value="#{pedidoLicitacaoMB.entity.numeroProcessoAdministrativo}" placeholder="#{msg['pedidoLicitacao.find.numeroProcessoAdministrativo']}" maxlength="20"  styleClass="form-control input-finds"  />
+                        <p:inputText id="numeroProcessoAdministrativo" value="#{pedidoLicitacaoMB.numeroProcessoAdministrativo}" placeholder="#{msg['pedidoLicitacao.find.numeroProcessoAdministrativo']}" maxlength="20"  styleClass="form-control input-finds"  />
                     </div>
-                    <p:commandButton process="@form" update="@form"  value="#{msg['pedidoLicitacao.find']}" class="button-finds" />
+                    <p:commandButton process="@form" update="formFindPedidoLicitacao formCreatePedidoLicitacao"  value="#{msg['pedidoLicitacao.find']}" class="button-finds" 
+                                     actionListener="#{pedidoLicitacaoMB.buscar()}"/>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
                     <div class="div-button-new">
                         <x:securityArea rolesAllowed="pedidoLicitacao.create">
-                           <p:commandButton process="@form" update="@form"  value="#{msg['pedidoLicitacao.new']}" class="button-new" />
+                            <p:commandButton process="@form" update="formFindPedidoLicitacao formCreatePedidoLicitacao"  value="#{msg['pedidoLicitacao.new']}" class="button-new" 
+                                             actionListener="#{pedidoLicitacaoMB.novo()}"/>
                         </x:securityArea>
                     </div>
                     <div class="div-button-edit">
                         <x:securityArea rolesAllowed="pedidoLicitacao.editar">
-                           <p:commandButton process="@form" update="@form"  value="#{msg['pedidoLicitacao.edit']}" class="button-edit" />
+                            <p:commandButton process="@form" update="formFindPedidoLicitacao formCreatePedidoLicitacao"  value="#{msg['pedidoLicitacao.edit']}" class="button-edit" 
+                                             actionListener="#{pedidoLicitacaoMB.editar()}" rendered="#{pedidoLicitacaoMB.entity.id!=null}"/>
                         </x:securityArea>
                     </div>
                     <div class="div-button-delete">
                         <x:securityArea rolesAllowed="pedidoLicitacao.desativar">
-                           <p:commandButton process="@form" update="@form"  value="#{msg['pedidoLicitacao.disable']}" class="button-disable" />
+                            <p:commandButton process="@form" update="formFindPedidoLicitacao formCreatePedidoLicitacao"  value="#{msg['pedidoLicitacao.disable']}" class="button-disable" 
+                                             actionListener="#{pedidoLicitacaoMB.desativar()}" rendered="#{pedidoLicitacaoMB.entity.id!=null}" />
                         </x:securityArea>
                     </div>
                 </div>

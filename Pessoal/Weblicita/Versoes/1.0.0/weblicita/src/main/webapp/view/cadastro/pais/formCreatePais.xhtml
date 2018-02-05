@@ -20,7 +20,7 @@
                         </div>
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 20%">
                             <h:outputLabel for="sigla" value="* #{msg['pais.sigla']}:" />
-                            <p:inputText id="sigla" value="#{paisMB.entity.sigla}" maxlength="3"  styleClass="form-control"  
+                            <p:inputMask id="sigla" value="#{paisMB.entity.sigla}" mask="aaa"  styleClass="form-control"  
                                          readonly="#{paisMB.somenteLeitura}"/>
                         </div>
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
@@ -35,7 +35,7 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
-                            <h:outputLabel for="nacionalidade" value="* #{msg['pais.nacionalidade']}:" />
+                            <h:outputLabel for="nacionalidade" value="#{msg['pais.nacionalidade']}:" />
                             <p:inputText id="nacionalidade" value="#{paisMB.entity.nacionalidade}" maxlength="200"  styleClass="form-control" 
                                          readonly="#{paisMB.somenteLeitura}"/>
                         </div>

@@ -9,6 +9,7 @@ import br.com.weblicita.bo.cadastro.PaisBO;
 import br.com.weblicita.modelo.cadastro.Pais;
 import br.com.weblicita.util.Utils;
 import com.xpert.faces.utils.FacesMessageUtils;
+import com.xpert.persistence.query.Restrictions;
 
 /**
  *
@@ -56,7 +57,7 @@ public class PaisMB extends AbstractBaseBean<Pais> implements Serializable {
 
     @Override
     public void save() {
-        super.save(); 
+        super.save();
     }
 
     public void novo() {
@@ -91,7 +92,9 @@ public class PaisMB extends AbstractBaseBean<Pais> implements Serializable {
     public void buscar() {
         setEntity(new Pais());
         if (!Utils.isNullOrEmpty(nome)) {
-            Pais paisTemp = getDAO().unique("nome", nome);
+            Restrictions restrictions = new Restrictions();
+            restrictions.equals("UPPER(nome)", nome.toUpperCase());
+            Pais paisTemp = getDAO().unique(restrictions);
             if (paisTemp != null) {
                 renderizarCampo = false;
                 somenteLeitura = true;

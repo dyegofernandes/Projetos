@@ -105,6 +105,12 @@ public class GeracaoDadosSistema {
         } catch (Exception ex) {
             logger.log(Level.SEVERE, ex.getMessage(), ex);
         }
+        
+        try {
+            
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, ex.getMessage(), ex);
+        }
     }
 
 }

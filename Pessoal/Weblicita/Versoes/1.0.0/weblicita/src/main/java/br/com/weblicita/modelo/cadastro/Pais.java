@@ -29,6 +29,9 @@ public class Pais implements Serializable {
     @GeneratedValue(generator = "Pais")
     private Long id;
 
+    @Size(max = 50)
+    private String codigo;
+
     @NotBlank
     @Size(max = 200)
     private String nome;
@@ -37,7 +40,7 @@ public class Pais implements Serializable {
     @Size(min = 2, max = 3)
     private String sigla;
 
-    @NotBlank
+//    @NotBlank
     @Size(max = 200)
     private String nacionalidade;
 
@@ -74,6 +77,9 @@ public class Pais implements Serializable {
     }
 
     public void setSigla(String sigla) {
+        if (sigla != null) {
+            sigla = sigla.trim().toUpperCase();
+        }
         this.sigla = sigla;
     }
 
@@ -99,6 +105,14 @@ public class Pais implements Serializable {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     @Override

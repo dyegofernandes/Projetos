@@ -27,7 +27,7 @@ public class PaisBO extends AbstractBusinessObject<Pais> {
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return new UniqueFields().add("nome");
+        return new UniqueFields().add("nome").add("sigla");
     }
 
     @Override

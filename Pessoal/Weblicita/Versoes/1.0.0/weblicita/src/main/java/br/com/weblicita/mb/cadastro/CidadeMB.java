@@ -9,6 +9,7 @@ import br.com.weblicita.bo.cadastro.CidadeBO;
 import br.com.weblicita.modelo.cadastro.Cidade;
 import br.com.weblicita.util.Utils;
 import com.xpert.faces.utils.FacesMessageUtils;
+import com.xpert.persistence.query.Restrictions;
 import java.util.List;
 
 /**
@@ -96,7 +97,9 @@ public class CidadeMB extends AbstractBaseBean<Cidade> implements Serializable {
     public void buscar() {
         setEntity(new Cidade());
         if (!Utils.isNullOrEmpty(nome)) {
-            Cidade retorno = getDAO().unique("nome", nome);
+            Restrictions restrictions = new Restrictions();
+            restrictions.equals("UPPER(nome)", nome.toUpperCase());
+            Cidade retorno = getDAO().unique(restrictions);
             if (retorno != null) {
                 renderizarCampo = false;
                 somenteLeitura = true;

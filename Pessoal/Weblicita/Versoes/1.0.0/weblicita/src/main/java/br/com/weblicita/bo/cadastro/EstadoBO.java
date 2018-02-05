@@ -29,7 +29,7 @@ public class EstadoBO extends AbstractBusinessObject<Estado> {
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return new UniqueFields().add("pais", "nome");
+        return new UniqueFields().add("pais", "nome").add("pais", "sigla");
     }
 
     @Override

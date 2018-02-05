@@ -31,6 +31,9 @@ public class Estado implements Serializable {
     @SequenceGenerator(name = "Estado", allocationSize = 1, sequenceName = "estado_id_seq")
     @GeneratedValue(generator = "Estado")
     private Long id;
+    
+    @Size(max = 50)
+    private String codigo;
 
     @NotBlank
     @Size(max = 200)
@@ -65,6 +68,14 @@ public class Estado implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public String getNome() {

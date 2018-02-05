@@ -9,6 +9,7 @@ import br.com.weblicita.bo.cadastro.EstadoBO;
 import br.com.weblicita.modelo.cadastro.Estado;
 import br.com.weblicita.util.Utils;
 import com.xpert.faces.utils.FacesMessageUtils;
+import com.xpert.persistence.query.Restrictions;
 import java.util.List;
 
 /**
@@ -96,7 +97,9 @@ public class EstadoMB extends AbstractBaseBean<Estado> implements Serializable {
     public void buscar() {
         setEntity(new Estado());
         if (!Utils.isNullOrEmpty(nome)) {
-            Estado estadoTemp = getDAO().unique("nome", nome);
+            Restrictions restrictions = new Restrictions();
+            restrictions.equals("UPPER(nome)", nome.toUpperCase());
+            Estado estadoTemp = getDAO().unique(restrictions);
             if (estadoTemp != null) {
                 renderizarCampo = false;
                 somenteLeitura = true;

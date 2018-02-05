@@ -30,6 +30,9 @@ public class Cidade implements Serializable {
     @SequenceGenerator(name = "Cidade", allocationSize = 1, sequenceName = "cidade_id_seq")
     @GeneratedValue(generator = "Cidade")
     private Long id;
+    
+     @Size(max = 50)
+    private String codigo;
 
     @NotBlank
     @Size(max = 200)
@@ -84,6 +87,22 @@ public class Cidade implements Serializable {
 
     public boolean isAtivo() {
         return ativo;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public boolean isCapital() {
+        return capital;
+    }
+
+    public void setCapital(boolean capital) {
+        this.capital = capital;
     }
 
     public void setAtivo(boolean ativo) {

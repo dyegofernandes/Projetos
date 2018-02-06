@@ -5,6 +5,7 @@
  */
 package br.gov.pi.ati.modelo.cadastro;
 
+import br.gov.pi.ati.modelo.orcamento.MetaAcaoEstrategica;
 import br.gov.pi.ati.modelo.orcamento.MetaPPA;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
@@ -43,14 +44,18 @@ public class ProgramaPPA implements Serializable {
     private BigDecimal valor;
 
     private boolean ativo = true;
-    
+
     @OneToMany(mappedBy = "programa")
     @NotAudited
     private List<AcaoOrcamentaria> acoes;
-    
+
     @OneToMany(mappedBy = "programa")
     @NotAudited
     private List<MetaPPA> metasPPA;
+
+    @OneToMany(mappedBy = "programaPPA")
+    @NotAudited
+    private List<MetaAcaoEstrategica> metasAcaoEstrategica;
 
     public Long getId() {
         return id;
@@ -67,8 +72,6 @@ public class ProgramaPPA implements Serializable {
     public void setProgramaGov(ProgramaDeGoverno programaGov) {
         this.programaGov = programaGov;
     }
-
-   
 
     public CompentenciaPPA getCompetencia() {
         return competencia;
@@ -108,6 +111,14 @@ public class ProgramaPPA implements Serializable {
 
     public void setMetasPPA(List<MetaPPA> metasPPA) {
         this.metasPPA = metasPPA;
+    }
+
+    public List<MetaAcaoEstrategica> getMetasAcaoEstrategica() {
+        return metasAcaoEstrategica;
+    }
+
+    public void setMetasAcaoEstrategica(List<MetaAcaoEstrategica> metasAcaoEstrategica) {
+        this.metasAcaoEstrategica = metasAcaoEstrategica;
     }
 
     @Override

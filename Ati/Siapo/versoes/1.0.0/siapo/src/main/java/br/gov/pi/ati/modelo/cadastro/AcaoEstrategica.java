@@ -5,6 +5,7 @@
  */
 package br.gov.pi.ati.modelo.cadastro;
 
+import br.gov.pi.ati.modelo.orcamento.MetaAcaoEstrategica;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.List;
@@ -49,6 +50,10 @@ public class AcaoEstrategica implements Serializable {
     @OneToMany(mappedBy = "acao")
     @NotAudited
     private List<Produto> produtos;
+    
+    @OneToMany(mappedBy = "acaoEstrategica")
+    @NotAudited
+    private List<MetaAcaoEstrategica> metas;
 
     @Override
     public String toString() {
@@ -101,6 +106,14 @@ public class AcaoEstrategica implements Serializable {
 
     public void setCodigo(String codigo) {
         this.codigo = codigo;
+    }
+
+    public List<MetaAcaoEstrategica> getMetas() {
+        return metas;
+    }
+
+    public void setMetas(List<MetaAcaoEstrategica> metas) {
+        this.metas = metas;
     }
 
     @Override

@@ -4,14 +4,21 @@ import br.gov.pi.ati.siopm.dao.DAO;
 import br.gov.pi.ati.siopm.modelo.controleacesso.*;
 import com.xpert.persistence.dao.BaseDAO;
 import com.xpert.utils.Encryption;
+import java.io.File;
+import java.io.FileInputStream;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 
 /**
  * Classe para geracao inicial dos dados do sistema, como perfil ADMINISTRADOR
@@ -105,12 +112,7 @@ public class GeracaoDadosSistema {
         } catch (Exception ex) {
             logger.log(Level.SEVERE, ex.getMessage(), ex);
         }
-        
-        try {
-            
-        } catch (Exception ex) {
-            logger.log(Level.SEVERE, ex.getMessage(), ex);
-        }
+
     }
 
 }

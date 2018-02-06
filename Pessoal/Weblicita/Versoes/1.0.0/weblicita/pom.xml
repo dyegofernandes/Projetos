@@ -63,7 +63,7 @@
             <artifactId>xpert-framework</artifactId>
             <version>1.8.4-SNAPSHOT</version>
         </dependency>
-       <dependency>
+        <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
             <version>6.1</version>
@@ -113,6 +113,11 @@
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports-fonts</artifactId>
             <version>4.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.17</version>
         </dependency>
     </dependencies>
     

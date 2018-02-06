@@ -1,5 +1,7 @@
 package br.gov.pi.ati.mb.padrao;
 
+import br.gov.pi.ati.modelo.orcamento.ReceitaMetaAcaoEstrategica;
+import br.gov.pi.ati.modelo.orcamento.MetaAcaoEstrategica;
 import br.gov.pi.ati.modelo.orcamento.TerritorioPPA;
 import br.gov.pi.ati.modelo.orcamento.MetaPPA;
 import br.gov.pi.ati.modelo.orcamento.Ldo;
@@ -236,6 +238,13 @@ public class ClassMB {
     }
     public Class getLdo() {
         return Ldo.class;
+    }
+
+    public Class getReceitaMetaAcaoEstrategica() {
+        return ReceitaMetaAcaoEstrategica.class;
+    }
+    public Class getMetaAcaoEstrategica() {
+        return MetaAcaoEstrategica.class;
     }
 
 }

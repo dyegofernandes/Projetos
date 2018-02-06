@@ -18,6 +18,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -33,7 +34,12 @@ public class RubricaOrcamentaria implements Serializable {
     private Long id;
 
     @NotBlank
+    @Size(max = 50)
     private String legenda;
+    
+    @NotBlank
+    @Size(max = 250)
+    private String descricao;
 
     @NotNull
     @Temporal(TemporalType.DATE)
@@ -83,6 +89,14 @@ public class RubricaOrcamentaria implements Serializable {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     @Override

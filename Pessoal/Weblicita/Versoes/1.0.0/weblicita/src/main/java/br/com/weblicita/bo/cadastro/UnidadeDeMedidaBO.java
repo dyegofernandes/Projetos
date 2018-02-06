@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import br.com.weblicita.modelo.cadastro.UnidadeDeMedida;
 import br.com.weblicita.util.Utils;
 import com.xpert.core.exception.UniqueFieldException;
+import com.xpert.core.validation.UniqueFields;
 import com.xpert.core.validation.UniqueFieldsValidation;
 import com.xpert.persistence.query.Restriction;
 import com.xpert.persistence.query.Restrictions;
@@ -37,9 +38,16 @@ public class UnidadeDeMedidaBO extends AbstractBusinessObject<UnidadeDeMedida> {
 
     @Override
     public void validateUniqueFields(UnidadeDeMedida unidade) throws UniqueFieldException {
+        UniqueFields uniqueFields = new UniqueFields();
         Restriction restriction = new Restriction("UPPER(nome)", unidade.getNome().toUpperCase());
         UniqueField uniqueField = new UniqueField(restriction).setMessage("Já existe unidade cadastrada com esse nome: ".concat(unidade.getNome().toUpperCase()));
-        UniqueFieldsValidation.validateUniqueFields(uniqueField, unidade, getDAO());
+
+        Restriction restriction2 = new Restriction("UPPER(sigla)", unidade.getSigla().toUpperCase());
+        UniqueField uniqueField2 = new UniqueField(restriction2).setMessage("Já existe unidade cadastrada com essa sigla: ".concat(unidade.getSigla().toUpperCase()));
+
+        uniqueFields.add(uniqueField);
+        uniqueFields.add(uniqueField2);
+        UniqueFieldsValidation.validateUniqueFields(uniqueFields, unidade, getDAO());
     }
 
     @Override

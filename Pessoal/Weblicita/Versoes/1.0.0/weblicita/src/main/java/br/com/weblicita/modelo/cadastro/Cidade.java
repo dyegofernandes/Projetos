@@ -30,14 +30,15 @@ public class Cidade implements Serializable {
     @SequenceGenerator(name = "Cidade", allocationSize = 1, sequenceName = "cidade_id_seq")
     @GeneratedValue(generator = "Cidade")
     private Long id;
-    
-     @Size(max = 50)
+
+    @Size(max = 50)
+    @NotBlank
     private String codigo;
 
     @NotBlank
     @Size(max = 200)
     private String nome;
-    
+
     private boolean capital = false;
 
     private boolean ativo = true;

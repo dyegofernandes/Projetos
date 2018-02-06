@@ -274,7 +274,7 @@ public class GeracaoPermissao {
         create(new Permissao("orcamento", "Orçamento", true), null);
 
         create(new Permissao("metas", "Metas PPA", true), "orcamento");
-        
+
         //Programa PPA
         create(new Permissao("programaPPA", "Programa PPA", false), "orcamento");
         create(new Permissao("programaPPA.create", "Cadastro de Programa PPA", "/view/cadastro/programaPPA/createProgramaPPA.jsf", false), "programaPPA");
@@ -282,14 +282,18 @@ public class GeracaoPermissao {
         create(new Permissao("programaPPA.audit", "Auditoria de Programa PPA"), "programaPPA");
         create(new Permissao("programaPPA.delete", "Exclusão de Programa PPA"), "programaPPA");
 
-        
-        
-        
         create(new Permissao("metaPPA", "Produto PPA", false), "metas");
         create(new Permissao("metaPPA.create", "Cadastro de Produto PPA", "/view/orcamento/metaPPA/createMetaPPA.jsf", false), "metaPPA");
         create(new Permissao("metaPPA.list", "Produtos", "/view/orcamento/metaPPA/listMetaPPA.jsf", true), "metas");
         create(new Permissao("metaPPA.audit", "Auditoria de Produto PPA"), "metaPPA");
         create(new Permissao("metaPPA.delete", "Exclusão de Produto PPA"), "metaPPA");
+
+        //Meta Acao Estrategica
+        create(new Permissao("metaAcaoEstrategica", "Meta Acao Estrategica", false), "metas");
+        create(new Permissao("metaAcaoEstrategica.create", "Cadastro de Meta Acao Estrategica", "/view/orcamento/metaAcaoEstrategica/createMetaAcaoEstrategica.jsf", false), "metaAcaoEstrategica");
+        create(new Permissao("metaAcaoEstrategica.list", "Acão Estratégica", "/view/orcamento/metaAcaoEstrategica/listMetaAcaoEstrategica.jsf", true), "metas");
+        create(new Permissao("metaAcaoEstrategica.audit", "Auditoria de Meta Acao Estrategica"), "metaAcaoEstrategica");
+        create(new Permissao("metaAcaoEstrategica.delete", "Exclusão de Meta Acao Estrategica"), "metaAcaoEstrategica");
 
         /*
          * Configuracao

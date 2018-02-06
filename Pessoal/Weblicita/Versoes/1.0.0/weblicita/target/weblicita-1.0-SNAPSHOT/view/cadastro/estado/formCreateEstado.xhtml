@@ -15,13 +15,18 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 30%">
+                            <h:outputLabel for="codigo" value="* #{msg['estado.codigo']}:" />
+                            <p:inputMask id="codigo" value="#{estadoMB.entity.codigo}" mask="99"  styleClass="form-control"  
+                                         readonly="#{estadoMB.somenteLeitura}"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 30%">
                             <h:outputLabel for="nome" value="* #{msg['estado.nome']}:" />
                             <p:inputText id="nome" value="#{estadoMB.entity.nome}" maxlength="200"  styleClass="form-control"  
                                          readonly="#{estadoMB.somenteLeitura}"/>
                         </div>
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 20%">
                             <h:outputLabel for="sigla" value="* #{msg['estado.sigla']}:" />
-                            <p:inputText id="sigla" value="#{estadoMB.entity.sigla}" maxlength="2"  styleClass="form-control"  
+                            <p:inputMask id="sigla" value="#{estadoMB.entity.sigla}" mask="aa"  styleClass="form-control"  
                                          readonly="#{estadoMB.somenteLeitura}"/>
                         </div>
                     </div>

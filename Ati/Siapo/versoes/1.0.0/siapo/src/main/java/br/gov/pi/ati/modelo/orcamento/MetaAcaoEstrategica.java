@@ -7,6 +7,7 @@ package br.gov.pi.ati.modelo.orcamento;
 
 import br.gov.pi.ati.modelo.cadastro.AcaoEstrategica;
 import br.gov.pi.ati.modelo.cadastro.ProgramaPPA;
+import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
@@ -42,6 +44,10 @@ public class MetaAcaoEstrategica implements Serializable {
 
     @ManyToMany(targetEntity = ReceitaMetaAcaoEstrategica.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<ReceitaMetaAcaoEstrategica> receitas = new ArrayList<ReceitaMetaAcaoEstrategica>();
+
+    @OneToMany(mappedBy = "metaAcao")
+    @NotAudited
+    private List<MetaProduto> mestasProduto;
 
     public Long getId() {
         return id;
@@ -75,6 +81,14 @@ public class MetaAcaoEstrategica implements Serializable {
         this.receitas = receitas;
     }
 
+    public List<MetaProduto> getMestasProduto() {
+        return mestasProduto;
+    }
+
+    public void setMestasProduto(List<MetaProduto> mestasProduto) {
+        this.mestasProduto = mestasProduto;
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;
@@ -96,6 +110,5 @@ public class MetaAcaoEstrategica implements Serializable {
         }
         return true;
     }
-    
-    
+
 }

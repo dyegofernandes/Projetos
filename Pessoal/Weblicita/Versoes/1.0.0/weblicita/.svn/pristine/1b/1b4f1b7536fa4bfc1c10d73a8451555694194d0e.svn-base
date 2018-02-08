@@ -1,0 +1,53 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateRegiao" >
+        <x:modalMessages autoUpdate="true"/>
+        <h:panelGroup rendered="#{regiaoMB.renderizarFormulario}">
+            <p:fieldset legend="#{xmsg['generalData']}">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dataCadastro" value="#{msg['regiao.dataCadastro']}:" />
+                            <p:inputText id="dataCadastro" value="#{regiaoMB.entity.dataCadastro}" maxlength="255"  styleClass="form-control"
+                                         readonly="true">
+                                <f:convertDateTime />
+                            </p:inputText> 
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="descricao" value="* #{msg['regiao.descricao']}:" />
+                            <p:inputText id="descricao" value="#{regiaoMB.entity.descricao}" maxlength="255"  styleClass="form-control"
+                                         readonly="#{regiaoMB.somenteLeitura}"/> 
+
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="ativo" value="#{msg['regiao.ativo']}:" />
+                            <p:inputText id="ativo" value="#{regiaoMB.entity.ativo}" maxlength="255"  styleClass="form-control"
+                                         readonly="true" converter ="yesNoConverter" >
+
+                            </p:inputText> 
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </p:fieldset>
+            <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+            <div class="uix-center">
+                <x:securityArea rolesAllowed="regiao.create">
+                    <p:commandButton process="@form" update="@form formFindRegiao" action="#{regiaoMB.save}" value="#{xmsg['save']}" />
+                </x:securityArea>
+
+            </div>
+        </h:panelGroup>
+
+    </h:form>
+
+</ui:composition>

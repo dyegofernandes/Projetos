@@ -1,0 +1,93 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['regiao.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuRegiao.xhtml" />
+        <h:form id="formListRegiao">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="regiao_export" target=":formListRegiao:dataTableRegiao"
+                                     widgetVar="dataTableRegiaoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="regiao" rowIndexVar="index" id="dataTableRegiao" widgetVar="dataTableRegiaoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{regiaoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{regiaoMB.dataModel.paginatorTemplate}"
+                         value="#{regiaoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['regiao.descricao']}" sortBy="#{regiao.descricao}"
+                    filterBy="#{regiao.descricao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['regiao.descricao']}" />
+                    </f:facet>
+                    <h:outputText value="#{regiao.descricao}"/>
+                </p:column>
+                <p:column headerText="#{msg['regiao.ativo']}" sortBy="#{regiao.ativo}"
+                    filterBy="#{regiao.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['regiao.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{regiao.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['regiao.dataCadastro']}" sortBy="#{regiao.dataCadastro}"
+                    filterBy="#{regiao.dataCadastro}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['regiao.dataCadastro']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{regiao.dataCadastro}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['regiao.dataAtualizacao']}" sortBy="#{regiao.dataAtualizacao}"
+                    filterBy="#{regiao.dataAtualizacao}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['regiao.dataAtualizacao']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{regiao.dataAtualizacao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetRegiaoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailRegiao" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{regiao}" target="#{regiaoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="regiao.create">
+                        <p:button icon="ui-icon-pencil" outcome="createRegiao" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{regiao.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="regiao.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{regiaoMB.delete}" >
+                            <f:setPropertyActionListener value="#{regiao.id}" target="#{regiaoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{regiao}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="regiao.audit">
+                    <x:auditDelete for="#{regiaoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetRegiaoDetail" header="#{msg['regiao.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailRegiao.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

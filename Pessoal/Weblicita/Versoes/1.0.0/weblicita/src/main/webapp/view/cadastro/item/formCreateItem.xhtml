@@ -15,9 +15,14 @@
                 <div class="container-fluid">
                     <h:panelGroup rendered="#{itemMB.renderizarCampo}">
                         <div class="row">
-                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 70%">
                                 <h:outputLabel for="descricao" value="* #{msg['item.descricao']}:" />
                                 <p:inputText id="descricao" value="#{itemMB.itemAdd.descricao}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 30%">
+                                <h:outputLabel for="ativar" value="* #{msg['item.ativo']}:" />
+                                <p:inputText id="ativar" value="#{itemMB.itemAdd.ativo}" maxlength="255"  styleClass="form-control" 
+                                             readonly="true" converter ="yesNoConverter"/>
                             </div>
                         </div>
 
@@ -39,7 +44,7 @@
                             </div>
                         </div>
                         <div class="uix-center">
-                            <p:commandButton process="@form" update="@form" value="Adicionar" 
+                            <p:commandButton process="@form" update="@form formFindItem" value="Adicionar" 
                                              action="#{itemMB.addItem()}" />
                         </div>
                         <div class="row">
@@ -91,7 +96,7 @@
                                         </f:facet>
                                         <x:securityArea rolesAllowed="item.editar">
 
-                                            <p:commandButton icon="ui-icon-pencil" title="Editar" process="@this" update="@form"
+                                            <p:commandButton icon="ui-icon-pencil" title="Editar" process="@this" update="@form formFindItem"
                                                              actionListener="#{itemMB.editar(item)}">
                                             </p:commandButton>
                                         </x:securityArea>
@@ -140,12 +145,12 @@
             </p:fieldset>
             <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
             <div class="uix-center">
-                <x:securityArea rolesAllowed="item.create">
-                    <p:commandButton process="@form" update="@form formFindItem" action="#{itemMB.salveAll()}" value="#{xmsg['save']}" styleClass="button-save" 
-                                     rendered="#{itemMB.itensEmLote.size()>0 }"/>
-                </x:securityArea>
-
-
+                <div class="div-actions-buttons">
+                    <x:securityArea rolesAllowed="item.create">
+                        <p:commandButton process="@form" update="@form formFindItem" action="#{itemMB.salveAll()}" value="#{xmsg['save']}" styleClass="button-save" 
+                                         rendered="#{itemMB.itensEmLote.size()>0 }"/>
+                    </x:securityArea>
+                </div>
             </div>
         </h:panelGroup>
     </h:form>

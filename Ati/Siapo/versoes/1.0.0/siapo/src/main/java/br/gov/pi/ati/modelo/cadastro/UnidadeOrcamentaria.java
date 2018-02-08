@@ -64,6 +64,10 @@ public class UnidadeOrcamentaria implements Serializable {
     @NotAudited
     private List<UnidadeGestora> unidadesGestoras;
 
+    @OneToMany(mappedBy = "unidadeOrcamentaria")
+    @NotAudited
+    private List<Produto> produtos;
+
     @Override
     public String toString() {
         return codigo.concat(" - ").concat(nome);
@@ -147,6 +151,14 @@ public class UnidadeOrcamentaria implements Serializable {
 
     public void setAcoesEstrategicas(List<AcaoEstrategica> acoesEstrategicas) {
         this.acoesEstrategicas = acoesEstrategicas;
+    }
+
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
     }
 
     @Override

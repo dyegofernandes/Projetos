@@ -1,0 +1,102 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['territorio.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuTerritorio.xhtml" />
+        <h:form id="formListTerritorio">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="territorio_export" target=":formListTerritorio:dataTableTerritorio"
+                                     widgetVar="dataTableTerritorioWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="territorio" rowIndexVar="index" id="dataTableTerritorio" widgetVar="dataTableTerritorioWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{territorioMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{territorioMB.dataModel.paginatorTemplate}"
+                         value="#{territorioMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['territorio.descricao']}" sortBy="#{territorio.descricao}"
+                    filterBy="#{territorio.descricao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['territorio.descricao']}" />
+                    </f:facet>
+                    <h:outputText value="#{territorio.descricao}"/>
+                </p:column>
+                <p:column headerText="#{msg['territorio.estado']}" sortBy="#{territorio.estado}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['territorio.estado']}" />
+                    </f:facet>
+                    <h:outputText value="#{territorio.estado}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['territorio.ativo']}" sortBy="#{territorio.ativo}"
+                    filterBy="#{territorio.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['territorio.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{territorio.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['territorio.dataCadastro']}" sortBy="#{territorio.dataCadastro}"
+                    filterBy="#{territorio.dataCadastro}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['territorio.dataCadastro']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{territorio.dataCadastro}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['territorio.dataAtualizacao']}" sortBy="#{territorio.dataAtualizacao}"
+                    filterBy="#{territorio.dataAtualizacao}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['territorio.dataAtualizacao']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{territorio.dataAtualizacao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetTerritorioDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailTerritorio" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{territorio}" target="#{territorioMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="territorio.create">
+                        <p:button icon="ui-icon-pencil" outcome="createTerritorio" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{territorio.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="territorio.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{territorioMB.delete}" >
+                            <f:setPropertyActionListener value="#{territorio.id}" target="#{territorioMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{territorio}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="territorio.audit">
+                    <x:auditDelete for="#{territorioMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetTerritorioDetail" header="#{msg['territorio.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailTerritorio.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -57,7 +57,7 @@ public class DespesaPublica implements Serializable {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    private MetaPPA produtoLDO;
+    private MetaProduto produtoLDO;
 
     private boolean geraQuantificador = false;
     

@@ -46,10 +46,6 @@ public class AcaoEstrategica implements Serializable {
     private String nome;
 
     private boolean ativo = true;
-
-    @OneToMany(mappedBy = "acao")
-    @NotAudited
-    private List<Produto> produtos;
     
     @OneToMany(mappedBy = "acaoEstrategica")
     @NotAudited
@@ -90,14 +86,6 @@ public class AcaoEstrategica implements Serializable {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
-    }
-
-    public List<Produto> getProdutos() {
-        return produtos;
-    }
-
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
     }
 
     public String getCodigo() {

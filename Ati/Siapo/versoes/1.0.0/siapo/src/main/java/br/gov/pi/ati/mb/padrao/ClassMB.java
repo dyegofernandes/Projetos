@@ -1,5 +1,7 @@
 package br.gov.pi.ati.mb.padrao;
 
+import br.gov.pi.ati.modelo.orcamento.DespesaPublica;
+import br.gov.pi.ati.modelo.orcamento.MetaProduto;
 import br.gov.pi.ati.modelo.orcamento.ReceitaMetaAcaoEstrategica;
 import br.gov.pi.ati.modelo.orcamento.MetaAcaoEstrategica;
 import br.gov.pi.ati.modelo.orcamento.TerritorioPPA;
@@ -245,6 +247,13 @@ public class ClassMB {
     }
     public Class getMetaAcaoEstrategica() {
         return MetaAcaoEstrategica.class;
+    }
+
+    public Class getDespesaPublica() {
+        return DespesaPublica.class;
+    }
+    public Class getMetaProduto() {
+        return MetaProduto.class;
     }
 
 }

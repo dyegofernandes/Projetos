@@ -282,11 +282,11 @@ public class GeracaoPermissao {
         create(new Permissao("programaPPA.audit", "Auditoria de Programa PPA"), "programaPPA");
         create(new Permissao("programaPPA.delete", "Exclusão de Programa PPA"), "programaPPA");
 
-        create(new Permissao("metaPPA", "Produto PPA", false), "metas");
-        create(new Permissao("metaPPA.create", "Cadastro de Produto PPA", "/view/orcamento/metaPPA/createMetaPPA.jsf", false), "metaPPA");
-        create(new Permissao("metaPPA.list", "Produtos", "/view/orcamento/metaPPA/listMetaPPA.jsf", true), "metas");
-        create(new Permissao("metaPPA.audit", "Auditoria de Produto PPA"), "metaPPA");
-        create(new Permissao("metaPPA.delete", "Exclusão de Produto PPA"), "metaPPA");
+//        create(new Permissao("metaPPA", "Produto PPA", false), "metas");
+//        create(new Permissao("metaPPA.create", "Cadastro de Produto PPA", "/view/orcamento/metaPPA/createMetaPPA.jsf", false), "metaPPA");
+//        create(new Permissao("metaPPA.list", "Produtos", "/view/orcamento/metaPPA/listMetaPPA.jsf", true), "metas");
+//        create(new Permissao("metaPPA.audit", "Auditoria de Produto PPA"), "metaPPA");
+//        create(new Permissao("metaPPA.delete", "Exclusão de Produto PPA"), "metaPPA");
 
         //Meta Acao Estrategica
         create(new Permissao("metaAcaoEstrategica", "Meta Acao Estrategica", false), "metas");
@@ -295,6 +295,12 @@ public class GeracaoPermissao {
         create(new Permissao("metaAcaoEstrategica.audit", "Auditoria de Meta Acao Estrategica"), "metaAcaoEstrategica");
         create(new Permissao("metaAcaoEstrategica.delete", "Exclusão de Meta Acao Estrategica"), "metaAcaoEstrategica");
 
+        //Meta Produto
+        create(new Permissao("metaProduto", "Produto", false), "metas");
+        create(new Permissao("metaProduto.create", "Cadastro de Meta Produto", "/view/orcamento/metaProduto/createMetaProduto.jsf", false), "metaProduto");
+        create(new Permissao("metaProduto.list", "Produtos", "/view/orcamento/metaProduto/listMetaProduto.jsf", true), "metas");
+        create(new Permissao("metaProduto.audit", "Auditoria de Meta Produto"), "metaProduto");
+        create(new Permissao("metaProduto.delete", "Exclusão de Meta Produto"), "metaProduto");
         /*
          * Configuracao
          */

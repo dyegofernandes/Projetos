@@ -57,9 +57,6 @@ public class MetaPPA implements Serializable {
     @ManyToMany(targetEntity = TerritorioPPA.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<TerritorioPPA> territorios = new ArrayList<TerritorioPPA>();
 
-    @OneToMany(mappedBy = "produtoLDO")
-    @NotAudited
-    private List<DespesaPublica> despesas;
 
     public Long getId() {
         return id;
@@ -115,14 +112,6 @@ public class MetaPPA implements Serializable {
 
     public void setTerritorios(List<TerritorioPPA> territorios) {
         this.territorios = territorios;
-    }
-
-    public List<DespesaPublica> getDespesas() {
-        return despesas;
-    }
-
-    public void setDespesas(List<DespesaPublica> despesas) {
-        this.despesas = despesas;
     }
 
     @Override

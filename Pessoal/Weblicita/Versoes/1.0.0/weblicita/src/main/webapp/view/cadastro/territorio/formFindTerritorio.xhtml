@@ -1,0 +1,49 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formFindTerritorio" >
+        <x:modalMessages/>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
+                    <div style="input-finds_left">
+                        <p:inputText id="nomeBusca" value="#{territorioMB.nome}" placeholder="#{msg['territorio.find.nome']}" maxlength="20"  styleClass="form-control input-finds"  />
+                    </div>
+                    <p:commandButton process="@this nomeBusca" update="formFindTerritorio formCreateTerritorio"  value="#{msg['territorio.find']}" class="button-finds" 
+                                     actionListener="#{territorioMB.buscar()}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
+                    <div class="div-button-new">
+                        <x:securityArea rolesAllowed="territorio.create">
+                            <p:commandButton process="@form" update="formFindTerritorio formCreateTerritorio"  value="#{msg['territorio.new']}" class="button-new"
+                                             actionListener="#{territorioMB.novo()}"/>
+                        </x:securityArea>
+                    </div>
+                    <div class="div-button-edit">
+                        <x:securityArea rolesAllowed="territorio.editar">
+                            <p:commandButton process="@form" update="formFindTerritorio formCreateTerritorio"  value="#{msg['territorio.edit']}" class="button-edit" 
+                                             rendered="#{territorioMB.entity.id!=null}" actionListener="#{territorioMB.editar()}"/>
+                        </x:securityArea>
+                    </div>
+                    <div class="div-button-delete">
+                        <x:securityArea rolesAllowed="territorio.delete">
+                            <p:commandButton process="@form" update="formFindTerritorio formCreateTerritorio"  value="#{msg['territorio.delete']}" class="button-delete" 
+                                             rendered="#{territorioMB.entity.id!=null}" actionListener="#{territorioMB.excluir()}">
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{territorioMB.entity.nome}" />
+                            </p:commandButton>
+                        </x:securityArea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:form>
+
+</ui:composition>

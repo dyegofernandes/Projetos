@@ -7,12 +7,12 @@
 
 
     <h:form id="formCreateIntencaoDeRegistroDePreco" >
-        <p:fieldset legend="#{xmsg['generalData']}">
+        <p:fieldset>
             <x:modalMessages/>
 
             <div class="container-fluid">
                 <div class="row">
-                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
                         <h:outputLabel for="orgaoReceptor" value="* #{msg['intencaoDeRegistroDePreco.orgaoReceptor']}:" />
                         <h:selectOneMenu id="orgaoReceptor" value="#{intencaoDeRegistroDePrecoMB.entity.orgaoReceptor}" converter="entityConverter" styleClass="form-control" >
                             <x:initializer/>
@@ -22,7 +22,10 @@
                                            itemLabel="#{orgao}"/>
                         </h:selectOneMenu>
                     </div>
-                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                </div>
+                
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
                         <h:outputLabel for="objetoDeInteresse" value="* Selecione o objeto do seu interesse:" />
                         <h:selectOneMenu id="objetoDeInteresse" value="#{intencaoDeRegistroDePrecoMB.entity.objetoDeInteresse}" converter="entityConverter" styleClass="form-control" >
                             <x:initializer/>
@@ -34,12 +37,18 @@
 
                         </h:selectOneMenu>
                     </div>
-                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                </div>
+                
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
                         <h:outputLabel for="descricaoObjeto" value="Descrição do Objeto:" />
                         <p:inputTextarea id="descricaoObjeto" rows="5" cols="192" value ="#{intencaoDeRegistroDePrecoMB.descricaoObjeto}"
                                          disabled="true" />
                     </div>
-                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                </div>
+                
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
                         <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                                      var="itemLicitacao" rowIndexVar="index" id="dataTableItemLicitacao" widgetVar="dataTableItemLicitacaoWidget" styleClass="table-responsive"
                                      value="#{intencaoDeRegistroDePrecoMB.itens}" >
@@ -72,21 +81,29 @@
                             </p:column>
 
                         </p:dataTable>
-
                     </div>
+                </div>
+                
+                <div class="row">
 
-                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
                         <h:outputLabel for="dataDaManifestacao" value="* #{msg['intencaoDeRegistroDePreco.dataDaManifestacao']}:" />
                         <p:calendar id="dataDaManifestacao" value="#{intencaoDeRegistroDePrecoMB.entity.dataDaManifestacao}" 
                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar" disabled="true" >
                             <x:mask/>
                         </p:calendar>
                     </div>
-                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                </div>
+                
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
                         <h:outputLabel for="nomeSolicitante" value="* #{msg['intencaoDeRegistroDePreco.nomeSolicitante']}:" />
                         <p:inputText id="nomeSolicitante" value="#{intencaoDeRegistroDePrecoMB.entity.nomeSolicitante}" maxlength="250"  styleClass="form-control"  />
                     </div>
-                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                </div>
+                
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
                         <h:outputLabel for="cargoSolicitante" value="* #{msg['intencaoDeRegistroDePreco.cargoSolicitante']}:" />
                         <p:inputText id="cargoSolicitante" value="#{intencaoDeRegistroDePrecoMB.entity.cargoSolicitante}" maxlength="250"  styleClass="form-control"  />
                     </div>
@@ -96,12 +113,16 @@
         </p:fieldset>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">
-            <x:securityArea rolesAllowed="intencaoDeRegistroDePreco.create">
-                <p:commandButton process="@form" update="@form" action="#{intencaoDeRegistroDePrecoMB.save}" value="Imprimir" />
-            </x:securityArea>
-            <x:securityArea rolesAllowed="intencaoDeRegistroDePreco.audit">
-                <x:audit for="#{intencaoDeRegistroDePrecoMB.entity}"/>
-            </x:securityArea>
+            <div class="div-actions-buttons">
+                <x:securityArea rolesAllowed="intencaoDeRegistroDePreco.create">
+                    <p:commandButton process="@form" update="@form" action="#{intencaoDeRegistroDePrecoMB.save}" value="Imprimir" styleClass="button-print" />
+                </x:securityArea>
+            </div>
+            <div class="div-audit">
+                <x:securityArea rolesAllowed="intencaoDeRegistroDePreco.audit">
+                    <x:audit for="#{intencaoDeRegistroDePrecoMB.entity}"/>
+                </x:securityArea>
+            </div>
         </div>
     </h:form>
 

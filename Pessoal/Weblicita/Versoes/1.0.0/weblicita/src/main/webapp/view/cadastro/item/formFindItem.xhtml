@@ -23,8 +23,20 @@
                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
                     <div class="div-button-new">
                         <x:securityArea rolesAllowed="item.create">
-                            <p:commandButton process="@form" update="formFindItem formCreateItem"  value="#{msg['item.new']}" class="button-new" 
+                            <p:commandButton process="@form formCreateItem" update="formFindItem formCreateItem"  value="#{msg['item.new']}" class="button-new" 
                                              actionListener="#{itemMB.novo()}" />
+                        </x:securityArea>
+                    </div>
+                    <div class="div-button-edit">
+                        <x:securityArea rolesAllowed="item.ativar">
+                            <p:commandButton process="@form formCreateItem" update="formFindItem formCreateItem"  value="#{msg['item.ativar']}" class="button-edit" 
+                                             actionListener="#{itemMB.ativar()}" rendered="#{itemMB.habilitarBotaoAtivar()}"/>
+                        </x:securityArea>
+                    </div>
+                    <div class="div-button-edit">
+                        <x:securityArea rolesAllowed="item.desativar">
+                            <p:commandButton process="@form formCreateItem" update="formFindItem formCreateItem"  value="#{msg['item.disable']}" class="button-edit" 
+                                             actionListener="#{itemMB.desativar()}" rendered="#{itemMB.habilitarBotaoDesativar()}"/>
                         </x:securityArea>
                     </div>
 

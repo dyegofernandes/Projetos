@@ -155,12 +155,12 @@
 
             <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
             <div class="uix-center">
-                <x:securityArea rolesAllowed="pedidoLicitacao.create">
-                    <p:commandButton process="@form" update="@form formFindPedidoLicitacao" action="#{pedidoLicitacaoMB.save}" value="Gerar Pedido para Licitação" styleClass="button-generate" 
-                                     rendered="#{pedidoLicitacaoMB.renderizarCampo}" />
-                </x:securityArea>
-
-
+                <div class="div-actions-buttons">
+                    <x:securityArea rolesAllowed="pedidoLicitacao.create">
+                        <p:commandButton process="@form" update="@form formFindPedidoLicitacao" action="#{pedidoLicitacaoMB.save}" value="Gerar Pedido para Licitação" styleClass="button-generate" 
+                                         rendered="#{pedidoLicitacaoMB.renderizarCampo}" />
+                    </x:securityArea>
+                </div>
             </div>
         </h:panelGroup>
 

@@ -1,0 +1,62 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateTerritorio" >
+        <x:modalMessages autoUpdate="true"/>
+        <h:panelGroup rendered="#{territorioMB.renderizarFormulario}">
+            <p:fieldset legend="#{xmsg['generalData']}">
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dataCadastro" value="#{msg['territorio.dataCadastro']}:" />
+                            <p:inputText id="dataCadastro" value="#{territorioMB.entity.dataCadastro}" maxlength="255"  styleClass="form-control"
+                                         readonly="true">
+                                <f:convertDateTime />
+                            </p:inputText> 
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="descricao" value="* #{msg['territorio.descricao']}:" />
+                            <p:inputText id="descricao" value="#{territorioMB.entity.descricao}" maxlength="255"  styleClass="form-control" 
+                                         readonly="#{territorioMB.somenteLeitura}"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="estado" value="* #{msg['territorio.estado']}:" />
+                            <h:selectOneMenu id="estado" value="#{territorioMB.entity.estado}" converter="entityConverter" styleClass="form-control" 
+                                             readonly="#{territorioMB.somenteLeitura}">
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.estado)}" 
+                                               var="estado"
+                                               itemLabel="#{estado}" itemDisabled="#{territorioMB.somenteLeitura}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="ativo" value="#{msg['territorio.ativo']}:" />
+                            <p:inputText id="ativo" value="#{territorioMB.entity.ativo}" maxlength="255"  styleClass="form-control"
+                                         readonly="true" converter ="yesNoConverter" >
+
+                            </p:inputText> 
+
+                        </div>
+                    </div>
+                </div>
+            </p:fieldset>
+            <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+            <div class="uix-center">
+                <x:securityArea rolesAllowed="territorio.create">
+                    <p:commandButton process="@form" update="@form" action="#{territorioMB.save}" value="#{xmsg['save']}" 
+                                     rendered="#{territorioMB.renderizarCampo}"/>
+                </x:securityArea>
+
+            </div>
+        </h:panelGroup>
+
+    </h:form>
+
+</ui:composition>

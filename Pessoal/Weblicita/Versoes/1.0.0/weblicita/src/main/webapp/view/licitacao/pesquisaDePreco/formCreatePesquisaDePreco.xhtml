@@ -41,10 +41,11 @@
         </p:fieldset>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">
-            <x:securityArea rolesAllowed="pesquisaDePreco.create">
-                <p:commandButton process="@form" update="@form" action="#{pesquisaDePrecoMB.save}" value="#{xmsg['save']}" styleClass="button-save" />
-            </x:securityArea>
-
+            <div class="div-actions-buttons">
+                <x:securityArea rolesAllowed="pesquisaDePreco.create">
+                    <p:commandButton process="@form" update="@form" action="#{pesquisaDePrecoMB.save}" value="#{xmsg['save']}" styleClass="button-save" />
+                </x:securityArea>
+            </div>
             <div class="div-audit">
                 <x:securityArea rolesAllowed="pesquisaDePreco.audit">
                     <x:audit for="#{pesquisaDePrecoMB.entity}"/>

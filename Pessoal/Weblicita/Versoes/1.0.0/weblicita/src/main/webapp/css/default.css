@@ -374,9 +374,15 @@ section.conteudo h1.page-header  span{vertical-align: middle;}
     margin-bottom: 10px;
 }
 
+.div-actions-buttons {
+    width: 100%;
+    text-align: right;
+    margin-top: 5px;
+}
+
 .button-save {
     height: 33px;
-    width: 100%;
+    width: auto;
     background: #62bd01 !important;
     border: 2px #427f01 solid !important;
     color: #FFFFFF !important;
@@ -384,7 +390,7 @@ section.conteudo h1.page-header  span{vertical-align: middle;}
 }
 .button-generate {
     height: 33px;
-    width: 100%;
+    width: auto;
     background: #808080 !important;
     border: 2px #7c7c7c solid !important;
     color: #FFFFFF !important;
@@ -392,7 +398,7 @@ section.conteudo h1.page-header  span{vertical-align: middle;}
 }
 .button-print {
     height: 33px;
-    width: 100%;
+    width: auto;
     background: #808080 !important;
     border: 2px #7c7c7c solid !important;
     color: #FFFFFF !important;
@@ -505,4 +511,30 @@ section.conteudo h1.page-header  span{vertical-align: middle;}
     color: white !important;
     border-radius: 0px !important;
     height: 32px !important;
+}
+
+
+div#idWidgetConfirmationDialog.uix-confirm-dialog.ui-confirm-dialog.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-shadow.ui-draggable {
+    width: 300px !important;
+    height: auto !important;
+    position: absolute !important;
+    top:50% !important;
+    left:50% !important;
+    margin-top:-150px;
+    margin-left:-150px;
+    padding-left: 10px
+}
+button#xpertCofirmationButton.dialog-confirm-button.ui-state-default.ui-button.ui-widget.ui-corner-all.ui-button-text-only {
+    float: left;
+    background: #62bd01 !important;
+    border: 2px #427f01 solid !important;
+    color: #FFFFFF !important;
+    border-radius: 0px !important;
+}
+button.dialog-cancel-button.ui-state-default.ui-button.ui-widget.ui-corner-all.ui-button-text-only {
+    float: right;
+    background: #ed462f !important;
+    border: 2px #cf3b28 solid !important;
+    color: #FFFFFF !important;
+    border-radius: 0px !important;
 }

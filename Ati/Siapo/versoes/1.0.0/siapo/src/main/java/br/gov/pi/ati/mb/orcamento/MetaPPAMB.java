@@ -72,7 +72,7 @@ public class MetaPPAMB extends AbstractBaseBean<MetaPPA> implements Serializable
             ldos = getDAO().getInitialized(getEntity().getLdos());
             territorios = getDAO().getInitialized(getEntity().getTerritorios());
             Produto produtoTemp = getDAO().getInitialized(getEntity().getProduto());
-            acao = getDAO().getInitialized(produtoTemp.getAcao());
+//            acao = getDAO().getInitialized(produtoTemp.getAcao());
         }
     }
 

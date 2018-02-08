@@ -1,0 +1,298 @@
+package br.com.weblicita;
+
+import br.com.weblicita.dao.controleacesso.PermissaoDAO;
+import br.com.weblicita.modelo.controleacesso.Permissao;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+
+/**
+ * Classe para geracao das permissoes iniciais do sistema
+ *
+ * @author Ayslan
+ */
+@Stateless
+public class GeracaoPermissao {
+
+    private static final Logger logger = Logger.getLogger(GeracaoPermissao.class.getName());
+    @EJB
+    private PermissaoDAO permissaoDAO;
+
+    public void generate() {
+
+        /**
+         * Administracao Sistema
+         */
+        create(new Permissao("administracaoSistema", "Sistema", true), null);
+
+        /**
+         * Administracao Sistema
+         */
+        create(new Permissao("cadastro", "Cadastro", true), null);
+
+        /**
+         * Administracao Sistema
+         */
+        create(new Permissao("licitacao", "Licitação", true), null);
+
+
+        /*
+         * Controle de Acesso
+         */
+        create(new Permissao("controleAcesso", "Controle de Acesso", true), "administracaoSistema");
+
+        //Permissao
+        create(new Permissao("permissao", "Permissão", true), "controleAcesso");
+        create(new Permissao("permissao.create", "Cadastro de Permissão", "/view/controleAcesso/permissao/createPermissao.jsf", true), "permissao");
+        create(new Permissao("permissao.list", "Consulta de Permissão", "/view/controleAcesso/permissao/listPermissao.jsf", true), "permissao");
+        create(new Permissao("permissao.audit", "Auditoria de Permissão"), "permissao");
+        create(new Permissao("permissao.delete", "Exclusão de Permissão"), "permissao");
+        create(new Permissao("permissao.ativacao", "Ativação de Permissão"), "permissao");
+        create(new Permissao("permissao.inativacao", "Inativação de Permissão"), "permissao");
+
+        //Usuario
+        create(new Permissao("usuario", "Usuário", true), "controleAcesso");
+        create(new Permissao("usuario.create", "Cadastro de Usuário", "/view/controleAcesso/usuario/createUsuario.jsf", true), "usuario");
+        create(new Permissao("usuario.list", "Consulta de Usuário", "/view/controleAcesso/usuario/listUsuario.jsf", true), "usuario");
+        create(new Permissao("usuario.audit", "Auditoria de Usuário"), "usuario");
+        create(new Permissao("usuario.delete", "Exclusão de Usuário"), "usuario");
+
+        //Perfil
+        create(new Permissao("perfil", "Perfil", true), "controleAcesso");
+        create(new Permissao("perfil.create", "Cadastro de Perfil", "/view/controleAcesso/perfil/createPerfil.jsf", true), "perfil");
+        create(new Permissao("perfil.list", "Consulta de Perfil", "/view/controleAcesso/perfil/listPerfil.jsf", true), "perfil");
+        create(new Permissao("perfil.audit", "Auditoria de Perfil"), "perfil");
+        create(new Permissao("perfil.delete", "Exclusão de Perfil"), "perfil");
+
+        //Acessos do Sistema
+        create(new Permissao("acessoSistema.list", "Relatório de Acessos", "/view/controleAcesso/acessoSistema/listAcessoSistema.jsf", true), "controleAcesso");
+
+        //Solicitacao recuperacao senha
+        create(new Permissao("solicitacaoRecuperacaoSenha", "Recuperação de Senha", true), "controleAcesso");
+        create(new Permissao("solicitacaoRecuperacaoSenha.list", "Consulta Recuperação de Senha", "/view/controleAcesso/solicitacaoRecuperacaoSenha/listSolicitacaoRecuperacaoSenha.jsf", true), "solicitacaoRecuperacaoSenha");
+        create(new Permissao("solicitacaoRecuperacaoSenha.audit", "Auditoria de Recuperação de Senha"), "solicitacaoRecuperacaoSenha");
+
+        /*
+         * Email
+         */
+        create(new Permissao("email", "Email", true), "administracaoSistema");
+
+        //Modelo email
+        create(new Permissao("modeloEmail", "Modelo de Email", true), "email");
+        create(new Permissao("modeloEmail.create", "Cadastro de Modelo de Email", "/view/email/modeloEmail/createModeloEmail.jsf", true), "modeloEmail");
+        create(new Permissao("modeloEmail.list", "Consulta de Modelo de Email", "/view/email/modeloEmail/listModeloEmail.jsf", true), "modeloEmail");
+        create(new Permissao("modeloEmail.audit", "Auditoria de Modelo de Email"), "modeloEmail");
+        create(new Permissao("modeloEmail.delete", "Exclusão de Modelo de Email"), "modeloEmail");
+
+        //Configuracao email
+        create(new Permissao("configuracaoEmail", "Configuração de Email", true), "email");
+        create(new Permissao("configuracaoEmail.create", "Cadastro de Configuração de Email", "/view/email/configuracaoEmail/createConfiguracaoEmail.jsf", true), "configuracaoEmail");
+        create(new Permissao("configuracaoEmail.list", "Consulta de Configuração de Email", "/view/email/configuracaoEmail/listConfiguracaoEmail.jsf", true), "configuracaoEmail");
+        create(new Permissao("configuracaoEmail.audit", "Auditoria de Configuração de Email"), "configuracaoEmail");
+        create(new Permissao("configuracaoEmail.delete", "Exclusão de Configuração de Email"), "configuracaoEmail");
+
+        /*
+         * Cadastro Básicos
+         */
+//Cidade
+        create(new Permissao("cidade", "Cidade", false), "cadastro");
+        create(new Permissao("cidade.create", "Cidades", "/view/cadastro/cidade/createCidade.jsf", true), "cadastro");
+        create(new Permissao("cidade.list", "Consulta de Cidades", "/view/cadastro/cidade/listCidade.jsf", false), "cidade");
+        create(new Permissao("cidade.audit", "Auditoria de Cidade"), "cidade");
+        create(new Permissao("cidade.editar", "Editar de Cidade"), "cidade");
+        create(new Permissao("cidade.desativar", "Desativar de Cidade"), "cidade");
+        create(new Permissao("cidade.buscar", "Buscar de Cidade"), "cidade");
+        create(new Permissao("cidade.delete", "Exclusão de Cidade"), "cidade");
+
+//Estado
+        create(new Permissao("estado", "Estado", false), "cadastro");
+        create(new Permissao("estado.create", "Estados", "/view/cadastro/estado/createEstado.jsf", true), "cadastro");
+        create(new Permissao("estado.list", "Consulta de Estados", "/view/cadastro/estado/listEstado.jsf", false), "estado");
+        create(new Permissao("estado.audit", "Auditoria de Estado"), "estado");
+        create(new Permissao("estado.editar", "Editar de Estado"), "estado");
+        create(new Permissao("estado.desativar", "Desativar de Estado"), "estado");
+        create(new Permissao("estado.delete", "Exclusão de Estado"), "estado");
+
+        //Pais
+        create(new Permissao("pais", "Pais", false), "cadastro");
+        create(new Permissao("pais.create", "Países", "/view/cadastro/pais/createPais.jsf", true), "cadastro");
+        create(new Permissao("pais.list", "Consultar Países", "/view/cadastro/pais/listPais.jsf", false), "pais");
+        create(new Permissao("pais.audit", "Auditoria de Pais"), "pais");
+        create(new Permissao("pais.editar", "Editar de Pais"), "pais");
+        create(new Permissao("pais.desativar", "Desativar de Pais"), "pais");
+        create(new Permissao("pais.buscar", "Buscar de Pais"), "pais");
+        create(new Permissao("pais.delete", "Exclusão de Pais"), "pais");
+
+        //Regiao
+        create(new Permissao("regiao", "Regiao", false), "cadastro");
+        create(new Permissao("regiao.create", "Regiões", "/view/cadastro/regiao/createRegiao.jsf", true), "cadastro");
+        create(new Permissao("regiao.list", "Consulta de Regiao", "/view/cadastro/regiao/listRegiao.jsf", false), "regiao");
+        create(new Permissao("regiao.audit", "Auditoria de Regiao"), "regiao");
+        create(new Permissao("regiao.delete", "Exclusão de Regiao"), "regiao");
+        create(new Permissao("regiao.editar", "Editar de Regiao"), "regiao");
+        create(new Permissao("regiao.desativar", "Desativar de Regiao"), "regiao");
+        create(new Permissao("regiao.ativar", "Ativar de Regiao"), "regiao");
+
+//Territorio
+        create(new Permissao("territorio", "Territorio", false), "cadastro");
+        create(new Permissao("territorio.create", "Territórios", "/view/cadastro/territorio/createTerritorio.jsf", true), "cadastro");
+        create(new Permissao("territorio.list", "Consulta de Territorio", "/view/cadastro/territorio/listTerritorio.jsf", false), "territorio");
+        create(new Permissao("territorio.audit", "Auditoria de Territorio"), "territorio");
+        create(new Permissao("territorio.delete", "Exclusão de Territorio"), "territorio");
+        create(new Permissao("territorio.editar", "Editar de Territorio"), "territorio");
+        create(new Permissao("territorio.desativar", "Desativar de Territorio"), "territorio");
+        create(new Permissao("territorio.ativar", "Ativar de Territorio"), "territorio");
+
+//Fornecedor
+        create(new Permissao("fornecedor", "Fornecedor", false), "cadastro");
+        create(new Permissao("fornecedor.create", "Fornecedores", "/view/cadastro/fornecedor/createFornecedor.jsf", true), "cadastro");
+        create(new Permissao("fornecedor.list", "Consulta de Fornecedores", "/view/cadastro/fornecedor/listFornecedor.jsf", false), "fornecedor");
+        create(new Permissao("fornecedor.audit", "Auditoria de Fornecedor"), "fornecedor");
+        create(new Permissao("fornecedor.delete", "Exclusão de Fornecedor"), "fornecedor");
+        create(new Permissao("fornecedor.desativar", "Desativar Fornecedor"), "orgao");
+        create(new Permissao("fornecedor.editar", "Editar Fornecedor"), "orgao");
+        create(new Permissao("fornecedor.buscar", "Buscar Fornecedor"), "orgao");
+
+//Orgao
+        create(new Permissao("orgao", "Orgao", false), "cadastro");
+        create(new Permissao("orgao.create", "Órgãos", "/view/cadastro/orgao/createOrgao.jsf", true), "cadastro");
+        create(new Permissao("orgao.list", "Consulta de Órgãos", "/view/cadastro/orgao/listOrgao.jsf", false), "orgao");
+        create(new Permissao("orgao.audit", "Auditoria de Orgao"), "orgao");
+        create(new Permissao("orgao.delete", "Exclusão de Orgao"), "orgao");
+        create(new Permissao("orgao.desativar", "Desativar Orgao"), "orgao");
+        create(new Permissao("orgao.ativar", "Ativar Orgao"), "orgao");
+        create(new Permissao("orgao.editar", "Editar Orgao"), "orgao");
+        create(new Permissao("orgao.buscar", "Buscar Orgao"), "orgao");
+
+//Item
+        create(new Permissao("item", "Item", false), "cadastro");
+        create(new Permissao("item.create", "Itens Licitação", "/view/cadastro/item/createItem.jsf", true), "cadastro");
+        create(new Permissao("item.list", "Consulta de Itens", "/view/cadastro/item/listItem.jsf", false), "item");
+        create(new Permissao("item.audit", "Auditoria de Item"), "item");
+        create(new Permissao("item.delete", "Exclusão de Item"), "item");
+        create(new Permissao("item.editar", "Editar de Item"), "item");
+        create(new Permissao("item.desativar", "Desativar de Item"), "item");
+        create(new Permissao("item.buscar", "Buscar de Item"), "item");
+
+        //Unidade De Medida
+        create(new Permissao("unidadeDeMedida", "Unidade De Medida", false), "cadastro");
+        create(new Permissao("unidadeDeMedida.create", "Unidades de Medidas", "/view/cadastro/unidadeDeMedida/createUnidadeDeMedida.jsf", true), "cadastro");
+        create(new Permissao("unidadeDeMedida.list", "Consulta de Unidade De Medida", "/view/cadastro/unidadeDeMedida/listUnidadeDeMedida.jsf", false), "unidadeDeMedida");
+        create(new Permissao("unidadeDeMedida.audit", "Auditoria de Unidade De Medida"), "unidadeDeMedida");
+        create(new Permissao("unidadeDeMedida.delete", "Exclusão de Unidade De Medida"), "unidadeDeMedida");
+        create(new Permissao("unidadeDeMedida.editar", "Editar de Unidade De Medida"), "unidadeDeMedida");
+        create(new Permissao("unidadeDeMedida.desativar", "Desativar de Unidade De Medida"), "unidadeDeMedida");
+        create(new Permissao("unidadeDeMedida.ativar", "Ativar de Unidade De Medida"), "unidadeDeMedida");
+        create(new Permissao("unidadeDeMedida.buscar", "Busca de Unidade De Medida"), "unidadeDeMedida");
+
+        //Rubrica Orcamentaria
+        create(new Permissao("rubricaOrcamentaria", "Rubrica Orcamentaria", false), "cadastro");
+        create(new Permissao("rubricaOrcamentaria.create", "Rúbricas Orcamentárias", "/view/cadastro/rubricaOrcamentaria/createRubricaOrcamentaria.jsf", true), "cadastro");
+        create(new Permissao("rubricaOrcamentaria.list", "Consulta de Rúbricas Orcamentárias", "/view/cadastro/rubricaOrcamentaria/listRubricaOrcamentaria.jsf", false), "rubricaOrcamentaria");
+        create(new Permissao("rubricaOrcamentaria.audit", "Auditoria de Rubrica Orcamentaria"), "rubricaOrcamentaria");
+        create(new Permissao("rubricaOrcamentaria.delete", "Exclusão de Rubrica Orcamentaria"), "rubricaOrcamentaria");
+        create(new Permissao("rubricaOrcamentaria.editar", "Editar de Rubrica Orcamentaria"), "rubricaOrcamentaria");
+        create(new Permissao("rubricaOrcamentaria.desativar", "Desativar de Rubrica Orcamentaria"), "rubricaOrcamentaria");
+        create(new Permissao("rubricaOrcamentaria.buscar", "Buscar de Rubrica Orcamentaria"), "rubricaOrcamentaria");
+
+        //Pedido Licitacao
+        create(new Permissao("pedidoLicitacao", "Pedido Licitação", false), "licitacao");
+        create(new Permissao("pedidoLicitacao.create", "Pedidos Licitações", "/view/licitacao/pedidoLicitacao/createPedidoLicitacao.jsf", true), "licitacao");
+        create(new Permissao("pedidoLicitacao.list", "Consulta de Pedidos Licitações", "/view/licitacao/pedidoLicitacao/listPedidoLicitacao.jsf", false), "pedidoLicitacao");
+        create(new Permissao("pedidoLicitacao.audit", "Auditoria de Pedido Licitação"), "pedidoLicitacao");
+        create(new Permissao("pedidoLicitacao.delete", "Exclusão de Pedido Licitação"), "pedidoLicitacao");
+        create(new Permissao("pedidoLicitacao.editar", "Editar de Pedido Licitação"), "pedidoLicitacao");
+        create(new Permissao("pedidoLicitacao.desativar", "Desativar de Pedido Licitação"), "pedidoLicitacao");
+        create(new Permissao("pedidoLicitacao.ativar", "Ativar de Pedido Licitação"), "pedidoLicitacao");
+        create(new Permissao("pedidoLicitacao.buscar", "Buscar de Pedido Licitação"), "pedidoLicitacao");
+
+        //Contrato
+        create(new Permissao("contrato", "Contrato", true), null);
+        create(new Permissao("contrato.create", "Contratos", "/view/contrato/contrato/createContrato.jsf", true), "contrato");
+        create(new Permissao("contrato.list", "Consulta de Contratos", "/view/contrato/contrato/listContrato.jsf", false), "contrato");
+        create(new Permissao("contrato.audit", "Auditoria de Contrato"), "contrato");
+        create(new Permissao("contrato.delete", "Exclusão de Contrato"), "contrato");
+        create(new Permissao("contrato.editar", "Editar de Contrato"), "contrato");
+        create(new Permissao("contrato.desativar", "Desativar de Contrato"), "contrato");
+        create(new Permissao("contrato.buscar", "Buscar de Contrato"), "contrato");
+
+        //Intencao De Registro De Preco
+        create(new Permissao("intencaoDeRegistroDePreco", "Intencao De Registro De Preco", false), "licitacao");
+        create(new Permissao("intencaoDeRegistroDePreco.create", "Intenções de Preços", "/view/licitacao/intencaoDeRegistroDePreco/createIntencaoDeRegistroDePreco.jsf", true), "licitacao");
+        create(new Permissao("intencaoDeRegistroDePreco.list", "Consulta de Intenções de Preços", "/view/licitacao/intencaoDeRegistroDePreco/listIntencaoDeRegistroDePreco.jsf", false), "intencaoDeRegistroDePreco");
+        create(new Permissao("intencaoDeRegistroDePreco.audit", "Auditoria de Intencao De Registro De Preco"), "intencaoDeRegistroDePreco");
+        create(new Permissao("intencaoDeRegistroDePreco.delete", "Exclusão de Intencao De Registro De Preco"), "intencaoDeRegistroDePreco");
+        create(new Permissao("intencaoDeRegistroDePreco.editar", "Editar de Intencao De Registro De Preco"), "intencaoDeRegistroDePreco");
+        create(new Permissao("intencaoDeRegistroDePreco.desativar", "Desativar de Intencao De Registro De Preco"), "intencaoDeRegistroDePreco");
+        create(new Permissao("intencaoDeRegistroDePreco.buscar", "Buscar de Intencao De Registro De Preco"), "intencaoDeRegistroDePreco");
+
+        //Pesquisa De Preco
+        create(new Permissao("pesquisaDePreco", "Pesquisa De Preco", false), "licitacao");
+        create(new Permissao("pesquisaDePreco.create", "Pesquisas De Preços", "/view/licitacao/pesquisaDePreco/createPesquisaDePreco.jsf", true), "licitacao");
+        create(new Permissao("pesquisaDePreco.list", "Consulta de Pesquisas de Preços", "/view/licitacao/pesquisaDePreco/listPesquisaDePreco.jsf", false), "pesquisaDePreco");
+        create(new Permissao("pesquisaDePreco.audit", "Auditoria de Pesquisa De Preco"), "pesquisaDePreco");
+        create(new Permissao("pesquisaDePreco.delete", "Exclusão de Pesquisa De Preco"), "pesquisaDePreco");
+        create(new Permissao("pesquisaDePreco.editar", "Editar de Pesquisa De Preco"), "pesquisaDePreco");
+        create(new Permissao("pesquisaDePreco.desativar", "Desativar de Pesquisa De Preco"), "pesquisaDePreco");
+        create(new Permissao("pesquisaDePreco.buscar", "Buscar de Pesquisa De Preco"), "pesquisaDePreco");
+
+        //Cargo
+        create(new Permissao("cargo", "Cargo", false), "cadastro");
+        create(new Permissao("cargo.create", "Cargos", "/view/cadastro/cargo/createCargo.jsf", true), "cadastro");
+        create(new Permissao("cargo.list", "Consulta de Cargo", "/view/cadastro/cargo/listCargo.jsf", false), "cargo");
+        create(new Permissao("cargo.audit", "Auditoria de Cargo"), "cargo");
+        create(new Permissao("cargo.delete", "Exclusão de Cargo"), "cargo");
+        create(new Permissao("cargo.editar", "Editar de Cargo"), "cargo");
+
+        /*
+         * Configuracao
+         */
+        create(new Permissao("configuracaoSistema", "Configuração", true), "administracaoSistema");
+
+        //Erro sistema
+        create(new Permissao("erroSistema.list", "Relatório de Erros", "/view/configuracao/erroSistema/listErroSistema.jsf", true), "configuracaoSistema");
+
+        /**
+         * Permissoes Globais (essas permissoes todos terao acessos)
+         */
+        //Alterar Senha
+        createGlobal(new Permissao("usuario.alterarSenha", "Alterar Senha", "/view/controleAcesso/password/alterPassword.jsf", true), "controleAcesso");
+        createGlobal(new Permissao("usuario.ultimosAcessos", "Últimos Acessos", "/view/controleAcesso/acessoSistema/ultimosAcessoSistema.jsf", true), "controleAcesso");
+
+    }
+
+    private void createGlobal(Permissao permissao, String pai) {
+        permissao.setGlobal(true);
+        create(permissao, pai);
+    }
+
+    private void create(Permissao permissao, String pai) {
+
+        if (pai != null && pai.equals(permissao.getKey())) {
+            logger.log(Level.WARNING, "Permissao ''{0}'' pai dela mesmo. Esta permissao nao sera salva.", permissao.getKey());
+            return;
+        }
+
+        Permissao permissaoDB = permissaoDAO.unique("key", permissao.getKey());
+
+        if (pai != null && !pai.isEmpty()) {
+            Permissao permissaoPai = permissaoDAO.unique("key", pai);
+            if (permissaoPai == null) {
+                logger.log(Level.WARNING, "Permissao ''{0}'' pai nao encontrada.", pai);
+            }
+            permissao.setPermissaoPai(permissaoPai);
+        }
+
+        if (permissaoDB != null) {
+            permissaoDB.setUrl(permissao.getUrl());
+            permissaoDB.setDescricao(permissao.getDescricao());
+            permissaoDB.setPermissaoPai(permissao.getPermissaoPai());
+            permissaoDB.setPossuiMenu(permissao.isPossuiMenu());
+            permissaoDB.setGlobal(permissao.isGlobal());
+            permissao = permissaoDB;
+        }
+
+        permissaoDAO.merge(permissao, false);
+    }
+}

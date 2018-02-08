@@ -1,0 +1,153 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateItem" >
+        <x:modalMessages autoUpdate="true"/>
+        <h:panelGroup rendered="#{itemMB.renderizarFormulario}">
+
+            <p:fieldset>
+
+                <div class="container-fluid">
+                    <h:panelGroup rendered="#{itemMB.renderizarCampo}">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                                <h:outputLabel for="descricao" value="* #{msg['item.descricao']}:" />
+                                <p:inputText id="descricao" value="#{itemMB.itemAdd.descricao}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-lg-12 col-md-12 col-sm-6 col-xs-12" style="width: 100%;">
+                                <h:outputLabel for="unidadeDeMedida" value="#{msg['item.unidadeDeMedida']}:" />
+                                <div class="row" style="background:#c7c9c9;padding: 5px;">
+                                    <h:selectManyCheckbox value="#{itemMB.unidadesSelecionadas}" converter="entityConverter" styleClass="checkbox"
+                                                          id="unidadeDeMedida"
+                                                          layout="responsive" >
+                                        <x:initializer/>
+                                        <x:spread columns="5"/>
+                                        <f:selectItems value="#{itemMB.unidades}" 
+                                                       var="unidade" 
+                                                       itemLabel="#{unidade}"/>
+                                    </h:selectManyCheckbox>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="uix-center">
+                            <p:commandButton process="@form" update="@form" value="Adicionar" 
+                                             action="#{itemMB.addItem()}" />
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%;text-align: right">
+                                <p:commandLink value="Visualizar Itens Cadastrados" process="@this" update="@form" style="font-weight:bold" 
+                                               class="aLinkVisualizar" actionListener="#{itemMB.visualizarTabela()}" />
+                            </div>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{itemMB.renderizarTabelaItens}">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%;">
+                                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                             var="item" rowIndexVar="index" id="dataTableItem" widgetVar="dataTableItemWidget" styleClass="table-responsive tableItem"
+                                             value="#{itemMB.itensEmLote}" >
+
+                                    <p:column styleClass="uix-datatable-index">
+                                        <f:facet name="header">
+                                            <h:outputText value=""/>
+                                        </f:facet>
+                                        <h:outputText value="#{index+1}"/>
+                                    </p:column>
+
+                                    <p:column headerText="#{msg['item.descricao']}" >
+                                        <f:facet name="header">
+                                            <h:outputText value="#{msg['item.descricao']}" />
+                                        </f:facet>
+                                        <h:outputText value="#{item.descricao}"/>
+                                    </p:column>
+
+                                    <p:column headerText="#{msg['item.codigo']}"  >
+                                        <f:facet name="header">
+                                            <h:outputText value="#{msg['item.codigo']}" />
+                                        </f:facet>
+                                        <h:outputText value="#{item.codigo}"/>
+                                    </p:column>
+
+                                    <p:column headerText="#{msg['item.unidadeDeMedida']}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{msg['item.unidadeDeMedida']}" />
+                                        </f:facet>
+                                        <h:outputText value="#{itemMB.inicializarUnidadades(item)}"/>
+                                    </p:column>
+
+
+                                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{xmsg['actions']}"/>
+                                        </f:facet>
+                                        <x:securityArea rolesAllowed="item.editar">
+
+                                            <p:commandButton icon="ui-icon-pencil" title="Editar" process="@this" update="@form"
+                                                             actionListener="#{itemMB.editar(item)}">
+                                            </p:commandButton>
+                                        </x:securityArea>
+                                        <x:securityArea rolesAllowed="item.desativar">
+                                            <p:commandButton icon="ui-icon-trash" title="#{msg['item.disable']}" process="@this" update="dataTableItem"
+                                                             actionListener="#{itemMB.excluir(item)}">
+                                                <x:confirmation message="#{msg['item.confirmDisable']} - #{item}" />
+                                            </p:commandButton>
+                                        </x:securityArea>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{itemMB.itemAdd.id!=null}">
+                        <div class="row">
+                            <h:outputLabel for="outro" value="Órgão responsável pelo item cadastrado: " style="font-weight: bold">
+
+                            </h:outputLabel>
+                            <h:outputLabel for="outro" value="#{itemMB.entity.usuario.orgao}" style="font-weight: normal; color: red;">
+                                <x:initializer/>
+                            </h:outputLabel>
+                        </div>
+                        <div class="row">
+                            <h:outputLabel for="outro" value="Data do cadastro: " style="font-weight: bold"/>
+                            <h:outputLabel for="outro" value="#{itemMB.entity.dataCadastro}" style="font-weight: normal; color: red;" >
+                                <f:convertDateTime dateStyle="full" type="both" />
+                            </h:outputLabel>
+                        </div>
+
+                        <div class="row">
+                            <h:outputLabel for="outro" value="Responsável pelo cadastro: " style="font-weight: bold"/>
+                            <h:outputLabel for="outro" value="#{itemMB.entity.usuario.nome}" style="font-weight: normal; color: red;">
+                                <x:initializer/>
+                            </h:outputLabel>
+                        </div>
+                        <div class="row">
+                            <h:outputLabel for="outro" value="Cargo: " style="font-weight: bold"/>
+                            <h:outputLabel for="outro" value="#{itemMB.entity.usuario.cargo}" style="font-weight: normal; color: red;">
+                                <x:initializer/>
+                            </h:outputLabel>
+                        </div>
+                    </h:panelGroup>
+
+                </div>
+            </p:fieldset>
+            <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+            <div class="uix-center">
+                <div class="div-actions-buttons">
+                    <x:securityArea rolesAllowed="item.create">
+                        <p:commandButton process="@form" update="@form formFindItem" action="#{itemMB.salveAll()}" value="#{xmsg['save']}" styleClass="button-save" 
+                                         rendered="#{itemMB.itensEmLote.size()>0 }"/>
+                    </x:securityArea>
+                </div>
+            </div>
+        </h:panelGroup>
+    </h:form>
+
+</ui:composition>

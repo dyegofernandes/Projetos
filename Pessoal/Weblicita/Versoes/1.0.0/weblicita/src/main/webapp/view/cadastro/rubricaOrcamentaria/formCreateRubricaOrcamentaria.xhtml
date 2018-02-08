@@ -34,7 +34,9 @@
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
                             <h:outputLabel for="legenda" value="* #{msg['rubricaOrcamentaria.legenda']}:" />
                             <p:inputText id="legenda" value="#{rubricaOrcamentariaMB.entity.legenda}" maxlength="255"  styleClass="form-control" 
-                                         readonly="#{rubricaOrcamentariaMB.somenteLeitura}"/>
+                                         readonly="#{rubricaOrcamentariaMB.somenteLeitura}" validatorMessage="Valor do campo só aceita números seguido de pontos. Ex 99.12.21.1!">
+                                <f:validateRegex pattern="^(\d+\.)+?\d+$"/>
+                            </p:inputText>
                         </div>
                     </div>
                     <div class="row">
@@ -48,11 +50,12 @@
             </p:fieldset>
             <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
             <div class="uix-center">
-                <x:securityArea rolesAllowed="rubricaOrcamentaria.create">
-                    <p:commandButton process="@form" update="@form formFindRubricaOrcamentaria" action="#{rubricaOrcamentariaMB.save}" value="#{xmsg['save']}" styleClass="button-save"
-                                     rendered="#{rubricaOrcamentariaMB.renderizarCampo}"/>
-                </x:securityArea>
-
+                <div class="div-actions-buttons">
+                    <x:securityArea rolesAllowed="rubricaOrcamentaria.create">
+                        <p:commandButton process="@form" update="@form formFindRubricaOrcamentaria" action="#{rubricaOrcamentariaMB.save}" value="#{xmsg['save']}" styleClass="button-save"
+                                         rendered="#{rubricaOrcamentariaMB.renderizarCampo}"/>
+                    </x:securityArea>
+                </div>
             </div>
         </h:panelGroup>
 

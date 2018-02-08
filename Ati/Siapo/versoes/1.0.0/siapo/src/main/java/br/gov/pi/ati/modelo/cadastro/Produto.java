@@ -5,7 +5,6 @@
  */
 package br.gov.pi.ati.modelo.cadastro;
 
-import br.gov.pi.ati.modelo.orcamento.DespesaPublica;
 import br.gov.pi.ati.modelo.orcamento.MetaPPA;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
@@ -32,10 +31,10 @@ public class Produto implements Serializable {
     @SequenceGenerator(name = "Produto", sequenceName = "produto_id_seq")
     @GeneratedValue(generator = "Produto")
     private Long id;
-
+    
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    private AcaoEstrategica acao;
+    private UnidadeOrcamentaria unidadeOrcamentaria;
 
     @Column(columnDefinition = "Text")
     @NotBlank
@@ -60,14 +59,6 @@ public class Produto implements Serializable {
         this.id = id;
     }
 
-    public AcaoEstrategica getAcao() {
-        return acao;
-    }
-
-    public void setAcao(AcaoEstrategica acao) {
-        this.acao = acao;
-    }
-
     public String getNome() {
         return nome;
     }
@@ -90,6 +81,14 @@ public class Produto implements Serializable {
 
     public void setMetasPPA(List<MetaPPA> metasPPA) {
         this.metasPPA = metasPPA;
+    }
+
+    public UnidadeOrcamentaria getUnidadeOrcamentaria() {
+        return unidadeOrcamentaria;
+    }
+
+    public void setUnidadeOrcamentaria(UnidadeOrcamentaria unidadeOrcamentaria) {
+        this.unidadeOrcamentaria = unidadeOrcamentaria;
     }
 
     @Override

@@ -31,11 +31,12 @@
             </p:fieldset>
             <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
             <div class="uix-center">
-                <x:securityArea rolesAllowed="unidadeDeMedida.create">
-                    <p:commandButton process="@form" update="@form formFindUnidadeDeMedida" action="#{unidadeDeMedidaMB.save}" value="#{xmsg['save']}" styleClass="button-save"
-                                     rendered="#{unidadeDeMedidaMB.renderizarCampo}"/>
-                </x:securityArea>
-
+                <div class="div-actions-buttons">
+                    <x:securityArea rolesAllowed="unidadeDeMedida.create">
+                        <p:commandButton process="@form" update="@form formFindUnidadeDeMedida" action="#{unidadeDeMedidaMB.save}" value="#{xmsg['save']}" styleClass="button-save"
+                                         rendered="#{unidadeDeMedidaMB.renderizarCampo}"/>
+                    </x:securityArea>
+                </div>
             </div>
         </h:panelGroup>
 

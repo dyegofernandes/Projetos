@@ -27,7 +27,7 @@
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 20%">
                             <h:outputLabel for="sigla" value="* #{msg['estado.sigla']}:" />
                             <p:inputMask id="sigla" value="#{estadoMB.entity.sigla}" mask="aa"  styleClass="form-control"  
-                                         readonly="#{estadoMB.somenteLeitura}"/>
+                                         readonly="#{estadoMB.somenteLeitura}" style="text-transform: uppercase"/>
                         </div>
                     </div>
                     <div class="row">
@@ -47,11 +47,12 @@
             </p:fieldset>
             <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
             <div class="uix-center">
-                <x:securityArea rolesAllowed="estado.create">
-                    <p:commandButton process="@form" update="@form formFindEstado" action="#{estadoMB.save}" value="#{xmsg['save']}" styleClass="button-save"
-                                     rendered="#{estadoMB.renderizarCampo}"/>
-                </x:securityArea>
-
+                <div class="div-actions-buttons">
+                    <x:securityArea rolesAllowed="estado.create">
+                        <p:commandButton process="@form" update="@form formFindEstado" action="#{estadoMB.save}" value="#{xmsg['save']}" styleClass="button-save"
+                                         rendered="#{estadoMB.renderizarCampo}"/>
+                    </x:securityArea>
+                </div>
             </div>
         </h:panelGroup>
 

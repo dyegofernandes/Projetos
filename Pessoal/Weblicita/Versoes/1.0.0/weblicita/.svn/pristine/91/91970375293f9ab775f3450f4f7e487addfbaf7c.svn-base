@@ -1,0 +1,57 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formFindUsuario" >
+        <x:modalMessages autoUpdate="true"/>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
+                    <div style="input-finds_left">
+                        <x:cpf id="cpfBusca" value="#{usuarioMB.cpf}" placeholder="#{msg['usuario.find.nome']}"  styleClass="form-control input-finds"  />
+                    </div>
+                    <p:commandButton process="@this cpfBusca" update="formFindUsuario formCreateUsuario"  value="#{msg['usuario.find']}" class="button-finds" 
+                                     actionListener="#{usuarioMB.buscar()}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
+                    <div class="div-button-new">
+                        <x:securityArea rolesAllowed="usuario.create">
+                            <p:commandButton process="@form" update="formFindUsuario formCreateUsuario"  value="#{msg['usuario.novo']}" class="button-new"
+                                             actionListener="#{usuarioMB.novo()}"/>
+                        </x:securityArea>
+                    </div>
+                    <div class="div-button-edit">
+                        <x:securityArea rolesAllowed="usuario.editar">
+                            <p:commandButton process="@form" update="formFindUsuario formCreateUsuario"  value="#{msg['usuario.editar']}" class="button-edit" 
+                                             rendered="#{usuarioMB.entity.id!=null}" actionListener="#{usuarioMB.editar()}"/>
+                        </x:securityArea>
+                    </div>
+                    <div class="div-button-delete">
+                        <x:securityArea rolesAllowed="usuario.desativar">
+                            <p:commandButton process="@form" update="formFindUsuario formCreateUsuario"  value="#{msg['usuario.desativar']}" class="button-delete" 
+                                             rendered="#{usuarioMB.habilitarBotaoDesativar()}" actionListener="#{usuarioMB.desativar()}">
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{usuarioMB.entity.nome}" />
+                            </p:commandButton>
+                        </x:securityArea>
+                    </div>
+                    <div class="div-button-delete">
+                        <x:securityArea rolesAllowed="usuario.ativar">
+                            <p:commandButton process="@form" update="formFindUsuario formCreateUsuario"  value="#{msg['usuario.ativar']}" class="button-delete" 
+                                             rendered="#{usuarioMB.habilitarBotaoAtivar()}" actionListener="#{usuarioMB.ativar()}">
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{usuarioMB.entity.nome}" />
+                            </p:commandButton>
+                        </x:securityArea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:form>
+
+</ui:composition>

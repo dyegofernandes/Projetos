@@ -61,18 +61,21 @@ public class ItemBO extends AbstractBusinessObject<Item> {
 
         if (item != null) {
             String[] codigoTemp = new String[3];
-
-            codigoTemp = item.getCodigo().split("\\.");
-
-            String anoOrgao = codigoTemp[1];
-
-            Integer sequencial = new Integer(codigoTemp[2]);
-
-            if (anoAtual.equals(anoOrgao)) {
-                sequencial++;
-                codigo = codigo.concat(anoOrgao).concat(".").concat(Utils.inserirZeroDireita(sequencial.toString(), 10));
-            } else {
+            if (Utils.isNullOrEmpty(item.getCodigo())) {
                 codigo = codigo.concat(anoAtual).concat(".").concat(Utils.inserirZeroDireita("1", 10));
+            } else {
+                codigoTemp = item.getCodigo().split("\\.");
+
+                String anoOrgao = codigoTemp[1];
+
+                Integer sequencial = new Integer(codigoTemp[2]);
+
+                if (anoAtual.equals(anoOrgao)) {
+                    sequencial++;
+                    codigo = codigo.concat(anoOrgao).concat(".").concat(Utils.inserirZeroDireita(sequencial.toString(), 10));
+                } else {
+                    codigo = codigo.concat(anoAtual).concat(".").concat(Utils.inserirZeroDireita("1", 10));
+                }
             }
 
         } else {

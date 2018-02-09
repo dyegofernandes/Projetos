@@ -31,6 +31,7 @@ import br.com.weblicita.modelo.cadastro.enums.EditaPedido;
 import br.com.weblicita.modelo.cadastro.enums.ParecerJuridico;
 import br.com.weblicita.modelo.cadastro.enums.SimOuNao;
 import br.com.weblicita.modelo.cadastro.enums.SituacaoPedido;
+import br.com.weblicita.modelo.cadastro.enums.TipoArquivoContrato;
 import br.com.weblicita.modelo.cadastro.enums.TipoDeSocio;
 import br.com.weblicita.modelo.cadastro.enums.TipoTelefone;
 import br.com.weblicita.modelo.controleacesso.Permissao;
@@ -221,6 +222,7 @@ public class ClassMB {
     public Class getSimOuNao() {
         return SimOuNao.class;
     }
+
     public Class getCargo() {
         return Cargo.class;
     }
@@ -228,8 +230,13 @@ public class ClassMB {
     public Class getTerritorio() {
         return Territorio.class;
     }
+
     public Class getRegiao() {
         return Regiao.class;
+    }
+
+    public Class getTipoArquivoContrato() {
+        return TipoArquivoContrato.class;
     }
 
 }

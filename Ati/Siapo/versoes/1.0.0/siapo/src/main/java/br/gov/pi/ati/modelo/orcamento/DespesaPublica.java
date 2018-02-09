@@ -9,11 +9,15 @@ import br.gov.pi.ati.modelo.cadastro.AcaoOrcamentaria;
 import br.gov.pi.ati.modelo.cadastro.FonteDeRecurso;
 import br.gov.pi.ati.modelo.cadastro.NaturezaDeDespesa;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
@@ -44,16 +48,10 @@ public class DespesaPublica implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private AcaoOrcamentaria acaoOrcamentaria;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    private FonteDeRecurso fonteDeRecurso;
+   
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    private NaturezaDeDespesa naturezaDaDespesa;
-
-//    @ManyToMany(targetEntity = ProgramacaoFinanceira.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-//    private List<ProgramacaoFinanceira> programacaoFinanceira = new ArrayList<ProgramacaoFinanceira>();
+    @ManyToMany(targetEntity = ProgramacaoFinanceira.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    private List<ProgramacaoFinanceira> programacaoFinanceira = new ArrayList<ProgramacaoFinanceira>();
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)

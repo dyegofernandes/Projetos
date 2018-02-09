@@ -119,6 +119,7 @@ public class UsuarioMB extends AbstractBaseBean<Usuario> implements Serializable
 
             //apos o cadastro feito tentar enviar senha do usuario
             if (novo) {
+                getEntity().setCodigo(usuarioBO.gerarCodigo());
                 try {
                     usuarioBO.enviarSenhaCadastro(getEntity());
                     FacesMessageUtils.info("solicitacaoRecuperacaoSenha.emailCadastroEnviado", getEntity().getEmail());
@@ -128,6 +129,10 @@ public class UsuarioMB extends AbstractBaseBean<Usuario> implements Serializable
                             I18N.get(ex.getMessage(), ex.getParametros()));
                 }
             }
+            renderizarCampo = false;
+            somenteLeitura = false;
+            renderizarFormulario = false;
+            setEntity(new Usuario());
             FacesMessageUtils.sucess();
         } catch (BusinessException ex) {
             FacesMessageUtils.error(ex);
@@ -223,11 +228,12 @@ public class UsuarioMB extends AbstractBaseBean<Usuario> implements Serializable
     }
 
     public boolean habilitarBotaoAtivar() {
-        return getEntity().getId() != null && !(getEntity().getSituacaoUsuario() == SituacaoUsuario.INATIVO);
+        return getEntity().getId() != null && getEntity().getSituacaoUsuario() == SituacaoUsuario.INATIVO;
     }
 
     public void novo() {
         setEntity(new Usuario());
+        getEntity().setCodigo(usuarioBO.gerarCodigo());
         renderizarCampo = true;
         somenteLeitura = false;
         renderizarFormulario = true;

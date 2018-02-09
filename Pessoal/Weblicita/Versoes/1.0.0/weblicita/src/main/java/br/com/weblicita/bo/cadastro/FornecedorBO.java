@@ -76,17 +76,21 @@ public class FornecedorBO extends AbstractBusinessObject<Fornecedor> {
         if (fornecedor != null) {
             String[] codigoTemp = new String[2];
 
-            codigoTemp = fornecedor.getNumeroCADUF().split("\\-");
-
-            String anoFornecedor = codigoTemp[1];
-
-            Integer sequencial = new Integer(codigoTemp[0]);
-
-            if (anoAtual.equals(anoFornecedor)) {
-                sequencial++;
-                codigo = codigo.concat(Utils.inserirZeroDireita(sequencial.toString(), 6)).concat("-").concat(anoFornecedor);
-            } else {
+            if (Utils.isNullOrEmpty(fornecedor.getNumeroCADUF())) {
                 codigo = codigo.concat(Utils.inserirZeroDireita("1", 6)).concat("-").concat(anoAtual);
+            } else {
+                codigoTemp = fornecedor.getNumeroCADUF().split("\\-");
+
+                String anoFornecedor = codigoTemp[1];
+
+                Integer sequencial = new Integer(codigoTemp[0]);
+
+                if (anoAtual.equals(anoFornecedor)) {
+                    sequencial++;
+                    codigo = codigo.concat(Utils.inserirZeroDireita(sequencial.toString(), 6)).concat("-").concat(anoFornecedor);
+                } else {
+                    codigo = codigo.concat(Utils.inserirZeroDireita("1", 6)).concat("-").concat(anoAtual);
+                }
             }
 
         } else {

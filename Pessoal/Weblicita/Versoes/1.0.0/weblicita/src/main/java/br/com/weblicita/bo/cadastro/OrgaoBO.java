@@ -56,17 +56,21 @@ public class OrgaoBO extends AbstractBusinessObject<Orgao> {
         if (orgao != null) {
             String[] codigoTemp = new String[3];
 
-            codigoTemp = orgao.getCodigo().split("\\.");
-
-            String anoOrgao = codigoTemp[1];
-
-            Integer sequencial = new Integer(codigoTemp[2]);
-
-            if (anoAtual.equals(anoOrgao)) {
-                sequencial++;
-                codigo = codigo.concat(anoOrgao).concat(".").concat(Utils.inserirZeroDireita(sequencial.toString(), 10));
-            } else {
+            if (Utils.isNullOrEmpty(orgao.getCodigo())) {
                 codigo = codigo.concat(anoAtual).concat(".").concat(Utils.inserirZeroDireita("1", 10));
+            } else {
+                codigoTemp = orgao.getCodigo().split("\\.");
+
+                String anoOrgao = codigoTemp[1];
+
+                Integer sequencial = new Integer(codigoTemp[2]);
+
+                if (anoAtual.equals(anoOrgao)) {
+                    sequencial++;
+                    codigo = codigo.concat(anoOrgao).concat(".").concat(Utils.inserirZeroDireita(sequencial.toString(), 10));
+                } else {
+                    codigo = codigo.concat(anoAtual).concat(".").concat(Utils.inserirZeroDireita("1", 10));
+                }
             }
 
         } else {

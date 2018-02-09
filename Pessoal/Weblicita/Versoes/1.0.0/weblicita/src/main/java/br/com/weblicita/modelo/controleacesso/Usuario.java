@@ -1,6 +1,7 @@
 package br.com.weblicita.modelo.controleacesso;
 
 import br.com.weblicita.modelo.cadastro.Cargo;
+import br.com.weblicita.modelo.cadastro.Documento;
 import br.com.weblicita.modelo.cadastro.Endereco;
 import br.com.weblicita.modelo.cadastro.Item;
 import br.com.weblicita.modelo.cadastro.Orgao;
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -32,9 +32,12 @@ public class Usuario implements Serializable, User {
     @ManyToOne(fetch = FetchType.LAZY)
     private Cargo cargo;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Documento foto;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
 //    @NotNull
-    private Endereco endereco;
+    private Endereco endereco = new Endereco();
 
     @Temporal(TemporalType.TIMESTAMP)
 //    @NotNull
@@ -42,9 +45,6 @@ public class Usuario implements Serializable, User {
 
     @Temporal(TemporalType.DATE)
     private Date dataDeNascimento;
-
-    @Column(columnDefinition = "bytea")
-    private byte[] foto;
 
     @NotBlank
     private String nome;
@@ -60,6 +60,9 @@ public class Usuario implements Serializable, User {
 
     @Size(max = 50)
     private String matricula;
+    
+    @Size(max = 50)
+    private String codigo;
 
     @Size(max = 230)
     private String rg;
@@ -151,13 +154,14 @@ public class Usuario implements Serializable, User {
         this.rg = rg;
     }
 
-    public byte[] getFoto() {
+    public Documento getFoto() {
         return foto;
     }
 
-    public void setFoto(byte[] foto) {
+    public void setFoto(Documento foto) {
         this.foto = foto;
     }
+
 
     public List<HistoricoSituacaoUsuario> getHistoricosSituacao() {
         return historicosSituacao;
@@ -217,6 +221,14 @@ public class Usuario implements Serializable, User {
 
     public String getNome() {
         return nome;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public void setNome(String nome) {

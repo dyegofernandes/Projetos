@@ -1,0 +1,382 @@
+package br.com.weblicita;
+
+
+import br.com.weblicita.dao.DAO;
+import br.com.weblicita.modelo.cadastro.Cidade;
+import br.com.weblicita.modelo.cadastro.Estado;
+import br.com.weblicita.modelo.cadastro.Pais;
+import br.com.weblicita.modelo.cadastro.Regiao;
+import br.com.weblicita.modelo.cadastro.Territorio;
+import br.com.weblicita.modelo.cadastro.UnidadeDeMedida;
+import br.com.weblicita.modelo.vos.CidadeVO;
+import br.com.weblicita.modelo.vos.EstadoVO;
+import br.com.weblicita.modelo.vos.PaisVO;
+import br.com.weblicita.modelo.vos.RegiaoVO;
+import br.com.weblicita.modelo.vos.TerritorioVO;
+import br.com.weblicita.modelo.vos.UnidadeVO;
+import br.com.weblicita.util.Utils;
+import com.xpert.persistence.dao.BaseDAO;
+import com.xpert.persistence.query.Restrictions;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+
+/**
+ *
+ * @author ayslan
+ */
+@Stateless
+public class GeracaoDadosCEP {
+
+    @EJB
+    private DAO dao;
+    private static final Logger logger = Logger.getLogger(GeracaoDadosCEP.class.getName());
+
+    public <T> BaseDAO<T> getDAO(Class<T> entity) {
+        return dao.getDAO(entity);
+    }
+
+    public void generate() {
+        try {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+
+            FileInputStream arquivo = new FileInputStream(new File(
+                    servletContext.getRealPath("/WEB-INF/docs/CEP_IBGE.xls")));
+
+            List<PaisVO> paises = new ArrayList<PaisVO>();
+            List<EstadoVO> estados = new ArrayList<EstadoVO>();
+            List<CidadeVO> cidades = new ArrayList<CidadeVO>();
+            List<RegiaoVO> regioes = new ArrayList<RegiaoVO>();
+            List<TerritorioVO> territorios = new ArrayList<TerritorioVO>();
+
+            HSSFWorkbook workbook = new HSSFWorkbook(arquivo);
+
+            HSSFSheet sheetPais = workbook.getSheetAt(0);
+
+            HSSFSheet sheetEstado = workbook.getSheetAt(1);
+
+            HSSFSheet sheetCidade = workbook.getSheetAt(2);
+
+            HSSFSheet sheetRegiao = workbook.getSheetAt(3);
+
+            HSSFSheet sheetTerritorio = workbook.getSheetAt(4);
+
+            //Sheet Paises
+            Iterator<Row> rowIterator = sheetPais.iterator();
+
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                Iterator<Cell> cellIterator = row.cellIterator();
+
+                PaisVO pais = new PaisVO();
+
+                while (cellIterator.hasNext()) {
+                    Cell cell = cellIterator.next();
+                    switch (cell.getColumnIndex()) {
+                        case 1:
+                            pais.setNome(cell.getStringCellValue());
+                            break;
+                        case 2:
+                            pais.setSigla(cell.getStringCellValue());
+                            break;
+                        case 3:
+                            pais.setNacionalidade(cell.getStringCellValue());
+                            break;
+                        case 4:
+                            pais.setCodigo(cell.getStringCellValue());
+                            break;
+                    }
+                }
+
+                paises.add(pais);
+            }
+
+            //Sheet Estados
+            rowIterator = sheetEstado.iterator();
+
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                Iterator<Cell> cellIterator = row.cellIterator();
+
+                EstadoVO estado = new EstadoVO();
+
+                while (cellIterator.hasNext()) {
+                    Cell cell = cellIterator.next();
+                    switch (cell.getColumnIndex()) {
+                        case 1:
+                            estado.setNome(cell.getStringCellValue());
+                            break;
+                        case 2:
+                            estado.setSigla(cell.getStringCellValue());
+                            break;
+                        case 3:
+                            estado.setCodigo(String.valueOf(cell.getNumericCellValue()).replace(".0", ""));
+                            break;
+                        case 5:
+                            estado.setPais_id(String.valueOf(cell.getNumericCellValue()).replace(".0", ""));
+                            break;
+                        case 6:
+                            estado.setRegiao_id(String.valueOf(cell.getNumericCellValue()).replace(".0", ""));
+                            break;
+                    }
+                }
+
+                estados.add(estado);
+            }
+
+            //Sheet Cidades
+            rowIterator = sheetCidade.iterator();
+
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                Iterator<Cell> cellIterator = row.cellIterator();
+
+                CidadeVO cidade = new CidadeVO();
+
+                while (cellIterator.hasNext()) {
+                    Cell cell = cellIterator.next();
+                    switch (cell.getColumnIndex()) {
+                        case 1:
+                            cidade.setNome(cell.getStringCellValue());
+                            break;
+                        case 2:
+                            cidade.setCapital(cell.getStringCellValue());
+                            break;
+                        case 3:
+                            cidade.setCodigo(cell.getStringCellValue());
+                            break;
+                        case 5:
+                            cidade.setEstado_id(String.valueOf(cell.getNumericCellValue()).replace(".0", ""));
+                            break;
+                        case 6:
+                            cidade.setTerritorio_id(String.valueOf(cell.getNumericCellValue()).replace(".0", ""));
+                            break;
+                    }
+                }
+
+                cidades.add(cidade);
+            }
+
+            //Sheet Regioes
+            rowIterator = sheetRegiao.iterator();
+
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                Iterator<Cell> cellIterator = row.cellIterator();
+
+                RegiaoVO regiao = new RegiaoVO();
+
+                while (cellIterator.hasNext()) {
+                    Cell cell = cellIterator.next();
+                    switch (cell.getColumnIndex()) {
+                        case 1:
+                            regiao.setNome(cell.getStringCellValue());
+                            break;
+                    }
+                }
+                regioes.add(regiao);
+            }
+
+            //Sheet Territorios
+            rowIterator = sheetTerritorio.iterator();
+
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                Iterator<Cell> cellIterator = row.cellIterator();
+
+                TerritorioVO territorio = new TerritorioVO();
+
+                while (cellIterator.hasNext()) {
+                    Cell cell = cellIterator.next();
+                    switch (cell.getColumnIndex()) {
+                        case 1:
+                            territorio.setNome(cell.getStringCellValue());
+                            break;
+                        case 3:
+                            territorio.setEstado_id(String.valueOf(cell.getNumericCellValue()).replace(".0", ""));
+                            break;
+                    }
+                }
+
+                territorios.add(territorio);
+            }
+
+            for (PaisVO paisTemp : paises) {
+                Restrictions restrictions = new Restrictions();
+                restrictions.equals("UPPER(TRANSLATE(nome,'ÁÀÂÃÄáàâãäÉÈÊËéèêëÍÌÎÏíìîïÓÒÕÔÖóòôõöÚÙÛÜúùûüÇç','AAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUUuuuuCc'))",
+                        Utils.removerAcentos(paisTemp.getNome()).toUpperCase());
+                Pais pais = getDAO(Pais.class).unique(restrictions);
+
+                if (pais == null) {
+                    pais = new Pais();
+                    pais.setCodigo(paisTemp.getCodigo());
+                    pais.setNome(paisTemp.getNome());
+                    pais.setSigla(paisTemp.getSigla());
+                    getDAO(Pais.class).saveOrMerge(pais);
+                }
+
+            }
+
+            for (RegiaoVO regiaoTemp : regioes) {
+                Restrictions restrictions = new Restrictions();
+                restrictions.equals("UPPER(TRANSLATE(descricao,'ÁÀÂÃÄáàâãäÉÈÊËéèêëÍÌÎÏíìîïÓÒÕÔÖóòôõöÚÙÛÜúùûüÇç','AAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUUuuuuCc'))",
+                        Utils.removerAcentos(regiaoTemp.getNome()).toUpperCase());
+                Regiao regiao = getDAO(Regiao.class).unique(restrictions);
+
+                if (regiao == null) {
+                    regiao = new Regiao();
+                    regiao.setDescricao(regiaoTemp.getNome());
+                    getDAO(Regiao.class).saveOrMerge(regiao);
+                }
+            }
+
+            for (EstadoVO estadoTemp : estados) {
+
+                Pais pais = getDAO(Pais.class).unique("id", new Long(estadoTemp.getPais_id()));
+
+                if (pais != null) {
+                    Restrictions restrictions = new Restrictions();
+                    restrictions.equals("UPPER(TRANSLATE(nome,'ÁÀÂÃÄáàâãäÉÈÊËéèêëÍÌÎÏíìîïÓÒÕÔÖóòôõöÚÙÛÜúùûüÇç','AAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUUuuuuCc'))",
+                            Utils.removerAcentos(estadoTemp.getNome()).toUpperCase());
+                    restrictions.add("pais", pais);
+
+                    Estado estado = getDAO(Estado.class).unique(restrictions);
+
+                    if (estado == null) {
+                        estado = new Estado();
+                        estado.setNome(estadoTemp.getNome());
+                        estado.setCodigo(estadoTemp.getCodigo());
+                        estado.setSigla(estadoTemp.getSigla());
+                        estado.setPais(pais);
+                        if (!Utils.isNullOrEmpty(estadoTemp.getRegiao_id())) {
+                            Regiao regiao = getDAO(Regiao.class).unique("id", new Long(estadoTemp.getRegiao_id()));
+                            if (regiao != null) {
+                                estado.setRegiao(regiao);
+                            }
+                        }
+
+                        getDAO(Estado.class).saveOrMerge(estado);
+                    }
+                }
+            }
+
+            for (TerritorioVO territorioTemp : territorios) {
+                Estado estado = getDAO(Estado.class).unique("id", new Long(territorioTemp.getEstado_id()));
+
+                if (estado != null) {
+                    Restrictions restrictions = new Restrictions();
+                    restrictions.equals("UPPER(TRANSLATE(descricao,'ÁÀÂÃÄáàâãäÉÈÊËéèêëÍÌÎÏíìîïÓÒÕÔÖóòôõöÚÙÛÜúùûüÇç','AAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUUuuuuCc'))",
+                            Utils.removerAcentos(territorioTemp.getNome()).toUpperCase());
+                    Territorio territorio = getDAO(Territorio.class).unique(restrictions);
+
+                    if (territorio == null) {
+                        territorio = new Territorio();
+                        territorio.setDescricao(territorioTemp.getNome());
+                        territorio.setEstado(estado);
+                        getDAO(Territorio.class).saveOrMerge(territorio);
+                    }
+
+                }
+            }
+
+            for (CidadeVO cidadeTemp : cidades) {
+                Estado estado = getDAO(Estado.class).unique("id", new Long(cidadeTemp.getEstado_id()));
+                if (estado != null) {
+                    Restrictions restrictions = new Restrictions();
+                    restrictions.equals("UPPER(TRANSLATE(nome,'ÁÀÂÃÄáàâãäÉÈÊËéèêëÍÌÎÏíìîïÓÒÕÔÖóòôõöÚÙÛÜúùûüÇç','AAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUUuuuuCc'))",
+                            Utils.removerAcentos(cidadeTemp.getNome()).toUpperCase());
+                    restrictions.add("estado", estado);
+                    Cidade cidade = getDAO(Cidade.class).unique(restrictions);
+
+                    if (cidade == null) {
+                        cidade = new Cidade();
+                        cidade.setNome(cidadeTemp.getNome());
+                        cidade.setCodigo(cidadeTemp.getCodigo());
+                        cidade.setCapital(Boolean.getBoolean(cidadeTemp.getCapital()));
+                        cidade.setEstado(estado);
+
+                        if (!Utils.isNullOrEmpty(cidadeTemp.getTerritorio_id())) {
+                            Territorio territorio = getDAO(Territorio.class).unique("id", new Long(cidadeTemp.getTerritorio_id()));
+                            if (territorio != null) {
+                                cidade.setTerritorio(territorio);
+                            }
+                        }
+
+                        getDAO(Cidade.class).saveOrMerge(cidade);
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+
+        try {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+
+            FileInputStream arquivo = new FileInputStream(new File(
+                    servletContext.getRealPath("/WEB-INF/docs/Unidades.xls")));
+
+            HSSFWorkbook workbook = new HSSFWorkbook(arquivo);
+
+            HSSFSheet sheetUnidade = workbook.getSheetAt(0);
+
+            List<UnidadeVO> unidades = new ArrayList<UnidadeVO>();
+
+            //Sheet Unidade
+            Iterator<Row> rowIterator = sheetUnidade.iterator();
+
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                Iterator<Cell> cellIterator = row.cellIterator();
+
+                UnidadeVO unidade = new UnidadeVO();
+
+                while (cellIterator.hasNext()) {
+                    Cell cell = cellIterator.next();
+                    switch (cell.getColumnIndex()) {
+                        case 0:
+                            unidade.setSigla(cell.getStringCellValue());
+                            break;
+                        case 1:
+                            unidade.setNome(cell.getStringCellValue());
+                    }
+                }
+
+                unidades.add(unidade);
+            }
+
+            for (UnidadeVO unidadeTemp : unidades) {
+                Restrictions restrictions = new Restrictions();
+                restrictions.equals("UPPER(TRANSLATE(nome,'ÁÀÂÃÄáàâãäÉÈÊËéèêëÍÌÎÏíìîïÓÒÕÔÖóòôõöÚÙÛÜúùûüÇç','AAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUUuuuuCc'))",
+                        Utils.removerAcentos(unidadeTemp.getNome()).toUpperCase());
+                UnidadeDeMedida unidade = getDAO(UnidadeDeMedida.class).unique(restrictions);
+
+                if (unidade == null) {
+                    unidade = new UnidadeDeMedida();
+                    unidade.setNome(unidadeTemp.getNome());
+                    unidade.setSigla(unidadeTemp.getSigla());
+
+                    getDAO(UnidadeDeMedida.class).saveOrMerge(unidade);
+                }
+            }
+
+        } catch (Exception e) {
+        }
+
+    }
+
+}

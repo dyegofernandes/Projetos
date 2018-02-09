@@ -5,12 +5,16 @@
  */
 package br.com.weblicita.modelo.cadastro;
 
+import br.com.weblicita.modelo.cadastro.enums.TipoArquivoContrato;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -34,6 +38,10 @@ public class Arquivo implements Serializable {
     @Column(columnDefinition = "Text")
     @NotBlank
     private String conteudo;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private TipoArquivoContrato tipo;
 
     public Long getId() {
         return id;
@@ -65,6 +73,14 @@ public class Arquivo implements Serializable {
 
     public void setConteudo(String conteudo) {
         this.conteudo = conteudo;
+    }
+
+    public TipoArquivoContrato getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoArquivoContrato tipo) {
+        this.tipo = tipo;
     }
 
     @Override

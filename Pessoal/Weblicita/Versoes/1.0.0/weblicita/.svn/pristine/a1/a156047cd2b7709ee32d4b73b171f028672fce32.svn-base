@@ -1,0 +1,102 @@
+package br.com.weblicita.bo.cadastro;
+
+import com.xpert.core.crud.AbstractBusinessObject;
+import br.com.weblicita.dao.cadastro.FornecedorDAO;
+import com.xpert.core.validation.UniqueField;
+import com.xpert.core.exception.BusinessException;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import br.com.weblicita.modelo.cadastro.Fornecedor;
+import br.com.weblicita.util.Utils;
+import com.xpert.core.validation.UniqueFields;
+import com.xpert.persistence.query.Restrictions;
+import java.util.Date;
+
+/**
+ *
+ * @author Juniel
+ */
+@Stateless
+public class FornecedorBO extends AbstractBusinessObject<Fornecedor> {
+
+    @EJB
+    private FornecedorDAO fornecedorDAO;
+
+    @Override
+    public FornecedorDAO getDAO() {
+        return fornecedorDAO;
+    }
+
+    @Override
+    public List<UniqueField> getUniqueFields() {
+        return new UniqueFields().add("cnpj").add("numeroCADUF");
+    }
+
+    @Override
+    public void validate(Fornecedor fornecedor) throws BusinessException {
+    }
+
+    @Override
+    public boolean isAudit() {
+        return true;
+    }
+
+    public List<Fornecedor> fornecedorPeloNomeOuCNPJ(String nome) {
+        Restrictions restrictions = new Restrictions();
+
+        restrictions.add("ativo", true);
+
+        if (!Utils.isNullOrEmpty(nome)) {
+            if (Utils.ehInteiro(nome)) {
+                restrictions.like("cnpj", nome);
+            } else {
+                restrictions.like("nome", nome);
+            }
+
+        }
+
+        return getDAO().list(restrictions, "nome");
+    }
+
+    public Fornecedor fornecedorPeloCnpj(String cnpj) {
+        return getDAO().unique("cnpj", cnpj);
+
+    }
+
+    public String gerarCADUF() {
+        String codigo = "";
+
+        String anoAtual = Utils.getAno(new Date());
+
+        Long id = (Long) getDAO().getQueryBuilder().from(Fornecedor.class).max("id");
+
+        Fornecedor fornecedor = getDAO().unique("id", id);
+
+        if (fornecedor != null) {
+            String[] codigoTemp = new String[2];
+
+            if (Utils.isNullOrEmpty(fornecedor.getNumeroCADUF())) {
+                codigo = codigo.concat(Utils.inserirZeroDireita("1", 6)).concat("-").concat(anoAtual);
+            } else {
+                codigoTemp = fornecedor.getNumeroCADUF().split("\\-");
+
+                String anoFornecedor = codigoTemp[1];
+
+                Integer sequencial = new Integer(codigoTemp[0]);
+
+                if (anoAtual.equals(anoFornecedor)) {
+                    sequencial++;
+                    codigo = codigo.concat(Utils.inserirZeroDireita(sequencial.toString(), 6)).concat("-").concat(anoFornecedor);
+                } else {
+                    codigo = codigo.concat(Utils.inserirZeroDireita("1", 6)).concat("-").concat(anoAtual);
+                }
+            }
+
+        } else {
+            codigo = codigo.concat(Utils.inserirZeroDireita("1", 6)).concat("-").concat(anoAtual);
+        }
+
+        return codigo;
+    }
+}

@@ -4,11 +4,13 @@ import br.com.weblicita.util.SessaoUtils;
 import br.com.weblicita.dao.controleacesso.HistoricoSituacaoUsuarioDAO;
 import br.com.weblicita.dao.controleacesso.PerfilDAO;
 import br.com.weblicita.dao.controleacesso.UsuarioDAO;
+import br.com.weblicita.modelo.cadastro.Fornecedor;
 import br.com.weblicita.modelo.controleacesso.HistoricoSituacaoUsuario;
 import br.com.weblicita.modelo.controleacesso.Perfil;
 import br.com.weblicita.modelo.controleacesso.SituacaoUsuario;
 import br.com.weblicita.modelo.controleacesso.TipoRecuperacaoSenha;
 import br.com.weblicita.modelo.controleacesso.Usuario;
+import br.com.weblicita.util.Utils;
 import com.xpert.core.crud.AbstractBusinessObject;
 import com.xpert.persistence.dao.BaseDAO;
 import com.xpert.core.validation.UniqueField;
@@ -142,5 +144,40 @@ public class UsuarioBO extends AbstractBusinessObject<Usuario> {
      */
     public Usuario getUsuario(String cpf) {
         return usuarioDAO.unique("cpf", cpf);
+    }
+
+    public String gerarCodigo() {
+        String codigo = "";
+
+        String anoAtual = Utils.getAno(new Date());
+
+        Long id = (Long) getDAO().getQueryBuilder().from(Usuario.class).max("id");
+
+        Usuario usuario = (Usuario) getDAO().unique("id", id);
+
+        if (usuario != null) {
+
+            if (Utils.isNullOrEmpty(usuario.getCodigo())) {
+                codigo = codigo.concat(Utils.inserirZeroDireita("1", 10)).concat(".").concat(anoAtual);
+            } else {
+                String[] codigoTemp = new String[2];
+                codigoTemp = usuario.getCodigo().split("\\.");
+                String anoUsuario = codigoTemp[1];
+
+                Integer sequencial = new Integer(codigoTemp[0]);
+
+                if (anoAtual.equals(anoUsuario)) {
+                    sequencial++;
+                    codigo = codigo.concat(Utils.inserirZeroDireita(sequencial.toString(), 10)).concat(".").concat(anoUsuario);
+                } else {
+                    codigo = codigo.concat(Utils.inserirZeroDireita("1", 10)).concat(".").concat(anoAtual);
+                }
+            }
+
+        } else {
+            codigo = codigo.concat(Utils.inserirZeroDireita("1", 10)).concat(".").concat(anoAtual);
+        }
+
+        return codigo;
     }
 }

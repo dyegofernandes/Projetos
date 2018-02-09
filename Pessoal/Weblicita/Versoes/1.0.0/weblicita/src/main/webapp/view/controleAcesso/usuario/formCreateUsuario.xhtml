@@ -9,9 +9,6 @@
     <h:form id="formCreateUsuario"> 
         <x:modalMessages autoUpdate="true"/>
         <h:panelGroup rendered="#{usuarioMB.renderizarFormulario}">
-
-
-
             <p:tabView>
                 <p:tab title="#{msg['dadosGerais']}">
 
@@ -19,15 +16,59 @@
                     <div class="container-fluid">
                         <div class="row">
 
-                            <div class="form-group col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                <h:outputLabel value="* #{msg['usuario.codigo']}:" />
+                                <p:inputText value="#{usuarioMB.entity.codigo}" maxlength="255" styleClass="form-control"
+                                             readonly="true"/>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                <h:outputLabel value="* Ativo:" />
+                                <p:inputText value="#{usuarioMB.entity.situacaoUsuario.descricao}" maxlength="255" styleClass="form-control"
+                                             readonly="true">
+                                </p:inputText>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                <h:outputLabel value="* #{msg['usuario.dataCadastro']}:" />
+                                <p:inputText value="#{usuarioMB.entity.dataCadastro}" maxlength="255" styleClass="form-control"
+                                             readonly="true">
+                                    <f:convertDateTime />
+                                </p:inputText>
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+
+                            <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                <h:outputLabel value="* #{msg['usuario.cpf']}:" />
+                                <x:cpf value="#{usuarioMB.entity.cpf}" styleClass="form-control" readonly="#{usuarioMB.somenteLeitura}"/>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="dataNascimento" value="* #{msg['usuario.dataNascimento']}:" />
+                                <p:calendar id="dataNascimento" value="#{usuarioMB.entity.dataDeNascimento}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="form-group col-lg-8 col-md-12 col-sm-12 col-xs-12">
                                 <h:outputLabel value="* #{msg['usuario.nome']}:" />
                                 <p:inputText value="#{usuarioMB.entity.nome}" maxlength="255" styleClass="form-control"
                                              readonly="#{usuarioMB.somenteLeitura}"/>
                             </div>
 
                         </div>
+
                         <div class="row">
-                            <div class="form-group col-lg-6 col-md-12 col-sm-12 col-xs-12" >
+                            <div class="form-group col-lg-8 col-md-12 col-sm-12 col-xs-12" >
                                 <h:outputLabel for="orgao" value="Órgão:" />
                                 <h:selectOneMenu id="orgao" value="#{usuarioMB.entity.orgao}" converter="entityConverter" styleClass="form-control" 
                                                  >
@@ -39,26 +80,85 @@
                                 </h:selectOneMenu>
                             </div>
                         </div>
+
                         <div class="row">
+                            <div class="form-group col-lg-8 col-md-6 col-sm-6 col-xs-12" >
+                                <h:outputLabel for="endereco" value="* Endereco:" />
+                                <p:inputText id="endereco" value="#{usuarioMB.entity.endereco.endereco}" maxlength="200"  styleClass="form-control" 
+                                             readonly="#{usuarioMB.somenteLeitura}">
+                                    <x:initializer/>
+                                </p:inputText>
+                            </div>
 
-                            <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
-                                <h:outputLabel value="* #{msg['usuario.cpf']}:" />
-                                <x:cpf value="#{usuarioMB.entity.cpf}" styleClass="form-control" readonly="#{usuarioMB.somenteLeitura}"/>
-                            </div>                            
-
-                            <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
-                                <h:outputLabel value="* #{msg['usuario.userLogin']}:" />
-                                <p:inputText value="#{usuarioMB.entity.userLogin}" maxlength="255" styleClass="form-control"
-                                             readonly="#{usuarioMB.somenteLeitura}"/>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" >
+                                <h:outputLabel for="complemento" value="Complemento:" />
+                                <p:inputText id="complemento" value="#{usuarioMB.entity.endereco.complemento}" maxlength="200"  styleClass="form-control" 
+                                             readonly="#{usuarioMB.somenteLeitura}">
+                                    <x:initializer/>
+                                </p:inputText>
                             </div>
                         </div>
                         <div class="row">
+                            <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" >
+                                <h:outputLabel for="cidade" value="* #{msg['endereco.cidade']}:" />
 
-                            <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <p:autoComplete id="cidade" value="#{usuarioMB.entity.endereco.cidade}" 
+
+                                                completeMethod="#{cidadeMB.autocomplete}" styleClass="uix-autocomplete" 
+
+                                                minQueryLength="3" forceSelection="true" dropdown="true"
+
+                                                var="p" itemLabel="#{p.nome}" itemValue="#{p}" converter="entityConverter" readonly="#{usuarioMB.somenteLeitura}"> 
+                                    <x:initializer/>
+                                    <p:column> 
+
+                                        <h:outputText value="#{p.nome}">
+
+                                        </h:outputText>
+
+                                    </p:column> 
+                                    <p:ajax event="itemSelect" process="@this" update="uf" />
+                                </p:autoComplete>
+
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 15%">
+                                <h:outputLabel for="uf" value="UF:" />
+                                <p:inputText id="uf" value="#{usuarioMB.entity.endereco.cidade.estado}" maxlength="255"  
+                                             styleClass="form-control" readonly="true">
+                                    <x:initializer/>
+                                </p:inputText>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" >
+                                <h:outputLabel for="cep" value="* CEP:" />
+                                <p:inputMask id="cep" value="#{usuarioMB.entity.endereco.cep}" mask="99999-999"  styleClass="form-control" 
+                                             readonly="#{usuarioMB.somenteLeitura}">
+                                    <x:initializer/>
+                                </p:inputMask>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-12 col-xs-12">
                                 <h:outputLabel value="* #{msg['usuario.email']}:" />
                                 <p:inputText value="#{usuarioMB.entity.email}" maxlength="255" styleClass="form-control"
                                              readonly="#{usuarioMB.somenteLeitura}"/>
                                 <h:outputText value="#{msg['usuario.emailInfo']}" styleClass="help-block"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="* #{msg['usuario.userLogin']}:" />
+                                <p:inputText value="#{usuarioMB.entity.userLogin}" maxlength="255" styleClass="form-control"
+                                             readonly="#{usuarioMB.somenteLeitura}"/>
                             </div>
                         </div>
                         <div class="row">
@@ -70,6 +170,13 @@
                                                    var="situacaoUsuario"
                                                    itemLabel="#{situacaoUsuario.descricao}" itemDisabled="#{usuarioMB.somenteLeitura}"/>
                                 </h:selectOneRadio>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-8 col-md-6 col-sm-6 col-xs-12" >
+                                <h:outputLabel for="observacao" value="#{msg['orgao.observacao']}:" />
+                                <p:inputTextarea id="observacao" rows="10" cols="192" value ="#{usuarioMB.entity.observacao}"
+                                                 styleClass="form-control" readonly="#{usuarioMB.somenteLeitura}"/>
                             </div>
                         </div>
                         <div class="row">
@@ -127,7 +234,7 @@
             <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
             <div style="text-align: center;">
                 <x:securityArea rolesAllowed="usuario.create">
-                    <p:commandButton process="@form" update="@form" action="#{usuarioMB.save}" value="#{xmsg['save']}" rendered="#{usuarioMB.renderizarCampo}"/>
+                    <p:commandButton process="@form" update="@form formFindUsuario" action="#{usuarioMB.save}" value="#{xmsg['save']}" rendered="#{usuarioMB.renderizarCampo}"/>
                     <p:commandButton process="@this" update="@form"  rendered="#{not empty usuarioMB.entity.id and usuarioMB.renderizarCampo}"
                                      action="#{usuarioMB.enviarEmailRecuperacaoSenha}" value="#{msg['solicitacaoRecuperacaoSenha.enviarEmailRecuperacaoSenha']}"
                                      >

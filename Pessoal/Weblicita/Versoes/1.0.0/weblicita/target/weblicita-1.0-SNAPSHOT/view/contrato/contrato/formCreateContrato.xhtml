@@ -4,99 +4,112 @@
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
-    
-  
+
+
     <h:form id="formCreateContrato" >
-        <p:fieldset legend="#{xmsg['generalData']}">
-            <x:modalMessages/>
-
+        <x:modalMessages autoUpdate="true"/>
+        <h:panelGroup rendered="#{contratoMB.renderizarFormulario}">
             <div class="container-fluid">
-                 <div class="row">
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="numeroProcessoAdministrativo" value="* #{msg['contrato.numeroProcessoAdministrativo']}:" />
-                         <p:inputText id="numeroProcessoAdministrativo" value="#{contratoMB.entity.numeroProcessoAdministrativo}" maxlength="250"  styleClass="form-control"  />
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="dataCadastramento" value="* #{msg['contrato.dataCadastramento']}:" />
-                         <p:calendar id="dataCadastramento" value="#{contratoMB.entity.dataCadastramento}" 
-                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
-                             <x:mask/>
-                         </p:calendar>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="numeroContrato" value="* #{msg['contrato.numeroContrato']}:" />
-                         <p:inputText id="numeroContrato" value="#{contratoMB.entity.numeroContrato}" maxlength="50"  styleClass="form-control"  />
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="cnpjContratado" value="* #{msg['contrato.cnpjContratado']}:" />
-                         <p:inputText id="cnpjContratado" value="#{contratoMB.entity.cnpjContratado}" maxlength="50"  styleClass="form-control"  />
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="orgao" value="* #{msg['contrato.orgao']}:" />
-                         <h:selectOneMenu id="orgao" value="#{contratoMB.entity.orgao}" converter="entityConverter" styleClass="form-control" >
-                             <x:initializer/>
-                             <f:selectItem itemLabel="#{xmsg['select']}" />
-                             <f:selectItems value="#{findAllBean.get(classMB.orgao)}" 
-                                            var="orgao"
-                                            itemLabel="#{orgao}"/>
-                         </h:selectOneMenu>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="razaoSocialContratado" value="* #{msg['contrato.razaoSocialContratado']}:" />
-                         <p:inputText id="razaoSocialContratado" value="#{contratoMB.entity.razaoSocialContratado}" maxlength="250"  styleClass="form-control"  />
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="dataDaAssinatura" value="* #{msg['contrato.dataDaAssinatura']}:" />
-                         <p:calendar id="dataDaAssinatura" value="#{contratoMB.entity.dataDaAssinatura}" 
-                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
-                             <x:mask/>
-                         </p:calendar>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="objeto" value="#{msg['contrato.objeto']}:" />
-                         <p:inputText id="objeto" value="#{contratoMB.entity.objeto}" maxlength="255"  styleClass="form-control"  />
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="vigencia" value="* #{msg['contrato.vigencia']}:" />
-                         <p:calendar id="vigencia" value="#{contratoMB.entity.vigencia}" 
-                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
-                             <x:mask/>
-                         </p:calendar>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="aditivos" value="#{msg['contrato.aditivos']}:" />
-                         <p:inputText id="aditivos" value="#{contratoMB.entity.aditivos}" maxlength="255"  styleClass="form-control"  />
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel value="#{msg['contrato.arquivos']}:" />
-                         <h:selectManyCheckbox id="arquivos" value="#{contratoMB.entity.arquivos}" converter="entityConverter" >
-                             <x:initializer/>
-                             <f:selectItems value="#{findAllBean.get(classMB.arquivo)}" 
-                                            var="arquivo"
-                                            itemLabel="#{arquivo}"/>
-                         </h:selectManyCheckbox>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <div class="checkbox">
-                             <label>
-                                 <h:selectBooleanCheckbox id="ativo" value="#{contratoMB.entity.ativo}" />
-                                 #{msg['contrato.ativo']}
-                             </label>
-                         </div>
-                     </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                        <h:outputLabel for="dataCadastramento" value="* #{msg['contrato.dataCadastramento']}:" />
+                        <p:inputText id="dataCadastramento" value="#{contratoMB.entity.dataCadastramento}" maxlength="255" styleClass="form-control"
+                                     readonly="true">
+                            <f:convertDateTime />
+                        </p:inputText>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="numeroProcessoAdministrativo" value="* #{msg['contrato.numeroProcessoAdministrativo']}:" />
+                        <p:inputText id="numeroProcessoAdministrativo" value="#{contratoMB.entity.numeroProcessoAdministrativo}" maxlength="250"  styleClass="form-control" 
+                                     readonly="#{contratoMB.somenteLeitura}"/>
+                    </div>
+                </div>
 
-                 </div>
-             </div>
-        </p:fieldset>
-        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
-        <div class="uix-center">
-            <x:securityArea rolesAllowed="contrato.create">
-                <p:commandButton process="@form" update="@form" action="#{contratoMB.save}" value="#{xmsg['save']}" />
-            </x:securityArea>
-            <x:securityArea rolesAllowed="contrato.audit">
-                <x:audit for="#{contratoMB.entity}"/>
-            </x:securityArea>
-        </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="numeroContrato" value="* #{msg['contrato.numeroContrato']}:" />
+                        <p:inputText id="numeroContrato" value="#{contratoMB.entity.numeroContrato}" maxlength="50"  styleClass="form-control"  
+                                     readonly="true"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cnpjContratado" value="* #{msg['contrato.cnpjContratado']}:" />
+                        <x:cnpj id="cnpjContratado" value="#{contratoMB.entity.cnpjContratado}" maxlength="50"  styleClass="form-control" 
+                                readonly="#{contratoMB.somenteLeitura}"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-8 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="orgao" value="* #{msg['contrato.orgao']}:" />
+                        <h:selectOneMenu id="orgao" value="#{contratoMB.entity.orgao}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.orgao)}" 
+                                           var="orgao"
+                                           itemLabel="#{orgao}" itemDisabled="#{contratoMB.somenteLeitura}"/>
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-lg-8 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="razaoSocialContratado" value="* #{msg['contrato.razaoSocialContratado']}:" />
+                        <p:inputText id="razaoSocialContratado" value="#{contratoMB.entity.razaoSocialContratado}" maxlength="250"  styleClass="form-control"  
+                                     readonly="#{contratoMB.somenteLeitura}"/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataDaAssinatura" value="* #{msg['contrato.dataDaAssinatura']}:" />
+                        <p:calendar id="dataDaAssinatura" value="#{contratoMB.entity.dataDaAssinatura}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  
+                                    disabled="#{contratoMB.somenteLeitura}">
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-8 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="objeto" value="#{msg['contrato.objeto']}:" />
+                        <p:inputTextarea id="objeto" rows="10" cols="192" value ="#{contratoMB.entity.objeto}"
+                                         styleClass="form-control" readonly="#{contratoMB.somenteLeitura}"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="vigencia" value="* #{msg['contrato.vigencia']}:" />
+                        <p:calendar id="vigencia" value="#{contratoMB.entity.vigencia}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  
+                                    disabled="#{contratoMB.somenteLeitura}">
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-lg-8 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="aditivos" value="#{msg['contrato.aditivos']}:" />
+                        <p:inputTextarea id="aditivos" rows="10" cols="192" value ="#{contratoMB.entity.aditivos}"
+                                         styleClass="form-control" readonly="#{contratoMB.somenteLeitura}"/>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+            <div class="uix-center">
+                <x:securityArea rolesAllowed="contrato.create">
+                    <p:commandButton process="@form" update="@form formFindContrato" action="#{contratoMB.save}" value="#{xmsg['save']}" 
+                                     rendered ="#{contratoMB.renderizarCampo}"/>
+                </x:securityArea>
+
+            </div>
+        </h:panelGroup>
     </h:form>
 
 </ui:composition>

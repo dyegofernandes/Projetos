@@ -5,14 +5,18 @@
  */
 package br.gov.pi.ati.modelo.orcamento;
 
+import br.gov.pi.ati.modelo.cadastro.FonteDeRecurso;
+import br.gov.pi.ati.modelo.cadastro.NaturezaDeDespesa;
 import br.gov.pi.ati.modelo.cadastro.enums.Meses;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 /**
@@ -26,6 +30,12 @@ public class ProgramacaoFinanceira implements Serializable {
     @SequenceGenerator(name = "ProgramacaoFinanceira", sequenceName = "programacaoFinanceira_id_seq")
     @GeneratedValue(generator = "ProgramacaoFinanceira")
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private FonteDeRecurso fonteDeRecurso;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private NaturezaDeDespesa naturezaDaDespesa;
 
     @Enumerated(EnumType.STRING)
     private Meses mes;

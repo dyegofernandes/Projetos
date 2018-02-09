@@ -6,7 +6,6 @@
 package br.gov.pi.ati.modelo.orcamento;
 
 import br.gov.pi.ati.modelo.cadastro.Produto;
-import br.gov.pi.ati.modelo.cadastro.ProgramaPPA;
 import br.gov.pi.ati.modelo.cadastro.UnidadeDeMedida;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;

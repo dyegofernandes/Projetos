@@ -6,8 +6,6 @@
 package br.gov.pi.ati.modelo.orcamento;
 
 import br.gov.pi.ati.modelo.cadastro.AcaoOrcamentaria;
-import br.gov.pi.ati.modelo.cadastro.FonteDeRecurso;
-import br.gov.pi.ati.modelo.cadastro.NaturezaDeDespesa;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +45,6 @@ public class DespesaPublica implements Serializable {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private AcaoOrcamentaria acaoOrcamentaria;
-
-   
 
     @ManyToMany(targetEntity = ProgramacaoFinanceira.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<ProgramacaoFinanceira> programacaoFinanceira = new ArrayList<ProgramacaoFinanceira>();

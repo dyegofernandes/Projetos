@@ -1,0 +1,49 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formFindContrato" >
+        <x:modalMessages/>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
+                    <div style="input-finds_left">
+                        <p:inputMask id="numContrato" value="#{contratoMB.numeroContrato}" placeholder="#{msg['contrato.find.nome']}" mask="999999-9999"  styleClass="form-control input-finds"  />
+                    </div>
+                    <p:commandButton process="@this numContrato" update="formFindContrato formCreateContrato"  value="#{msg['contrato.find']}" class="button-finds" 
+                                     actionListener="#{contratoMB.buscar()}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
+                    <div class="div-button-new">
+                        <x:securityArea rolesAllowed="contrato.create">
+                            <p:commandButton process="@form" update="formFindContrato formCreateContrato"  value="#{msg['contrato.new']}" class="button-new"
+                                             actionListener="#{contratoMB.novo()}"/>
+                        </x:securityArea>
+                    </div>
+                    <div class="div-button-edit">
+                        <x:securityArea rolesAllowed="contrato.editar">
+                            <p:commandButton process="@form" update="formFindContrato formCreateContrato"  value="#{msg['contrato.edit']}" class="button-edit" 
+                                             rendered="#{contratoMB.entity.id!=null}" actionListener="#{contratoMB.editar()}"/>
+                        </x:securityArea>
+                    </div>
+                    <div class="div-button-delete">
+                        <x:securityArea rolesAllowed="contrato.delete">
+                            <p:commandButton process="@form" update="formFindContrato formCreateContrato"  value="#{msg['contrato.delete']}" class="button-delete" 
+                                             rendered="#{contratoMB.entity.id!=null}" actionListener="#{contratoMB.excluir()}">
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{contratoMB.entity.numeroContrato}" />
+                            </p:commandButton>
+                        </x:securityArea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:form>
+
+</ui:composition>

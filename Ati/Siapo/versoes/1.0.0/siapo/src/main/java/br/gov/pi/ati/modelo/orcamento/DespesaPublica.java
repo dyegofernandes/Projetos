@@ -54,6 +54,13 @@ public class DespesaPublica implements Serializable {
     private MetaProduto produtoLDO;
 
     private boolean geraQuantificador = false;
+
+    
+    @Override
+    public String toString() {
+        return super.toString(); 
+    }
+    
     
     
 }

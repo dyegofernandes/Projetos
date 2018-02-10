@@ -35,32 +35,41 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="cnpjContratado" value="* #{msg['contrato.cnpjContratado']}:" />
-                        <x:cnpj id="cnpjContratado" value="#{contratoMB.entity.cnpjContratado}" maxlength="50"  styleClass="form-control" 
-                                readonly="#{contratoMB.somenteLeitura}"/>
+                    <div class="form-group col-lg-8 col-md-12 col-sm-12 col-xs-12" >
+                        <h:outputLabel for="contratado" value="* Contratado:" />
+
+                        <p:autoComplete id="contratado" value="#{contratoMB.entity.contratado}" 
+
+                                        completeMethod="#{fornecedorMB.autocomplete}" styleClass="uix-autocomplete" 
+
+                                        minQueryLength="3" forceSelection="true" dropdown="true"
+
+                                        var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" readonly="#{contratoMB.somenteLeitura}"> 
+                            <x:initializer/>
+                            <p:column> 
+
+                                <h:outputText value="#{p}">
+
+                                </h:outputText>
+
+                            </p:column> 
+                        </p:autoComplete>
+
+
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-lg-8 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="orgao" value="* #{msg['contrato.orgao']}:" />
-                        <h:selectOneMenu id="orgao" value="#{contratoMB.entity.orgao}" converter="entityConverter" styleClass="form-control" >
+                        <p:inputText id="orgao" value="#{contratoMB.entity.orgao}" maxlength="250"  styleClass="form-control" 
+                                     readonly="true">
                             <x:initializer/>
-                            <f:selectItem itemLabel="#{xmsg['select']}" />
-                            <f:selectItems value="#{findAllBean.get(classMB.orgao)}" 
-                                           var="orgao"
-                                           itemLabel="#{orgao}" itemDisabled="#{contratoMB.somenteLeitura}"/>
-                        </h:selectOneMenu>
+                        </p:inputText>
+
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="form-group col-lg-8 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="razaoSocialContratado" value="* #{msg['contrato.razaoSocialContratado']}:" />
-                        <p:inputText id="razaoSocialContratado" value="#{contratoMB.entity.razaoSocialContratado}" maxlength="250"  styleClass="form-control"  
-                                     readonly="#{contratoMB.somenteLeitura}"/>
-                    </div>
-                </div>
+
 
                 <div class="row">
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
@@ -102,11 +111,39 @@
 
             </div>
             <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
-            <div class="uix-center">
-                <x:securityArea rolesAllowed="contrato.create">
-                    <p:commandButton process="@form" update="@form formFindContrato" action="#{contratoMB.save}" value="#{xmsg['save']}" 
-                                     rendered ="#{contratoMB.renderizarCampo}"/>
-                </x:securityArea>
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
+                    <div class="div-button-new">
+                        <p:fileUpload fileUploadListener="#{contratoMB.uploadAnexoContrato}" mode="advanced"
+                                      auto="true" sizeLimit="10485760" allowTypes="/(\.|\/)(gif|jpeg|jpg|rtf|odt|ods|png|doc|docx|xls|xlsx|pps|ppsx|ppt|pptx|pdf|jpg|zip|txt|7z|rar|dcm)$/" 
+                                      invalidFileMessage="Tipo de arquivo não permitido" invalidSizeMessage="Arquivo com tamanho acima do permitido" 
+                                      rendered ="#{contratoMB.renderizarCampo}" label="Anexar Contrato Assinado"/>
+                    </div>
+                    <div class="div-button-new">
+                        <p:fileUpload fileUploadListener="#{contratoMB.uploadPublicacaoDoContrato}" mode="advanced"
+                                      auto="true" sizeLimit="10485760" allowTypes="/(\.|\/)(gif|jpeg|jpg|rtf|odt|ods|png|doc|docx|xls|xlsx|pps|ppsx|ppt|pptx|pdf|jpg|zip|txt|7z|rar|dcm)$/" 
+                                      invalidFileMessage="Tipo de arquivo não permitido" invalidSizeMessage="Arquivo com tamanho acima do permitido" 
+                                      rendered ="#{contratoMB.renderizarCampo}" label="Anexar Publicação do Contrato - D.O"/>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
+                    <div class="div-button-new">
+                        <p:fileUpload fileUploadListener="#{contratoMB.uploadAditivoDoContrato}" mode="advanced" 
+                                      auto="true" sizeLimit="10485760" allowTypes="/(\.|\/)(gif|jpeg|jpg|rtf|odt|ods|png|doc|docx|xls|xlsx|pps|ppsx|ppt|pptx|pdf|jpg|zip|txt|7z|rar|dcm)$/" 
+                                      invalidFileMessage="Tipo de arquivo não permitido" invalidSizeMessage="Arquivo com tamanho acima do permitido" 
+                                      rendered ="#{contratoMB.renderizarCampo}" label="Anexar Aditivo Assinado"/>
+                    </div>
+                    <div class="div-button-new">
+                        <x:securityArea rolesAllowed="contrato.create">
+                            <p:commandButton process="@form" update="@form formFindContrato" action="#{contratoMB.save}" value="#{xmsg['save']}" 
+                                             rendered ="#{contratoMB.renderizarCampo}"/>
+                        </x:securityArea>
+                    </div>
+                </div>
 
             </div>
         </h:panelGroup>

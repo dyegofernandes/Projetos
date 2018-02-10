@@ -52,7 +52,7 @@
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="dataNascimento" value="* #{msg['usuario.dataNascimento']}:" />
                                 <p:calendar id="dataNascimento" value="#{usuarioMB.entity.dataDeNascimento}" 
-                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar" readonlyInput="#{usuarioMB.somenteLeitura}">
                                     <x:mask/>
                                 </p:calendar>
                             </div>
@@ -71,7 +71,7 @@
                             <div class="form-group col-lg-8 col-md-12 col-sm-12 col-xs-12" >
                                 <h:outputLabel for="orgao" value="Órgão:" />
                                 <h:selectOneMenu id="orgao" value="#{usuarioMB.entity.orgao}" converter="entityConverter" styleClass="form-control" 
-                                                 >
+                                                 readonly="#{usuarioMB.somenteLeitura}" >
                                     <x:initializer/>
                                     <f:selectItem itemLabel="#{xmsg['select']}" />
                                     <f:selectItems value="#{findAllBean.get(classMB.orgao)}" 
@@ -161,6 +161,14 @@
                                              readonly="#{usuarioMB.somenteLeitura}"/>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="form-group col-lg-8 col-md-6 col-sm-6 col-xs-12" >
+                                <h:outputLabel for="observacao" value="#{msg['orgao.observacao']}:" />
+                                <p:inputTextarea id="observacao" rows="10" cols="192" value ="#{usuarioMB.entity.observacao}"
+                                                 styleClass="form-control" readonly="#{usuarioMB.somenteLeitura}"/>
+                            </div>
+                        </div>
                         <div class="row">
 
                             <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -173,19 +181,12 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-lg-8 col-md-6 col-sm-6 col-xs-12" >
-                                <h:outputLabel for="observacao" value="#{msg['orgao.observacao']}:" />
-                                <p:inputTextarea id="observacao" rows="10" cols="192" value ="#{usuarioMB.entity.observacao}"
-                                                 styleClass="form-control" readonly="#{usuarioMB.somenteLeitura}"/>
-                            </div>
-                        </div>
-                        <div class="row">
 
                             <h:panelGroup rendered="#{sessaoUsuarioMB.user.superUsuario}" >
                                 <div class="form-group col-lg-12 col-md-12 col-sm-6 col-xs-12">
                                     <div class="checkbox">
                                         <label>
-                                            <h:selectBooleanCheckbox value="#{usuarioMB.entity.superUsuario}" />
+                                            <h:selectBooleanCheckbox value="#{usuarioMB.entity.superUsuario}"  disabled="#{usuarioMB.somenteLeitura}"/>
                                             #{msg['usuario.superUsuario']}
                                         </label>
                                     </div>

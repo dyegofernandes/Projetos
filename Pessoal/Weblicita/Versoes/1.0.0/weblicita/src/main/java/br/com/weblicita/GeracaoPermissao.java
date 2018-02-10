@@ -241,6 +241,13 @@ public class GeracaoPermissao {
         create(new Permissao("pesquisaDePreco.desativar", "Desativar de Pesquisa De Preco"), "pesquisaDePreco");
         create(new Permissao("pesquisaDePreco.buscar", "Buscar de Pesquisa De Preco"), "pesquisaDePreco");
 
+        //Homolagacao Ata Adjucao
+        create(new Permissao("homolagacaoAtaAdjucao", "Homolagação/Ata/Adjucação", false), "licitacao");
+        create(new Permissao("homolagacaoAtaAdjucao.create", "Homolagação/Ata/Adjucação", "/view/licitacao/homolagacaoAtaAdjucao/createHomolagacaoAtaAdjucao.jsf", true), "licitacao");
+        create(new Permissao("homolagacaoAtaAdjucao.list", "Consulta de Homolagação/Ata/Adjucação", "/view/licitacao/homolagacaoAtaAdjucao/listHomolagacaoAtaAdjucao.jsf", false), "homolagacaoAtaAdjucao");
+        create(new Permissao("homolagacaoAtaAdjucao.audit", "Auditoria de Homolagação/Ata/Adjucação"), "homolagacaoAtaAdjucao");
+        create(new Permissao("homolagacaoAtaAdjucao.delete", "Exclusão de Homolagação/Ata/Adjucação"), "homolagacaoAtaAdjucao");
+
         //Cargo
         create(new Permissao("cargo", "Cargo", false), "cadastro");
         create(new Permissao("cargo.create", "Cargos", "/view/cadastro/cargo/createCargo.jsf", true), "cadastro");

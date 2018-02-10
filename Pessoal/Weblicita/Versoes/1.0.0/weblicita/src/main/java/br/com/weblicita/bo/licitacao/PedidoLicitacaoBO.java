@@ -2,6 +2,7 @@ package br.com.weblicita.bo.licitacao;
 
 import com.xpert.core.crud.AbstractBusinessObject;
 import br.com.weblicita.dao.licitacao.PedidoLicitacaoDAO;
+import br.com.weblicita.modelo.controleacesso.Usuario;
 import br.com.weblicita.modelo.licitacao.ItemLicitacao;
 import com.xpert.core.validation.UniqueField;
 import com.xpert.core.exception.BusinessException;
@@ -9,6 +10,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.com.weblicita.modelo.licitacao.PedidoLicitacao;
+import br.com.weblicita.util.SessaoUtils;
 import br.com.weblicita.util.Utils;
 import com.xpert.core.validation.UniqueFields;
 import com.xpert.persistence.query.Restrictions;
@@ -110,6 +112,28 @@ public class PedidoLicitacaoBO extends AbstractBusinessObject<PedidoLicitacao> {
 
         if (!Utils.isNullOrEmpty(numero)) {
             restrictions.like("numeroLicitacao", numero);
+        }
+
+        return getDAO().unique(restrictions);
+    }
+
+    public PedidoLicitacao pedidoPeloProcessoAdministrativo(String numero) {
+        Usuario usuarioAtual = SessaoUtils.getUser();
+
+        Restrictions restrictions = new Restrictions();
+
+        restrictions.add("ativo", true);
+
+        if (Utils.isNullOrEmpty(numero)) {
+            return null;
+        } else {
+            restrictions.add("numeroProcessoAdministrativo", numero);
+        }
+
+        if (usuarioAtual.getOrgao() == null) {
+            return null;
+        } else {
+            restrictions.add("orgaoSolicitante", usuarioAtual.getOrgao());
         }
 
         return getDAO().unique(restrictions);

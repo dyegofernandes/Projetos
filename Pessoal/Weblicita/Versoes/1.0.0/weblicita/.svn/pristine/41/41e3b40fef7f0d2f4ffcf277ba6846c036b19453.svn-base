@@ -1,0 +1,32 @@
+package br.com.weblicita.mb.licitacao;
+
+
+import java.io.Serializable;
+import com.xpert.core.crud.AbstractBaseBean;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import br.com.weblicita.bo.licitacao.HomolagacaoAtaAdjucaoBO;
+import br.com.weblicita.modelo.licitacao.HomolagacaoAtaAdjucao;
+
+/**
+ *
+ * @author Juniel
+ */
+@ManagedBean
+@ViewScoped
+public class HomolagacaoAtaAdjucaoMB extends AbstractBaseBean<HomolagacaoAtaAdjucao> implements Serializable {
+
+    @EJB
+    private HomolagacaoAtaAdjucaoBO homolagacaoAtaAdjucaoBO;
+
+    @Override
+    public HomolagacaoAtaAdjucaoBO getBO() {
+        return homolagacaoAtaAdjucaoBO;
+    }
+
+    @Override
+    public String getDataModelOrder() {
+        return "id";
+    }
+}

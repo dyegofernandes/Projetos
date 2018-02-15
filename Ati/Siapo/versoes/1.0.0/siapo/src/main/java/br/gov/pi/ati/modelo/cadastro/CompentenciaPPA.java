@@ -45,6 +45,7 @@ public class CompentenciaPPA implements Serializable {
     @NotAudited
     private List<ProgramaPPA> programas;
 
+    
     @Override
     public String toString() {
         return Utils.getAno(dataInicial).concat(" - ").concat(Utils.getAno(dataFinal));

@@ -1,0 +1,45 @@
+package br.com.weblicita.bo.licitacao;
+
+import com.xpert.core.crud.AbstractBusinessObject;
+import br.com.weblicita.dao.licitacao.HomolagacaoAtaAdjucaoDAO;
+import com.xpert.core.validation.UniqueField;
+import com.xpert.core.exception.BusinessException;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import br.com.weblicita.modelo.licitacao.HomolagacaoAtaAdjucao;
+import br.com.weblicita.modelo.licitacao.PedidoLicitacao;
+
+/**
+ *
+ * @author Juniel
+ */
+@Stateless
+public class HomolagacaoAtaAdjucaoBO extends AbstractBusinessObject<HomolagacaoAtaAdjucao> {
+
+    @EJB
+    private HomolagacaoAtaAdjucaoDAO homolagacaoAtaAdjucaoDAO;
+
+    @Override
+    public HomolagacaoAtaAdjucaoDAO getDAO() {
+        return homolagacaoAtaAdjucaoDAO;
+    }
+
+    @Override
+    public List<UniqueField> getUniqueFields() {
+        return null;
+    }
+
+    @Override
+    public void validate(HomolagacaoAtaAdjucao homolagacaoAtaAdjucao) throws BusinessException {
+    }
+
+    @Override
+    public boolean isAudit() {
+        return true;
+    }
+
+    public HomolagacaoAtaAdjucao homogacaoPeloPedidoLicitacao(PedidoLicitacao pedido) {
+        return getDAO().unique("pedidoLicitacao", pedido);
+    }
+}

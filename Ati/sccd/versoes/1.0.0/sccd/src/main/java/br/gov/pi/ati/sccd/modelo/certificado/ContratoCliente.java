@@ -38,7 +38,7 @@ public class ContratoCliente implements Serializable {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-//    @NotNull
+    @NotNull
     private ContratoFornecedor contratoFornecedor;
 
     @ManyToOne(fetch = FetchType.LAZY)

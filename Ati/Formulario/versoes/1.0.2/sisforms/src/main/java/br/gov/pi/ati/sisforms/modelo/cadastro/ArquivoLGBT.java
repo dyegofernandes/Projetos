@@ -50,9 +50,7 @@ public class ArquivoLGBT implements Serializable {
     }
 
     public void setNome(String nome) {
-//        if (nome != null) {
-//            nome = nome.trim().toUpperCase();
-//        }
+
         this.nome = nome;
     }
 

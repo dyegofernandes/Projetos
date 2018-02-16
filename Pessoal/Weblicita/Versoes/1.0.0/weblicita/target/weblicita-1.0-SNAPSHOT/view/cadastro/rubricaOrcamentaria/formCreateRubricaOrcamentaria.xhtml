@@ -34,7 +34,7 @@
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
                             <h:outputLabel for="legenda" value="* #{msg['rubricaOrcamentaria.legenda']}:" />
                             <p:inputText id="legenda" value="#{rubricaOrcamentariaMB.entity.legenda}" maxlength="255"  styleClass="form-control" 
-                                         readonly="#{rubricaOrcamentariaMB.somenteLeitura}" validatorMessage="Valor do campo só aceita números seguido de pontos. Ex 99.12.21.1!">
+                                         readonly="#{rubricaOrcamentariaMB.somenteLeitura}" validatorMessage="Valor do campo Legenda só aceita números seguido de pontos. Ex 99.12.21.1!">
                                 <f:validateRegex pattern="^(\d+\.)+?\d+$"/>
                             </p:inputText>
                         </div>

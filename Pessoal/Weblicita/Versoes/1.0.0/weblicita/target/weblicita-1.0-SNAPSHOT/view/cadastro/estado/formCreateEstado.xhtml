@@ -14,24 +14,41 @@
 
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 30%">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" >
+                            <h:outputLabel for="dataDoCadastro" value="* #{msg['estado.dataCadastro']}:" />
+                            <p:inputText id="dataDoCadastro" value="#{estadoMB.entity.dataCadastro}"  styleClass="form-control"  
+                                         readonly="true">
+                                <f:convertDateTime />
+                            </p:inputText>
+
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" >
                             <h:outputLabel for="codigo" value="* #{msg['estado.codigo']}:" />
                             <p:inputMask id="codigo" value="#{estadoMB.entity.codigo}" mask="99"  styleClass="form-control"  
                                          readonly="#{estadoMB.somenteLeitura}"/>
                         </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 30%">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="nome" value="* #{msg['estado.nome']}:" />
                             <p:inputText id="nome" value="#{estadoMB.entity.nome}" maxlength="200"  styleClass="form-control"  
                                          readonly="#{estadoMB.somenteLeitura}"/>
                         </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 20%">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" >
                             <h:outputLabel for="sigla" value="* #{msg['estado.sigla']}:" />
                             <p:inputMask id="sigla" value="#{estadoMB.entity.sigla}" mask="aa"  styleClass="form-control"  
                                          readonly="#{estadoMB.somenteLeitura}" style="text-transform: uppercase"/>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="regiao" value="* #{msg['estado.regiao']}:" />
+                            <h:selectOneMenu id="regiao" value="#{estadoMB.entity.regiao}" converter="entityConverter" styleClass="form-control" 
+                                             readonly="#{estadoMB.somenteLeitura}">
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.regiao)}" 
+                                               var="regiao"
+                                               itemLabel="#{regiao}" itemDisabled="#{estadoMB.somenteLeitura}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" >
                             <h:outputLabel for="pais" value="* #{msg['estado.pais']}:" />
                             <h:selectOneMenu id="pais" value="#{estadoMB.entity.pais}" converter="entityConverter" styleClass="form-control" 
                                              readonly="#{estadoMB.somenteLeitura}">
@@ -43,6 +60,7 @@
                             </h:selectOneMenu>
                         </div>
                     </div>
+
                 </div>
             </p:fieldset>
             <h:outputText value="#{xmsg['requiredFieldsForm']}"/>

@@ -14,22 +14,41 @@
 
 
                 <div class="container-fluid">
-                     <div class="row">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" >
+                            <h:outputLabel for="dataDoCadastro" value="* #{msg['cidade.dataCadastro']}:" />
+                            <p:inputText id="dataDoCadastro" value="#{cidadeMB.entity.dataCadastro}"  styleClass="form-control"  
+                                         readonly="true">
+                                <f:convertDateTime />
+                            </p:inputText>
+
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" >
                             <h:outputLabel for="codigo" value="* #{msg['cidade.codigo']}:" />
                             <p:inputMask id="codigo" value="#{cidadeMB.entity.codigo}" mask="999999"  styleClass="form-control"  
                                          readonly="#{cidadeMB.somenteLeitura}"/>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" >
                             <h:outputLabel for="nome" value="* #{msg['cidade.nome']}:" />
                             <p:inputText id="nome" value="#{cidadeMB.entity.nome}" maxlength="200"  styleClass="form-control"  
                                          readonly="#{cidadeMB.somenteLeitura}"/>
                         </div>
+
                     </div>
+
                     <div class="row">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" >
+                            <h:outputLabel for="territorio" value="#{msg['cidade.territorio']}:" />
+                            <h:selectOneMenu id="territorio" value="#{cidadeMB.entity.territorio}" converter="entityConverter" styleClass="form-control" 
+                                             readonly="#{cidadeMB.somenteLeitura}">
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.territorio)}" 
+                                               var="territorio"
+                                               itemLabel="#{territorio}" itemDisabled="#{cidadeMB.somenteLeitura}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" >
                             <h:outputLabel for="estado" value="* #{msg['cidade.estado']}:" />
                             <h:selectOneMenu id="estado" value="#{cidadeMB.entity.estado}" converter="entityConverter" styleClass="form-control" 
                                              readonly="#{cidadeMB.somenteLeitura}">
@@ -39,6 +58,15 @@
                                                var="estado"
                                                itemLabel="#{estado}" itemDisabled="#{cidadeMB.somenteLeitura}"/>
                             </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-12 col-sm-6 col-xs-12">
+                            <div class="checkbox">
+                                <label>
+                                    <h:selectBooleanCheckbox value="#{cidadeMB.entity.capital}" />
+                                    Capital
+                                </label>
+                            </div>
+                            <h:outputText value="Só pode existir uma capital por estado" styleClass="help-block"/>
                         </div>
                     </div>
                 </div>

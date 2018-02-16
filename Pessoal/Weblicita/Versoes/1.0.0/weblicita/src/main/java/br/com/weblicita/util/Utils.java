@@ -78,6 +78,10 @@ public class Utils {
     }
 
     public static String format(String pattern, Object value) {
+
+        if (isNullOrEmpty(pattern) || isNullOrEmpty((String) value)) {
+            return "";
+        }
         MaskFormatter mask;
         try {
             mask = new MaskFormatter(pattern);

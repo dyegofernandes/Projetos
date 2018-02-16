@@ -17,6 +17,7 @@ import com.xpert.faces.utils.FacesMessageUtils;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.apache.xmlbeans.impl.inst2xsd.VenetianBlindStrategy;
 
 /**
  *
@@ -40,6 +41,8 @@ public class HomolagacaoAtaAdjucaoMB extends AbstractBaseBean<HomolagacaoAtaAdju
 
     private String processoAdministrativo = "";
 
+    private boolean renderizarFormulario = false;
+
     @Override
     public HomolagacaoAtaAdjucaoBO getBO() {
         return homolagacaoAtaAdjucaoBO;
@@ -58,6 +61,7 @@ public class HomolagacaoAtaAdjucaoMB extends AbstractBaseBean<HomolagacaoAtaAdju
             PedidoLicitacao pedido = pedidoBO.pedidoPeloProcessoAdministrativo(processoAdministrativo);
 
             if (pedido != null) {
+                renderizarFormulario = true;
                 HomolagacaoAtaAdjucao hajTemp = getBO().homogacaoPeloPedidoLicitacao(pedido);
                 if (hajTemp != null) {
                     setEntity(hajTemp);
@@ -65,13 +69,14 @@ public class HomolagacaoAtaAdjucaoMB extends AbstractBaseBean<HomolagacaoAtaAdju
                 } else {
                     setEntity(new HomolagacaoAtaAdjucao());
                     getEntity().setPedidoLicitacao(pedido);
-                    getEntity().setUsuario(usuarioAtual);
                 }
             } else {
+                renderizarFormulario = false;
                 FacesMessageUtils.error("Processo Administrativo não localizado!");
             }
 
         } else {
+            renderizarFormulario = false;
             FacesMessageUtils.error("Informe o número/nome processo Administrativo!");
         }
 
@@ -80,6 +85,8 @@ public class HomolagacaoAtaAdjucaoMB extends AbstractBaseBean<HomolagacaoAtaAdju
     public void gerarHomologacao() {
         if (getEntity().getId() != null) {
             getEntity().setUltimaGeracao(new Date());
+            getEntity().setUsuario(usuarioAtual);
+            getDAO().saveOrMerge(getEntity(), true);
         } else {
             FacesMessageUtils.error("Não pode ser gerado!");
         }
@@ -88,6 +95,8 @@ public class HomolagacaoAtaAdjucaoMB extends AbstractBaseBean<HomolagacaoAtaAdju
     public void gerarAto() {
         if (getEntity().getId() != null) {
             getEntity().setUltimaGeracao(new Date());
+            getEntity().setUsuario(usuarioAtual);
+            getDAO().saveOrMerge(getEntity(), true);
         } else {
             FacesMessageUtils.error("Não pode ser gerado!");
         }
@@ -96,9 +105,37 @@ public class HomolagacaoAtaAdjucaoMB extends AbstractBaseBean<HomolagacaoAtaAdju
     public void gerarAdjucacao() {
         if (getEntity().getId() != null) {
             getEntity().setUltimaGeracao(new Date());
+            getEntity().setUsuario(usuarioAtual);
+            getDAO().saveOrMerge(getEntity(), true);
         } else {
             FacesMessageUtils.error("Não pode ser gerado!");
         }
+    }
+
+    public void addVencendor() {
+        if (vencedor != null) {
+            if (vencedorJahAdicionado(vencedor)) {
+                FacesMessageUtils.error("Vencedor já adicionado!");
+            } else {
+                vencedores.add(vencedor);
+                vencedor = new Fornecedor();
+            }
+        } else {
+            FacesMessageUtils.error("Vencedor é obrigatório!");
+        }
+    }
+
+    private boolean vencedorJahAdicionado(Fornecedor vencedor) {
+        for (Fornecedor vencedore : vencedores) {
+            if (vencedore.equals(vencedor)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void removerVencedor(Fornecedor vencedor) {
+        vencedores.remove(vencedor);
     }
 
     public Fornecedor getVencedor() {
@@ -123,6 +160,14 @@ public class HomolagacaoAtaAdjucaoMB extends AbstractBaseBean<HomolagacaoAtaAdju
 
     public void setProcessoAdministrativo(String processoAdministrativo) {
         this.processoAdministrativo = processoAdministrativo;
+    }
+
+    public boolean isRenderizarFormulario() {
+        return renderizarFormulario;
+    }
+
+    public void setRenderizarFormulario(boolean renderizarFormulario) {
+        this.renderizarFormulario = renderizarFormulario;
     }
 
 }

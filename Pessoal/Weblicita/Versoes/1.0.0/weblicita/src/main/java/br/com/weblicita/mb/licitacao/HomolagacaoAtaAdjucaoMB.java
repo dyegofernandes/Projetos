@@ -13,11 +13,21 @@ import br.com.weblicita.modelo.licitacao.HomolagacaoAtaAdjucao;
 import br.com.weblicita.modelo.licitacao.PedidoLicitacao;
 import br.com.weblicita.util.SessaoUtils;
 import br.com.weblicita.util.Utils;
+import com.lowagie.text.Document;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfWriter;
+import com.xpert.faces.utils.FacesJasper;
 import com.xpert.faces.utils.FacesMessageUtils;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import org.apache.xmlbeans.impl.inst2xsd.VenetianBlindStrategy;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ComponentSystemEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 /**
  *
@@ -42,6 +52,39 @@ public class HomolagacaoAtaAdjucaoMB extends AbstractBaseBean<HomolagacaoAtaAdju
     private String processoAdministrativo = "";
 
     private boolean renderizarFormulario = false;
+
+    private static final long serialVersionUID = 1L;
+
+    private StreamedContent content;
+
+    public void onPrerender(ComponentSystemEvent event) {
+
+        try {
+
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+            Document document = new Document();
+            PdfWriter.getInstance(document, out);
+            document.open();
+
+            for (int i = 0; i < 50; i++) {
+                document.add(new Paragraph("All work and no play makes Jack a dull boy"));
+            }
+
+            document.close();
+            content = new DefaultStreamedContent(new ByteArrayInputStream(out.toByteArray()), "application/pdf");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public StreamedContent getContent() {
+        return content;
+    }
+
+    public void setContent(StreamedContent content) {
+        this.content = content;
+    }
 
     @Override
     public HomolagacaoAtaAdjucaoBO getBO() {
@@ -83,32 +126,38 @@ public class HomolagacaoAtaAdjucaoMB extends AbstractBaseBean<HomolagacaoAtaAdju
     }
 
     public void gerarHomologacao() {
-        if (getEntity().getId() != null) {
+        if (vencedores.size() > 0) {
             getEntity().setUltimaGeracao(new Date());
             getEntity().setUsuario(usuarioAtual);
+            getEntity().setVencedores(vencedores);
             getDAO().saveOrMerge(getEntity(), true);
+            FacesMessageUtils.sucess();
         } else {
-            FacesMessageUtils.error("Não pode ser gerado!");
+            FacesMessageUtils.error("Adicione um ou mais vencedores!");
         }
     }
 
     public void gerarAto() {
-        if (getEntity().getId() != null) {
+        if (vencedores.size() > 0) {
             getEntity().setUltimaGeracao(new Date());
             getEntity().setUsuario(usuarioAtual);
+            getEntity().setVencedores(vencedores);
             getDAO().saveOrMerge(getEntity(), true);
+            FacesMessageUtils.sucess();
         } else {
-            FacesMessageUtils.error("Não pode ser gerado!");
+            FacesMessageUtils.error("Adicione um ou mais vencedores!");
         }
     }
 
     public void gerarAdjucacao() {
-        if (getEntity().getId() != null) {
+        if (vencedores.size() > 0) {
             getEntity().setUltimaGeracao(new Date());
             getEntity().setUsuario(usuarioAtual);
+            getEntity().setVencedores(vencedores);
             getDAO().saveOrMerge(getEntity(), true);
+            FacesMessageUtils.sucess();
         } else {
-            FacesMessageUtils.error("Não pode ser gerado!");
+            FacesMessageUtils.error("Adicione um ou mais vencedores!");
         }
     }
 
@@ -136,6 +185,23 @@ public class HomolagacaoAtaAdjucaoMB extends AbstractBaseBean<HomolagacaoAtaAdju
 
     public void removerVencedor(Fornecedor vencedor) {
         vencedores.remove(vencedor);
+    }
+
+    public void gerarPdf() {
+        HashMap params = new HashMap();
+        String caminhoImg = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/images");
+
+        params.put("LOGO_POLICIA", caminhoImg.concat("/logoPolicia.png"));
+        params.put("LOGO_ATI", caminhoImg.concat("/ati_novo.png"));
+        params.put("LOGO_ESTADO", caminhoImg.concat("/brasao2.jpg"));
+        params.put("DATA_EMISSAO", Utils.convertDateToString(new Date(), "dd/MM/yyyy HH:mm"));
+        params.put("ANO_EMISSAO", Utils.convertDateToString(new Date(), "yyyy"));
+        params.put("NOME_USUARIO", "Resp. pelo Registro: ".concat(usuarioAtual.getNome()));
+        params.put("ID_USUARIO", usuarioAtual.getId().toString());
+
+        FacesJasper.createJasperReport(null, params,
+                "/WEB-INF/report/formularioDenuncia.jasper", "Denuncia.pdf");
+
     }
 
     public Fornecedor getVencedor() {
@@ -170,4 +236,9 @@ public class HomolagacaoAtaAdjucaoMB extends AbstractBaseBean<HomolagacaoAtaAdju
         this.renderizarFormulario = renderizarFormulario;
     }
 
+    public String getCaminhoPdf(){
+        String caminhoImg = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/WEB-INF/pdfs/books.pdf");
+        
+        return caminhoImg;
+    }
 }

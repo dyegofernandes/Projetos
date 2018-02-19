@@ -15,7 +15,8 @@ public enum AssuntoRequerimento {
     COMPENSACAO(2, "Compensação de dias trabalhados"),
     SOLICITACAO_VALE(3, "Solicitação de Vale Transporte"),
     JUSTIFICATIVA_FALTA(4, "Justificativa de faltas"),
-    OUTROS(5, "Outros");
+    JUSTIFICATIVA_FALTA_COM_ATESTADO(5, "Justificativa de faltas com Atestado Médico"),
+    OUTROS(6, "Outros");
 
     private AssuntoRequerimento(int num, String descricao) {
         this.descricao = descricao;

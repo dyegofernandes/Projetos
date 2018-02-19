@@ -3,7 +3,8 @@
                  xmlns:f="http://java.sun.com/jsf/core"
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
-                 xmlns:x="http://xpert.com/faces">
+                 xmlns:x="http://xpert.com/faces"
+                 xmlns:pe="http://primefaces.org/ui/extensions">
 
 
     <h:form id="formCreateHomolagacaoAtaAdjucao" >
@@ -61,14 +62,14 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width:100%">
+                    <div class="form-group col-lg-8 col-md-6 col-sm-6 col-xs-12" >
                         <h:outputLabel for="vencedor" value="#{msg['homolagacaoAtaAdjucao.find']}" />
                         <div style="input-finds_left">
                             <p:autoComplete id="vencedor" value="#{homolagacaoAtaAdjucaoMB.vencedor}" placeholder="Informe o cnpj/nome do Vencedor a ser adicionado"
 
                                             completeMethod="#{fornecedorMB.autocomplete}" styleClass="uix-autocomplete input-finds" 
 
-                                            minQueryLength="3" forceSelection="true" dropdown="true"
+                                            minQueryLength="3" forceSelection="true" 
 
                                             var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"> 
                                 <x:initializer/>
@@ -77,10 +78,81 @@
                                 </p:column> 
                             </p:autoComplete>
                         </div>
+                        <p:commandButton process="@this vencedor" update="vencedor dataTableFornecedor"  value="Adicionar" class="button-finds" 
+                                         actionListener="#{homolagacaoAtaAdjucaoMB.addVencendor()}"/>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-8 col-md-6 col-sm-6 col-xs-12" >
+                        <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                     var="fornecedor" rowIndexVar="index" id="dataTableFornecedor" widgetVar="dataTableFornecedorWidget" styleClass="table-responsive"
+                                     value="#{homolagacaoAtaAdjucaoMB.vencedores}" >
+                            <p:column headerText="">
+                                <f:facet name="header">
+                                    <h:outputText value="" />
+                                </f:facet>
+                                <h:outputText value="#{index+1}"/>
+                            </p:column>
+
+                            <p:column headerText="Vencedor" >
+                                <f:facet name="header">
+                                    <h:outputText value="Vencedor" />
+                                </f:facet>
+                                <h:outputText value="#{fornecedor}"/>
+                            </p:column>
+
+
+                            <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{xmsg['actions']}"/>
+                                </f:facet>
+
+
+                                <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableFornecedor" 
+                                                 action="#{homolagacaoAtaAdjucaoMB.removerVencedor(fornecedor)}" >
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-8 col-md-6 col-sm-6 col-xs-12" >
+                    <div class="div-button-new">
+                        <p:commandButton process="@form" update="@form"  value="#{msg['homolagacaoAtaAdjucao.botao.homologacao']}" class="button-new" 
+                                         actionListener="#{homolagacaoAtaAdjucaoMB.gerarHomologacao()}" />
+                    </div>
+                    <div class="div-button-edit">
+                        <p:commandButton process="@form" update="@form"  value="#{msg['homolagacaoAtaAdjucao.botao.ata']}" class="button-edit" 
+                                         actionListener="#{homolagacaoAtaAdjucaoMB.gerarAto()}" />
+                    </div>
+                    <div class="div-button-delete">
+                        <p:commandButton process="@form" update="@form"  value="#{msg['homolagacaoAtaAdjucao.botao.adjudicacao']}" class="button-delete" 
+                                         actionListener="#{homolagacaoAtaAdjucaoMB.gerarAdjucacao()}" />
 
                     </div>
                 </div>
             </div>
+            <f:event listener="#{homolagacaoAtaAdjucaoMB.onPrerender}" type="preRenderView" />  
+
+            <div class="row">
+                <div class="form-group col-lg-8 col-md-6 col-sm-6 col-xs-12" >
+                    <p:tabView>  
+                        <p:tab title="URL">  
+                            <pe:documentViewer height="500" url="#{homolagacaoAtaAdjucaoMB.caminhoPdf}"/>  
+                        </p:tab>  
+                        <p:tab title="Resource">  
+                            <pe:documentViewer height="500" library="books" name="hood.pdf"/>  
+                        </p:tab>  
+                        <p:tab title="StreamedContent">  
+                            <pe:documentViewer height="500" value="#{homolagacaoAtaAdjucaoMB.content}" download="extensions-rocks.pdf"/>  
+                        </p:tab>  
+                    </p:tabView>  
+                </div>
+            </div>
+
+
 
         </h:panelGroup>
     </h:form>

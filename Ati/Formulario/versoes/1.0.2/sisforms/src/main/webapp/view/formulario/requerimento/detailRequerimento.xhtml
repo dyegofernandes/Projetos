@@ -47,6 +47,22 @@
                     <h:outputLabel value="#{msg['requerimento.assuntoRequerimento']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{requerimentoMB.entity.assuntoRequerimento}" styleClass="uix-content-detail"/>
                 </div>
+                <h:panelGroup >
+                    <h:panelGroup  rendered="#{requerimentoMB.entity.assuntoRequerimento.num eq 5}">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="CRM:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{requerimentoMB.entity.crm}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                           <h:outputLabel value="Médico:" styleClass="control-label" /><br/>
+                           <h:outputText value="#{requerimentoMB.entity.nomeDoMedico}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="CID:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{requerimentoMB.entity.cid}" styleClass="uix-content-detail"/>
+                        </div>
+                    </h:panelGroup>
+                </h:panelGroup>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['requerimento.situacao']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{requerimentoMB.entity.situacao}" styleClass="uix-content-detail"/>
@@ -67,8 +83,8 @@
                     <h:outputLabel value="#{msg['requerimento.observacaoAtendimento']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{requerimentoMB.entity.observacaoAtendimento}" styleClass="uix-content-detail"/>
                 </div>
-           </div>
-         </div>
+            </div>
+        </div>
         <p:separator/>
         <div class="uix-center">
             <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetRequerimentoDetail').hide()" />

@@ -55,8 +55,29 @@
                             <f:selectItems value="#{findAllBean.get(classMB.assuntoRequerimento)}" 
                                            var="assuntoRequerimento"
                                            itemLabel="#{assuntoRequerimento.descricao}"/>
+                            <p:ajax process="@this" update="panelAtestado" />
                         </h:selectOneMenu>
                     </div>
+                    <h:panelGroup id="panelAtestado">
+                        <h:panelGroup  rendered="#{requerimentoMB.entity.assuntoRequerimento.num eq 5}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="crm" value="* CRM:" />
+                                <p:inputText id="crm" value="#{requerimentoMB.entity.crm}" maxlength="100"  styleClass="form-control"  
+                                             required="true" requiredMessage="CRM do médico do atestado é obrigatório!"/>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomeMedico" value="* Médico:" />
+                                <p:inputText id="nomeMedico" value="#{requerimentoMB.entity.nomeDoMedico}" maxlength="100"  styleClass="form-control"  
+                                             required="true" requiredMessage="Nome do médico do atestado é obrigatório!"/>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cid" value="* CID:" />
+                                <p:inputText id="cid" value="#{requerimentoMB.entity.cid}" maxlength="100"  styleClass="form-control"  
+                                             required="true" requiredMessage="CID do atestado é obrigatório!"/>
+                            </div>
+                        </h:panelGroup>
+                    </h:panelGroup>
+
                     <x:securityArea rolesAllowed="campos.situacao">
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="situacao" value="* #{msg['requerimento.situacao']}:" />
@@ -68,27 +89,7 @@
                             </h:selectOneMenu>
                         </div>
                     </x:securityArea>
-                    <!--
-                     
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="dataSolicitacao" value="* #{msg['requerimento.dataSolicitacao']}:" />
-                        <p:calendar id="dataSolicitacao" value="#{requerimentoMB.entity.dataSolicitacao}" 
-                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
-                            <x:mask/>
-                        </p:calendar>
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="dataAtendimento" value="#{msg['requerimento.dataAtendimento']}:" />
-                        <p:calendar id="dataAtendimento" value="#{requerimentoMB.entity.dataAtendimento}" 
-                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
-                            <x:mask/>
-                        </p:calendar>
-                    </div>
-                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="observacaoAtendimento" value="#{msg['requerimento.observacaoAtendimento']}:" />
-                        <p:inputText id="observacaoAtendimento" value="#{requerimentoMB.entity.observacaoAtendimento}" maxlength="255"  styleClass="form-control"  />
-                    </div>
-                    -->
+
 
                 </div>
                 <div class="row">

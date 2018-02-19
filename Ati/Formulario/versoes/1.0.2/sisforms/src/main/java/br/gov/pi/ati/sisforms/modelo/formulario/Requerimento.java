@@ -84,6 +84,12 @@ public class Requerimento implements Serializable {
 
     @Size(max = 600)
     private String observacaoAtendimento;
+    
+    private String crm;
+    
+    private String nomeDoMedico;
+    
+    private String cid;
 
     public Long getId() {
         return id;
@@ -203,6 +209,30 @@ public class Requerimento implements Serializable {
 
     public void setObservacaoAtendimento(String observacaoAtendimento) {
         this.observacaoAtendimento = observacaoAtendimento;
+    }
+
+    public String getCrm() {
+        return crm;
+    }
+
+    public void setCrm(String crm) {
+        this.crm = crm;
+    }
+
+    public String getNomeDoMedico() {
+        return nomeDoMedico;
+    }
+
+    public void setNomeDoMedico(String nomeDoMedico) {
+        this.nomeDoMedico = nomeDoMedico;
+    }
+
+    public String getCid() {
+        return cid;
+    }
+
+    public void setCid(String cid) {
+        this.cid = cid;
     }
 
     @Override

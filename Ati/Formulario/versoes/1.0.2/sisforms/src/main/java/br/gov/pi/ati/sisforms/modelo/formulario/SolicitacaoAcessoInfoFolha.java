@@ -5,7 +5,6 @@
  */
 package br.gov.pi.ati.sisforms.modelo.formulario;
 
-import br.gov.pi.ati.sisforms.modelo.cadastro.Orgao;
 import br.gov.pi.ati.sisforms.modelo.controleacesso.Usuario;
 import br.gov.pi.ati.sisforms.modelo.enums.Situacao;
 import br.gov.pi.ati.sisforms.modelo.enums.TrabalhadorTipo;
@@ -25,8 +24,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -45,31 +42,15 @@ public class SolicitacaoAcessoInfoFolha implements Serializable {
     @NotNull
     private Usuario usuario;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull
-    private Orgao orgao;
-
-    @NotBlank
-    @Size(max = 20)
-    private String cpf;
-
     @NotNull
     private TrabalhadorTipo tipo = TrabalhadorTipo.SERVIDOR;
 
     private String matricula;
 
+    @NotBlank
     private String telefone;
 
-    @NotBlank
-    @Size(max = 150)
-    private String nome;
-
     private String cargoFuncao;
-
-    @NotBlank
-    @Size(max = 150)
-    @Email
-    private String email;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataEmissao = new Date();
@@ -77,22 +58,17 @@ public class SolicitacaoAcessoInfoFolha implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataAtendimento;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    @NotNull
-    private ModuloInfoFolha modulo = new ModuloInfoFolha();
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    @NotNull
-    private ModuloInfoFolha moduloSead = new ModuloInfoFolha();
-
     @Column(columnDefinition = "Text")
     private String observacao;
 
     @NotNull
     private Situacao situacao = Situacao.NOVA;
 
-    @ManyToMany(targetEntity = Orgao.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
-    private List<Orgao> orgaosDeAcessos = new ArrayList<Orgao>();
+    @ManyToMany(targetEntity = PerfilInfoFolha.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    private List<PerfilInfoFolha> perfilsSolicitados = new ArrayList<PerfilInfoFolha>();
+
+    @ManyToMany(targetEntity = PerfilInfoFolha.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    private List<PerfilInfoFolha> perfilsAprovados = new ArrayList<PerfilInfoFolha>();
 
     public Long getId() {
         return id;
@@ -108,22 +84,6 @@ public class SolicitacaoAcessoInfoFolha implements Serializable {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
-    }
-
-    public Orgao getOrgao() {
-        return orgao;
-    }
-
-    public void setOrgao(Orgao orgao) {
-        this.orgao = orgao;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
     }
 
     public String getMatricula() {
@@ -142,28 +102,12 @@ public class SolicitacaoAcessoInfoFolha implements Serializable {
         this.telefone = telefone;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public String getCargoFuncao() {
         return cargoFuncao;
     }
 
     public void setCargoFuncao(String cargoFuncao) {
         this.cargoFuncao = cargoFuncao;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public Date getDataEmissao() {
@@ -182,22 +126,6 @@ public class SolicitacaoAcessoInfoFolha implements Serializable {
         this.dataAtendimento = dataAtendimento;
     }
 
-    public ModuloInfoFolha getModulo() {
-        return modulo;
-    }
-
-    public void setModulo(ModuloInfoFolha modulo) {
-        this.modulo = modulo;
-    }
-
-    public ModuloInfoFolha getModuloSead() {
-        return moduloSead;
-    }
-
-    public void setModuloSead(ModuloInfoFolha moduloSead) {
-        this.moduloSead = moduloSead;
-    }
-
     public String getObservacao() {
         return observacao;
     }
@@ -214,14 +142,6 @@ public class SolicitacaoAcessoInfoFolha implements Serializable {
         this.observacao = observacao;
     }
 
-    public List<Orgao> getOrgaosDeAcessos() {
-        return orgaosDeAcessos;
-    }
-
-    public void setOrgaosDeAcessos(List<Orgao> orgaosDeAcessos) {
-        this.orgaosDeAcessos = orgaosDeAcessos;
-    }
-
     public TrabalhadorTipo getTipo() {
         return tipo;
     }
@@ -229,8 +149,22 @@ public class SolicitacaoAcessoInfoFolha implements Serializable {
     public void setTipo(TrabalhadorTipo tipo) {
         this.tipo = tipo;
     }
-    
-    
+
+    public List<PerfilInfoFolha> getPerfilsSolicitados() {
+        return perfilsSolicitados;
+    }
+
+    public void setPerfilsSolicitados(List<PerfilInfoFolha> perfilsSolicitados) {
+        this.perfilsSolicitados = perfilsSolicitados;
+    }
+
+    public List<PerfilInfoFolha> getPerfilsAprovados() {
+        return perfilsAprovados;
+    }
+
+    public void setPerfilsAprovados(List<PerfilInfoFolha> perfilsAprovados) {
+        this.perfilsAprovados = perfilsAprovados;
+    }
 
     @Override
     public int hashCode() {

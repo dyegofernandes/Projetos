@@ -10,6 +10,7 @@ import br.gov.pi.ati.sisforms.modelo.formulario.Requerimento;
 import br.gov.pi.ati.sisforms.modelo.formulario.RequisicaoDeMaterial;
 import br.gov.pi.ati.sisforms.modelo.formulario.SolicitacaoAcessoInfoFolha;
 import br.gov.pi.ati.sisforms.modelo.formulario.SolicitacaoAcessoSFP;
+import br.gov.pi.ati.sisforms.util.Utils;
 import com.xpert.audit.NotAudited;
 import com.xpert.security.model.User;
 import java.io.Serializable;
@@ -28,7 +29,7 @@ public class Usuario implements Serializable, User {
     @SequenceGenerator(name = "Usuario", allocationSize = 1, sequenceName = "usuario_id_seq")
     @GeneratedValue(generator = "Usuario")
     private Long id;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Orgao orgao;
 
@@ -38,6 +39,7 @@ public class Usuario implements Serializable, User {
     @NotBlank
     private String nome;
 
+    @NotBlank
     @Size(max = 16)
     private String cpf;
 
@@ -109,8 +111,7 @@ public class Usuario implements Serializable, User {
     @NotAudited
     @OneToMany(mappedBy = "usuario")
     private List<RelatorioDeViagem> relatoriosDeViagens;
-    
-    
+
     @NotAudited
     @OneToMany(mappedBy = "usuario")
     private List<RelatorioDeVisita> relatoriosDeVisitas;
@@ -118,7 +119,7 @@ public class Usuario implements Serializable, User {
     @NotAudited
     @OneToMany(mappedBy = "usuario")
     private List<SolicitacaoAcessoInfoFolha> solicitacoesAcessosInfoFolha;
-    
+
     @NotAudited
     @OneToMany(mappedBy = "usuario")
     private List<AtaDeReuniao> ataDeReunioes;
@@ -391,6 +392,6 @@ public class Usuario implements Serializable, User {
 
     @Override
     public String toString() {
-        return getNome();
+        return Utils.format("###.###.###-##", nome);
     }
 }

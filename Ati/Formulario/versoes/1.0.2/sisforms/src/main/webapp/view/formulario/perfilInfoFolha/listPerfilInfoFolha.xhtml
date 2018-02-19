@@ -1,0 +1,80 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['perfilInfoFolha.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuPerfilInfoFolha.xhtml" />
+        <h:form id="formListPerfilInfoFolha">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="perfilInfoFolha_export" target=":formListPerfilInfoFolha:dataTablePerfilInfoFolha"
+                                     widgetVar="dataTablePerfilInfoFolhaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="perfilInfoFolha" rowIndexVar="index" id="dataTablePerfilInfoFolha" widgetVar="dataTablePerfilInfoFolhaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{perfilInfoFolhaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{perfilInfoFolhaMB.dataModel.paginatorTemplate}"
+                         value="#{perfilInfoFolhaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['perfilInfoFolha.nome']}" sortBy="#{perfilInfoFolha.nome}"
+                    filterBy="#{perfilInfoFolha.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['perfilInfoFolha.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{perfilInfoFolha.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['perfilInfoFolha.descricao']}" sortBy="#{perfilInfoFolha.descricao}"
+                    filterBy="#{perfilInfoFolha.descricao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['perfilInfoFolha.descricao']}" />
+                    </f:facet>
+                    <h:outputText value="#{perfilInfoFolha.descricao}"/>
+                </p:column>
+                <p:column headerText="#{msg['perfilInfoFolha.ativo']}" sortBy="#{perfilInfoFolha.ativo}"
+                    filterBy="#{perfilInfoFolha.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['perfilInfoFolha.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{perfilInfoFolha.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetPerfilInfoFolhaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailPerfilInfoFolha" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{perfilInfoFolha}" target="#{perfilInfoFolhaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="perfilInfoFolha.create">
+                        <p:button icon="ui-icon-pencil" outcome="createPerfilInfoFolha" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{perfilInfoFolha.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="perfilInfoFolha.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{perfilInfoFolhaMB.delete}" >
+                            <f:setPropertyActionListener value="#{perfilInfoFolha.id}" target="#{perfilInfoFolhaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{perfilInfoFolha}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="perfilInfoFolha.audit">
+                    <x:auditDelete for="#{perfilInfoFolhaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetPerfilInfoFolhaDetail" header="#{msg['perfilInfoFolha.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailPerfilInfoFolha.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

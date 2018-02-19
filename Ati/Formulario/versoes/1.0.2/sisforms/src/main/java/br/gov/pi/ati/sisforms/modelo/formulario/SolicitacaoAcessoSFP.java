@@ -76,48 +76,11 @@ public class SolicitacaoAcessoSFP implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataAtendimento;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    @NotNull
-    private ModuloSFP cadastro = new ModuloSFP();
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    @NotNull
-    private ModuloSFP financeiro = new ModuloSFP();
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    @NotNull
-    private ModuloSFP dependente = new ModuloSFP();
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    @NotNull
-    private ModuloSFP pensaoJudicial = new ModuloSFP();
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    @NotNull
-    private ModuloSFPOcorrencia ocorrencia = new ModuloSFPOcorrencia();
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    @NotNull
-    private ModuloSFP cadastroSEAD = new ModuloSFP();
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    @NotNull
-    private ModuloSFP financeiroSEAD = new ModuloSFP();
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    @NotNull
-    private ModuloSFP dependenteSEAD = new ModuloSFP();
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    @NotNull
-    private ModuloSFP pensaoJudicialSEAD = new ModuloSFP();
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    @NotNull
-    private ModuloSFPOcorrencia ocorrenciaSEAD = new ModuloSFPOcorrencia();
-
-    @ManyToMany(targetEntity = Orgao.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
-    private List<Orgao> orgaosDeAcessos = new ArrayList<Orgao>();
+    @ManyToMany(targetEntity = PerfilSFP.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    private List<PerfilSFP> perfilsSolicitados = new ArrayList<PerfilSFP>();
+    
+    @ManyToMany(targetEntity = PerfilSFP.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    private List<PerfilSFP> perfilsAprovados = new ArrayList<PerfilSFP>();
 
     private String observacao;
 
@@ -212,85 +175,6 @@ public class SolicitacaoAcessoSFP implements Serializable {
         this.dataAtendimento = dataAtendimento;
     }
 
-    public ModuloSFP getCadastro() {
-        return cadastro;
-    }
-
-    public void setCadastro(ModuloSFP cadastro) {
-        this.cadastro = cadastro;
-    }
-
-    public ModuloSFP getFinanceiro() {
-        return financeiro;
-    }
-
-    public void setFinanceiro(ModuloSFP financeiro) {
-        this.financeiro = financeiro;
-    }
-
-    public ModuloSFP getDependente() {
-        return dependente;
-    }
-
-    public void setDependente(ModuloSFP dependente) {
-        this.dependente = dependente;
-    }
-
-    public ModuloSFP getPensaoJudicial() {
-        return pensaoJudicial;
-    }
-
-    public void setPensaoJudicial(ModuloSFP pensaoJudicial) {
-        this.pensaoJudicial = pensaoJudicial;
-    }
-
-    public ModuloSFPOcorrencia getOcorrencia() {
-        return ocorrencia;
-    }
-
-    public void setOcorrencia(ModuloSFPOcorrencia ocorrencia) {
-        this.ocorrencia = ocorrencia;
-    }
-
-    public ModuloSFP getCadastroSEAD() {
-        return cadastroSEAD;
-    }
-
-    public void setCadastroSEAD(ModuloSFP cadastroSEAD) {
-        this.cadastroSEAD = cadastroSEAD;
-    }
-
-    public ModuloSFP getFinanceiroSEAD() {
-        return financeiroSEAD;
-    }
-
-    public void setFinanceiroSEAD(ModuloSFP financeiroSEAD) {
-        this.financeiroSEAD = financeiroSEAD;
-    }
-
-    public ModuloSFP getDependenteSEAD() {
-        return dependenteSEAD;
-    }
-
-    public void setDependenteSEAD(ModuloSFP dependenteSEAD) {
-        this.dependenteSEAD = dependenteSEAD;
-    }
-
-    public ModuloSFP getPensaoJudicialSEAD() {
-        return pensaoJudicialSEAD;
-    }
-
-    public void setPensaoJudicialSEAD(ModuloSFP pensaoJudicialSEAD) {
-        this.pensaoJudicialSEAD = pensaoJudicialSEAD;
-    }
-
-    public ModuloSFPOcorrencia getOcorrenciaSEAD() {
-        return ocorrenciaSEAD;
-    }
-
-    public void setOcorrenciaSEAD(ModuloSFPOcorrencia ocorrenciaSEAD) {
-        this.ocorrenciaSEAD = ocorrenciaSEAD;
-    }
 
     public String getObservacao() {
         return observacao;
@@ -308,12 +192,20 @@ public class SolicitacaoAcessoSFP implements Serializable {
         this.situacao = situacao;
     }
 
-    public List<Orgao> getOrgaosDeAcessos() {
-        return orgaosDeAcessos;
+    public List<PerfilSFP> getPerfilsSolicitados() {
+        return perfilsSolicitados;
     }
 
-    public void setOrgaosDeAcessos(List<Orgao> orgaosDeAcessos) {
-        this.orgaosDeAcessos = orgaosDeAcessos;
+    public void setPerfilsSolicitados(List<PerfilSFP> perfilsSolicitados) {
+        this.perfilsSolicitados = perfilsSolicitados;
+    }
+
+    public List<PerfilSFP> getPerfilsAprovados() {
+        return perfilsAprovados;
+    }
+
+    public void setPerfilsAprovados(List<PerfilSFP> perfilsAprovados) {
+        this.perfilsAprovados = perfilsAprovados;
     }
 
     public TrabalhadorTipo getTipo() {

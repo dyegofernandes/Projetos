@@ -31,8 +31,8 @@ public class SolicitacaoAcessoInfoFolhaBO extends AbstractBusinessObject<Solicit
 
     @Override
     public void validate(SolicitacaoAcessoInfoFolha solicitacaoAcessoInfoFolha) throws BusinessException {
-        if (solicitacaoAcessoInfoFolha.getOrgaosDeAcessos().size() < 1) {
-            throw new BusinessException("Informe o (s) Órgão (s) de acesso do usuário!");
+        if (solicitacaoAcessoInfoFolha.getPerfilsSolicitados().size() < 1) {
+            throw new BusinessException("Informe os Perfils Solicitados de Acesso!");
         }
     }
 

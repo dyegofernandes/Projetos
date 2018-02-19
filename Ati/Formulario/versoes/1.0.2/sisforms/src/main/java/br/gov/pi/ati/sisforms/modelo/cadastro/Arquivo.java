@@ -15,7 +15,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
- * @author Juniel
+ * @author Juniel.
  */
 @Entity
 public class Arquivo implements Serializable {

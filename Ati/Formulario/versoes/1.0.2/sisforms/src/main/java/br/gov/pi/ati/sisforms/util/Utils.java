@@ -1,6 +1,13 @@
 package br.gov.pi.ati.sisforms.util;
 
+import br.gov.pi.ati.sisforms.modelo.cadastro.Orgao;
 import br.gov.pi.ati.sisforms.modelo.enums.Conversao;
+import br.gov.pi.ati.sisforms.modelo.enums.TrabalhadorTipo;
+import br.gov.pi.ati.sisforms.webservices.inforfolha.ServidorVO;
+import br.gov.pi.ati.sisforms.webservices.inforfolha.server.ServerWebservices;
+import br.gov.pi.ati.sisforms.webservices.inforfolha.server.ServerWebservicesPortType;
+import com.thoughtworks.xstream.XStream;
+import com.xpert.faces.utils.FacesMessageUtils;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DateFormat;
@@ -400,5 +407,28 @@ public class Utils {
         } catch (NumberFormatException ex) {
             return false;
         }
+    }
+
+    public static ServidorVO consultarServidorPeloCPF(String cpf) {
+        if (!isNullOrEmpty(cpf)) {
+            ServidorVO servidorVO = new ServidorVO();
+
+            XStream xstreamJason = new XStream();
+
+            ServerWebservices servicorService = new ServerWebservices();
+            ServerWebservicesPortType servidor = servicorService.getServerWebservicesPort();
+
+            String xmlString = servidor.servidorativoxml((cpf.replace(".", "")
+                    .replace("-", "")));
+
+            xstreamJason.alias("servidor", ServidorVO.class);
+            String xml = ("<?xml version=\"".concat("1.0\"").concat(" encoding=\"").concat("ISO-8859-1\"").concat("?>").concat("\n"));
+            if (!xml.equals(xmlString)) {
+                servidorVO = (ServidorVO) xstreamJason.fromXML(xmlString);
+                return servidorVO;
+            }
+
+        }
+        return null;
     }
 }

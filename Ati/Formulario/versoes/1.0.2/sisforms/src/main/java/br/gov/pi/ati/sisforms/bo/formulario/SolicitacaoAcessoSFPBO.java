@@ -31,8 +31,8 @@ public class SolicitacaoAcessoSFPBO extends AbstractBusinessObject<SolicitacaoAc
 
     @Override
     public void validate(SolicitacaoAcessoSFP solicitacaoAcessoSFP) throws BusinessException {
-        if (solicitacaoAcessoSFP.getOrgaosDeAcessos().size() < 1) {
-            throw new BusinessException("Informe o (s) Órgão (s) de acesso do usuário!");
+        if (solicitacaoAcessoSFP.getPerfilsSolicitados().size() < 1) {
+            throw new BusinessException("Informe um ou mais perfils para acesso!");
         }
     }
 

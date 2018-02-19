@@ -1,0 +1,80 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['perfilSFP.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuPerfilSFP.xhtml" />
+        <h:form id="formListPerfilSFP">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="perfilSFP_export" target=":formListPerfilSFP:dataTablePerfilSFP"
+                                     widgetVar="dataTablePerfilSFPWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="perfilSFP" rowIndexVar="index" id="dataTablePerfilSFP" widgetVar="dataTablePerfilSFPWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{perfilSFPMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{perfilSFPMB.dataModel.paginatorTemplate}"
+                         value="#{perfilSFPMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['perfilSFP.nome']}" sortBy="#{perfilSFP.nome}"
+                    filterBy="#{perfilSFP.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['perfilSFP.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{perfilSFP.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['perfilSFP.descricao']}" sortBy="#{perfilSFP.descricao}"
+                    filterBy="#{perfilSFP.descricao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['perfilSFP.descricao']}" />
+                    </f:facet>
+                    <h:outputText value="#{perfilSFP.descricao}"/>
+                </p:column>
+                <p:column headerText="#{msg['perfilSFP.ativo']}" sortBy="#{perfilSFP.ativo}"
+                    filterBy="#{perfilSFP.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['perfilSFP.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{perfilSFP.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetPerfilSFPDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailPerfilSFP" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{perfilSFP}" target="#{perfilSFPMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="perfilSFP.create">
+                        <p:button icon="ui-icon-pencil" outcome="createPerfilSFP" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{perfilSFP.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="perfilSFP.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{perfilSFPMB.delete}" >
+                            <f:setPropertyActionListener value="#{perfilSFP.id}" target="#{perfilSFPMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{perfilSFP}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="perfilSFP.audit">
+                    <x:auditDelete for="#{perfilSFPMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetPerfilSFPDetail" header="#{msg['perfilSFP.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailPerfilSFP.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

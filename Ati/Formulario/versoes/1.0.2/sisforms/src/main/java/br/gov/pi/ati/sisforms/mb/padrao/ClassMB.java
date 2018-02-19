@@ -1,5 +1,7 @@
 package br.gov.pi.ati.sisforms.mb.padrao;
 
+import br.gov.pi.ati.sisforms.modelo.formulario.PerfilInfoFolha;
+import br.gov.pi.ati.sisforms.modelo.formulario.PerfilSFP;
 import br.gov.pi.ati.sisforms.modelo.cadastro.TipoCertificado;
 import br.gov.pi.ati.sisforms.modelo.cadastro.OrgaoCertificado;
 import br.gov.pi.ati.sisforms.modelo.servicos.ReservaLocal;
@@ -458,6 +460,13 @@ public class ClassMB {
 
     public Class getTipoPessoa() {
         return TipoPessoa.class;
+    }
+
+    public Class getPerfilInfoFolha() {
+        return PerfilInfoFolha.class;
+    }
+    public Class getPerfilSFP() {
+        return PerfilSFP.class;
     }
 
 }

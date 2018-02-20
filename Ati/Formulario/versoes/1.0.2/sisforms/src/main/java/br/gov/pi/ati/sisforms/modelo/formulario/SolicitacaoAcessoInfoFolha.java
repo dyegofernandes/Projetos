@@ -5,9 +5,11 @@
  */
 package br.gov.pi.ati.sisforms.modelo.formulario;
 
+import br.gov.pi.ati.sisforms.modelo.cadastro.TermoAceito;
 import br.gov.pi.ati.sisforms.modelo.controleacesso.Usuario;
 import br.gov.pi.ati.sisforms.modelo.enums.Situacao;
 import br.gov.pi.ati.sisforms.modelo.enums.TrabalhadorTipo;
+import br.gov.pi.ati.sisforms.util.Utils;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -69,6 +71,12 @@ public class SolicitacaoAcessoInfoFolha implements Serializable {
 
     @ManyToMany(targetEntity = PerfilInfoFolha.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     private List<PerfilInfoFolha> perfilsAprovados = new ArrayList<PerfilInfoFolha>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    private TermoAceito termoAceito;
+
+    private String senha = Utils.gerarSenha(8);
 
     public Long getId() {
         return id;
@@ -164,6 +172,22 @@ public class SolicitacaoAcessoInfoFolha implements Serializable {
 
     public void setPerfilsAprovados(List<PerfilInfoFolha> perfilsAprovados) {
         this.perfilsAprovados = perfilsAprovados;
+    }
+
+    public TermoAceito getTermoAceito() {
+        return termoAceito;
+    }
+
+    public void setTermoAceito(TermoAceito termoAceito) {
+        this.termoAceito = termoAceito;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     @Override

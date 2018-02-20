@@ -7,13 +7,11 @@ package br.gov.pi.ati.sisforms.modelo.cadastro;
 
 import br.gov.pi.ati.sisforms.modelo.controleacesso.Usuario;
 import br.gov.pi.ati.sisforms.modelo.formulario.AtaDeReuniao;
-import br.gov.pi.ati.sisforms.modelo.formulario.ControleDeCertificado;
 import br.gov.pi.ati.sisforms.modelo.formulario.FormAcessoConteudo;
 import br.gov.pi.ati.sisforms.modelo.formulario.FormCriacaoEmail;
 import br.gov.pi.ati.sisforms.modelo.formulario.Participante;
 import br.gov.pi.ati.sisforms.modelo.formulario.PendenciaIdentificada;
 import br.gov.pi.ati.sisforms.modelo.formulario.RelatorioDeVisita;
-import br.gov.pi.ati.sisforms.modelo.formulario.SolicitacaoAcessoInfoFolha;
 import br.gov.pi.ati.sisforms.modelo.formulario.SolicitacaoAcessoSFP;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
@@ -92,10 +90,6 @@ public class Orgao implements Serializable {
     @NotAudited
     @OneToMany(mappedBy = "orgao")
     private List<RelatorioDeVisita> visitas;
-
-    @NotAudited
-    @OneToMany(mappedBy = "orgao")
-    private List<SolicitacaoAcessoInfoFolha> inforfolhas;
 
     @NotAudited
     @OneToMany(mappedBy = "orgao")
@@ -191,14 +185,6 @@ public class Orgao implements Serializable {
 
     public void setVisitas(List<RelatorioDeVisita> visitas) {
         this.visitas = visitas;
-    }
-
-    public List<SolicitacaoAcessoInfoFolha> getInforfolhas() {
-        return inforfolhas;
-    }
-
-    public void setInforfolhas(List<SolicitacaoAcessoInfoFolha> inforfolhas) {
-        this.inforfolhas = inforfolhas;
     }
 
     public List<SolicitacaoAcessoSFP> getSfps() {

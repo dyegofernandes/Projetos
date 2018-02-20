@@ -169,6 +169,7 @@ public class GeracaoPermissao {
         create(new Permissao("solicitacaoAcessoInfoFolha.list", "Acesso InfoFolha", "/view/formulario/solicitacaoAcessoInfoFolha/listSolicitacaoAcessoInfoFolha.jsf", true), "formularios.Solicitações");
         create(new Permissao("solicitacaoAcessoInfoFolha.audit", "Auditoria de Solicitacao Acesso Info Folha"), "solicitacaoAcessoInfoFolha");
         create(new Permissao("solicitacaoAcessoInfoFolha.delete", "Exclusão de Solicitacao Acesso Info Folha"), "solicitacaoAcessoInfoFolha");
+        create(new Permissao("solicitacaoAcessoInfoFolha.sead", "Acesso SEAD"), "solicitacaoAcessoInfoFolha");
 
         //Relatorio De Viagem
         create(new Permissao("relatorioDeViagem", "Relatorio De Viagem", false), "formularios.relatorios");
@@ -294,6 +295,12 @@ public class GeracaoPermissao {
         create(new Permissao("reservaLocal.reservar", "Agenda", "/view/servicos/reservaLocal/cadastrarReserva.jsf", true), "reservaLocal");
         create(new Permissao("reservaLocal.reservarAll", "Várias Reservas", "/view/servicos/reservaLocal/cadastrarReservaVarias.jsf", true), "reservaLocal");
 
+        //Termo
+        create(new Permissao("termo", "Termo", false), "cadastro");
+        create(new Permissao("termo.create", "Cadastro de Termo", "/view/cadastro/termo/createTermo.jsf", false), "termo");
+        create(new Permissao("termo.list", "Termos", "/view/cadastro/termo/listTermo.jsf", true), "cadastro");
+        create(new Permissao("termo.audit", "Auditoria de Termo"), "termo");
+        create(new Permissao("termo.delete", "Exclusão de Termo"), "termo");
 
         /*
          * Configuracao

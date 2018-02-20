@@ -1,12 +1,14 @@
 package br.gov.pi.ati.sisforms.mb.formulario;
 
-import br.gov.pi.ati.sisforms.bo.cadastro.OrgaoBO;
+import br.gov.pi.ati.sisforms.bo.cadastro.TermoBO;
 import java.io.Serializable;
 import com.xpert.core.crud.AbstractBaseBean;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.sisforms.bo.formulario.SolicitacaoAcessoInfoFolhaBO;
+import br.gov.pi.ati.sisforms.modelo.cadastro.Termo;
+import br.gov.pi.ati.sisforms.modelo.cadastro.TermoAceito;
 import br.gov.pi.ati.sisforms.modelo.controleacesso.Usuario;
 import br.gov.pi.ati.sisforms.modelo.enums.TrabalhadorTipo;
 import br.gov.pi.ati.sisforms.modelo.formulario.SolicitacaoAcessoInfoFolha;
@@ -14,8 +16,11 @@ import br.gov.pi.ati.sisforms.util.SessaoUtils;
 import br.gov.pi.ati.sisforms.util.Utils;
 import br.gov.pi.ati.sisforms.webservices.inforfolha.ServidorVO;
 import com.xpert.faces.utils.FacesJasper;
+import com.xpert.faces.utils.FacesMessageUtils;
+import java.util.Date;
 import java.util.HashMap;
 import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -28,10 +33,20 @@ public class SolicitacaoAcessoInfoFolhaMB extends AbstractBaseBean<SolicitacaoAc
     @EJB
     private SolicitacaoAcessoInfoFolhaBO solicitacaoAcessoInfoFolhaBO;
 
+    @EJB
+    private TermoBO termoBO;
+
+    private Termo termoResponsabilidadeAtivo;
+
     private Usuario usuarioAtual = SessaoUtils.getUser();
+
+    private boolean renderizarAceite;
 
     @Override
     public void init() {
+        renderizarAceite = false;
+        termoResponsabilidadeAtivo = termoBO.termoAtivoPorNome("TERMO DE RESPONSABILIDADE");
+
         if (getEntity().getId() == null) {
             getEntity().setUsuario(usuarioAtual);
 
@@ -99,6 +114,41 @@ public class SolicitacaoAcessoInfoFolhaMB extends AbstractBaseBean<SolicitacaoAc
 
         FacesJasper.createJasperReport(null, params,
                 "/WEB-INF/report/formulario/solicitacaoAcessoInfoFolha.jasper", "Solicitacao de acesso Infofolha" + ".pdf");
+    }
+
+    public void renderAceitar() {
+        renderizarAceite = true;
+    }
+
+    public void aceitar() {
+
+        if (termoResponsabilidadeAtivo != null) {
+            TermoAceito termoAceito = new TermoAceito();
+            termoAceito.setTermo(termoResponsabilidadeAtivo);
+            getEntity().setTermoAceito(termoAceito);
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('widgetTermoDetail').hide();");
+            FacesMessageUtils.info("Termo de Responsabilidade aceito as: ".concat(Utils.convertDateToString(new Date(), "dd/MM/yyy HH:mm")));
+        } else {
+            FacesMessageUtils.error("Termo de Responsabilidade é obrigatório!");
+        }
+
+    }
+
+    public Termo getTermoResponsabilidadeAtivo() {
+        return termoResponsabilidadeAtivo;
+    }
+
+    public void setTermoResponsabilidadeAtivo(Termo termoResponsabilidadeAtivo) {
+        this.termoResponsabilidadeAtivo = termoResponsabilidadeAtivo;
+    }
+
+    public boolean isRenderizarAceite() {
+        return renderizarAceite;
+    }
+
+    public void setRenderizarAceite(boolean renderizarAceite) {
+        this.renderizarAceite = renderizarAceite;
     }
 
 }

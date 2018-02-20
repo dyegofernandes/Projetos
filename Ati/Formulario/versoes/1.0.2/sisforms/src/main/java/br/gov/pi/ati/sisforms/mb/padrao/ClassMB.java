@@ -1,5 +1,6 @@
 package br.gov.pi.ati.sisforms.mb.padrao;
 
+import br.gov.pi.ati.sisforms.modelo.cadastro.Termo;
 import br.gov.pi.ati.sisforms.modelo.formulario.PerfilInfoFolha;
 import br.gov.pi.ati.sisforms.modelo.formulario.PerfilSFP;
 import br.gov.pi.ati.sisforms.modelo.cadastro.TipoCertificado;
@@ -467,6 +468,10 @@ public class ClassMB {
     }
     public Class getPerfilSFP() {
         return PerfilSFP.class;
+    }
+
+    public Class getTermo() {
+        return Termo.class;
     }
 
 }

@@ -1,0 +1,84 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['termo.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuTermo.xhtml" />
+        <h:form id="formListTermo">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="termo_export" target=":formListTermo:dataTableTermo"
+                                widgetVar="dataTableTermoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="termo" rowIndexVar="index" id="dataTableTermo" widgetVar="dataTableTermoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{termoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{termoMB.dataModel.paginatorTemplate}"
+                         value="#{termoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['termo.nome']}" sortBy="#{termo.nome}"
+                          filterBy="#{termo.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['termo.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{termo.nome}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['termo.dataCriacao']}" sortBy="#{termo.dataCriacao}"
+                          filterBy="#{termo.dataCriacao}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['termo.dataCriacao']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{termo.dataCriacao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['termo.ativo']}" sortBy="#{termo.ativo}"
+                          filterBy="#{termo.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['termo.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{termo.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetTermoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailTermo" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{termo}" target="#{termoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="termo.create">
+                        <p:button icon="ui-icon-pencil" outcome="createTermo" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{termo.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="termo.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{termoMB.delete}" >
+                            <f:setPropertyActionListener value="#{termo.id}" target="#{termoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{termo}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="termo.audit">
+                    <x:auditDelete for="#{termoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetTermoDetail" header="#{msg['termo.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailTermo.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

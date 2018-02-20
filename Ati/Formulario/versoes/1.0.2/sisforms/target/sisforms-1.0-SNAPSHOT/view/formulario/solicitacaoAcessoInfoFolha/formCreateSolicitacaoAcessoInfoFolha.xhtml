@@ -7,62 +7,20 @@
 
 
     <h:form id="formCreateSolicitacaoAcessoInfoFolha" >
+        <p:remoteCommand autoRun="true" oncomplete="PF('widgetTermoDetail').show();" process="@this"/>
         <x:modalMessages autoUpdate="true"/>
         <p:fieldset legend="#{xmsg['generalData']}">
             <div class="container-fluid">
                 <div class="row">
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="usuario" value="* #{msg['solicitacaoAcessoSFP.usuario']}:" />
-                        <p:inputText id="usuario" value="#{solicitacaoAcessoInfoFolhaMB.entity.usuario.nome}" styleClass="form-control" readonly="true" >
+                        <p:inputText id="usuario" value="#{solicitacaoAcessoInfoFolhaMB.entity.usuario}" styleClass="form-control" readonly="true" >
                             <x:initializer/>
                         </p:inputText>
 
                     </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="tipo" value="* Tipo Trabalhador:" />
-                        <h:selectOneMenu id="tipo" value="#{solicitacaoAcessoInfoFolhaMB.entity.tipo}"  styleClass="form-control" >
-                            <f:selectItems value="#{findAllBean.get(classMB.trabalhadorTipo)}" 
-                                           var="tipo"
-                                           itemLabel="#{tipo.descricao}"/>
-                            <p:ajax process="@this" update="@form" listener="#{solicitacaoAcessoInfoFolhaMB.limparCampos()}"/>
-                        </h:selectOneMenu>
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="cpf" value="* #{msg['solicitacaoAcessoInfoFolha.cpf']}:" />
-                        <x:cpf id="cpf" value="#{solicitacaoAcessoInfoFolhaMB.entity.cpf}"  styleClass="form-control" >
-                            <p:ajax event="blur" process="@this" update="@form" listener="#{solicitacaoAcessoInfoFolhaMB.carregarDadosServidor()}"/>
-                        </x:cpf>
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel value="Orgão:" />
 
-                        <h:panelGroup layout="block" id="panelOrgaoPai" styleClass="form-control">
-                            <h:panelGroup id="conteudoPanelOrgaoPai" >
-                                <h:outputText value="#{solicitacaoAcessoInfoFolhaMB.entity.orgao.codigo} - #{solicitacaoAcessoInfoFolhaMB.entity.orgao.sigla}" >
-                                    <x:initializer/>
-                                </h:outputText>
-                                <p:commandButton type="button" icon="ui-icon-carat-1-s" 
-                                                 id="buttonOrgaoPai" styleClass="pull-right"
-                                                 style="font-size: 10px;" rendered="#{solicitacaoAcessoInfoFolhaMB.entity.tipo.num eq 2}"/>
-                            </h:panelGroup>
-                        </h:panelGroup>
 
-                        <p:overlayPanel for="panelOrgaoPai" styleClass="w-100p" widgetVar="overlayOrgaoPai" 
-                                        rendered="#{solicitacaoAcessoInfoFolhaMB.entity.tipo.num eq 2}">
-                            <p:tree value="#{orgaoMB.orgaos}" var="orgao" styleClass="w-100p"
-                                    selectionMode="single"  style="max-height: 400px; overflow-y: scroll" >
-                                <p:ajax event="select" update=":formCreateSolicitacaoAcessoInfoFolha:tabGeral:conteudoPanelOrgaoPai @this"
-                                        listener="#{solicitacaoAcessoInfoFolhaMB.entity.setOrgao(orgao)}" oncomplete="PF('overlayOrgaoPai').hide()" />
-                                <p:treeNode collapsedIcon="ui-icon-folder-collapsed" >
-                                    <h:panelGroup styleClass="#{orgao == orgaoMB.entity.orgaoPai ? 'ui-state-highlight' : ''}">
-                                        <h:outputText value="#{orgao.codigo} - " style="font-weight: bold"/>  
-                                        <h:outputText value="#{orgao.sigla}" style="font-weight: bold"/>  
-                                        <h:outputText value=" (#{orgao.nome})" styleClass="font-8"  /> 
-                                    </h:panelGroup>
-                                </p:treeNode>
-                            </p:tree>
-                        </p:overlayPanel>
-                    </div>
                     <h:panelGroup rendered="#{solicitacaoAcessoInfoFolhaMB.entity.tipo.num eq 1}">
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="matricula" value="#{msg['solicitacaoAcessoInfoFolha.matricula']}:" />
@@ -72,24 +30,17 @@
                     </h:panelGroup>
 
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="telefone" value="#{msg['solicitacaoAcessoInfoFolha.telefone']}:" />
+                        <h:outputLabel for="telefone" value="* #{msg['solicitacaoAcessoInfoFolha.telefone']}:" />
                         <p:inputMask id="telefone" value="#{solicitacaoAcessoInfoFolhaMB.entity.telefone}" mask="(99) 9999-9999"  styleClass="form-control"  />
                     </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="nome" value="* #{msg['solicitacaoAcessoInfoFolha.nome']}:" />
-                        <p:inputText id="nome" value="#{solicitacaoAcessoInfoFolhaMB.entity.nome}" maxlength="150"  styleClass="form-control" 
-                                     readonly="#{solicitacaoAcessoInfoFolhaMB.entity.tipo.num eq 1}"/>
-                    </div>
+
 
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="cargoFuncao" value="#{msg['solicitacaoAcessoInfoFolha.cargoFuncao']}:" />
                         <p:inputText id="cargoFuncao" value="#{solicitacaoAcessoInfoFolhaMB.entity.cargoFuncao}" maxlength="255"  styleClass="form-control" 
                                      readonly="#{solicitacaoAcessoInfoFolhaMB.entity.tipo.num eq 1}"/>
                     </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="email" value="* #{msg['solicitacaoAcessoInfoFolha.email']}:" />
-                        <p:inputText id="email" value="#{solicitacaoAcessoInfoFolhaMB.entity.email}" maxlength="150"  styleClass="form-control"  />
-                    </div>
+
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="dataEmissao" value="#{msg['solicitacaoAcessoInfoFolha.dataEmissao']}:" />
                         <p:inputText id="dataEmissao" value="#{solicitacaoAcessoInfoFolhaMB.entity.dataEmissao}" maxlength="150"  styleClass="form-control" 
@@ -107,13 +58,7 @@
                             <x:mask/>
                         </p:calendar>
                     </div>
-
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="observacao" value="#{msg['solicitacaoAcessoInfoFolha.observacao']}:" />
-                        <p:inputText id="observacao" value="#{solicitacaoAcessoInfoFolhaMB.entity.observacao}" maxlength="255"  styleClass="form-control"  />
-                    </div>
-
-                    <x:securityArea rolesAllowed="campos.situacao">
+                    <x:securityArea rolesAllowed="solicitacaoAcessoInfoFolha.sead">
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="situacao" value="* Situação:" />
                             <h:selectOneMenu id="situacao" value="#{solicitacaoAcessoInfoFolhaMB.entity.situacao}"  styleClass="form-control" >
@@ -125,13 +70,38 @@
                         </div>
                     </x:securityArea>
                 </div>
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="observacao" value="#{msg['solicitacaoAcessoInfoFolha.observacao']}:" />
+                        <p:inputTextarea id="observacao" value="#{solicitacaoAcessoInfoFolhaMB.entity.observacao}" rows="10" styleClass="form-control"
+                                         cols="50" />
+                    </div>
+                </div>
             </div>
         </p:fieldset>
 
-        <p:fieldset legend="#{xmsg['generalData']}">
+        <p:fieldset legend="Perfis Solicitados para Acesso ao InfoFolha">
+            <h:selectManyCheckbox value="#{solicitacaoAcessoInfoFolhaMB.entity.perfilsSolicitados}" converter="entityConverter" styleClass="checkbox">
+                <x:initializer/>
+                <x:spread columns="3"/>
+                <f:selectItems value="#{findAllBean.get(classMB.perfilInfoFolha)}" 
+                               var="perfil"
+                               itemLabel="#{perfil.nome} - #{perfil.descricao}">
+
+                </f:selectItems>
+            </h:selectManyCheckbox>
         </p:fieldset>
-
-
+        <x:securityArea rolesAllowed="solicitacaoAcessoInfoFolha.sead">
+            <p:fieldset legend="Perfis Liberados para Acesso ao InfoFolha" >
+                <h:selectManyCheckbox value="#{solicitacaoAcessoInfoFolhaMB.entity.perfilsAprovados}" converter="entityConverter" styleClass="checkbox">
+                    <x:initializer/>
+                    <x:spread columns="3"/>
+                    <f:selectItems value="#{findAllBean.get(classMB.perfilInfoFolha)}" 
+                                   var="perfil"
+                                   itemLabel="#{perfil.nome} - #{perfil.descricao}"/>
+                </h:selectManyCheckbox>
+            </p:fieldset>
+        </x:securityArea>
 
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">
@@ -147,5 +117,28 @@
             </x:securityArea>
         </div>
     </h:form>
+    <p:dialog widgetVar="widgetTermoDetail" header="#{msg['termoResponsabilidade']}" appendTo="@(body)" 
+              modal="true" styleClass="uix-dialog-fluid" closable="false">
+        <div class="row">
+            <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                <p:textEditor widgetVar="descricao" value="#{solicitacaoAcessoInfoFolhaMB.termoResponsabilidadeAtivo.descricao}"  style="margin-bottom:10px" readonly="true"
+                              >
+                    <f:facet name="toolbar">
+                        <span class="ql-formats">
+                            <button class="ql-bold"></button>
+                            <button class="ql-italic"></button>
+                            <button class="ql-underline"></button>
+                            <button class="ql-strike"></button>
+                        </span>
+                    </f:facet>
+                </p:textEditor>
+                <div class="uix-center">
+                    <p:commandButton process="@this" value="Aceitar Termo de Responsabilidade" actionListener="#{solicitacaoAcessoInfoFolhaMB.aceitar()}" 
+                                     rendered="#{solicitacaoAcessoInfoFolhaMB.termoResponsabilidadeAtivo!=null}"/>
+
+                </div>
+            </div>
+        </div>
+    </p:dialog>
 
 </ui:composition>

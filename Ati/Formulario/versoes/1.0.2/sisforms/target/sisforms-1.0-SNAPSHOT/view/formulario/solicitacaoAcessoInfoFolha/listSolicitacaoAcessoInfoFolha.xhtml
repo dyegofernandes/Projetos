@@ -34,21 +34,8 @@
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="Órgão" sortBy="#{solicitacaoAcessoInfoFolha.orgao}" filterBy="#{solicitacaoAcessoInfoFolha.orgao}" >
-                    <f:facet name="header">
-                        <h:outputText value="Órgão" />
-                    </f:facet>
-                    <h:outputText value="#{solicitacaoAcessoInfoFolha.orgao}">
-                        <x:initializer/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="#{msg['solicitacaoAcessoInfoFolha.cpf']}" sortBy="#{solicitacaoAcessoInfoFolha.cpf}"
-                          filterBy="#{solicitacaoAcessoInfoFolha.cpf}"   >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['solicitacaoAcessoInfoFolha.cpf']}" />
-                    </f:facet>
-                    <h:outputText value="#{solicitacaoAcessoInfoFolha.cpf}"/>
-                </p:column>
+               
+              
                 <p:column headerText="#{msg['solicitacaoAcessoInfoFolha.matricula']}" sortBy="#{solicitacaoAcessoInfoFolha.matricula}"
                           filterBy="#{solicitacaoAcessoInfoFolha.matricula}"   >
                     <f:facet name="header">
@@ -63,13 +50,7 @@
                     </f:facet>
                     <h:outputText value="#{solicitacaoAcessoInfoFolha.telefone}"/>
                 </p:column>
-                <p:column headerText="#{msg['solicitacaoAcessoInfoFolha.nome']}" sortBy="#{solicitacaoAcessoInfoFolha.nome}"
-                          filterBy="#{solicitacaoAcessoInfoFolha.nome}"   >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['solicitacaoAcessoInfoFolha.nome']}" />
-                    </f:facet>
-                    <h:outputText value="#{solicitacaoAcessoInfoFolha.nome}"/>
-                </p:column>
+                
 
                 <p:column headerText="#{msg['solicitacaoAcessoInfoFolha.cargoFuncao']}" sortBy="#{solicitacaoAcessoInfoFolha.cargoFuncao}"
                           filterBy="#{solicitacaoAcessoInfoFolha.cargoFuncao}"   >
@@ -78,13 +59,7 @@
                     </f:facet>
                     <h:outputText value="#{solicitacaoAcessoInfoFolha.cargoFuncao}"/>
                 </p:column>
-                <p:column headerText="#{msg['solicitacaoAcessoInfoFolha.email']}" sortBy="#{solicitacaoAcessoInfoFolha.email}"
-                          filterBy="#{solicitacaoAcessoInfoFolha.email}"   >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['solicitacaoAcessoInfoFolha.email']}" />
-                    </f:facet>
-                    <h:outputText value="#{solicitacaoAcessoInfoFolha.email}"/>
-                </p:column>
+                
                 <p:column headerText="#{msg['solicitacaoAcessoInfoFolha.dataEmissao']}" sortBy="#{solicitacaoAcessoInfoFolha.dataEmissao}"
                           filterBy="#{solicitacaoAcessoInfoFolha.dataEmissao}"   style="text-align: center;">
                     <f:facet name="header">

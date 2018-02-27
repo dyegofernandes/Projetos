@@ -1,20 +1,864 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boletoSicoob" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="1.0"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boletoSicoob" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<parameter name="LOGO_SICOOB" class="java.lang.String"/>
+	<field name="beneficiario" class="java.lang.String"/>
+	<field name="agenciaBeneficiario" class="java.lang.String"/>
+	<field name="numeroDocumento" class="java.lang.String"/>
+	<field name="nossoNumero" class="java.lang.String"/>
+	<field name="vencimento" class="java.lang.String"/>
+	<field name="valorDocumento" class="java.lang.String"/>
+	<field name="desconto" class="java.lang.String"/>
+	<field name="outrosAcrescimos" class="java.lang.String"/>
+	<field name="valorCobrado" class="java.lang.String"/>
+	<field name="pagador" class="java.lang.String"/>
+	<field name="localPagamento" class="java.lang.String"/>
+	<field name="dataDocumento" class="java.lang.String"/>
+	<field name="especieDoc" class="java.lang.String"/>
+	<field name="aceite" class="java.lang.String"/>
+	<field name="dataProcesso" class="java.lang.String"/>
+	<field name="usoDoBanco" class="java.lang.String"/>
+	<field name="carteira" class="java.lang.String"/>
+	<field name="especie" class="java.lang.String"/>
+	<field name="quantidade" class="java.lang.String"/>
+	<field name="xValor" class="java.lang.String"/>
+	<field name="instrucoes" class="java.lang.String"/>
+	<field name="codBaixa" class="java.lang.String"/>
+	<field name="outrasDeducoes" class="java.lang.String"/>
+	<field name="multa" class="java.lang.String"/>
+	<field name="codigoBarras" class="java.lang.String"/>
+	<field name="referenteA" class="java.lang.String"/>
+	<field name="enderecoPagador" class="java.lang.String"/>
+	<field name="beneficiarioAvalista" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<detail>
-		<band height="441" splitType="Stretch">
+		<band height="358" splitType="Stretch">
 			<rectangle>
-				<reportElement x="0" y="29" width="131" height="160"/>
+				<reportElement x="4" y="27" width="141" height="187"/>
 			</rectangle>
 			<image>
-				<reportElement x="0" y="0" width="112" height="29"/>
+				<reportElement x="4" y="2" width="100" height="25"/>
+				<box>
+					<rightPen lineWidth="0.75"/>
+				</box>
 				<imageExpression><![CDATA["/Users/KillerBeeTwo/Documents/Projetos/Pessoal/pagcontascarne/src/main/webapp/images/sicoob-logo.png"]]></imageExpression>
 			</image>
+			<staticText>
+				<reportElement x="104" y="2" width="36" height="25"/>
+				<box leftPadding="5">
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Banco
+756-0]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="27" width="141" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Beneficiário]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="54" width="141" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Agência/Código Beneficiário]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="70" width="141" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Número Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="86" width="141" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Nosso Número]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="102" width="141" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Vencimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="118" width="141" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[(=) Valor do Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="134" width="141" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[(-) Desconto/Abatimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="151" width="141" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[(+) Outros Acréscimentos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="168" width="141" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[(=) Valor Cobrado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="186" width="141" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Pagador]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="214" width="125" height="7"/>
+				<box topPadding="1" leftPadding="3"/>
+				<textElement>
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Recibo do Pagador]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="454" y="27" width="137" height="142"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="454" y="27" width="137" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Vencimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="454" y="122" width="137" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[(+) Mora/Multa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="454" y="108" width="137" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[(-) Outras Deduções]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="454" y="43" width="137" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Agência/Código Beneficiário]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="454" y="59" width="137" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Nosso Número]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="454" y="75" width="137" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[(=) Valor do Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="454" y="91" width="137" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[(-) Desconto/Abatimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="454" y="137" width="137" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[(+) Outros Acréscimentos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="257" y="5" width="40" height="16"/>
+				<box>
+					<leftPen lineWidth="1.75"/>
+					<rightPen lineWidth="1.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[756-0]]></text>
+			</staticText>
+			<image>
+				<reportElement x="151" y="2" width="106" height="25"/>
+				<box>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<imageExpression><![CDATA["/Users/KillerBeeTwo/Documents/Projetos/Pessoal/pagcontascarne/src/main/webapp/images/sicoob-logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="454" y="152" width="137" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[(=) Valor cobrado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="151" y="27" width="303" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Local de pagamento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="151" y="43" width="303" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Beneficiário]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="151" y="59" width="71" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Data do Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="222" y="59" width="116" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[No documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="338" y="59" width="44" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Espécie doc]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="382" y="59" width="24" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Aceite]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="406" y="59" width="48" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Data processo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="151" y="75" width="71" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Uso do banco]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="222" y="75" width="58" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Carteira]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="75" width="38" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Espécie]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="318" y="75" width="88" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Quantidade]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="406" y="75" width="48" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[x Valor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="151" y="169" width="440" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="1.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Pagador]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="151" y="193" width="303" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Beneficiário/Avalista]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="454" y="193" width="137" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="1.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Cód. baixa]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="297" y="5" width="294" height="16"/>
+				<box leftPadding="3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoBarras}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="4" y="34" width="141" height="20"/>
+				<box topPadding="1" leftPadding="0" rightPadding="3"/>
+				<textElement textAlignment="Right">
+					<font size="5" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{beneficiario}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="4" y="61" width="141" height="9"/>
+				<box topPadding="0" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{agenciaBeneficiario}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="151" y="34" width="303" height="9"/>
+				<box topPadding="0" leftPadding="3">
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{localPagamento}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="151" y="50" width="303" height="11"/>
+				<box topPadding="0" leftPadding="3">
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{beneficiario}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="4" y="109" width="141" height="9"/>
+				<box leftPadding="0" rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vencimento}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="454" y="34" width="137" height="9"/>
+				<box rightPadding="3">
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vencimento}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="454" y="50" width="137" height="9"/>
+				<box topPadding="0" rightPadding="3">
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{agenciaBeneficiario}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="4" y="77" width="141" height="9"/>
+				<box rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numeroDocumento}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="4" y="93" width="141" height="9"/>
+				<box rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nossoNumero}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="454" y="66" width="137" height="9"/>
+				<box rightPadding="3">
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nossoNumero}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="4" y="125" width="141" height="9"/>
+				<box rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorDocumento}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="454" y="82" width="137" height="9"/>
+				<box rightPadding="3">
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorDocumento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="151" y="91" width="303" height="7"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Instruções (Texto de responsabilidade do Beneficiário)]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="4" y="141" width="141" height="10"/>
+				<box rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{desconto}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="454" y="98" width="137" height="10"/>
+				<box rightPadding="3">
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{desconto}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="151" y="66" width="71" height="9"/>
+				<box leftPadding="3">
+					<leftPen lineWidth="1.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataDocumento}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="222" y="66" width="116" height="9"/>
+				<box leftPadding="3" rightPadding="0">
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numeroDocumento}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="338" y="66" width="44" height="9"/>
+				<box leftPadding="3">
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{especieDoc}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="382" y="66" width="24" height="9"/>
+				<box leftPadding="3">
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{aceite}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="406" y="66" width="48" height="8"/>
+				<box leftPadding="3">
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataProcesso}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="151" y="82" width="71" height="9"/>
+				<box leftPadding="3">
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{usoDoBanco}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="222" y="82" width="58" height="9"/>
+				<box leftPadding="3">
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{carteira}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="280" y="82" width="38" height="9"/>
+				<box leftPadding="3">
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{especie}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="318" y="82" width="88" height="9"/>
+				<box leftPadding="3">
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantidade}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="406" y="82" width="48" height="9"/>
+				<box leftPadding="3">
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{xValor}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="151" y="98" width="303" height="70"/>
+				<box topPadding="2" leftPadding="3" rightPadding="1"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{instrucoes}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="151" y="176" width="440" height="7"/>
+				<box topPadding="1" leftPadding="3">
+					<leftPen lineWidth="1.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pagador}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="454" y="115" width="137" height="7"/>
+				<box rightPadding="3">
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{outrasDeducoes}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="454" y="129" width="137" height="8"/>
+				<box rightPadding="3">
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{multa}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="4" y="175" width="141" height="11"/>
+				<box rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorCobrado}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="454" y="159" width="137" height="9"/>
+				<box rightPadding="3">
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorCobrado}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="4" y="158" width="141" height="10"/>
+				<box rightPadding="3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{outrosAcrescimos}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="454" y="144" width="137" height="8"/>
+				<box rightPadding="3">
+					<leftPen lineWidth="1.75"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{outrosAcrescimos}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="4" y="193" width="141" height="12"/>
+				<box topPadding="1" leftPadding="3">
+					<leftPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pagador}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="4" y="205" width="141" height="9"/>
+				<box leftPadding="3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{referenteA}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="151" y="183" width="440" height="10"/>
+				<box leftPadding="3">
+					<leftPen lineWidth="1.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{enderecoPagador}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="454" y="200" width="137" height="7"/>
+				<box leftPadding="3">
+					<leftPen lineWidth="1.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codBaixa}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="151" y="200" width="303" height="7"/>
+				<box leftPadding="3">
+					<leftPen lineWidth="1.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{beneficiarioAvalista}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="151" y="270" width="440" height="10"/>
+				<box topPadding="0" leftPadding="3">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.75" lineStyle="Dashed"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Corte na linha pontilhada]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="151" y="216" width="272" height="50"/>
+				<jr:EAN128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="none">
+					<jr:codeExpression><![CDATA[$F{codigoBarras}]]></jr:codeExpression>
+				</jr:EAN128>
+			</componentElement>
+			<staticText>
+				<reportElement x="423" y="209" width="168" height="7"/>
+				<box topPadding="0" leftPadding="0" rightPadding="3">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="5" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Autenticação mecânica - Ficha de Compensação]]></text>
+			</staticText>
 		</band>
 	</detail>
 </jasperReport>

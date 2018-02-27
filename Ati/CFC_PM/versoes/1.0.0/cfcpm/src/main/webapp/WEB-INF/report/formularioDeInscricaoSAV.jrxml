@@ -93,8 +93,8 @@ Obs: Declaro, para os devidos fins legais, que atendo aos requisitos estabelecid
 				<textFieldExpression><![CDATA[$P{NOME}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="298" y="4" width="35" height="20"/>
-				<textElement>
+				<reportElement x="294" y="4" width="39" height="20"/>
+				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[RG nº:]]></text>
@@ -161,7 +161,9 @@ Obs: Declaro, para os devidos fins legais, que atendo aos requisitos estabelecid
 			</textField>
 			<textField>
 				<reportElement x="0" y="63" width="555" height="20"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA["Teresina-PI, "+ $P{DATA_INSCRICAO}]]></textFieldExpression>
 			</textField>
 			<staticText>

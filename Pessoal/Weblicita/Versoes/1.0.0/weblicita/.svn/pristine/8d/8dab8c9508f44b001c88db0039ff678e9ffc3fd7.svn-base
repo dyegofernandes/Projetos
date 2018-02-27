@@ -1,0 +1,351 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateFornecedor" >
+        <x:modalMessages autoUpdate="true"/>
+        <h:panelGroup rendered="#{fornecedorMB.renderizarFormulario}">
+            <p:fieldset>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%;margin-left: -15px;">
+                                    <h:outputLabel for="numeroCADUF" value="* #{msg['fornecedor.numeroCADUF']}:" />
+                                    <p:inputText id="numeroCADUF" value="#{fornecedorMB.entity.numeroCADUF}"  styleClass="form-control"  
+                                                 readonly="true"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%;margin-left: -15px;">
+                                    <h:outputLabel for="dataDoCadastro" value="* #{msg['fornecedor.dataDoCadastro']}:" />
+                                    <p:inputText id="dataDoCadastro" value="#{fornecedorMB.entity.dataDoCadastro}"  styleClass="form-control"  
+                                                 readonly="true">
+                                        <f:convertDateTime />
+                                    </p:inputText>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%;margin-left: -15px;">
+                                    <h:outputLabel for="cnpj" value="* #{msg['fornecedor.cnpj']}:" />
+                                    <x:cnpj id="cnpj" value="#{fornecedorMB.entity.cnpj}"  styleClass="form-control" 
+                                            readonly="#{fornecedorMB.somenteLeitura}" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%;margin-left: -15px;">
+                                    <h:outputLabel for="dataAbertura" value="#{msg['fornecedor.dataAbertura']}:" />
+                                    <p:calendar id="dataAbertura" value="#{fornecedorMB.entity.dataAbertura}" 
+                                                showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar" 
+                                                readonly="#{fornecedorMB.somenteLeitura}" >
+                                        <x:mask/>
+                                    </p:calendar>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%;margin-left: -15px;">
+                                    <h:outputLabel for="capitalSocial" value="* #{msg['fornecedor.capitalSocial']}:" />
+                                    <x:inputNumber id="capitalSocial" value="#{fornecedorMB.entity.capital}" styleClass="form-control" 
+                                                   readonly="#{fornecedorMB.somenteLeitura}"  />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:panelGroup>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12 box-actions" style="width: 100%;">
+                                    <div class="box-actions-div-title">Situação Cadastral</div>
+                                    <div rendered="#{fornecedorMB.entity.id!=null}">
+                                        Aprovado pelo Presidente da CPL: <span style="color: red;">
+                                            <h:outputText value="#{fornecedorMB.entity.aprovadoCPL.descricao}">
+                                            </h:outputText>
+                                        </span> <br/>
+                                        Documentos Conferidos: <span style="color: red;">
+                                            <h:outputText value="#{fornecedorMB.entity.documentosConferidos.descricao}">
+                                            </h:outputText>
+                                        </span><br/>
+                                        Possui Pendências: <span style="color: red;">
+                                            <h:outputText value="#{fornecedorMB.entity.possuiPendencias.descricao}">
+                                            </h:outputText>
+                                        </span><br/>
+                                        <br/>
+                                        Cadastrado desde: <span style="color: red;">
+                                            <h:outputText value="#{fornecedorMB.entity.dataDoCadastro}">
+                                                <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                        </span><br/>
+                                        Última atualização em: <span style="color: red;">
+                                            <h:outputText value="#{fornecedorMB.entity.dataAtualizacao}">
+                                                <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                        </span><br/>
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                            <h:outputLabel for="nomeFantasia" value="* #{msg['fornecedor.nomeFantasia']}:" />
+                            <p:inputText id="nomeFantasia" value="#{fornecedorMB.entity.nomeFantasia}" maxlength="200"  styleClass="form-control" 
+                                         readonly="#{fornecedorMB.somenteLeitura}"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                            <h:outputLabel for="razaoSocial" value="* #{msg['fornecedor.razaoSocial']}:" />
+                            <p:inputText id="razaoSocial" value="#{fornecedorMB.entity.razaoSocial}" maxlength="200"  styleClass="form-control" 
+                                         readonly="#{fornecedorMB.somenteLeitura}"/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                            <h:outputLabel for="ramoAtividade" value="#{msg['fornecedor.ramoAtividade']}:" />
+                            <p:inputText id="ramoAtividade" value="#{fornecedorMB.entity.ramoAtividade}" maxlength="200"  styleClass="form-control" 
+                                         readonly="#{fornecedorMB.somenteLeitura}"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                            <h:outputLabel for="endereco" value="* Endereco:" />
+                            <p:inputText id="endereco" value="#{fornecedorMB.entity.endereco.endereco}" maxlength="200"  styleClass="form-control" 
+                                         readonly="#{fornecedorMB.somenteLeitura}">
+                                <x:initializer/>
+                            </p:inputText>
+                        </div>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                            <h:outputLabel for="complemento" value="Complemento:" />
+                            <p:inputText id="complemento" value="#{fornecedorMB.entity.endereco.complemento}" maxlength="200"  styleClass="form-control" 
+                                         readonly="#{fornecedorMB.somenteLeitura}">
+                                <x:initializer/>
+                            </p:inputText>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 20%">
+                            <h:outputLabel for="cidade" value="* #{msg['endereco.cidade']}:" />
+
+                            <p:autoComplete id="cidade" value="#{fornecedorMB.entity.endereco.cidade}" 
+
+                                            completeMethod="#{cidadeMB.autocomplete}" styleClass="uix-autocomplete" 
+
+                                            minQueryLength="3" forceSelection="true" dropdown="true"
+
+                                            var="p" itemLabel="#{p.nome}" itemValue="#{p}" converter="entityConverter" readonly="#{fornecedorMB.somenteLeitura}"> 
+                                <x:initializer/>
+                                <p:column> 
+
+                                    <h:outputText value="#{p.nome}">
+
+                                    </h:outputText>
+
+                                </p:column> 
+                                <p:ajax event="itemSelect" process="@this" update="uf" />
+                            </p:autoComplete>
+
+
+                        </div>
+                        <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 5%">
+                            <h:outputLabel for="uf" value="UF:" />
+                            <p:inputText id="uf" value="#{fornecedorMB.entity.endereco.cidade.estado.sigla}" maxlength="255"  
+                                         styleClass="form-control" readonly="true">
+                                <x:initializer/>
+                            </p:inputText>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 15%">
+                            <h:outputLabel for="cep" value="* CEP:" />
+                            <p:inputMask id="cep" value="#{fornecedorMB.entity.endereco.cep}" mask="99999-999"  styleClass="form-control" 
+                                         readonly="#{fornecedorMB.somenteLeitura}">
+                                <x:initializer/>
+                            </p:inputMask>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h:panelGroup rendered="#{fornecedorMB.renderizarCampo}" >
+                            <div class="row">
+                                <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12" style="width: 15%">
+                                    <h:outputLabel for="tipo" value="Tipo:" />
+                                    <h:selectOneMenu id="tipoTelefone" value="#{fornecedorMB.telefoneAdd.tipo}"  styleClass="form-control" >
+                                        <f:selectItem itemLabel="#{xmsg['select']}" />
+                                        <f:selectItems value="#{findAllBean.get(classMB.tipoTelefone)}" 
+                                                        var="tipo"
+                                                        itemLabel="#{tipo.descricao}" />
+                                    </h:selectOneMenu>
+                                </div>
+                                <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12" style="width: 15%">
+                                    <h:outputLabel for="telefone" value="Telefone:" />
+                                    <p:inputMask id="telefone" value="#{fornecedorMB.telefoneAdd.numero}" mask="(99) 9999-9999" styleClass="form-control"/>
+                                </div>
+                                <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12" style="width: 15%">
+                                    <h:outputLabel for="addPhone" value=" " />
+                                    <p:commandButton icon="ui-icon-plusthick" 
+                                                    id="buttonAddTelefone" styleClass="pull-left button-add"
+                                                    title="Adcionar"
+                                                    style="font-size: 18px;" actionListener="#{fornecedorMB.addTelefone()}" process="telefone tipoTelefone @this"
+                                                    update="formCreateFornecedor:panelTelefones telefone tipoTelefone"/>   
+                                </div> 
+                            </div> 
+                        </h:panelGroup>
+                    </div>
+                    <div class="row">
+                        <div class="row" style="width: 100%;;margin-top:5px;margin-bottom: 5px;">
+                            <h:panelGroup id="panelTelefones" >
+                                <h:panelGroup rendered="#{fornecedorMB.telefones.size()>0}" >
+
+                                    <div class="form-group col-lg-2 col-md-12 col-sm-12 col-xs-12" style="width:30%">
+                                        <p:dataTable id="dataTableTelefone" var="telefone" value="#{fornecedorMB.telefones}"
+                                                     class="tableTelefone">
+                                            <p:column width="100">
+                                                <f:facet name="header">
+                                                    <h:outputText value="Tipo" />
+                                                </f:facet>
+                                                <h:outputText value="#{telefone.tipo.descricao}" style="text-align: center;" />
+                                            </p:column>
+
+                                            <p:column >
+                                                <f:facet name="header">
+                                                    <h:outputText value="Número" />
+                                                </f:facet>
+                                                <h:outputText value="#{telefone.numero}" style="text-align: right;" />
+                                            </p:column>
+                                            <p:column style="text-align: center;" width="35">
+                                                <p:commandButton icon="ui-icon-minusthick" style="font-size: 14px;"  class="button-remove"
+                                                                 actionListener="#{fornecedorMB.removerTelefone(telefone)}" 
+                                                                 title="Remover"
+                                                                 process="@this" update="formCreateFornecedor:panelTelefones" 
+                                                                 rendered="#{fornecedorMB.renderizarCampo}"/>
+                                            </p:column>
+                                        </p:dataTable>
+
+                                    </div>
+                                </h:panelGroup>
+                            </h:panelGroup>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <h:panelGroup rendered="#{fornecedorMB.renderizarCampo}" >
+                            <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12" style="width: 15%">
+                                <h:outputLabel for="tipo" value="Tipo:" />
+                                <h:selectOneMenu id="tipo" value="#{fornecedorMB.socioAdd.tipo}"  styleClass="form-control"  >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.tipoDeSocio)}" 
+                                                   var="tipoDeSocio"
+                                                   itemLabel="#{tipoDeSocio.descricao}"/>"
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12" style="width: 25%">
+                                <h:outputLabel for="nome" value="* #{msg['administradorFornecedor.nome']}:" />
+                                <p:inputText id="nome" value="#{fornecedorMB.socioAdd.nome}" maxlength="200"  styleClass="form-control" />
+                            </div>
+                            <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12" style="width: 15%">
+                                <h:outputLabel for="cpf" value="* #{msg['administradorFornecedor.cpf']}:" />
+                                <x:cpf id="cpf" value="#{fornecedorMB.socioAdd.cpf}" styleClass="form-control" />
+                            </div>
+                            <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12" style="width: 15%">
+                                    <h:outputLabel for="addSocio" value=" " />
+                                    <p:commandButton icon="ui-icon-plusthick" 
+                                                     styleClass="pull-left button-add"
+                                                     title="Adcionar"
+                                                     style="font-size: 18px;" actionListener="#{fornecedorMB.addAdministrador()}" process="nome cpf tipo @this"
+                                                     update="formCreateFornecedor:panelSocios nome cpf tipo"  />    
+                            </div>
+                        </h:panelGroup>
+                    </div>
+                    <div class="row">
+                        <div class="row" style="width: 100%;;margin-top:5px;margin-bottom: 5px;">
+                            <h:panelGroup id="panelSocios" >
+                                <h:panelGroup rendered="#{fornecedorMB.socios.size()>0}" >
+                                    <div class="form-group col-lg-2 col-md-12 col-sm-12 col-xs-12" style="width:55%">
+                                        <p:dataTable id="dataTableSocio" var="socio" value="#{fornecedorMB.socios}"
+                                                     class="tableSocio">
+                                            <p:column width="100">
+                                                <f:facet name="header">
+                                                    <h:outputText value="Tipo" />
+                                                </f:facet>
+                                                <h:outputText value="#{socio.tipo.descricao}" style="text-align: center;" />
+                                            </p:column>
+                                            <p:column >
+                                                <f:facet name="header">
+                                                    <h:outputText value="Nome" />
+                                                </f:facet>
+                                                <h:outputText value="#{socio.nome}"  />
+                                            </p:column>
+                                            <p:column width="100">
+                                                <f:facet name="header">
+                                                    <h:outputText value="CPF" />
+                                                </f:facet>
+                                                <h:outputText value="#{socio.cpf}" style="text-align: center;" />
+                                            </p:column>
+
+
+                                            <p:column style="text-align: center;" width="35">
+                                                <p:commandButton icon="ui-icon-minusthick" style="font-size: 14px;" 
+                                                                 actionListener="#{fornecedorMB.removerAdministrador(socio)}" 
+                                                                 process="@this" update="formCreateFornecedor:panelSocios"
+                                                                 title="Remover"
+                                                                 rendered="#{fornecedorMB.renderizarCampo}" class="button-remove"/>
+                                            </p:column>
+                                        </p:dataTable>
+
+                                    </div>
+                                </h:panelGroup>
+                            </h:panelGroup>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                            <h:outputLabel for="email" value="#{msg['fornecedor.email']}:" />
+                            <p:inputText id="email" value="#{fornecedorMB.entity.email}" maxlength="255"  styleClass="form-control" 
+                                         readonly="#{fornecedorMB.somenteLeitura}"/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                            <h:outputLabel for="site" value="#{msg['fornecedor.site']}:" />
+                            <p:inputText id="site" value="#{fornecedorMB.entity.site}" maxlength="255"  styleClass="form-control"  
+                                         readonly="#{fornecedorMB.somenteLeitura}"/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%" >
+                            <h:outputLabel for="observacao" value="#{msg['fornecedor.observacao']}:"/>
+                            <p:inputTextarea id="observacao" value="#{fornecedorMB.entity.observacao}" maxlength="255"  styleClass="form-control"  
+                                             readonly="#{fornecedorMB.somenteLeitura}"/>
+                        </div>
+                    </div>
+                </div>
+            </p:fieldset>
+            <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+            <div class="uix-center">
+                <div class="div-actions-buttons">
+                    <x:securityArea rolesAllowed="fornecedor.create">
+                        <p:commandButton process="@form" update="@form formFindFornecedor" action="#{fornecedorMB.save}" value="#{xmsg['save']}" styleClass="button-save" 
+                                         rendered="#{fornecedorMB.renderizarCampo}"/>
+                    </x:securityArea>
+                </div>
+                <div class="div-audit">
+                    <x:securityArea rolesAllowed="fornecedor.audit">
+                        <x:audit for="#{fornecedorMB.entity}"/>
+                    </x:securityArea>
+                </div>    
+            </div>
+        </h:panelGroup>
+    </h:form>
+
+</ui:composition>

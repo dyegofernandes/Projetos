@@ -1,5 +1,8 @@
 package br.gov.pi.ati.sisforms.mb.padrao;
 
+import br.gov.pi.ati.sisforms.modelo.servicos.SolicitacaoAcessoSistema;
+import br.gov.pi.ati.sisforms.modelo.enums.NomeSistema;
+import br.gov.pi.ati.sisforms.modelo.cadastro.TermoAceito;
 import br.gov.pi.ati.sisforms.modelo.cadastro.Termo;
 import br.gov.pi.ati.sisforms.modelo.formulario.PerfilInfoFolha;
 import br.gov.pi.ati.sisforms.modelo.formulario.PerfilSFP;
@@ -472,6 +475,16 @@ public class ClassMB {
 
     public Class getTermo() {
         return Termo.class;
+    }
+
+    public Class getSolicitacaoAcessoSistema() {
+        return SolicitacaoAcessoSistema.class;
+    }
+    public Class getNomeSistema() {
+        return NomeSistema.class;
+    }
+    public Class getTermoAceito() {
+        return TermoAceito.class;
     }
 
 }

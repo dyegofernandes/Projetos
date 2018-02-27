@@ -6,6 +6,7 @@
 package br.gov.pi.ati.sisforms.modelo.cadastro;
 
 import br.gov.pi.ati.sisforms.modelo.formulario.SolicitacaoAcessoInfoFolha;
+import br.gov.pi.ati.sisforms.modelo.formulario.SolicitacaoAcessoSFP;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.Date;
@@ -44,6 +45,10 @@ public class TermoAceito implements Serializable {
     @NotAudited
     @OneToMany(mappedBy = "termoAceito")
     private List<SolicitacaoAcessoInfoFolha> solicitacaoesAcessoInfas;
+    
+    @NotAudited
+    @OneToMany(mappedBy = "termoAceito")
+    private List<SolicitacaoAcessoSFP> solicitacaoesAcessoSFP;
 
     public Long getId() {
         return id;
@@ -75,6 +80,14 @@ public class TermoAceito implements Serializable {
 
     public void setSolicitacaoesAcessoInfas(List<SolicitacaoAcessoInfoFolha> solicitacaoesAcessoInfas) {
         this.solicitacaoesAcessoInfas = solicitacaoesAcessoInfas;
+    }
+
+    public List<SolicitacaoAcessoSFP> getSolicitacaoesAcessoSFP() {
+        return solicitacaoesAcessoSFP;
+    }
+
+    public void setSolicitacaoesAcessoSFP(List<SolicitacaoAcessoSFP> solicitacaoesAcessoSFP) {
+        this.solicitacaoesAcessoSFP = solicitacaoesAcessoSFP;
     }
 
     @Override

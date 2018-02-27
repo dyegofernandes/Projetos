@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="formularioDeInscricao" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="LOGO_ESTADO" class="java.lang.String"/>
+	<parameter name="DATA_INSCRICAO" class="java.lang.String"/>
+	<parameter name="CODIGO" class="java.lang.String"/>
+	<parameter name="NOME" class="java.lang.String"/>
+	<parameter name="RG" class="java.lang.String"/>
+	<parameter name="CPF" class="java.lang.String"/>
+	<parameter name="NASCIMENTO" class="java.lang.String"/>
+	<parameter name="SEXO" class="java.lang.String"/>
+	<parameter name="ORGAO" class="java.lang.String"/>
+	<parameter name="ESCOLARIDADE" class="java.lang.String"/>
+	<parameter name="LOGO_PM" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="102" splitType="Stretch">
+			<staticText>
+				<reportElement x="88" y="0" width="382" height="49"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ESTADO DO PIAUÍ
+POLÍCIA MILITAR DO PIAUÍ
+QUARTEL DO COMANDO GERAL
+DIRETORIA DE ENSINO, INSTRUÇÃO E PESQUISA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="88" y="49" width="382" height="14"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[PROCESSO SELETIVO DO SERVIÇO AUXILIAR VOLUNTÁRIO-PMPI-2018]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="160" y="63" width="180" height="14"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[COMPROVANTE DE INSCRIÇÃO Nº:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="340" y="63" width="100" height="14"/>
+				<textElement>
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CODIGO}+"/2018"]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="0" width="88" height="82"/>
+				<imageExpression><![CDATA[$P{LOGO_ESTADO}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="470" y="0" width="94" height="82"/>
+				<imageExpression><![CDATA[$P{LOGO_PM}]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="318" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="161" width="555" height="115"/>
+				<box leftPadding="4"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Documentação apresentada
+a) Cópia do RG e CPF
+b) Cópia do comprovante de quitação com Serviço Militar (candidatos do gênero masculino);
+c) Cópia do Título de Eleitor e comprovante de votação do último pleito eleitoral;
+d) Justiça Estadual Comum e Militar;
+e) Justiça Federal;
+f) Justiça Eleitoral;
+
+Obs: Declaro, para os devidos fins legais, que atendo aos requisitos estabelecidos no Edital N 001/2018/SAV/PMPI, bem como assumo total responsabilidade pelas informações prestadas nesta inscrição, tendo plena consciência de suas consequências legais, conforme prevê o caput do art. 299 do Código Penal.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="4" width="39" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="39" y="4" width="259" height="20"/>
+				<textElement>
+					<font isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NOME}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="298" y="4" width="35" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RG nº:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="333" y="4" width="100" height="20"/>
+				<textElement>
+					<font isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{RG}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="433" y="4" width="36" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Órgão:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="469" y="4" width="86" height="20"/>
+				<textElement>
+					<font isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ORGAO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="26" width="77" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Escolaridade:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="77" y="26" width="170" height="20"/>
+				<textElement>
+					<font isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ESCOLARIDADE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="247" y="26" width="27" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CPF:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="274" y="26" width="100" height="20"/>
+				<textElement>
+					<font isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CPF}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="374" y="26" width="109" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data de Nascimento:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="483" y="26" width="72" height="20"/>
+				<textFieldExpression><![CDATA[$P{NASCIMENTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="63" width="555" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA["Teresina-PI, "+ $P{DATA_INSCRICAO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="118" width="261" height="20"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Assinatura do Candidato]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="294" y="118" width="261" height="20"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Responsável pela Inscrição/DEIP]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

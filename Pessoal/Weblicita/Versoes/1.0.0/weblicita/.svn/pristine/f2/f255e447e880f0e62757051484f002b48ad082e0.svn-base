@@ -1,0 +1,244 @@
+package br.com.weblicita.mb.licitacao;
+
+import java.io.Serializable;
+import com.xpert.core.crud.AbstractBaseBean;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import br.com.weblicita.bo.licitacao.HomolagacaoAtaAdjucaoBO;
+import br.com.weblicita.bo.licitacao.PedidoLicitacaoBO;
+import br.com.weblicita.modelo.cadastro.Fornecedor;
+import br.com.weblicita.modelo.controleacesso.Usuario;
+import br.com.weblicita.modelo.licitacao.HomolagacaoAtaAdjucao;
+import br.com.weblicita.modelo.licitacao.PedidoLicitacao;
+import br.com.weblicita.util.SessaoUtils;
+import br.com.weblicita.util.Utils;
+import com.lowagie.text.Document;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfWriter;
+import com.xpert.faces.utils.FacesJasper;
+import com.xpert.faces.utils.FacesMessageUtils;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ComponentSystemEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+
+/**
+ *
+ * @author Juniel
+ */
+@ManagedBean
+@ViewScoped
+public class HomolagacaoAtaAdjucaoMB extends AbstractBaseBean<HomolagacaoAtaAdjucao> implements Serializable {
+
+    @EJB
+    private HomolagacaoAtaAdjucaoBO homolagacaoAtaAdjucaoBO;
+
+    @EJB
+    private PedidoLicitacaoBO pedidoBO;
+
+    Usuario usuarioAtual = SessaoUtils.getUser();
+
+    private Fornecedor vencedor;
+
+    private List<Fornecedor> vencedores;
+
+    private String processoAdministrativo = "";
+
+    private boolean renderizarFormulario = false;
+
+    private static final long serialVersionUID = 1L;
+
+    private StreamedContent content;
+
+    public void onPrerender(ComponentSystemEvent event) {
+
+        try {
+
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+            Document document = new Document();
+            PdfWriter.getInstance(document, out);
+            document.open();
+
+            for (int i = 0; i < 50; i++) {
+                document.add(new Paragraph("All work and no play makes Jack a dull boy"));
+            }
+
+            document.close();
+            content = new DefaultStreamedContent(new ByteArrayInputStream(out.toByteArray()), "application/pdf");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public StreamedContent getContent() {
+        return content;
+    }
+
+    public void setContent(StreamedContent content) {
+        this.content = content;
+    }
+
+    @Override
+    public HomolagacaoAtaAdjucaoBO getBO() {
+        return homolagacaoAtaAdjucaoBO;
+    }
+
+    @Override
+    public String getDataModelOrder() {
+        return "id";
+    }
+
+    public void buscar() {
+
+        if (!Utils.isNullOrEmpty(processoAdministrativo)) {
+            vencedor = new Fornecedor();
+            vencedores = new ArrayList<Fornecedor>();
+            PedidoLicitacao pedido = pedidoBO.pedidoPeloProcessoAdministrativo(processoAdministrativo);
+
+            if (pedido != null) {
+                renderizarFormulario = true;
+                HomolagacaoAtaAdjucao hajTemp = getBO().homogacaoPeloPedidoLicitacao(pedido);
+                if (hajTemp != null) {
+                    setEntity(hajTemp);
+                    vencedores = getDAO().getInitialized(hajTemp.getVencedores());
+                } else {
+                    setEntity(new HomolagacaoAtaAdjucao());
+                    getEntity().setPedidoLicitacao(pedido);
+                }
+            } else {
+                renderizarFormulario = false;
+                FacesMessageUtils.error("Processo Administrativo não localizado!");
+            }
+
+        } else {
+            renderizarFormulario = false;
+            FacesMessageUtils.error("Informe o número/nome processo Administrativo!");
+        }
+
+    }
+
+    public void gerarHomologacao() {
+        if (vencedores.size() > 0) {
+            getEntity().setUltimaGeracao(new Date());
+            getEntity().setUsuario(usuarioAtual);
+            getEntity().setVencedores(vencedores);
+            getDAO().saveOrMerge(getEntity(), true);
+            FacesMessageUtils.sucess();
+        } else {
+            FacesMessageUtils.error("Adicione um ou mais vencedores!");
+        }
+    }
+
+    public void gerarAto() {
+        if (vencedores.size() > 0) {
+            getEntity().setUltimaGeracao(new Date());
+            getEntity().setUsuario(usuarioAtual);
+            getEntity().setVencedores(vencedores);
+            getDAO().saveOrMerge(getEntity(), true);
+            FacesMessageUtils.sucess();
+        } else {
+            FacesMessageUtils.error("Adicione um ou mais vencedores!");
+        }
+    }
+
+    public void gerarAdjucacao() {
+        if (vencedores.size() > 0) {
+            getEntity().setUltimaGeracao(new Date());
+            getEntity().setUsuario(usuarioAtual);
+            getEntity().setVencedores(vencedores);
+            getDAO().saveOrMerge(getEntity(), true);
+            FacesMessageUtils.sucess();
+        } else {
+            FacesMessageUtils.error("Adicione um ou mais vencedores!");
+        }
+    }
+
+    public void addVencendor() {
+        if (vencedor != null) {
+            if (vencedorJahAdicionado(vencedor)) {
+                FacesMessageUtils.error("Vencedor já adicionado!");
+            } else {
+                vencedores.add(vencedor);
+                vencedor = new Fornecedor();
+            }
+        } else {
+            FacesMessageUtils.error("Vencedor é obrigatório!");
+        }
+    }
+
+    private boolean vencedorJahAdicionado(Fornecedor vencedor) {
+        for (Fornecedor vencedore : vencedores) {
+            if (vencedore.equals(vencedor)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void removerVencedor(Fornecedor vencedor) {
+        vencedores.remove(vencedor);
+    }
+
+    public void gerarPdf() {
+        HashMap params = new HashMap();
+        String caminhoImg = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/images");
+
+        params.put("LOGO_POLICIA", caminhoImg.concat("/logoPolicia.png"));
+        params.put("LOGO_ATI", caminhoImg.concat("/ati_novo.png"));
+        params.put("LOGO_ESTADO", caminhoImg.concat("/brasao2.jpg"));
+        params.put("DATA_EMISSAO", Utils.convertDateToString(new Date(), "dd/MM/yyyy HH:mm"));
+        params.put("ANO_EMISSAO", Utils.convertDateToString(new Date(), "yyyy"));
+        params.put("NOME_USUARIO", "Resp. pelo Registro: ".concat(usuarioAtual.getNome()));
+        params.put("ID_USUARIO", usuarioAtual.getId().toString());
+
+        FacesJasper.createJasperReport(null, params,
+                "/WEB-INF/report/formularioDenuncia.jasper", "Denuncia.pdf");
+
+    }
+
+    public Fornecedor getVencedor() {
+        return vencedor;
+    }
+
+    public void setVencedor(Fornecedor vencedor) {
+        this.vencedor = vencedor;
+    }
+
+    public List<Fornecedor> getVencedores() {
+        return vencedores;
+    }
+
+    public void setVencedores(List<Fornecedor> vencedores) {
+        this.vencedores = vencedores;
+    }
+
+    public String getProcessoAdministrativo() {
+        return processoAdministrativo;
+    }
+
+    public void setProcessoAdministrativo(String processoAdministrativo) {
+        this.processoAdministrativo = processoAdministrativo;
+    }
+
+    public boolean isRenderizarFormulario() {
+        return renderizarFormulario;
+    }
+
+    public void setRenderizarFormulario(boolean renderizarFormulario) {
+        this.renderizarFormulario = renderizarFormulario;
+    }
+
+    public String getCaminhoPdf(){
+        String caminhoImg = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/WEB-INF/pdfs/books.pdf");
+        
+        return caminhoImg;
+    }
+}

@@ -1,0 +1,135 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['deposito.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuDeposito.xhtml" />
+        <h:form id="formListDeposito">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="deposito_export" target=":formListDeposito:dataTableDeposito"
+                                     widgetVar="dataTableDepositoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="deposito" rowIndexVar="index" id="dataTableDeposito" widgetVar="dataTableDepositoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{depositoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{depositoMB.dataModel.paginatorTemplate}"
+                         value="#{depositoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['deposito.convenio']}" sortBy="#{deposito.convenio}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['deposito.convenio']}" />
+                    </f:facet>
+                    <h:outputText value="#{deposito.convenio}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['deposito.dt_deposito']}" sortBy="#{deposito.dt_deposito}"
+                    filterBy="#{deposito.dt_deposito}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['deposito.dt_deposito']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{deposito.dt_deposito}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['deposito.vl_deposito']}" sortBy="#{deposito.vl_deposito}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['deposito.vl_deposito']}" />
+                    </f:facet>
+                    <h:outputText value="#{deposito.vl_deposito}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['deposito.total_tarifa']}" sortBy="#{deposito.total_tarifa}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['deposito.total_tarifa']}" />
+                    </f:facet>
+                    <h:outputText value="#{deposito.total_tarifa}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['deposito.total_arrecadado']}" sortBy="#{deposito.total_arrecadado}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['deposito.total_arrecadado']}" />
+                    </f:facet>
+                    <h:outputText value="#{deposito.total_arrecadado}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['deposito.banco']}" sortBy="#{deposito.banco}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['deposito.banco']}" />
+                    </f:facet>
+                    <h:outputText value="#{deposito.banco}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['deposito.agencia']}" sortBy="#{deposito.agencia}"
+                    filterBy="#{deposito.agencia}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['deposito.agencia']}" />
+                    </f:facet>
+                    <h:outputText value="#{deposito.agencia}"/>
+                </p:column>
+                <p:column headerText="#{msg['deposito.conta_corrente']}" sortBy="#{deposito.conta_corrente}"
+                    filterBy="#{deposito.conta_corrente}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['deposito.conta_corrente']}" />
+                    </f:facet>
+                    <h:outputText value="#{deposito.conta_corrente}"/>
+                </p:column>
+                <p:column headerText="#{msg['deposito.depositado']}" sortBy="#{deposito.depositado}"
+                    filterBy="#{deposito.depositado}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['deposito.depositado']}" />
+                    </f:facet>
+                    <h:outputText value="#{deposito.depositado}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetDepositoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailDeposito" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{deposito}" target="#{depositoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="deposito.create">
+                        <p:button icon="ui-icon-pencil" outcome="createDeposito" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{deposito.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="deposito.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{depositoMB.delete}" >
+                            <f:setPropertyActionListener value="#{deposito.id}" target="#{depositoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{deposito}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="deposito.audit">
+                    <x:auditDelete for="#{depositoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetDepositoDetail" header="#{msg['deposito.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailDeposito.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

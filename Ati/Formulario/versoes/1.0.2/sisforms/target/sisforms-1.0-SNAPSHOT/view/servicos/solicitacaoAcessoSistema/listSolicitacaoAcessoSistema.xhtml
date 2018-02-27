@@ -1,0 +1,146 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['solicitacaoAcessoSistema.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuSolicitacaoAcessoSistema.xhtml" />
+        <h:form id="formListSolicitacaoAcessoSistema">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="solicitacaoAcessoSistema_export" target=":formListSolicitacaoAcessoSistema:dataTableSolicitacaoAcessoSistema"
+                                     widgetVar="dataTableSolicitacaoAcessoSistemaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="solicitacaoAcessoSistema" rowIndexVar="index" id="dataTableSolicitacaoAcessoSistema" widgetVar="dataTableSolicitacaoAcessoSistemaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{solicitacaoAcessoSistemaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{solicitacaoAcessoSistemaMB.dataModel.paginatorTemplate}"
+                         value="#{solicitacaoAcessoSistemaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoSistema.usuario']}" sortBy="#{solicitacaoAcessoSistema.usuario}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoSistema.usuario']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoSistema.usuario}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoSistema.tipo']}" sortBy="#{solicitacaoAcessoSistema.tipo}"
+                    filterBy="#{solicitacaoAcessoSistema.tipo}"  filterOptions="#{findAllBean.getSelect(classMB.trabalhadorTipo)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoSistema.tipo']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoSistema.tipo}"/>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoSistema.telefone']}" sortBy="#{solicitacaoAcessoSistema.telefone}"
+                    filterBy="#{solicitacaoAcessoSistema.telefone}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoSistema.telefone']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoSistema.telefone}"/>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoSistema.cargoFuncao']}" sortBy="#{solicitacaoAcessoSistema.cargoFuncao}"
+                    filterBy="#{solicitacaoAcessoSistema.cargoFuncao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoSistema.cargoFuncao']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoSistema.cargoFuncao}"/>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoSistema.dataEmissao']}" sortBy="#{solicitacaoAcessoSistema.dataEmissao}"
+                    filterBy="#{solicitacaoAcessoSistema.dataEmissao}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoSistema.dataEmissao']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoSistema.dataEmissao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoSistema.dataAtendimento']}" sortBy="#{solicitacaoAcessoSistema.dataAtendimento}"
+                    filterBy="#{solicitacaoAcessoSistema.dataAtendimento}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoSistema.dataAtendimento']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoSistema.dataAtendimento}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoSistema.observacao']}" sortBy="#{solicitacaoAcessoSistema.observacao}"
+                    filterBy="#{solicitacaoAcessoSistema.observacao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoSistema.observacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoSistema.observacao}"/>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoSistema.situacao']}" sortBy="#{solicitacaoAcessoSistema.situacao}"
+                    filterBy="#{solicitacaoAcessoSistema.situacao}"  filterOptions="#{findAllBean.getSelect(classMB.situacao)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoSistema.situacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoSistema.situacao}"/>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoSistema.acessoAoSistema']}" sortBy="#{solicitacaoAcessoSistema.acessoAoSistema}"
+                    filterBy="#{solicitacaoAcessoSistema.acessoAoSistema}"  filterOptions="#{findAllBean.getSelect(classMB.nomeSistema)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoSistema.acessoAoSistema']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoSistema.acessoAoSistema}"/>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoSistema.termoAceito']}" sortBy="#{solicitacaoAcessoSistema.termoAceito}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoSistema.termoAceito']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoSistema.termoAceito}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['solicitacaoAcessoSistema.senha']}" sortBy="#{solicitacaoAcessoSistema.senha}"
+                    filterBy="#{solicitacaoAcessoSistema.senha}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['solicitacaoAcessoSistema.senha']}" />
+                    </f:facet>
+                    <h:outputText value="#{solicitacaoAcessoSistema.senha}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetSolicitacaoAcessoSistemaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailSolicitacaoAcessoSistema" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{solicitacaoAcessoSistema}" target="#{solicitacaoAcessoSistemaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="solicitacaoAcessoSistema.create">
+                        <p:button icon="ui-icon-pencil" outcome="createSolicitacaoAcessoSistema" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{solicitacaoAcessoSistema.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="solicitacaoAcessoSistema.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{solicitacaoAcessoSistemaMB.delete}" >
+                            <f:setPropertyActionListener value="#{solicitacaoAcessoSistema.id}" target="#{solicitacaoAcessoSistemaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{solicitacaoAcessoSistema}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="solicitacaoAcessoSistema.audit">
+                    <x:auditDelete for="#{solicitacaoAcessoSistemaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetSolicitacaoAcessoSistemaDetail" header="#{msg['solicitacaoAcessoSistema.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailSolicitacaoAcessoSistema.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

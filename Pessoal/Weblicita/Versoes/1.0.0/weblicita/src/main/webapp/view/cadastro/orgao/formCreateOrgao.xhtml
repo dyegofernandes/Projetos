@@ -13,18 +13,16 @@
 
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 25%">
-                            <h:outputLabel for="codigo" value="* #{msg['orgao.codigo']}/Órgão:" />
+                        <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 15%">
+                            <h:outputLabel for="codigo" value="#{msg['orgao.codigo']}/Órgão:" />
                             <p:inputText id="codigo" value="#{orgaoMB.entity.codigo}" styleClass="form-control" readonly="true" />
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 25%">
-                            <h:outputLabel for="dataDoCadastro" value="* #{msg['orgao.dataDoCadastro']}:" />
+                        <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 10%">
+                            <h:outputLabel for="dataDoCadastro" value="#{msg['orgao.dataDoCadastro']}:" />
                             <p:inputText id="dataDoCadastro" value="#{orgaoMB.entity.dataDoCadastro}"  styleClass="form-control"  
-                                                 readonly="true">
-                                        <f:convertDateTime />
-                                    </p:inputText>
+                                         readonly="true">
+                                <f:convertDateTime />
+                            </p:inputText>
                         </div>
                     </div>
                     <div class="row">
@@ -54,28 +52,37 @@
                             <h:outputLabel for="complemento" value="Complemento:" />
                             <p:inputText id="complemento" value="#{orgaoMB.entity.endereco.complemento}" maxlength="255"  styleClass="form-control" 
                                          readonly="#{orgaoMB.somenteLeitura}">
-                            <x:initializer/>
+                                <x:initializer/>
                             </p:inputText>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 25%">
+                        <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 20%">
                             <h:outputLabel for="cidade" value="* #{msg['endereco.cidade']}:" />
-                            <h:selectOneMenu id="cidade" value="#{orgaoMB.entity.endereco.cidade}" converter="entityConverter" styleClass="form-control" 
-                                             readonly="#{orgaoMB.somenteLeitura}">
+
+                            <p:autoComplete id="cidade" value="#{orgaoMB.entity.endereco.cidade}" 
+
+                                            completeMethod="#{cidadeMB.autocomplete}" styleClass="uix-autocomplete" 
+
+                                            minQueryLength="3" forceSelection="true" dropdown="true"
+
+                                            var="p" itemLabel="#{p.nome}" itemValue="#{p}" converter="entityConverter" readonly="#{fornecedorMB.somenteLeitura}"> 
                                 <x:initializer/>
-                                <f:selectItem itemLabel="#{xmsg['select']}" />
-                                <f:selectItems value="#{findAllBean.get(classMB.cidade)}" 
-                                               var="cidade"
-                                               itemLabel="#{cidade.nome}" itemDisabled="#{orgaoMB.somenteLeitura}"/>
-                                <p:ajax process="@this" update="uf" />
-                            </h:selectOneMenu>
+                                <p:column> 
+
+                                    <h:outputText value="#{p.nome}">
+
+                                    </h:outputText>
+
+                                </p:column> 
+                                <p:ajax event="itemSelect" process="@this" update="uf" />
+                            </p:autoComplete>
+
+
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 15%">
+                        <div class="form-group col-lg-4 col-md-12 col-sm-12 col-xs-12" style="width: 6%">
                             <h:outputLabel for="uf" value="UF:" />
-                            <p:inputText id="uf" value="#{orgaoMB.entity.endereco.cidade.estado.nome}" maxlength="255"  styleClass="form-control" disabled="true" >
+                            <p:inputText id="uf" value="#{orgaoMB.entity.endereco.cidade.estado.sigla}" maxlength="255"  styleClass="form-control" disabled="true" >
                                 <x:initializer/>
                             </p:inputText>
                         </div>
@@ -85,7 +92,7 @@
                             <h:outputLabel for="cep" value="* CEP:" />
                             <p:inputMask id="cep" value="#{orgaoMB.entity.endereco.cep}" mask="99999-999"  styleClass="form-control" 
                                          readonly="#{orgaoMB.somenteLeitura}">
-                            <x:initializer/>
+                                <x:initializer/>
                             </p:inputMask>
                         </div>
                     </div>
@@ -119,7 +126,7 @@
                     <div class="row">
                         <div class="row" style="width: 100%;;margin-top:5px;margin-bottom: 5px;">
                             <h:panelGroup id="panelTelefones" >
-                                <h:panelGroup rendered="#{fornecedorMB.telefones.size()>0}" >
+                                <h:panelGroup rendered="#{orgaoMB.telefones.size()>0}" >
 
                                     <div class="form-group col-lg-2 col-md-12 col-sm-12 col-xs-12" style="width:30%">
                                         <p:dataTable id="dataTableTelefone" var="telefone" value="#{orgaoMB.telefones}"

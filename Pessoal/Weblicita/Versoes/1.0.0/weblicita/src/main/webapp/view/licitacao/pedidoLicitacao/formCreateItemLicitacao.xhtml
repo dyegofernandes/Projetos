@@ -10,10 +10,10 @@
         <x:modalMessages autoUpdate="true"/>
         <h:panelGroup rendered="#{pedidoLicitacaoMB.renderizarCampo}">
 
-            <p:fieldset legend="Adicionar Item" id="fieldSetItem">
+            <p:fieldset id="fieldSetItem">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 60%">
                             <h:outputLabel for="item" value="* #{msg['itemLicitacao.item']}:" />
                             <h:selectOneMenu id="item" value="#{pedidoLicitacaoMB.itemAdd.item}" converter="entityConverter" styleClass="form-control" >
                                 <x:initializer/>
@@ -24,7 +24,7 @@
                                 <p:ajax process="@this" update="unidade" />
                             </h:selectOneMenu>
                         </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 30%">
                             <h:outputLabel for="unidade" value="* #{msg['itemLicitacao.unidade']}:" />
                             <h:selectOneMenu id="unidade" value="#{pedidoLicitacaoMB.itemAdd.unidade}" converter="entityConverter" styleClass="form-control" >
                                 <f:selectItem itemLabel="#{xmsg['select']}" />
@@ -36,7 +36,7 @@
 
                             </h:selectOneMenu>
                         </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 10%">
                             <h:outputLabel for="quantidade" value="* #{msg['itemLicitacao.quantidade']}:" />
                             <x:inputNumber id="quantidade" value="#{pedidoLicitacaoMB.itemAdd.quantidade}" styleClass="form-control"/>
                         </div>
@@ -44,16 +44,18 @@
                     </div>
                 </div>
                 <div class="uix-center">
-                    <p:commandButton process="@this fieldSetItem" update="fieldSetItem dataTableItemLicitacao" value="Adicionar" 
-                                     action="#{pedidoLicitacaoMB.addItem()}" rendered="#{pedidoLicitacaoMB.renderizarCampo}"/>
+                    <div class="div-actions-buttons">
+                        <p:commandButton process="@this fieldSetItem" update="fieldSetItem dataTableItemLicitacao" value="Adicionar" styleClass="button-adicionar"
+                                            action="#{pedidoLicitacaoMB.addItem()}" rendered="#{pedidoLicitacaoMB.renderizarCampo}"/>
+                    </div>
                 </div>
             </p:fieldset>
         </h:panelGroup>
-        <p:fieldset legend="Itens Selecionados">
+        <p:fieldset legend="Itens Adicionados" styleClass="fieldsets">
             <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
-                         var="itemLicitacao" rowIndexVar="index" id="dataTableItemLicitacao" widgetVar="dataTableItemLicitacaoWidget" styleClass="table-responsive"
+                         var="itemLicitacao" rowIndexVar="index" id="dataTableItemLicitacao" widgetVar="dataTableItemLicitacaoWidget" styleClass="table-responsive tableItem"
                          value="#{pedidoLicitacaoMB.itens}" >
-                <p:column styleClass="uix-datatable-index">
+                <p:column>
                     <h:outputText value="#{index+1}"/>
                 </p:column>
                 <p:column headerText="#{msg['itemLicitacao.item']}" style="text-align: left;">
@@ -98,8 +100,9 @@
         </p:fieldset>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">
-            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetListarItem').hide()" />
-
+            <div class="div-actions-buttons">
+                <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetListarItem').hide()" styleClass="button-finds" style="margin-right: 10px"/>
+            </div>
         </div>
 
     </h:form>

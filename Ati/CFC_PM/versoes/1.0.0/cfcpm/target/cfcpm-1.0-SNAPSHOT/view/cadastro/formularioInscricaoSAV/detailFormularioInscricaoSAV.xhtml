@@ -1,0 +1,71 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailFormularioInscricaoSAV" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioInscricaoSAV.nome']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioInscricaoSAVMB.entity.nome}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioInscricaoSAV.identidade']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioInscricaoSAVMB.entity.identidade}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioInscricaoSAV.orgao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioInscricaoSAVMB.entity.orgao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioInscricaoSAV.cpf']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioInscricaoSAVMB.entity.cpf}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioInscricaoSAV.dataDeNascimento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioInscricaoSAVMB.entity.dataDeNascimento}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioInscricaoSAV.escolaridade']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioInscricaoSAVMB.entity.escolaridade}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioInscricaoSAV.endereco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioInscricaoSAVMB.entity.endereco}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioInscricaoSAV.cidade']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioInscricaoSAVMB.entity.cidade}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioInscricaoSAV.telefone']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioInscricaoSAVMB.entity.telefone}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioInscricaoSAV.email']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioInscricaoSAVMB.entity.email}" styleClass="uix-content-detail"/>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioInscricaoSAV.opcaoCidade']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioInscricaoSAVMB.entity.opcaoCidade}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['formularioInscricaoSAV.situacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{formularioInscricaoSAVMB.entity.situacao}" styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetFormularioInscricaoSAVDetail').hide()" />
+            <x:securityArea rolesAllowed="formularioInscricaoSAV.audit">
+                <x:audit for="#{formularioInscricaoSAVMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

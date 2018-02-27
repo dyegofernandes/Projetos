@@ -1,5 +1,7 @@
 package br.gov.pi.ati.cfcpm.mb.padrao;
 
+import br.gov.pi.ati.cfcpm.modelo.cadastro.FormularioInscricaoSAV;
+import br.gov.pi.ati.cfcpm.modelo.enums.CidadeSAV;
 import br.gov.pi.ati.cfcpm.modelo.enums.Sexo;
 import br.gov.pi.ati.cfcpm.modelo.enums.Situacao;
 import br.gov.pi.ati.cfcpm.modelo.cadastro.FormularioDeInscricao;
@@ -79,4 +81,11 @@ public class ClassMB {
     public Class getSituacao() {
         return Situacao.class;
     }
+    public Class getFormularioInscricaoSAV() {
+        return FormularioInscricaoSAV.class;
+    }
+    public Class getCidadeSAV() {
+        return CidadeSAV.class;
+    }
+
 }

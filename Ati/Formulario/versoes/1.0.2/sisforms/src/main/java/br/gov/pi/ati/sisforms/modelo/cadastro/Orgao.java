@@ -93,10 +93,6 @@ public class Orgao implements Serializable {
 
     @NotAudited
     @OneToMany(mappedBy = "orgao")
-    private List<SolicitacaoAcessoSFP> sfps;
-
-    @NotAudited
-    @OneToMany(mappedBy = "orgao")
     private List<Usuario> usuarios;
 
     public Long getId() {
@@ -185,14 +181,6 @@ public class Orgao implements Serializable {
 
     public void setVisitas(List<RelatorioDeVisita> visitas) {
         this.visitas = visitas;
-    }
-
-    public List<SolicitacaoAcessoSFP> getSfps() {
-        return sfps;
-    }
-
-    public void setSfps(List<SolicitacaoAcessoSFP> sfps) {
-        this.sfps = sfps;
     }
 
     public Orgao getOrgaoPai() {

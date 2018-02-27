@@ -13,19 +13,19 @@
 
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12"  style="width: 40%">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12"  style="width: 30%">
                             <h:outputLabel for="numeroProcessoAdministrativo" value="* #{msg['pedidoLicitacao.numeroProcessoAdministrativo']}:" />
                             <p:inputText id="numeroProcessoAdministrativo" value="#{pedidoLicitacaoMB.entity.numeroProcessoAdministrativo}" maxlength="60"  styleClass="form-control" 
                                          readonly="#{pedidoLicitacaoMB.entity.id!=null}"/>
                         </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12"  style="width: 40%">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12"  style="width: 30%">
                             <h:outputLabel for="codigo" value="* #{msg['pedidoLicitacao.codigo']}:" />
                             <p:inputText id="codigo" value="#{pedidoLicitacaoMB.entity.numeroLicitacao}" maxlength="60"  styleClass="form-control"
                                          readonly="true"/>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 40%">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 30%">
                             <h:outputLabel for="dataRequisicao" value="* #{msg['pedidoLicitacao.dataRequisicao']}:" />
                             <p:inputText id="dataRequisicao" value="#{pedidoLicitacaoMB.entity.dataSolicitacao}"   styleClass="form-control"
                                          readonly="true">
@@ -35,25 +35,33 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12"  style="width: 40%">
-                            <h:outputLabel for="rubricaOrcamentaria" value="* #{msg['pedidoLicitacao.rubricaOrcamentaria']}:" />
-                            <h:selectOneMenu id="rubricaOrcamentaria" value="#{pedidoLicitacaoMB.entity.rubricaOrcamentaria}" converter="entityConverter" styleClass="form-control" >
-                                <x:initializer/>
-                                <f:selectItem itemLabel="#{xmsg['select']}" />
-                                <f:selectItems value="#{findAllBean.get(classMB.rubricaOrcamentaria)}" 
-                                               var="rubricaOrcamentaria"
-                                               itemLabel="#{rubricaOrcamentaria}"/>
-                            </h:selectOneMenu>
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
                             <h:outputLabel for="orgaoSolicitante" value="* #{msg['pedidoLicitacao.orgaoSolicitante']}:" />
                             <p:inputText id="orgaoSolicitante" value="#{pedidoLicitacaoMB.entity.orgaoSolicitante}"   styleClass="form-control"
-                                         readonly="true">   
+                                         readonly="true">
                                 <x:initializer/>
                             </p:inputText>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12"  style="width: 30%">
+                            <h:outputLabel for="rubricaOrcamentaria" value="* #{msg['pedidoLicitacao.rubricaOrcamentaria']}:" />
+                            <p:autoComplete id="rubricaOrcamentaria" value="#{pedidoLicitacaoMB.entity.rubricaOrcamentaria}" 
 
+                                            completeMethod="#{pedidoLicitacaoMB.autocompleteRubricas}" styleClass="uix-autocomplete" 
+
+                                            minQueryLength="3" forceSelection="true" dropdown="true"
+
+                                            var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" readonly="#{fornecedorMB.somenteLeitura}"> 
+                                <x:initializer/>
+                                <p:column> 
+
+                                    <h:outputText value="#{p}">
+
+                                    </h:outputText>
+
+                                </p:column> 
+                            </p:autoComplete>
                         </div>
                     </div>
                     <div class="row">
@@ -70,11 +78,57 @@
                         </div>
                         <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12"> 
                             <p:commandLink value="clique aqui" process="@this" update=":formCreateItemLicitacao" style="font-weight:bold" 
-                                           actionListener="#{pedidoLicitacaoMB.abrirTelaItem()}" />
+                                           actionListener="#{pedidoLicitacaoMB.abrirTelaItem()}" class="aLinkIncluir" />
                         </div>
 
                     </div>
+                    <div class="row">
+                        <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                     var="itemLicitacao" rowIndexVar="index" id="dataTableItemLicitacao" widgetVar="dataTableItemLicitacaoWidget" styleClass="table-responsive tableItem"
+                                     value="#{pedidoLicitacaoMB.itens}" rendered="#{pedidoLicitacaoMB.itens.size()>0}">
+                            <p:column>
+                                <h:outputText value="#{index+1}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['itemLicitacao.item']}" style="text-align: left;">
+                                <f:facet name="header">
+                                    <h:outputText value="#{msg['itemLicitacao.item']}" />
+                                </f:facet>
+                                <h:outputText value="#{itemLicitacao.item}">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{msg['itemLicitacao.unidade']}" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="#{msg['itemLicitacao.unidade']}" />
+                                </f:facet>
+                                <h:outputText value="#{itemLicitacao.unidade}">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{msg['itemLicitacao.quantidade']}" style="text-align: right;">
+                                <f:facet name="header">
+                                    <h:outputText value="#{msg['itemLicitacao.quantidade']}" />
+                                </f:facet>
+                                <h:outputText value="#{itemLicitacao.quantidade}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{x:sum(pedidoLicitacaoMB.itens, 'quantidade')}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{xmsg['actions']}"/>
+                                </f:facet>
 
+                                <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="@form" 
+                                                 action="#{pedidoLicitacaoMB.removerItem(itemLicitacao)}" rendered="#{pedidoLicitacaoMB.renderizarCampo}">
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
                     <div class="row">
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%" >
                             <h:outputLabel for="observacao" value="#{msg['pedidoLicitacao.observacao']}:" />
@@ -93,8 +147,6 @@
                                           rendered="#{pedidoLicitacaoMB.renderizarCampo}"/>
                         </div>
                         <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
-
-
                             <h:panelGroup id="panelArquivos"  >
                                 <h:panelGroup rendered="#{pedidoLicitacaoMB.documentos.size()>0}" >
                                     <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
@@ -168,7 +220,8 @@
     <p:dialog widgetVar="widgetListarItem" header="Selecionar Itens" appendTo="@(body)" 
               modal="true" styleClass="uix-dialog-fluid" >
         <ui:include src="formCreateItemLicitacao.xhtml" />
-
+        <p:ajax event="close" update=":formCreatePedidoLicitacao" listener="#{findAllBean.setReload(true)}"
+                />
     </p:dialog>
 
 </ui:composition>

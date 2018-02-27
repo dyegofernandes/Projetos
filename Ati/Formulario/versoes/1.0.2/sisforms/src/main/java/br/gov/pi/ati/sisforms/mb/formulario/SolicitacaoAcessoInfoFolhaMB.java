@@ -29,72 +29,71 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @ViewScoped
 public class SolicitacaoAcessoInfoFolhaMB extends AbstractBaseBean<SolicitacaoAcessoInfoFolha> implements Serializable {
-
+    
     @EJB
     private SolicitacaoAcessoInfoFolhaBO solicitacaoAcessoInfoFolhaBO;
-
+    
     @EJB
     private TermoBO termoBO;
-
+    
     private Termo termoResponsabilidadeAtivo;
-
+    
     private Usuario usuarioAtual = SessaoUtils.getUser();
-
+    
     private boolean renderizarAceite;
-
+    
     @Override
     public void init() {
         renderizarAceite = false;
         termoResponsabilidadeAtivo = termoBO.termoAtivoPorNome("TERMO DE RESPONSABILIDADE");
-
+        
         if (getEntity().getId() == null) {
             getEntity().setUsuario(usuarioAtual);
-
+            
             ServidorVO servidor = Utils.consultarServidorPeloCPF(usuarioAtual.getCpf());
-
+            
             if (servidor != null) {
                 getEntity().setTipo(TrabalhadorTipo.SERVIDOR);
                 getEntity().setTelefone(servidor.getTelefone());
                 getEntity().setCargoFuncao(servidor.getCargo());
-                getEntity().setMatricula(servidor.getMatricula());
             } else {
                 getEntity().setTipo(TrabalhadorTipo.TERCEIRIZADO);
             }
-
+            
         }
     }
-
+    
     @Override
     public void postSave() {
-        setEntity(new SolicitacaoAcessoInfoFolha());
+//        setEntity(new SolicitacaoAcessoInfoFolha());
     }
-
+    
     @Override
     public void save() {
         super.save();
     }
-
+    
     @Override
     public SolicitacaoAcessoInfoFolhaBO getBO() {
         return solicitacaoAcessoInfoFolhaBO;
     }
-
+    
     @Override
     public String getDataModelOrder() {
         return "id";
     }
-
+    
     public void gerarPdf(SolicitacaoAcessoInfoFolha form) {
         HashMap params = new HashMap();
         String imgLogoPI = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/images/brasao2.jpg");
-
+        
         params.put("LOGO_PI", imgLogoPI);
 //        params.put("ORGAO", form.getOrgao() != null ? "ÓRGÃO: ".concat(solicitacaoAcessoInfoFolhaBO.getDAO().getInitialized(form.getOrgao()).getNome())
 //                : "ÓRGÃO: ");
         params.put("DATA_EMISSAO", Utils.convertDateToString(form.getDataEmissao(), "dd/MM/yyyy HH:mm"));
-
+        
         params.put("CPF", getEntity().getUsuario().getCpf() != null ? "CPF: ".concat(Utils.format("###.###.###-##", getEntity().getUsuario().getCpf())) : "CPF:");
-        params.put("MATRICULA", form.getMatricula() != null ? "MATRÍCULA: ".concat(form.getMatricula()) : "MATRÍCULA: ");
+        params.put("MATRICULA", getEntity().getUsuario().getMatricula() != null ? "MATRÍCULA: ".concat(getEntity().getUsuario().getMatricula()) : "MATRÍCULA: ");
         params.put("TELEFONE", form.getTelefone() != null ? "TELEFONE: ".concat(form.getTelefone()) : "TELEFONE:");
         params.put("CARGO_FUNCAO", form.getCargoFuncao() != null ? "CARGO/FUNÇÃO: ".concat(form.getCargoFuncao()) : "CARGO/FUNÇÃO:");
         params.put("EMAIL", "E-MAIL: ".concat(getEntity().getUsuario().getEmail()));
@@ -111,44 +110,44 @@ public class SolicitacaoAcessoInfoFolhaMB extends AbstractBaseBean<SolicitacaoAc
         params.put("OBS", form.getObservacao() != null ? "Observação: ".concat(form.getObservacao()) : "Observação:");
         params.put("TEXTO_UM", Utils.getTextoUmINFOFOLHA());
         params.put("TEXTO_DOIS", Utils.getTextoDoisINFOFOLHA());
-
+        
         FacesJasper.createJasperReport(null, params,
                 "/WEB-INF/report/formulario/solicitacaoAcessoInfoFolha.jasper", "Solicitacao de acesso Infofolha" + ".pdf");
     }
-
+    
     public void renderAceitar() {
         renderizarAceite = true;
     }
-
+    
     public void aceitar() {
-
+        
         if (termoResponsabilidadeAtivo != null) {
             TermoAceito termoAceito = new TermoAceito();
             termoAceito.setTermo(termoResponsabilidadeAtivo);
             getEntity().setTermoAceito(termoAceito);
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('widgetTermoDetail').hide();");
-            FacesMessageUtils.info("Termo de Responsabilidade aceito as: ".concat(Utils.convertDateToString(new Date(), "dd/MM/yyy HH:mm")));
+            FacesMessageUtils.info("Termo de Responsabilidade aceito em: ".concat(Utils.convertDateToString(new Date(), "dd/MM/yyy HH:mm")));
         } else {
             FacesMessageUtils.error("Termo de Responsabilidade é obrigatório!");
         }
-
+        
     }
-
+    
     public Termo getTermoResponsabilidadeAtivo() {
         return termoResponsabilidadeAtivo;
     }
-
+    
     public void setTermoResponsabilidadeAtivo(Termo termoResponsabilidadeAtivo) {
         this.termoResponsabilidadeAtivo = termoResponsabilidadeAtivo;
     }
-
+    
     public boolean isRenderizarAceite() {
         return renderizarAceite;
     }
-
+    
     public void setRenderizarAceite(boolean renderizarAceite) {
         this.renderizarAceite = renderizarAceite;
     }
-
+    
 }

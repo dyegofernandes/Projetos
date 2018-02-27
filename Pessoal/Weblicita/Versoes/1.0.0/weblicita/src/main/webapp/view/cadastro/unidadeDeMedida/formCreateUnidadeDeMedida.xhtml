@@ -22,9 +22,13 @@
                             <p:inputText id="sigla" maxlength="5"  value="#{unidadeDeMedidaMB.entity.sigla}" styleClass="form-control" readonly="#{unidadeDeMedidaMB.somenteLeitura}" />
                         </div>
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="ativo" value="Ativo" />
-                            <p:inputText id="ativo" maxlength="5"  value="#{unidadeDeMedidaMB.entity.ativo}" styleClass="form-control" readonly="true" converter="yesNoConverter"/>
-
+                            <h:outputLabel value="" />
+                            <div class="checkbox">
+                                <label>
+                                    <h:selectBooleanCheckbox id="ativo" value="#{unidadeDeMedidaMB.entity.ativo}" readonly="#{unidadeDeMedidaMB.somenteLeitura}" />
+                                    #{msg['unidadeDeMedida.ativo']}
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>

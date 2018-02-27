@@ -5,7 +5,7 @@
  */
 package br.gov.pi.ati.sisforms.modelo.formulario;
 
-import br.gov.pi.ati.sisforms.modelo.cadastro.Orgao;
+import br.gov.pi.ati.sisforms.modelo.cadastro.TermoAceito;
 import br.gov.pi.ati.sisforms.modelo.controleacesso.Usuario;
 import br.gov.pi.ati.sisforms.modelo.enums.Situacao;
 import br.gov.pi.ati.sisforms.modelo.enums.TrabalhadorTipo;
@@ -14,7 +14,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -24,8 +27,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -44,31 +45,15 @@ public class SolicitacaoAcessoSFP implements Serializable {
     @NotNull
     private Usuario usuario;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
-    private Orgao orgao;
-
-    @NotNull
+    @Column(length = 20)
+    @Enumerated(EnumType.STRING)
     private TrabalhadorTipo tipo = TrabalhadorTipo.SERVIDOR;
 
     @NotBlank
-    @Size(max = 20)
-    private String cpf;
-
-    private String matricula;
-
     private String telefone;
 
-    @NotBlank
-    @Size(max = 150)
-    private String nome;
-
     private String cargoFuncao;
-
-    @NotBlank
-    @Size(max = 150)
-    @Email
-    private String email;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataEmissao = new Date();
@@ -78,14 +63,16 @@ public class SolicitacaoAcessoSFP implements Serializable {
 
     @ManyToMany(targetEntity = PerfilSFP.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     private List<PerfilSFP> perfilsSolicitados = new ArrayList<PerfilSFP>();
-    
-    @ManyToMany(targetEntity = PerfilSFP.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
-    private List<PerfilSFP> perfilsAprovados = new ArrayList<PerfilSFP>();
 
+    @Column(columnDefinition = "Text")
     private String observacao;
 
     @NotNull
     private Situacao situacao = Situacao.NOVA;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @NotNull
+    private TermoAceito termoAceito;
 
     public Long getId() {
         return id;
@@ -103,30 +90,6 @@ public class SolicitacaoAcessoSFP implements Serializable {
         this.usuario = usuario;
     }
 
-    public Orgao getOrgao() {
-        return orgao;
-    }
-
-    public void setOrgao(Orgao orgao) {
-        this.orgao = orgao;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getMatricula() {
-        return matricula;
-    }
-
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
-    }
-
     public String getTelefone() {
         return telefone;
     }
@@ -135,28 +98,12 @@ public class SolicitacaoAcessoSFP implements Serializable {
         this.telefone = telefone;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public String getCargoFuncao() {
         return cargoFuncao;
     }
 
     public void setCargoFuncao(String cargoFuncao) {
         this.cargoFuncao = cargoFuncao;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public Date getDataEmissao() {
@@ -175,6 +122,13 @@ public class SolicitacaoAcessoSFP implements Serializable {
         this.dataAtendimento = dataAtendimento;
     }
 
+    public List<PerfilSFP> getPerfilsSolicitados() {
+        return perfilsSolicitados;
+    }
+
+    public void setPerfilsSolicitados(List<PerfilSFP> perfilsSolicitados) {
+        this.perfilsSolicitados = perfilsSolicitados;
+    }
 
     public String getObservacao() {
         return observacao;
@@ -192,20 +146,12 @@ public class SolicitacaoAcessoSFP implements Serializable {
         this.situacao = situacao;
     }
 
-    public List<PerfilSFP> getPerfilsSolicitados() {
-        return perfilsSolicitados;
+    public TermoAceito getTermoAceito() {
+        return termoAceito;
     }
 
-    public void setPerfilsSolicitados(List<PerfilSFP> perfilsSolicitados) {
-        this.perfilsSolicitados = perfilsSolicitados;
-    }
-
-    public List<PerfilSFP> getPerfilsAprovados() {
-        return perfilsAprovados;
-    }
-
-    public void setPerfilsAprovados(List<PerfilSFP> perfilsAprovados) {
-        this.perfilsAprovados = perfilsAprovados;
+    public void setTermoAceito(TermoAceito termoAceito) {
+        this.termoAceito = termoAceito;
     }
 
     public TrabalhadorTipo getTipo() {

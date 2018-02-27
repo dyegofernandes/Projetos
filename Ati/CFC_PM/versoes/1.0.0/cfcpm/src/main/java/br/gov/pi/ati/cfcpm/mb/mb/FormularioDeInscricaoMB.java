@@ -9,7 +9,6 @@ import br.gov.pi.ati.cfcpm.bo.cadastro.FormularioDeInscricaoBO;
 import br.gov.pi.ati.cfcpm.modelo.cadastro.FormularioDeInscricao;
 import br.gov.pi.ati.cfcpm.util.Utils;
 import com.xpert.faces.utils.FacesJasper;
-import com.xpert.faces.utils.FacesUtils;
 import java.util.HashMap;
 import javax.faces.context.FacesContext;
 

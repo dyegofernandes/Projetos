@@ -37,7 +37,7 @@
                         <x:securityArea rolesAllowed="territorio.delete">
                             <p:commandButton process="@form" update="formFindTerritorio formCreateTerritorio"  value="#{msg['territorio.delete']}" class="button-delete" 
                                              rendered="#{territorioMB.entity.id!=null}" actionListener="#{territorioMB.excluir()}">
-                                <x:confirmation message="#{xmsg['confirmDelete']} - #{territorioMB.entity.nome}" />
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{territorioMB.entity.descricao}" />
                             </p:commandButton>
                         </x:securityArea>
                     </div>

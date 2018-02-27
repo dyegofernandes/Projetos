@@ -17,6 +17,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -45,9 +47,9 @@ public class SolicitacaoAcessoInfoFolha implements Serializable {
     private Usuario usuario;
 
     @NotNull
+    @Column(length = 20)
+    @Enumerated(EnumType.STRING)
     private TrabalhadorTipo tipo = TrabalhadorTipo.SERVIDOR;
-
-    private String matricula;
 
     @NotBlank
     private String telefone;
@@ -64,15 +66,14 @@ public class SolicitacaoAcessoInfoFolha implements Serializable {
     private String observacao;
 
     @NotNull
+    @Column(length = 20)
+    @Enumerated(EnumType.STRING)
     private Situacao situacao = Situacao.NOVA;
 
     @ManyToMany(targetEntity = PerfilInfoFolha.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     private List<PerfilInfoFolha> perfilsSolicitados = new ArrayList<PerfilInfoFolha>();
 
-    @ManyToMany(targetEntity = PerfilInfoFolha.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
-    private List<PerfilInfoFolha> perfilsAprovados = new ArrayList<PerfilInfoFolha>();
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL} )
     @NotNull
     private TermoAceito termoAceito;
 
@@ -92,14 +93,6 @@ public class SolicitacaoAcessoInfoFolha implements Serializable {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
-    }
-
-    public String getMatricula() {
-        return matricula;
-    }
-
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
     }
 
     public String getTelefone() {
@@ -164,14 +157,6 @@ public class SolicitacaoAcessoInfoFolha implements Serializable {
 
     public void setPerfilsSolicitados(List<PerfilInfoFolha> perfilsSolicitados) {
         this.perfilsSolicitados = perfilsSolicitados;
-    }
-
-    public List<PerfilInfoFolha> getPerfilsAprovados() {
-        return perfilsAprovados;
-    }
-
-    public void setPerfilsAprovados(List<PerfilInfoFolha> perfilsAprovados) {
-        this.perfilsAprovados = perfilsAprovados;
     }
 
     public TermoAceito getTermoAceito() {

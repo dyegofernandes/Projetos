@@ -40,17 +40,16 @@
                 </div>
                 
                 <div class="row">
-                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%" >
                         <h:outputLabel for="descricaoObjeto" value="Descrição do Objeto:" />
-                        <p:inputTextarea id="descricaoObjeto" rows="5" cols="192" value ="#{intencaoDeRegistroDePrecoMB.descricaoObjeto}"
-                                         disabled="true" />
+                        <p:inputTextarea id="descricaoObjeto" rows="5" cols="192" value ="#{intencaoDeRegistroDePrecoMB.descricaoObjeto}" styleClass="form-control"  />
                     </div>
                 </div>
                 
                 <div class="row">
                     <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
                         <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
-                                     var="itemLicitacao" rowIndexVar="index" id="dataTableItemLicitacao" widgetVar="dataTableItemLicitacaoWidget" styleClass="table-responsive"
+                                     var="itemLicitacao" rowIndexVar="index" id="dataTableItemLicitacao" widgetVar="dataTableItemLicitacaoWidget" styleClass="table-responsive tableItem"
                                      value="#{intencaoDeRegistroDePrecoMB.itens}" >
                             <p:column styleClass="uix-datatable-index" width="5%">
                                 <h:outputText value="#{index+1}"/>
@@ -86,7 +85,7 @@
                 
                 <div class="row">
 
-                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12" style="width: 30%">
                         <h:outputLabel for="dataDaManifestacao" value="* #{msg['intencaoDeRegistroDePreco.dataDaManifestacao']}:" />
                         <p:calendar id="dataDaManifestacao" value="#{intencaoDeRegistroDePrecoMB.entity.dataDaManifestacao}" 
                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar" disabled="true" >

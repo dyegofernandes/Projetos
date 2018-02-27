@@ -9,10 +9,15 @@
     <h:form id="formCreatePais" >
         <x:modalMessages autoUpdate="true"/>
         <h:panelGroup rendered="#{paisMB.renderizarFormulario}">
-            
+
             <p:fieldset>
                 <div class="container-fluid">
                     <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 30%">
+                            <h:outputLabel for="codigo" value="#{msg['pais.codigo']}:" />
+                            <p:inputMask id="codigo" value="#{paisMB.entity.codigo}" mask="999"  styleClass="form-control" 
+                                         readonly="#{paisMB.somenteLeitura}"/>
+                        </div>
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 30%">
                             <h:outputLabel for="nome" value="* #{msg['pais.nome']}:" />
                             <p:inputText id="nome" value="#{paisMB.entity.nome}" maxlength="200"  styleClass="form-control" 
@@ -23,6 +28,14 @@
                             <p:inputMask id="sigla" value="#{paisMB.entity.sigla}" mask="aaa"  styleClass="form-control"  
                                          readonly="#{paisMB.somenteLeitura}" style="text-transform: uppercase"/>
                         </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 70%">
+                            <h:outputLabel for="nacionalidade" value="#{msg['pais.nacionalidade']}:" />
+                            <p:inputText id="nacionalidade" value="#{paisMB.entity.nacionalidade}" maxlength="200"  styleClass="form-control" 
+                                         readonly="#{paisMB.somenteLeitura}"/>
+                        </div>
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel value="" />
                             <div class="checkbox">
@@ -31,13 +44,7 @@
                                     #{msg['pais.ativo']}
                                 </label>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
-                            <h:outputLabel for="nacionalidade" value="#{msg['pais.nacionalidade']}:" />
-                            <p:inputText id="nacionalidade" value="#{paisMB.entity.nacionalidade}" maxlength="200"  styleClass="form-control" 
-                                         readonly="#{paisMB.somenteLeitura}"/>
+                            Ative o item para ser usado nos cadastros
                         </div>
                     </div>
                 </div>

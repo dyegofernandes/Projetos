@@ -7,12 +7,13 @@
 
 
     <h:form id="formCreateSolicitacaoAcessoInfoFolha" >
-        <p:remoteCommand autoRun="true" oncomplete="PF('widgetTermoDetail').show();" process="@this"/>
+        <p:remoteCommand autoRun="true" oncomplete="PF('widgetTermoDetail').show();" process="@this"
+                         rendered="#{solicitacaoAcessoInfoFolhaMB.entity.termoAceito==null}"/>
         <x:modalMessages autoUpdate="true"/>
         <p:fieldset legend="#{xmsg['generalData']}">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="row" >
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" >
                         <h:outputLabel for="usuario" value="* #{msg['solicitacaoAcessoSFP.usuario']}:" />
                         <p:inputText id="usuario" value="#{solicitacaoAcessoInfoFolhaMB.entity.usuario}" styleClass="form-control" readonly="true" >
                             <x:initializer/>
@@ -49,16 +50,15 @@
                         </p:inputText>
 
                     </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="dataAtendimento" value="#{msg['solicitacaoAcessoInfoFolha.dataAtendimento']}:" />
-
-
-                        <p:calendar id="dataAtendimento" value="#{solicitacaoAcessoInfoFolhaMB.entity.dataAtendimento}" 
-                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
-                            <x:mask/>
-                        </p:calendar>
-                    </div>
                     <x:securityArea rolesAllowed="solicitacaoAcessoInfoFolha.sead">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dataAtendimento" value="#{msg['solicitacaoAcessoInfoFolha.dataAtendimento']}:" />
+                            <p:calendar id="dataAtendimento" value="#{solicitacaoAcessoInfoFolhaMB.entity.dataAtendimento}" 
+                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                <x:mask/>
+                            </p:calendar>
+                        </div>
+
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="situacao" value="* Situação:" />
                             <h:selectOneMenu id="situacao" value="#{solicitacaoAcessoInfoFolhaMB.entity.situacao}"  styleClass="form-control" >
@@ -91,17 +91,6 @@
                 </f:selectItems>
             </h:selectManyCheckbox>
         </p:fieldset>
-        <x:securityArea rolesAllowed="solicitacaoAcessoInfoFolha.sead">
-            <p:fieldset legend="Perfis Liberados para Acesso ao InfoFolha" >
-                <h:selectManyCheckbox value="#{solicitacaoAcessoInfoFolhaMB.entity.perfilsAprovados}" converter="entityConverter" styleClass="checkbox">
-                    <x:initializer/>
-                    <x:spread columns="3"/>
-                    <f:selectItems value="#{findAllBean.get(classMB.perfilInfoFolha)}" 
-                                   var="perfil"
-                                   itemLabel="#{perfil.nome} - #{perfil.descricao}"/>
-                </h:selectManyCheckbox>
-            </p:fieldset>
-        </x:securityArea>
 
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">
@@ -123,7 +112,7 @@
             <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
                 <p:textEditor widgetVar="descricao" value="#{solicitacaoAcessoInfoFolhaMB.termoResponsabilidadeAtivo.descricao}"  style="margin-bottom:10px" readonly="true"
                               >
-                    <f:facet name="toolbar">
+                    <f:facet name="toolbar" >
                         <span class="ql-formats">
                             <button class="ql-bold"></button>
                             <button class="ql-italic"></button>

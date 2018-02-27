@@ -1,0 +1,123 @@
+package br.com.weblicita.bo.cadastro;
+
+import com.xpert.core.crud.AbstractBusinessObject;
+import br.com.weblicita.dao.cadastro.CargoDAO;
+import com.xpert.core.validation.UniqueField;
+import com.xpert.core.exception.BusinessException;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import br.com.weblicita.modelo.cadastro.Cargo;
+import br.com.weblicita.modelo.cadastro.Item;
+import br.com.weblicita.modelo.cadastro.Orgao;
+import br.com.weblicita.modelo.cadastro.RubricaOrcamentaria;
+import br.com.weblicita.modelo.controleacesso.Usuario;
+import br.com.weblicita.util.SessaoUtils;
+import br.com.weblicita.util.Utils;
+import com.xpert.core.validation.UniqueFields;
+import com.xpert.persistence.query.Restrictions;
+import java.util.Date;
+
+/**
+ *
+ * @author Juniel
+ */
+@Stateless
+public class CargoBO extends AbstractBusinessObject<Cargo> {
+
+    @EJB
+    private CargoDAO cargoDAO;
+
+    @Override
+    public CargoDAO getDAO() {
+        return cargoDAO;
+    }
+
+    @Override
+    public List<UniqueField> getUniqueFields() {
+        return new UniqueFields()
+                .add("codigo", "orgao").add("nome", "orgao");
+    }
+
+    @Override
+    public void validate(Cargo cargo) throws BusinessException {
+    }
+
+    @Override
+    public boolean isAudit() {
+        return true;
+    }
+
+    public List<Cargo> cargosPeloNome(String nome) {
+        Restrictions restrictions = new Restrictions();
+
+        Usuario usuarioAtual = SessaoUtils.getUser();
+
+        restrictions.add("ativo", true);
+
+        restrictions.add("orgao", usuarioAtual.getOrgao());
+
+        if (!Utils.isNullOrEmpty(nome)) {
+            restrictions.equals("UPPER(TRANSLATE(nome,'ÁÀÂÃÄáàâãäÉÈÊËéèêëÍÌÎÏíìîïÓÒÕÔÖóòôõöÚÙÛÜúùûüÇç','AAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUUuuuuCc'))",
+                    Utils.removerAcentos(nome).toUpperCase());
+        }
+
+        return getDAO().list(restrictions, "nome");
+    }
+
+    public Cargo cargoPeloNome(String nome) {
+        Restrictions restrictions = new Restrictions();
+
+        Usuario usuarioAtual = SessaoUtils.getUser();
+
+        restrictions.add("ativo", true);
+
+        restrictions.add("orgao", usuarioAtual.getOrgao());
+
+        if (!Utils.isNullOrEmpty(nome)) {
+            restrictions.equals("UPPER(TRANSLATE(nome,'ÁÀÂÃÄáàâãäÉÈÊËéèêëÍÌÎÏíìîïÓÒÕÔÖóòôõöÚÙÛÜúùûüÇç','AAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUUuuuuCc'))",
+                    Utils.removerAcentos(nome).toUpperCase());
+        } else {
+            return null;
+        }
+
+        return getDAO().unique(restrictions);
+    }
+
+    public String gerarCodigo() {
+//IT.ANO.10 
+        String codigo = "CA.";
+
+        String anoAtual = Utils.getAno(new Date());
+
+        Long id = (Long) getDAO().getQueryBuilder().from(Cargo.class).add("orgao", SessaoUtils.getUser().getOrgao()).max("id");
+
+        Cargo cargo = getDAO().unique("id", id);
+
+        if (cargo != null) {
+            String[] codigoTemp = new String[3];
+            if (Utils.isNullOrEmpty(cargo.getCodigo())) {
+                codigo = codigo.concat(anoAtual).concat(".").concat(Utils.inserirZeroDireita("1", 10));
+            } else {
+                codigoTemp = cargo.getCodigo().split("\\.");
+
+                String anoOrgao = codigoTemp[1];
+
+                Integer sequencial = new Integer(codigoTemp[2]);
+
+                if (anoAtual.equals(anoOrgao)) {
+                    sequencial++;
+                    codigo = codigo.concat(anoOrgao).concat(".").concat(Utils.inserirZeroDireita(sequencial.toString(), 10));
+                } else {
+                    codigo = codigo.concat(anoAtual).concat(".").concat(Utils.inserirZeroDireita("1", 10));
+                }
+            }
+
+        } else {
+            codigo = codigo.concat(anoAtual).concat(".").concat(Utils.inserirZeroDireita("1", 10));
+        }
+
+        return codigo;
+    }
+
+}

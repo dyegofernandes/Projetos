@@ -428,6 +428,14 @@ section.conteudo h1.page-header  span{vertical-align: middle;}
     color: #FFFFFF !important;
     border-radius: 0px !important;
 }
+.button-adicionar {
+    height: 33px;
+    width:auto;
+    background: #ed462f !important;
+    border: 2px #cf3b28 solid !important;
+    color: #FFFFFF !important;
+    border-radius: 0px !important;
+}
 .div-audit {
     width: 100%;
     text-align: right;
@@ -435,13 +443,13 @@ section.conteudo h1.page-header  span{vertical-align: middle;}
 }
 .aLinkIncluir:link {
     color: red;
-    text-decoration: none;
+    text-decoration: underline;
     font-weight: bold;
     font-size: 	 14px;
 }
 .aLinkIncluir:visited {
     color: red;
-    text-decoration: none;
+    text-decoration: underline;
     font-weight: bold;
     font-size: 	 14px;
 }
@@ -453,7 +461,7 @@ section.conteudo h1.page-header  span{vertical-align: middle;}
 }
 .aLinkIncluir:active {
     color: red;
-    text-decoration: none;
+    text-decoration: underline;
     font-weight: bold;
     font-size: 	 14px;
 } 
@@ -559,6 +567,63 @@ button.dialog-cancel-button.ui-state-default.ui-button.ui-widget.ui-corner-all.u
     float: right;
     background: #ed462f !important;
     border: 2px #cf3b28 solid !important;
+    color: #FFFFFF !important;
+    border-radius: 0px !important;
+}
+.fieldsets .ui-fieldset-legend {
+    background: rgb(225, 217, 225)  !important;
+    border:  0px;
+    width: 100%;
+}
+
+.button-contrato-anexo .ui-button-text-icon-left .ui-button-text{
+    height: 33px;
+    width: 100% !important;
+    background: #ef622f !important;
+    border: 2px #ef622f solid !important;
+    color: #FFFFFF !important;
+    border-radius: 0px !important;
+}
+.button-contrato-anexo .ui-fileupload-buttonbar .ui-button {
+    width: 100% !important;
+}
+.button-contrato-anexo .ui-fileupload-buttonbar {
+    background: transparent;
+}
+.button-contrato-publicacao .ui-button-text-icon-left .ui-button-text {
+    height: 33px;
+    width: 100%;
+    background: #62bd01 !important;
+    border: 2px #427f01 solid !important;
+    color: #FFFFFF !important;
+    border-radius: 0px !important;
+}
+.button-contrato-publicacao .ui-fileupload-buttonbar .ui-button {
+    width: 100% !important;
+}
+.button-contrato-publicacao .ui-fileupload-buttonbar {
+    background: transparent;
+}
+.button-contrato-aditivo .ui-button-text-icon-left .ui-button-text {
+    height: 33px;
+    width: 100%;
+    background: #99291b !important;
+    border: 2px #99291b solid !important;
+    color: #FFFFFF !important;
+    border-radius: 0px !important;
+}
+.button-contrato-aditivo .ui-fileupload-buttonbar .ui-button {
+    width: 100% !important;
+}
+.button-contrato-aditivo .ui-fileupload-buttonbar {
+    background: transparent;
+}
+.button-contrato-save {
+    height: 33px;
+    width: 100%;
+    margin-top: 4px;
+    background: #214afb !important;
+    border: 2px #214afb solid !important;
     color: #FFFFFF !important;
     border-radius: 0px !important;
 }

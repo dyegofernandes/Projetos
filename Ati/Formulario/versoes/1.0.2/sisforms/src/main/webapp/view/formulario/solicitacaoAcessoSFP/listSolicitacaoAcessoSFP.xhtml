@@ -34,44 +34,8 @@
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="Órgão" sortBy="#{solicitacaoAcessoSFP.orgao}"
-                          >
-                    <f:facet name="header">
-                        <h:outputText value="Órgão" />
-                    </f:facet>
-                    <h:outputText value="#{solicitacaoAcessoSFP.orgao}">
-                        <x:initializer/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="#{msg['solicitacaoAcessoSFP.cpf']}" sortBy="#{solicitacaoAcessoSFP.cpf}"
-                          filterBy="#{solicitacaoAcessoSFP.cpf}"   >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['solicitacaoAcessoSFP.cpf']}" />
-                    </f:facet>
-                    <h:outputText value="#{solicitacaoAcessoSFP.cpf}"/>
-                </p:column>
-                <p:column headerText="#{msg['solicitacaoAcessoSFP.matricula']}" sortBy="#{solicitacaoAcessoSFP.matricula}"
-                          filterBy="#{solicitacaoAcessoSFP.matricula}"   >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['solicitacaoAcessoSFP.matricula']}" />
-                    </f:facet>
-                    <h:outputText value="#{solicitacaoAcessoSFP.matricula}"/>
-                </p:column>
 
-                <p:column headerText="#{msg['solicitacaoAcessoSFP.nome']}" sortBy="#{solicitacaoAcessoSFP.nome}"
-                          filterBy="#{solicitacaoAcessoSFP.nome}"   >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['solicitacaoAcessoSFP.nome']}" />
-                    </f:facet>
-                    <h:outputText value="#{solicitacaoAcessoSFP.nome}"/>
-                </p:column>
-                <p:column headerText="#{msg['solicitacaoAcessoSFP.orgao']}" sortBy="#{solicitacaoAcessoSFP.orgao}"
-                          filterBy="#{solicitacaoAcessoSFP.orgao}"   >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['solicitacaoAcessoSFP.orgao']}" />
-                    </f:facet>
-                    <h:outputText value="#{solicitacaoAcessoSFP.orgao}"/>
-                </p:column>
+
                 <p:column headerText="#{msg['solicitacaoAcessoSFP.cargoFuncao']}" sortBy="#{solicitacaoAcessoSFP.cargoFuncao}"
                           filterBy="#{solicitacaoAcessoSFP.cargoFuncao}"   >
                     <f:facet name="header">
@@ -79,13 +43,7 @@
                     </f:facet>
                     <h:outputText value="#{solicitacaoAcessoSFP.cargoFuncao}"/>
                 </p:column>
-                <p:column headerText="#{msg['solicitacaoAcessoSFP.email']}" sortBy="#{solicitacaoAcessoSFP.email}"
-                          filterBy="#{solicitacaoAcessoSFP.email}"   >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['solicitacaoAcessoSFP.email']}" />
-                    </f:facet>
-                    <h:outputText value="#{solicitacaoAcessoSFP.email}"/>
-                </p:column>
+
                 <p:column headerText="#{msg['solicitacaoAcessoSFP.dataEmissao']}" sortBy="#{solicitacaoAcessoSFP.dataEmissao}"
                           filterBy="#{solicitacaoAcessoSFP.dataEmissao}"   style="text-align: center;">
                     <f:facet name="header">

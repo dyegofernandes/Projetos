@@ -1,0 +1,139 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateSolicitacaoAcessoSistema" >
+        <p:remoteCommand autoRun="true" oncomplete="PF('widgetTermoDetail').show();" process="@this"
+                         rendered="#{solicitacaoAcessoSistemaMB.entity.termoAceito==null}"/>
+        <x:modalMessages autoUpdate="true"/>
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="usuario" value="* #{msg['solicitacaoAcessoSistema.usuario']}:" />
+                        <p:inputText id="usuario" value="#{solicitacaoAcessoSistemaMB.entity.usuario}" styleClass="form-control" readonly="true" >
+                            <x:initializer/>
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataEmissao" value="#{msg['solicitacaoAcessoSistema.dataEmissao']}:" />
+                        <p:inputText id="dataEmissao" value="#{solicitacaoAcessoSistemaMB.entity.dataEmissao}" maxlength="150"  styleClass="form-control" 
+                                     readonly="true">
+                            <f:convertDateTime />
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="acessoAoSistema" value="* #{msg['solicitacaoAcessoSistema.acessoAoSistema']}:" />
+                        <h:selectOneMenu id="acessoAoSistema" value="#{solicitacaoAcessoSistemaMB.entity.acessoAoSistema}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.nomeSistema)}" 
+                                           var="nomeSistema"
+                                           itemLabel="#{nomeSistema.descricao}"/>
+                            <p:ajax process="@this" update="panelPerfils" listener="#{solicitacaoAcessoSistemaMB.chanceSistema()}"/>
+
+                        </h:selectOneMenu>
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="telefone" value="* #{msg['solicitacaoAcessoSistema.telefone']}:" />
+                        <p:inputMask id="telefone" value="#{solicitacaoAcessoSistemaMB.entity.telefone}" mask="(99) 9999-9999"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cargoFuncao" value="#{msg['solicitacaoAcessoSistema.cargoFuncao']}:" />
+                        <p:inputText id="cargoFuncao" value="#{solicitacaoAcessoSistemaMB.entity.cargoFuncao}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+
+                    <x:securityArea rolesAllowed="solicitacaoAcessoInfoFolha.sead">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dataAtendimento" value="#{msg['solicitacaoAcessoSistema.dataAtendimento']}:" />
+                            <p:calendar id="dataAtendimento" value="#{solicitacaoAcessoSistemaMB.entity.dataAtendimento}" 
+                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                <x:mask/>
+                            </p:calendar>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="situacao" value="* #{msg['solicitacaoAcessoSistema.situacao']}:" />
+                            <h:selectOneMenu id="situacao" value="#{solicitacaoAcessoSistemaMB.entity.situacao}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.situacao)}" 
+                                               var="situacao"
+                                               itemLabel="#{situacao.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </x:securityArea>
+
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="observacao" value="#{msg['solicitacaoAcessoSistema.observacao']}:" />
+                        <p:inputTextarea id="observacao" value="#{solicitacaoAcessoSistemaMB.entity.observacao}" rows="10" styleClass="form-control"
+                                         cols="50" />
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <h:panelGroup id="panelPerfils">
+            <p:fieldset legend="Perfis Solicitados para Acesso ao InfoFolha" rendered="#{solicitacaoAcessoSistemaMB.entity.acessoAoSistema.num eq 1}">
+                <h:selectManyCheckbox value="#{solicitacaoAcessoSistemaMB.entity.perfilsInfofolha}" converter="entityConverter" styleClass="checkbox">
+                    <x:initializer/>
+                    <x:spread columns="3"/>
+                    <f:selectItems value="#{findAllBean.get(classMB.perfilInfoFolha)}" 
+                                   var="perfil"
+                                   itemLabel="#{perfil.nome} - #{perfil.descricao}">
+
+                    </f:selectItems>
+                </h:selectManyCheckbox>
+            </p:fieldset>
+
+            <p:fieldset legend="Perfis Solicitados para Acesso ao Sistema da Folha de Pagamento - SFP" rendered="#{solicitacaoAcessoSistemaMB.entity.acessoAoSistema.num eq 2}">
+                <h:selectManyCheckbox value="#{solicitacaoAcessoSistemaMB.entity.perfilsSFP}" converter="entityConverter" styleClass="checkbox">
+                    <x:initializer/>
+                    <x:spread columns="3"/>
+                    <f:selectItems value="#{findAllBean.get(classMB.perfilInfoFolha)}" 
+                                   var="perfil"
+                                   itemLabel="#{perfil.nome} - #{perfil.descricao}">
+
+                    </f:selectItems>
+                </h:selectManyCheckbox>
+            </p:fieldset>
+        </h:panelGroup>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="solicitacaoAcessoSistema.create">
+                <p:commandButton process="@form" update="@form" action="#{solicitacaoAcessoSistemaMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="solicitacaoAcessoSistema.audit">
+                <x:audit for="#{solicitacaoAcessoSistemaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+    <p:dialog widgetVar="widgetTermoDetail" header="#{msg['termoResponsabilidade']}" appendTo="@(body)" 
+              modal="true" styleClass="uix-dialog-fluid" closable="false">
+        <div class="row">
+            <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                <p:textEditor widgetVar="descricao" value="#{solicitacaoAcessoSistemaMB.termoResponsabilidadeAtivo.descricao}"  style="margin-bottom:10px" readonly="true"
+                              >
+                    <f:facet name="toolbar" >
+                        <span class="ql-formats">
+                            <button class="ql-bold"></button>
+                            <button class="ql-italic"></button>
+                            <button class="ql-underline"></button>
+                            <button class="ql-strike"></button>
+                        </span>
+                    </f:facet>
+                </p:textEditor>
+                <div class="uix-center">
+                    <p:commandButton process="@this" value="Aceitar Termo de Responsabilidade" actionListener="#{solicitacaoAcessoInfoFolhaMB.aceitar()}" 
+                                     rendered="#{solicitacaoAcessoSistemaMB.termoResponsabilidadeAtivo!=null}"/>
+
+                </div>
+            </div>
+        </div>
+    </p:dialog>
+
+</ui:composition>

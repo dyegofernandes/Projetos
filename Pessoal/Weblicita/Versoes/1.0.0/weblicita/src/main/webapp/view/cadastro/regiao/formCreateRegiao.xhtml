@@ -9,43 +9,35 @@
     <h:form id="formCreateRegiao" >
         <x:modalMessages autoUpdate="true"/>
         <h:panelGroup rendered="#{regiaoMB.renderizarFormulario}">
-            <p:fieldset legend="#{xmsg['generalData']}">
+            <p:fieldset>
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="dataCadastro" value="#{msg['regiao.dataCadastro']}:" />
-                            <p:inputText id="dataCadastro" value="#{regiaoMB.entity.dataCadastro}" maxlength="255"  styleClass="form-control"
-                                         readonly="true">
-                                <f:convertDateTime />
-                            </p:inputText> 
-                        </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 30%">
                             <h:outputLabel for="descricao" value="* #{msg['regiao.descricao']}:" />
                             <p:inputText id="descricao" value="#{regiaoMB.entity.descricao}" maxlength="255"  styleClass="form-control"
                                          readonly="#{regiaoMB.somenteLeitura}"/> 
 
                         </div>
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="ativo" value="#{msg['regiao.ativo']}:" />
-                            <p:inputText id="ativo" value="#{regiaoMB.entity.ativo}" maxlength="255"  styleClass="form-control"
-                                         readonly="true" converter ="yesNoConverter" >
-
-                            </p:inputText> 
-
+                            <h:outputLabel value="" />
+                            <div class="checkbox">
+                                <label>
+                                    <h:selectBooleanCheckbox id="ativo" value="#{regiaoMB.entity.ativo}" readonly="#{regiaoMB.somenteLeitura}" />
+                                    #{msg['regiao.ativo']}
+                                </label>
+                            </div>
                         </div>
-
-
-
                     </div>
                 </div>
             </p:fieldset>
             <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
             <div class="uix-center">
-                <x:securityArea rolesAllowed="regiao.create">
-                    <p:commandButton process="@form" update="@form formFindRegiao" action="#{regiaoMB.save}" value="#{xmsg['save']}" 
-                                     rendered="#{regiaoMB.renderizarCampo}"/>
-                </x:securityArea>
-
+                <div class="div-actions-buttons">
+                    <x:securityArea rolesAllowed="regiao.create">
+                        <p:commandButton process="@form" update="@form formFindRegiao" action="#{regiaoMB.save}" value="#{xmsg['save']}" styleClass="button-save"
+                                         rendered="#{regiaoMB.renderizarCampo}"/>
+                    </x:securityArea>
+                </div>
             </div>
         </h:panelGroup>
 

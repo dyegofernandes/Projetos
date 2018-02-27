@@ -20,13 +20,13 @@
             <div style="float:right;width:390px;" class="container-fluid">
                 <p:panel id="panel" style="background-color: transparent">
                     <h:panelGrid columns="2" width="100%" style="background-color:transparent">
-                        
+
 
                         <h:outputLabel value="#{msg['usuario.userLogin']}:" style="color: #FFFFFF" styleClass="labelField"/>
                         <h:outputLabel value="#{msg['usuario.userPassword']}:" style="color: #FFFFFF" styleClass="labelField"/>
                         <p:inputText id="user" value="#{loginMB.userLogin}" required="true" requiredMessage="#{msg['required.usuario']}" styleClass="form-control"  />
                         <p:password id="password" feedback="false" autocomplete="false" value="#{loginMB.userPassword}" required="true" maxlength="20" requiredMessage="#{msg['required.password']}" styleClass="form-control"/>
-                        
+
                         <h:outputFormat value=""/>
                         <div style="text-align:right;width:100%;margin-top:5px;">
                             <h:link outcome="/esqueciSenha.jsf" value="#{msg['solicitacaoRecuperacaoSenha.esqueciMinhaSenha']}" styleClass="aEsqueci"/>

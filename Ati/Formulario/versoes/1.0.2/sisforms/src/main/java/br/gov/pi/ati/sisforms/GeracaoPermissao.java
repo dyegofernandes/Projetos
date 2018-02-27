@@ -156,20 +156,6 @@ public class GeracaoPermissao {
         create(new Permissao("requisicaoDeMaterial.list", "Materiais", "/view/formulario/requisicaoDeMaterial/listRequisicaoDeMaterial.jsf", true), "formularios.requerimentos");
         create(new Permissao("requisicaoDeMaterial.audit", "Auditoria de Requisicao De Material"), "requisicaoDeMaterial");
         create(new Permissao("requisicaoDeMaterial.delete", "Exclusão de Requisicao De Material"), "requisicaoDeMaterial");
-//Solicitacao Acesso SFP
-        create(new Permissao("solicitacaoAcessoSFP", "Solicitacao Acesso SFP", false), "formularios.Solicitações");
-        create(new Permissao("solicitacaoAcessoSFP.create", "Cadastro de Solicitacao Acesso SFP", "/view/formulario/solicitacaoAcessoSFP/createSolicitacaoAcessoSFP.jsf", false), "solicitacaoAcessoSFP");
-        create(new Permissao("solicitacaoAcessoSFP.list", "Acesso SFP", "/view/formulario/solicitacaoAcessoSFP/listSolicitacaoAcessoSFP.jsf", true), "formularios.Solicitações");
-        create(new Permissao("solicitacaoAcessoSFP.audit", "Auditoria de Solicitacao Acesso SFP"), "solicitacaoAcessoSFP");
-        create(new Permissao("solicitacaoAcessoSFP.delete", "Exclusão de Solicitacao Acesso SFP"), "solicitacaoAcessoSFP");
-
-        //Solicitacao Acesso Info Folha
-        create(new Permissao("solicitacaoAcessoInfoFolha", "Solicitacao Acesso Info Folha", false), "formularios.Solicitações");
-        create(new Permissao("solicitacaoAcessoInfoFolha.create", "Cadastro de Solicitacao Acesso Info Folha", "/view/formulario/solicitacaoAcessoInfoFolha/createSolicitacaoAcessoInfoFolha.jsf", false), "solicitacaoAcessoInfoFolha");
-        create(new Permissao("solicitacaoAcessoInfoFolha.list", "Acesso InfoFolha", "/view/formulario/solicitacaoAcessoInfoFolha/listSolicitacaoAcessoInfoFolha.jsf", true), "formularios.Solicitações");
-        create(new Permissao("solicitacaoAcessoInfoFolha.audit", "Auditoria de Solicitacao Acesso Info Folha"), "solicitacaoAcessoInfoFolha");
-        create(new Permissao("solicitacaoAcessoInfoFolha.delete", "Exclusão de Solicitacao Acesso Info Folha"), "solicitacaoAcessoInfoFolha");
-        create(new Permissao("solicitacaoAcessoInfoFolha.sead", "Acesso SEAD"), "solicitacaoAcessoInfoFolha");
 
         //Relatorio De Viagem
         create(new Permissao("relatorioDeViagem", "Relatorio De Viagem", false), "formularios.relatorios");
@@ -301,6 +287,29 @@ public class GeracaoPermissao {
         create(new Permissao("termo.list", "Termos", "/view/cadastro/termo/listTermo.jsf", true), "cadastro");
         create(new Permissao("termo.audit", "Auditoria de Termo"), "termo");
         create(new Permissao("termo.delete", "Exclusão de Termo"), "termo");
+
+        //Solicitacao Acesso Sistema
+        create(new Permissao("solicitacaoAcessoSistema", "Solicitacao Acesso Sistema", false), "formularios.Solicitações");
+        create(new Permissao("solicitacaoAcessoSistema.create", "Cadastro de Solicitacao Acesso Sistema", "/view/servicos/solicitacaoAcessoSistema/createSolicitacaoAcessoSistema.jsf", false), "solicitacaoAcessoSistema");
+        create(new Permissao("solicitacaoAcessoSistema.list", "Acesso a Sistemas", "/view/servicos/solicitacaoAcessoSistema/listSolicitacaoAcessoSistema.jsf", true), "formularios.Solicitações");
+        create(new Permissao("solicitacaoAcessoSistema.audit", "Auditoria de Solicitacao Acesso Sistema"), "solicitacaoAcessoSistema");
+        create(new Permissao("solicitacaoAcessoSistema.delete", "Exclusão de Solicitacao Acesso Sistema"), "solicitacaoAcessoSistema");
+
+        //Solicitacao Acesso SFP
+        create(new Permissao("solicitacaoAcessoSFP", "Solicitacao Acesso SFP", false), "formularios.Solicitações");
+        create(new Permissao("solicitacaoAcessoSFP.create", "Cadastro de Solicitacao Acesso SFP", "/view/formulario/solicitacaoAcessoSFP/createSolicitacaoAcessoSFP.jsf", false), "solicitacaoAcessoSFP");
+        create(new Permissao("solicitacaoAcessoSFP.list", "Acesso SFP", "/view/formulario/solicitacaoAcessoSFP/listSolicitacaoAcessoSFP.jsf", false), "formularios.Solicitações");
+        create(new Permissao("solicitacaoAcessoSFP.audit", "Auditoria de Solicitacao Acesso SFP"), "solicitacaoAcessoSFP");
+        create(new Permissao("solicitacaoAcessoSFP.delete", "Exclusão de Solicitacao Acesso SFP"), "solicitacaoAcessoSFP");
+        create(new Permissao("solicitacaoAcessoSFP.sead", "Acesso SEAD"), "solicitacaoAcessoSFP");
+
+        //Solicitacao Acesso Info Folha
+        create(new Permissao("solicitacaoAcessoInfoFolha", "Solicitacao Acesso Info Folha", false), "formularios.Solicitações");
+        create(new Permissao("solicitacaoAcessoInfoFolha.create", "Cadastro de Solicitacao Acesso Info Folha", "/view/formulario/solicitacaoAcessoInfoFolha/createSolicitacaoAcessoInfoFolha.jsf", false), "solicitacaoAcessoInfoFolha");
+        create(new Permissao("solicitacaoAcessoInfoFolha.list", "Acesso InfoFolha", "/view/formulario/solicitacaoAcessoInfoFolha/listSolicitacaoAcessoInfoFolha.jsf", false), "formularios.Solicitações");
+        create(new Permissao("solicitacaoAcessoInfoFolha.audit", "Auditoria de Solicitacao Acesso Info Folha"), "solicitacaoAcessoInfoFolha");
+        create(new Permissao("solicitacaoAcessoInfoFolha.delete", "Exclusão de Solicitacao Acesso Info Folha"), "solicitacaoAcessoInfoFolha");
+        create(new Permissao("solicitacaoAcessoInfoFolha.sead", "Acesso SEAD"), "solicitacaoAcessoInfoFolha");
 
         /*
          * Configuracao

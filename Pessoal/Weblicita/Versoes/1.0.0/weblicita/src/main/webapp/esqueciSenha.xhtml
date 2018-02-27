@@ -17,14 +17,14 @@
                 <div class="alert alert-info" role="alert">
                     #{msg['solicitacaoRecuperacaoSenha.informeAbaixoSeuEmailParaInstrucoes']}
                 </div>
-                
+
                 <p:panel id="panel" style="background-color: transparent">
                     <h:panelGrid columns="2" width="100%" style="background-color:transparent">
                         <h:outputLabel value=" #{msg['solicitacaoRecuperacaoSenha.informeSeuEmail']}:" style="color: #FFFFFF" styleClass="labelField"/>
                         <p:inputText value="#{recuperacaoSenhaMB.email}" maxlength="255" style="width: 330px;" />
                     </h:panelGrid>
                 </p:panel>
-                
+
                 <div style="text-align:right;width:100%;margin-top:5px;">
                     <p:commandButton process="@form" update="@form" action="#{recuperacaoSenhaMB.save}" value="#{msg['enviar']}" styleClass="button-send" style="margin-right: 5px"/>
                     <p:button outcome="/index.jsf" value="#{msg['voltar']}" styleClass="button-back" style="margin-right: 20px;" />

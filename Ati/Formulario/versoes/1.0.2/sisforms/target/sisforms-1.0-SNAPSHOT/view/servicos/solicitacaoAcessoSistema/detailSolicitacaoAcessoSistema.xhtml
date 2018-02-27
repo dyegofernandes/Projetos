@@ -1,0 +1,72 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailSolicitacaoAcessoSistema" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['solicitacaoAcessoSistema.usuario']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{solicitacaoAcessoSistemaMB.entity.usuario}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['solicitacaoAcessoSistema.tipo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{solicitacaoAcessoSistemaMB.entity.tipo}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['solicitacaoAcessoSistema.telefone']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{solicitacaoAcessoSistemaMB.entity.telefone}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['solicitacaoAcessoSistema.cargoFuncao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{solicitacaoAcessoSistemaMB.entity.cargoFuncao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['solicitacaoAcessoSistema.dataEmissao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{solicitacaoAcessoSistemaMB.entity.dataEmissao}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['solicitacaoAcessoSistema.dataAtendimento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{solicitacaoAcessoSistemaMB.entity.dataAtendimento}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['solicitacaoAcessoSistema.observacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{solicitacaoAcessoSistemaMB.entity.observacao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['solicitacaoAcessoSistema.situacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{solicitacaoAcessoSistemaMB.entity.situacao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['solicitacaoAcessoSistema.acessoAoSistema']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{solicitacaoAcessoSistemaMB.entity.acessoAoSistema}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['solicitacaoAcessoSistema.termoAceito']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{solicitacaoAcessoSistemaMB.entity.termoAceito}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['solicitacaoAcessoSistema.senha']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{solicitacaoAcessoSistemaMB.entity.senha}" styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetSolicitacaoAcessoSistemaDetail').hide()" />
+            <x:securityArea rolesAllowed="solicitacaoAcessoSistema.audit">
+                <x:audit for="#{solicitacaoAcessoSistemaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

@@ -1,27 +1,26 @@
 package br.gov.pi.ati.sisforms.mb.formulario;
 
-import br.gov.pi.ati.sisforms.bo.cadastro.OrgaoBO;
+import br.gov.pi.ati.sisforms.bo.cadastro.TermoBO;
 import java.io.Serializable;
 import com.xpert.core.crud.AbstractBaseBean;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.sisforms.bo.formulario.SolicitacaoAcessoSFPBO;
-import br.gov.pi.ati.sisforms.modelo.cadastro.Orgao;
+import br.gov.pi.ati.sisforms.modelo.cadastro.Termo;
+import br.gov.pi.ati.sisforms.modelo.cadastro.TermoAceito;
 import br.gov.pi.ati.sisforms.modelo.controleacesso.Usuario;
 import br.gov.pi.ati.sisforms.modelo.enums.TrabalhadorTipo;
-import br.gov.pi.ati.sisforms.modelo.formulario.ModuloSFP;
-import br.gov.pi.ati.sisforms.modelo.formulario.ModuloSFPOcorrencia;
 import br.gov.pi.ati.sisforms.modelo.formulario.SolicitacaoAcessoSFP;
 import br.gov.pi.ati.sisforms.util.SessaoUtils;
 import br.gov.pi.ati.sisforms.util.Utils;
-import br.gov.pi.ati.sisforms.webservices.inforfolha.server.ServerWebservices;
-import br.gov.pi.ati.sisforms.webservices.inforfolha.server.ServerWebservicesPortType;
 import br.gov.pi.ati.sisforms.webservices.inforfolha.ServidorVO;
-import com.thoughtworks.xstream.XStream;
 import com.xpert.faces.utils.FacesJasper;
+import com.xpert.faces.utils.FacesMessageUtils;
+import java.util.Date;
 import java.util.HashMap;
 import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -35,25 +34,37 @@ public class SolicitacaoAcessoSFPMB extends AbstractBaseBean<SolicitacaoAcessoSF
     private SolicitacaoAcessoSFPBO solicitacaoAcessoSFPBO;
 
     @EJB
-    private OrgaoBO orgaoBO;
+    private TermoBO termoBO;
+
+    private Termo termoResponsabilidadeAtivo;
 
     private Usuario usuarioAtual = SessaoUtils.getUser();
 
+    private boolean renderizarAceite;
+    
     @Override
     public void init() {
-        carregarOrgaoAcesso();
+        renderizarAceite = false;
+        termoResponsabilidadeAtivo = termoBO.termoAtivoPorNome("TERMO DE RESPONSABILIDADE");
+        
         if (getEntity().getId() == null) {
             getEntity().setUsuario(usuarioAtual);
-        } else {
-
+            
+            ServidorVO servidor = Utils.consultarServidorPeloCPF(usuarioAtual.getCpf());
+            
+            if (servidor != null) {
+                getEntity().setTipo(TrabalhadorTipo.SERVIDOR);
+                getEntity().setTelefone(servidor.getTelefone());
+                getEntity().setCargoFuncao(servidor.getCargo());
+            } else {
+                getEntity().setTipo(TrabalhadorTipo.TERCEIRIZADO);
+            }
+            
         }
-
     }
 
     @Override
     public void postSave() {
-        setEntity(new SolicitacaoAcessoSFP());
-        getEntity().setUsuario(usuarioAtual);
 
     }
 
@@ -79,16 +90,16 @@ public class SolicitacaoAcessoSFPMB extends AbstractBaseBean<SolicitacaoAcessoSF
         String imgLogoPI = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/images/brasao2.jpg");
 
         params.put("LOGO_PI", imgLogoPI);
-        params.put("ORGAO", form.getOrgao() != null ? "ÓRGÃO: ".concat(solicitacaoAcessoSFPBO.getDAO().getInitialized(form.getOrgao()).getNome())
+        params.put("ORGAO", getEntity().getUsuario().getOrgao() != null ? "ÓRGÃO: ".concat(solicitacaoAcessoSFPBO.getDAO().getInitialized(getEntity().getUsuario().getOrgao()).getNome())
                 : "ÓRGÃO:");
         params.put("DATA_EMISSAO", Utils.convertDateToString(form.getDataEmissao(), "dd/MM/yyyy HH:mm"));
 
-        params.put("CPF", form.getCpf() != null ? "CPF: ".concat(Utils.format("###.###.###-##", form.getCpf())) : "CPF:");
-        params.put("MATRICULA", form.getMatricula() != null ? "MATRÍCULA: ".concat(form.getMatricula()) : "MATRÍCULA:");
+        params.put("CPF", getEntity().getUsuario().getCpf() != null ? "CPF: ".concat(Utils.format("###.###.###-##", getEntity().getUsuario().getCpf())) : "CPF:");
+        params.put("MATRICULA", getEntity().getUsuario().getMatricula() != null ? "MATRÍCULA: ".concat(getEntity().getUsuario().getMatricula()) : "MATRÍCULA:");
         params.put("TELEFONE", form.getTelefone() != null ? "TELEFONE: ".concat(form.getTelefone()) : "TELEFONE:");
         params.put("CARGO_FUNCAO", form.getCargoFuncao() != null ? "CARGO/FUNÇÃO: ".concat(form.getCargoFuncao()) : "CARGO/FUNÇÃO:");
-        params.put("EMAIL", form.getEmail() != null ? "E-MAIL: ".concat(form.getEmail()) : "E-MAIL:");
-        params.put("NOME", form.getNome() != null ? "NOME: ".concat(form.getNome()) : "NOME:");
+        params.put("EMAIL", getEntity().getUsuario().getEmail() != null ? "E-MAIL: ".concat(getEntity().getUsuario().getEmail()) : "E-MAIL:");
+        params.put("NOME", getEntity().getUsuario().getNome() != null ? "NOME: ".concat(getEntity().getUsuario().getNome()) : "NOME:");
         params.put("ORGAO_ACESSO", "Órgão(s) que o usuário terá acesso: ");
         params.put("OBS", form.getObservacao() != null ? "Observação: ".concat(form.getObservacao()) : "Observação:");
 //        params.put("OP_C_INCLUSAO", form.getCadastro().isInclusao() ? "(X) Inclusão" : "( ) Inclusão");
@@ -132,57 +143,39 @@ public class SolicitacaoAcessoSFPMB extends AbstractBaseBean<SolicitacaoAcessoSF
                 "/WEB-INF/report/formulario/solicitacaoAcessoSFP.jasper", "Solicitacao de acesso SFP" + ".pdf");
 
     }
-
-    public void carregarOrgaoAcesso() {
-        if (getEntity().getId() != null) {
+    
+    public void renderAceitar() {
+        renderizarAceite = true;
+    }
+    
+    public void aceitar() {
+        
+        if (termoResponsabilidadeAtivo != null) {
+            TermoAceito termoAceito = new TermoAceito();
+            termoAceito.setTermo(termoResponsabilidadeAtivo);
+            getEntity().setTermoAceito(termoAceito);
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('widgetTermoDetail').hide();");
+            FacesMessageUtils.info("Termo de Responsabilidade aceito em: ".concat(Utils.convertDateToString(new Date(), "dd/MM/yyy HH:mm")));
         } else {
+            FacesMessageUtils.error("Termo de Responsabilidade é obrigatório!");
         }
+        
     }
-
-    public void carregarDadosServidor() {
-        if (getEntity().getCpf() != null) {
-            if (!getEntity().getCpf().equals("")) {
-                if (getEntity().getTipo() == TrabalhadorTipo.SERVIDOR) {
-
-                    ServidorVO servidorVO = new ServidorVO();
-
-                    XStream xstream = new XStream();
-                    XStream xstreamJason = new XStream();
-
-                    ServerWebservices servicorService = new ServerWebservices();
-                    ServerWebservicesPortType servidor = servicorService.getServerWebservicesPort();
-
-                    String xmlString = servidor.servidorativoxml((getEntity().getCpf().replace(".", "")
-                            .replace("-", "")));
-
-                    System.out.println(xmlString);
-
-                    xstreamJason.alias("servidor", ServidorVO.class);
-                    servidorVO = (ServidorVO) xstreamJason.fromXML(xmlString);
-
-                    getEntity().setCargoFuncao(!servidorVO.getFuncao().equals("") ? servidorVO.getFuncao() : servidorVO.getCargo());
-                    getEntity().setEmail(servidorVO.getEmail());
-                    getEntity().setMatricula(servidorVO.getMatricula());
-                    getEntity().setNome(servidorVO.getNome());
-                    getEntity().setTelefone(servidorVO.getTelefone());
-                    Orgao orgao = orgaoBO.getDAO().unique("codigo", servidorVO.getOrgao());
-                    getEntity().setOrgao(orgao);
-
-                } else {
-
-                }
-            }
-        }
+    
+    public Termo getTermoResponsabilidadeAtivo() {
+        return termoResponsabilidadeAtivo;
     }
-
-    public void limparCampos() {
-        getEntity().setCargoFuncao(null);
-        getEntity().setEmail(null);
-        getEntity().setMatricula(null);
-        getEntity().setNome(null);
-        getEntity().setTelefone(null);
-        getEntity().setOrgao(null);
-        getEntity().setCpf(null);
+    
+    public void setTermoResponsabilidadeAtivo(Termo termoResponsabilidadeAtivo) {
+        this.termoResponsabilidadeAtivo = termoResponsabilidadeAtivo;
     }
-
+    
+    public boolean isRenderizarAceite() {
+        return renderizarAceite;
+    }
+    
+    public void setRenderizarAceite(boolean renderizarAceite) {
+        this.renderizarAceite = renderizarAceite;
+    }
 }

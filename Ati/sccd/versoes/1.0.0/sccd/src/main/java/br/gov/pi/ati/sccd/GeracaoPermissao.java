@@ -107,21 +107,31 @@ public class GeracaoPermissao {
         create(new Permissao("tipoCertificado.delete", "Exclusão de Tipo Certificado"), "tipoCertificado");
 
         //Menu Cadastro
-        create(new Permissao("certificado", "Certificado", true), null);
+        create(new Permissao("contrato", "Contratos", true), null);
 
         //Contrato Cliente
-        create(new Permissao("contratoCliente", "Contrato Cliente", false), "certificado");
+        create(new Permissao("contratoCliente", "Contrato Cliente", false), "contrato");
         create(new Permissao("contratoCliente.create", "Cadastro de Contrato Cliente", "/view/certificado/contratoCliente/createContratoCliente.jsf", false), "contratoCliente");
-        create(new Permissao("contratoCliente.list", "Contratos Clientes", "/view/certificado/contratoCliente/listContratoCliente.jsf", true), "certificado");
+        create(new Permissao("contratoCliente.list", "Clientes", "/view/certificado/contratoCliente/listContratoCliente.jsf", true), "contrato");
         create(new Permissao("contratoCliente.audit", "Auditoria de Contrato Cliente"), "contratoCliente");
         create(new Permissao("contratoCliente.delete", "Exclusão de Contrato Cliente"), "contratoCliente");
 
 //Contrato Fornecedor
-        create(new Permissao("contratoFornecedor", "Contrato Fornecedor", false), "certificado");
+        create(new Permissao("contratoFornecedor", "Contrato Fornecedor", false), "contrato");
         create(new Permissao("contratoFornecedor.create", "Cadastro de Contrato Fornecedor", "/view/certificado/contratoFornecedor/createContratoFornecedor.jsf", false), "contratoFornecedor");
-        create(new Permissao("contratoFornecedor.list", "Contratos Fornecedores", "/view/certificado/contratoFornecedor/listContratoFornecedor.jsf", true), "certificado");
+        create(new Permissao("contratoFornecedor.list", "Fornecedores", "/view/certificado/contratoFornecedor/listContratoFornecedor.jsf", true), "contrato");
         create(new Permissao("contratoFornecedor.audit", "Auditoria de Contrato Fornecedor"), "contratoFornecedor");
         create(new Permissao("contratoFornecedor.delete", "Exclusão de Contrato Fornecedor"), "contratoFornecedor");
+
+        //Autoridade Certificadora
+        create(new Permissao("autoridadeCertificadora", "Autoridade Certificadora", false), "cadastro");
+        create(new Permissao("autoridadeCertificadora.create", "Cadastro de Autoridade Certificadora", "/view/cadastro/autoridadeCertificadora/createAutoridadeCertificadora.jsf", false), "autoridadeCertificadora");
+        create(new Permissao("autoridadeCertificadora.list", "Autoridades Certificadoras", "/view/cadastro/autoridadeCertificadora/listAutoridadeCertificadora.jsf", true), "cadastro");
+        create(new Permissao("autoridadeCertificadora.audit", "Auditoria de Autoridade Certificadora"), "autoridadeCertificadora");
+        create(new Permissao("autoridadeCertificadora.delete", "Exclusão de Autoridade Certificadora"), "autoridadeCertificadora");
+
+        //Menu certificados
+        create(new Permissao("certificado", "Certificado", true), null);
         /*
          * Configuracao
          */

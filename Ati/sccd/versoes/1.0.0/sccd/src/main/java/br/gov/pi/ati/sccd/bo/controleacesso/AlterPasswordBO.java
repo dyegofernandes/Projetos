@@ -68,19 +68,26 @@ public class AlterPasswordBO {
         }
 
         exception.check();
-        //verificar se a senha confere com a confirmacao. Caso uma solicitacao seja enviada, nao e necessario informar senha atual
-        if (solicitacaoRecuperacaoSenha == null) {
-            try {
+        //apenas para os q nao sao LDAP
+        if (usuario.getAutenticacaoLdap() == false) {
+            //verificar se a senha confere com a confirmacao. Caso uma solicitacao seja enviada, nao e necessario informar senha atual
+            if (solicitacaoRecuperacaoSenha == null) {
+                try {
 
-                //verificar se a senha atual está correta
-                if (!usuario.getUserPassword().equals(Encryption.getSHA256(currentPassword))) {
-                    exception.add("business.senhaAtualNaoConfere");
+                    //verificar se a senha atual está correta
+                    if (!usuario.getUserPassword().equals(Encryption.getSHA256(currentPassword))) {
+                        exception.add("business.senhaAtualNaoConfere");
+                    }
+
+                    exception.check();
+                } catch (NoSuchAlgorithmException ex) {
+                    throw new RuntimeException(ex);
                 }
-
-                exception.check();
-            } catch (NoSuchAlgorithmException ex) {
-                throw new RuntimeException(ex);
             }
+
+            exception.check();
+        } else {
+            throw new BusinessException("Este usuário possui autenticação via Active Directory/LDAP, para solicitar uma nova senha entre em contato com o Administrador de Redes");
         }
 
         exception.check();

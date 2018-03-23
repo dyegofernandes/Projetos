@@ -11,13 +11,13 @@
                  >
 
     <ui:define name="body">  
-        <script type='text/javascript' src='http://maps.google.com/maps/api/js?sensor=true;key=AIzaSyB_ePrpjjFMSa5aM_PYxS6aD15uEoa-KQQ'></script>
+        <script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?libraries=places&amp;key=#{constantesMB.chaveApiGoogleMaps}'/>
 
 
         <h:form  id="formMaps">
             <div style="height:100%;width: 100%">
                 
-                <p:poll interval="10" update="denuncias" />
+                <p:poll  interval="10" update="denuncias" />
 
                 <p:dashboard id="board" model="#{dashboardView.model}">
 

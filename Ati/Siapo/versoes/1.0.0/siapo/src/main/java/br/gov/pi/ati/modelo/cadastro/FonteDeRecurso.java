@@ -55,9 +55,9 @@ public class FonteDeRecurso implements Serializable {
 
     private boolean ativo = true;
 
-    @OneToMany(mappedBy = "fonteDeRecurso")
-    @NotAudited
-    private List<DespesaPublica> despesas;
+//    @OneToMany(mappedBy = "fonteDeRecurso")
+//    @NotAudited
+//    private List<DespesaPublica> despesas;
 
     @Override
     public String toString() {
@@ -123,13 +123,6 @@ public class FonteDeRecurso implements Serializable {
         this.ativo = ativo;
     }
 
-    public List<DespesaPublica> getDespesas() {
-        return despesas;
-    }
-
-    public void setDespesas(List<DespesaPublica> despesas) {
-        this.despesas = despesas;
-    }
 
     @Override
     public int hashCode() {

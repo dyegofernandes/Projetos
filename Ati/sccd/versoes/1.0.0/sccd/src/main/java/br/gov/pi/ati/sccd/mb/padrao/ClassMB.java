@@ -1,5 +1,6 @@
 package br.gov.pi.ati.sccd.mb.padrao;
 
+import br.gov.pi.ati.sccd.modelo.cadastro.AutoridadeCertificadora;
 import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificadoAux;
 import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificado;
 import br.gov.pi.ati.sccd.modelo.certificado.ContratoFornecedor;
@@ -94,6 +95,10 @@ public class ClassMB {
 
     public Class getTipoCertificadoAux() {
         return TipoCertificadoAux.class;
+    }
+
+    public Class getAutoridadeCertificadora() {
+        return AutoridadeCertificadora.class;
     }
 
 }

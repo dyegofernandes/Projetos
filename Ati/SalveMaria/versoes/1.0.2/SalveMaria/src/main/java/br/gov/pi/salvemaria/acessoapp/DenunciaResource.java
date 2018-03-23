@@ -85,197 +85,142 @@ public class DenunciaResource {
         
         TipoDenuncia tipo = Utils.tipoDenunciaPeloNome(denunciaVO.getTipo());
         
-        if (tipo == TipoDenuncia.DENUNCIA) {
-            estado = estadoBO.estadoPorNome("Piauí");
-            cidade = cidadeBO.cidadePeloNomeEestado(denunciaVO.getCidade(), estado);
-            bairro = bairroBO.bairroPeloNomeECidade(denunciaVO.getBairro(), cidade);
-            
-            if (denunciaVO.getDescricao() != null) {
-                denuncia.setDescricao(denunciaVO.getDescricao());
-            } else {
-                denuncia.setDescricao("Denúncia feita através do preenchimento do Formulário no Celular!");
-            }
-            
-            if (denunciaVO.getHoraDenuncia() != null) {
-                if (!denunciaVO.getHoraDenuncia().equals("")) {
-                    denuncia.setHoraDenuncia(Utils.convertStringToDate(denunciaVO.getHoraDenuncia(), "HH:mm:ss"));
+        if (Utils.isNullOrEmpty(json)) {
+            return Response.status(503).entity("String Json vazia!").header("CustomHeader", "CustomValue").build();
+        } else {
+            if (tipo != null) {
+                estado = estadoBO.estadoPorNome("Piauí");
+                cidade = cidadeBO.cidadePeloNomeEestado(denunciaVO.getCidade(), estado);
+                bairro = bairroBO.bairroPeloNomeECidade(denunciaVO.getBairro(), cidade);
+                
+                if (bairro == null) {
+                    bairro = bairroBO.bairrosPrincipalPela(cidade);
+                    
+                    endereco.setComplemento((endereco.getComplemento() != null ? endereco.getComplemento() : "")
+                            .concat(" O bairro:".concat(denunciaVO.getBairro()).
+                                    concat(" não consta na basae de dados!").concat(new Date().toString())));
                 }
-            }
-            
-            if (denunciaVO.getDataDenuncia() != null) {
-                if (!denunciaVO.getDataDenuncia().equals("")) {
-                    denuncia.setDataDenuncia(Utils.convertStringToDate(denunciaVO.getDataDenuncia(), "yy-MM-dd"));
+                
+                if (denunciaVO.getHoraDenuncia() != null) {
+                    if (!denunciaVO.getHoraDenuncia().equals("")) {
+                        denuncia.setHoraDenuncia(Utils.convertStringToDate(denunciaVO.getHoraDenuncia(), "HH:mm:ss"));
+                    }
                 }
-            }
-            
-            denuncia.setObservacao(denunciaVO.getObservacao());
-            
-            if (denunciaVO.getFormaDeViolencia() != null) {
-                denuncia.setFormaDeViolencia(Utils.formaViolenciaPeloNome(denunciaVO.getFormaDeViolencia()));
-            }
-            denuncia.setVitima(denunciaVO.getVitima());
-            if (denunciaVO.getIdadeVitima() != null) {
-                if (!denunciaVO.getIdadeVitima().equals("")) {
+                
+                if (denunciaVO.getDataDenuncia() != null) {
+                    if (!denunciaVO.getDataDenuncia().equals("")) {
+                        denuncia.setDataDenuncia(Utils.convertStringToDate(denunciaVO.getDataDenuncia(), "yy-MM-dd"));
+                    }
+                }
+                
+                denuncia.setObservacao(denunciaVO.getObservacao());
+                
+                if (!Utils.isNullOrEmpty(denunciaVO.getFormaDeViolencia())) {
+                    denuncia.setFormaDeViolencia(Utils.formaViolenciaPeloNome(denunciaVO.getFormaDeViolencia()));
+                }
+                
+                denuncia.setVitima(denunciaVO.getVitima());
+                
+                if (!Utils.isNullOrEmpty(denunciaVO.getIdadeVitima())) {
                     denuncia.setIdadeVitima(new Integer(denunciaVO.getIdadeVitima()));
                 }
-            }
-            
-            denuncia.setAgressor(denunciaVO.getAgressor());
-            if (denunciaVO.getIdadeAgressor() != null) {
-                if (!denunciaVO.getIdadeAgressor().equals("")) {
+                
+                denuncia.setAgressor(denunciaVO.getAgressor());
+                
+                if (!Utils.isNullOrEmpty(denunciaVO.getIdadeAgressor())) {
                     denuncia.setIdadeAgressor(new Integer(denunciaVO.getIdadeAgressor()));
-                }
-            }
-            
-            if (denunciaVO.getDemandante() != null) {
-                denuncia.setDemandante(Utils.demandantePeloNome(denunciaVO.getDemandante()));
-            }
-            
-            if (denunciaVO.getCep() != null) {
-                endereco.setCep(denunciaVO.getCep().length() < 9 ? "64000-000" : denunciaVO.getCep());
-            }
-            
-            endereco.setComplemento(denunciaVO.getComplemento());
-            
-            if (bairro == null) {
-                bairro = bairroBO.bairrosPrincipalPela(cidade);
-                
-                endereco.setComplemento((endereco.getComplemento() != null ? endereco.getComplemento() : "")
-                        .concat(" O bairro:".concat(denunciaVO.getBairro()).
-                                concat(" não consta na basae de dados!").concat(new Date().toString())));
-            }
-            
-            endereco.setBairro(bairro);
-            
-            endereco.setEndereco(denunciaVO.getEndereco());
-            
-            endereco.setNumero(denunciaVO.getNumero());
-            
-            stringDeBusca = stringDeBusca.concat(denunciaVO.getEndereco() != null ? denunciaVO.getEndereco() : "").concat(", ")
-                    .concat(denunciaVO.getNumero() != null ? denunciaVO.getNumero() : "").concat(", ")
-                    .concat(denunciaVO.getBairro()).concat(",").concat(denunciaVO.getCidade()).concat(", ").concat(denunciaVO.getEstado());
-            url = new URL("http://maps.googleapis.com/maps/api/geocode/json?address=BUSCA_PELO_VALOR&sensor=false".
-                    replace("BUSCA_PELO_VALOR", stringDeBusca.replace(" ", "+")));
-            
-            String stringJson = Utils.pegarRetornoUrlGoogle(url);
-            
-            if (stringJson != null) {
-                if (!stringJson.equals("")) {
-                    JSONObject jsonObjTest = new JSONObject(stringJson);
                     
-                    JSONArray jsonArray = jsonObjTest.getJSONArray("results");
-                    
-                    if (jsonArray.length() > 0) {
-                        endereco.setLatitude(Utils.pegarLatitude(stringJson));
-                        endereco.setLongitude(Utils.pegarLongitude(stringJson));
-                    }
                 }
-            }
-            
-        } else {
-            if (tipo == TipoDenuncia.PANICO) {
-                stringDeBusca = stringDeBusca.concat(denunciaVO.getLatitude().replace(",", ".")).concat(",").concat(denunciaVO.getLongitude().replace(",", "."));
-                url = new URL("http://maps.googleapis.com/maps/api/geocode/json?latlng=BUSCA_PELO_VALOR&sensor=false".
-                        replace("BUSCA_PELO_VALOR", stringDeBusca));
-                String stringJson = Utils.pegarRetornoUrlGoogle(url);
                 
-                if (stringJson != null) {
-                    if (!stringJson.equals("")) {
-                        JSONObject jsonObjTest = new JSONObject(stringJson);
-                        JSONArray jsonArray = jsonObjTest.getJSONArray("results");
-                        
-                        if (jsonArray.length() > 0) {
-                            String jsonEndereco = jsonArray.get(0).toString();
-                            JSONObject jsonObj = new JSONObject(jsonEndereco);
-                            estado = estadoBO.estadoPorNome("Piauí");
-                            cidade = cidadeBO.cidadePeloNomeEestado(Utils.enderecoPorNomeAtributoJson(jsonObj.
-                                    getJSONArray("address_components"), "Cidade"), estado);
-                            String bairroMaps = Utils.enderecoPorNomeAtributoJson(jsonObj.
-                                    getJSONArray("address_components"), "Bairro");
-                            bairro = bairroBO.bairroPeloNomeECidade(bairroMaps, cidade);
-                            
-                            if (bairro == null) {
-                                bairro = bairroBO.bairrosPrincipalPela(cidade);
-                                endereco.setComplemento("Bairro: ".concat(bairroMaps != null ? bairroMaps : "").
-                                        concat(" não encontrado no sistema!").concat(new Date().toString()));
-                                if (bairroMaps != null) {
-                                    if (!bairroMaps.equals("")) {
-                                        Bairro bairroNovo = new Bairro();
-                                        bairroNovo.setCidade(cidade);
-                                        bairroNovo.setNome(bairroMaps);
-                                        bairroNovo.setPrincipal(false);
-                                        
-                                        bairroBO.getDAO().saveOrMerge(bairroNovo);
-                                        
-                                        bairro = bairroNovo;
-                                        
-                                        endereco.setComplemento("Bairro: ".concat(bairroMaps != null ? bairroMaps : "").
-                                                concat(" não encontrado e cadastrado!").concat(new Date().toString()));
-                                    }
-                                }
-                                
-                            }
-                            
-                            String cep = Utils.enderecoPorNomeAtributoJson(jsonObj.getJSONArray("address_components"), "Cep");
-                            if (cep != null) {
-                                endereco.setCep(cep.length() < 9 ? cep : "64000-000");
-                            } else {
-                                endereco.setCep("64000-000");
-                            }
-                            
-                            endereco.setEndereco(Utils.enderecoPorNomeAtributoJson(jsonObj.getJSONArray("address_components"), "Endereco"));
-                            String numero = numero = Utils.enderecoPorNomeAtributoJson(jsonObj.getJSONArray("address_components"), "Numero");
-                            if (numero != null) {
-                                endereco.setNumero(numero);
-                            }
-                            
-                        } else {
-                            return Response.status(503).entity("Nenhum resultado encontrado para latitude e longitude informadados!").
-                                    header("CustomHeader", "CustomValue").build();
-                        }
-                        
+                if (!Utils.isNullOrEmpty(denunciaVO.getDemandante())) {
+                    denuncia.setDemandante(Utils.demandantePeloNome(denunciaVO.getDemandante()));
+                }
+                
+                if (!Utils.isNullOrEmpty(denunciaVO.getCep())) {
+                    endereco.setCep(denunciaVO.getCep().length() < 9 ? "64000-000" : denunciaVO.getCep());
+                }
+                
+                endereco.setComplemento(denunciaVO.getComplemento());
+                
+                endereco.setBairro(bairro);
+                
+                endereco.setEndereco(denunciaVO.getEndereco());
+                
+                endereco.setNumero(denunciaVO.getNumero());
+                
+                if (!Utils.isNullOrEmpty(denunciaVO.getLatitude())) {
+                    endereco.setLatitude(denunciaVO.getLatitude());
+                }
+                
+                if (Utils.isNullOrEmpty(denunciaVO.getLongitude())) {
+                    endereco.setLongitude(denunciaVO.getLongitude());
+                }
+                
+                if (tipo == TipoDenuncia.DENUNCIA) {
+                    
+                    if (!Utils.isNullOrEmpty(denunciaVO.getDescricao())) {
+                        denuncia.setDescricao(denunciaVO.getDescricao());
                     } else {
-                        return Response.status(503).entity("String Json vazia!").header("CustomHeader", "CustomValue").build();
+                        denuncia.setDescricao("Denúncia feita através do preenchimento do Formulário no Celular!");
+                    }
+
+                    stringDeBusca = stringDeBusca.concat(denunciaVO.getEndereco() != null ? denunciaVO.getEndereco() : "").concat(", ")
+                            .concat(denunciaVO.getNumero() != null ? denunciaVO.getNumero() : "").concat(", ")
+                            .concat(denunciaVO.getBairro()).concat(",").concat(denunciaVO.getCidade()).concat(", ").concat(denunciaVO.getEstado());
+
+                    url = new URL("http://maps.googleapis.com/maps/api/geocode/json?address=BUSCA_PELO_VALOR".
+                            replace("BUSCA_PELO_VALOR", stringDeBusca.replace(" ", "+")));
+
+                    String stringJson = Utils.pegarRetornoUrlGoogle(url);
+
+                    if (!Utils.isNullOrEmpty(stringJson)) {
+                        JSONObject jsonObjTest = new JSONObject(stringJson);
+
+                        JSONArray jsonArray = jsonObjTest.getJSONArray("results");
+
+                        if (jsonArray.length() > 0) {
+                            endereco.setLatitude(Utils.pegarLatitude(stringJson));
+                            endereco.setLongitude(Utils.pegarLongitude(stringJson));
+                        }
+                    } else {
+                        return Response.status(503).entity("Nenhum resultado encontrado para latitude e longitude informadados!").
+                                header("CustomHeader", "CustomValue").build();
                     }
                 } else {
-                    return Response.status(503).entity("String Json vazia!").header("CustomHeader", "CustomValue").build();
+                    if (tipo == TipoDenuncia.PANICO) {
+                        denuncia.setDescricao("Botão Pânico!! Latidude: ".concat(denunciaVO.getLatitude()).concat(" Longitude: ").concat(denunciaVO.getLongitude()));
+                    }
                 }
                 
-                denuncia.setDescricao("Botão Pânico!! Latidude: ".concat(denunciaVO.getLatitude()).concat(" Longitude: ").concat(denunciaVO.getLongitude()));
+                endereco.setBairro(bairro);
                 
-                endereco.setLatitude(denunciaVO.getLatitude());
-                endereco.setLongitude(denunciaVO.getLongitude());
+                denuncia.setTipo(tipo);
+                denuncia.setEndereco(endereco);
+                denuncia.setImei(denunciaVO.getImei());
+                denuncia.setCpfUsuario(denunciaVO.getCpfUsuario());
+                denuncia.setUnidade(unidadeBO.unidadePeloBairro(bairro, tipo, denuncia.getIdadeVitima(), denuncia.getIdadeAgressor()));
                 
+                try {
+                    List<Arquivo> arquivos = new ArrayList<Arquivo>();
+                    if (denunciaVO.getArquivos() != null) {
+                        for (ArquivoVO arquivoVO : denunciaVO.getArquivos()) {
+                            Arquivo arquivo = new Arquivo();
+                            arquivo.setNome(arquivoVO.getNome());
+                            arquivo.setExtensao(arquivoVO.getExtensao());
+                            arquivo.setConteudo(arquivoVO.getConteudo());
+                            arquivos.add(arquivo);
+                        }
+                    }
+                    denuncia.setArquivos(arquivos);
+                    denunciaBO.getDAO().saveOrMerge(denuncia);
+                    return Response.status(200).entity("Denúncia realizada com Sucesso!").header("CustomHeader", "CustomValue").build();
+                } catch (Exception e) {
+                    return Response.status(412).entity("Campos Obrigatórios não preenchidos! ".concat(e.getMessage())).header("CustomHeader", "CustomValue").build();
+                }
             } else {
                 return Response.status(501).entity("Tipo de Denuncia não existe").header("CustomHeader", "CustomValue").
                         build(); //se o tipo nao for encontrado
             }
-        }
-        
-        endereco.setBairro(bairro);
-        
-        denuncia.setTipo(tipo);
-        denuncia.setEndereco(endereco);
-        denuncia.setImei(denunciaVO.getImei());
-        denuncia.setCpfUsuario(denunciaVO.getCpfUsuario());
-        denuncia.setUnidade(unidadeBO.unidadePeloBairro(bairro, tipo, denuncia.getIdadeVitima(), denuncia.getIdadeAgressor()));
-        
-        try {
-            List<Arquivo> arquivos = new ArrayList<Arquivo>();
-            if (denunciaVO.getArquivos() != null) {
-                for (ArquivoVO arquivoVO : denunciaVO.getArquivos()) {
-                    Arquivo arquivo = new Arquivo();
-                    arquivo.setNome(arquivoVO.getNome());
-                    arquivo.setExtensao(arquivoVO.getExtensao());
-                    arquivo.setConteudo(arquivoVO.getConteudo());
-                    arquivos.add(arquivo);
-                }
-            }
-            denuncia.setArquivos(arquivos);
-            denunciaBO.getDAO().saveOrMerge(denuncia);
-            return Response.status(200).entity("Denúncia realizada com Sucesso!").header("CustomHeader", "CustomValue").build();
-        } catch (Exception e) {
-            return Response.status(412).entity("Campos Obrigatórios não preenchidos! ".concat(e.getMessage())).header("CustomHeader", "CustomValue").build();
         }
         
     }

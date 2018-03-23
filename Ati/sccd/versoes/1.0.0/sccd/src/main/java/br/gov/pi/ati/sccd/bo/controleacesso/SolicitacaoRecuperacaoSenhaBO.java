@@ -138,6 +138,10 @@ public class SolicitacaoRecuperacaoSenhaBO extends AbstractBusinessObject<Solici
         if (usuario.getSituacaoUsuario() == null || usuario.getSituacaoUsuario().equals(SituacaoUsuario.INATIVO)) {
             throw new BusinessException("business.usuarioInativo");
         }
+        
+        if (usuario.getAutenticacaoLdap() == true) {
+            throw new BusinessException("Este usuário possui autenticação via Active Directory/LDAP, para solicitar uma nova senha entre em contato com o Administrador de Redes");
+        }
 
         //inativar anteriores
         inativarSolicitacoes(usuario);

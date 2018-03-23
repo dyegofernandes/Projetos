@@ -58,16 +58,16 @@ public class SolicitacaoAcessoSistemaMB extends AbstractBaseBean<SolicitacaoAces
         termoResponsabilidadeAtivo = termoBO.termoAtivoPorNome("TERMO DE RESPONSABILIDADE");
 
         if (getEntity().getId() == null) {
-            getEntity().setUsuario(usuarioAtual);
 
             ServidorVO servidor = Utils.consultarServidorPeloCPF(usuarioAtual.getCpf());
 
             if (servidor != null) {
+                getEntity().setUsuario(usuarioAtual);
                 getEntity().setTipo(TrabalhadorTipo.SERVIDOR);
                 getEntity().setTelefone(servidor.getTelefone());
                 getEntity().setCargoFuncao(servidor.getCargo());
             } else {
-                getEntity().setTipo(TrabalhadorTipo.TERCEIRIZADO);
+                FacesMessageUtils.error("Acesso Permitido apenas para servidores do Estado!");
             }
 
         }

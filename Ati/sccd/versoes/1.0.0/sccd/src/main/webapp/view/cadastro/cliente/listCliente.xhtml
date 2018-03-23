@@ -20,21 +20,24 @@
                          paginatorTemplate="#{clienteMB.dataModel.paginatorTemplate}"
                          value="#{clienteMB.dataModel}" lazy="true" >
                 <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">
+                        <h:outputText value="" />
+                    </f:facet>
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="#{msg['cliente.tipoPessoa']}" sortBy="#{cliente.tipoPessoa}"
+                <p:column headerText="#{msg['cliente.tipoPessoa']}" sortBy="#{cliente.tipoPessoa}" style="text-align: center;"
                     filterBy="#{cliente.tipoPessoa}"  filterOptions="#{findAllBean.getSelect(classMB.tipoPessoa)}" >
                     <f:facet name="header">
                         <h:outputText value="#{msg['cliente.tipoPessoa']}" />
                     </f:facet>
-                    <h:outputText value="#{cliente.tipoPessoa}"/>
+                    <h:outputText value="#{cliente.tipoPessoa.descricao}"/>
                 </p:column>
                 <p:column headerText="#{msg['cliente.cpfCnpj']}" sortBy="#{cliente.cpfCnpj}"
-                    filterBy="#{cliente.cpfCnpj}"   >
+                    filterBy="#{cliente.cpfCnpj}" style="text-align: center;"  >
                     <f:facet name="header">
                         <h:outputText value="#{msg['cliente.cpfCnpj']}" />
                     </f:facet>
-                    <h:outputText value="#{cliente.cpfCnpj}"/>
+                    <h:outputText value="#{cliente.cpfCnpj}" converter="cnpjConverter"/>
                 </p:column>
                 <p:column headerText="#{msg['cliente.nome']}" sortBy="#{cliente.nome}"
                     filterBy="#{cliente.nome}"   >

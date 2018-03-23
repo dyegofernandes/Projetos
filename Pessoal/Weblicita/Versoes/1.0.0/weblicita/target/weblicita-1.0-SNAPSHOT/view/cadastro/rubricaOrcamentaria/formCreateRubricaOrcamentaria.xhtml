@@ -12,12 +12,20 @@
             <p:fieldset>
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
-                            <h:outputLabel for="orgao" value="* #{msg['rubricaOrcamentaria.orgao']}:" />
-                            <p:inputText id="orgao" value="#{rubricaOrcamentariaMB.entity.orgao}" maxlength="255"  styleClass="form-control" 
-                                         readonly="true" >
-                                <x:initializer/>
-                            </p:inputText>
+                        <div class="row">
+                            <x:securityArea rolesAllowed="orgao.campo">
+                                <div class="form-group col-lg-8 col-md-6 col-sm-6 col-xs-12" >
+                                    <h:outputLabel for="orgao" value="* #{msg['rubricaOrcamentaria.orgao']}:" />
+                                    <h:selectOneMenu id="orgao" value="#{rubricaOrcamentariaMB.entity.orgao}" converter="entityConverter" styleClass="form-control" >
+                                        <f:selectItem itemLabel="#{xmsg['select']}" />
+                                        <f:selectItems value="#{findAllBean.get(classMB.orgao)}" 
+                                                       var="orgao"
+                                                       itemLabel="#{orgao}"/>
+                                        <x:initializer/>
+                                    </h:selectOneMenu>
+                                </div>
+                            </x:securityArea>
+
                         </div>
                     </div>
                     <div class="row">
@@ -28,7 +36,14 @@
                                 <f:validateRegex pattern="^(\d+\.)+?\d+$"/>
                             </p:inputText>
                         </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-8 col-md-6 col-sm-6 col-xs-12" >
+                            <h:outputLabel for="descricao" value="* #{msg['rubricaOrcamentaria.descricao']}:" />
+                            <p:inputText id="descricao" value="#{rubricaOrcamentariaMB.entity.descricao}" maxlength="250"  styleClass="form-control" 
+                                         readonly="#{rubricaOrcamentariaMB.somenteLeitura}"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: auto;">
                             <h:outputLabel value="" />
                             <div class="checkbox">
                                 <label>
@@ -36,14 +51,7 @@
                                     #{msg['rubricaOrcamentaria.ativo']}
                                 </label>
                             </div>
-                            <h:outputText value="Sistema selecionado como ativo poderá ser usado nos cadastros" styleClass="help-block"/>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 100%">
-                            <h:outputLabel for="descricao" value="* #{msg['rubricaOrcamentaria.descricao']}:" />
-                            <p:inputText id="descricao" value="#{rubricaOrcamentariaMB.entity.descricao}" maxlength="250"  styleClass="form-control" 
-                                         readonly="#{rubricaOrcamentariaMB.somenteLeitura}"/>
+                            Ative o item para ser usado nos cadastros
                         </div>
                     </div>
                 </div>

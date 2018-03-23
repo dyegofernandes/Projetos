@@ -32,6 +32,8 @@ public class ContratoClienteMB extends AbstractBaseBean<ContratoCliente> impleme
 
     private List<TipoCertificadoAux> certificados;
 
+    private List<TipoCertificadoAux> certificadosFornecedor;
+
     private TipoCertificadoAux certificadoAdd;
 
     @Override
@@ -48,6 +50,12 @@ public class ContratoClienteMB extends AbstractBaseBean<ContratoCliente> impleme
     public void init() {
         certificadoAdd = new TipoCertificadoAux();
         certificados = new ArrayList<TipoCertificadoAux>();
+        certificadosFornecedor = new ArrayList<TipoCertificadoAux>();
+
+        if (getEntity().getId() != null) {
+            certificadosFornecedor = getDAO().getInitialized(getEntity().getContratoFornecedor().getCertificados());
+            certificados = getDAO().getInitialized(getEntity().getCertificados());
+        }
     }
 
     @Override
@@ -65,24 +73,31 @@ public class ContratoClienteMB extends AbstractBaseBean<ContratoCliente> impleme
     }
 
     public void addCertificado() {
-        if (certificadoAdd.getTipo() != null) {
-            if (certificadoAdd.getValor() != null) {
-                if (certificadoAdd.getValor().doubleValue() > 0) {
-                    if (certificadoJaAdicionado(certificadoAdd.getTipo())) {
-                        FacesMessageUtils.error("Já foi encontrado esse tipo de certificado na lista!");
+        if (getEntity().getContratoFornecedor() != null) {
+            if (certificadoAdd.getTipo() != null) {
+                if (certificadoAdd.getValor() != null) {
+                    if (certificadoAdd.getValor().doubleValue() > 0) {
+                        if (certificadoJaAdicionado(certificadoAdd.getTipo())) {
+                            FacesMessageUtils.error("Já foi encontrado esse tipo de certificado na lista!");
+                        } else {
+                            for (TipoCertificadoAux certificado : certificadosFornecedor) {
+
+                            }
+                            certificados.add(certificadoAdd);
+                            certificadoAdd = new TipoCertificadoAux();
+                        }
                     } else {
-                        certificados.add(certificadoAdd);
-                        certificadoAdd = new TipoCertificadoAux();
+                        FacesMessageUtils.error("Valor deve ser maior que zero!");
                     }
                 } else {
-                    FacesMessageUtils.error("Valor deve ser maior que zero!");
+                    FacesMessageUtils.error("Valor é obrigatório!");
                 }
-            } else {
-                FacesMessageUtils.error("Valor é obrigatório!");
-            }
 
+            } else {
+                FacesMessageUtils.error("Tipo do certificado é obrigatório! Informe o Contrato de Fornecedor!");
+            }
         } else {
-            FacesMessageUtils.error("Tipo do certificado é obrigatório!");
+            FacesMessageUtils.error("Forncedor é obrigatório!");
         }
 
     }
@@ -127,5 +142,32 @@ public class ContratoClienteMB extends AbstractBaseBean<ContratoCliente> impleme
 
     public void setCertificadoAdd(TipoCertificadoAux certificadoAdd) {
         this.certificadoAdd = certificadoAdd;
+    }
+
+    public void chanceFornecedor() {
+        certificados = new ArrayList<TipoCertificadoAux>();
+
+        if (getEntity().getContratoFornecedor() != null) {
+            certificadosFornecedor = getDAO().getInitialized(getEntity().getContratoFornecedor().getCertificados());
+        } else {
+            certificadosFornecedor = new ArrayList<TipoCertificadoAux>();
+        }
+    }
+
+    public List<TipoCertificado> getTiposCertificacos() {
+        if (certificadosFornecedor.size() > 0) {
+            List<TipoCertificado> tipos = new ArrayList<TipoCertificado>();
+            for (TipoCertificadoAux tipo : certificadosFornecedor) {
+                tipos.add(getDAO().getInitialized(tipo.getTipo()));
+            }
+
+            return tipos;
+        }
+
+        return null;
+    }
+
+    public List<ContratoCliente> contratosAtivo() {
+        return getBO().contratosAtivo();
     }
 }

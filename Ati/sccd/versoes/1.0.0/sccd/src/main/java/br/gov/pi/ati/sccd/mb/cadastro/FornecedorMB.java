@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.sccd.bo.cadastro.FornecedorBO;
 import br.gov.pi.ati.sccd.modelo.cadastro.Fornecedor;
+import java.util.List;
 
 /**
  *
@@ -28,5 +29,9 @@ public class FornecedorMB extends AbstractBaseBean<Fornecedor> implements Serial
     @Override
     public String getDataModelOrder() {
         return "id";
+    }
+    
+    public List<Fornecedor> fornecedoresAtivos(){
+        return getBO().fornecedoresAtivos();
     }
 }

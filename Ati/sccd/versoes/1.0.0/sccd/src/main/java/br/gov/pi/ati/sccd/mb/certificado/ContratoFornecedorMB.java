@@ -42,6 +42,10 @@ public class ContratoFornecedorMB extends AbstractBaseBean<ContratoFornecedor> i
     public void init() {
         certificadoAdd = new TipoCertificadoAux();
         certificados = new ArrayList<TipoCertificadoAux>();
+
+        if (getEntity().getId() != null) {
+            certificados = getDAO().getInitialized(getEntity().getCertificados());
+        }
     }
 
     @Override
@@ -115,6 +119,13 @@ public class ContratoFornecedorMB extends AbstractBaseBean<ContratoFornecedor> i
     public void setCertificadoAdd(TipoCertificadoAux certificadoAdd) {
         this.certificadoAdd = certificadoAdd;
     }
-    
-    
+
+    public List<ContratoFornecedor> contratosAtivos() {
+        return getBO().contratosAtivoPeloNome(null);
+    }
+
+    public List<ContratoFornecedor> autocomplete(String nome) {
+        return getBO().contratosAtivoPeloNome(nome);
+    }
+
 }

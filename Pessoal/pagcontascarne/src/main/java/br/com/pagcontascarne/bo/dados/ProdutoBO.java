@@ -2,14 +2,14 @@ package br.com.pagcontascarne.bo.dados;
 
 import com.xpert.core.crud.AbstractBusinessObject;
 import br.com.pagcontascarne.dao.dados.ProdutoDAO;
-import br.com.pagcontascarne.modelo.controleacesso.Usuario;
+import br.com.pagcontascarne.modelo.dados.Convenio;
 import com.xpert.core.validation.UniqueField;
 import com.xpert.core.exception.BusinessException;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.com.pagcontascarne.modelo.dados.Produto;
-import br.com.pagcontascarne.util.SessaoUtils;
+import br.com.pagcontascarne.modelo.vos.FiltrosBusca;
 import br.com.pagcontascarne.util.Utils;
 import com.xpert.core.validation.UniqueFields;
 import com.xpert.persistence.query.Restrictions;
@@ -43,8 +43,7 @@ public class ProdutoBO extends AbstractBusinessObject<Produto> {
         return true;
     }
 
-    public List<Produto> produtosPeloNomeEConvenio(String nome) {
-        Usuario usuarioAtual = SessaoUtils.getUser();
+    public List<Produto> produtosPeloNomeEConvenio(String nome, Convenio convenio) {
         Restrictions restrictions = new Restrictions();
 
         restrictions.add("ativo", true);
@@ -53,10 +52,31 @@ public class ProdutoBO extends AbstractBusinessObject<Produto> {
             restrictions.like("nome_fantasia", nome);
         }
 
-        if (usuarioAtual.getConvenio() != null) {
-            restrictions.add("convenio", usuarioAtual.getConvenio());
+        if (convenio != null) {
+            restrictions.add("convenio", convenio);
+        } else {
+            return null;
         }
 
         return getDAO().list(restrictions, "nome");
+    }
+
+    public List<Produto> listar(FiltrosBusca filtros) {
+        Restrictions restrictions = new Restrictions();
+
+        if (filtros.getConvenio() != null) {
+            restrictions.add("convenio", filtros.getConvenio());
+        }
+
+        if (Utils.isNullOrEmpty(filtros.getNome())) {
+            restrictions.add("produto.nome", filtros.getNome());
+        }
+
+        if (filtros.isAtivo()) {
+            restrictions.add("produto.ativo", filtros.isAtivo());
+        }
+
+        return getDAO().getQueryBuilder().from(Produto.class, "produto").leftJoinFetch("produto.convenio", "convenio")
+                .add(restrictions).orderBy("convenio, produto.nome").getResultList();
     }
 }

@@ -35,7 +35,7 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Boleto implements Serializable {
 
     @Id
-    @SequenceGenerator(schema ="dados",allocationSize = 1, name = "Boleto", sequenceName = "dados.seq_boleto_id")
+    @SequenceGenerator(schema = "dados", allocationSize = 1, name = "Boleto", sequenceName = "dados.seq_boleto_id")
     @GeneratedValue(generator = "Boleto")
     private Long id;
 
@@ -62,7 +62,7 @@ public class Boleto implements Serializable {
     @NotNull
     @Column(length = 20)
     @Enumerated(EnumType.STRING)
-    private TipoRepasse tiporepasse;
+    private TipoRepasse tiporepasse = TipoRepasse.S;
 
     @NotNull
     private Long nossonumero;

@@ -34,10 +34,18 @@
                         </x:securityArea>
                     </div>
                     <div class="div-button-delete">
-                        <x:securityArea rolesAllowed="cargo.delete">
-                            <p:commandButton process="@form" update="formFindCargo formCreateCargo"  value="#{msg['cargo.delete']}" class="button-delete" 
-                                             rendered="#{cargoMB.entity.id!=null}" actionListener="#{cargoMB.excluir()}">
-                                <x:confirmation message="#{xmsg['confirmDelete']} - #{cargoMB.entity.nome}" />
+                        <x:securityArea rolesAllowed="cargo.desativar">
+                            <p:commandButton process="@form" update="formFindCargo formCreateCargo"  value="#{msg['cargo.disable']}" class="button-disable" 
+                                             actionListener="#{cargoMB.desativar()}" rendered="#{cargoMB.habilitarBotaoDesativar()}">
+                                <x:confirmation message="#{msg['confirmDisable']} - #{cargoMB.entity.nome}" />
+                            </p:commandButton>
+                        </x:securityArea>
+                    </div>
+                    <div class="div-button-delete">
+                        <x:securityArea rolesAllowed="cargo.ativar">
+                            <p:commandButton process="@form" update="formFindCargo formCreateCargo"  value="#{msg['cargo.ativar']}" class="button-disable" 
+                                             actionListener="#{cargoMB.ativar()}" rendered="#{cargoMB.habilitarBotaoAtivar()}">
+                                <x:confirmation message="#{msg['confirmEnable']} - #{cargoMB.entity.nome}" />
                             </p:commandButton>
                         </x:securityArea>
                     </div>

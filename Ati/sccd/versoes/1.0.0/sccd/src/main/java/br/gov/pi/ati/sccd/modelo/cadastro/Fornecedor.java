@@ -31,33 +31,25 @@ public class Fornecedor implements Serializable {
 
     @Size(max = 250)
     @NotBlank
-    private String autoridadeCertificadora;
+    private String cnpj;
 
     @Size(max = 250)
     @NotBlank
-    private String emailAutoridadeCertificadora;
-
-    @Size(max = 250)
-    @NotBlank
-    private String autoridadeRegistro;
-
-    @Size(max = 250)
-    @NotBlank
-    private String emailAutoridadeRegistro;
-
-    @Size(max = 50)
-    @NotBlank
-    private String telefoneAutoridadeRegistro;
+    private String nome;
 
     private boolean ativo = true;
 
     @NotAudited
     @OneToMany(mappedBy = "fornecedor")
     private List<ContratoFornecedor> contratos;
+    
+    @NotAudited
+    @OneToMany(mappedBy = "fornecedor")
+    private List<AutoridadeCertificadora> autoridades;
 
     @Override
     public String toString() {
-        return autoridadeCertificadora;
+        return nome;
     }
 
     public Long getId() {
@@ -68,44 +60,20 @@ public class Fornecedor implements Serializable {
         this.id = id;
     }
 
-    public String getAutoridadeCertificadora() {
-        return autoridadeCertificadora;
+    public String getCnpj() {
+        return cnpj;
     }
 
-    public void setAutoridadeCertificadora(String autoridadeCertificadora) {
-        this.autoridadeCertificadora = autoridadeCertificadora;
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
     }
 
-    public String getEmailAutoridadeCertificadora() {
-        return emailAutoridadeCertificadora;
+    public String getNome() {
+        return nome;
     }
 
-    public void setEmailAutoridadeCertificadora(String emailAutoridadeCertificadora) {
-        this.emailAutoridadeCertificadora = emailAutoridadeCertificadora;
-    }
-
-    public String getAutoridadeRegistro() {
-        return autoridadeRegistro;
-    }
-
-    public void setAutoridadeRegistro(String autoridadeRegistro) {
-        this.autoridadeRegistro = autoridadeRegistro;
-    }
-
-    public String getEmailAutoridadeRegistro() {
-        return emailAutoridadeRegistro;
-    }
-
-    public void setEmailAutoridadeRegistro(String emailAutoridadeRegistro) {
-        this.emailAutoridadeRegistro = emailAutoridadeRegistro;
-    }
-
-    public String getTelefoneAutoridadeRegistro() {
-        return telefoneAutoridadeRegistro;
-    }
-
-    public void setTelefoneAutoridadeRegistro(String telefoneAutoridadeRegistro) {
-        this.telefoneAutoridadeRegistro = telefoneAutoridadeRegistro;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public boolean isAtivo() {
@@ -122,6 +90,14 @@ public class Fornecedor implements Serializable {
 
     public void setContratos(List<ContratoFornecedor> contratos) {
         this.contratos = contratos;
+    }
+
+    public List<AutoridadeCertificadora> getAutoridades() {
+        return autoridades;
+    }
+
+    public void setAutoridades(List<AutoridadeCertificadora> autoridades) {
+        this.autoridades = autoridades;
     }
 
     @Override

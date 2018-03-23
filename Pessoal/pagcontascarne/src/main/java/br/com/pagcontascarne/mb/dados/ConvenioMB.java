@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.com.pagcontascarne.bo.dados.ConvenioBO;
 import br.com.pagcontascarne.modelo.dados.Convenio;
+import java.util.List;
 
 /**
  *
@@ -35,5 +36,9 @@ public class ConvenioMB extends AbstractBaseBean<Convenio> implements Serializab
         getEntity().setInsc_est(null);
         getEntity().setNome_fantasia(null);
         getEntity().setRazao_social(null);
+    }
+    
+    public List<Convenio> autocomplete(String nome){
+        return getBO().conveniosPeloNomeOrCnpjOuCpf(nome);
     }
 }

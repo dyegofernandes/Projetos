@@ -22,8 +22,17 @@
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="#{msg['contratoCliente.cliente']}" sortBy="#{contratoCliente.cliente}"
-                       >
+                <p:column headerText="#{msg['contratoCliente.contratoFornecedor']}" sortBy="#{contratoCliente.contratoFornecedor.fornecedor.nome}"
+                          filterBy="#{contratoCliente.contratoFornecedor.fornecedor.nome}">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contratoCliente.contratoFornecedor']}" />
+                    </f:facet>
+                    <h:outputText value="#{contratoCliente.contratoFornecedor.fornecedor}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['contratoCliente.cliente']}" sortBy="#{contratoCliente.cliente.nome}"
+                          filterBy="#{contratoCliente.cliente.nome}">
                     <f:facet name="header">
                         <h:outputText value="#{msg['contratoCliente.cliente']}" />
                     </f:facet>
@@ -50,7 +59,21 @@
                     <f:facet name="header">
                         <h:outputText value="#{msg['contratoCliente.cpfRepresentanteLegal']}" />
                     </f:facet>
-                    <h:outputText value="#{contratoCliente.cpfRepresentanteLegal}"/>
+                    <h:outputText value="#{contratoCliente.cpfRepresentanteLegal}" />
+                </p:column>
+                <p:column headerText="#{msg['contratoCliente.representanteLegalAti']}" sortBy="#{contratoCliente.representanteAti}"
+                    filterBy="#{contratoCliente.representanteAti}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contratoCliente.representanteLegalAti']}" />
+                    </f:facet>
+                    <h:outputText value="#{contratoCliente.representanteAti}"/>
+                </p:column>
+                <p:column headerText="#{msg['contratoCliente.cpfRepresentanteAti']}" sortBy="#{contratoCliente.cpfRepresentanteAti}"
+                    filterBy="#{contratoCliente.cpfRepresentanteAti}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contratoCliente.cpfRepresentanteAti']}" />
+                    </f:facet>
+                    <h:outputText value="#{contratoCliente.cpfRepresentanteAti}"/>
                 </p:column>
                 <p:column headerText="#{msg['contratoCliente.dataInicio']}" sortBy="#{contratoCliente.dataInicio}"
                     filterBy="#{contratoCliente.dataInicio}"   style="text-align: center;">

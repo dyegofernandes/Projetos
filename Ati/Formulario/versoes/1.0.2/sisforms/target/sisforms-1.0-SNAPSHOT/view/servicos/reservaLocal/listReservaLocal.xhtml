@@ -5,7 +5,7 @@
                  xmlns:p="http://primefaces.org/ui"
                  template="/template/mainTemplate.xhtml"
                  xmlns:x="http://xpert.com/faces">
-    <ui:param name="title" value="#{msg['reservaLocal.list']}" />
+    <ui:param name="title" value="#{msg['Lista de Reservas']}" />
     <ui:define name="body">
         <ui:include src="menuReservaLocal.xhtml" />
         <h:form id="formListReservaLocal">
@@ -15,76 +15,78 @@
                                      widgetVar="dataTableReservaLocalWidget"  />
 
             <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
-                         var="reservaLocal" rowIndexVar="index" id="dataTableReservaLocal" widgetVar="dataTableReservaLocalWidget" styleClass="table-responsive"
+                         var="reserva" rowIndexVar="index" id="dataTableReservaLocal" widgetVar="dataTableReservaLocalWidget" styleClass="table-responsive"
                          currentPageReportTemplate="#{reservaLocalMB.dataModel.currentPageReportTemplate}"
                          paginatorTemplate="#{reservaLocalMB.dataModel.paginatorTemplate}"
                          value="#{reservaLocalMB.dataModel}" lazy="true" >
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="#{msg['reservaLocal.localReserva']}" sortBy="#{reservaLocal.localReserva.nome}"
-                          filterBy="#{reservaLocal.localReserva.nome}" >
+                <p:column headerText="#{msg['Título']}" sortBy="#{reserva.titulo}"
+                    filterBy="#{reserva.titulo}"   >
                     <f:facet name="header">
-                        <h:outputText value="#{msg['reservaLocal.localReserva']}" />
+                        <h:outputText value="#{msg['Título']}" />
                     </f:facet>
-                    <h:outputText value="#{reservaLocal.localReserva}">
+                    <h:outputText value="#{reserva.titulo}"/>
+                </p:column>
+                <p:column headerText="#{msg['Data Inicial']}" sortBy="#{reserva.dataInicio}"
+                    filterBy="#{reserva.dataInicio}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['Data Inicial']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{reserva.dataInicio}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['Data Final']}" sortBy="#{reserva.dataFinal}"
+                    filterBy="#{reserva.dataFinal}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['Data Final']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{reserva.dataFinal}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['Local']}" sortBy="#{reserva.local}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['Local']}" />
+                    </f:facet>
+                    <h:outputText value="#{reserva.local}">
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{msg['reservaLocal.nomeSolicitante']}" sortBy="#{reservaLocal.nomeSolicitante}"
-                    filterBy="#{reservaLocal.nomeSolicitante}"   >
+                <p:column headerText="#{msg['Solicitante']}" sortBy="#{reserva.solicitante}"
+                    filterBy="#{reserva.solicitante}"   >
                     <f:facet name="header">
-                        <h:outputText value="#{msg['reservaLocal.nomeSolicitante']}" />
+                        <h:outputText value="#{msg['Solicitante']}" />
                     </f:facet>
-                    <h:outputText value="#{reservaLocal.nomeSolicitante}"/>
+                    <h:outputText value="#{reserva.solicitante}"/>
                 </p:column>
-                <p:column headerText="#{msg['reservaLocal.dataInicio']}" sortBy="#{reservaLocal.dataInicio}"
-                    filterBy="#{reservaLocal.dataInicio}"   style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['reservaLocal.dataInicio']}" />
-                        <x:dateFilter />
-                    </f:facet>
-                    <h:outputText value="#{reservaLocal.dataInicio}">
-                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
-                    </h:outputText>
-                </p:column>
-                
-                <p:column headerText="#{msg['reservaLocal.dataFinal']}" sortBy="#{reservaLocal.dataFinal}"
-                    filterBy="#{reservaLocal.dataFinal}"   style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['reservaLocal.dataFinal']}" />
-                        <x:dateFilter/>
-                    </f:facet>
-                    <h:outputText value="#{reservaLocal.dataFinal}">
-                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
-                    </h:outputText>
-                </p:column>
-                
-                <p:column headerText="#{msg['reservaLocal.observacao']}" sortBy="#{reservaLocal.observacao}"
-                    filterBy="#{reservaLocal.observacao}"   >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['reservaLocal.observacao']}" />
-                    </f:facet>
-                    <h:outputText value="#{reservaLocal.observacao}"/>
-                </p:column>
+               
                 <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    
                     <f:facet name="header">
                         <h:outputText value="#{xmsg['actions']}"/>
                     </f:facet>
                     <p:commandButton oncomplete="PF('widgetReservaLocalDetail').show();"  icon="ui-icon-zoomin" 
-                                     process="@form" update=":formDetailReservaLocal" title="#{xmsg['detail']}" >
-                        <f:setPropertyActionListener value="#{reservaLocal}" target="#{reservaLocalMB.entity}" />
+                                     process="@form" update=":formDetailReservaLocal" title="#{xmsg['detail']}" actionListener="#{reservaLocalMB.carregar_arquivos(reserva)}" >
+                        <f:setPropertyActionListener value="#{reserva}" target="#{reservaLocalMB.reserva}" />
                     </p:commandButton>
-                    <x:securityArea rolesAllowed="reservaLocal.create">
-                        <p:button icon="ui-icon-pencil" outcome="createReservaLocal" title="#{xmsg['edit']}">
-                            <f:param name="id" value="#{reservaLocal.id}" />
-                        </p:button>
-                    </x:securityArea>
+                    
+                   
+                    <p:commandButton oncomplete="PF('widgetReservaLocalUpdate').show();"  icon="ui-icon-pencil" 
+                                     process="@form" update=":formUpdateReservaLocal" title="#{xmsg['edit']}" actionListener="#{reservaLocalMB.carregar_arquivos(reserva)}" >
+                        <f:setPropertyActionListener value="#{reserva}" target="#{reservaLocalMB.reserva}" />
+                    </p:commandButton>
+                    
                     <x:securityArea rolesAllowed="reservaLocal.delete">
                         <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
-                                         action="#{reservaLocalMB.delete}" >
-                            <f:setPropertyActionListener value="#{reservaLocal.id}" target="#{reservaLocalMB.id}" />
-                            <x:confirmation message="#{xmsg['confirmDelete']} - #{reservaLocal}" />
+                                         action="#{reservaLocalMB.delete()}" >
+                            <f:setPropertyActionListener value="#{reserva.id}" target="#{reservaLocalMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{reserva}" />
                         </p:commandButton>
                     </x:securityArea>
                 </p:column>
@@ -95,8 +97,13 @@
                 </x:securityArea>
             </div>  
         </h:form>
+        
+        <p:dialog widgetVar="widgetReservaLocalUpdate" header="#{msg['Atualizar']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                <ui:include src="formUpdateReservaLocal.xhtml" />
+        </p:dialog>
 
-        <p:dialog widgetVar="widgetReservaLocalDetail" header="#{msg['reservaLocal.detail']}" appendTo="@(body)" 
+        <p:dialog widgetVar="widgetReservaLocalDetail" header="#{msg['Detalhes']}" appendTo="@(body)" 
                   modal="true" styleClass="uix-dialog-fluid" >
                   <ui:include src="detailReservaLocal.xhtml" />
         </p:dialog>

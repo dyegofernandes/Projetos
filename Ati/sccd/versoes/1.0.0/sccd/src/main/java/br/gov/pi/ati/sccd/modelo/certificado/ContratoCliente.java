@@ -54,7 +54,16 @@ public class ContratoCliente implements Serializable {
     private String representanteLegal;
 
     @Size(max = 50)
+    @NotBlank
     private String cpfRepresentanteLegal;
+
+    @Size(max = 250)
+    @NotBlank
+    private String representanteAti;
+
+    @Size(max = 50)
+    @NotBlank
+    private String cpfRepresentanteAti;
 
     @Temporal(TemporalType.DATE)
     @NotNull
@@ -152,6 +161,22 @@ public class ContratoCliente implements Serializable {
 
     public void setContratoFornecedor(ContratoFornecedor contratoFornecedor) {
         this.contratoFornecedor = contratoFornecedor;
+    }
+
+    public String getRepresentanteAti() {
+        return representanteAti;
+    }
+
+    public void setRepresentanteAti(String representanteAti) {
+        this.representanteAti = representanteAti;
+    }
+
+    public String getCpfRepresentanteAti() {
+        return cpfRepresentanteAti;
+    }
+
+    public void setCpfRepresentanteAti(String cpfRepresentanteAti) {
+        this.cpfRepresentanteAti = cpfRepresentanteAti;
     }
 
     @Override

@@ -161,16 +161,14 @@
 
                 <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                              var="denuncia" rowIndexVar="index" id="dataTableDenuncia" widgetVar="dataTableDenunciaWidget" styleClass="table-responsive"
-                             currentPageReportTemplate="#{denunciaMB.dataModel.currentPageReportTemplate}"
-                             paginatorTemplate="#{denunciaMB.dataModel.paginatorTemplate}"
                              value="#{denunciaMB.denuncias}">
-                    <p:column styleClass="uix-datatable-index">
+                    <p:column styleClass="uix-datatable-index" sortBy="#{denuncia.id}">
                         <f:facet name="header">
                             <h:outputText value="Código" />
                         </f:facet>
                         <h:outputText value="#{denuncia.id}"/>
                     </p:column>
-                    <p:column headerText="Unidade" >
+                    <p:column headerText="Unidade" sortBy="#{denuncia.unidade}">
                         <f:facet name="header">
                             <h:outputText value="Unidade" />
                         </f:facet>
@@ -179,7 +177,7 @@
                         </h:outputText>
                     </p:column>  
 
-                    <p:column headerText="#{msg['denuncia.dataDenuncia']}" style="text-align: center;">
+                    <p:column headerText="#{msg['denuncia.dataDenuncia']}" style="text-align: center;" sortBy="#{denuncia.dataDenuncia}">
                         <f:facet name="header">
                             <h:outputText value="#{msg['denuncia.dataDenuncia']}" />                
                         </f:facet>
@@ -187,7 +185,7 @@
                             <f:convertDateTime />
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="#{msg['denuncia.horaDenuncia']}" style="text-align: center;">
+                    <p:column headerText="#{msg['denuncia.horaDenuncia']}" style="text-align: center;" sortBy="#{denuncia.horaDenuncia}">
                         <f:facet name="header">
                             <h:outputText value="#{msg['denuncia.horaDenuncia']}" />
                         </f:facet>
@@ -195,68 +193,68 @@
                             <f:convertDateTime pattern="HH:mm"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="Tempo Atend.(min)" >
+                    <p:column headerText="Tempo Atend.(min)" sortBy="#{denuncia.tempoAtendimento}" >
                         <f:facet name="header">
                             <h:outputText value="Tempo Atend.(min)" />
                         </f:facet>
                         <h:outputText value="#{denuncia.tempoAtendimento}"/>
                     </p:column>
-                    <p:column headerText="Tempo Encerram.(min)" >
+                    <p:column headerText="Tempo Encerram.(min)" sortBy="#{denuncia.tempoEncerramento}">
                         <f:facet name="header">
                             <h:outputText value="Tempo Encerram.(min)" />
                         </f:facet>
                         <h:outputText value="#{denuncia.tempoEncerramento}"/>
                     </p:column>
-                    <p:column headerText="#{msg['denuncia.endereco']}" >
+                    <p:column headerText="#{msg['denuncia.endereco']}" sortBy="#{denuncia.endereco}">
                         <f:facet name="header">
                             <h:outputText value="#{msg['denuncia.endereco']}" />
                         </f:facet>
                         <h:outputText value="#{denuncia.endereco}, #{denuncia.endereco.numero}"/>
                     </p:column>
-                    <p:column headerText="#{msg['denuncia.endereco.bairro']}" >
+                    <p:column headerText="#{msg['denuncia.endereco.bairro']}" sortBy="#{denuncia.endereco.bairro}">
                         <f:facet name="header">
                             <h:outputText value="Bairro" />
                         </f:facet>
                         <h:outputText value="#{denuncia.endereco.bairro}"/>
                     </p:column>
-                    <p:column headerText="#{msg['denuncia.endereco.bairro.cidade']}" >
+                    <p:column headerText="#{msg['denuncia.endereco.bairro.cidade']}" sortBy="#{denuncia.endereco.bairro.cidade.nome}">
                         <f:facet name="header">
                             <h:outputText value="Cidade" />
                         </f:facet>
                         <h:outputText value="#{denuncia.endereco.bairro.cidade}"/>
                     </p:column>
 
-                    <p:column headerText="Vítima" >
+                    <p:column headerText="Vítima" sortBy="#{denuncia.vitima}">
                         <f:facet name="header">
                             <h:outputText value="Vítima" />
                         </f:facet>
                         <h:outputText value="#{denuncia.vitima}"/>
                     </p:column>
-                    <p:column headerText="Idade Vítima" >
+                    <p:column headerText="Idade Vítima" sortBy="#{denuncia.idadeVitima}">
                         <f:facet name="header">
                             <h:outputText value="Idade Vítima" />
                         </f:facet>
                         <h:outputText value="#{denuncia.idadeVitima}"/>
                     </p:column>
-                    <p:column headerText="Agressor" >
+                    <p:column headerText="Agressor" sortBy="#{denuncia.agressor}">
                         <f:facet name="header">
                             <h:outputText value="Agressor" />
                         </f:facet>
                         <h:outputText value="#{denuncia.agressor}"/>
                     </p:column>
-                    <p:column headerText="#{msg['denuncia.formaDeViolencia']}" >
+                    <p:column headerText="#{msg['denuncia.formaDeViolencia']}" sortBy="#{denuncia.formaDeViolencia.descricao}">
                         <f:facet name="header">
                             <h:outputText value="#{msg['denuncia.formaDeViolencia']}" />
                         </f:facet>
                         <h:outputText value="#{denuncia.formaDeViolencia.descricao}"/>
                     </p:column>
-                    <p:column headerText="Tipo">
+                    <p:column headerText="Tipo" sortBy="#{denuncia.tipo.descricao}">
                         <f:facet name="header">
                             <h:outputText value="Tipo" />
                         </f:facet>
                         <h:outputText value="#{denuncia.tipo.descricao}"/>
                     </p:column>
-                    <p:column headerText="#{msg['denuncia.situacao']}">
+                    <p:column headerText="#{msg['denuncia.situacao']}" sortBy="#{denuncia.situacao.descricao}">
                         <f:facet name="header">
                             <h:outputText value="#{msg['denuncia.situacao']}" />
                         </f:facet>

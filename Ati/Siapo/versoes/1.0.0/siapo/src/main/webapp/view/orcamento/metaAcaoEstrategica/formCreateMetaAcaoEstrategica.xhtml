@@ -22,25 +22,8 @@
                                             itemLabel="#{acaoEstrategica}"/>
                          </h:selectOneMenu>
                      </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="programaPPA" value="* #{msg['metaAcaoEstrategica.programaPPA']}:" />
-                         <h:selectOneMenu id="programaPPA" value="#{metaAcaoEstrategicaMB.entity.programaPPA}" converter="entityConverter" styleClass="form-control" >
-                             <x:initializer/>
-                             <f:selectItem itemLabel="#{xmsg['select']}" />
-                             <f:selectItems value="#{findAllBean.get(classMB.programaPPA)}" 
-                                            var="programaPPA"
-                                            itemLabel="#{programaPPA}"/>
-                         </h:selectOneMenu>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel value="#{msg['metaAcaoEstrategica.receitas']}:" />
-                         <h:selectManyCheckbox id="receitas" value="#{metaAcaoEstrategicaMB.entity.receitas}" converter="entityConverter" >
-                             <x:initializer/>
-                             <f:selectItems value="#{findAllBean.get(classMB.receitaMetaAcaoEstrategica)}" 
-                                            var="receitaMetaAcaoEstrategica"
-                                            itemLabel="#{receitaMetaAcaoEstrategica}"/>
-                         </h:selectManyCheckbox>
-                     </div>
+                      
+                      
 
                  </div>
              </div>

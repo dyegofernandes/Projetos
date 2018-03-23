@@ -8,16 +8,36 @@
 
     <h:form id="formCreateBoleto" >
         <x:modalMessages autoUpdate="true"/>
-        <p:wizard flowListener="#{boletoMB.onFlowProcess}" nextLabel="Avançar" backLabel="Voltar">
+        <p:wizard flowListener="#{boletoMB.onFlowProcess}" nextLabel="#{boletoMB.nomeBotaoAvancar}" backLabel="#{boletoMB.nomeBotaoVoltar}" 
+                  >
             <p:tab id="criar" title="Gerar Boleto (s)"  >
                 <p:panel header="Informe os dados abaixo para geração do (s) boleto (s)">
                     <div class="container-fluid">
                         <div class="row">
+                            <x:securityArea rolesAllowed="convenio.campo">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="convenio" value="* #{msg['boleto.convenio']}:" />
+                                    <p:autoComplete id="convenio" value="#{boletoMB.entity.convenio}" 
+
+                                                    completeMethod="#{convenioMB.autocomplete}" styleClass="uix-autocomplete" 
+
+                                                    minQueryLength="3" forceSelection="true" dropdown="true"
+
+                                                    var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" > 
+                                        <x:initializer/>
+                                        <p:column> 
+                                            <h:outputText value="#{p}"/>
+                                        </p:column> 
+                                        <p:ajax event="itemSelect" process="@this" update="cliente produto"/>
+                                    </p:autoComplete>
+
+                                </div>
+                            </x:securityArea>
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="cliente" value="* #{msg['boleto.cliente']}:" />
                                 <p:autoComplete id="cliente" value="#{boletoMB.entity.cliente}" 
 
-                                                completeMethod="#{clienteMB.autocomplete}" styleClass="uix-autocomplete" 
+                                                completeMethod="#{boletoMB.autocompleteCliente}" styleClass="uix-autocomplete" 
 
                                                 minQueryLength="3" forceSelection="true" dropdown="true"
 
@@ -33,16 +53,16 @@
                                 <h:outputLabel for="produto" value="* #{msg['boleto.produto']}:" />
                                 <p:autoComplete id="produto" value="#{boletoMB.entity.produto}" 
 
-                                                completeMethod="#{produtoMB.autocomplete}" styleClass="uix-autocomplete" 
+                                                completeMethod="#{boletoMB.autocompleteProduto}" styleClass="uix-autocomplete" 
 
                                                 minQueryLength="3" forceSelection="true" dropdown="true"
 
-                                                var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" readonly="#{fornecedorMB.somenteLeitura}"> 
+                                                var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" > 
                                     <x:initializer/>
                                     <p:column> 
                                         <h:outputText value="#{p}"/>
                                     </p:column> 
-                                    <p:ajax event="itemSelect" process="@this" update="panelValores vl_nominal" listener="#{boletoMB.mudarProduto()}"/>
+                                    <p:ajax event="itemSelect" process="@this" update="vl_nominal" listener="#{boletoMB.mudarProduto()}"/>
                                 </p:autoComplete>
 
                             </div>
@@ -50,9 +70,9 @@
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="dt_vencimento" value="#{msg['boleto.dt_vencimento']}:" />
                                 <p:calendar id="dt_vencimento" value="#{boletoMB.entity.dt_vencimento}" 
-                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar" 
+                                            showOn="button"  styleClass="uix-calendar" 
                                             mindate="#{boletoMB.dataMinima}" 
-                                            readonly="true">
+                                            >
                                     <x:mask/>
                                 </p:calendar>
                             </div>
@@ -63,26 +83,13 @@
 
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="vl_nominal" value="* #{msg['boleto.vl_nominal']}:" />
-                                <x:inputNumber id="vl_nominal" value="#{boletoMB.entity.vl_nominal}" styleClass="form-control" readonly=""/>
+                                <x:inputNumber id="vl_nominal" value="#{boletoMB.entity.vl_nominal}" styleClass="form-control" />
                             </div>
-                            <h:panelGroup id="panelValores">
-                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                    <h:outputLabel for="vl_desconto" value="* #{msg['boleto.vl_desconto']}:" />
-                                    <x:inputNumber id="vl_desconto" value="#{boletoMB.entity.vl_desconto}" styleClass="form-control"/>
-                                </div>
-                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                    <h:outputLabel for="vl_multa" value="* #{msg['boleto.vl_multa']}:" />
-                                    <x:inputNumber id="vl_multa" value="#{boletoMB.entity.vl_multa}" styleClass="form-control"/>
-                                </div>
-                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                    <h:outputLabel for="vl_juros" value="* #{msg['boleto.vl_juros']}:" />
-                                    <x:inputNumber id="vl_juros" value="#{boletoMB.entity.vl_juros}" styleClass="form-control"/>
-                                </div>
-                            </h:panelGroup>
+
                         </div>
                         <div class="row">
                             <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
-                                <h:outputLabel for="instrucao_exclusiva" value="* #{msg['boleto.instrucao_exclusiva']}:" />
+                                <h:outputLabel for="instrucao_exclusiva" value="#{msg['boleto.instrucao_exclusiva']}:" />
                                 <p:inputText id="instrucao_exclusiva" value="#{boletoMB.entity.instrucao_exclusiva}" maxlength="100"  styleClass="form-control" />
                             </div>
 
@@ -114,78 +121,105 @@
                     <p:fieldset legend="Boletos gerados podendo todos serem editados">
                         <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                                      var="boleto" rowIndexVar="index" id="dataTableBoleto" widgetVar="dataTableBoletoWidget" styleClass="table-responsive"
-                                     value="#{boletoMB.dataModel}" >
-                            <p:column headerText="#{msg['boleto.cb']}" >
-                                <f:facet name="header">
-                                    <h:outputText value="#{msg['boleto.cb']}" />
-                                </f:facet>
-                                <h:outputText value="#{boleto.cb}"/>
-                            </p:column>
-                            <p:column headerText="#{msg['boleto.dt_vencimento']}" sortBy="#{boleto.dt_vencimento}"
-                                      filterBy="#{boleto.dt_vencimento}"   style="text-align: center;">
+                                     value="#{boletoMB.boletos}" editable="true" editMode="cell" >
+
+                            <p:column headerText="#{msg['boleto.dt_vencimento']}" style="text-align: center;">
                                 <f:facet name="header">
                                     <h:outputText value="#{msg['boleto.dt_vencimento']}" />
-                                    <x:dateFilter/>
                                 </f:facet>
                                 <h:outputText value="#{boleto.dt_vencimento}">
                                     <f:convertDateTime />
                                 </h:outputText>
                             </p:column>
 
-                            <p:column headerText="#{msg['boleto.nr_parcela']}"  >
+                            <p:column headerText="#{msg['boleto.nr_parcela']}" style="text-align: right;" >
                                 <f:facet name="header">
                                     <h:outputText value="#{msg['boleto.nr_parcela']}" />
                                 </f:facet>
-                                <h:outputText value="#{boleto.nr_parcela}"/>
+                                <h:outputText value="#{boleto.nr_parcela}/#{boleto.qtd_total_parcela}"/>
                             </p:column>
-                            <p:column headerText="#{msg['boleto.qtd_total_parcela']}"  >
-                                <f:facet name="header">
-                                    <h:outputText value="#{msg['boleto.qtd_total_parcela']}" />
-                                </f:facet>
-                                <h:outputText value="#{boleto.qtd_total_parcela}"/>
+
+                            <p:column headerText="#{msg['boleto.vl_nominal']}" style="text-align: right;">
+                                <p:cellEditor>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['boleto.vl_nominal']}" />
+                                    </f:facet>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{boleto.vl_nominal}">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <x:inputNumber value="#{boleto.vl_nominal}" styleClass="form-control" >
+                                            <p:ajax event="blur" listener="#{boletoMB.calcularValores(boleto)}" process="@this" update="dataTableBoleto"/>
+                                        </x:inputNumber>
+                                    </f:facet>
+                                </p:cellEditor>
                             </p:column>
-                            <p:column headerText="#{msg['boleto.vl_nominal']}" sortBy="#{boleto.vl_nominal}"
-                                      style="text-align: right;">
-                                <f:facet name="header">
-                                    <h:outputText value="#{msg['boleto.vl_nominal']}" />
-                                </f:facet>
-                                <h:outputText value="#{boleto.vl_nominal}">
-                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
-                                </h:outputText>
+                            <p:column headerText="#{msg['boleto.vl_juros']}" style="text-align: right;">
+                                <p:cellEditor>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['boleto.vl_juros']}" />
+                                    </f:facet>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{boleto.vl_juros}">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <x:inputNumber value="#{boleto.vl_juros}" styleClass="form-control" />
+                                    </f:facet>
+                                </p:cellEditor>
+
                             </p:column>
-                            <p:column headerText="#{msg['boleto.vl_juros']}" sortBy="#{boleto.vl_juros}"
-                                      style="text-align: right;">
-                                <f:facet name="header">
-                                    <h:outputText value="#{msg['boleto.vl_juros']}" />
-                                </f:facet>
-                                <h:outputText value="#{boleto.vl_juros}">
-                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
-                                </h:outputText>
+                            <p:column headerText="#{msg['boleto.vl_multa']}" style="text-align: right;">
+                                <p:cellEditor>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['boleto.vl_multa']}" />
+                                    </f:facet>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{boleto.vl_multa}">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <x:inputNumber value="#{boleto.vl_multa}" styleClass="form-control" />
+                                    </f:facet>
+                                </p:cellEditor>
+
+
                             </p:column>
-                            <p:column headerText="#{msg['boleto.vl_multa']}" sortBy="#{boleto.vl_multa}"
-                                      style="text-align: right;">
-                                <f:facet name="header">
-                                    <h:outputText value="#{msg['boleto.vl_multa']}" />
-                                </f:facet>
-                                <h:outputText value="#{boleto.vl_multa}">
-                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
-                                </h:outputText>
+                            <p:column headerText="#{msg['boleto.vl_desconto']}" style="text-align: right;">
+                                <p:cellEditor>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['boleto.vl_desconto']}" />
+                                    </f:facet>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{boleto.vl_desconto}">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <x:inputNumber value="#{boleto.vl_desconto}" styleClass="form-control" />
+                                    </f:facet>
+                                </p:cellEditor>
+
+
                             </p:column>
-                            <p:column headerText="#{msg['boleto.vl_desconto']}" sortBy="#{boleto.vl_desconto}"
-                                      style="text-align: right;">
-                                <f:facet name="header">
-                                    <h:outputText value="#{msg['boleto.vl_desconto']}" />
-                                </f:facet>
-                                <h:outputText value="#{boleto.vl_desconto}">
-                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
-                                </h:outputText>
-                            </p:column>
-                            <p:column headerText="#{msg['boleto.instrucao_exclusiva']}" sortBy="#{boleto.instrucao_exclusiva}"
-                                      filterBy="#{boleto.instrucao_exclusiva}"   >
-                                <f:facet name="header">
-                                    <h:outputText value="#{msg['boleto.instrucao_exclusiva']}" />
-                                </f:facet>
-                                <h:outputText value="#{boleto.instrucao_exclusiva}"/>
+                            <p:column headerText="#{msg['boleto.instrucao_exclusiva']}" >
+                                <p:cellEditor>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['boleto.instrucao_exclusiva']}" />
+                                    </f:facet>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{boleto.instrucao_exclusiva}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <h:inputText value="#{boleto.instrucao_exclusiva}" styleClass="form-control" maxlength="100"/>
+                                    </f:facet>
+                                </p:cellEditor>
+
+
                             </p:column>
 
                         </p:dataTable>
@@ -196,21 +230,75 @@
             </p:tab>
             <p:tab id="imprimir" title="Imprimir Boleto (s)">
                 <p:panel header="Área de impressão de boletos">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="boleto" rowIndexVar="index" id="dataTableBoletoImpressao" widgetVar="dataTableBoletoImpressaoWidget" styleClass="table-responsive"
+                                 value="#{boletoMB.boletos}" >
 
+                        <p:column headerText="#{msg['boleto.dt_vencimento']}" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['boleto.dt_vencimento']}" />
+                            </f:facet>
+                            <h:outputText value="#{boleto.dt_vencimento}">
+                                <f:convertDateTime />
+                            </h:outputText>
+                        </p:column>
 
+                        <p:column headerText="#{msg['boleto.nr_parcela']}" style="text-align: right;" >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['boleto.nr_parcela']}" />
+                            </f:facet>
+                            <h:outputText value="#{boleto.nr_parcela}/#{boleto.qtd_total_parcela}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg['boleto.vl_nominal']}" style="text-align: right;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['boleto.vl_nominal']}" />
+                            </f:facet>
+                            <h:outputText value="#{boleto.vl_nominal}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{msg['boleto.vl_juros']}" style="text-align: right;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['boleto.vl_juros']}" />
+                            </f:facet>
+                            <h:outputText value="#{boleto.vl_juros}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{msg['boleto.vl_multa']}" style="text-align: right;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['boleto.vl_multa']}" />
+                            </f:facet>
+                            <h:outputText value="#{boleto.vl_multa}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{msg['boleto.vl_desconto']}" style="text-align: right;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['boleto.vl_desconto']}" />
+                            </f:facet>
+                            <h:outputText value="#{boleto.vl_desconto}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{msg['boleto.instrucao_exclusiva']}" >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['boleto.instrucao_exclusiva']}" />
+                            </f:facet>
+                            <h:outputText value="#{boleto.instrucao_exclusiva}"/>
+                        </p:column>
+                    </p:dataTable>
+                    <div class="uix-center">
+                        <p:commandButton  process="@this" action="#{boletoMB.gerarBoletos(boletos)}" icon="ui-icon-arrowthick-1-s"
+                                         value="Gerar Boletos" ajax="false"/>
+                    </div>
 
                 </p:panel>
             </p:tab>
         </p:wizard>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
-        <div class="uix-center">
-            <x:securityArea rolesAllowed="boleto.create">
-                <p:commandButton process="@form" update="@form" action="#{boletoMB.save}" value="#{xmsg['save']}" />
-            </x:securityArea>
-            <x:securityArea rolesAllowed="boleto.audit">
-                <x:audit for="#{boletoMB.entity}"/>
-            </x:securityArea>
-        </div>
+
     </h:form>
 
 </ui:composition>

@@ -627,3 +627,6 @@ button.dialog-cancel-button.ui-state-default.ui-button.ui-widget.ui-corner-all.u
     color: #FFFFFF !important;
     border-radius: 0px !important;
 }
+.ui-autocomplete-panel.ui-widget-content.ui-corner-all.ui-helper-hidden.ui-shadow {
+    background: white !important;
+}

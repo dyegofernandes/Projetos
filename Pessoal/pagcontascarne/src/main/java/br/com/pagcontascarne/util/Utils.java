@@ -1,5 +1,6 @@
 package br.com.pagcontascarne.util;
 
+import br.com.pagcontascarne.modelo.dados.vos.CodigoDeBarrasVO;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DateFormat;
@@ -455,5 +456,34 @@ public class Utils {
         Calendar inicio = Calendar.getInstance();
         inicio.set(2000, 6, 3, 0, 0, 0);
         return diferencaEntreDatasEmDias(inicio.getTime(), vencimento) + 1000;
+    }
+
+    public static String inserirZeroEsquerda(String input, int width) {
+        char ch = '0';
+        String strPad = "";
+
+        if (input == null) {
+            input = "";
+        }
+        StringBuilder sb = new StringBuilder(input.trim());
+
+        while (sb.length() < width) {
+            sb.insert(0, ch);
+        }
+        strPad = sb.toString();
+
+        if (strPad.length() > width) {
+
+            strPad = strPad.substring(0, width);
+        }
+        return strPad;
+    }
+
+    
+
+    public static String getLinhaEditavelSicoob(String codigoBanco, String codigoMoeda, String fatorDeVencimento, String fatorNominalDocumento, String codigoCarteira, String codigoCooperativa, String modalidade, String codigoCliente, String numeroTitulo, String parcela) {
+        String codigo = "";
+
+        return codigo;
     }
 }

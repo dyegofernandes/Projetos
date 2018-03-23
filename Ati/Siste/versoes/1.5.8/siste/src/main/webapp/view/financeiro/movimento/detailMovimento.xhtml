@@ -16,11 +16,15 @@
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel value="Unidade:" styleClass="control-label" /><br/>
-                        <h:outputText value="#{movimentoMB.unidade}" styleClass="uix-content-detail"/>                          
+                        <h:outputText value="#{movimentoMB.entity.servidor.dadosFuncionais.unidade}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>                         
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel value="Cargo:" styleClass="control-label" /><br/>
-                        <h:outputText value="#{movimentoMB.cargo}" styleClass="uix-content-detail"/>                          
+                        <h:outputText value="#{movimentoMB.entity.servidor.dadosFuncionais.cargo}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>                         
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="ocorrencia" value="Ocorrência" styleClass="control-label" /><br/>

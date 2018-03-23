@@ -14,7 +14,7 @@
 
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 30%">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 80%">
                             <h:outputLabel for="nome" value="* #{msg['estado.nome']}:" />"
                             <p:inputText id="nome" value="#{estadoMB.entity.nome}" maxlength="200"  styleClass="form-control"  
                                          readonly="#{estadoMB.somenteLeitura}"/>
@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 30%">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 40%">
                             <h:outputLabel for="regiao" value="* #{msg['estado.regiao']}:" />
                             <h:selectOneMenu id="regiao" value="#{estadoMB.entity.regiao}" converter="entityConverter" styleClass="form-control" 
                                              readonly="#{estadoMB.somenteLeitura}">
@@ -42,7 +42,7 @@
                                                itemLabel="#{regiao}" itemDisabled="#{estadoMB.somenteLeitura}"/>
                             </h:selectOneMenu>
                         </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 30%">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 40%">
                             <h:outputLabel for="pais" value="* #{msg['estado.pais']}:" />
                             <h:selectOneMenu id="pais" value="#{estadoMB.entity.pais}" converter="entityConverter" styleClass="form-control" 
                                              readonly="#{estadoMB.somenteLeitura}">
@@ -52,6 +52,16 @@
                                                var="pais"
                                                itemLabel="#{pais}" itemDisabled="#{estadoMB.somenteLeitura}"/>
                             </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: auto">
+                            <h:outputLabel value="" />
+                            <div class="checkbox">
+                                <label>
+                                    <h:selectBooleanCheckbox id="ativo" value="#{estadoMB.entity.ativo}" readonly="#{estadoMB.somenteLeitura}" />
+                                    #{msg['estado.ativo']}
+                                </label>
+                            </div>
+                            Ative o item para ser usado nos cadastros
                         </div>
                     </div>
 

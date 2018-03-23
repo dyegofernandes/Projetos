@@ -8,6 +8,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.cfcpm.modelo.cadastro.FormularioInscricaoSAV;
+import br.gov.pi.ati.cfcpm.util.Utils;
 import com.xpert.core.validation.UniqueFields;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,6 +37,12 @@ public class FormularioInscricaoSAVBO extends AbstractBusinessObject<FormularioI
     public void validate(FormularioInscricaoSAV formularioInscricaoSAV) throws BusinessException {
         if (verificarDataInscricao(formularioInscricaoSAV.getDataInscricao())) {
             throw new BusinessException("Prazo de inscrição encerrado no dia 07/03/2018 as 23:59:59!");
+        }
+
+        Calendar fim = Calendar.getInstance();
+        fim.set(2018, 3, 30, 0, 0, 0);
+        if (Utils.diferencaEmAnos(formularioInscricaoSAV.getDataDeNascimento(), fim.getTime()) < 18 || Utils.getIdade(formularioInscricaoSAV.getDataDeNascimento()) > 23) {
+            throw new BusinessException("Idade dos candidatos deve ser maior ou igual a 18 anos (completados até o dia 30.04.2018) e menor ou igual a 23!!");
         }
 
     }

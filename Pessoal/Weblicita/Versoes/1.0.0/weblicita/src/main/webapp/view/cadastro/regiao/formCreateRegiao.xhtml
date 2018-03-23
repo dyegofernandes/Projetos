@@ -12,13 +12,13 @@
             <p:fieldset>
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 30%">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 80%">
                             <h:outputLabel for="descricao" value="* #{msg['regiao.descricao']}:" />
                             <p:inputText id="descricao" value="#{regiaoMB.entity.descricao}" maxlength="255"  styleClass="form-control"
                                          readonly="#{regiaoMB.somenteLeitura}"/> 
 
                         </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: auto">
                             <h:outputLabel value="" />
                             <div class="checkbox">
                                 <label>
@@ -26,6 +26,7 @@
                                     #{msg['regiao.ativo']}
                                 </label>
                             </div>
+                            Ative o item para ser usado nos cadastros
                         </div>
                     </div>
                 </div>

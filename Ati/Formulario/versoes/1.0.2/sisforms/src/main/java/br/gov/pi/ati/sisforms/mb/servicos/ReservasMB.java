@@ -17,16 +17,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import static org.apache.commons.io.FilenameUtils.getExtension;
 import org.hibernate.proxy.HibernateProxy;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.event.ScheduleEntryMoveEvent;
-import org.primefaces.event.ScheduleEntryResizeEvent;
-import org.primefaces.event.SelectEvent;
+
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.DefaultStreamedContent;
@@ -95,45 +93,13 @@ public class ReservasMB extends AbstractBaseBean<ReservaLocal> implements Serial
         eventModel = new DefaultScheduleModel();
         List<ReservaLocal> reservas = getBO().getDAO().listAll();
         for (ReservaLocal reserva : reservas) {
-            ScheduleEvent eventTemp = new DefaultScheduleEvent(reserva.getId() + " - " + reserva.getNomeSolicitante(), reserva.getDataInicio(), reserva.getDataFinal());
+            ScheduleEvent eventTemp = new DefaultScheduleEvent(reserva.getId() + " - " + reserva.getSolicitante(), reserva.getDataInicio(), reserva.getDataFinal());
             eventModel.addEvent(eventTemp);
         }
 
     }
 
-    public void selecionarEvento(SelectEvent selectEvent) {
-
-        event = (ScheduleEvent) selectEvent.getObject();
-
-        String titulo = event.getTitle();
-
-        Long id = Long.parseLong(titulo.split(" ")[0]);
-
-        ReservaLocal reserva = getBO().getDAO().getInitialized(getBO().getDAO().unique("id", id));
-
-        setEntity(reserva);
-
-        arquivos = getBO().getDAO().getInitialized(reserva.getArquivos());
-    }
-
-    public void selecionarData(SelectEvent selectEvent) {
-        setEntity(new ReservaLocal());
-        arquivos = new ArrayList<Arquivo>();
-        getEntity().setDataInicio((Date) selectEvent.getObject());
-        getEntity().setDataFinal((Date) selectEvent.getObject());
-    }
-
-    public void moverEvento(ScheduleEntryMoveEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Evento Movido", "Dia delta:" + event.getDayDelta() + ", Minuto delta:" + event.getMinuteDelta());
-
-        addMessage(message);
-    }
-
-    public void redimensionarEvento(ScheduleEntryResizeEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Evento redimensionado", "Dia delta:" + event.getDayDelta() + ", Minuto delta:" + event.getMinuteDelta());
-
-        addMessage(message);
-    }
+    
 
     private void addMessage(FacesMessage message) {
         FacesContext.getCurrentInstance().addMessage(null, message);

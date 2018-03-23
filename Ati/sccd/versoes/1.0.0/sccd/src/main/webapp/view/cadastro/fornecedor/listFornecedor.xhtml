@@ -12,7 +12,7 @@
             <x:modalMessages/>
 
             <x:dataTableActions fileName="fornecedor_export" target=":formListFornecedor:dataTableFornecedor"
-                                     widgetVar="dataTableFornecedorWidget"  />
+                                widgetVar="dataTableFornecedorWidget"  />
 
             <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                          var="fornecedor" rowIndexVar="index" id="dataTableFornecedor" widgetVar="dataTableFornecedorWidget" styleClass="table-responsive"
@@ -20,45 +20,28 @@
                          paginatorTemplate="#{fornecedorMB.dataModel.paginatorTemplate}"
                          value="#{fornecedorMB.dataModel}" lazy="true" >
                 <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">
+                        <h:outputText value="" />
+                    </f:facet>
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="#{msg['fornecedor.autoridadeCertificadora']}" sortBy="#{fornecedor.autoridadeCertificadora}"
-                    filterBy="#{fornecedor.autoridadeCertificadora}"   >
+                <p:column headerText="#{msg['fornecedor.cnpj']}" sortBy="#{fornecedor.cnpj}"
+                          filterBy="#{fornecedor.cnpj}"   >
                     <f:facet name="header">
-                        <h:outputText value="#{msg['fornecedor.autoridadeCertificadora']}" />
+                        <h:outputText value="#{msg['fornecedor.cnpj']}" />
                     </f:facet>
-                    <h:outputText value="#{fornecedor.autoridadeCertificadora}"/>
+                    <h:outputText value="#{fornecedor.cnpj}" converter="cnpjConverter"/>
                 </p:column>
-                <p:column headerText="#{msg['fornecedor.emailAutoridadeCertificadora']}" sortBy="#{fornecedor.emailAutoridadeCertificadora}"
-                    filterBy="#{fornecedor.emailAutoridadeCertificadora}"   >
+                <p:column headerText="#{msg['fornecedor.nome']}" sortBy="#{fornecedor.nome}"
+                          filterBy="#{fornecedor.nome}"   >
                     <f:facet name="header">
-                        <h:outputText value="#{msg['fornecedor.emailAutoridadeCertificadora']}" />
+                        <h:outputText value="#{msg['fornecedor.nome']}" />
                     </f:facet>
-                    <h:outputText value="#{fornecedor.emailAutoridadeCertificadora}"/>
+                    <h:outputText value="#{fornecedor.nome}"/>
                 </p:column>
-                <p:column headerText="#{msg['fornecedor.autoridadeRegistro']}" sortBy="#{fornecedor.autoridadeRegistro}"
-                    filterBy="#{fornecedor.autoridadeRegistro}"   >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['fornecedor.autoridadeRegistro']}" />
-                    </f:facet>
-                    <h:outputText value="#{fornecedor.autoridadeRegistro}"/>
-                </p:column>
-                <p:column headerText="#{msg['fornecedor.emailAutoridadeRegistro']}" sortBy="#{fornecedor.emailAutoridadeRegistro}"
-                    filterBy="#{fornecedor.emailAutoridadeRegistro}"   >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['fornecedor.emailAutoridadeRegistro']}" />
-                    </f:facet>
-                    <h:outputText value="#{fornecedor.emailAutoridadeRegistro}"/>
-                </p:column>
-                <p:column headerText="#{msg['fornecedor.telefoneAutoridadeRegistro']}" sortBy="#{fornecedor.telefoneAutoridadeRegistro}"
-                    filterBy="#{fornecedor.telefoneAutoridadeRegistro}"   >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['fornecedor.telefoneAutoridadeRegistro']}" />
-                    </f:facet>
-                    <h:outputText value="#{fornecedor.telefoneAutoridadeRegistro}"/>
-                </p:column>
+
                 <p:column headerText="#{msg['fornecedor.ativo']}" sortBy="#{fornecedor.ativo}"
-                    filterBy="#{fornecedor.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                          filterBy="#{fornecedor.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['fornecedor.ativo']}" />
                     </f:facet>
@@ -95,7 +78,7 @@
 
         <p:dialog widgetVar="widgetFornecedorDetail" header="#{msg['fornecedor.detail']}" appendTo="@(body)" 
                   modal="true" styleClass="uix-dialog-fluid" >
-                  <ui:include src="detailFornecedor.xhtml" />
+            <ui:include src="detailFornecedor.xhtml" />
         </p:dialog>
     </ui:define>
 </ui:composition>

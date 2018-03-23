@@ -10,5 +10,5 @@ package br.com.pagcontascarne.constante;
  */
 public class ConstantesURL {
 
-    public static final String URL_APLICACAO = "http://localhost:8080/pagcontascarne";
+    public static final String URL_APLICACAO = "http://69.164.194.90:8080";
 }

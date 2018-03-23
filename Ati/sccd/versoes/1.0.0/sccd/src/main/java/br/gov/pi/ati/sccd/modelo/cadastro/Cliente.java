@@ -128,4 +128,12 @@ public class Cliente implements Serializable {
         this.isento = isento;
     }
 
+    public List<ContratoCliente> getContratos() {
+        return contratos;
+    }
+
+    public void setContratos(List<ContratoCliente> contratos) {
+        this.contratos = contratos;
+    }
+
 }

@@ -1,5 +1,6 @@
 package br.gov.pi.ati.cfcpm.mb.padrao;
 
+import br.gov.pi.ati.cfcpm.modelo.cadastro.Arquivo;
 import br.gov.pi.ati.cfcpm.modelo.cadastro.FormularioInscricaoSAV;
 import br.gov.pi.ati.cfcpm.modelo.enums.CidadeSAV;
 import br.gov.pi.ati.cfcpm.modelo.enums.Sexo;
@@ -86,6 +87,10 @@ public class ClassMB {
     }
     public Class getCidadeSAV() {
         return CidadeSAV.class;
+    }
+
+    public Class getArquivo() {
+        return Arquivo.class;
     }
 
 }

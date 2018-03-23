@@ -22,8 +22,8 @@
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="#{msg['contratoFornecedor.fornecedor']}" sortBy="#{contratoFornecedor.fornecedor}"
-                          >
+                <p:column headerText="#{msg['contratoFornecedor.fornecedor']}" sortBy="#{contratoFornecedor.fornecedor.nome}"
+                          filterBy="#{contratoFornecedor.fornecedor.nome}">
                     <f:facet name="header">
                         <h:outputText value="#{msg['contratoFornecedor.fornecedor']}" />
                     </f:facet>
@@ -37,6 +37,34 @@
                         <h:outputText value="#{msg['contratoFornecedor.numeroContrato']}" />
                     </f:facet>
                     <h:outputText value="#{contratoFornecedor.numeroContrato}"/>
+                </p:column>
+                <p:column headerText="#{msg['contratoFornecedor.representanteLegal']}" sortBy="#{contratoFornecedor.representanteLegal}"
+                          filterBy="#{contratoFornecedor.representanteLegal}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contratoFornecedor.representanteLegal']}" />
+                    </f:facet>
+                    <h:outputText value="#{contratoFornecedor.representanteLegal}"/>
+                </p:column>
+                <p:column headerText="#{msg['contratoFornecedor.cpfRepresentanteLegal']}" sortBy="#{contratoFornecedor.cpfRepresentanteLegal}"
+                          filterBy="#{contratoFornecedor.cpfRepresentanteLegal}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contratoFornecedor.cpfRepresentanteLegal']}" />
+                    </f:facet>
+                    <h:outputText value="#{contratoFornecedor.cpfRepresentanteLegal}" />
+                </p:column>
+                <p:column headerText="#{msg['contratoFornecedor.representanteLegalAti']}" sortBy="#{contratoFornecedor.representanteAti}"
+                          filterBy="#{contratoFornecedor.representanteAti}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contratoFornecedor.representanteLegalAti']}" />
+                    </f:facet>
+                    <h:outputText value="#{contratoFornecedor.representanteAti}"/>
+                </p:column>
+                <p:column headerText="#{msg['contratoFornecedor.cpfRepresentanteAti']}" sortBy="#{contratoFornecedor.cpfRepresentanteAti}"
+                          filterBy="#{contratoFornecedor.cpfRepresentanteAti}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contratoFornecedor.cpfRepresentanteAti']}" />
+                    </f:facet>
+                    <h:outputText value="#{contratoFornecedor.cpfRepresentanteAti}"/>
                 </p:column>
                 <p:column headerText="#{msg['contratoFornecedor.dataInicio']}" sortBy="#{contratoFornecedor.dataInicio}"
                           filterBy="#{contratoFornecedor.dataInicio}"   style="text-align: center;">

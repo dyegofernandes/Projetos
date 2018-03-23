@@ -4,107 +4,240 @@
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
+    <script type="text/javascript">
+        PrimeFaces.locales['pt-br'] = {
+            closeText: 'Fechar',
+            prevText: 'Anterior',
+            nextText: 'Próximo',
+            currentText: 'Começo',
+            monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+            monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+            dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+            dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+            dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+            weekHeader: 'Semana',
+            firstDay: 0,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: '',
+            timeOnlyTitle: 'Só Horas',
+            timeText: 'Tempo',
+            hourText: 'Hora',
+            minuteText: 'Minuto',
+            secondText: 'Segundo',
+            ampm: false,
+            month: 'Mês',
+            week: 'Semana',
+            day: 'Dia',
+            allDayText: 'Todo o Dia'
+        };
 
 
-    <h:form id="formCreateReservaLocal" >
-        <x:modalMessages/>
-        <p:fieldset legend="#{xmsg['generalData']}">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="localReserva" value="* #{msg['reservaLocal.localReserva']}:" />
-                        <h:selectOneMenu id="localReserva" value="#{reservaLocalMB.entity.localReserva}" converter="entityConverter" styleClass="form-control" >
-                            <x:initializer/>
-                            <f:selectItem itemLabel="#{xmsg['select']}" />
-                            <f:selectItems value="#{findAllBean.get(classMB.localReserva)}" 
-                                           var="localReserva"
-                                           itemLabel="#{localReserva}"/>
-                        </h:selectOneMenu>
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="nomeSolicitante" value="* #{msg['reservaLocal.nomeSolicitante']}:" />
-                        <p:inputText id="nomeSolicitante" value="#{reservaLocalMB.entity.nomeSolicitante}" maxlength="255"  styleClass="form-control"  />
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="dataInicio" value="* Data/hora inicial:" />
-                        <p:calendar id="dataInicio" value="#{reservaLocalMB.entity.dataInicio}" 
-                                    showOn="button" pattern="dd/MM/yyyy HH:mm" styleClass="uix-calendar"  >
-                            <x:mask />
-                            <p:ajax process="@this" event="blur" update="dataFinal" listener="#{reservaLocalMB.chancerDataInicial()}"/>
-                            <p:ajax process="@this" update="dataFinal" listener="#{reservaLocalMB.chancerDataInicial()}"/>
+    </script>
 
-                        </p:calendar>
-                    </div>
+    <h:form id="formCreateReserva" >
 
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="dataFinal" value="* Horário final:" />
-                        <p:calendar id="dataFinal" value="#{reservaLocalMB.entity.dataFinal}" 
-                                    showOn="button" pattern="HH:mm" styleClass="uix-calendar"  >
-                            <x:mask/>
-                        </p:calendar>
-                    </div>
+        <p:growl id="messages" showDetail="true" />
+        <x:modalMessages autoUpdate="true"/>
 
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="observacao" value="#{msg['reservaLocal.observacao']}:" />
-                        <p:inputText id="observacao" value="#{reservaLocalMB.entity.observacao}" maxlength="255"  styleClass="form-control"  />
-                    </div>
+        <h:panelGrid columnClasses="value">
+            <h3 style="margin-top: 0">Reservas</h3>
+            <p:schedule id="schedule" value="#{reservaLocalMB.eventModel}" widgetVar="myschedule" timeZone="GMT-3" columnFormat="" timeFormat=" "  axisFormat="H:mm" centerHeaderTemplate="title" >
+
+                <p:ajax event="dateSelect" listener="#{reservaLocalMB.selecionarData}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+                <p:ajax event="eventSelect" listener="#{reservaLocalMB.selecionarEvento}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+                <p:ajax event="eventMove" listener="#{reservaLocalMB.moverEvento}" update="messages" />
+                <p:ajax event="eventResize" listener="#{reservaLocalMB.redimensionarEvento}" update="messages" />
+
+            </p:schedule>
+
+
+        </h:panelGrid>
+
+        <p:dialog id="eventDetails" widgetVar="eventDialog" header="Detalhes do evento" showEffect="clip" hideEffect="clip" appendTo="@(body)"
+                  modal="true" styleClass="uix-dialog-fluid">
+            <h:form >
+                <x:modalMessages/>
+                <p:tabView>
+                    <p:tab title="Horário/Local">
+                        <div class="content-fluid" >
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <p:outputLabel for="title" value="Título:" />
+                                    <p:inputText id="title" value="#{reservaLocalMB.reserva.titulo}" required="true" styleClass="form-control" />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <p:outputLabel for="local" value="Local:" />
+
+                                    <p:selectOneMenu id="local" value="#{reservaLocalMB.reserva.local}" converter="entityConverter" styleClass="form-control" >
+                                        <x:initializer/>
+                                        <f:selectItem itemLabel="#{xmsg['select']}" />
+                                        <f:selectItems value="#{findAllBean.get(classMB.localReserva)}" var="ambiente" itemLabel="#{ambiente}"/>                             
+                                    </p:selectOneMenu>
+                                </div>
+
+
+
+
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <p:outputLabel for="from" value="Data Inicial:" />
+                                    <p:calendar mindate="#{now}" id="from" value="#{reservaLocalMB.reserva.dataInicio}" showOn="button" styleClass="uix-calendar"  pattern="dd/MM/yyyy HH:mm" ><x:mask/>       </p:calendar>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <p:outputLabel for="to" value="Data Final:" />
+                                    <p:calendar mindate="#{now}" id="to" value="#{reservaLocalMB.reserva.dataFinal}" showOn="button" styleClass="uix-calendar" pattern="dd/MM/yyyy HH:mm"><x:mask/>  </p:calendar>
+                                </div>
+
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <p:outputLabel for="obs" value="Observação:" />
+                                    <p:inputText id="obs" value="#{reservaLocalMB.reserva.observacao}" required="true" styleClass="form-control" />
+                                </div>
+
+                                <p:messages  severity="info" escape="false" showDetail="true" autoUpdate="true" closable="true"/>
+                            </div>
+                        </div>
+
+                    </p:tab>
+
+                    <p:tab title="Solicitação" >
+                        <div class="content-fluid" >
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="orgao" value=" #{msg['Orgão']}:" />
+
+                                    <p:selectOneMenu id="orgao" value="#{reservaLocalMB.reserva.orgao}" converter="entityConverter" styleClass="form-control" >
+                                        <x:initializer/>
+                                        <f:selectItem itemLabel="#{xmsg['select']}" />
+                                        <f:selectItems value="#{findAllBean.get(classMB.orgao)}" var="orgao" itemLabel="#{orgao}" />                             
+                                    </p:selectOneMenu>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <p:outputLabel for="solicitante" value="Solicitante:" />
+                                    <p:inputText id="solicitante" value="#{reservaLocalMB.reserva.solicitante}" required="true" styleClass="form-control" />
+
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" >
+                                    <p:outputLabel for="fone" value="Telefone:" />
+                                    <p:inputMask id="fone" value="#{reservaLocalMB.reserva.fone}" mask="(99) 99999-9999" required="true" styleClass="form-control" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </p:tab>
+
+                    <p:tab title="Anexo">
+
+                        <p:fieldset legend="Enviar Arquivo">
+
+                            <p:fileUpload id="arquivo" mode="advanced" requiredMessage="É necessário o envio de pelo menos um arquivo!"
+
+                                          allowTypes="/(\.|\/)(pdf)$/"
+
+                                          invalidFileMessage="Tipo de arquivo não permitido" invalidSizeMessage="Arquivo com tamanho acima do permitido" 
+
+                                          uploadLabel="Carregar" update="dataTableArquivo" cancelLabel="Cancelar" label="Selecionar" multiple="false" 
+
+                                          sizeLimit="10485760" fileUploadListener="#{reservaLocalMB.upload}" styleClass="grid_9" />
+
+                        </p:fieldset>
+
+                        <p:fieldset legend="Listagem de Arquivos">
+
+                            <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+
+                                         var="arquivo" rowIndexVar="index" id="dataTableArquivo" widgetVar="dataTableArquivoWidget" styleClass="table-responsive"
+
+                                         value="#{reservaLocalMB.arquivos}" >
+
+                                <p:column styleClass="uix-datatable-index">
+
+                                    <h:outputText value="#{index+1}"/>
+
+                                </p:column>
+
+
+                                <p:column headerText="#{msg['arquivo.nome']}" width="80%" style="text-align: center;">
+
+                                    <f:facet name="header">
+
+                                        <h:outputText value="#{msg['Nome']}" />
+
+                                    </f:facet>
+
+                                    <h:outputText value="#{arquivo.nome}"/>
+
+                                </p:column>
+
+                                <p:column headerText="#{msg['arquivo.extensao']}" width="20%" style="text-align: center;">
+
+                                    <f:facet name="header">
+
+                                        <h:outputText value="#{msg['Extensão']}" />
+
+                                    </f:facet>
+
+                                    <h:outputText value="#{arquivo.extensao}"/>
+
+                                </p:column>
+
+
+                                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+
+                                    <f:facet name="header">
+
+                                        <h:outputText value="#{xmsg['actions']}"/>
+
+                                    </f:facet>          
+
+                                    <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Download" ajax="false" immediate="true" update="dataTableArquivo
+                                                     ">
+
+                                        <p:fileDownload value="#{reservaLocalMB.download(arquivo)}" />
+
+                                    </p:commandButton>
+
+                                    <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableArquivo" 
+
+                                                     action="#{reservaLocalMB.removerArquivo(arquivo)}" >
+
+                                    </p:commandButton>
+
+                                </p:column>
+
+                            </p:dataTable>
+
+                        </p:fieldset>
+
+                    </p:tab>
+
+                </p:tabView>
+                <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+
+
+                <div class="uix-center" >
+                    <p:commandButton id="addButton" value="Salvar" actionListener="#{reservaLocalMB.saveAll()}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" update="@form" />
+
+                    <p:commandButton type="reset" value="Resetar" />
+
+                    <p:commandButton title="#{xmsg['delete']}" process="@form" update="@form" value="Apagar" action="#{reservaLocalMB.delete()}" >
+                        <f:setPropertyActionListener value="#{reserva.id}" target="#{reservaLocalMB.id}" />
+                        <x:confirmation message="#{xmsg['confirmDelete']} - #{reserva}" />
+                    </p:commandButton>
 
 
                 </div>
-            </div>
-        </p:fieldset>
-        <p:fieldset legend="Arquivos">
-            <p:fieldset legend="Adicionar Arquivo">
-                <p:fileUpload id="arquivo" mode="advanced" requiredMessage="É necessário o envio de pelo menos um arquivo!"
-                              allowTypes="/(\.|\/)(gif|jpeg|jpg|rtf|odt|ods|png|doc|docx|xls|xlsx|pps|ppsx|ppt|pptx|pdf|jpg|zip|txt|7z|rar|dcm|mp4)$/"
-                              invalidFileMessage="Tipo de arquivo não permitido" invalidSizeMessage="Arquivo com tamanho acima do permitido" 
-                              uploadLabel="Carregar" update="dataTableArquivo" cancelLabel="Cancelar" label="Selecionar" multiple="false" 
-                              sizeLimit="10485760" fileUploadListener="#{reservaLocalMB.upload}" styleClass="grid_9" />
-            </p:fieldset>
-            <p:fieldset legend="Listagem de Arquivos">
-                <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
-                             var="arquivo" rowIndexVar="index" id="dataTableArquivo" widgetVar="dataTableArquivoWidget" styleClass="table-responsive"
-                             value="#{reservaLocalMB.arquivos}" >
-                    <p:column styleClass="uix-datatable-index">
-                        <h:outputText value="#{index+1}"/>
-                    </p:column>
+            </h:form>
+            <p:ajax event="close" update="@form" listener="#{findAllBean.setReload(true)}"/>
+        </p:dialog>    
 
-                    <p:column headerText="#{msg['arquivo.nome']}" width="80%" style="text-align: center;">
-                        <f:facet name="header">
-                            <h:outputText value="#{msg['arquivo.nome']}" />
-                        </f:facet>
-                        <h:outputText value="#{arquivo.nome}"/>
-                    </p:column>
-                    <p:column headerText="#{msg['arquivo.extensao']}" width="20%" style="text-align: center;">
-                        <f:facet name="header">
-                            <h:outputText value="#{msg['arquivo.extensao']}" />
-                        </f:facet>
-                        <h:outputText value="#{arquivo.extensao}"/>
-                    </p:column>
 
-                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
-                        <f:facet name="header">
-                            <h:outputText value="#{xmsg['actions']}"/>
-                        </f:facet>          
-                        <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Download" ajax="false" immediate="true" update="formCreateDenuncia">
-                            <p:fileDownload value="#{reservaLocalMB.download(arquivo)}" />
-                        </p:commandButton>
-                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableArquivo" 
-                                         action="#{reservaLocalMB.removerArquivo(arquivo)}" >
-                        </p:commandButton>
-                    </p:column>
-                </p:dataTable>
-            </p:fieldset>
-        </p:fieldset>
-        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
-        <div class="uix-center">
-            <x:securityArea rolesAllowed="reservaLocal.create">
-                <p:commandButton process="@form" update="@form" action="#{reservaLocalMB.save}" value="#{xmsg['save']}" />
-            </x:securityArea>
-            <x:securityArea rolesAllowed="reservaLocal.audit">
-                <x:audit for="#{reservaLocalMB.entity}"/>
-            </x:securityArea>
-        </div>
     </h:form>
+
+    <style type="text/css">
+        .value {
+            width: 1000px;
+        }
+    </style>
+
 
 </ui:composition>

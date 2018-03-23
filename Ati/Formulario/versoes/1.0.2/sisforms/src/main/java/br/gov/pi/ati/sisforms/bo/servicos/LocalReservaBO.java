@@ -12,7 +12,7 @@ import com.xpert.core.validation.UniqueFields;
 
 /**
  *
- * @author Juniel
+ * @author Juniel, Nilson, Samuel, Yago
  */
 @Stateless
 public class LocalReservaBO extends AbstractBusinessObject<LocalReserva> {

@@ -415,6 +415,8 @@ public class MovimentoBO extends AbstractBusinessObject<Movimento> {
 
         movClonado.setInss(tabelaInssBO.getTabelaAtual());
         movClonado.setIr(tabelaIrBO.getTabelaAtual());
+        
+        movimento.setReferencia(referencia);
 
         movClonado.setValorBCalc(calcularBaseInss(movimento));
         movClonado.setBaseIrrf(calcularIrrfEBase(movimento));

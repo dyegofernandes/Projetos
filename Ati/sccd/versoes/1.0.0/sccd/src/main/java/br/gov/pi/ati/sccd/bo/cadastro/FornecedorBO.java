@@ -9,6 +9,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.sccd.modelo.cadastro.Fornecedor;
 import com.xpert.core.validation.UniqueFields;
+import com.xpert.persistence.query.Restriction;
 
 /**
  *
@@ -19,7 +20,7 @@ public class FornecedorBO extends AbstractBusinessObject<Fornecedor> {
 
     @EJB
     private FornecedorDAO fornecedorDAO;
-    
+
     @Override
     public FornecedorDAO getDAO() {
         return fornecedorDAO;
@@ -27,7 +28,17 @@ public class FornecedorBO extends AbstractBusinessObject<Fornecedor> {
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return new UniqueFields().add("autoridadeCertificadora");
+        UniqueFields uniqueFields = new UniqueFields();
+
+        UniqueField uniqueCNPJAtivo = new UniqueField(Restriction.equals("ativo", true), "cnpj").setMessage("Já existe um contrato ativo para esse CNPJ!");
+
+        uniqueFields.add(uniqueCNPJAtivo);
+
+        UniqueField uniqueNomeAtivo = new UniqueField(Restriction.equals("ativo", true), "nome").setMessage("Já existe um contrato ativo para esse Nome!");
+
+        uniqueFields.add(uniqueNomeAtivo);
+
+        return uniqueFields;
     }
 
     @Override
@@ -37,6 +48,10 @@ public class FornecedorBO extends AbstractBusinessObject<Fornecedor> {
     @Override
     public boolean isAudit() {
         return true;
+    }
+    
+    public List<Fornecedor> fornecedoresAtivos(){
+        return getDAO().list("ativo", true, "nome");
     }
 
 }

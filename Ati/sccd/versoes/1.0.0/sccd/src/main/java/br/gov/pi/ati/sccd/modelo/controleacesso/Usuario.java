@@ -26,7 +26,7 @@ public class Usuario implements Serializable, User {
     private String nome;
 
     @Size(max = 16)
-    @NotBlank
+//    @NotBlank
     private String cpf;
 
     @NotBlank
@@ -67,6 +67,19 @@ public class Usuario implements Serializable, User {
     private Boolean emailCadastroEnviado;
 
     private Boolean senhaCadastrada;
+
+    private Boolean autenticacaoLdap = true;
+
+    public Boolean getAutenticacaoLdap() {
+        if (autenticacaoLdap == null) {
+            return false;
+        }
+        return autenticacaoLdap;
+    }
+
+    public void setAutenticacaoLdap(Boolean autenticacaoLdap) {
+        this.autenticacaoLdap = autenticacaoLdap;
+    }
 
     public Usuario() {
         senhaCadastrada = false;
@@ -241,7 +254,6 @@ public class Usuario implements Serializable, User {
         }
         return true;
     }
-    
 
     @Override
     public String toString() {

@@ -331,7 +331,7 @@ public class MonitoramentoMB extends AbstractBaseBean<Denuncia> implements Seria
         
         params.put("LOGO_POLICIA", caminhoImg.concat("/logoPolicia.png"));
         params.put("LOGO_ATI", caminhoImg.concat("/ati_novo.png"));
-        params.put("LOGO_ESTADO", caminhoImg.concat("/piaui_terra_querida.jpg"));
+        params.put("LOGO_ESTADO", caminhoImg.concat("/brasao2.jpg"));
         params.put("DATA_EMISSAO", Utils.convertDateToString(new Date(), "dd/MM/yyyy HH:mm"));
         params.put("ANO_EMISSAO", Utils.convertDateToString(new Date(), "yyyy"));
         params.put("NOME_USUARIO", "Resp. pelo Registro: ".concat(usuarioAtual.getNome()));

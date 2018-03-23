@@ -12,13 +12,24 @@
 
             <div class="container-fluid">
                 <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="fornecedor" value="* #{msg['contratoCliente.contratoFornecedor']}:" />
+                        <h:selectOneMenu id="fornecedor" value="#{contratoClienteMB.entity.contratoFornecedor}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{contratoFornecedorMB.contratosAtivos()}" 
+                                           var="contratoFornecedor"
+                                           itemLabel="#{contratoFornecedor.fornecedor}"/>
+                            <p:ajax process="@this" update="@form" listener="#{contratoClienteMB.chanceFornecedor()}"/>
+                        </h:selectOneMenu>
+                    </div>
 
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="cliente" value="* #{msg['contratoCliente.cliente']}:" />
                         <h:selectOneMenu id="cliente" value="#{contratoClienteMB.entity.cliente}" converter="entityConverter" styleClass="form-control" >
                             <x:initializer/>
                             <f:selectItem itemLabel="#{xmsg['select']}" />
-                            <f:selectItems value="#{findAllBean.get(classMB.cliente)}" 
+                            <f:selectItems value="#{clienteMB.clientesAtivos()}" 
                                            var="cliente"
                                            itemLabel="#{cliente}"/>
                         </h:selectOneMenu>
@@ -32,8 +43,16 @@
                         <p:inputText id="representanteLegal" value="#{contratoClienteMB.entity.representanteLegal}" maxlength="250"  styleClass="form-control"  />
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="cpfRepresentanteLegal" value="#{msg['contratoCliente.cpfRepresentanteLegal']}:" />
+                        <h:outputLabel for="cpfRepresentanteLegal" value="* #{msg['contratoCliente.cpfRepresentanteLegal']}:" />
                         <x:cpf id="cpfRepresentanteLegal" value="#{contratoClienteMB.entity.cpfRepresentanteLegal}" styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="representanteLegalAti" value="* #{msg['contratoCliente.representanteLegalAti']}:" />
+                        <p:inputText id="representanteLegalAti" value="#{contratoClienteMB.entity.representanteAti}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cpfRepresentanteAti" value="* #{msg['contratoCliente.cpfRepresentanteAti']}:" />
+                        <x:cpf id="cpfRepresentanteAti" value="#{contratoClienteMB.entity.cpfRepresentanteAti}" styleClass="form-control"  />
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="dataInicio" value="* #{msg['contratoCliente.dataInicio']}:" />
@@ -61,7 +80,7 @@
                     <h:selectOneMenu id="tipo" value="#{contratoClienteMB.certificadoAdd.tipo}" converter="entityConverter" styleClass="form-control" >
                         <x:initializer/>
                         <f:selectItem itemLabel="#{xmsg['select']}" />
-                        <f:selectItems value="#{findAllBean.get(classMB.tipoCertificado)}" 
+                        <f:selectItems value="#{contratoClienteMB.tiposCertificacos}" 
                                        var="tipo"
                                        itemLabel="#{tipo}"/>
                     </h:selectOneMenu>

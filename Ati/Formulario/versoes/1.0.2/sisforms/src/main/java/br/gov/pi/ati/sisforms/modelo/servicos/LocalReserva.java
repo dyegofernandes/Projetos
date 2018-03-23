@@ -22,19 +22,23 @@ import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
- * @author Juniel
+ * @author Juniel, Nilson, Samuel, Yago
  */
 @Entity
 public class LocalReserva implements Serializable {
     
-    @Id
-    @SequenceGenerator(name = "LocalReserva", sequenceName = "seq_localreserva")
-    @GeneratedValue(generator = "LocalReserva")
+        @Id
+    @SequenceGenerator(name = "Local", allocationSize = 1, sequenceName = "local_id_seq")
+    @GeneratedValue(generator = "Local")
     private Long id;
     
-    @Size(max = 255)
+    @Size(max = 200)
     @NotBlank
     private String nome;
+    
+    @NotAudited
+    @OneToMany(mappedBy = "local")
+    private List<ReservaLocal> reservas;
     
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -43,69 +47,71 @@ public class LocalReserva implements Serializable {
     @NotNull
     private Integer quantidadeLugares;
     
-    private boolean ativo = true;
     
-    @NotAudited
-    @OneToMany(mappedBy = "localReserva")
-    private List<ReservaLocal> reservas;
-    
+    private Boolean ativo;
+
     public Long getId() {
         return id;
     }
-    
+
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public String getNome() {
         return nome;
     }
-    
+
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
+
+    public List<ReservaLocal> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(List<ReservaLocal> reservas) {
+        this.reservas = reservas;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
+
     public TipoLocal getTipo() {
         return tipo;
     }
-    
+
     public void setTipo(TipoLocal tipo) {
         this.tipo = tipo;
     }
-    
+
     public Integer getQuantidadeLugares() {
         return quantidadeLugares;
     }
-    
+
     public void setQuantidadeLugares(Integer quantidadeLugares) {
         this.quantidadeLugares = quantidadeLugares;
     }
     
-    public boolean isAtivo() {
-        return ativo;
-    }
     
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
-    }
-    
-    public List<ReservaLocal> getReservas() {
-        return reservas;
-    }
-    
-    public void setReservas(List<ReservaLocal> reservas) {
-        this.reservas = reservas;
-    }
-    
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 29 * hash + (this.id != null ? this.id.hashCode() : 0);
+        hash = 43 * hash + (this.id != null ? this.id.hashCode() : 0);
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (obj == null) {
             return false;
         }
@@ -118,10 +124,11 @@ public class LocalReserva implements Serializable {
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
-        return nome.concat(" - ").concat(tipo.getDescricao());        
+        return nome;
     }
+    
     
 }

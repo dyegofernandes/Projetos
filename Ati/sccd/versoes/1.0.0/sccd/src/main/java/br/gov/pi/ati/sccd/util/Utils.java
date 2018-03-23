@@ -2,6 +2,10 @@ package br.gov.pi.ati.sccd.util;
 
 public class Utils {
 
+    public static boolean isNullOrEmpty(String s) {
+        return (s == null || s.equals(""));
+    }
+
     public static String gerarDomain(String login) {
         //String usuarioZimbra = "uid=juniel.silva,ou=people,dc=ati,dc=pi,dc=gov,dc=br";
         //"uid=juniel.silva,ou=ati,ou=usuarios,dc=pi,dc=gov,dc=br"
@@ -20,4 +24,5 @@ public class Utils {
 
         return domainLDap;
     }
+    
 }

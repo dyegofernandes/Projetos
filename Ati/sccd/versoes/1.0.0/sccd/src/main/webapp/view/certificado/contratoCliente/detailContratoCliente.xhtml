@@ -26,6 +26,14 @@
                     <h:outputText value="#{contratoClienteMB.entity.cpfRepresentanteLegal}" styleClass="uix-content-detail"/>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contratoCliente.representanteLegalAti']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoClienteMB.entity.representanteAti}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contratoCliente.cpfRepresentanteLegalAti']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoClienteMB.entity.cpfRepresentanteAti}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['contratoCliente.dataInicio']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{contratoClienteMB.entity.dataInicio}" styleClass="uix-content-detail">
                         <f:convertDateTime />

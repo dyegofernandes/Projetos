@@ -59,7 +59,7 @@ public class Utils {
         SimpleDateFormat formatter = new SimpleDateFormat(formato);
         return formatter.parse(dataString);
     }
-    
+
     public static String convertDateToString(Date date, String pattern) {
         SimpleDateFormat formataData = null;
 
@@ -73,7 +73,7 @@ public class Utils {
 
         return data;
     }
-    
+
     public static String format(String pattern, Object value) {
         MaskFormatter mask;
         try {
@@ -83,5 +83,27 @@ public class Utils {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static long getIdade(Date dataNascimento) {
+        Calendar hoje = Calendar.getInstance();
+        hoje.setTime(new Date());
+        Calendar dtNascimentoTemp = Calendar.getInstance();
+        dtNascimentoTemp.setTime(dataNascimento);
+
+        long idade = (hoje.getTimeInMillis() - dtNascimentoTemp.getTimeInMillis()) / 31536000000L;
+
+        return idade;
+    }
+
+    public static long diferencaEmAnos(Date dataUm, Date dataDois) {
+        Calendar fim = Calendar.getInstance();
+        fim.setTime(dataDois);
+        Calendar inicio = Calendar.getInstance();
+        inicio.setTime(dataUm);
+
+        long idade = (fim.getTimeInMillis() - inicio.getTimeInMillis()) / 31536000000L;
+
+        return idade;
     }
 }

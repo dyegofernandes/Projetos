@@ -39,4 +39,7 @@ public class ClienteBO extends AbstractBusinessObject<Cliente> {
         return true;
     }
     
+    public List<Cliente> clientesAtivos(){
+        return getDAO().list("ativo", true, "nome");
+    }
 }

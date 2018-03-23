@@ -79,10 +79,9 @@ public class UsuarioMB extends AbstractBaseBean<Usuario> implements Serializable
     public void save() {
         boolean novo = getEntity().getId() == null;
         try {
-            //salvar usuario
-            usuarioBO.save(getEntity());
+            getBO().save(getEntity());
             //apos o cadastro feito tentar enviar senha do usuario
-            if (novo) {
+            if (novo && getEntity().getAutenticacaoLdap() == false) {
                 try {
                     usuarioBO.enviarSenhaCadastro(getEntity());
                     FacesMessageUtils.info("solicitacaoRecuperacaoSenha.emailCadastroEnviado", getEntity().getEmail());

@@ -96,6 +96,12 @@ public class GeracaoPermissao {
         create(new Permissao("formularioInscricaoSAV.audit", "Auditoria de Formulario Inscricao SAV"), "formularioInscricaoSAV");
         create(new Permissao("formularioInscricaoSAV.delete", "Exclusão de Formulario Inscricao SAV"), "formularioInscricaoSAV");
 
+        //Arquivo
+        create(new Permissao("arquivo", "Arquivo", false), "formularioDeInscricao");
+        create(new Permissao("arquivo.create", "Cadastro de Arquivo", "/view/cadastro/arquivo/createArquivo.jsf", false), "arquivo");
+        create(new Permissao("arquivo.list", "Consulta de Arquivo", "/view/cadastro/arquivo/listArquivo.jsf", true), "formularioDeInscricao");
+        create(new Permissao("arquivo.audit", "Auditoria de Arquivo"), "arquivo");
+        create(new Permissao("arquivo.delete", "Exclusão de Arquivo"), "arquivo");
         /*
          * Configuracao
          */

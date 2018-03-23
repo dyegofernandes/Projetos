@@ -132,7 +132,8 @@ public class GeracaoPermissao {
         create(new Permissao("convenio.list", "Convênios", "/view/dados/convenio/listConvenio.jsf", true), "cadastros");
         create(new Permissao("convenio.audit", "Auditoria de Convênio"), "convenio");
         create(new Permissao("convenio.delete", "Exclusão de Convênio"), "convenio");
-        create(new Permissao("convenio.coluna", "Visualizar coluna de Convenio"), "convenio");
+        create(new Permissao("convenio.coluna", "Visualizar coluna de Convenio nas Tabelas"), "convenio");
+        create(new Permissao("convenio.campo", "Campo de Convenio nas Telas"), "convenio");
 
 //Boleto
         create(new Permissao("boleto", "Boleto", false), "cadastros");
@@ -145,7 +146,7 @@ public class GeracaoPermissao {
 
         create(new Permissao("relatorios.boletos.imprimir", "Imprimir Boletos", true), "relatorios");
         create(new Permissao("relatorios.boletos.segundaVia", "2a Via de Boletos", true), "relatorios");
-        create(new Permissao("relatorios.boletos", "Relação de Boletos", true), "relatorios");
+        create(new Permissao("relatorios.boletos", "Relação de Boletos", "/view/relatorios/listBoleto.jsf", true), "relatorios");
 
         //Deposito
         create(new Permissao("deposito", "Depósito", false), "relatorios");

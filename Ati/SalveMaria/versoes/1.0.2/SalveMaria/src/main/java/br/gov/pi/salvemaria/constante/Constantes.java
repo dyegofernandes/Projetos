@@ -24,7 +24,7 @@ public class Constantes {
      */
     public static final int MINUTOS_VALIDADE_RECUPERACAO_SENHA = 30;
     
-    public static final String CHAVE_API_GOOGLE_MAPS = "AIzaSyAU8b2yrLl0WX_-Jz-MD0NxXAeC6INC5W4";
+    public static final String CHAVE_API_GOOGLE_MAPS = "AIzaSyBddrWCFYb7vxRGaFQ11jweUZCmCBjLL80";
 
     private Constantes() {
     }

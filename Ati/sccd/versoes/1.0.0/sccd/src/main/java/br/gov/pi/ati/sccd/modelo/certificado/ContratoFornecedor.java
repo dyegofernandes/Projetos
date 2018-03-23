@@ -7,6 +7,7 @@ package br.gov.pi.ati.sccd.modelo.certificado;
 
 import br.gov.pi.ati.sccd.modelo.cadastro.Fornecedor;
 import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificadoAux;
+import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,6 +19,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -44,6 +46,22 @@ public class ContratoFornecedor implements Serializable {
     @Size(max = 250)
     @NotBlank
     private String numeroContrato;
+    
+    @Size(max = 250)
+    @NotBlank
+    private String representanteLegal;
+
+    @Size(max = 50)
+    @NotBlank
+    private String cpfRepresentanteLegal;
+
+    @Size(max = 250)
+    @NotBlank
+    private String representanteAti;
+
+    @Size(max = 50)
+    @NotBlank
+    private String cpfRepresentanteAti;
 
     @Temporal(TemporalType.DATE)
     @NotNull
@@ -57,6 +75,10 @@ public class ContratoFornecedor implements Serializable {
     private List<TipoCertificadoAux> certificados = new ArrayList<TipoCertificadoAux>();
     
     private boolean ativo = true;
+    
+    @NotAudited
+    @OneToMany(mappedBy = "contratoFornecedor")
+    private List<ContratoCliente> contratos;
 
     @Override
     public String toString() {
@@ -117,6 +139,46 @@ public class ContratoFornecedor implements Serializable {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public String getRepresentanteLegal() {
+        return representanteLegal;
+    }
+
+    public void setRepresentanteLegal(String representanteLegal) {
+        this.representanteLegal = representanteLegal;
+    }
+
+    public String getCpfRepresentanteLegal() {
+        return cpfRepresentanteLegal;
+    }
+
+    public void setCpfRepresentanteLegal(String cpfRepresentanteLegal) {
+        this.cpfRepresentanteLegal = cpfRepresentanteLegal;
+    }
+
+    public String getRepresentanteAti() {
+        return representanteAti;
+    }
+
+    public void setRepresentanteAti(String representanteAti) {
+        this.representanteAti = representanteAti;
+    }
+
+    public String getCpfRepresentanteAti() {
+        return cpfRepresentanteAti;
+    }
+
+    public void setCpfRepresentanteAti(String cpfRepresentanteAti) {
+        this.cpfRepresentanteAti = cpfRepresentanteAti;
+    }
+
+    public List<ContratoCliente> getContratos() {
+        return contratos;
+    }
+
+    public void setContratos(List<ContratoCliente> contratos) {
+        this.contratos = contratos;
     }
     
     @Override

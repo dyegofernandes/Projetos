@@ -1,0 +1,82 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['autoridadeCertificadora.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuAutoridadeCertificadora.xhtml" />
+        <h:form id="formListAutoridadeCertificadora">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="autoridadeCertificadora_export" target=":formListAutoridadeCertificadora:dataTableAutoridadeCertificadora"
+                                     widgetVar="dataTableAutoridadeCertificadoraWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="autoridadeCertificadora" rowIndexVar="index" id="dataTableAutoridadeCertificadora" widgetVar="dataTableAutoridadeCertificadoraWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{autoridadeCertificadoraMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{autoridadeCertificadoraMB.dataModel.paginatorTemplate}"
+                         value="#{autoridadeCertificadoraMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['autoridadeCertificadora.fornecedor']}" sortBy="#{autoridadeCertificadora.fornecedor}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['autoridadeCertificadora.fornecedor']}" />
+                    </f:facet>
+                    <h:outputText value="#{autoridadeCertificadora.fornecedor}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['autoridadeCertificadora.nome']}" sortBy="#{autoridadeCertificadora.nome}"
+                    filterBy="#{autoridadeCertificadora.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['autoridadeCertificadora.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{autoridadeCertificadora.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['autoridadeCertificadora.ativo']}" sortBy="#{autoridadeCertificadora.ativo}"
+                    filterBy="#{autoridadeCertificadora.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['autoridadeCertificadora.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{autoridadeCertificadora.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetAutoridadeCertificadoraDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailAutoridadeCertificadora" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{autoridadeCertificadora}" target="#{autoridadeCertificadoraMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="autoridadeCertificadora.create">
+                        <p:button icon="ui-icon-pencil" outcome="createAutoridadeCertificadora" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{autoridadeCertificadora.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="autoridadeCertificadora.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{autoridadeCertificadoraMB.delete}" >
+                            <f:setPropertyActionListener value="#{autoridadeCertificadora.id}" target="#{autoridadeCertificadoraMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{autoridadeCertificadora}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="autoridadeCertificadora.audit">
+                    <x:auditDelete for="#{autoridadeCertificadoraMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetAutoridadeCertificadoraDetail" header="#{msg['autoridadeCertificadora.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailAutoridadeCertificadora.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

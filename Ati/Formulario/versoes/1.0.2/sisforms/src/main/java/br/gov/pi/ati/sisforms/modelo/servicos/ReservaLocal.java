@@ -6,6 +6,7 @@
 package br.gov.pi.ati.sisforms.modelo.servicos;
 
 import br.gov.pi.ati.sisforms.modelo.cadastro.Arquivo;
+import br.gov.pi.ati.sisforms.modelo.cadastro.Orgao;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,7 +28,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
- * @author Juniel
+ * @author Juniel, Nilson, Samuel, Yago
  */
 @Entity
 public class ReservaLocal implements Serializable {
@@ -39,11 +40,15 @@ public class ReservaLocal implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
-    private LocalReserva localReserva;
+    private LocalReserva local;
+    
+    @Size(max = 200)
+    @NotBlank
+    private String titulo;
 
     @Size(max = 255)
     @NotBlank
-    private String nomeSolicitante;
+    private String solicitante;
 
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
@@ -53,15 +58,25 @@ public class ReservaLocal implements Serializable {
     @NotNull
     private Date dataFinal;
 
-    @Column(columnDefinition = "Text")
+    @Column(columnDefinition = "Text", length = 144)
     private String observacao;
-
+    
     @ManyToMany(targetEntity = Arquivo.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<Arquivo> arquivos = new ArrayList<Arquivo>();
+    
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Orgao orgao;
+   
+
+    @Size(max = 15)
+    @NotBlank
+    private String fone;
+
 
     @Override
     public String toString() {
-        return nomeSolicitante; 
+        return titulo + " - " + local;
     }
 
     
@@ -73,20 +88,20 @@ public class ReservaLocal implements Serializable {
         this.id = id;
     }
 
-    public LocalReserva getLocalReserva() {
-        return localReserva;
+    public LocalReserva getLocal() {
+        return local;
     }
 
-    public void setLocalReserva(LocalReserva localReserva) {
-        this.localReserva = localReserva;
+    public void setLocal(LocalReserva local) {
+        this.local = local;
     }
 
-    public String getNomeSolicitante() {
-        return nomeSolicitante;
+    public String getSolicitante() {
+        return solicitante;
     }
 
-    public void setNomeSolicitante(String nomeSolicitante) {
-        this.nomeSolicitante = nomeSolicitante;
+    public void setSolicitante(String solicitante) {
+        this.solicitante = solicitante;
     }
 
     public Date getDataInicio() {
@@ -121,6 +136,32 @@ public class ReservaLocal implements Serializable {
         this.arquivos = arquivos;
     }
 
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public Orgao getOrgao() {
+        return orgao;
+    }
+
+    public void setOrgao(Orgao orgao) {
+        this.orgao = orgao;
+    }
+
+    public String getFone() {
+        return fone;
+    }
+
+    public void setFone(String fone) {
+        this.fone = fone;
+    }
+    
+    
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -130,6 +171,9 @@ public class ReservaLocal implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (obj == null) {
             return false;
         }
@@ -143,4 +187,5 @@ public class ReservaLocal implements Serializable {
         return true;
     }
 
+    
 }

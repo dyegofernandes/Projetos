@@ -73,7 +73,7 @@
                                            itemLabel="#{cidadeSAV.descricao}"/>
                         </h:selectOneMenu>
                     </div>
-                    
+
 
                 </div>
             </div>
@@ -81,6 +81,9 @@
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">
             <p:commandButton process="@form" update="@form" action="#{formularioInscricaoSAVMB.save}" value="#{xmsg['save']}" />
+            <p:commandButton immediate="true" value="Edital" ajax="false" icon="ui-icon-arrowthick-1-s">
+                <p:fileDownload value="#{fileDownloadView.file}" />
+            </p:commandButton>
             <p:commandButton process="@this" update="@form" action="#{formularioInscricaoSAVMB.novo()}" value="Nova" />
             <p:commandButton rendered="#{formularioInscricaoSAVMB.entity.id!=null}" process="@form" update="@form" action="#{formularioInscricaoSAVMB.gerarPdf(formularioInscricaoSAVMB.entity)}" 
                              value="Comprovante" ajax="false"/>

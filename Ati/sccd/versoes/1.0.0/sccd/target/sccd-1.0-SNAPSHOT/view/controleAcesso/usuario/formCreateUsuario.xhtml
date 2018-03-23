@@ -25,7 +25,7 @@
                     <div class="row">
 
                         <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel value="* #{msg['usuario.cpf']}:" />
+                            <h:outputLabel value="#{msg['usuario.cpf']}:" />
                             <x:cpf value="#{usuarioMB.entity.cpf}" styleClass="form-control" />
                         </div>
 
@@ -56,6 +56,16 @@
                                                var="situacaoUsuario"
                                                itemLabel="#{situacaoUsuario.descricao}"/>
                             </h:selectOneRadio>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-12 col-md-12 col-sm-6 col-xs-12">
+                            <div class="checkbox">
+                                <label>
+                                    <h:selectBooleanCheckbox value="#{usuarioMB.entity.autenticacaoLdap}" />
+                                    #{msg['usuario.autenticacaoLdap']}
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <div class="row">

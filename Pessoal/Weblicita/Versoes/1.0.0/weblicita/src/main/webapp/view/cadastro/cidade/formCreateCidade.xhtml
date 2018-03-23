@@ -15,7 +15,7 @@
 
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 30%">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 70%">
                             <h:outputLabel for="nome" value="* #{msg['cidade.nome']}:" />
                             <p:inputText id="nome" value="#{cidadeMB.entity.nome}" maxlength="200"  styleClass="form-control"  
                                          readonly="#{cidadeMB.somenteLeitura}"/>
@@ -25,7 +25,7 @@
                             <p:inputMask id="codigo" value="#{cidadeMB.entity.codigo}" mask="999999"  styleClass="form-control"  
                                          readonly="#{cidadeMB.somenteLeitura}"/>
                         </div>
-                        <div class="form-group col-lg-4 col-md-12 col-sm-6 col-xs-12">
+                        <div class="form-group col-lg-4 col-md-12 col-sm-6 col-xs-12" style="width: auto">
                             <div class="checkbox">
                                 <label>
                                     <h:selectBooleanCheckbox value="#{cidadeMB.entity.capital}" />
@@ -37,7 +37,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 30%">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 40%">
                             <h:outputLabel for="territorio" value="#{msg['cidade.territorio']}:" />
                             <h:selectOneMenu id="territorio" value="#{cidadeMB.entity.territorio}" converter="entityConverter" styleClass="form-control" 
                                              readonly="#{cidadeMB.somenteLeitura}">
@@ -48,7 +48,7 @@
                                                itemLabel="#{territorio}" itemDisabled="#{cidadeMB.somenteLeitura}"/>
                             </h:selectOneMenu>
                         </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 30%">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: 40%">
                             <h:outputLabel for="estado" value="* #{msg['cidade.estado']}:" />
                             <h:selectOneMenu id="estado" value="#{cidadeMB.entity.estado}" converter="entityConverter" styleClass="form-control" 
                                              readonly="#{cidadeMB.somenteLeitura}">
@@ -58,6 +58,16 @@
                                                var="estado"
                                                itemLabel="#{estado}" itemDisabled="#{cidadeMB.somenteLeitura}"/>
                             </h:selectOneMenu>
+                        </div>   
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" style="width: auto">
+                            <h:outputLabel value="" />
+                            <div class="checkbox">
+                                <label>
+                                    <h:selectBooleanCheckbox id="ativo" value="#{cidadeMB.entity.ativo}" readonly="#{cidadeMB.somenteLeitura}" />
+                                    #{msg['cidade.ativo']}
+                                </label>
+                            </div>
+                            Ative o item para ser usado nos cadastros
                         </div>
                     </div>
                 </div>

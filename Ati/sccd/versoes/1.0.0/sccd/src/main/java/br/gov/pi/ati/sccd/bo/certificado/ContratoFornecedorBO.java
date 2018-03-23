@@ -9,6 +9,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.sccd.modelo.certificado.ContratoFornecedor;
+import br.gov.pi.ati.sccd.util.Utils;
 import com.xpert.core.validation.UniqueFields;
 import com.xpert.persistence.query.Restriction;
 import com.xpert.persistence.query.Restrictions;
@@ -61,4 +62,15 @@ public class ContratoFornecedorBO extends AbstractBusinessObject<ContratoFornece
         return true;
     }
 
+    public List<ContratoFornecedor> contratosAtivoPeloNome(String nome) {
+        Restrictions restrictions = new Restrictions();
+        if (!Utils.isNullOrEmpty(nome)) {
+            restrictions.like("fornecedor.nome", nome);
+        }
+
+        restrictions.add("contrato.ativo", true);
+
+        return getDAO().getQueryBuilder().from(ContratoFornecedor.class, "contrato").leftJoinFetch("contrato.fornecedor", "fornecedor")
+                .add(restrictions).orderBy("fornecedor.nome").getResultList();
+    }
 }

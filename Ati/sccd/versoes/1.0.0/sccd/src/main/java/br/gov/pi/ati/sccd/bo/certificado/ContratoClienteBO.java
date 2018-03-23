@@ -2,7 +2,6 @@ package br.gov.pi.ati.sccd.bo.certificado;
 
 import com.xpert.core.crud.AbstractBusinessObject;
 import br.gov.pi.ati.sccd.dao.certificado.impl.ContratoClienteDAO;
-import br.gov.pi.ati.sccd.dao.certificado.impl.ContratoFornecedorDAO;
 import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificadoAux;
 import com.xpert.core.validation.UniqueField;
 import com.xpert.core.exception.BusinessException;
@@ -10,11 +9,8 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.sccd.modelo.certificado.ContratoCliente;
-import br.gov.pi.ati.sccd.modelo.certificado.ContratoFornecedor;
 import com.xpert.core.validation.UniqueFields;
 import com.xpert.persistence.query.Restriction;
-import com.xpert.persistence.query.Restrictions;
-import java.util.Date;
 
 /**
  *
@@ -25,9 +21,6 @@ public class ContratoClienteBO extends AbstractBusinessObject<ContratoCliente> {
 
     @EJB
     private ContratoClienteDAO contratoClienteDAO;
-
-    @EJB
-    private ContratoFornecedorDAO contraFornecedorDAO;
 
     @Override
     public ContratoClienteDAO getDAO() {
@@ -69,4 +62,9 @@ public class ContratoClienteBO extends AbstractBusinessObject<ContratoCliente> {
         return true;
     }
 
+    public List<ContratoCliente> contratosAtivo() {
+        return getDAO().getQueryBuilder().from(ContratoCliente.class, "contrato").leftJoinFetch("contrato.cliente", "cliente")
+                .leftJoinFetch("contrato.contratoFornecedor", "contratoFornecedor").leftJoinFetch("contratoFornecedor.fornecedor", "fornecedor")
+                .add("contrato.ativo", true).orderBy("contratoFornecedor, cliente").getResultList();
+    }
 }

@@ -48,9 +48,9 @@ public class NaturezaDeDespesa implements Serializable {
     @OneToMany(mappedBy = "naturezaDeDespesaPai")
     private List<NaturezaDeDespesa> naturezes;
     
-    @OneToMany(mappedBy = "naturezaDaDespesa")
-    @NotAudited
-    private List<DespesaPublica> despesas;
+//    @OneToMany(mappedBy = "naturezaDaDespesa")
+//    @NotAudited
+//    private List<DespesaPublica> despesas;
 
     @Override
     public String toString() {
@@ -103,14 +103,6 @@ public class NaturezaDeDespesa implements Serializable {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
-    }
-
-    public List<DespesaPublica> getDespesas() {
-        return despesas;
-    }
-
-    public void setDespesas(List<DespesaPublica> despesas) {
-        this.despesas = despesas;
     }
 
     @Override

@@ -105,6 +105,7 @@ public class GeracaoPermissao {
         create(new Permissao("cidade.audit", "Auditoria de Cidade"), "cidade");
         create(new Permissao("cidade.editar", "Editar de Cidade"), "cidade");
         create(new Permissao("cidade.desativar", "Desativar de Cidade"), "cidade");
+        create(new Permissao("cidade.ativar", "Ativar de Cidade"), "cidade");
         create(new Permissao("cidade.buscar", "Buscar de Cidade"), "cidade");
         create(new Permissao("cidade.delete", "Exclusão de Cidade"), "cidade");
 
@@ -115,6 +116,7 @@ public class GeracaoPermissao {
         create(new Permissao("estado.audit", "Auditoria de Estado"), "estado");
         create(new Permissao("estado.editar", "Editar de Estado"), "estado");
         create(new Permissao("estado.desativar", "Desativar de Estado"), "estado");
+        create(new Permissao("estado.ativar", "Ativar de Estado"), "estado");
         create(new Permissao("estado.delete", "Exclusão de Estado"), "estado");
 
         //Pais
@@ -124,6 +126,7 @@ public class GeracaoPermissao {
         create(new Permissao("pais.audit", "Auditoria de Pais"), "pais");
         create(new Permissao("pais.editar", "Editar de Pais"), "pais");
         create(new Permissao("pais.desativar", "Desativar de Pais"), "pais");
+        create(new Permissao("pais.ativar", "Ativar de Pais"), "pais");
         create(new Permissao("pais.buscar", "Buscar de Pais"), "pais");
         create(new Permissao("pais.delete", "Exclusão de Pais"), "pais");
 
@@ -167,6 +170,7 @@ public class GeracaoPermissao {
         create(new Permissao("orgao.ativar", "Ativar Orgao"), "orgao");
         create(new Permissao("orgao.editar", "Editar Orgao"), "orgao");
         create(new Permissao("orgao.buscar", "Buscar Orgao"), "orgao");
+        create(new Permissao("orgao.campo", "Campo Orgao"), "orgao");
 
 //Item
         create(new Permissao("item", "Item", false), "cadastro");
@@ -255,6 +259,8 @@ public class GeracaoPermissao {
         create(new Permissao("cargo.audit", "Auditoria de Cargo"), "cargo");
         create(new Permissao("cargo.delete", "Exclusão de Cargo"), "cargo");
         create(new Permissao("cargo.editar", "Editar de Cargo"), "cargo");
+        create(new Permissao("cargo.desativar", "Desativar de Cargo"), "cargo");
+        create(new Permissao("cargo.ativar", "Ativar de Cargo"), "cargo");
 
         /*
          * Configuracao

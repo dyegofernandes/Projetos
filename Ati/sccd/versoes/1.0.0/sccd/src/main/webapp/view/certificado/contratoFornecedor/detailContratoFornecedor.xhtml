@@ -18,21 +18,22 @@
                     <h:outputText value="#{contratoFornecedorMB.entity.numeroContrato}" styleClass="uix-content-detail"/>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contratoFornecedor.cpfRepresentanteLegal']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoFornecedorMB.entity.cpfRepresentanteLegal}" styleClass="uix-content-detail" converter="cpfConverter"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['contratoFornecedor.representanteLegal']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{contratoFornecedorMB.entity.representanteLegal}" styleClass="uix-content-detail"/>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['contratoFornecedor.cpfRepresentanteLegal']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{contratoFornecedorMB.entity.cpfRepresentanteLegal}" styleClass="uix-content-detail"/>
+                    <h:outputLabel value="#{msg['contratoFornecedor.cpfRepresentanteLegalAti']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoFornecedorMB.entity.cpfRepresentanteAti}" styleClass="uix-content-detail" converter="cpfConverter"/>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['contratoFornecedor.representanteLegalAti']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{contratoFornecedorMB.entity.representanteAti}" styleClass="uix-content-detail"/>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['contratoFornecedor.cpfRepresentanteLegalAti']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{contratoFornecedorMB.entity.cpfRepresentanteAti}" styleClass="uix-content-detail"/>
-                </div>
+
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['contratoFornecedor.dataInicio']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{contratoFornecedorMB.entity.dataInicio}" styleClass="uix-content-detail">

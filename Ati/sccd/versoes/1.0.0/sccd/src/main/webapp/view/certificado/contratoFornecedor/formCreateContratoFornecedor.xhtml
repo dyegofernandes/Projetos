@@ -26,21 +26,22 @@
                         <p:inputText id="numeroContrato" value="#{contratoFornecedorMB.entity.numeroContrato}" maxlength="250"  styleClass="form-control"  />
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="representanteLegal" value="* #{msg['contratoFornecedor.representanteLegal']}:" />
-                        <p:inputText id="representanteLegal" value="#{contratoFornecedorMB.entity.representanteLegal}" maxlength="250"  styleClass="form-control"  />
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="cpfRepresentanteLegal" value="* #{msg['contratoFornecedor.cpfRepresentanteLegal']}:" />
                         <x:cpf id="cpfRepresentanteLegal" value="#{contratoFornecedorMB.entity.cpfRepresentanteLegal}" styleClass="form-control"  />
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="representanteLegalAti" value="* #{msg['contratoFornecedor.representanteLegalAti']}:" />
-                        <p:inputText id="representanteLegalAti" value="#{contratoFornecedorMB.entity.representanteAti}" maxlength="250"  styleClass="form-control"  />
+                        <h:outputLabel for="representanteLegal" value="* #{msg['contratoFornecedor.representanteLegal']}:" />
+                        <p:inputText id="representanteLegal" value="#{contratoFornecedorMB.entity.representanteLegal}" maxlength="250"  styleClass="form-control"  />
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="cpfRepresentanteAti" value="* #{msg['contratoFornecedor.cpfRepresentanteAti']}:" />
                         <x:cpf id="cpfRepresentanteAti" value="#{contratoFornecedorMB.entity.cpfRepresentanteAti}" styleClass="form-control"  />
                     </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="representanteLegalAti" value="* #{msg['contratoFornecedor.representanteLegalAti']}:" />
+                        <p:inputText id="representanteLegalAti" value="#{contratoFornecedorMB.entity.representanteAti}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="dataInicio" value="* #{msg['contratoFornecedor.dataInicio']}:" />
                         <p:calendar id="dataInicio" value="#{contratoFornecedorMB.entity.dataInicio}" 

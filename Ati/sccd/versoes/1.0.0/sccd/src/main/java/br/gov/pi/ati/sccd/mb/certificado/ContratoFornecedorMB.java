@@ -56,8 +56,6 @@ public class ContratoFornecedorMB extends AbstractBaseBean<ContratoFornecedor> i
 
     @Override
     public void postSave() {
-        certificadoAdd = new TipoCertificadoAux();
-        certificados = new ArrayList<TipoCertificadoAux>();
         super.postSave();
     }
 

@@ -12,7 +12,7 @@
             <x:modalMessages/>
 
             <x:dataTableActions fileName="contratoCliente_export" target=":formListContratoCliente:dataTableContratoCliente"
-                                     widgetVar="dataTableContratoClienteWidget"  />
+                                widgetVar="dataTableContratoClienteWidget"  />
 
             <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                          var="contratoCliente" rowIndexVar="index" id="dataTableContratoCliente" widgetVar="dataTableContratoClienteWidget" styleClass="table-responsive"
@@ -41,42 +41,43 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{msg['contratoCliente.numeroContrato']}" sortBy="#{contratoCliente.numeroContrato}"
-                    filterBy="#{contratoCliente.numeroContrato}"   >
+                          filterBy="#{contratoCliente.numeroContrato}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['contratoCliente.numeroContrato']}" />
                     </f:facet>
                     <h:outputText value="#{contratoCliente.numeroContrato}"/>
                 </p:column>
+                <p:column headerText="#{msg['contratoCliente.cpfRepresentanteLegal']}" sortBy="#{contratoCliente.cpfRepresentanteLegal}"
+                          filterBy="#{contratoCliente.cpfRepresentanteLegal}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contratoCliente.cpfRepresentanteLegal']}" />
+                    </f:facet>
+                    <h:outputText value="#{contratoCliente.cpfRepresentanteLegal}" converter="cpfConverter"/>
+                </p:column>
                 <p:column headerText="#{msg['contratoCliente.representanteLegal']}" sortBy="#{contratoCliente.representanteLegal}"
-                    filterBy="#{contratoCliente.representanteLegal}"   >
+                          filterBy="#{contratoCliente.representanteLegal}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['contratoCliente.representanteLegal']}" />
                     </f:facet>
                     <h:outputText value="#{contratoCliente.representanteLegal}"/>
                 </p:column>
-                <p:column headerText="#{msg['contratoCliente.cpfRepresentanteLegal']}" sortBy="#{contratoCliente.cpfRepresentanteLegal}"
-                    filterBy="#{contratoCliente.cpfRepresentanteLegal}"   >
+                <p:column headerText="#{msg['contratoCliente.cpfRepresentanteAti']}" sortBy="#{contratoCliente.cpfRepresentanteAti}"
+                          filterBy="#{contratoCliente.cpfRepresentanteAti}"   >
                     <f:facet name="header">
-                        <h:outputText value="#{msg['contratoCliente.cpfRepresentanteLegal']}" />
+                        <h:outputText value="#{msg['contratoCliente.cpfRepresentanteAti']}" />
                     </f:facet>
-                    <h:outputText value="#{contratoCliente.cpfRepresentanteLegal}" />
+                    <h:outputText value="#{contratoCliente.cpfRepresentanteAti}" converter="cpfConverter"/>
                 </p:column>
                 <p:column headerText="#{msg['contratoCliente.representanteLegalAti']}" sortBy="#{contratoCliente.representanteAti}"
-                    filterBy="#{contratoCliente.representanteAti}"   >
+                          filterBy="#{contratoCliente.representanteAti}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['contratoCliente.representanteLegalAti']}" />
                     </f:facet>
                     <h:outputText value="#{contratoCliente.representanteAti}"/>
                 </p:column>
-                <p:column headerText="#{msg['contratoCliente.cpfRepresentanteAti']}" sortBy="#{contratoCliente.cpfRepresentanteAti}"
-                    filterBy="#{contratoCliente.cpfRepresentanteAti}"   >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['contratoCliente.cpfRepresentanteAti']}" />
-                    </f:facet>
-                    <h:outputText value="#{contratoCliente.cpfRepresentanteAti}"/>
-                </p:column>
+
                 <p:column headerText="#{msg['contratoCliente.dataInicio']}" sortBy="#{contratoCliente.dataInicio}"
-                    filterBy="#{contratoCliente.dataInicio}"   style="text-align: center;">
+                          filterBy="#{contratoCliente.dataInicio}"   style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['contratoCliente.dataInicio']}" />
                         <x:dateFilter/>
@@ -86,7 +87,7 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{msg['contratoCliente.dataFinal']}" sortBy="#{contratoCliente.dataFinal}"
-                    filterBy="#{contratoCliente.dataFinal}"   style="text-align: center;">
+                          filterBy="#{contratoCliente.dataFinal}"   style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['contratoCliente.dataFinal']}" />
                         <x:dateFilter/>
@@ -126,7 +127,7 @@
 
         <p:dialog widgetVar="widgetContratoClienteDetail" header="#{msg['contratoCliente.detail']}" appendTo="@(body)" 
                   modal="true" styleClass="uix-dialog-fluid" >
-                  <ui:include src="detailContratoCliente.xhtml" />
+            <ui:include src="detailContratoCliente.xhtml" />
         </p:dialog>
     </ui:define>
 </ui:composition>

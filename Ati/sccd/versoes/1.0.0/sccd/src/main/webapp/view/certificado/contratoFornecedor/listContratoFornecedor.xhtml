@@ -38,6 +38,13 @@
                     </f:facet>
                     <h:outputText value="#{contratoFornecedor.numeroContrato}"/>
                 </p:column>
+                <p:column headerText="#{msg['contratoFornecedor.cpfRepresentanteLegal']}" sortBy="#{contratoFornecedor.cpfRepresentanteLegal}"
+                          filterBy="#{contratoFornecedor.cpfRepresentanteLegal}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contratoFornecedor.cpfRepresentanteLegal']}" />
+                    </f:facet>
+                    <h:outputText value="#{contratoFornecedor.cpfRepresentanteLegal}" converter="cpfConverter"/>
+                </p:column>
                 <p:column headerText="#{msg['contratoFornecedor.representanteLegal']}" sortBy="#{contratoFornecedor.representanteLegal}"
                           filterBy="#{contratoFornecedor.representanteLegal}"   >
                     <f:facet name="header">
@@ -45,12 +52,12 @@
                     </f:facet>
                     <h:outputText value="#{contratoFornecedor.representanteLegal}"/>
                 </p:column>
-                <p:column headerText="#{msg['contratoFornecedor.cpfRepresentanteLegal']}" sortBy="#{contratoFornecedor.cpfRepresentanteLegal}"
-                          filterBy="#{contratoFornecedor.cpfRepresentanteLegal}"   >
+                <p:column headerText="#{msg['contratoFornecedor.cpfRepresentanteAti']}" sortBy="#{contratoFornecedor.cpfRepresentanteAti}"
+                          filterBy="#{contratoFornecedor.cpfRepresentanteAti}"   >
                     <f:facet name="header">
-                        <h:outputText value="#{msg['contratoFornecedor.cpfRepresentanteLegal']}" />
+                        <h:outputText value="#{msg['contratoFornecedor.cpfRepresentanteAti']}" />
                     </f:facet>
-                    <h:outputText value="#{contratoFornecedor.cpfRepresentanteLegal}" />
+                    <h:outputText value="#{contratoFornecedor.cpfRepresentanteAti}" converter="cpfConverter"/>
                 </p:column>
                 <p:column headerText="#{msg['contratoFornecedor.representanteLegalAti']}" sortBy="#{contratoFornecedor.representanteAti}"
                           filterBy="#{contratoFornecedor.representanteAti}"   >
@@ -59,13 +66,7 @@
                     </f:facet>
                     <h:outputText value="#{contratoFornecedor.representanteAti}"/>
                 </p:column>
-                <p:column headerText="#{msg['contratoFornecedor.cpfRepresentanteAti']}" sortBy="#{contratoFornecedor.cpfRepresentanteAti}"
-                          filterBy="#{contratoFornecedor.cpfRepresentanteAti}"   >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['contratoFornecedor.cpfRepresentanteAti']}" />
-                    </f:facet>
-                    <h:outputText value="#{contratoFornecedor.cpfRepresentanteAti}"/>
-                </p:column>
+                
                 <p:column headerText="#{msg['contratoFornecedor.dataInicio']}" sortBy="#{contratoFornecedor.dataInicio}"
                           filterBy="#{contratoFornecedor.dataInicio}"   style="text-align: center;">
                     <f:facet name="header">

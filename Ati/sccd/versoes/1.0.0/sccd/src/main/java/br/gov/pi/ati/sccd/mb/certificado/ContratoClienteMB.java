@@ -60,15 +60,12 @@ public class ContratoClienteMB extends AbstractBaseBean<ContratoCliente> impleme
 
     @Override
     public void save() {
-        getEntity().setContratoFornecedor(getContratosFornecedores());
         getEntity().setCertificados(certificados);
         super.save();
     }
 
     @Override
     public void postSave() {
-        certificadoAdd = new TipoCertificadoAux();
-        certificados = new ArrayList<TipoCertificadoAux>();
         super.postSave();
     }
 
@@ -80,9 +77,6 @@ public class ContratoClienteMB extends AbstractBaseBean<ContratoCliente> impleme
                         if (certificadoJaAdicionado(certificadoAdd.getTipo())) {
                             FacesMessageUtils.error("Já foi encontrado esse tipo de certificado na lista!");
                         } else {
-                            for (TipoCertificadoAux certificado : certificadosFornecedor) {
-
-                            }
                             certificados.add(certificadoAdd);
                             certificadoAdd = new TipoCertificadoAux();
                         }
@@ -155,7 +149,7 @@ public class ContratoClienteMB extends AbstractBaseBean<ContratoCliente> impleme
     }
 
     public List<TipoCertificado> getTiposCertificacos() {
-        if (certificadosFornecedor.size() > 0) {
+        if (getEntity().getContratoFornecedor() != null) {
             List<TipoCertificado> tipos = new ArrayList<TipoCertificado>();
             for (TipoCertificadoAux tipo : certificadosFornecedor) {
                 tipos.add(getDAO().getInitialized(tipo.getTipo()));

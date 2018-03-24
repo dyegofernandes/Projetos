@@ -4,39 +4,41 @@
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
-    
-  
+
+
     <h:form id="formCreateAutoridadeCertificadora" >
         <p:fieldset legend="#{xmsg['generalData']}">
             <x:modalMessages/>
 
             <div class="container-fluid">
-                 <div class="row">
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="fornecedor" value="* #{msg['autoridadeCertificadora.fornecedor']}:" />
-                         <h:selectOneMenu id="fornecedor" value="#{autoridadeCertificadoraMB.entity.fornecedor}" converter="entityConverter" styleClass="form-control" >
-                             <x:initializer/>
-                             <f:selectItem itemLabel="#{xmsg['select']}" />
-                             <f:selectItems value="#{fornecedorMB.fornecedoresAtivos()}" 
-                                            var="fornecedor"
-                                            itemLabel="#{fornecedor}"/>
-                         </h:selectOneMenu>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="nome" value="* #{msg['autoridadeCertificadora.nome']}:" />
-                         <p:inputText id="nome" value="#{autoridadeCertificadoraMB.entity.nome}" maxlength="250"  styleClass="form-control"  />
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <div class="checkbox">
-                             <label>
-                                 <h:selectBooleanCheckbox id="ativo" value="#{autoridadeCertificadoraMB.entity.ativo}" />
-                                 #{msg['autoridadeCertificadora.ativo']}
-                             </label>
-                         </div>
-                     </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="fornecedor" value="* #{msg['autoridadeCertificadora.fornecedor']}:" />
+                        <h:selectOneMenu id="fornecedor" value="#{autoridadeCertificadoraMB.entity.fornecedor}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{fornecedorMB.fornecedoresAtivos()}" 
+                                           var="fornecedor"
+                                           itemLabel="#{fornecedor}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="* #{msg['autoridadeCertificadora.nome']}:" />
+                        <p:inputText id="nome" value="#{autoridadeCertificadoraMB.entity.nome}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="ativo" value="#{autoridadeCertificadoraMB.entity.ativo}" />
+                                #{msg['autoridadeCertificadora.ativo']}
+                            </label>
+                        </div>
+                        <h:outputText value="#{msg['ativo.infor']}" styleClass="help-block"/>                    
 
-                 </div>
-             </div>
+                    </div>
+
+                </div>
+            </div>
         </p:fieldset>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">

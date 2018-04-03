@@ -63,6 +63,20 @@
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
+                <p:column headerText="Faixa Vitima" sortBy="#{unidade.faixaEtariaVitima}"
+                          filterBy="#{unidade.faixaEtariaVitima}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Faixa Vitima" />
+                    </f:facet>
+                    <h:outputText value="#{unidade.faixaEtariaVitima.descricao}"/>
+                </p:column>
+                <p:column headerText="Faixa Agressor" sortBy="#{unidade.faixaEtariaAgressor}"
+                          filterBy="#{unidade.faixaEtariaAgressor}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Faixa Agressor" />
+                    </f:facet>
+                    <h:outputText value="#{unidade.faixaEtariaAgressor.descricao}"/>
+                </p:column>
                 <p:column headerText="Tipo" sortBy="#{unidade.tipo}"
                           filterBy="#{unidade.tipo}"   >
                     <f:facet name="header">

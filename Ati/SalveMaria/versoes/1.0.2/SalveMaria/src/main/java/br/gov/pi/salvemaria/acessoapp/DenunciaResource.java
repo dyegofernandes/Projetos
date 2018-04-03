@@ -198,7 +198,7 @@ public class DenunciaResource {
                 denuncia.setEndereco(endereco);
                 denuncia.setImei(denunciaVO.getImei());
                 denuncia.setCpfUsuario(denunciaVO.getCpfUsuario());
-                denuncia.setUnidade(unidadeBO.unidadePeloBairro(bairro, tipo, denuncia.getIdadeVitima(), denuncia.getIdadeAgressor()));
+                denuncia.setUnidade(unidadeBO.unidadePelaDenuncia(denuncia));
                 
                 try {
                     List<Arquivo> arquivos = new ArrayList<Arquivo>();

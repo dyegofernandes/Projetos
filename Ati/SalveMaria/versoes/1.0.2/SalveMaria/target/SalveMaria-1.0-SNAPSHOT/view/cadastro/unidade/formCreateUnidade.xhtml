@@ -51,15 +51,22 @@
                         </h:selectOneMenu>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="faixa" value="Faixa Etária das Denúncias:" />
-                        <h:selectOneMenu id="faixa" value="#{unidadeMB.entity.faixaEtariaDeDenuncias}"  styleClass="form-control" >
-                            <f:selectItem itemLabel="Todas" />
+                        <h:outputLabel for="faixaEtariaVitima" value="Faixa Etária Vítima:" />
+                        <h:selectOneMenu id="faixaEtariaVitima" value="#{unidadeMB.entity.faixaEtariaVitima}"  styleClass="form-control" >
                             <f:selectItems value="#{findAllBean.get(classMB.faixaEtaria)}" 
                                            var="faixa"
                                            itemLabel="#{faixa.descricao}"/>
                         </h:selectOneMenu>
                     </div>
-                    <div class="form-group col-lg-12 col-md-12 col-sm-6 col-xs-12">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="faixaEtariaAgressor" value="Faixa Etária Agressor" />
+                        <h:selectOneMenu id="faixaEtariaAgressor" value="#{unidadeMB.entity.faixaEtariaAgressor}"  styleClass="form-control" >
+                            <f:selectItems value="#{findAllBean.get(classMB.faixaEtaria)}" 
+                                           var="faixa"
+                                           itemLabel="#{faixa.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <div class="checkbox">
                             <label>
                                 <h:selectBooleanCheckbox value="#{unidadeMB.entity.visualizarDenunciaNormal}" />
@@ -68,7 +75,7 @@
                         </div>
                         <h:outputText value="Ao marcar essa opção o usuário podera ver as denúncias do Tipo Normal (Formulário App)" styleClass="help-block"/>
                     </div>
-                    <div class="form-group col-lg-12 col-md-12 col-sm-6 col-xs-12">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <div class="checkbox">
                             <label>
                                 <h:selectBooleanCheckbox value="#{unidadeMB.entity.visualizarDenunciaPanico}" />

@@ -18,7 +18,7 @@ public enum TipoUnidade {
     DP(5, "Distrito Policial"),
     PM(6, "Polícia Militar"),
     PC(7, "Polícia Civil"),
-    DSPM(10, "DPCA - Menor Infrator"),
+    DSPM(10, "DPCM - Menor Infrator"),
     DPCA(9, "DPCA - Menor Vítima"),
     DSPI(8, "DSPI - Idoso");
 

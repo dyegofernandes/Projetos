@@ -133,16 +133,16 @@ public class DenunciaBO extends AbstractBusinessObject<Denuncia> {
 //                    restrictions.add("circunscricao", circu);
                 }
 
-                if (unidade.getFaixaEtariaDeDenuncias() == FaixaEtaria.IDOSO) {
+                if (unidade.getFaixaEtariaVitima() == FaixaEtaria.IDOSO) {
                     restrictions.greaterEqualsThan("denuncia.idadeVitima", 60);
                 }
 
-                if (unidade.getFaixaEtariaDeDenuncias() == FaixaEtaria.MENOR_DE_IDADE) {
+                if (unidade.getFaixaEtariaVitima() == FaixaEtaria.MENOR_DE_IDADE) {
                     restrictions.greaterEqualsThan("denuncia.idadeVitima", 0);
                     restrictions.lessThan("denuncia.idadeVitima", 18);
                 }
 
-                if (unidade.getFaixaEtariaDeDenuncias() == FaixaEtaria.MAIOR_DE_IDADE_OU_SEM_IDADE) {
+                if (unidade.getFaixaEtariaVitima()== FaixaEtaria.MAIOR_DE_IDADE) {
                     restrictions.startGroup().startGroup().greaterEqualsThan("denuncia.idadeVitima", 18).lessThan("denuncia.idadeVitima", 60).endGroup()
                             .or().isNull("denuncia.idadeVitima").endGroup();
                 }
@@ -173,15 +173,6 @@ public class DenunciaBO extends AbstractBusinessObject<Denuncia> {
 
         if (filtros.getUnidade() != null) {
             restrictions.add("unidade", filtros.getUnidade());
-            //            Unidade unidade = getDAO().getInitialized(filtros.getUnidade());
-            //            Circunscricao circu = getDAO().getInitialized(unidade.getCircunscricao());
-            //            CircunscricaoBairro circuBairro = getDAO().getInitialized(unidade.getCircunscricaoBairro());
-            //            if (circuBairro != null) {
-            //                restrictions.add("circunscricaoBairro", circuBairro);
-            //            } else {
-            //                restrictions.add("circunscricao", circu);
-            //            }
-
         }
 
         if (filtros.getFaixaEtaria() != null) {
@@ -193,7 +184,7 @@ public class DenunciaBO extends AbstractBusinessObject<Denuncia> {
                 restrictions.greaterEqualsThan("denuncia.idadeVitima", 0);
                 restrictions.lessThan("denuncia.idadeVitima", 18);
             }
-            if (filtros.getFaixaEtaria() == FaixaEtaria.MAIOR_DE_IDADE_OU_SEM_IDADE) {
+            if (filtros.getFaixaEtaria() == FaixaEtaria.MAIOR_DE_IDADE) {
                 restrictions.startGroup().startGroup().greaterEqualsThan("denuncia.idadeVitima", 18).lessThan("denuncia.idadeVitima", 60).endGroup()
                         .or().isNull("denuncia.idadeVitima").endGroup();
             }

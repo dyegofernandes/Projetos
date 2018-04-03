@@ -48,7 +48,9 @@ public class Unidade implements Serializable {
     @NotNull
     private TipoUnidade tipo;
 
-    private FaixaEtaria faixaEtariaDeDenuncias;
+    private FaixaEtaria faixaEtariaVitima = FaixaEtaria.TODAS;
+
+    private FaixaEtaria faixaEtariaAgressor = FaixaEtaria.TODAS;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
@@ -170,12 +172,20 @@ public class Unidade implements Serializable {
         this.viaturas = viaturas;
     }
 
-    public FaixaEtaria getFaixaEtariaDeDenuncias() {
-        return faixaEtariaDeDenuncias;
+    public FaixaEtaria getFaixaEtariaVitima() {
+        return faixaEtariaVitima;
     }
 
-    public void setFaixaEtariaDeDenuncias(FaixaEtaria faixaEtariaDeDenuncias) {
-        this.faixaEtariaDeDenuncias = faixaEtariaDeDenuncias;
+    public void setFaixaEtariaVitima(FaixaEtaria faixaEtariaVitima) {
+        this.faixaEtariaVitima = faixaEtariaVitima;
+    }
+
+    public FaixaEtaria getFaixaEtariaAgressor() {
+        return faixaEtariaAgressor;
+    }
+
+    public void setFaixaEtariaAgressor(FaixaEtaria faixaEtariaAgressor) {
+        this.faixaEtariaAgressor = faixaEtariaAgressor;
     }
 
     public Boolean getVisualizarDenunciaNormal() {

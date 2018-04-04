@@ -52,6 +52,12 @@ public class Unidade implements Serializable {
 
     private FaixaEtaria faixaEtariaAgressor = FaixaEtaria.TODAS;
 
+    private double centroLtdMaps = -5.08921;
+
+    private double centroLgtMaps = -42.8016;
+
+    private int zoomMaps = 7;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     private Circunscricao circunscricao;
@@ -202,6 +208,30 @@ public class Unidade implements Serializable {
 
     public void setVisualizarDenunciaPanico(Boolean visualizarDenunciaPanico) {
         this.visualizarDenunciaPanico = visualizarDenunciaPanico;
+    }
+
+    public double getCentroLtdMaps() {
+        return centroLtdMaps;
+    }
+
+    public void setCentroLtdMaps(double centroLtdMaps) {
+        this.centroLtdMaps = centroLtdMaps;
+    }
+
+    public double getCentroLgtMaps() {
+        return centroLgtMaps;
+    }
+
+    public void setCentroLgtMaps(double centroLgtMaps) {
+        this.centroLgtMaps = centroLgtMaps;
+    }
+
+    public int getZoomMaps() {
+        return zoomMaps;
+    }
+
+    public void setZoomMaps(int zoomMaps) {
+        this.zoomMaps = zoomMaps;
     }
 
     @Override

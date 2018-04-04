@@ -132,7 +132,7 @@ public class MonitoramentoMB extends AbstractBaseBean<Denuncia> implements Seria
             denunciaSigilosa = unidade.getVisualizarDenunciaNormal();
         }
         
-        filtro.setUsuario(usuarioAtual);
+        filtro.setUnidade(usuarioAtual.getUnidade());
         
         situacaoTemp = getEntity().getSituacao();
         

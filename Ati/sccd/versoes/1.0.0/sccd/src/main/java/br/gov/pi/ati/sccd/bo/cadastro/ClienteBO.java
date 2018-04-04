@@ -9,6 +9,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.sccd.modelo.cadastro.Cliente;
 import com.xpert.core.validation.UniqueFields;
+import com.xpert.persistence.query.Restrictions;
 
 /**
  *
@@ -16,30 +17,32 @@ import com.xpert.core.validation.UniqueFields;
  */
 @Stateless
 public class ClienteBO extends AbstractBusinessObject<Cliente> {
-    
+
     @EJB
     private ClienteDAO clienteDAO;
-    
+
     @Override
     public ClienteDAO getDAO() {
         return clienteDAO;
     }
-    
+
     @Override
     public List<UniqueField> getUniqueFields() {
         return new UniqueFields().add("nome").add("cpfCnpj");
     }
-    
+
     @Override
     public void validate(Cliente cliente) throws BusinessException {
     }
-    
+
     @Override
     public boolean isAudit() {
         return true;
     }
-    
-    public List<Cliente> clientesAtivos(){
-        return getDAO().list("ativo", true, "nome");
+
+    public List<Cliente> clientesAtivos() {
+        Restrictions restrictions = new Restrictions();
+        restrictions.add("cliente.ativo", true);
+        return getDAO().getQueryBuilder().from(Cliente.class, "cliente").add(restrictions).orderBy("cliente.nome").getResultList();
     }
 }

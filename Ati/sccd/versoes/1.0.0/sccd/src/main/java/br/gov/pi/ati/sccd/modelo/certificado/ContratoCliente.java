@@ -46,31 +46,31 @@ public class ContratoCliente implements Serializable {
     private Cliente cliente;
 
     @Size(max = 250)
-    @NotBlank
+//    @NotBlank
     private String numeroContrato;
 
     @Size(max = 250)
-    @NotBlank
+//    @NotBlank
     private String representanteLegal;
 
     @Size(max = 50)
-    @NotBlank
+//    @NotBlank
     private String cpfRepresentanteLegal;
 
     @Size(max = 250)
-    @NotBlank
+//    @NotBlank
     private String representanteAti;
 
     @Size(max = 50)
-    @NotBlank
+//    @NotBlank
     private String cpfRepresentanteAti;
 
     @Temporal(TemporalType.DATE)
-    @NotNull
+//    @NotNull
     private Date dataInicio;
 
     @Temporal(TemporalType.DATE)
-    @NotNull
+//    @NotNull
     private Date dataFinal;
 
     @ManyToMany(targetEntity = TipoCertificadoAux.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})

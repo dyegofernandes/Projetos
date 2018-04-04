@@ -10,7 +10,6 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.sccd.modelo.certificado.ContratoCliente;
 import com.xpert.core.validation.UniqueFields;
-import com.xpert.persistence.query.Restriction;
 
 /**
  *
@@ -31,11 +30,10 @@ public class ContratoClienteBO extends AbstractBusinessObject<ContratoCliente> {
     public List<UniqueField> getUniqueFields() {
         UniqueFields uniqueFields = new UniqueFields();
 
-        UniqueField unique = new UniqueField(Restriction.equals("ativo", true), "cliente").setMessage("Já existe um contrato ativo para esse Cliente!");
-
-        uniqueFields.add(unique);
-
-        uniqueFields.add("numeroContrato");
+//        UniqueField unique = new UniqueField(Restriction.equals("ativo", true), "cliente").setMessage("Já existe um contrato ativo para esse Cliente!");
+//
+//        uniqueFields.add(unique);
+//        uniqueFields.add("numeroContrato", "cliente");
 
         return uniqueFields;
     }

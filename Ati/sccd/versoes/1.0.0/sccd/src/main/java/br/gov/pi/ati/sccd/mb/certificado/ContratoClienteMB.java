@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.sccd.bo.certificado.ContratoClienteBO;
 import br.gov.pi.ati.sccd.bo.certificado.ContratoFornecedorBO;
+import br.gov.pi.ati.sccd.modelo.cadastro.Cliente;
 import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificado;
 import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificadoAux;
 import br.gov.pi.ati.sccd.modelo.certificado.ContratoCliente;
@@ -73,20 +74,37 @@ public class ContratoClienteMB extends AbstractBaseBean<ContratoCliente> impleme
         if (getEntity().getContratoFornecedor() != null) {
             if (certificadoAdd.getTipo() != null) {
                 if (certificadoAdd.getValor() != null) {
-                    if (certificadoAdd.getValor().doubleValue() > 0) {
-                        if (certificadoJaAdicionado(certificadoAdd.getTipo())) {
-                            FacesMessageUtils.error("Já foi encontrado esse tipo de certificado na lista!");
+                    if (getEntity().getCliente() != null) {
+                        if (certificadoAdd.getValor().doubleValue() > 0) {
+                            if (getEntity().getCliente().isIsento()) {
+                                FacesMessageUtils.error("Valor deve ser zero para clientes isentos!");
+                            } else {
+                                if (certificadoJaAdicionado(certificadoAdd.getTipo())) {
+                                    FacesMessageUtils.error("Já foi encontrado esse tipo de certificado na lista!");
+                                } else {
+                                    certificados.add(certificadoAdd);
+                                    certificadoAdd = new TipoCertificadoAux();
+                                }
+                            }
+
                         } else {
-                            certificados.add(certificadoAdd);
-                            certificadoAdd = new TipoCertificadoAux();
+                            if (getEntity().getCliente().isIsento()) {
+                                if (certificadoJaAdicionado(certificadoAdd.getTipo())) {
+                                    FacesMessageUtils.error("Já foi encontrado esse tipo de certificado na lista!");
+                                } else {
+                                    certificados.add(certificadoAdd);
+                                    certificadoAdd = new TipoCertificadoAux();
+                                }
+                            } else {
+                                FacesMessageUtils.error("Valor deve ser zero para clientes isentos!");
+                            }
                         }
                     } else {
-                        FacesMessageUtils.error("Valor deve ser maior que zero!");
+                        FacesMessageUtils.error("Informe o cliente!");
                     }
                 } else {
                     FacesMessageUtils.error("Valor é obrigatório!");
                 }
-
             } else {
                 FacesMessageUtils.error("Tipo do certificado é obrigatório! Informe o Contrato de Fornecedor!");
             }
@@ -163,5 +181,15 @@ public class ContratoClienteMB extends AbstractBaseBean<ContratoCliente> impleme
 
     public List<ContratoCliente> contratosAtivo() {
         return getBO().contratosAtivo();
+    }
+
+    public boolean renderizarPanel() {
+        Cliente cliente = getDAO().getInitialized(getEntity().getCliente());
+
+        if (cliente != null) {
+            return !cliente.isIsento();
+        }
+
+        return false;
     }
 }

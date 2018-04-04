@@ -73,7 +73,9 @@ public class Filtros implements Serializable{
     
     private String cnhAgressor;
     
-    private FaixaEtaria faixaEtaria;
+    private FaixaEtaria faixaEtariaVitima;
+    
+    private FaixaEtaria faixaEtariaAgressor;
 
     public Unidade getUnidade() {
         return unidade;
@@ -267,14 +269,21 @@ public class Filtros implements Serializable{
         this.cnhAgressor = cnhAgressor;
     }
 
-    public FaixaEtaria getFaixaEtaria() {
-        return faixaEtaria;
+    public FaixaEtaria getFaixaEtariaVitima() {
+        return faixaEtariaVitima;
     }
 
-    public void setFaixaEtaria(FaixaEtaria faixaEtaria) {
-        this.faixaEtaria = faixaEtaria;
+    public void setFaixaEtariaVitima(FaixaEtaria faixaEtariaVitima) {
+        this.faixaEtariaVitima = faixaEtariaVitima;
+    }
+
+    public FaixaEtaria getFaixaEtariaAgressor() {
+        return faixaEtariaAgressor;
+    }
+
+    public void setFaixaEtariaAgressor(FaixaEtaria faixaEtariaAgressor) {
+        this.faixaEtariaAgressor = faixaEtariaAgressor;
     }
 
     
-
 }

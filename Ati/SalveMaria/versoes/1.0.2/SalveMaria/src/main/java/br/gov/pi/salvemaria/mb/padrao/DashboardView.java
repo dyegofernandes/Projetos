@@ -119,24 +119,6 @@ public class DashboardView implements Serializable {
             }
         }
 
-//        filtro.setDataDenunciaInicial(new Date());
-//        filtro.setDataDenunciaFinal(new Date());
-//        diario = denunciaBO.listar(filtro).size();
-//
-//        filtro.setDataDenunciaInicial(util.primeiroDiaDoMes());
-//        filtro.setDataDenunciaFinal(util.ultimoDiaDoMes());
-//        mensal = denunciaBO.listar(filtro).size();
-//
-//        filtro.setDataDenunciaInicial(util.primeiroDiaSemestre());
-//        filtro.setDataDenunciaFinal(util.ultimoDiaSemestre());
-//        semestral = denunciaBO.listar(filtro).size();
-//
-//        filtro.setDataDenunciaInicial(util.primeiroDiaDoAno());
-//        filtro.setDataDenunciaFinal(util.ultiomoDiaDoAno());
-//        anual = denunciaBO.listar(filtro).size();
-//
-//        filtro.setDataDenunciaInicial(null);
-//        filtro.setDataDenunciaFinal(null);
         total = denuncias.size();
 
         latitude = "-5.08921";
@@ -301,9 +283,6 @@ public class DashboardView implements Serializable {
             dataFinal.set(Calendar.SECOND, 59);
         }
 
-        for (Denuncia denuncia : denuncias) {
-
-        }
         return null;
     }
 

@@ -32,42 +32,8 @@
                             <f:selectItems value="#{clienteMB.clientesAtivos()}" 
                                            var="cliente"
                                            itemLabel="#{cliente}"/>
+                            <p:ajax process="@this" update="@form" />
                         </h:selectOneMenu>
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="numeroContrato" value="* #{msg['contratoCliente.numeroContrato']}:" />
-                        <p:inputText id="numeroContrato" value="#{contratoClienteMB.entity.numeroContrato}" maxlength="250"  styleClass="form-control"  />
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="cpfRepresentanteLegal" value="* #{msg['contratoCliente.cpfRepresentanteLegal']}:" />
-                        <x:cpf id="cpfRepresentanteLegal" value="#{contratoClienteMB.entity.cpfRepresentanteLegal}" styleClass="form-control"  />
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="representanteLegal" value="* #{msg['contratoCliente.representanteLegal']}:" />
-                        <p:inputText id="representanteLegal" value="#{contratoClienteMB.entity.representanteLegal}" maxlength="250"  styleClass="form-control"  />
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="cpfRepresentanteAti" value="* #{msg['contratoCliente.cpfRepresentanteAti']}:" />
-                        <x:cpf id="cpfRepresentanteAti" value="#{contratoClienteMB.entity.cpfRepresentanteAti}" styleClass="form-control"  />
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="representanteLegalAti" value="* #{msg['contratoCliente.representanteLegalAti']}:" />
-                        <p:inputText id="representanteLegalAti" value="#{contratoClienteMB.entity.representanteAti}" maxlength="250"  styleClass="form-control"  />
-                    </div>
-
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="dataInicio" value="* #{msg['contratoCliente.dataInicio']}:" />
-                        <p:calendar id="dataInicio" value="#{contratoClienteMB.entity.dataInicio}" 
-                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
-                            <x:mask/>
-                        </p:calendar>
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="dataFinal" value="* #{msg['contratoCliente.dataFinal']}:" />
-                        <p:calendar id="dataFinal" value="#{contratoClienteMB.entity.dataFinal}" 
-                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
-                            <x:mask/>
-                        </p:calendar>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <div class="checkbox">
@@ -78,6 +44,45 @@
                         </div>
                         <h:outputText value="#{msg['contratoCliente.ativoInfor']}" styleClass="help-block"/>
                     </div>
+                    <p:panel rendered="#{contratoClienteMB.renderizarPanel()}">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="numeroContrato" value="* #{msg['contratoCliente.numeroContrato']}:" />
+                            <p:inputText id="numeroContrato" value="#{contratoClienteMB.entity.numeroContrato}" maxlength="250"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cpfRepresentanteLegal" value="* #{msg['contratoCliente.cpfRepresentanteLegal']}:" />
+                            <x:cpf id="cpfRepresentanteLegal" value="#{contratoClienteMB.entity.cpfRepresentanteLegal}" styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="representanteLegal" value="* #{msg['contratoCliente.representanteLegal']}:" />
+                            <p:inputText id="representanteLegal" value="#{contratoClienteMB.entity.representanteLegal}" maxlength="250"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cpfRepresentanteAti" value="* #{msg['contratoCliente.cpfRepresentanteAti']}:" />
+                            <x:cpf id="cpfRepresentanteAti" value="#{contratoClienteMB.entity.cpfRepresentanteAti}" styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="representanteLegalAti" value="* #{msg['contratoCliente.representanteLegalAti']}:" />
+                            <p:inputText id="representanteLegalAti" value="#{contratoClienteMB.entity.representanteAti}" maxlength="250"  styleClass="form-control"  />
+                        </div>
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dataInicio" value="* #{msg['contratoCliente.dataInicio']}:" />
+                            <p:calendar id="dataInicio" value="#{contratoClienteMB.entity.dataInicio}" 
+                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                <x:mask/>
+                            </p:calendar>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dataFinal" value="* #{msg['contratoCliente.dataFinal']}:" />
+                            <p:calendar id="dataFinal" value="#{contratoClienteMB.entity.dataFinal}" 
+                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                <x:mask/>
+                            </p:calendar>
+                        </div>
+                    </p:panel>
+
+
 
                 </div>
             </div>

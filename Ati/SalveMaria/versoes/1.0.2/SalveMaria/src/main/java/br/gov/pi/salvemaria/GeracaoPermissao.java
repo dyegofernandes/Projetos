@@ -155,7 +155,11 @@ public class GeracaoPermissao {
         create(new Permissao("denuncia.audit", "Auditoria de Denuncia"), "denuncia");
         create(new Permissao("denuncia.delete", "Exclusão de Denuncia"), "denuncia");
         create(new Permissao("denuncia.monitoramento", "Monitoramento", "/view/denuncia/denuncia/monitoramento.jsf", true), "denunciamenu");
-
+        create(new Permissao("denuncia.unidade", "Campo Unidade"), "denuncia");
+        create(new Permissao("denuncia.tipo", "Campo Tipo Denuncia"), "denuncia");
+        create(new Permissao("denuncia.faixaIdade", "Campo Faixa Etaria Idade"), "denuncia");
+        
+        
         create(new Permissao("circunscricaoPai", "Território", true), "cadastrobasico");
 
         //Circunscricao

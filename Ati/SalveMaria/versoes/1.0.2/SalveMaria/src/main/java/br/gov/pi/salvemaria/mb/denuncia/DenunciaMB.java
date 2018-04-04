@@ -51,9 +51,6 @@ public class DenunciaMB extends AbstractBaseBean<Denuncia> implements Serializab
     @EJB
     private DenunciaBO denunciaBO;
 
-    @EJB
-    private ArquivoBO arquivoBO;
-
     private Filtros filtro;
 
     private Usuario usuarioAtual = SessaoUtils.getUser();
@@ -66,6 +63,7 @@ public class DenunciaMB extends AbstractBaseBean<Denuncia> implements Serializab
 
     private List<Situacao> situacoes = new ArrayList<Situacao>(Arrays.asList(Situacao.values()));
 
+    private List<Denuncia> denuncias;
     @EJB
     private CidadeBO cidadeBO;
 
@@ -84,9 +82,11 @@ public class DenunciaMB extends AbstractBaseBean<Denuncia> implements Serializab
 
     @Override
     public void init() {
+        denuncias = new ArrayList<Denuncia>();
+
         filtro = new Filtros();
 
-        filtro.setUsuario(usuarioAtual);
+        filtro.setUnidade(usuarioAtual.getUnidade());
 
         arquivos = new ArrayList<Arquivo>();
 
@@ -185,20 +185,20 @@ public class DenunciaMB extends AbstractBaseBean<Denuncia> implements Serializab
         return arquivos;
     }
 
-    public List<Denuncia> getDenuncias() {
-        List<Denuncia> denuncias = null;
-
-        denuncias = denunciaBO.listar(filtro);
-
-        return denuncias;
-    }
-
     public Filtros getFiltro() {
         return filtro;
     }
 
     public void setFiltro(Filtros filtro) {
         this.filtro = filtro;
+    }
+
+    public List<Denuncia> getDenuncias() {
+        return denuncias;
+    }
+
+    public void setDenuncias(List<Denuncia> denuncias) {
+        this.denuncias = denuncias;
     }
 
     public List<Bairro> getBairros() {
@@ -261,4 +261,7 @@ public class DenunciaMB extends AbstractBaseBean<Denuncia> implements Serializab
         return situacoes;
     }
 
+    public void buscar() {
+        denuncias = denunciaBO.listar(filtro);
+    }
 }

@@ -114,84 +114,42 @@ public class DenunciaBO extends AbstractBusinessObject<Denuncia> {
 
     public List<Denuncia> listar(Filtros filtros) {
 
-        Usuario usuario = getDAO().getInitialized(filtros.getUsuario());
-
-        List<Denuncia> denuncias = new ArrayList<Denuncia>();
-
         Restrictions restrictions = new Restrictions();
-
-        if (!usuario.isSuperUsuario()) {
-            Unidade unidade = getDAO().getInitialized(usuario.getUnidade());
-            if (unidade != null) {
-                Circunscricao circu = getDAO().getInitialized(unidade.getCircunscricao());
-                CircunscricaoBairro circuBairro = getDAO().getInitialized(unidade.getCircunscricaoBairro());
-                if (circuBairro != null) {
-                    restrictions.memberOf(circuBairro, "bairro.circunscricoes");
-//                    restrictions.add("circunscricaoBairro", circuBairro);
-                } else {
-                    restrictions.memberOf(circu, "cidade.circunscricoes");
-//                    restrictions.add("circunscricao", circu);
-                }
-
-                if (unidade.getFaixaEtariaVitima() == FaixaEtaria.IDOSO) {
-                    restrictions.greaterEqualsThan("denuncia.idadeVitima", 60);
-                }
-
-                if (unidade.getFaixaEtariaVitima() == FaixaEtaria.MENOR_DE_IDADE) {
-                    restrictions.greaterEqualsThan("denuncia.idadeVitima", 0);
-                    restrictions.lessThan("denuncia.idadeVitima", 18);
-                }
-
-                if (unidade.getFaixaEtariaVitima()== FaixaEtaria.MAIOR_DE_IDADE) {
-                    restrictions.startGroup().startGroup().greaterEqualsThan("denuncia.idadeVitima", 18).lessThan("denuncia.idadeVitima", 60).endGroup()
-                            .or().isNull("denuncia.idadeVitima").endGroup();
-                }
-
-                if (unidade.getVisualizarDenunciaNormal() != null && unidade.getVisualizarDenunciaPanico() != null) {
-                    if (unidade.getVisualizarDenunciaNormal() && unidade.getVisualizarDenunciaPanico()) {
-                        restrictions.startGroup().add("denuncia.tipo", TipoDenuncia.DENUNCIA).or().
-                                add("denuncia.tipo", TipoDenuncia.PANICO).endGroup();
-                    }
-
-                    if (!unidade.getVisualizarDenunciaNormal() && unidade.getVisualizarDenunciaPanico()) {
-                        restrictions.add("denuncia.tipo", TipoDenuncia.PANICO);
-                    }
-
-                    if (unidade.getVisualizarDenunciaNormal() && !unidade.getVisualizarDenunciaPanico()) {
-                        restrictions.add("denuncia.tipo", TipoDenuncia.DENUNCIA);
-                    }
-                } else {
-                    restrictions.startGroup().add("denuncia.tipo", TipoDenuncia.DENUNCIA).or().
-                            add("denuncia.tipo", TipoDenuncia.PANICO).endGroup();
-                }
-            }
-
-            if (filtros.getTipo() != null) {
-                restrictions.add("denuncia.tipo", filtros.getTipo());
-            }
-        }
 
         if (filtros.getUnidade() != null) {
             restrictions.add("unidade", filtros.getUnidade());
         }
 
-        if (filtros.getFaixaEtaria() != null) {
-            if (filtros.getFaixaEtaria() == FaixaEtaria.IDOSO) {
+        if (filtros.getTipo() != null) {
+            restrictions.add("denuncia.tipo", filtros.getTipo());
+        }
+
+        if (filtros.getFaixaEtariaVitima() != null) {
+            if (filtros.getFaixaEtariaVitima() == FaixaEtaria.IDOSO) {
                 restrictions.greaterEqualsThan("denuncia.idadeVitima", 60);
             }
 
-            if (filtros.getFaixaEtaria() == FaixaEtaria.MENOR_DE_IDADE) {
+            if (filtros.getFaixaEtariaVitima() == FaixaEtaria.MENOR_DE_IDADE) {
                 restrictions.greaterEqualsThan("denuncia.idadeVitima", 0);
                 restrictions.lessThan("denuncia.idadeVitima", 18);
             }
-            if (filtros.getFaixaEtaria() == FaixaEtaria.MAIOR_DE_IDADE) {
-                restrictions.startGroup().startGroup().greaterEqualsThan("denuncia.idadeVitima", 18).lessThan("denuncia.idadeVitima", 60).endGroup()
-                        .or().isNull("denuncia.idadeVitima").endGroup();
+            if (filtros.getFaixaEtariaVitima() == FaixaEtaria.MAIOR_DE_IDADE) {
+                restrictions.greaterEqualsThan("denuncia.idadeVitima", 18);
             }
         }
 
-        if (filtros.getTipo() != null) {
-            restrictions.add("denuncia.tipo", filtros.getTipo());
+        if (filtros.getFaixaEtariaAgressor() != null) {
+            if (filtros.getFaixaEtariaAgressor() == FaixaEtaria.IDOSO) {
+                restrictions.greaterEqualsThan("denuncia.idadeAgressor", 60);
+            }
+
+            if (filtros.getFaixaEtariaAgressor() == FaixaEtaria.MENOR_DE_IDADE) {
+                restrictions.greaterEqualsThan("denuncia.idadeAgressor", 0);
+                restrictions.lessThan("denuncia.idadeAgressor", 18);
+            }
+            if (filtros.getFaixaEtariaAgressor() == FaixaEtaria.MAIOR_DE_IDADE) {
+                restrictions.greaterEqualsThan("denuncia.idadeAgressor", 18);
+            }
         }
 
         if (filtros.getFormaDeViolencia() != null) {
@@ -214,46 +172,34 @@ public class DenunciaBO extends AbstractBusinessObject<Denuncia> {
             restrictions.add("denuncia.id", filtros.getId());
         }
 
-        if (filtros.getVitima() != null) {
-            if (!filtros.getVitima().equals("")) {
-                restrictions.like("denuncia.vitima", filtros.getVitima());
-            }
+        if (!Utils.isNullOrEmpty(filtros.getVitima())) {
+            restrictions.like("denuncia.vitima", filtros.getVitima());
         }
 
-        if (filtros.getCpfVitima() != null) {
-            if (!filtros.getCpfVitima().equals("")) {
-                restrictions.like("denuncia.cpfVitima", filtros.getCpfVitima().replace(".", "").replace("-", ""));
-            }
+        if (!Utils.isNullOrEmpty(filtros.getCpfVitima())) {
+            restrictions.add("denuncia.cpfVitima", filtros.getCpfVitima().replace(".", "").replace("-", ""));
         }
 
-        if (filtros.getCpfAgressor() != null) {
-            if (!filtros.getCpfAgressor().equals("")) {
-                restrictions.like("denuncia.cpfAgressor", filtros.getCpfAgressor().replace(".", "").replace("-", ""));
-            }
+        if (!Utils.isNullOrEmpty(filtros.getCpfAgressor())) {
+            restrictions.add("denuncia.cpfAgressor", filtros.getCpfAgressor().replace(".", "").replace("-", ""));
         }
 
-        if (filtros.getRgVitima() != null) {
-            if (!filtros.getRgVitima().equals("")) {
-                restrictions.like("denuncia.rgVitima", filtros.getRgVitima());
-            }
+        if (!Utils.isNullOrEmpty(filtros.getRgVitima())) {
+            restrictions.add("denuncia.rgVitima", filtros.getRgVitima());
         }
 
-        if (filtros.getRgAgressor() != null) {
-            if (!filtros.getRgAgressor().equals("")) {
-                restrictions.like("denuncia.rgAgressor", filtros.getRgAgressor());
-            }
+        if (!Utils.isNullOrEmpty(filtros.getRgAgressor())) {
+            restrictions.add("denuncia.rgAgressor", filtros.getRgAgressor());
+
         }
 
-        if (filtros.getCnhVitima() != null) {
-            if (!filtros.getCnhVitima().equals("")) {
-                restrictions.like("denuncia.cnhVitima", filtros.getCnhVitima());
-            }
+        if (!Utils.isNullOrEmpty(filtros.getCnhVitima())) {
+            restrictions.add("denuncia.cnhVitima", filtros.getCnhVitima());
+
         }
 
-        if (filtros.getCnhAgressor() != null) {
-            if (!filtros.getCnhAgressor().equals("")) {
-                restrictions.like("denuncia.cnhAgressor", filtros.getCnhAgressor());
-            }
+        if (!Utils.isNullOrEmpty(filtros.getCnhAgressor())) {
+            restrictions.add("denuncia.cnhAgressor", filtros.getCnhAgressor());
         }
 
         if (filtros.getCidade() != null) {
@@ -264,27 +210,21 @@ public class DenunciaBO extends AbstractBusinessObject<Denuncia> {
             restrictions.add("bairro", filtros.getBairro());
         }
 
-        if (filtros.getAgressor() != null) {
-            if (!filtros.getAgressor().equals("")) {
-                restrictions.like("denuncia.agressor", filtros.getAgressor());
-            }
+        if (!Utils.isNullOrEmpty(filtros.getAgressor())) {
+            restrictions.like("denuncia.agressor", filtros.getAgressor());
         }
 
         if (filtros.getCircunscricao() != null) {
-//            restrictions.add("circunscricao", filtros.getCircunscricao());
             restrictions.memberOf(filtros.getCircunscricao(), "cidade.circunscricoes");
         }
 
         if (filtros.getCircunscricaoBairro() != null) {
-//            restrictions.add("circunscricaoBairro", filtros.getCircunscricaoBairro());
             restrictions.memberOf(filtros.getCircunscricaoBairro(), "bairro.circunscricoes");
         }
 
-        denuncias = denunciaDAO.getQueryBuilder().select("denuncia").from(Denuncia.class, "denuncia").leftJoinFetch("denuncia.endereco", "endereco")
+        return denunciaDAO.getQueryBuilder().from(Denuncia.class, "denuncia").leftJoinFetch("denuncia.endereco", "endereco")
                 .leftJoinFetch("denuncia.unidade", "unidade").leftJoinFetch("endereco.bairro", "bairro")
-                .leftJoinFetch("bairro.cidade", "cidade").add(restrictions)
-                .orderBy("denuncia.id").getResultList();
-        return denuncias;
+                .leftJoinFetch("bairro.cidade", "cidade").add(restrictions).orderBy("denuncia.id").getResultList();
     }
 
     public List<QtdDenunciaPorUnidadeVO> qtdDenunciaPorUnidade(Unidade unidade, Date dataInicial, Date dataFinal) {

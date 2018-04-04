@@ -13,7 +13,7 @@
             <p:fieldset legend="Filtros de Busca" toggleable="true">
                 <div class="row">
                     <h:panelGroup id="panel0">
-                        <h:panelGroup rendered="#{sessaoUsuarioMB.user.superUsuario}" >
+                        <x:securityArea rolesAllowed="denuncia.unidade">
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="unidade" value="Unidade:" />
                                 <h:selectOneMenu id="unidade" value="#{denunciaMB.filtro.unidade}" converter="entityConverter" 
@@ -25,8 +25,9 @@
                                                    itemLabel="#{unidade.sigla}"/>
                                 </h:selectOneMenu>
                             </div>
-                        </h:panelGroup>
-                        <h:panelGroup rendered="#{sessaoUsuarioMB.user.superUsuario}" >
+                        </x:securityArea>
+
+                        <x:securityArea rolesAllowed="denuncia.tipo">
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="tipo" value="Tipo:" />
                                 <h:selectOneMenu id="tipo" value="#{denunciaMB.filtro.tipo}" styleClass="form-control" >
@@ -36,18 +37,28 @@
                                                    itemLabel="#{tipo.descricao}"/>
                                 </h:selectOneMenu>
                             </div>
-                        </h:panelGroup>
-                        <h:panelGroup rendered="#{sessaoUsuarioMB.user.superUsuario}" >
+                        </x:securityArea>
+                        <x:securityArea rolesAllowed="denuncia.faixaIdade">
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                <h:outputLabel for="faixa" value="Faixa etária:" />
-                                <h:selectOneMenu id="faixa" value="#{denunciaMB.filtro.faixaEtaria}" styleClass="form-control" >
-                                    <f:selectItem itemLabel="Todos" />
+                                <h:outputLabel for="faixaVitima" value="Faixa etária Vitima:" />
+                                <h:selectOneMenu id="faixaVitima" value="#{denunciaMB.filtro.faixaEtariaVitima}" styleClass="form-control" >
                                     <f:selectItems value="#{findAllBean.get(classMB.faixaEtaria)}" 
                                                    var="faixa"
                                                    itemLabel="#{faixa.descricao}"/>
                                 </h:selectOneMenu>
                             </div>
-                        </h:panelGroup>
+                        </x:securityArea>
+                        <x:securityArea rolesAllowed="denuncia.faixaIdade">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="faixaAgressor" value="Faixa etária Agressor:" />
+                                <h:selectOneMenu id="faixaAgressor" value="#{denunciaMB.filtro.faixaEtariaAgressor}" styleClass="form-control" >
+                                    <f:selectItems value="#{findAllBean.get(classMB.faixaEtaria)}" 
+                                                   var="faixa"
+                                                   itemLabel="#{faixa.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                        </x:securityArea>
+
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="codigo" value="Código:" />
                             <p:inputMask id="codigo" mask="9?999999999" slotChar="" value="#{denunciaMB.filtro.id}" styleClass="form-control" />
@@ -150,7 +161,7 @@
                 </div>
                 <div class="row">
                     <div class="uix-center">
-                        <p:commandButton process="panel0 dataTableDenuncia" update="dataTableDenuncia" value="Buscar" />
+                        <p:commandButton process="@form" update="@form" value="Buscar" actionListener="#{denunciaMB.buscar()}"/>
                     </div>
                 </div>
 
@@ -162,12 +173,6 @@
                 <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                              var="denuncia" rowIndexVar="index" id="dataTableDenuncia" widgetVar="dataTableDenunciaWidget" styleClass="table-responsive"
                              value="#{denunciaMB.denuncias}">
-                    <p:column styleClass="uix-datatable-index" sortBy="#{denuncia.id}">
-                        <f:facet name="header">
-                            <h:outputText value="Código" />
-                        </f:facet>
-                        <h:outputText value="#{denuncia.id}"/>
-                    </p:column>
                     <p:column headerText="Unidade" sortBy="#{denuncia.unidade}">
                         <f:facet name="header">
                             <h:outputText value="Unidade" />
@@ -176,7 +181,12 @@
                             <x:initializer/>
                         </h:outputText>
                     </p:column>  
-
+                    <p:column styleClass="uix-datatable-index" sortBy="#{denuncia.id}">
+                        <f:facet name="header">
+                            <h:outputText value="Código" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.id}"/>
+                    </p:column>
                     <p:column headerText="#{msg['denuncia.dataDenuncia']}" style="text-align: center;" sortBy="#{denuncia.dataDenuncia}">
                         <f:facet name="header">
                             <h:outputText value="#{msg['denuncia.dataDenuncia']}" />                

@@ -1,5 +1,8 @@
 package br.gov.pi.ati.sccd.util;
 
+import java.text.ParseException;
+import javax.swing.text.MaskFormatter;
+
 public class Utils {
 
     public static boolean isNullOrEmpty(String s) {
@@ -23,6 +26,17 @@ public class Utils {
         domainLDap = domainLDap.replace("USUARIO_LDAP", usuario).replace("ORGAO", orgao);
 
         return domainLDap;
+    }
+    
+    public static String format(String pattern, Object value) {
+        MaskFormatter mask;
+        try {
+            mask = new MaskFormatter(pattern);
+            mask.setValueContainsLiteralCharacters(false);
+            return mask.valueToString(value);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
     
 }

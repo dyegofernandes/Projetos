@@ -1,5 +1,9 @@
 package br.gov.pi.ati.sccd.mb.padrao;
 
+import br.gov.pi.ati.sccd.modelo.certificado.Certificado;
+import br.gov.pi.ati.sccd.modelo.certificado.Pedido;
+import br.gov.pi.ati.sccd.modelo.certificado.ItemPedido;
+import br.gov.pi.ati.sccd.modelo.enums.SituacaoPedido;
 import br.gov.pi.ati.sccd.modelo.cadastro.AutoridadeCertificadora;
 import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificadoAux;
 import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificado;
@@ -99,6 +103,20 @@ public class ClassMB {
 
     public Class getAutoridadeCertificadora() {
         return AutoridadeCertificadora.class;
+    }
+
+    public Class getPedido() {
+        return Pedido.class;
+    }
+    public Class getItemPedido() {
+        return ItemPedido.class;
+    }
+    public Class getSituacaoPedido() {
+        return SituacaoPedido.class;
+    }
+
+    public Class getCertificado() {
+        return Certificado.class;
     }
 
 }

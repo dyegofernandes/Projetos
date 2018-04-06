@@ -7,6 +7,8 @@ package br.gov.pi.ati.sccd.modelo.certificado;
 
 import br.gov.pi.ati.sccd.modelo.cadastro.Cliente;
 import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificadoAux;
+import br.gov.pi.ati.sccd.util.Utils;
+import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,12 +20,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -78,8 +80,16 @@ public class ContratoCliente implements Serializable {
 
     private boolean ativo = true;
 
+    @NotAudited
+    @OneToMany(mappedBy = "cliente")
+    private List<Certificado> certs;
+
     @Override
     public String toString() {
+
+        if (Utils.isNullOrEmpty(numeroContrato)) {
+            return "ISENTO";
+        }
         return numeroContrato;
     }
 
@@ -177,6 +187,14 @@ public class ContratoCliente implements Serializable {
 
     public void setCpfRepresentanteAti(String cpfRepresentanteAti) {
         this.cpfRepresentanteAti = cpfRepresentanteAti;
+    }
+
+    public List<Certificado> getCerts() {
+        return certs;
+    }
+
+    public void setCerts(List<Certificado> certs) {
+        this.certs = certs;
     }
 
     @Override

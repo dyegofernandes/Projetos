@@ -6,7 +6,9 @@
 package br.gov.pi.ati.sccd.modelo.cadastro;
 
 import br.gov.pi.ati.sccd.modelo.certificado.ContratoCliente;
+import br.gov.pi.ati.sccd.modelo.certificado.Pedido;
 import br.gov.pi.ati.sccd.modelo.enums.TipoPessoa;
+import br.gov.pi.ati.sccd.util.Utils;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.List;
@@ -45,6 +47,9 @@ public class Cliente implements Serializable {
     @NotBlank
     private String nome;
 
+    @Size(max = 50)
+    private String sigla;
+
     private boolean isento = false;
 
     private boolean ativo = true;
@@ -53,9 +58,22 @@ public class Cliente implements Serializable {
     @OneToMany(mappedBy = "cliente")
     private List<ContratoCliente> contratos;
 
+    @NotAudited
+    @OneToMany(mappedBy = "cliente")
+    private List<Pedido> pedidos;
+
     @Override
     public String toString() {
-        return nome; //To change body of generated methods, choose Tools | Templates.
+        if (!Utils.isNullOrEmpty(cpfCnpj) && !Utils.isNullOrEmpty(nome)) {
+            String pattern;
+            if (cpfCnpj.length() > 11) {
+                pattern = "##.###.###/####-##";
+            } else {
+                pattern = "###.###.###-##";
+            }
+            return Utils.format(pattern, cpfCnpj).concat(" - ").concat(nome);
+        }
+        return nome;
     }
 
     @Override
@@ -134,6 +152,22 @@ public class Cliente implements Serializable {
 
     public void setContratos(List<ContratoCliente> contratos) {
         this.contratos = contratos;
+    }
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
+    }
+
+    public String getSigla() {
+        return sigla;
+    }
+
+    public void setSigla(String sigla) {
+        this.sigla = sigla;
     }
 
 }

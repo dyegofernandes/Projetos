@@ -47,36 +47,43 @@
                     <p:panel rendered="#{contratoClienteMB.renderizarPanel()}">
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="numeroContrato" value="* #{msg['contratoCliente.numeroContrato']}:" />
-                            <p:inputText id="numeroContrato" value="#{contratoClienteMB.entity.numeroContrato}" maxlength="250"  styleClass="form-control"  />
+                            <p:inputText id="numeroContrato" value="#{contratoClienteMB.entity.numeroContrato}" maxlength="250"  styleClass="form-control"  
+                                         required="true" requiredMessage="Número de contrato é obrigatório!"/>
                         </div>
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="cpfRepresentanteLegal" value="* #{msg['contratoCliente.cpfRepresentanteLegal']}:" />
-                            <x:cpf id="cpfRepresentanteLegal" value="#{contratoClienteMB.entity.cpfRepresentanteLegal}" styleClass="form-control"  />
+                            <x:cpf id="cpfRepresentanteLegal" value="#{contratoClienteMB.entity.cpfRepresentanteLegal}" styleClass="form-control" 
+                                   required="true" requiredMessage="CPF do Representante (Cliente) é obrigatório!"/>
                         </div>
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="representanteLegal" value="* #{msg['contratoCliente.representanteLegal']}:" />
-                            <p:inputText id="representanteLegal" value="#{contratoClienteMB.entity.representanteLegal}" maxlength="250"  styleClass="form-control"  />
+                            <p:inputText id="representanteLegal" value="#{contratoClienteMB.entity.representanteLegal}" maxlength="250"  styleClass="form-control" 
+                                         required="true" requiredMessage="Nome do Representante (Cliente) é obrigatório!"/>
                         </div>
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="cpfRepresentanteAti" value="* #{msg['contratoCliente.cpfRepresentanteAti']}:" />
-                            <x:cpf id="cpfRepresentanteAti" value="#{contratoClienteMB.entity.cpfRepresentanteAti}" styleClass="form-control"  />
+                            <x:cpf id="cpfRepresentanteAti" value="#{contratoClienteMB.entity.cpfRepresentanteAti}" styleClass="form-control"  
+                                   required="true" requiredMessage="CPF do Representante (ATI) é obrigatório!"/>
                         </div>
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="representanteLegalAti" value="* #{msg['contratoCliente.representanteLegalAti']}:" />
-                            <p:inputText id="representanteLegalAti" value="#{contratoClienteMB.entity.representanteAti}" maxlength="250"  styleClass="form-control"  />
+                            <p:inputText id="representanteLegalAti" value="#{contratoClienteMB.entity.representanteAti}" maxlength="250"  styleClass="form-control"  
+                                         required="true" requiredMessage="Nome do Representante (ATI) é obrigatório!"/>
                         </div>
 
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="dataInicio" value="* #{msg['contratoCliente.dataInicio']}:" />
                             <p:calendar id="dataInicio" value="#{contratoClienteMB.entity.dataInicio}" 
-                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar" 
+                                        required="true" requiredMessage="Data de Inicio do contrato é obrigatória!">
                                 <x:mask/>
                             </p:calendar>
                         </div>
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="dataFinal" value="* #{msg['contratoCliente.dataFinal']}:" />
                             <p:calendar id="dataFinal" value="#{contratoClienteMB.entity.dataFinal}" 
-                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  
+                                        required="true" requiredMessage="Data de Término do contrato é obrigatória!">
                                 <x:mask/>
                             </p:calendar>
                         </div>

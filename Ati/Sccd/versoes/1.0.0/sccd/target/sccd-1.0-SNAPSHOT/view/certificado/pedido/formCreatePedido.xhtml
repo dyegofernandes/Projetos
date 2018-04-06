@@ -1,0 +1,153 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreatePedido" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cliente" value="* #{msg['pedido.cliente']}:" />
+                        <h:selectOneMenu id="cliente" value="#{pedidoMB.entity.cliente}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.cliente)}" 
+                                           var="cliente"
+                                           itemLabel="#{cliente}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="protocolo" value="* #{msg['pedido.protocolo']}:" />
+                        <p:inputText id="protocolo" value="#{pedidoMB.entity.protocolo}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataSolicitacao" value="* #{msg['pedido.dataSolicitacao']}:" />
+                        <p:calendar id="dataSolicitacao" value="#{pedidoMB.entity.dataSolicitacao}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="situacao" value="#{msg['pedido.situacao']}:" />
+                        <p:inputText id="situacao" value="#{pedidoMB.entity.situacao.descricao}"   styleClass="form-control" 
+                                     readonly="true"/>
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Lista de Titulares">
+            <p:fieldset legend="Adicionar Titular" toggleable="true" id="fieldItem">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="tipoPessoa" value="#{msg['itemPedido.tipoPessoa']}:" />
+                            <h:selectOneMenu id="tipoPessoa" value="#{pedidoMB.itemAdd.tipoPessoa}"  styleClass="form-control" >
+                                <f:selectItems value="#{findAllBean.get(classMB.tipoPessoa)}" 
+                                               var="tipoPessoa"
+                                               itemLabel="#{tipoPessoa.descricao}"/>
+                                <p:ajax process="@this" update="panel"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:panelGroup id="panel">
+                                <h:outputLabel for="cpfTitular" value="#{msg['itemPedido.cpfTitular']}:" rendered="#{pedidoMB.itemAdd.tipoPessoa.num eq 1}" />
+                                <x:cpf id="cpfTitular" value="#{pedidoMB.itemAdd.cpfCnpjTitular}" styleClass="form-control" rendered="#{pedidoMB.itemAdd.tipoPessoa.num eq 1}"/>
+                                <h:outputLabel for="cnpjTitular" value="#{msg['itemPedido.cnpjTitular']}:" rendered="#{pedidoMB.itemAdd.tipoPessoa.num eq 2}"/>
+                                <x:cnpj id="cnpjTitular" value="#{pedidoMB.itemAdd.cpfCnpjTitular}" styleClass="form-control" rendered="#{pedidoMB.itemAdd.tipoPessoa.num eq 2}" />
+                            </h:panelGroup>
+
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="titular" value="#{msg['itemPedido.titular']}:" />
+                            <p:inputText id="titular" value="#{pedidoMB.itemAdd.titular}" maxlength="250"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="tipoCertificado" value="#{msg['itemPedido.tipoCertificado']}:" />
+                            <h:selectOneMenu id="tipoCertificado" value="#{pedidoMB.itemAdd.tipoCertificado}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.tipoCertificado)}" 
+                                               var="tipoCertificado"
+                                               itemLabel="#{tipoCertificado}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+                </div>
+                <div class="uix-center">
+                    <p:commandButton process="@this fieldItem" update="fieldItem dataTableItemPedido" value="Adicionar" 
+                                     action="#{pedidoMB.adicionar()}" />
+                </div>
+            </p:fieldset>
+            <p:fieldset legend="Titulares">
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="itemPedido" rowIndexVar="index" id="dataTableItemPedido" widgetVar="dataTableItemPedidoWidget" styleClass="table-responsive"
+                             value="#{pedidoMB.itens}"  >
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['itemPedido.tipoPessoa']}" sortBy="#{itemPedido.tipoPessoa}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['itemPedido.tipoPessoa']}" />
+                        </f:facet>
+                        <h:outputText value="#{itemPedido.tipoPessoa.descricao}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['itemPedido.cpfCnpjTitular']}" sortBy="#{itemPedido.cpfCnpjTitular}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['itemPedido.cpfCnpjTitular']}" />
+                        </f:facet>
+                        <h:outputText value="#{itemPedido.cpfCnpjTitular}" rendered="#{itemPedido.tipoPessoa.num eq 1}" converter="cpfConverter"/>
+                        <h:outputText value="#{itemPedido.cpfCnpjTitular}" rendered="#{itemPedido.tipoPessoa.num eq 2}" converter="cnpjConverter"/>
+                    </p:column>
+                    <p:column headerText="#{msg['itemPedido.titular']}" sortBy="#{itemPedido.titular}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['itemPedido.titular']}" />
+                        </f:facet>
+                        <h:outputText value="#{itemPedido.titular}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['itemPedido.tipoCertificado']}" sortBy="#{itemPedido.tipoCertificado}"
+                              >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['itemPedido.tipoCertificado']}" />
+                        </f:facet>
+                        <h:outputText value="#{itemPedido.tipoCertificado}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['itemPedido.atendido']}" sortBy="#{itemPedido.atendido}" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['itemPedido.atendido']}" />
+                        </f:facet>
+                        <h:outputText value="#{itemPedido.atendido}" converter ="yesNoConverter" />
+                    </p:column>
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableItemPedido" 
+                                         action="#{pedidoMB.remover(itemPedido)}" >
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="pedido.create">
+                <p:commandButton process="@form" update="@form" action="#{pedidoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="pedido.audit">
+                <x:audit for="#{pedidoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

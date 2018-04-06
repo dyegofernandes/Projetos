@@ -1,0 +1,206 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['certificado.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuCertificado.xhtml" />
+        <h:form id="formListCertificado">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="certificado_export" target=":formListCertificado:dataTableCertificado"
+                                     widgetVar="dataTableCertificadoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="certificado" rowIndexVar="index" id="dataTableCertificado" widgetVar="dataTableCertificadoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{certificadoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{certificadoMB.dataModel.paginatorTemplate}"
+                         value="#{certificadoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['certificado.cliente']}" sortBy="#{certificado.cliente}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['certificado.cliente']}" />
+                    </f:facet>
+                    <h:outputText value="#{certificado.cliente}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['certificado.pedido']}" sortBy="#{certificado.pedido}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['certificado.pedido']}" />
+                    </f:facet>
+                    <h:outputText value="#{certificado.pedido}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['certificado.titular']}" sortBy="#{certificado.titular}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['certificado.titular']}" />
+                    </f:facet>
+                    <h:outputText value="#{certificado.titular}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['certificado.numeroSolicitacao']}" sortBy="#{certificado.numeroSolicitacao}"
+                    filterBy="#{certificado.numeroSolicitacao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['certificado.numeroSolicitacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{certificado.numeroSolicitacao}"/>
+                </p:column>
+                <p:column headerText="#{msg['certificado.cpfRepresentanteLegal']}" sortBy="#{certificado.cpfRepresentanteLegal}"
+                    filterBy="#{certificado.cpfRepresentanteLegal}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['certificado.cpfRepresentanteLegal']}" />
+                    </f:facet>
+                    <h:outputText value="#{certificado.cpfRepresentanteLegal}"/>
+                </p:column>
+                <p:column headerText="#{msg['certificado.nomeRepresentanteLegal']}" sortBy="#{certificado.nomeRepresentanteLegal}"
+                    filterBy="#{certificado.nomeRepresentanteLegal}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['certificado.nomeRepresentanteLegal']}" />
+                    </f:facet>
+                    <h:outputText value="#{certificado.nomeRepresentanteLegal}"/>
+                </p:column>
+                <p:column headerText="#{msg['certificado.cpfResponsavelLegal']}" sortBy="#{certificado.cpfResponsavelLegal}"
+                    filterBy="#{certificado.cpfResponsavelLegal}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['certificado.cpfResponsavelLegal']}" />
+                    </f:facet>
+                    <h:outputText value="#{certificado.cpfResponsavelLegal}"/>
+                </p:column>
+                <p:column headerText="#{msg['certificado.nomeResponsavelLegal']}" sortBy="#{certificado.nomeResponsavelLegal}"
+                    filterBy="#{certificado.nomeResponsavelLegal}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['certificado.nomeResponsavelLegal']}" />
+                    </f:facet>
+                    <h:outputText value="#{certificado.nomeResponsavelLegal}"/>
+                </p:column>
+                <p:column headerText="#{msg['certificado.enderecoEmail']}" sortBy="#{certificado.enderecoEmail}"
+                    filterBy="#{certificado.enderecoEmail}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['certificado.enderecoEmail']}" />
+                    </f:facet>
+                    <h:outputText value="#{certificado.enderecoEmail}"/>
+                </p:column>
+                <p:column headerText="#{msg['certificado.autoridadeCertificadora']}" sortBy="#{certificado.autoridadeCertificadora}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['certificado.autoridadeCertificadora']}" />
+                    </f:facet>
+                    <h:outputText value="#{certificado.autoridadeCertificadora}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['certificado.dataAprovacao']}" sortBy="#{certificado.dataAprovacao}"
+                    filterBy="#{certificado.dataAprovacao}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['certificado.dataAprovacao']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{certificado.dataAprovacao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['certificado.documento']}" sortBy="#{certificado.documento}"
+                    filterBy="#{certificado.documento}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['certificado.documento']}" />
+                    </f:facet>
+                    <h:outputText value="#{certificado.documento}"/>
+                </p:column>
+                <p:column headerText="#{msg['certificado.armario']}" sortBy="#{certificado.armario}"
+                    filterBy="#{certificado.armario}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['certificado.armario']}" />
+                    </f:facet>
+                    <h:outputText value="#{certificado.armario}"/>
+                </p:column>
+                <p:column headerText="#{msg['certificado.caixa']}" sortBy="#{certificado.caixa}"
+                    filterBy="#{certificado.caixa}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['certificado.caixa']}" />
+                    </f:facet>
+                    <h:outputText value="#{certificado.caixa}"/>
+                </p:column>
+                <p:column headerText="#{msg['certificado.sequencial']}" sortBy="#{certificado.sequencial}"
+                    filterBy="#{certificado.sequencial}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['certificado.sequencial']}" />
+                    </f:facet>
+                    <h:outputText value="#{certificado.sequencial}"/>
+                </p:column>
+                <p:column headerText="#{msg['certificado.baixa']}" sortBy="#{certificado.baixa}"
+                    filterBy="#{certificado.baixa}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['certificado.baixa']}" />
+                    </f:facet>
+                    <h:outputText value="#{certificado.baixa}"/>
+                </p:column>
+                <p:column headerText="#{msg['certificado.documentoRevogacao']}" sortBy="#{certificado.documentoRevogacao}"
+                    filterBy="#{certificado.documentoRevogacao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['certificado.documentoRevogacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{certificado.documentoRevogacao}"/>
+                </p:column>
+                <p:column headerText="#{msg['certificado.dataRevogacao']}" sortBy="#{certificado.dataRevogacao}"
+                    filterBy="#{certificado.dataRevogacao}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['certificado.dataRevogacao']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{certificado.dataRevogacao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['certificado.observacao']}" sortBy="#{certificado.observacao}"
+                    filterBy="#{certificado.observacao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['certificado.observacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{certificado.observacao}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetCertificadoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailCertificado" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{certificado}" target="#{certificadoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="certificadoEmitidos.create">
+                        <p:button icon="ui-icon-pencil" outcome="createCertificado" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{certificado.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="certificadoEmitidos.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{certificadoMB.delete}" >
+                            <f:setPropertyActionListener value="#{certificado.id}" target="#{certificadoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{certificado}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="certificadoEmitidos.audit">
+                    <x:auditDelete for="#{certificadoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetCertificadoDetail" header="#{msg['certificado.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailCertificado.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

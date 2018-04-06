@@ -179,6 +179,10 @@ public class ContratoClienteMB extends AbstractBaseBean<ContratoCliente> impleme
         return null;
     }
 
+    public List<ContratoCliente> todos() {
+        return getBO().contratos();
+    }
+
     public List<ContratoCliente> contratosAtivo() {
         return getBO().contratosAtivo();
     }

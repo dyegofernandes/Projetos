@@ -5,12 +5,16 @@
  */
 package br.gov.pi.ati.sccd.modelo.cadastro;
 
+import br.gov.pi.ati.sccd.modelo.certificado.Certificado;
+import com.xpert.audit.NotAudited;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -37,6 +41,10 @@ public class AutoridadeCertificadora implements Serializable {
     private String nome;
     
     private boolean ativo = true;
+    
+    @NotAudited
+    @OneToMany(mappedBy = "titular")
+    private List<Certificado> certificados;
 
     @Override
     public String toString() {
@@ -73,6 +81,14 @@ public class AutoridadeCertificadora implements Serializable {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public List<Certificado> getCertificados() {
+        return certificados;
+    }
+
+    public void setCertificados(List<Certificado> certificados) {
+        this.certificados = certificados;
     }
 
     @Override

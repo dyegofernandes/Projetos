@@ -1,0 +1,108 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailCertificado" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['certificado.cliente']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{certificadoMB.entity.cliente}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['certificado.pedido']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{certificadoMB.entity.pedido}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['certificado.titular']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{certificadoMB.entity.titular}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['certificado.numeroSolicitacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{certificadoMB.entity.numeroSolicitacao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['certificado.cpfRepresentanteLegal']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{certificadoMB.entity.cpfRepresentanteLegal}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['certificado.nomeRepresentanteLegal']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{certificadoMB.entity.nomeRepresentanteLegal}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['certificado.cpfResponsavelLegal']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{certificadoMB.entity.cpfResponsavelLegal}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['certificado.nomeResponsavelLegal']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{certificadoMB.entity.nomeResponsavelLegal}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['certificado.enderecoEmail']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{certificadoMB.entity.enderecoEmail}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['certificado.autoridadeCertificadora']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{certificadoMB.entity.autoridadeCertificadora}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['certificado.dataAprovacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{certificadoMB.entity.dataAprovacao}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['certificado.documento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{certificadoMB.entity.documento}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['certificado.armario']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{certificadoMB.entity.armario}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['certificado.caixa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{certificadoMB.entity.caixa}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['certificado.sequencial']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{certificadoMB.entity.sequencial}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['certificado.baixa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{certificadoMB.entity.baixa}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['certificado.documentoRevogacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{certificadoMB.entity.documentoRevogacao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['certificado.dataRevogacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{certificadoMB.entity.dataRevogacao}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['certificado.observacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{certificadoMB.entity.observacao}" styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetCertificadoDetail').hide()" />
+            <x:securityArea rolesAllowed="certificado.audit">
+                <x:audit for="#{certificadoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

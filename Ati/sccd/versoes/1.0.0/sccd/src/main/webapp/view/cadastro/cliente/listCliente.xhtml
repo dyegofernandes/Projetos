@@ -39,6 +39,13 @@
                     </f:facet>
                     <h:outputText value="#{cliente.cpfCnpj}" converter="cnpjConverter"/>
                 </p:column>
+                <p:column headerText="#{msg['cliente.sigla']}" sortBy="#{cliente.sigla}"
+                    filterBy="#{cliente.sigla}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.sigla']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.sigla}"/>
+                </p:column>
                 <p:column headerText="#{msg['cliente.nome']}" sortBy="#{cliente.nome}"
                     filterBy="#{cliente.nome}"   >
                     <f:facet name="header">

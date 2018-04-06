@@ -1,0 +1,65 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateItemPedido" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="tipoPessoa" value="#{msg['itemPedido.tipoPessoa']}:" />
+                         <h:selectOneMenu id="tipoPessoa" value="#{itemPedidoMB.entity.tipoPessoa}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.tipoPessoa)}" 
+                                            var="tipoPessoa"
+                                            itemLabel="#{tipoPessoa}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="cpfCnpjTitular" value="#{msg['itemPedido.cpfCnpjTitular']}:" />
+                         <p:inputText id="cpfCnpjTitular" value="#{itemPedidoMB.entity.cpfCnpjTitular}" maxlength="50"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="titular" value="#{msg['itemPedido.titular']}:" />
+                         <p:inputText id="titular" value="#{itemPedidoMB.entity.titular}" maxlength="250"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="tipoCertificado" value="#{msg['itemPedido.tipoCertificado']}:" />
+                         <h:selectOneMenu id="tipoCertificado" value="#{itemPedidoMB.entity.tipoCertificado}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.tipoCertificado)}" 
+                                            var="tipoCertificado"
+                                            itemLabel="#{tipoCertificado}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <div class="checkbox">
+                             <label>
+                                 <h:selectBooleanCheckbox id="atendido" value="#{itemPedidoMB.entity.atendido}" />
+                                 #{msg['itemPedido.atendido']}
+                             </label>
+                         </div>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="itemPedido.create">
+                <p:commandButton process="@form" update="@form" action="#{itemPedidoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="itemPedido.audit">
+                <x:audit for="#{itemPedidoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

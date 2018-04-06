@@ -5,10 +5,14 @@
  */
 package br.gov.pi.ati.sccd.modelo.cadastro;
 
+import br.gov.pi.ati.sccd.modelo.certificado.ItemPedido;
+import com.xpert.audit.NotAudited;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -38,6 +42,10 @@ public class TipoCertificado implements Serializable {
     private Integer duracao;
 
     private boolean ativo = true;
+    
+    @NotAudited
+    @OneToMany(mappedBy = "tipoCertificado")
+    private List<ItemPedido> itensPedido;
 
     @Override
     public String toString() {
@@ -82,6 +90,14 @@ public class TipoCertificado implements Serializable {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public List<ItemPedido> getItensPedido() {
+        return itensPedido;
+    }
+
+    public void setItensPedido(List<ItemPedido> itensPedido) {
+        this.itensPedido = itensPedido;
     }
 
     @Override

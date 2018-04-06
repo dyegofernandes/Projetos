@@ -132,6 +132,20 @@ public class GeracaoPermissao {
 
         //Menu certificados
         create(new Permissao("certificado", "Certificado", true), null);
+
+        //Pedido
+        create(new Permissao("pedido", "Pedido", false), "certificado");
+        create(new Permissao("pedido.create", "Cadastro de Pedido", "/view/certificado/pedido/createPedido.jsf", false), "pedido");
+        create(new Permissao("pedido.list", "Pedidos", "/view/certificado/pedido/listPedido.jsf", true), "certificado");
+        create(new Permissao("pedido.audit", "Auditoria de Pedido"), "pedido");
+        create(new Permissao("pedido.delete", "Exclusão de Pedido"), "pedido");
+
+        //Certificado
+        create(new Permissao("certificadoEmitidos", "Certificado", false), "certificado");
+        create(new Permissao("certificadoEmitidos.create", "Cadastro de Certificado", "/view/certificado/certificado/createCertificado.jsf", false), "certificadoEmitidos");
+        create(new Permissao("certificadoEmitidos.list", "Emitidos", "/view/certificado/certificado/listCertificado.jsf", true), "certificado");
+        create(new Permissao("certificadoEmitidos.audit", "Auditoria de Certificado"), "certificadoEmitidos");
+        create(new Permissao("certificadoEmitidos.delete", "Exclusão de Certificado"), "certificadoEmitidos");
         /*
          * Configuracao
          */

@@ -20,7 +20,7 @@
                             <f:selectItems value="#{contratoClienteMB.todos()}" 
                                            var="contratoCliente"
                                            itemLabel="Cliente: #{contratoCliente.cliente} - Contrato: #{contratoCliente}"/>
-                            <p:ajax process="@this" update="pedido titular"/>
+                            <p:ajax process="@this" update="pedido titular" listener="#{certificadoMB.pegarPedidos()}"/>
                         </h:selectOneMenu>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
@@ -31,27 +31,27 @@
                             <f:selectItems value="#{certificadoMB.pedidos}" 
                                            var="pedido"
                                            itemLabel="#{pedido}"/>
-                            <p:ajax process="cliente @this" update="titular"/>
+                            <p:ajax process="cliente @this" update="titular" listener="#{certificadoMB.pegarTitulares()}"/>
                         </h:selectOneMenu>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="titular" value="* #{msg['certificado.titular']}:" />
                         <h:selectOneMenu id="titular" value="#{certificadoMB.entity.titular}" converter="entityConverter" styleClass="form-control" >
-                            <x:initializer/>
+                            <x:initializer  /> 
                             <f:selectItem itemLabel="#{xmsg['select']}" />
                             <f:selectItems value="#{certificadoMB.itensPedido}" 
-                                           var="itemPedido"
-                                           itemLabel="#{itemPedido}"/>
+                                           var="titular"
+                                           itemLabel="#{titular}"/>
                         </h:selectOneMenu>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="numeroSolicitacao" value="#{msg['certificado.numeroSolicitacao']}:" />
+                        <h:outputLabel for="numeroSolicitacao" value="* #{msg['certificado.numeroSolicitacao']}:" />
                         <p:inputText id="numeroSolicitacao" value="#{certificadoMB.entity.numeroSolicitacao}" maxlength="250"  styleClass="form-control"  />
                     </div>
-                    
+
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="cpfRepresentanteLegal" value="#{msg['certificado.cpfRepresentanteLegal']}:" />
-                        <p:inputText id="cpfRepresentanteLegal" value="#{certificadoMB.entity.cpfRepresentanteLegal}" maxlength="250"  styleClass="form-control"  />
+                        <x:cpf id="cpfRepresentanteLegal" value="#{certificadoMB.entity.cpfRepresentanteLegal}"  styleClass="form-control"  />
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="nomeRepresentanteLegal" value="#{msg['certificado.nomeRepresentanteLegal']}:" />
@@ -59,7 +59,7 @@
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="cpfResponsavelLegal" value="#{msg['certificado.cpfResponsavelLegal']}:" />
-                        <p:inputText id="cpfResponsavelLegal" value="#{certificadoMB.entity.cpfResponsavelLegal}" maxlength="250"  styleClass="form-control"  />
+                        <x:cpf id="cpfResponsavelLegal" value="#{certificadoMB.entity.cpfResponsavelLegal}"  styleClass="form-control"  />
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="nomeResponsavelLegal" value="#{msg['certificado.nomeResponsavelLegal']}:" />
@@ -70,7 +70,7 @@
                         <p:inputText id="enderecoEmail" value="#{certificadoMB.entity.enderecoEmail}" maxlength="250"  styleClass="form-control"  />
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="autoridadeCertificadora" value="#{msg['certificado.autoridadeCertificadora']}:" />
+                        <h:outputLabel for="autoridadeCertificadora" value="* #{msg['certificado.autoridadeCertificadora']}:" />
                         <h:selectOneMenu id="autoridadeCertificadora" value="#{certificadoMB.entity.autoridadeCertificadora}" converter="entityConverter" styleClass="form-control" >
                             <x:initializer/>
                             <f:selectItem itemLabel="#{xmsg['select']}" />
@@ -127,10 +127,10 @@
         </p:fieldset>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">
-            <x:securityArea rolesAllowed="certificado.create">
+            <x:securityArea rolesAllowed="certificadoEmitidos.create">
                 <p:commandButton process="@form" update="@form" action="#{certificadoMB.save}" value="#{xmsg['save']}" />
             </x:securityArea>
-            <x:securityArea rolesAllowed="certificado.audit">
+            <x:securityArea rolesAllowed="certificadoEmitidos.audit">
                 <x:audit for="#{certificadoMB.entity}"/>
             </x:securityArea>
         </div>

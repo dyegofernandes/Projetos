@@ -16,6 +16,7 @@ import br.gov.pi.ati.sccd.modelo.certificado.ItemPedido;
 import br.gov.pi.ati.sccd.modelo.certificado.Pedido;
 import br.gov.pi.ati.sccd.modelo.enums.SituacaoPedido;
 import br.gov.pi.ati.sccd.modelo.enums.TipoPessoa;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,8 +36,9 @@ public class CertificadoMB extends AbstractBaseBean<Certificado> implements Seri
     @EJB
     private ItemPedidoBO itemBO;
 
-    @EJB
-    private ContratoClienteBO contratoClienteBO;
+    private List<Pedido> pedidos;
+
+    private List<ItemPedido> itensPedido;
 
     @Override
     public CertificadoBO getBO() {
@@ -49,11 +51,36 @@ public class CertificadoMB extends AbstractBaseBean<Certificado> implements Seri
     }
 
     @Override
+    public void init() {
+        pedidos = new ArrayList<Pedido>();
+        itensPedido = new ArrayList<ItemPedido>();
+
+        if (getEntity().getCliente() != null) {
+            ContratoCliente contratoCliente = getDAO().getInitialized(getEntity().getCliente());
+
+            if (contratoCliente != null) {
+                Cliente cliente = getDAO().getInitialized(contratoCliente.getCliente());
+
+                pedidos = pedidoBO.pedidosPeloCliente(cliente);
+            }
+        }
+
+        if (getEntity().getPedido() != null) {
+            Pedido pedido = getDAO().getInitialized(getEntity().getPedido());
+
+            if (pedido != null) {
+                itensPedido = pedidoBO.itensPedidoSituacao(pedido, false);
+            }
+
+        }
+    }
+
+    @Override
     public void postSave() {
 
         ItemPedido item = getDAO().getInitialized(getEntity().getTitular());
         item.setAtendido(true);
-        itemBO.getDAO().save(item, true);
+        itemBO.getDAO().saveOrMerge(item, true);
 
         Pedido pedido = getDAO().getInitialized(getEntity().getPedido());
 
@@ -78,6 +105,22 @@ public class CertificadoMB extends AbstractBaseBean<Certificado> implements Seri
         super.postSave();
     }
 
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
+    }
+
+    public List<ItemPedido> getItensPedido() {
+        return itensPedido;
+    }
+
+    public void setItensPedido(List<ItemPedido> itensPedido) {
+        this.itensPedido = itensPedido;
+    }
+
     public boolean verificarSeEhPJ() {
         ItemPedido titular = getDAO().getInitialized(getEntity().getTitular());
         if (titular != null) {
@@ -89,7 +132,12 @@ public class CertificadoMB extends AbstractBaseBean<Certificado> implements Seri
         return false;
     }
 
-    public List<Pedido> getPedidos() {
+    public void pegarPedidos() {
+
+        pedidos = new ArrayList<Pedido>();
+        itensPedido = new ArrayList<ItemPedido>();
+        getEntity().setPedido(null);
+        getEntity().setTitular(null);
 
         if (getEntity().getCliente() != null) {
             ContratoCliente contratoCliente = getDAO().getInitialized(getEntity().getCliente());
@@ -97,30 +145,23 @@ public class CertificadoMB extends AbstractBaseBean<Certificado> implements Seri
             if (contratoCliente != null) {
                 Cliente cliente = getDAO().getInitialized(contratoCliente.getCliente());
 
-                return pedidoBO.pedidosPeloCliente(cliente);
+                pedidos = pedidoBO.pedidosPeloCliente(cliente);
             }
         }
-        return null;
     }
 
-    public List<ItemPedido> getItensPedido() {
+    public void pegarTitulares() {
+        getEntity().setTitular(null);
+        itensPedido = new ArrayList<ItemPedido>();
+
         if (getEntity().getPedido() != null) {
             Pedido pedido = getDAO().getInitialized(getEntity().getPedido());
 
             if (pedido != null) {
-                return pedidoBO.itensPedidoSituacao(pedido, false);
+                itensPedido = pedidoBO.itensPedidoSituacao(pedido, false);
             }
         }
 
-        return null;
     }
 
-    public void chanceCliente() {
-        getEntity().setPedido(null);
-        getEntity().setTitular(null);
-    }
-
-    public void chancePedido() {
-        getEntity().setTitular(null);
-    }
 }

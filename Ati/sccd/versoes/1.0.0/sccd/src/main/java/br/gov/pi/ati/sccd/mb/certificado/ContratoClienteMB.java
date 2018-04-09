@@ -196,4 +196,10 @@ public class ContratoClienteMB extends AbstractBaseBean<ContratoCliente> impleme
 
         return false;
     }
+    
+    public void selecionarCertificado(){
+        if(certificadoAdd.getTipo() != null){
+            
+        }
+    }
 }

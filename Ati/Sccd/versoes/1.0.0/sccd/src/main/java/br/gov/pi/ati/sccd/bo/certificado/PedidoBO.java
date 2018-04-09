@@ -76,6 +76,6 @@ public class PedidoBO extends AbstractBusinessObject<Pedido> {
             }
 
         }
-        return itens;
+        return (List<ItemPedido> ) itens;
     }
 }

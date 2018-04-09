@@ -65,6 +65,7 @@ public class Certificado implements Serializable {
     private String enderecoEmail;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
     private AutoridadeCertificadora autoridadeCertificadora;
 
     @Temporal(TemporalType.DATE)

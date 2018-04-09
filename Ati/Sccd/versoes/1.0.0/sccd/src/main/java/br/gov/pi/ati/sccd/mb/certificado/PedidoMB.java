@@ -77,7 +77,7 @@ public class PedidoMB extends AbstractBaseBean<Pedido> implements Serializable {
     public void adicionar() {
         if (itemAdd.getTipoPessoa() != null) {
             if (!Utils.isNullOrEmpty(itemAdd.getCpfCnpjTitular())) {
-                if (!Utils.isNullOrEmpty(itemAdd.getTitular())) {
+                if (!Utils.isNullOrEmpty(itemAdd.getNomeTitular())) {
                     if (itemAdd.getTipoCertificado() != null) {
                         if (!itemJahAdicionado(itemAdd)) {
                             itens.add(itemAdd);

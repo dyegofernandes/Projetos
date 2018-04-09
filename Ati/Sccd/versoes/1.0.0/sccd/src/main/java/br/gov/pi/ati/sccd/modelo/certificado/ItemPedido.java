@@ -43,7 +43,7 @@ public class ItemPedido implements Serializable {
     private String cpfCnpjTitular;
 
     @Size(max = 250)
-    private String titular;
+    private String nomeTitular;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private TipoCertificado tipoCertificado;
@@ -78,13 +78,15 @@ public class ItemPedido implements Serializable {
         this.cpfCnpjTitular = cpfCnpjTitular;
     }
 
-    public String getTitular() {
-        return titular;
+    public String getNomeTitular() {
+        return nomeTitular;
     }
 
-    public void setTitular(String titular) {
-        this.titular = titular;
+    public void setNomeTitular(String nomeTitular) {
+        this.nomeTitular = nomeTitular;
     }
+
+   
 
     public TipoCertificado getTipoCertificado() {
         return tipoCertificado;
@@ -112,16 +114,16 @@ public class ItemPedido implements Serializable {
 
     @Override
     public String toString() {
-        if (!Utils.isNullOrEmpty(cpfCnpjTitular) && !Utils.isNullOrEmpty(titular)) {
+        if (!Utils.isNullOrEmpty(cpfCnpjTitular) && !Utils.isNullOrEmpty(nomeTitular)) {
             String pattern;
             if (cpfCnpjTitular.length() > 11) {
                 pattern = "##.###.###/####-##";
             } else {
                 pattern = "###.###.###-##";
             }
-            return Utils.format(pattern, cpfCnpjTitular).concat(" - ").concat(titular);
+            return Utils.format(pattern, cpfCnpjTitular).concat(" - ").concat(nomeTitular);
         }
-        return titular;
+        return nomeTitular;
     }
 
 }

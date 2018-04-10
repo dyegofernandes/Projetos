@@ -1,0 +1,118 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['franquia.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuFranquia.xhtml" />
+        <h:form id="formListFranquia">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="franquia_export" target=":formListFranquia:dataTableFranquia"
+                                widgetVar="dataTableFranquiaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="franquia" rowIndexVar="index" id="dataTableFranquia" widgetVar="dataTableFranquiaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{franquiaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{franquiaMB.dataModel.paginatorTemplate}"
+                         value="#{franquiaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">
+                        <h:outputText value="" />
+                    </f:facet>
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['franquia.estado']}" sortBy="#{franquia.cidade.estado.nome}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['franquia.estado']}" />
+                    </f:facet>
+                    <h:outputText value="#{franquia.cidade.uf}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['franquia.cidade']}" sortBy="#{franquia.cidade.nome}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['franquia.cidade']}" />
+                    </f:facet>
+                    <h:outputText value="#{franquia.cidade}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                
+                <p:column headerText="#{msg['franquia.tipo_pessoa']}" sortBy="#{franquia.tipo_pessoa}"
+                           >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['franquia.tipo_pessoa']}" />
+                    </f:facet>
+                    <h:outputText value="#{franquia.tipo_pessoa}"/>
+                </p:column>
+                <p:column headerText="#{msg['franquia.cpf_cnpj']}" sortBy="#{franquia.cpf_cnpj}"
+                          filterBy="#{franquia.cpf_cnpj}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['franquia.cpf_cnpj']}" />
+                    </f:facet>
+                    <h:outputText value="#{franquia.cpf_cnpj}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['franquia.nome_fantasia']}" sortBy="#{franquia.nome_fantasia}"
+                          filterBy="#{franquia.nome_fantasia}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['franquia.nome_fantasia']}" />
+                    </f:facet>
+                    <h:outputText value="#{franquia.nome_fantasia}"/>
+                </p:column>
+                <p:column headerText="#{msg['franquia.fones']}" sortBy="#{franquia.fones}"
+                          filterBy="#{franquia.fones}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['franquia.fones']}" />
+                    </f:facet>
+                    <h:outputText value="#{franquia.fones}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['franquia.ativo']}" sortBy="#{franquia.ativo}"
+                          style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['franquia.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{franquia.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetFranquiaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailFranquia" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{franquia}" target="#{franquiaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="franquia.create">
+                        <p:button icon="ui-icon-pencil" outcome="createFranquia" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{franquia.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="franquia.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{franquiaMB.delete}" >
+                            <f:setPropertyActionListener value="#{franquia.id}" target="#{franquiaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{franquia}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="franquia.audit">
+                    <x:auditDelete for="#{franquiaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetFranquiaDetail" header="#{msg['franquia.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailFranquia.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

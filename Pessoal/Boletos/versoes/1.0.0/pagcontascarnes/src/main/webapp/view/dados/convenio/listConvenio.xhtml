@@ -1,0 +1,207 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['convenio.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuConvenio.xhtml" />
+        <h:form id="formListConvenio">
+            <x:modalMessages/>
+            <p:fieldset legend="Filtros de Busca" toggleable="true" id="fieldFiltros">
+                <div class="container-fluid">
+                    <div class="row">
+                        <x:securityArea rolesAllowed="franquia.campo">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="franquia" value="#{msg['convenio.franquia']}:" />
+                                <h:selectOneMenu id="franquia" value="#{convenioMB.filtros.franquia}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.franquia)}" 
+                                                   var="franquia"
+                                                   itemLabel="#{franquia}"/>
+                                </h:selectOneMenu>
+
+                            </div>
+                        </x:securityArea>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="tipo_pessoa" value="#{msg['convenio.tipo_pessoa']}:" />
+                            <h:selectOneMenu id="tipo_pessoa" value="#{convenioMB.filtros.tipoPessoa}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.tipoPessoa)}" 
+                                               var="tipoPessoa"
+                                               itemLabel="#{tipoPessoa.descricao}"/>
+                                <p:ajax process="@this" update="@form" />
+                            </h:selectOneMenu>
+                        </div>
+                        <h:panelGroup rendered="#{convenioMB.filtros.tipoPessoa!=null}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cpf" value="#{msg['convenio.cpf']}:" rendered="#{convenioMB.filtros.tipoPessoa.num eq 2}" />
+                                <h:outputLabel for="cnpj" value="#{msg['convenio.cnpj']}:" rendered="#{convenioMB.filtros.tipoPessoa.num eq 1}" />
+                                <x:cpf id="cnpj" value="#{convenioMB.filtros.cpf_cnpj}"  styleClass="form-control" rendered="#{convenioMB.filtros.tipoPessoa.num eq 2}" />
+                                <x:cnpj id="cpf" value="#{convenioMB.filtros.cpf_cnpj}"  styleClass="form-control" rendered="#{convenioMB.filtros.tipoPessoa.num eq 1}"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nome_fantasia" value="#{msg['convenio.nome_fantasia']}:" rendered="#{convenioMB.filtros.tipoPessoa.num eq 1}"/>
+                                <h:outputLabel for="nome_fantasia" value="#{msg['convenio.apelido']}:" rendered="#{convenioMB.filtros.tipoPessoa.num eq 2}"/>
+                                <p:inputText id="nome_fantasia" value="#{convenioMB.filtros.nome_fantasia}" maxlength="100"  styleClass="form-control"  />
+                            </div>
+                        </h:panelGroup>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="estado" value="#{msg['cliente.uf']}:" />
+                            <h:selectOneMenu id="estado" value="#{convenioMB.filtros.estado}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.uf)}" 
+                                               var="estado"
+                                               itemLabel="#{estado}"/>
+                                <p:ajax process="@this" update="cidade"/>
+                            </h:selectOneMenu>
+
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cidade" value="#{msg['convenio.cidade']}:" />
+                            <p:autoComplete id="cidade" value="#{convenioMB.filtros.cidade}" 
+                                            placeholder="Cidades filtradas pelo Estado"
+                                            completeMethod="#{convenioMB.autocompleteCidadeFiltro}" styleClass="uix-autocomplete" 
+
+                                            minQueryLength="3" forceSelection="true" dropdown="true"
+
+                                            var="p" itemLabel="#{p.nome}" itemValue="#{p}" converter="entityConverter" readonly="#{fornecedorMB.somenteLeitura}"> 
+                                <x:initializer/>
+
+                                <p:column> 
+
+                                    <h:outputText value="#{p.nome} - #{p.uf}">
+
+                                    </h:outputText>
+
+                                </p:column> 
+                            </p:autoComplete>
+
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="ativo" value="#{msg['cliente.ativo']}:" />
+                            <h:selectOneMenu id="ativo" value="#{convenioMB.filtros.ativo}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.ativo)}" 
+                                               var="ativo"
+                                               itemLabel="#{ativo.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="uix-center">
+                        <p:commandButton  process="@form" update="@form" action="#{convenioMB.buscar()}" 
+                                          value="Buscar" />
+                    </div>
+                </div>
+            </p:fieldset>
+
+            <p:fieldset legend="Resultados">
+                <x:dataTableActions fileName="convenio_export" target=":formListConvenio:dataTableConvenio"
+                                    widgetVar="dataTableConvenioWidget"  />
+
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="convenio" rowIndexVar="index" id="dataTableConvenio" widgetVar="dataTableConvenioWidget" styleClass="table-responsive"
+                             value="#{convenioMB.convenios}"  >
+                    <p:column styleClass="uix-datatable-index">
+                        <f:facet name="header">
+                            <h:outputText value="" />
+                        </f:facet>
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+
+                    <p:column headerText="#{msg['convenio.uf']}" sortBy="#{convenio.cidade.uf.nome}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['convenio.uf']}" />
+                        </f:facet>
+                        <h:outputText value="#{convenio.cidade.uf}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['convenio.cidade']}" sortBy="#{convenio.cidade.nome}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['convenio.cidade']}" />
+                        </f:facet>
+                        <h:outputText value="#{convenio.cidade}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['convenio.franquia']}" rendered="#{x:hasRole('franquia.coluna')}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['convenio.franquia']}" />
+                        </f:facet>
+                        <h:outputText value="#{convenio.franquia}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['convenio.tipo_pessoa']}" sortBy="#{convenio.tipo_pessoa.descricao}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['convenio.tipo_pessoa']}" />
+                        </f:facet>
+                        <h:outputText value="#{convenio.tipo_pessoa.descricao}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['convenio.cpf_cnpj']}" sortBy="#{convenio.cpf_cnpj}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['convenio.cpf_cnpj']}" />
+                        </f:facet>
+                        <h:outputText value="#{convenio.cpf_cnpj}" converter="cpfConverter" rendered="#{convenio.cpf_cnpj.length() ==11}"/>
+                        <h:outputText value="#{convenio.cpf_cnpj}" converter="cnpjConverter" rendered="#{convenio.cpf_cnpj.length() ==14}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['convenio.nome_fantasia']}" sortBy="#{convenio.nome_fantasia}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['convenio.nome_fantasia']}" />
+                        </f:facet>
+                        <h:outputText value="#{convenio.nome_fantasia}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['convenio.fones']}" sortBy="#{convenio.fones}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['convenio.fones']}" />
+                        </f:facet>
+                        <h:outputText value="#{convenio.fones}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['convenio.ativo']}"  style="text-align: center;" sortBy="#{convenio.ativo}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['convenio.ativo']}" />
+                        </f:facet>
+                        <h:outputText value="#{convenio.ativo}" converter ="yesNoConverter" />
+                    </p:column>
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+                        <p:commandButton oncomplete="PF('widgetConvenioDetail').show();"  icon="ui-icon-zoomin" 
+                                         process="@form" update=":formDetailConvenio" title="#{xmsg['detail']}" >
+                            <f:setPropertyActionListener value="#{convenio}" target="#{convenioMB.entity}" />
+                        </p:commandButton>
+                        <x:securityArea rolesAllowed="convenio.create">
+                            <p:button icon="ui-icon-pencil" outcome="createConvenio" title="#{xmsg['edit']}">
+                                <f:param name="id" value="#{convenio.id}" />
+                            </p:button>
+                        </x:securityArea>
+                        <x:securityArea rolesAllowed="convenio.delete">
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                             action="#{convenioMB.delete}" >
+                                <f:setPropertyActionListener value="#{convenio.id}" target="#{convenioMB.id}" />
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{convenio}" />
+                            </p:commandButton>
+                        </x:securityArea>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+
+
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="convenio.audit">
+                    <x:auditDelete for="#{convenioMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetConvenioDetail" header="#{msg['convenio.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailConvenio.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

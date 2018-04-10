@@ -6,7 +6,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.sccd.bo.certificado.CertificadoBO;
-import br.gov.pi.ati.sccd.bo.certificado.ContratoClienteBO;
 import br.gov.pi.ati.sccd.bo.certificado.ItemPedidoBO;
 import br.gov.pi.ati.sccd.bo.certificado.PedidoBO;
 import br.gov.pi.ati.sccd.modelo.cadastro.Cliente;

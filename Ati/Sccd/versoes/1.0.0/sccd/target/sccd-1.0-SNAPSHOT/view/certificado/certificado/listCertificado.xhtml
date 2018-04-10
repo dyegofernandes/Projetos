@@ -12,7 +12,7 @@
             <x:modalMessages/>
 
             <x:dataTableActions fileName="certificado_export" target=":formListCertificado:dataTableCertificado"
-                                     widgetVar="dataTableCertificadoWidget"  />
+                                widgetVar="dataTableCertificadoWidget"  />
 
             <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                          var="certificado" rowIndexVar="index" id="dataTableCertificado" widgetVar="dataTableCertificadoWidget" styleClass="table-responsive"
@@ -22,17 +22,17 @@
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="#{msg['certificado.cliente']}" sortBy="#{certificado.cliente}"
-                       >
+                <p:column headerText="#{msg['certificado.cliente']}" sortBy="#{certificado.cliente.cliente.nome}"
+                          filterBy="#{certificado.cliente.cliente.nome}" >
                     <f:facet name="header">
                         <h:outputText value="#{msg['certificado.cliente']}" />
                     </f:facet>
-                    <h:outputText value="#{certificado.cliente}">
+                    <h:outputText value="#{certificado.cliente.cliente}">
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{msg['certificado.pedido']}" sortBy="#{certificado.pedido}"
-                       >
+                <p:column headerText="#{msg['certificado.pedido']}" sortBy="#{certificado.pedido.protocolo}"
+                          filterBy="#{certificado.pedido.protocolo}">
                     <f:facet name="header">
                         <h:outputText value="#{msg['certificado.pedido']}" />
                     </f:facet>
@@ -40,8 +40,8 @@
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{msg['certificado.titular']}" sortBy="#{certificado.titular}"
-                       >
+                <p:column headerText="#{msg['certificado.titular']}" sortBy="#{certificado.titular.nomeTitular}"
+                          filterBy="#{certificado.titular.nomeTitular}" >
                     <f:facet name="header">
                         <h:outputText value="#{msg['certificado.titular']}" />
                     </f:facet>
@@ -49,50 +49,59 @@
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
+                <p:column headerText="#{msg['certificado.tipoCertificado']}" sortBy="#{certificado.titular.tipoCertificado.sigla}"
+                          filterBy="#{certificado.titular.tipoCertificado.sigla}">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['certificado.tipoCertificado']}" />
+                    </f:facet>
+                    <h:outputText value="#{certificado.titular.tipoCertificado.sigla}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
                 <p:column headerText="#{msg['certificado.numeroSolicitacao']}" sortBy="#{certificado.numeroSolicitacao}"
-                    filterBy="#{certificado.numeroSolicitacao}"   >
+                          filterBy="#{certificado.numeroSolicitacao}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['certificado.numeroSolicitacao']}" />
                     </f:facet>
                     <h:outputText value="#{certificado.numeroSolicitacao}"/>
                 </p:column>
                 <p:column headerText="#{msg['certificado.cpfRepresentanteLegal']}" sortBy="#{certificado.cpfRepresentanteLegal}"
-                    filterBy="#{certificado.cpfRepresentanteLegal}"   >
+                          filterBy="#{certificado.cpfRepresentanteLegal}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['certificado.cpfRepresentanteLegal']}" />
                     </f:facet>
                     <h:outputText value="#{certificado.cpfRepresentanteLegal}"/>
                 </p:column>
                 <p:column headerText="#{msg['certificado.nomeRepresentanteLegal']}" sortBy="#{certificado.nomeRepresentanteLegal}"
-                    filterBy="#{certificado.nomeRepresentanteLegal}"   >
+                          filterBy="#{certificado.nomeRepresentanteLegal}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['certificado.nomeRepresentanteLegal']}" />
                     </f:facet>
                     <h:outputText value="#{certificado.nomeRepresentanteLegal}"/>
                 </p:column>
                 <p:column headerText="#{msg['certificado.cpfResponsavelLegal']}" sortBy="#{certificado.cpfResponsavelLegal}"
-                    filterBy="#{certificado.cpfResponsavelLegal}"   >
+                          filterBy="#{certificado.cpfResponsavelLegal}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['certificado.cpfResponsavelLegal']}" />
                     </f:facet>
                     <h:outputText value="#{certificado.cpfResponsavelLegal}"/>
                 </p:column>
                 <p:column headerText="#{msg['certificado.nomeResponsavelLegal']}" sortBy="#{certificado.nomeResponsavelLegal}"
-                    filterBy="#{certificado.nomeResponsavelLegal}"   >
+                          filterBy="#{certificado.nomeResponsavelLegal}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['certificado.nomeResponsavelLegal']}" />
                     </f:facet>
                     <h:outputText value="#{certificado.nomeResponsavelLegal}"/>
                 </p:column>
                 <p:column headerText="#{msg['certificado.enderecoEmail']}" sortBy="#{certificado.enderecoEmail}"
-                    filterBy="#{certificado.enderecoEmail}"   >
+                          filterBy="#{certificado.enderecoEmail}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['certificado.enderecoEmail']}" />
                     </f:facet>
                     <h:outputText value="#{certificado.enderecoEmail}"/>
                 </p:column>
-                <p:column headerText="#{msg['certificado.autoridadeCertificadora']}" sortBy="#{certificado.autoridadeCertificadora}"
-                       >
+                <p:column headerText="#{msg['certificado.autoridadeCertificadora']}" sortBy="#{certificado.autoridadeCertificadora.nome}"
+                          filterBy="#{certificado.autoridadeCertificadora.nome}">
                     <f:facet name="header">
                         <h:outputText value="#{msg['certificado.autoridadeCertificadora']}" />
                     </f:facet>
@@ -101,7 +110,7 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{msg['certificado.dataAprovacao']}" sortBy="#{certificado.dataAprovacao}"
-                    filterBy="#{certificado.dataAprovacao}"   style="text-align: center;">
+                          filterBy="#{certificado.dataAprovacao}"   style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['certificado.dataAprovacao']}" />
                         <x:dateFilter/>
@@ -111,49 +120,36 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{msg['certificado.documento']}" sortBy="#{certificado.documento}"
-                    filterBy="#{certificado.documento}"   >
+                          filterBy="#{certificado.documento}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['certificado.documento']}" />
                     </f:facet>
                     <h:outputText value="#{certificado.documento}"/>
                 </p:column>
                 <p:column headerText="#{msg['certificado.armario']}" sortBy="#{certificado.armario}"
-                    filterBy="#{certificado.armario}"   >
+                          filterBy="#{certificado.armario}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['certificado.armario']}" />
                     </f:facet>
                     <h:outputText value="#{certificado.armario}"/>
                 </p:column>
                 <p:column headerText="#{msg['certificado.caixa']}" sortBy="#{certificado.caixa}"
-                    filterBy="#{certificado.caixa}"   >
+                          filterBy="#{certificado.caixa}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['certificado.caixa']}" />
                     </f:facet>
                     <h:outputText value="#{certificado.caixa}"/>
                 </p:column>
                 <p:column headerText="#{msg['certificado.sequencial']}" sortBy="#{certificado.sequencial}"
-                    filterBy="#{certificado.sequencial}"   >
+                          filterBy="#{certificado.sequencial}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['certificado.sequencial']}" />
                     </f:facet>
                     <h:outputText value="#{certificado.sequencial}"/>
                 </p:column>
-                <p:column headerText="#{msg['certificado.baixa']}" sortBy="#{certificado.baixa}"
-                    filterBy="#{certificado.baixa}"   >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['certificado.baixa']}" />
-                    </f:facet>
-                    <h:outputText value="#{certificado.baixa}"/>
-                </p:column>
-                <p:column headerText="#{msg['certificado.documentoRevogacao']}" sortBy="#{certificado.documentoRevogacao}"
-                    filterBy="#{certificado.documentoRevogacao}"   >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['certificado.documentoRevogacao']}" />
-                    </f:facet>
-                    <h:outputText value="#{certificado.documentoRevogacao}"/>
-                </p:column>
+              
                 <p:column headerText="#{msg['certificado.dataRevogacao']}" sortBy="#{certificado.dataRevogacao}"
-                    filterBy="#{certificado.dataRevogacao}"   style="text-align: center;">
+                          filterBy="#{certificado.dataRevogacao}"   style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['certificado.dataRevogacao']}" />
                         <x:dateFilter/>
@@ -162,13 +158,7 @@
                         <f:convertDateTime />
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{msg['certificado.observacao']}" sortBy="#{certificado.observacao}"
-                    filterBy="#{certificado.observacao}"   >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['certificado.observacao']}" />
-                    </f:facet>
-                    <h:outputText value="#{certificado.observacao}"/>
-                </p:column>
+              
                 <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
                     <f:facet name="header">
                         <h:outputText value="#{xmsg['actions']}"/>
@@ -200,7 +190,7 @@
 
         <p:dialog widgetVar="widgetCertificadoDetail" header="#{msg['certificado.detail']}" appendTo="@(body)" 
                   modal="true" styleClass="uix-dialog-fluid" >
-                  <ui:include src="detailCertificado.xhtml" />
+            <ui:include src="detailCertificado.xhtml" />
         </p:dialog>
     </ui:define>
 </ui:composition>

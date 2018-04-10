@@ -57,7 +57,7 @@ public class Pedido implements Serializable {
     @NotNull
     private Date dataSolicitacao;
 
-    @Column(length = 20)
+    @Column(length = 30)
     @Enumerated(EnumType.STRING)
     private SituacaoPedido situacao = SituacaoPedido.NAO_ATENDIDO;
     

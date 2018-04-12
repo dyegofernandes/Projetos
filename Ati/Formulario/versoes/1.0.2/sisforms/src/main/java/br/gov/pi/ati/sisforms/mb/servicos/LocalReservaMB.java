@@ -7,9 +7,12 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.sisforms.bo.servicos.LocalReservaBO;
+import br.gov.pi.ati.sisforms.modelo.cadastro.Orgao;
 import br.gov.pi.ati.sisforms.modelo.servicos.LocalReserva;
+import br.gov.pi.ati.sisforms.util.SessaoUtils;
 import java.util.List;
-import javax.annotation.PostConstruct;
+
+
 
 /**
  *
@@ -32,19 +35,28 @@ public class LocalReservaMB extends AbstractBaseBean<LocalReserva> implements Se
         return "id";
     }
     
-    private List<LocalReserva> Locais;
+    private List<LocalReserva> locais;
     
-    @PostConstruct
+    
+    @Override
     public void init() {
+        Orgao orgao = getDAO().getInitialized(SessaoUtils.getUser().getOrgao());
         
-        Locais = getBO().getDAO().listAll();                         
+        if(getEntity().getId()==null){
+            getEntity().setOrgao(orgao);
+        }
+        locais = getBO().locaisPorOrgao(orgao);
     }
     
     public List<LocalReserva> getLocais() {
-        return Locais;
+        return locais;
     }
 
     public void setLocais(List<LocalReserva> Locais) {
-        this.Locais = Locais;
+        this.locais = Locais;
     }
+    
+   
+
+    
 }

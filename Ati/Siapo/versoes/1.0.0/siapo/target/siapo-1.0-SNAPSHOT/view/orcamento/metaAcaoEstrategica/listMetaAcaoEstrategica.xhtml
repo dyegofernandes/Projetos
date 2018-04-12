@@ -11,57 +11,81 @@
         <h:form id="formListMetaAcaoEstrategica">
             <x:modalMessages/>
 
-            <x:dataTableActions fileName="metaAcaoEstrategica_export" target=":formListMetaAcaoEstrategica:dataTableMetaAcaoEstrategica"
-                                     widgetVar="dataTableMetaAcaoEstrategicaWidget"  />
+            <p:fieldset legend="Filtros de Busca" toggleable="true">
+                <div class="uix-center">
+                    <p:commandButton  process="@form" update="dataTableMetaAcaoEstrategica" action="#{metaAcaoEstrategicaMB.buscar()}" 
+                                      value="Buscar" />
+                </div>
+            </p:fieldset>
 
-            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
-                         var="metaAcaoEstrategica" rowIndexVar="index" id="dataTableMetaAcaoEstrategica" widgetVar="dataTableMetaAcaoEstrategicaWidget" styleClass="table-responsive"
-                         currentPageReportTemplate="#{metaAcaoEstrategicaMB.dataModel.currentPageReportTemplate}"
-                         paginatorTemplate="#{metaAcaoEstrategicaMB.dataModel.paginatorTemplate}"
-                         value="#{metaAcaoEstrategicaMB.dataModel}" lazy="true" >
-                <p:column styleClass="uix-datatable-index">
-                    <h:outputText value="#{index+1}"/>
-                </p:column>
-                <p:column headerText="#{msg['metaAcaoEstrategica.acaoEstrategica']}" sortBy="#{metaAcaoEstrategica.acaoEstrategica}"
-                       >
+            <p:fieldset legend="Resultado da Busca">
+                <x:dataTableActions fileName="metaAcaoEstrategica_export" target=":formListMetaAcaoEstrategica:dataTableMetaAcaoEstrategica"
+                                    widgetVar="dataTableMetaAcaoEstrategicaWidget"  />
+
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="metaAcaoEstrategica" rowIndexVar="index" id="dataTableMetaAcaoEstrategica" widgetVar="dataTableMetaAcaoEstrategicaWidget" styleClass="table-responsive"
+                             sortBy="#{metaAcaoEstrategica.programaPPA.programaGov.nome}" expandableRowGroups="true" 
+                             value="#{metaAcaoEstrategicaMB.metas}"  >
                     <f:facet name="header">
-                        <h:outputText value="#{msg['metaAcaoEstrategica.acaoEstrategica']}" />
+                        <h:outputText value="Meta Ação Estratégica" />
                     </f:facet>
-                    <h:outputText value="#{metaAcaoEstrategica.acaoEstrategica}">
-                        <x:initializer/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="#{msg['metaAcaoEstrategica.programaPPA']}" sortBy="#{metaAcaoEstrategica.programaPPA}"
-                       >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['metaAcaoEstrategica.programaPPA']}" />
-                    </f:facet>
-                    <h:outputText value="#{metaAcaoEstrategica.programaPPA}">
-                        <x:initializer/>
-                    </h:outputText>
-                </p:column>
-                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
-                    <f:facet name="header">
-                        <h:outputText value="#{xmsg['actions']}"/>
-                    </f:facet>
-                    <p:commandButton oncomplete="PF('widgetMetaAcaoEstrategicaDetail').show();"  icon="ui-icon-zoomin" 
-                                     process="@form" update=":formDetailMetaAcaoEstrategica" title="#{xmsg['detail']}" >
-                        <f:setPropertyActionListener value="#{metaAcaoEstrategica}" target="#{metaAcaoEstrategicaMB.entity}" />
-                    </p:commandButton>
-                    <x:securityArea rolesAllowed="metaAcaoEstrategica.create">
-                        <p:button icon="ui-icon-pencil" outcome="createMetaAcaoEstrategica" title="#{xmsg['edit']}">
-                            <f:param name="id" value="#{metaAcaoEstrategica.id}" />
-                        </p:button>
-                    </x:securityArea>
-                    <x:securityArea rolesAllowed="metaAcaoEstrategica.delete">
-                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
-                                         action="#{metaAcaoEstrategicaMB.delete}" >
-                            <f:setPropertyActionListener value="#{metaAcaoEstrategica.id}" target="#{metaAcaoEstrategicaMB.id}" />
-                            <x:confirmation message="#{xmsg['confirmDelete']} - #{metaAcaoEstrategica}" />
+                    <p:headerRow>
+
+                        <p:column colspan="2" headerText="#{msg['metaAcaoEstrategica.programaPPA']}" sortBy="#{metaAcaoEstrategica.programaPPA}"
+                                  >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['metaAcaoEstrategica.programaPPA']}" />
+                            </f:facet>
+                            <h:outputText value="#{metaAcaoEstrategica.programaPPA.programaGov.nome}">
+                                <x:initializer/>
+                            </h:outputText>
+                        </p:column>
+                    </p:headerRow>
+                    <p:column headerText="#{msg['acaoEstrategica.codigo']}" sortBy="#{metaAcaoEstrategica.acaoEstrategica.codigo}"
+                              >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['acaoEstrategica.codigo']}" />
+                        </f:facet>
+                        <h:outputText value="#{metaAcaoEstrategica.acaoEstrategica.codigo}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['acaoEstrategica.nome']}" sortBy="#{metaAcaoEstrategica.acaoEstrategica.nome}"
+                              >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['acaoEstrategica.nome']}" />
+                        </f:facet>
+                        <h:outputText value="#{metaAcaoEstrategica.acaoEstrategica.nome}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+                        <p:commandButton oncomplete="PF('widgetMetaAcaoEstrategicaDetail').show();"  icon="ui-icon-zoomin" 
+                                         process="@form" update=":formDetailMetaAcaoEstrategica" title="#{xmsg['detail']}" >
+                            <f:setPropertyActionListener value="#{metaAcaoEstrategica}" target="#{metaAcaoEstrategicaMB.entity}" />
                         </p:commandButton>
-                    </x:securityArea>
-                </p:column>
-            </p:dataTable>
+                        <x:securityArea rolesAllowed="metaAcaoEstrategica.create">
+                            <p:button icon="ui-icon-pencil" outcome="createMetaAcaoEstrategica" title="#{xmsg['edit']}">
+                                <f:param name="id" value="#{metaAcaoEstrategica.id}" />
+                            </p:button>
+                        </x:securityArea>
+                        <x:securityArea rolesAllowed="metaAcaoEstrategica.delete">
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                             action="#{metaAcaoEstrategicaMB.delete}" >
+                                <f:setPropertyActionListener value="#{metaAcaoEstrategica.id}" target="#{metaAcaoEstrategicaMB.id}" />
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{metaAcaoEstrategica}" />
+                            </p:commandButton>
+                        </x:securityArea>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+
+
+
             <div class="uix-audit-delete">
                 <x:securityArea rolesAllowed="metaAcaoEstrategica.audit">
                     <x:auditDelete for="#{metaAcaoEstrategicaMB.entityClass}"/>
@@ -71,7 +95,7 @@
 
         <p:dialog widgetVar="widgetMetaAcaoEstrategicaDetail" header="#{msg['metaAcaoEstrategica.detail']}" appendTo="@(body)" 
                   modal="true" styleClass="uix-dialog-fluid" >
-                  <ui:include src="detailMetaAcaoEstrategica.xhtml" />
+            <ui:include src="detailMetaAcaoEstrategica.xhtml" />
         </p:dialog>
     </ui:define>
 </ui:composition>

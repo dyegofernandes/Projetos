@@ -34,6 +34,7 @@
 
 
     </script>
+    
 
     <h:form id="formCreateReserva" >
 
@@ -44,8 +45,8 @@
             <h3 style="margin-top: 0">Reservas</h3>
             <p:schedule id="schedule" value="#{reservaLocalMB.eventModel}" widgetVar="myschedule" timeZone="GMT-3" columnFormat="" timeFormat=" "  axisFormat="H:mm" centerHeaderTemplate="title" >
 
-                <p:ajax event="dateSelect" listener="#{reservaLocalMB.selecionarData}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
-                <p:ajax event="eventSelect" listener="#{reservaLocalMB.selecionarEvento}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+                <p:ajax event="dateSelect" listener="#{reservaLocalMB.selecionarData}" update="eventDetails"  />
+                <p:ajax event="eventSelect" listener="#{reservaLocalMB.selecionarEvento}" update="eventDetails"  />
                 <p:ajax event="eventMove" listener="#{reservaLocalMB.moverEvento}" update="messages" />
                 <p:ajax event="eventResize" listener="#{reservaLocalMB.redimensionarEvento}" update="messages" />
 
@@ -56,69 +57,94 @@
 
         <p:dialog id="eventDetails" widgetVar="eventDialog" header="Detalhes do evento" showEffect="clip" hideEffect="clip" appendTo="@(body)"
                   modal="true" styleClass="uix-dialog-fluid">
-            <h:form >
+            <h:form id="test">
                 <x:modalMessages/>
                 <p:tabView>
-                    <p:tab title="Horário/Local">
+                    <p:tab title="Solicitação" >
                         <div class="content-fluid" >
                             <div class="row">
+
+                                
+                                
+                                
                                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                     <p:outputLabel for="title" value="Título:" />
-                                    <p:inputText id="title" value="#{reservaLocalMB.reserva.titulo}" required="true" styleClass="form-control" />
+                                    <p:inputText id="title" value="#{reservaLocalMB.reserva.titulo}"  styleClass="form-control" />
                                 </div>
-                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                    <p:outputLabel for="local" value="Local:" />
-
-                                    <p:selectOneMenu id="local" value="#{reservaLocalMB.reserva.local}" converter="entityConverter" styleClass="form-control" >
-                                        <x:initializer/>
-                                        <f:selectItem itemLabel="#{xmsg['select']}" />
-                                        <f:selectItems value="#{findAllBean.get(classMB.localReserva)}" var="ambiente" itemLabel="#{ambiente}"/>                             
-                                    </p:selectOneMenu>
-                                </div>
-
-
-
-
+                                
+                                
+                                
                                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                     <p:outputLabel for="from" value="Data Inicial:" />
                                     <p:calendar mindate="#{now}" id="from" value="#{reservaLocalMB.reserva.dataInicio}" showOn="button" styleClass="uix-calendar"  pattern="dd/MM/yyyy HH:mm" ><x:mask/>       </p:calendar>
                                 </div>
+                                
                                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                     <p:outputLabel for="to" value="Data Final:" />
                                     <p:calendar mindate="#{now}" id="to" value="#{reservaLocalMB.reserva.dataFinal}" showOn="button" styleClass="uix-calendar" pattern="dd/MM/yyyy HH:mm"><x:mask/>  </p:calendar>
                                 </div>
-
+                                
                                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                    <p:outputLabel for="obs" value="Observação:" />
-                                    <p:inputText id="obs" value="#{reservaLocalMB.reserva.observacao}" required="true" styleClass="form-control" />
-                                </div>
+                                    
+                                    <p:outputLabel for="local" value="Local:" />
 
-                                <p:messages  severity="info" escape="false" showDetail="true" autoUpdate="true" closable="true"/>
-                            </div>
-                        </div>
-
-                    </p:tab>
-
-                    <p:tab title="Solicitação" >
-                        <div class="content-fluid" >
-                            <div class="row">
-                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                    <h:outputLabel for="orgao" value=" #{msg['Orgão']}:" />
-
-                                    <p:selectOneMenu id="orgao" value="#{reservaLocalMB.reserva.orgao}" converter="entityConverter" styleClass="form-control" >
-                                        <x:initializer/>
+                                    <p:selectOneMenu id="local" value="#{reservaLocalMB.reserva.local}" converter="entityConverter" styleClass="form-control" >
+                                        <x:initializer />
                                         <f:selectItem itemLabel="#{xmsg['select']}" />
-                                        <f:selectItems value="#{findAllBean.get(classMB.orgao)}" var="orgao" itemLabel="#{orgao}" />                             
+                                        <f:selectItems value="#{reservaLocalMB.locais}" var="localReserva" itemLabel="#{localReserva}"/>                             
                                     </p:selectOneMenu>
                                 </div>
+
+                                
+                                
+
+                                <p:messages  severity="info" escape="false" showDetail="true" autoUpdate="true" closable="true"/>
+
                                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                     <p:outputLabel for="solicitante" value="Solicitante:" />
-                                    <p:inputText id="solicitante" value="#{reservaLocalMB.reserva.solicitante}" required="true" styleClass="form-control" />
+                                    <p:inputText id="solicitante" value="#{reservaLocalMB.reserva.solicitante}"  styleClass="form-control" />
 
                                 </div>
+                                
+                                
+                                
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    
+                                    <p:outputLabel for="panelOrgaoSolicitante" value="Orgão do solicitante:" />
+                                    <h:panelGroup layout="block" id="panelOrgaoSolicitante" styleClass="form-control">
+                                        <h:panelGroup id="conteudoPanelOrgaoSolicitante" >
+                                            <h:outputText value="#{reservaLocalMB.reserva.orgao_solicitante.nome}" >
+                                                <x:initializer/>
+                                            </h:outputText>
+                                            <p:commandButton type="button" icon="ui-icon-carat-1-s" 
+                                                             id="buttonOrgaoSolicitante" styleClass="pull-right"
+                                                             style="font-size: 10px;"/>
+                                        </h:panelGroup>
+                                    </h:panelGroup>
+
+                                    <p:overlayPanel for="panelOrgaoSolicitante" styleClass="w-50p" widgetVar="overlayOrgaoSolicitante" >
+                                        <p:tree value="#{orgaoMB.orgaos}" var="orgao" styleClass="w-50p"
+                                                selectionMode="single"  style="max-height: 400px; overflow-y: scroll" >
+                                            <p:ajax event="select" update="@form"
+                                                    listener="#{reservaLocalMB.reserva.setOrgao_solicitante(orgao)}" oncomplete="PF('overlayOrgaoSolicitante').hide()" />
+                                            <p:treeNode collapsedIcon="ui-icon-folder-collapsed" >
+                                                <h:panelGroup styleClass="#{orgao == orgaoMB.entity.orgaoPai ? 'ui-state-highlight' : ''}">
+                                                    <h:outputText value="#{orgao.sigla}" style="font-weight: bold"/>  
+                                                    <h:outputText value=" (#{orgao.nome})" styleClass="font-8"  /> 
+                                                </h:panelGroup>
+                                            </p:treeNode>
+                                        </p:tree>
+                                    </p:overlayPanel>
+                                </div>
+                                
                                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" >
-                                    <p:outputLabel for="fone" value="Telefone:" />
-                                    <p:inputMask id="fone" value="#{reservaLocalMB.reserva.fone}" mask="(99) 99999-9999" required="true" styleClass="form-control" />
+                                    <p:outputLabel for="contato" value="Contato do Responsável:" />
+                                    <p:inputText id="contato" value="#{reservaLocalMB.reserva.contato}"   styleClass="form-control" />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <p:outputLabel for="Motivo" value="Motivo:" />
+                                    <p:inputTextarea  maxlength="500"   value="#{reservaLocalMB.reserva.observacao}" required="true" styleClass="form-control" />
+                                    <h:outputText id="Motivo" />
                                 </div>
                             </div>
                         </div>
@@ -215,7 +241,7 @@
 
 
                 <div class="uix-center" >
-                    <p:commandButton id="addButton" value="Salvar" actionListener="#{reservaLocalMB.saveAll()}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" update="@form" />
+                    <p:commandButton id="addButton" value="Salvar" actionListener="#{reservaLocalMB.saveAll()}" update="@form" process="@form" />
 
                     <p:commandButton type="reset" value="Resetar" />
 
@@ -223,7 +249,8 @@
                         <f:setPropertyActionListener value="#{reserva.id}" target="#{reservaLocalMB.id}" />
                         <x:confirmation message="#{xmsg['confirmDelete']} - #{reserva}" />
                     </p:commandButton>
-
+                       
+                    
 
                 </div>
             </h:form>

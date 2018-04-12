@@ -16,9 +16,8 @@
 
             <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                          var="reserva" rowIndexVar="index" id="dataTableReservaLocal" widgetVar="dataTableReservaLocalWidget" styleClass="table-responsive"
-                         currentPageReportTemplate="#{reservaLocalMB.dataModel.currentPageReportTemplate}"
-                         paginatorTemplate="#{reservaLocalMB.dataModel.paginatorTemplate}"
-                         value="#{reservaLocalMB.dataModel}" lazy="true" >
+                        
+                         value="#{reservaLocalMB.reservas}" lazy="false" >
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
@@ -72,23 +71,29 @@
                         <h:outputText value="#{xmsg['actions']}"/>
                     </f:facet>
                     <p:commandButton oncomplete="PF('widgetReservaLocalDetail').show();"  icon="ui-icon-zoomin" 
-                                     process="@form" update=":formDetailReservaLocal" title="#{xmsg['detail']}" actionListener="#{reservaLocalMB.carregar_arquivos(reserva)}" >
+                                     process="@form" update=":formDetailReservaLocal" title="#{xmsg['detail']}" actionListener="#{reservaLocalMB.carregar_arquivos(reserva)}">
                         <f:setPropertyActionListener value="#{reserva}" target="#{reservaLocalMB.reserva}" />
                     </p:commandButton>
                     
-                   
-                    <p:commandButton oncomplete="PF('widgetReservaLocalUpdate').show();"  icon="ui-icon-pencil" 
-                                     process="@form" update=":formUpdateReservaLocal" title="#{xmsg['edit']}" actionListener="#{reservaLocalMB.carregar_arquivos(reserva)}" >
+                    
+                    <p:commandButton oncomplete="PF('eventDialog').show();"  icon="ui-icon-pencil" 
+                                     process="@form" update=":formUpdateReservaLocal" title="#{xmsg['edit']}" actionListener="#{reservaLocalMB.carregar_arquivos(reserva)}">
                         <f:setPropertyActionListener value="#{reserva}" target="#{reservaLocalMB.reserva}" />
+                       
                     </p:commandButton>
+                    
+      
                     
                     <x:securityArea rolesAllowed="reservaLocal.delete">
                         <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
-                                         action="#{reservaLocalMB.delete()}" >
+                                         action="#{reservaLocalMB.remove_reserva(reserva)}" >
                             <f:setPropertyActionListener value="#{reserva.id}" target="#{reservaLocalMB.id}" />
                             <x:confirmation message="#{xmsg['confirmDelete']} - #{reserva}" />
                         </p:commandButton>
                     </x:securityArea>
+                    
+                  
+                    
                 </p:column>
             </p:dataTable>
             <div class="uix-audit-delete">
@@ -98,12 +103,12 @@
             </div>  
         </h:form>
         
-        <p:dialog widgetVar="widgetReservaLocalUpdate" header="#{msg['Atualizar']}" appendTo="@(body)" 
-                  modal="true" styleClass="uix-dialog-fluid" >
+        <p:dialog widgetVar="eventDialog" header="Editar evento" showEffect="clip" hideEffect="clip" appendTo="@(body)"
+                  modal="true" styleClass="uix-dialog-fluid"  >
                 <ui:include src="formUpdateReservaLocal.xhtml" />
         </p:dialog>
 
-        <p:dialog widgetVar="widgetReservaLocalDetail" header="#{msg['Detalhes']}" appendTo="@(body)" 
+        <p:dialog widgetVar="widgetReservaLocalDetail" header="#{msg['Detalhes do evento']}" appendTo="@(body)" 
                   modal="true" styleClass="uix-dialog-fluid" >
                   <ui:include src="detailReservaLocal.xhtml" />
         </p:dialog>

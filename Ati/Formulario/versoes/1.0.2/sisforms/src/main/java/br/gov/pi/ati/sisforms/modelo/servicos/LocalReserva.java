@@ -5,6 +5,7 @@
  */
 package br.gov.pi.ati.sisforms.modelo.servicos;
 
+import br.gov.pi.ati.sisforms.modelo.cadastro.Orgao;
 import br.gov.pi.ati.sisforms.modelo.enums.TipoLocal;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
@@ -12,8 +13,10 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
@@ -49,6 +52,14 @@ public class LocalReserva implements Serializable {
     
     
     private Boolean ativo;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    private Orgao orgao;
+    
+    @Size(max = 200)
+    @NotBlank
+    private String endereco;
 
     public Long getId() {
         return id;
@@ -97,6 +108,23 @@ public class LocalReserva implements Serializable {
     public void setQuantidadeLugares(Integer quantidadeLugares) {
         this.quantidadeLugares = quantidadeLugares;
     }
+
+    public Orgao getOrgao() {
+        return orgao;
+    }
+
+    public void setOrgao(Orgao orgao) {
+        this.orgao = orgao;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+    
     
     
 

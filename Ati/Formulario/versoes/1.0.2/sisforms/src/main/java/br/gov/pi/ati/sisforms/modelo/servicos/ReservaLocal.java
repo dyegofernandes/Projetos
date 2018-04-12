@@ -58,7 +58,7 @@ public class ReservaLocal implements Serializable {
     @NotNull
     private Date dataFinal;
 
-    @Column(columnDefinition = "Text", length = 144)
+    @Column(columnDefinition = "Text")
     private String observacao;
     
     @ManyToMany(targetEntity = Arquivo.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
@@ -67,11 +67,14 @@ public class ReservaLocal implements Serializable {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private Orgao orgao;
-   
+    
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Orgao orgao_solicitante;
 
-    @Size(max = 15)
+    @Size(max = 200)
     @NotBlank
-    private String fone;
+    private String contato;
 
 
     @Override
@@ -152,12 +155,20 @@ public class ReservaLocal implements Serializable {
         this.orgao = orgao;
     }
 
-    public String getFone() {
-        return fone;
+    public String getContato() {
+        return contato;
     }
 
-    public void setFone(String fone) {
-        this.fone = fone;
+    public void setContato(String contato) {
+        this.contato = contato;
+    }
+
+    public Orgao getOrgao_solicitante() {
+        return orgao_solicitante;
+    }
+
+    public void setOrgao_solicitante(Orgao orgao_solicitante) {
+        this.orgao_solicitante = orgao_solicitante;
     }
     
     

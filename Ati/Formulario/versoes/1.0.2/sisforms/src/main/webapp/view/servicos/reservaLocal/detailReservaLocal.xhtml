@@ -6,57 +6,62 @@
                  xmlns:x="http://xpert.com/faces">
     <h:form id="formDetailReservaLocal" styleClass="uix-form-detail">
         <p:tabView>
-            <p:tab title="Horário/Local" >
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel value="#{msg['Título']}:" styleClass="control-label" /><br/>
-                            <h:outputText value="#{reservaLocalMB.reserva.titulo}" styleClass="uix-content-detail"/>
-                        </div>
-
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel value="#{msg['Data Inicial']}:" styleClass="control-label" /><br/>
-                            <h:outputText value="#{reservaLocalMB.reserva.dataInicio}" styleClass="uix-content-detail">
-                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
-                            </h:outputText>
-                        </div> 
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel value="#{msg['Data Final']}:" styleClass="control-label" /><br/>
-                            <h:outputText value="#{reservaLocalMB.reserva.dataFinal}" styleClass="uix-content-detail">
-                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
-                            </h:outputText>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel value="#{msg['Local']}:" styleClass="control-label" /><br/>
-                            <h:outputText value="#{reservaLocalMB.reserva.local}" styleClass="uix-content-detail">
-                                <x:initializer/>
-                            </h:outputText>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel value="#{msg['Observação']}:" styleClass="control-label" /><br/>   
-                            <h:outputText  value="#{reservaLocalMB.reserva.observacao}" styleClass="uix-content-detail"/>
-                        </div>
-                    </div>
-                </div>    
-            </p:tab>
             <p:tab title="Solicitação" >
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel value="#{msg['Solicitante']}:" styleClass="control-label" /><br/>
-                            <h:outputText value="#{reservaLocalMB.reserva.solicitante}" styleClass="uix-content-detail"/>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel value="#{msg['Orgão']}:" styleClass="control-label" /><br/>
                             <h:outputText value="#{reservaLocalMB.reserva.orgao}" styleClass="uix-content-detail">
                                     <x:initializer ></x:initializer>
                             </h:outputText>
                         </div>
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel value="#{msg['Telefone']}:" styleClass="control-label" /><br/>
-                            <h:outputText value="#{reservaLocalMB.reserva.fone}" styleClass="uix-content-detail"/>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['Local']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{reservaLocalMB.reserva.local}" styleClass="uix-content-detail">
+                                <x:initializer/>
+                            </h:outputText>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['Título']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{reservaLocalMB.reserva.titulo}" styleClass="uix-content-detail"/>
+                        </div>
+
+                        
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['Data Inicial']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{reservaLocalMB.reserva.dataInicio}" styleClass="uix-content-detail">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                            </h:outputText>
+                        </div> 
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['Data Final']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{reservaLocalMB.reserva.dataFinal}" styleClass="uix-content-detail">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                            </h:outputText>
+                        </div>
+                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['Solicitante']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{reservaLocalMB.reserva.solicitante}" styleClass="uix-content-detail"/>
+                        </div>
+                    </div>
+                
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['Orgão do Solicitante']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{reservaLocalMB.reserva.orgao_solicitante}" styleClass="uix-content-detail">
+                                <x:initializer/>
+                            </h:outputText>
+                        </div>
+                        
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['Contato']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{reservaLocalMB.reserva.contato}" styleClass="uix-content-detail"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['Motivo']}:" styleClass="control-label" /><br/>   
+                            <p:inputTextarea readonly="true" value="#{reservaLocalMB.reserva.observacao}" styleClass="form-control" />
                         </div>
                     </div>
                 </div>
@@ -64,7 +69,7 @@
             <p:tab title="Anexo">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel value="#{msg['Arquivos']}:" styleClass="control-label" /><br/>
                             <p:fieldset legend="Listagem de Arquivos">
 

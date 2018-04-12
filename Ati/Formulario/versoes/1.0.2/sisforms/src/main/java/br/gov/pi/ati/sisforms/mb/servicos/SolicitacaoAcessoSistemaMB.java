@@ -10,6 +10,8 @@ import br.gov.pi.ati.sisforms.bo.servicos.SolicitacaoAcessoSistemaBO;
 import br.gov.pi.ati.sisforms.modelo.cadastro.Termo;
 import br.gov.pi.ati.sisforms.modelo.cadastro.TermoAceito;
 import br.gov.pi.ati.sisforms.modelo.controleacesso.Usuario;
+import br.gov.pi.ati.sisforms.modelo.enums.NomeSistema;
+import br.gov.pi.ati.sisforms.modelo.enums.Situacao;
 import br.gov.pi.ati.sisforms.modelo.enums.TrabalhadorTipo;
 import br.gov.pi.ati.sisforms.modelo.formulario.PerfilInfoFolha;
 import br.gov.pi.ati.sisforms.modelo.formulario.PerfilSFP;
@@ -19,7 +21,9 @@ import br.gov.pi.ati.sisforms.util.Utils;
 import br.gov.pi.ati.sisforms.webservices.inforfolha.ServidorVO;
 import com.xpert.faces.utils.FacesMessageUtils;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -42,6 +46,10 @@ public class SolicitacaoAcessoSistemaMB extends AbstractBaseBean<SolicitacaoAces
 
     private boolean renderizarAceite;
 
+    private List<Situacao> situacoes = new ArrayList<Situacao>(Arrays.asList(Situacao.values()));
+
+    private Situacao situacaoOld;
+
     @Override
     public SolicitacaoAcessoSistemaBO getBO() {
         return solicitacaoAcessoSistemaBO;
@@ -55,9 +63,13 @@ public class SolicitacaoAcessoSistemaMB extends AbstractBaseBean<SolicitacaoAces
     @Override
     public void init() {
         renderizarAceite = false;
-        termoResponsabilidadeAtivo = termoBO.termoAtivoPorNome("TERMO DE RESPONSABILIDADE");
+
+        situacaoOld = getEntity().getSituacao();
 
         if (getEntity().getId() == null) {
+            situacoes.remove(Situacao.NEGADO);
+            situacoes.remove(Situacao.ATENDIDO);
+            termoResponsabilidadeAtivo = termoBO.termoAtivoPorNome("TERMO DE RESPONSABILIDADE");
 
             ServidorVO servidor = Utils.consultarServidorPeloCPF(usuarioAtual.getCpf());
 
@@ -66,11 +78,46 @@ public class SolicitacaoAcessoSistemaMB extends AbstractBaseBean<SolicitacaoAces
                 getEntity().setTipo(TrabalhadorTipo.SERVIDOR);
                 getEntity().setTelefone(servidor.getTelefone());
                 getEntity().setCargoFuncao(servidor.getCargo());
+            }
+        } else {
+
+            if (getEntity().getSituacao() == Situacao.ATENDIDO) {
+                situacoes.remove(Situacao.NEGADO);
+                situacoes.remove(Situacao.NOVA);
             } else {
-                FacesMessageUtils.error("Acesso Permitido apenas para servidores do Estado!");
+                if (getEntity().getSituacao() == Situacao.NEGADO) {
+                    situacoes.remove(Situacao.ATENDIDO);
+                    situacoes.remove(Situacao.NOVA);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void save() {
+
+        if (situacaoOld == Situacao.NOVA && (getEntity().getSituacao() == Situacao.ATENDIDO || getEntity().getSituacao() == Situacao.ATENDIDO)) {
+            getEntity().setDataAtendimento(new Date());
+        }
+
+        super.save();
+    }
+
+    @Override
+    public void postSave() {
+
+        if (getEntity().getSituacao() == Situacao.ATENDIDO && situacaoOld == Situacao.NOVA) {
+            if (getEntity().getAcessoAoSistema() == NomeSistema.INFOFOLHA) {
+                System.out.println("Acesso ao INFOFOLHA Atendido");
+            } else {
+                if (getEntity().getAcessoAoSistema() == NomeSistema.SFP) {
+                    System.out.println("Acesso ao SFP Atendido");
+                }
             }
 
         }
+
+        super.postSave();
     }
 
     public void renderAceitar() {
@@ -106,6 +153,14 @@ public class SolicitacaoAcessoSistemaMB extends AbstractBaseBean<SolicitacaoAces
 
     public void setRenderizarAceite(boolean renderizarAceite) {
         this.renderizarAceite = renderizarAceite;
+    }
+
+    public List<Situacao> getSituacoes() {
+        return situacoes;
+    }
+
+    public void setSituacoes(List<Situacao> situacoes) {
+        this.situacoes = situacoes;
     }
 
     public void chanceSistema() {

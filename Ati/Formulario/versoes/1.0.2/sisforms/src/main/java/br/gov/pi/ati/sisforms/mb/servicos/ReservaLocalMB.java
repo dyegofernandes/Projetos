@@ -1,5 +1,6 @@
 package br.gov.pi.ati.sisforms.mb.servicos;
 
+import br.gov.pi.ati.sisforms.bo.servicos.LocalReservaBO;
 import java.io.Serializable;
 import com.xpert.core.crud.AbstractBaseBean;
 import javax.ejb.EJB;
@@ -7,11 +8,18 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.sisforms.bo.servicos.ReservaLocalBO;
 import br.gov.pi.ati.sisforms.modelo.cadastro.Arquivo;
+import br.gov.pi.ati.sisforms.modelo.cadastro.Orgao;
+import br.gov.pi.ati.sisforms.modelo.controleacesso.Usuario;
+import br.gov.pi.ati.sisforms.modelo.servicos.LocalReserva;
 import br.gov.pi.ati.sisforms.modelo.servicos.ReservaLocal;
 import com.lowagie.text.pdf.codec.Base64;
 import com.xpert.core.exception.BusinessException;
-
+import br.gov.pi.ati.sisforms.util.SessaoUtils;
+import com.xpert.faces.primefaces.PrimeFacesUtils;
+import com.xpert.faces.utils.FacesMessageUtils;
 import com.xpert.persistence.exception.DeleteException;
+
+import com.xpert.persistence.query.Restrictions;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -66,6 +74,8 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
         return "id";
     }
     
+    private List<LocalReserva> locais;
+            
     private StreamedContent down_file;
     
     private List<Arquivo> arquivos;
@@ -74,15 +84,17 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
     
     private ScheduleModel eventModel;
 
-
+    private List<ReservaLocal> reservas;
+    
     private ScheduleEvent event = new DefaultScheduleEvent();
 
 
     @Override
     public void init() {
-        
-        
-        
+       
+        Orgao orgao = getDAO().getInitialized(SessaoUtils.getUser().getOrgao());
+        locais = getBO().locaisPorOrgao(orgao);
+        reservas = getBO().reservasPorOrgao(orgao);
         init_reservas();
         
         reserva = new ReservaLocal();
@@ -94,9 +106,7 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
         }
     }
     
-    public ReservaLocalMB(){        
-        
-    }
+
     
     public void carregar_arquivos(ReservaLocal reserv){
         if(reserv.getId() != null){
@@ -120,8 +130,13 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
         return calendar.getTime();
     }
 
-    
-    
+    public List<ReservaLocal> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(List<ReservaLocal> reservas) {
+        this.reservas = reservas;
+    }
     
     public ScheduleModel getEventModel() {
         return eventModel;
@@ -148,26 +163,71 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
     private void addMessage(FacesMessage message) {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
+
+    @Override
+    public void delete() {
+        
+            
+        
+            if(event.getId() != null) {
+                String titulo=event.getTitle();
+                eventModel.deleteEvent(event);
+
+                Long id = Long.parseLong(titulo.split(" ")[0]);
+                try {
+                    getBO().getDAO().delete(id);
+                    Orgao orgao = getDAO().getInitialized(SessaoUtils.getUser().getOrgao());
+                    reservas = getBO().reservasPorOrgao(orgao);
+                } catch (DeleteException ex) {
+                    Logger.getLogger(ReservaLocalMB.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+        
+        super.delete(); //To change body of generated methods, choose Tools | Templates.
+        
+        
+   
+       
+    }
+   
+    
+    public void remove_reserva(ReservaLocal reserva) {
+        
+                try {
+                    getBO().getDAO().remove(reserva,true);
+                    Orgao orgao = getDAO().getInitialized(SessaoUtils.getUser().getOrgao());
+                    reservas = getBO().reservasPorOrgao(orgao);
+                } catch (DeleteException ex) {
+                    Logger.getLogger(ReservaLocalMB.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            
+
+       
+    }
     
     public void update() {
+        reserva.setArquivos(arquivos);
+        
+        preSave();
+        getBO().getDAO().update(reserva);
+        postSave();
+        FacesMessageUtils.sucess();
+        RequestContext context = RequestContext.getCurrentInstance();
+       
+        context.execute("PF('widgetReservaLocalUpdate').update();");
+        context.execute("PF('widgetReservaLocalUpdate').hide();");
+    }
+    
+    public void updateReserva(){
         reserva.setArquivos(arquivos);
         preSave();
         getBO().getDAO().update(reserva);
         postSave();
         RequestContext context = RequestContext.getCurrentInstance();
-        context.execute("PF('widgetReservaLocalUpdate').hide();");
-        //super.save(); //To change body of generated methods, choose Tools | Templates.
-
-    }
     
-    public void updateReserva(){
-        preSave();
-        getBO().getDAO().update(reserva);
-        postSave();
-        RequestContext context = RequestContext.getCurrentInstance();
-        context.execute("PF('eventDialog').hide();");
+        context.execute("PF(\'eventDialog\').hide();");
     }
-    
     
     
     @Override
@@ -180,40 +240,25 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
 
     @Override
     public void postSave() {
+        RequestContext context = RequestContext.getCurrentInstance();
         reserva = new ReservaLocal();
         String titulo=event.getTitle();
         if (titulo == null) { 
-            DefaultScheduleEvent  newEvent = new DefaultScheduleEvent(reserva.getTitulo(), reserva.getDataInicio(), reserva.getDataFinal());
+            DefaultScheduleEvent  newEvent = new DefaultScheduleEvent(reserva.getTitulo(), reserva.getDataInicio(), reserva.getDataFinal(), "emp1");
             eventModel.addEvent(newEvent);   
-        } else { 
-            //eventModel.updateEvent(event);    
-        }
-        
-        
+        } 
         
         init_reservas();
+        context.execute("PF(\'eventDialog\').hide();");
         super.postSave(); //To change body of generated methods, choose Tools | Templates.
+        
     }
     
-    @Override
-    public void delete() {
-        if(event.getId() != null) {
-            String titulo=event.getTitle();
-            eventModel.deleteEvent(event);
 
-            Long id = Long.parseLong(titulo.split(" ")[0]);
-            try {
-                getBO().getDAO().delete(id);
-            } catch (DeleteException ex) {
-                Logger.getLogger(ReservaLocalMB.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        super.delete(); //To change body of generated methods, choose Tools | Templates.
-    }
     
     
     public void selecionarEvento(SelectEvent selectEvent) {
-
+        RequestContext context = RequestContext.getCurrentInstance();
         event = (ScheduleEvent) selectEvent.getObject();
         
         String titulo=event.getTitle();
@@ -224,13 +269,20 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
        
         setEntity(reserva);
         arquivos = getBO().getDAO().getInitialized(reserva.getArquivos());
+        context.execute("PF('eventDialog').show();");
+        
+        
     }
 
     public void selecionarData(SelectEvent selectEvent) {
+        
+        RequestContext context = RequestContext.getCurrentInstance();
         reserva = new ReservaLocal();
         arquivos = new ArrayList<Arquivo>();
         reserva.setDataInicio((Date) selectEvent.getObject());
         reserva.setDataFinal((Date) selectEvent.getObject());
+
+        context.execute("PF('eventDialog').show();");
     }
 
     public void moverEvento(ScheduleEntryMoveEvent event) {
@@ -245,12 +297,17 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
         addMessage(message);
     }
     public void init_reservas(){
-        reserva = new ReservaLocal();
+        
+        Orgao orgao = getDAO().getInitialized(SessaoUtils.getUser().getOrgao());
+        
+        
         eventModel = new DefaultScheduleModel();
-        List<ReservaLocal> reservas = getBO().getDAO().listAll();
+        reservas = getBO().reservasPorOrgao(orgao);
+        /*System.out.println(orgao.getNome());*/
         for (ReservaLocal reservax : reservas) {
-            ScheduleEvent eventTemp = new DefaultScheduleEvent(reservax.getId()+" - "+reservax.getTitulo()+" - "+reservax.getSolicitante(),reservax.getDataInicio(), reservax.getDataFinal());
+            ScheduleEvent eventTemp = new DefaultScheduleEvent(reservax.getId()+" - "+reservax.getTitulo()+" - "+reservax.getSolicitante(),reservax.getDataInicio(), reservax.getDataFinal(),"emp1");
             eventModel.addEvent(eventTemp);
+            
         }
     }
     
@@ -312,11 +369,24 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
         this.arquivos = arquivos;
     }
 
+    public List<LocalReserva> getLocais() {
+        return locais;
+    }
+
+    public void setLocais(List<LocalReserva> locais) {
+        this.locais = locais;
+    }
+    
+    
+    
+    
+    
     public void saveAll() throws BusinessException {
-        
+                RequestContext context = RequestContext.getCurrentInstance();
+                
                 Date dataFinal = reserva.getDataFinal();
                 Date dataInicial = reserva.getDataInicio();
-                System.out.println(reserva.getTitulo());
+                //System.out.println(reserva.getTitulo());
                 Calendar ini = Calendar.getInstance();
                 ini.setTime(dataInicial);
                 Calendar fim = Calendar.getInstance();
@@ -336,9 +406,10 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
                         ag.setTitulo(ag1.getTitulo());
                         ag.setLocal(ag1.getLocal());
                         ag.setSolicitante(ag1.getSolicitante());
-                        ag.setOrgao(ag1.getOrgao());
-                        ag.setFone(ag1.getFone());
+                        ag.setOrgao(ag1.getLocal().getOrgao());
+                        ag.setContato(ag1.getContato());
                         ag.setObservacao(ag1.getObservacao());
+                        ag.setOrgao_solicitante(ag1.getOrgao_solicitante());
                         
                         List<Arquivo> arquivotemp = new ArrayList();
                         for (Arquivo arquivo : arquivos) {
@@ -355,17 +426,18 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
                             if(reserva.getId()==null){
                             getBO().save(ag);
                             postSave(); 
-                            RequestContext context = RequestContext.getCurrentInstance();
+                            
                             context.execute("PF('eventDialog').hide();");
                             }else{
                                 reserva.setArquivos(arquivos);
                                 updateReserva();
+                                
                                 }  
                         }else{
                             if(ag.getId() == null){
                                 getBO().save(ag);
                                 postSave(); 
-                                RequestContext context = RequestContext.getCurrentInstance();
+                                
                                 context.execute("PF('eventDialog').hide();");
                             }else{
                                 reserva.setArquivos(arquivos);
@@ -375,6 +447,7 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
                     }
                 }else{
                     if(ag1.getId() == null){
+                        ag1.setOrgao(ag1.getLocal().getOrgao());
                         ag1.setArquivos(arquivos);
                         getBO().save(ag1);
                         postSave();

@@ -184,6 +184,8 @@ public class GeracaoPermissao {
         create(new Permissao("orgao.list", "Orgãos", "/view/cadastro/orgao/listOrgao.jsf", true), "cadastro");
         create(new Permissao("orgao.audit", "Auditoria de Orgao"), "orgao");
         create(new Permissao("orgao.delete", "Exclusão de Orgao"), "orgao");
+        create(new Permissao("orgao.campo", "Campo de Orgao"), "orgao");
+        create(new Permissao("orgao.coluna", "Coluna de Orgao"), "orgao");
 
         //Orgao Certificado
         create(new Permissao("orgaoCertificado", "Orgao Certificado", false), "cadastro");
@@ -277,7 +279,7 @@ public class GeracaoPermissao {
         create(new Permissao("reservaLocal.list", "Reservas", "/view/servicos/reservaLocal/listReservaLocal.jsf", true), "reservaLocal");
         create(new Permissao("reservaLocal.audit", "Auditoria de Reserva Local"), "reservaLocal");
         create(new Permissao("reservaLocal.delete", "Exclusão de Reserva Local"), "reservaLocal");
-        create(new Permissao("reservaLocal.reservar", "Agenda", "/view/servicos/reservaLocal/cadastrarReserva.jsf", true), "reservaLocal");
+        create(new Permissao("reservaLocal.reservar", "Agenda", "/view/servicos/reservaLocal/createReservaLocal.jsf", true), "reservaLocal");
   
         //Termo
         create(new Permissao("termo", "Termo", false), "cadastro");

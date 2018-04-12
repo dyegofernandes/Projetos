@@ -6,8 +6,10 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.bo.orcamento.MetaAcaoEstrategicaBO;
+import br.gov.pi.ati.modelo.cadastro.vos.Filtros;
 import br.gov.pi.ati.modelo.orcamento.MetaAcaoEstrategica;
 import br.gov.pi.ati.modelo.orcamento.ReceitaMetaAcaoEstrategica;
+import br.gov.pi.ati.util.SessaoUtils;
 import br.gov.pi.ati.util.Utils;
 import com.xpert.faces.utils.FacesMessageUtils;
 import java.util.ArrayList;
@@ -28,6 +30,10 @@ public class MetaAcaoEstrategicaMB extends AbstractBaseBean<MetaAcaoEstrategica>
 
     private List<ReceitaMetaAcaoEstrategica> receitas;
 
+    private List<MetaAcaoEstrategica> metas;
+
+    private Filtros filtros;
+
     @Override
     public MetaAcaoEstrategicaBO getBO() {
         return metaAcaoEstrategicaBO;
@@ -42,6 +48,9 @@ public class MetaAcaoEstrategicaMB extends AbstractBaseBean<MetaAcaoEstrategica>
     public void init() {
         receitaAdd = new ReceitaMetaAcaoEstrategica();
         receitas = new ArrayList<ReceitaMetaAcaoEstrategica>();
+        metas = new ArrayList<MetaAcaoEstrategica>();
+        filtros = new Filtros();
+        filtros.setUnidadesOrcamentaria(getDAO().getInitialized(SessaoUtils.getUser().getUnidadesDeAcesso()));
 
         if (getEntity().getId() != null) {
             receitas = getDAO().getInitialized(getEntity().getReceitas());
@@ -51,7 +60,39 @@ public class MetaAcaoEstrategicaMB extends AbstractBaseBean<MetaAcaoEstrategica>
     @Override
     public void save() {
         getEntity().setReceitas(receitas);
-        super.save(); //To change body of generated methods, choose Tools | Templates.
+        super.save();
+    }
+
+    public ReceitaMetaAcaoEstrategica getReceitaAdd() {
+        return receitaAdd;
+    }
+
+    public void setReceitaAdd(ReceitaMetaAcaoEstrategica receitaAdd) {
+        this.receitaAdd = receitaAdd;
+    }
+
+    public List<ReceitaMetaAcaoEstrategica> getReceitas() {
+        return receitas;
+    }
+
+    public void setReceitas(List<ReceitaMetaAcaoEstrategica> receitas) {
+        this.receitas = receitas;
+    }
+
+    public List<MetaAcaoEstrategica> getMetas() {
+        return metas;
+    }
+
+    public void setMetas(List<MetaAcaoEstrategica> metas) {
+        this.metas = metas;
+    }
+
+    public Filtros getFiltros() {
+        return filtros;
+    }
+
+    public void setFiltros(Filtros filtros) {
+        this.filtros = filtros;
     }
 
     public void addReceita() {
@@ -84,4 +125,7 @@ public class MetaAcaoEstrategicaMB extends AbstractBaseBean<MetaAcaoEstrategica>
         return false;
     }
 
+    public void buscar() {
+        metas = metaAcaoEstrategicaBO.listar(filtros);
+    }
 }

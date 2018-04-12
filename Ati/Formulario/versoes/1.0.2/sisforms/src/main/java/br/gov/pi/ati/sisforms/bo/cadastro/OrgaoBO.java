@@ -1,6 +1,6 @@
 package br.gov.pi.ati.sisforms.bo.cadastro;
 
-import static br.gov.pi.ati.sisforms.bo.controleacesso.PermissaoBO.ordernar;
+
 import com.xpert.core.crud.AbstractBusinessObject;
 import br.gov.pi.ati.sisforms.dao.cadastro.OrgaoDAO;
 import com.xpert.core.validation.UniqueField;
@@ -9,9 +9,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.sisforms.modelo.cadastro.Orgao;
-import br.gov.pi.ati.sisforms.modelo.controleacesso.Perfil;
-import br.gov.pi.ati.sisforms.modelo.controleacesso.Permissao;
-import java.util.ArrayList;
+
 import java.util.Collections;
 import java.util.Comparator;
 import org.primefaces.model.DefaultTreeNode;

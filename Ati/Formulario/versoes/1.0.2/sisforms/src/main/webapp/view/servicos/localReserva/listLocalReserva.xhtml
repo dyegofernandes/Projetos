@@ -12,39 +12,46 @@
             <x:modalMessages/>
 
             <x:dataTableActions fileName="localReserva_export" target=":formListLocalReserva:dataTableLocalReserva"
-                                     widgetVar="dataTableLocalReservaWidget"  />
+                                widgetVar="dataTableLocalReservaWidget"  />
 
             <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                          var="localReserva" rowIndexVar="index" id="dataTableLocalReserva" widgetVar="dataTableLocalReservaWidget" styleClass="table-responsive"
-                         currentPageReportTemplate="#{localReservaMB.dataModel.currentPageReportTemplate}"
-                         paginatorTemplate="#{localReservaMB.dataModel.paginatorTemplate}"
-                         value="#{localReservaMB.dataModel}" lazy="true" >
+                         value="#{localReservaMB.locais}" >
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
+                <p:column headerText="#{msg['localReserva.orgao']}" rendered="#{x:hasRole('orgao.coluna')}" 
+                          sortBy="#{localReserva.orgao.nome}">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['localReserva.orgao']}" />
+                    </f:facet>
+                    <h:outputText value="#{localReserva.orgao}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
                 <p:column headerText="#{msg['localReserva.nome']}" sortBy="#{localReserva.nome}"
-                    filterBy="#{localReserva.nome}"   >
+                          filterBy="#{localReserva.nome}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['localReserva.nome']}" />
                     </f:facet>
                     <h:outputText value="#{localReserva.nome}"/>
                 </p:column>
                 <p:column headerText="#{msg['localReserva.tipo']}" sortBy="#{localReserva.tipo}"
-                    filterBy="#{localReserva.tipo}"  filterOptions="#{findAllBean.getSelect(classMB.tipoLocal)}" >
+                          filterBy="#{localReserva.tipo}"  filterOptions="#{findAllBean.getSelect(classMB.tipoLocal)}" >
                     <f:facet name="header">
                         <h:outputText value="#{msg['localReserva.tipo']}" />
                     </f:facet>
                     <h:outputText value="#{localReserva.tipo}"/>
                 </p:column>
                 <p:column headerText="#{msg['localReserva.quantidadeLugares']}" sortBy="#{localReserva.quantidadeLugares}"
-                    filterBy="#{localReserva.quantidadeLugares}"   >
+                          filterBy="#{localReserva.quantidadeLugares}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['localReserva.quantidadeLugares']}" />
                     </f:facet>
                     <h:outputText value="#{localReserva.quantidadeLugares}"/>
                 </p:column>
                 <p:column headerText="#{msg['localReserva.ativo']}" sortBy="#{localReserva.ativo}"
-                    filterBy="#{localReserva.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                          filterBy="#{localReserva.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['localReserva.ativo']}" />
                     </f:facet>
@@ -81,7 +88,7 @@
 
         <p:dialog widgetVar="widgetLocalReservaDetail" header="#{msg['localReserva.detail']}" appendTo="@(body)" 
                   modal="true" styleClass="uix-dialog-fluid" >
-                  <ui:include src="detailLocalReserva.xhtml" />
+            <ui:include src="detailLocalReserva.xhtml" />
         </p:dialog>
     </ui:define>
 </ui:composition>

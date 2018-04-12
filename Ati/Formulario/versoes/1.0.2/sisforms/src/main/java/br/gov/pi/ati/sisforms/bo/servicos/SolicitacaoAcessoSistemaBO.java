@@ -33,8 +33,8 @@ public class SolicitacaoAcessoSistemaBO extends AbstractBusinessObject<Solicitac
 
     @Override
     public void validate(SolicitacaoAcessoSistema solicitacaoAcessoSistema) throws BusinessException {
-        
-        if(solicitacaoAcessoSistema.getTipo()!=TrabalhadorTipo.SERVIDOR){
+
+        if (solicitacaoAcessoSistema.getTipo() != TrabalhadorTipo.SERVIDOR) {
             throw new BusinessException("Acesso Permitido apenas para servidores do Estado!");
         }
         if (solicitacaoAcessoSistema.getAcessoAoSistema() == NomeSistema.INFOFOLHA && solicitacaoAcessoSistema.getPerfilsInfofolha().size() < 1) {
@@ -43,6 +43,10 @@ public class SolicitacaoAcessoSistemaBO extends AbstractBusinessObject<Solicitac
 
         if (solicitacaoAcessoSistema.getAcessoAoSistema() == NomeSistema.SFP && solicitacaoAcessoSistema.getPerfilsSFP().size() < 1) {
             throw new BusinessException("Selecione um ou mais Perfils para o Sistema de Folha de Pagamento - SFP!");
+        }
+
+        if (solicitacaoAcessoSistema.getTermoAceito() == null) {
+            throw new BusinessException("Termo é obrigatório!");
         }
     }
 

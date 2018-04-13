@@ -15,6 +15,7 @@ import br.gov.pi.ati.sccd.modelo.certificado.ItemPedido;
 import br.gov.pi.ati.sccd.modelo.certificado.Pedido;
 import br.gov.pi.ati.sccd.modelo.enums.SituacaoPedido;
 import br.gov.pi.ati.sccd.modelo.enums.TipoPessoa;
+import com.xpert.persistence.query.JoinBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +47,18 @@ public class CertificadoMB extends AbstractBaseBean<Certificado> implements Seri
 
     @Override
     public String getDataModelOrder() {
-        return "id";
+        return "cliente.nome";
+    }
+
+    @Override
+    public JoinBuilder getDataModelJoinBuilder() {
+        return new JoinBuilder("certificado")
+                .leftJoinFetch("certificado.cliente", "contratoCliente")
+                .leftJoinFetch("contratoCliente.cliente", "cliente")
+                .leftJoinFetch("certificado.pedido", "pedido")
+                .leftJoinFetch("certificado.titular", "titular")
+                .leftJoinFetch("certificado.autoridadeCertificadora", "ac")
+                .leftJoinFetch("titular.tipoCertificado", "tipoCertificado");
     }
 
     @Override
@@ -104,6 +116,17 @@ public class CertificadoMB extends AbstractBaseBean<Certificado> implements Seri
         super.postSave();
     }
 
+    @Override
+    public void delete() {
+        Certificado certificado = getDAO().unique("id", getId());
+        ItemPedido item = getDAO().getInitialized(certificado.getTitular());
+
+        item.setAtendido(false);
+        itemBO.getDAO().saveOrMerge(item, true);
+
+        super.delete();
+    }
+
     public List<Pedido> getPedidos() {
         return pedidos;
     }
@@ -121,11 +144,12 @@ public class CertificadoMB extends AbstractBaseBean<Certificado> implements Seri
     }
 
     public boolean verificarSeEhPJ() {
-        ItemPedido titular = getDAO().getInitialized(getEntity().getTitular());
-        if (titular != null) {
+        if (getEntity().getTitular() != null) {
+            ItemPedido titular = getDAO().getInitialized(getEntity().getTitular());
             if (titular.getTipoPessoa() == TipoPessoa.JURIDICA) {
                 return true;
             }
+
         }
 
         return false;

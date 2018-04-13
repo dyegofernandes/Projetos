@@ -29,9 +29,9 @@
                     <f:facet name="header">
                         <h:outputText value="Meta Ação Estratégica" />
                     </f:facet>
-                    <p:headerRow>
+                    <p:headerRow >
 
-                        <p:column colspan="2" headerText="#{msg['metaAcaoEstrategica.programaPPA']}" sortBy="#{metaAcaoEstrategica.programaPPA}"
+                        <p:column colspan="3" headerText="#{msg['metaAcaoEstrategica.programaPPA']}" sortBy="#{metaAcaoEstrategica.programaPPA}"
                                   >
                             <f:facet name="header">
                                 <h:outputText value="#{msg['metaAcaoEstrategica.programaPPA']}" />
@@ -59,7 +59,9 @@
                             <x:initializer/>
                         </h:outputText>
                     </p:column>
-
+                    <p:summaryRow>
+                        
+                    </p:summaryRow>
                     <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
                         <f:facet name="header">
                             <h:outputText value="#{xmsg['actions']}"/>

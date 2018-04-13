@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.sccd.bo.cadastro.AutoridadeCertificadoraBO;
 import br.gov.pi.ati.sccd.modelo.cadastro.AutoridadeCertificadora;
+import com.xpert.persistence.query.JoinBuilder;
 
 /**
  *
@@ -27,6 +28,13 @@ public class AutoridadeCertificadoraMB extends AbstractBaseBean<AutoridadeCertif
 
     @Override
     public String getDataModelOrder() {
-        return "id";
+        return "fornecedor, autoridade.nome";
+    }
+    
+    
+    @Override
+    public JoinBuilder getDataModelJoinBuilder() {
+        return new JoinBuilder("autoridade")
+                .leftJoinFetch("autoridade.fornecedor", "fornecedor");
     }
 }

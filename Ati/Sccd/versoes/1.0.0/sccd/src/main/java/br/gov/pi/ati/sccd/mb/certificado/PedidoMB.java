@@ -11,6 +11,7 @@ import br.gov.pi.ati.sccd.modelo.certificado.Pedido;
 import br.gov.pi.ati.sccd.modelo.enums.TipoPessoa;
 import br.gov.pi.ati.sccd.util.Utils;
 import com.xpert.faces.utils.FacesMessageUtils;
+import com.xpert.persistence.query.JoinBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +37,13 @@ public class PedidoMB extends AbstractBaseBean<Pedido> implements Serializable {
 
     @Override
     public String getDataModelOrder() {
-        return "id";
+        return "cliente.nome, pedido.dataSolicitacao";
+    }
+
+    @Override
+    public JoinBuilder getDataModelJoinBuilder() {
+        return new JoinBuilder("pedido")
+                .leftJoinFetch("pedido.cliente", "cliente");
     }
 
     @Override
@@ -53,10 +60,8 @@ public class PedidoMB extends AbstractBaseBean<Pedido> implements Serializable {
     @Override
     public void save() {
         getEntity().setItens(itens);
-        super.save(); 
+        super.save();
     }
-    
-    
 
     public List<ItemPedido> getItens() {
         return itens;
@@ -123,5 +128,5 @@ public class PedidoMB extends AbstractBaseBean<Pedido> implements Serializable {
         }
         return false;
     }
-    
+
 }

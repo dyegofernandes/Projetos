@@ -44,7 +44,7 @@ public class Convenio implements Serializable {
     @SequenceGenerator(schema = "dados", allocationSize = 1, name = "Convenio", sequenceName = "dados.seq_convenio_id")
     @GeneratedValue(generator = "Convenio")
     private Long id;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     private Franquia franquia;
@@ -122,9 +122,6 @@ public class Convenio implements Serializable {
     private BigDecimal juros = new BigDecimal(0.1);
 
     private BigDecimal multa = new BigDecimal(2);
-    
-    @NotNull
-    private BigDecimal vl_custo_oper = BigDecimal.ZERO;
 
     @NotNull
     @Column(length = 20)
@@ -411,14 +408,6 @@ public class Convenio implements Serializable {
 
     public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
-    }
-
-    public BigDecimal getVl_custo_oper() {
-        return vl_custo_oper;
-    }
-
-    public void setVl_custo_oper(BigDecimal vl_custo_oper) {
-        this.vl_custo_oper = vl_custo_oper;
     }
 
     @Override

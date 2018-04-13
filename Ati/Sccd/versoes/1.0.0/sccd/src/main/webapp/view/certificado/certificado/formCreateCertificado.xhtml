@@ -42,29 +42,33 @@
                             <f:selectItems value="#{certificadoMB.itensPedido}" 
                                            var="titular"
                                            itemLabel="#{titular}"/>
+                            <p:ajax process="@this" update="@form"/>
                         </h:selectOneMenu>
                     </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="numeroSolicitacao" value="* #{msg['certificado.numeroSolicitacao']}:" />
-                        <p:inputText id="numeroSolicitacao" value="#{certificadoMB.entity.numeroSolicitacao}" maxlength="250"  styleClass="form-control"  />
-                    </div>
+                    <p:panel rendered="#{certificadoMB.verificarSeEhPJ()}">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="numeroSolicitacao" value="* #{msg['certificado.numeroSolicitacao']}:" />
+                            <p:inputText id="numeroSolicitacao" value="#{certificadoMB.entity.numeroSolicitacao}" maxlength="250"  styleClass="form-control"  />
+                        </div>
 
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="cpfRepresentanteLegal" value="#{msg['certificado.cpfRepresentanteLegal']}:" />
-                        <x:cpf id="cpfRepresentanteLegal" value="#{certificadoMB.entity.cpfRepresentanteLegal}"  styleClass="form-control"  />
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="nomeRepresentanteLegal" value="#{msg['certificado.nomeRepresentanteLegal']}:" />
-                        <p:inputText id="nomeRepresentanteLegal" value="#{certificadoMB.entity.nomeRepresentanteLegal}" maxlength="250"  styleClass="form-control"  />
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="cpfResponsavelLegal" value="#{msg['certificado.cpfResponsavelLegal']}:" />
-                        <x:cpf id="cpfResponsavelLegal" value="#{certificadoMB.entity.cpfResponsavelLegal}"  styleClass="form-control"  />
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="nomeResponsavelLegal" value="#{msg['certificado.nomeResponsavelLegal']}:" />
-                        <p:inputText id="nomeResponsavelLegal" value="#{certificadoMB.entity.nomeResponsavelLegal}" maxlength="250"  styleClass="form-control"  />
-                    </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cpfRepresentanteLegal" value="#{msg['certificado.cpfRepresentanteLegal']}:" />
+                            <x:cpf id="cpfRepresentanteLegal" value="#{certificadoMB.entity.cpfRepresentanteLegal}"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="nomeRepresentanteLegal" value="#{msg['certificado.nomeRepresentanteLegal']}:" />
+                            <p:inputText id="nomeRepresentanteLegal" value="#{certificadoMB.entity.nomeRepresentanteLegal}" maxlength="250"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cpfResponsavelLegal" value="#{msg['certificado.cpfResponsavelLegal']}:" />
+                            <x:cpf id="cpfResponsavelLegal" value="#{certificadoMB.entity.cpfResponsavelLegal}"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="nomeResponsavelLegal" value="#{msg['certificado.nomeResponsavelLegal']}:" />
+                            <p:inputText id="nomeResponsavelLegal" value="#{certificadoMB.entity.nomeResponsavelLegal}" maxlength="250"  styleClass="form-control"  />
+                        </div>
+                    </p:panel>
+
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="enderecoEmail" value="#{msg['certificado.enderecoEmail']}:" />
                         <p:inputText id="enderecoEmail" value="#{certificadoMB.entity.enderecoEmail}" maxlength="250"  styleClass="form-control"  />

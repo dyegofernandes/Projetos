@@ -22,12 +22,21 @@
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="#{msg['pedido.cliente']}" sortBy="#{pedido.cliente}"
-                       >
+                <p:column headerText="#{msg['cliente.cpfCnpj']}" sortBy="#{pedido.cliente.cpfCnpj}"
+                          filterBy="#{pedido.cliente.cpfCnpj}">
                     <f:facet name="header">
-                        <h:outputText value="#{msg['pedido.cliente']}" />
+                        <h:outputText value="#{msg['cliente.cpfCnpj']}" />
                     </f:facet>
-                    <h:outputText value="#{pedido.cliente}">
+                    <h:outputText value="#{pedido.cliente.cpfCnpj}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['cliente.nome']}" sortBy="#{pedido.cliente.nome}"
+                          filterBy="#{pedido.cliente.nome}">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{pedido.cliente.nome}">
                         <x:initializer/>
                     </h:outputText>
                 </p:column>

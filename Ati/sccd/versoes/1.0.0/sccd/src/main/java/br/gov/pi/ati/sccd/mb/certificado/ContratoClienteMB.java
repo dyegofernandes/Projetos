@@ -13,6 +13,7 @@ import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificadoAux;
 import br.gov.pi.ati.sccd.modelo.certificado.ContratoCliente;
 import br.gov.pi.ati.sccd.modelo.certificado.ContratoFornecedor;
 import com.xpert.faces.utils.FacesMessageUtils;
+import com.xpert.persistence.query.JoinBuilder;
 import com.xpert.persistence.query.Restrictions;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,15 @@ public class ContratoClienteMB extends AbstractBaseBean<ContratoCliente> impleme
 
     @Override
     public String getDataModelOrder() {
-        return "id";
+        return "cliente.nome";
+    }
+    
+    @Override
+    public JoinBuilder getDataModelJoinBuilder() {
+        return new JoinBuilder("contratoCliente")
+                .leftJoinFetch("contratoCliente.contratoFornecedor", "contratoFornecedor")
+                .leftJoinFetch("contratoFornecedor.fornecedor", "fornecedor")
+                .leftJoinFetch("contratoCliente.cliente", "cliente");
     }
 
     @Override

@@ -10,6 +10,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.sccd.modelo.certificado.Pedido;
+import com.xpert.core.validation.UniqueFields;
 import java.util.ArrayList;
 
 /**
@@ -29,7 +30,7 @@ public class PedidoBO extends AbstractBusinessObject<Pedido> {
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return null;
+        return new UniqueFields().add("protocolo");
     }
 
     @Override

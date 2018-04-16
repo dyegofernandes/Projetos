@@ -45,11 +45,12 @@
                             <p:ajax process="@this" update="@form"/>
                         </h:selectOneMenu>
                     </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="numeroSolicitacao" value="* #{msg['certificado.numeroSolicitacao']}:" />
+                        <p:inputText id="numeroSolicitacao" value="#{certificadoMB.entity.numeroSolicitacao}" maxlength="250"  styleClass="form-control"  />
+                    </div>
                     <p:panel rendered="#{certificadoMB.verificarSeEhPJ()}">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="numeroSolicitacao" value="* #{msg['certificado.numeroSolicitacao']}:" />
-                            <p:inputText id="numeroSolicitacao" value="#{certificadoMB.entity.numeroSolicitacao}" maxlength="250"  styleClass="form-control"  />
-                        </div>
+
 
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="cpfRepresentanteLegal" value="#{msg['certificado.cpfRepresentanteLegal']}:" />

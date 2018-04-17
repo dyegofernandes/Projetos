@@ -211,4 +211,8 @@ public class ContratoClienteMB extends AbstractBaseBean<ContratoCliente> impleme
             
         }
     }
+    
+    public List<ContratoCliente> autocompleteAtivosPeloNomeDoCliente(String nome){
+        return getBO().contratosAtivoPeloNomeCliente(nome);
+    }
 }

@@ -14,14 +14,23 @@
                 <div class="row">
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="cliente" value="* #{msg['certificado.cliente']}:" />
-                        <h:selectOneMenu id="cliente" value="#{certificadoMB.entity.cliente}" converter="entityConverter" styleClass="form-control" >
+                        <p:autoComplete id="cliente" value="#{certificadoMB.entity.cliente}" 
+
+                                        completeMethod="#{contratoClienteMB.autocompleteAtivosPeloNomeDoCliente}" styleClass="uix-autocomplete" 
+
+                                        minQueryLength="3" forceSelection="true" dropdown="true"
+
+                                        var="p" itemLabel="#{p.cliente}" itemValue="#{p}" converter="entityConverter" > 
                             <x:initializer/>
-                            <f:selectItem itemLabel="#{xmsg['select']}" />
-                            <f:selectItems value="#{contratoClienteMB.todos()}" 
-                                           var="contratoCliente"
-                                           itemLabel="Cliente: #{contratoCliente.cliente} - Contrato: #{contratoCliente}"/>
-                            <p:ajax process="@this" update="pedido titular" listener="#{certificadoMB.pegarPedidos()}"/>
-                        </h:selectOneMenu>
+                            <p:column> 
+                                <h:outputText value="#{p.cliente}"/>
+                            </p:column> 
+                            <p:column> 
+                                <h:outputText value="#{p}"/>
+                            </p:column> 
+                            <p:ajax event="itemSelect" process="@this" update="pedido titular" listener="#{certificadoMB.pegarPedidos()}"/>
+                        </p:autoComplete>
+                        
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="pedido" value="* #{msg['certificado.pedido']}:" />

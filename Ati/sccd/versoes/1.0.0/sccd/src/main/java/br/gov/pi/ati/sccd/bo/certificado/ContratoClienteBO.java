@@ -10,6 +10,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.sccd.modelo.certificado.ContratoCliente;
+import br.gov.pi.ati.sccd.util.Utils;
 import com.xpert.core.validation.UniqueFields;
 import com.xpert.persistence.query.Restriction;
 import com.xpert.persistence.query.Restrictions;
@@ -62,6 +63,20 @@ public class ContratoClienteBO extends AbstractBusinessObject<ContratoCliente> {
     @Override
     public boolean isAudit() {
         return true;
+    }
+
+    public List<ContratoCliente> contratosAtivoPeloNomeCliente(String nome) {
+        Restrictions restrictions = new Restrictions();
+
+        restrictions.add("contrato.ativo", true);
+
+        if (!Utils.isNullOrEmpty(nome)) {
+            restrictions.like("cliente.nome", nome);
+        }
+
+        return getDAO().getQueryBuilder().from(ContratoCliente.class, "contrato").leftJoinFetch("contrato.cliente", "cliente")
+                .leftJoinFetch("contrato.contratoFornecedor", "contratoFornecedor").leftJoinFetch("contratoFornecedor.fornecedor", "fornecedor")
+                .add(restrictions).orderBy("contratoFornecedor, cliente").getResultList();
     }
 
     public List<ContratoCliente> contratosAtivo() {

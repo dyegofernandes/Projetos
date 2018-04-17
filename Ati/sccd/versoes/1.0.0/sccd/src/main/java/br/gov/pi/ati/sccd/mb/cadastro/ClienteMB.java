@@ -33,4 +33,8 @@ public class ClienteMB extends AbstractBaseBean<Cliente> implements Serializable
     public List<Cliente> clientesAtivos() {
         return getBO().clientesAtivos();
     }
+
+    public List<Cliente> autocompletePeloNome(String nome) {
+        return getBO().clientesAtivosPeloNome(nome);
+    }
 }

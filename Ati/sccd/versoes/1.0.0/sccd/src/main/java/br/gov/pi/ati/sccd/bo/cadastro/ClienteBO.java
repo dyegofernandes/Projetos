@@ -8,6 +8,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.sccd.modelo.cadastro.Cliente;
+import br.gov.pi.ati.sccd.util.Utils;
 import com.xpert.core.validation.UniqueFields;
 import com.xpert.persistence.query.Restrictions;
 
@@ -38,6 +39,17 @@ public class ClienteBO extends AbstractBusinessObject<Cliente> {
     @Override
     public boolean isAudit() {
         return true;
+    }
+
+    public List<Cliente> clientesAtivosPeloNome(String nome) {
+        Restrictions restrictions = new Restrictions();
+        if (!Utils.isNullOrEmpty(nome)) {
+            restrictions.like("cliente.nome", nome);
+        }
+
+        restrictions.add("cliente.ativo", true);
+
+        return getDAO().getQueryBuilder().from(Cliente.class, "cliente").add(restrictions).orderBy("cliente.nome").getResultList();
     }
 
     public List<Cliente> clientesAtivos() {

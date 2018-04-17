@@ -13,13 +13,19 @@
                 <div class="row">
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="cliente" value="* #{msg['pedido.cliente']}:" />
-                        <h:selectOneMenu id="cliente" value="#{pedidoMB.entity.cliente}" converter="entityConverter" styleClass="form-control" >
+                        <p:autoComplete id="cliente" value="#{pedidoMB.entity.cliente}" 
+
+                                        completeMethod="#{clienteMB.autocompletePeloNome}" styleClass="uix-autocomplete" 
+
+                                        minQueryLength="3" forceSelection="true" dropdown="true"
+
+                                        var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" > 
                             <x:initializer/>
-                            <f:selectItem itemLabel="#{xmsg['select']}" />
-                            <f:selectItems value="#{findAllBean.get(classMB.cliente)}" 
-                                           var="cliente"
-                                           itemLabel="#{cliente}"/>
-                        </h:selectOneMenu>
+                            <p:column> 
+                                <h:outputText value="#{p}"/>
+                            </p:column> 
+                        </p:autoComplete>
+                        
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="protocolo" value="* #{msg['pedido.protocolo']}:" />

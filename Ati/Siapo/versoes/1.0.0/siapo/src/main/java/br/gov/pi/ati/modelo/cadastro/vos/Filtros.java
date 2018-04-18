@@ -21,6 +21,8 @@ public class Filtros implements Serializable {
 
     private List<UnidadeOrcamentaria> unidadesOrcamentaria = new ArrayList<UnidadeOrcamentaria>();
 
+    private UnidadeOrcamentaria unidadeOrcamentaria;
+    
     private AcaoEstrategica acaoEstrategica;
 
     private ProgramaDeGoverno programaDeGoverno;
@@ -28,6 +30,10 @@ public class Filtros implements Serializable {
     private Date dataInicial;
 
     private Date dataFinal;
+    
+    private String nome;
+    
+    private String codigo;
 
     public List<UnidadeOrcamentaria> getUnidadesOrcamentaria() {
         return unidadesOrcamentaria;
@@ -69,4 +75,29 @@ public class Filtros implements Serializable {
         this.dataFinal = dataFinal;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public UnidadeOrcamentaria getUnidadeOrcamentaria() {
+        return unidadeOrcamentaria;
+    }
+
+    public void setUnidadeOrcamentaria(UnidadeOrcamentaria unidadeOrcamentaria) {
+        this.unidadeOrcamentaria = unidadeOrcamentaria;
+    }
+
+    
 }

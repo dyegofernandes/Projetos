@@ -136,6 +136,8 @@ public class GeracaoPermissao {
         create(new Permissao("unidadeOrcamentaria.list", "Unidades Orcamentárias", "/view/cadastro/unidadeOrcamentaria/listUnidadeOrcamentaria.jsf", true), "cadastro.unidade");
         create(new Permissao("unidadeOrcamentaria.audit", "Auditoria de Unidade Orcamentaria"), "unidadeOrcamentaria");
         create(new Permissao("unidadeOrcamentaria.delete", "Exclusão de Unidade Orcamentaria"), "unidadeOrcamentaria");
+        create(new Permissao("unidadeOrcamentaria.campo", "Campo de Unidade Orcamentaria"), "unidadeOrcamentaria");
+        create(new Permissao("unidadeOrcamentaria.coluna", "Coluna de Unidade Orcamentaria"), "unidadeOrcamentaria");
 
 //Unidade De Medida
         create(new Permissao("unidadeDeMedida", "Unidade De Medida", false), "cadastro.unidade");

@@ -12,7 +12,7 @@
             <x:modalMessages/>
 
             <x:dataTableActions fileName="metaProduto_export" target=":formListMetaProduto:dataTableMetaProduto"
-                                     widgetVar="dataTableMetaProdutoWidget"  />
+                                widgetVar="dataTableMetaProdutoWidget"  />
 
             <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                          var="metaProduto" rowIndexVar="index" id="dataTableMetaProduto" widgetVar="dataTableMetaProdutoWidget" styleClass="table-responsive"
@@ -22,17 +22,62 @@
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="#{msg['metaProduto.metaAcao']}" sortBy="#{metaProduto.metaAcao}"
-                       >
+                <p:column headerText="#{msg['metaProduto.programa.codigo']}" sortBy="#{metaProduto.metaAcao.programaPPA.programaGov.codigo}"
+                          >
                     <f:facet name="header">
-                        <h:outputText value="#{msg['metaProduto.metaAcao']}" />
+                        <h:outputText value="#{msg['metaProduto.programa.codigo']}" />
                     </f:facet>
-                    <h:outputText value="#{metaProduto.metaAcao}">
+                    <h:outputText value="#{metaProduto.metaAcao.programaPPA.programaGov.codigo}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['metaProduto.programa.nome']}" sortBy="#{metaProduto.metaAcao.programaPPA.programaGov.nome}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['metaProduto.programa.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{metaProduto.metaAcao.programaPPA.programaGov.nome}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['metaProduto.acaoEstrategica.unidadeOrcamentaria.codigo']}" sortBy="#{metaProduto.metaAcao.acaoEstrategica.unidadeOrcamentaria.codigo}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['metaProduto.acaoEstrategica.unidadeOrcamentaria.codigo']}" />
+                    </f:facet>
+                    <h:outputText value="#{metaProduto.metaAcao.acaoEstrategica.unidadeOrcamentaria.codigo}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['metaProduto.acaoEstrategica.unidadeOrcamentaria.nome']}" sortBy="#{metaProduto.metaAcao.acaoEstrategica.unidadeOrcamentaria.nome}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['metaProduto.acaoEstrategica.unidadeOrcamentaria.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{metaProduto.metaAcao.acaoEstrategica.unidadeOrcamentaria.nome}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['metaProduto.acaoEstrategica.codigo']}" sortBy="#{metaProduto.metaAcao.acaoEstrategica.codigo}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['metaProduto.acaoEstrategica.codigo']}" />
+                    </f:facet>
+                    <h:outputText value="#{metaProduto.metaAcao.acaoEstrategica.codigo}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['metaProduto.acaoEstrategica.nome']}" sortBy="#{metaProduto.metaAcao.acaoEstrategica.nome}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['metaProduto.acaoEstrategica.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{metaProduto.metaAcao.acaoEstrategica.nome}">
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{msg['metaProduto.produto']}" sortBy="#{metaProduto.produto}"
-                       >
+                          >
                     <f:facet name="header">
                         <h:outputText value="#{msg['metaProduto.produto']}" />
                     </f:facet>
@@ -41,7 +86,7 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{msg['metaProduto.unidadeMedida']}" sortBy="#{metaProduto.unidadeMedida}"
-                       >
+                          >
                     <f:facet name="header">
                         <h:outputText value="#{msg['metaProduto.unidadeMedida']}" />
                     </f:facet>
@@ -50,7 +95,7 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{msg['metaProduto.valorMeta']}" sortBy="#{metaProduto.valorMeta}"
-                       style="text-align: right;">
+                          style="text-align: right;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['metaProduto.valorMeta']}" />
                     </f:facet>
@@ -89,7 +134,7 @@
 
         <p:dialog widgetVar="widgetMetaProdutoDetail" header="#{msg['metaProduto.detail']}" appendTo="@(body)" 
                   modal="true" styleClass="uix-dialog-fluid" >
-                  <ui:include src="detailMetaProduto.xhtml" />
+            <ui:include src="detailMetaProduto.xhtml" />
         </p:dialog>
     </ui:define>
 </ui:composition>

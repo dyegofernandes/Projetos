@@ -12,10 +12,25 @@
             <x:modalMessages/>
 
             <p:fieldset legend="Filtros de Busca" toggleable="true">
+                <div class="container-fluid">
+                    <div class="row">
+                        
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="codigo" value="* Código:" />
+                            <p:inputText id="codigo" value="#{metaAcaoEstrategicaMB.filtros.codigo}" maxlength="50"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="nome" value="* #{msg['acaoEstrategica.nome']}:" />
+                            <p:inputText id="nome" value="#{metaAcaoEstrategicaMB.filtros.nome}" maxlength="260"  styleClass="form-control"  />
+                        </div>
+                    </div>
+                </div>
                 <div class="uix-center">
                     <p:commandButton  process="@form" update="dataTableMetaAcaoEstrategica" action="#{metaAcaoEstrategicaMB.buscar()}" 
                                       value="Buscar" />
                 </div>
+
+
             </p:fieldset>
 
             <p:fieldset legend="Resultado da Busca">
@@ -24,23 +39,21 @@
 
                 <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                              var="metaAcaoEstrategica" rowIndexVar="index" id="dataTableMetaAcaoEstrategica" widgetVar="dataTableMetaAcaoEstrategicaWidget" styleClass="table-responsive"
-                             sortBy="#{metaAcaoEstrategica.programaPPA.programaGov.nome}" expandableRowGroups="true" 
                              value="#{metaAcaoEstrategicaMB.metas}"  >
-                    <f:facet name="header">
-                        <h:outputText value="Meta Ação Estratégica" />
-                    </f:facet>
-                    <p:headerRow >
 
-                        <p:column colspan="3" headerText="#{msg['metaAcaoEstrategica.programaPPA']}" sortBy="#{metaAcaoEstrategica.programaPPA}"
-                                  >
-                            <f:facet name="header">
-                                <h:outputText value="#{msg['metaAcaoEstrategica.programaPPA']}" />
-                            </f:facet>
-                            <h:outputText value="#{metaAcaoEstrategica.programaPPA.programaGov.nome}">
-                                <x:initializer/>
-                            </h:outputText>
-                        </p:column>
-                    </p:headerRow>
+                    <p:column style="width:16px">
+                        <p:rowToggler />
+                    </p:column>
+
+                    <p:column headerText="#{msg['acaoEstrategica.unidadeOrcamentaria.nome']}" sortBy="#{metaAcaoEstrategica.acaoEstrategica.unidadeOrcamentaria.nome}"
+                              >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['acaoEstrategica.unidadeOrcamentaria.nome']}" />
+                        </f:facet>
+                        <h:outputText value="#{metaAcaoEstrategica.acaoEstrategica.unidadeOrcamentaria.nome}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
                     <p:column headerText="#{msg['acaoEstrategica.codigo']}" sortBy="#{metaAcaoEstrategica.acaoEstrategica.codigo}"
                               >
                         <f:facet name="header">
@@ -59,9 +72,16 @@
                             <x:initializer/>
                         </h:outputText>
                     </p:column>
-                    <p:summaryRow>
-                        
-                    </p:summaryRow>
+                    <p:column headerText="#{msg['metaAcaoEstrategica.programaPPA']}" sortBy="#{metaAcaoEstrategica.programaPPA}"
+                              >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['metaAcaoEstrategica.programaPPA']}" />
+                        </f:facet>
+                        <h:outputText value="#{metaAcaoEstrategica.programaPPA.programaGov.nome}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+
                     <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
                         <f:facet name="header">
                             <h:outputText value="#{xmsg['actions']}"/>
@@ -83,6 +103,41 @@
                             </p:commandButton>
                         </x:securityArea>
                     </p:column>
+                    <p:rowExpansion>
+                        <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                     var="receita" rowIndexVar="index" id="dataTableMetaPPA" widgetVar="dataTableMetaPPAWidget" styleClass="table-responsive"
+                                     value="#{metaAcaoEstrategica.receitas}" >
+                            <x:initializer/>
+                            <p:column styleClass="uix-datatable-index">
+                                <f:facet name="header">
+                                    <h:outputText value="" />
+                                </f:facet>
+                                <h:outputText value="#{index+1}"/>
+                            </p:column>
+                            <p:column headerText="Nome Receita" >
+                                <f:facet name="header">
+                                    <h:outputText value="Nome Receita" />
+                                </f:facet>
+                                <h:outputText value="#{receita.nome}"/>
+                            </p:column>
+
+                            <p:column headerText="Valor" style="text-align: right;" >
+                                <f:facet name="header">
+                                    <h:outputText value="Valor" />
+                                </f:facet>
+                                <h:outputText value="#{receita.valor}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="#{x:sum(metaAcaoEstrategica.receitas, 'valor')}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+
+                            </p:column>
+
+                        </p:dataTable>
+                    </p:rowExpansion>
                 </p:dataTable>
             </p:fieldset>
 

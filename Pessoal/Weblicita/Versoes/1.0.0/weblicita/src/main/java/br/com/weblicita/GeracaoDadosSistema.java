@@ -43,7 +43,7 @@ public class GeracaoDadosSistema {
 
         try {
             //gerar dados cidade, estado, pais, regiao, territorio e unidades de medida
-//            gerarCep.generate();
+            gerarCep.generate();
             //gerar modelos de email
             geracaoModeloEmail.generate();
             //gerar permissões

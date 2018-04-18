@@ -9,6 +9,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.modelo.orcamento.MetaAcaoEstrategica;
+import br.gov.pi.ati.util.Utils;
 import com.xpert.persistence.query.Restrictions;
 
 /**
@@ -44,6 +45,10 @@ public class MetaAcaoEstrategicaBO extends AbstractBusinessObject<MetaAcaoEstrat
 
         Restrictions restrictions = new Restrictions();
 
+        if (filtros.getUnidadeOrcamentaria() != null) {
+            filtros.getUnidadesOrcamentaria().add(filtros.getUnidadeOrcamentaria());
+        }
+
         if (filtros.getUnidadesOrcamentaria().size() > 0) {
             restrictions.in("unidadeOrcamentaria", filtros.getUnidadesOrcamentaria());
         }
@@ -51,13 +56,18 @@ public class MetaAcaoEstrategicaBO extends AbstractBusinessObject<MetaAcaoEstrat
         if (filtros.getProgramaDeGoverno() != null) {
             restrictions.add("programaGov", filtros.getProgramaDeGoverno());
         }
-
-        if (filtros.getAcaoEstrategica() != null) {
-            restrictions.add("acaoEstrategica", filtros.getAcaoEstrategica());
+        
+        if(!Utils.isNullOrEmpty(filtros.getNome())){
+            restrictions.like("acaoEstrategica.nome", filtros.getNome());
+        }
+        
+        if(!Utils.isNullOrEmpty(filtros.getCodigo())){
+            restrictions.add("acaoEstrategica.codigo", filtros.getCodigo());
         }
 
         return getDAO().getQueryBuilder().from(MetaAcaoEstrategica.class, "metaAcao").leftJoinFetch("metaAcao.acaoEstrategica", "acaoEstrategica")
                 .leftJoinFetch("acaoEstrategica.unidadeOrcamentaria", "unidadeOrcamentaria").leftJoinFetch("metaAcao.programaPPA", "programaPPA")
-                .leftJoinFetch("programaPPA.programaGov", "programaGov").add(restrictions).orderBy("unidadeOrcamentaria.nome, programaGov.nome, acaoEstrategica.codigo").getResultList();
+                .leftJoinFetch("programaPPA.programaGov", "programaGov").leftJoinFetch("metaAcao.receitas", "receitas")
+                .add(restrictions).orderBy("unidadeOrcamentaria.nome, programaGov.nome, acaoEstrategica.codigo").getResultList();
     }
 }

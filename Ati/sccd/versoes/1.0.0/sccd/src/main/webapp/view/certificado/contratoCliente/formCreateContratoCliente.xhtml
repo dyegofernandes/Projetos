@@ -8,153 +8,201 @@
 
     <h:form id="formCreateContratoCliente" >
         <x:modalMessages autoUpdate="true"/>
-        <p:fieldset legend="#{xmsg['generalData']}">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="fornecedor" value="* #{msg['contratoCliente.contratoFornecedor']}:" />
-                        <h:selectOneMenu id="fornecedor" value="#{contratoClienteMB.entity.contratoFornecedor}" converter="entityConverter" styleClass="form-control" >
-                            <x:initializer/>
-                            <f:selectItem itemLabel="#{xmsg['select']}" />
-                            <f:selectItems value="#{contratoFornecedorMB.contratosAtivos()}" 
-                                           var="contratoFornecedor"
-                                           itemLabel="#{contratoFornecedor.fornecedor}"/>
-                            <p:ajax process="@this" update="@form" listener="#{contratoClienteMB.chanceFornecedor()}"/>
-                        </h:selectOneMenu>
+        <p:tabView id="tabGeral">
+            <p:tab title="Informações Gerais">
+                <p:fieldset legend="#{xmsg['generalData']}">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="fornecedor" value="* #{msg['contratoCliente.contratoFornecedor']}:" />
+                                <h:selectOneMenu id="fornecedor" value="#{contratoClienteMB.entity.contratoFornecedor}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{contratoFornecedorMB.contratosAtivos()}" 
+                                                   var="contratoFornecedor"
+                                                   itemLabel="#{contratoFornecedor.fornecedor}"/>
+                                    <p:ajax process="@this" update="@form" listener="#{contratoClienteMB.chanceFornecedor()}"/>
+                                </h:selectOneMenu>
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cliente" value="* #{msg['contratoCliente.cliente']}:" />
+                                <h:selectOneMenu id="cliente" value="#{contratoClienteMB.entity.cliente}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{clienteMB.clientesAtivos()}" 
+                                                   var="cliente"
+                                                   itemLabel="#{cliente}"/>
+                                    <p:ajax process="@this" update="@form" />
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox value="#{contratoClienteMB.entity.ativo}" />
+                                        #{msg['contratoCliente.ativo']}
+                                    </label>
+                                </div>
+                                <h:outputText value="#{msg['contratoCliente.ativoInfor']}" styleClass="help-block"/>
+                            </div>
+                            <p:panel rendered="#{contratoClienteMB.renderizarPanel()}">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="numeroContrato" value="* #{msg['contratoCliente.numeroContrato']}:" />
+                                    <p:inputText id="numeroContrato" value="#{contratoClienteMB.entity.numeroContrato}" maxlength="250"  styleClass="form-control"  
+                                                 required="true" requiredMessage="Número de contrato é obrigatório!"/>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="cpfRepresentanteLegal" value="* #{msg['contratoCliente.cpfRepresentanteLegal']}:" />
+                                    <x:cpf id="cpfRepresentanteLegal" value="#{contratoClienteMB.entity.cpfRepresentanteLegal}" styleClass="form-control" 
+                                           required="true" requiredMessage="CPF do Representante (Cliente) é obrigatório!"/>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="representanteLegal" value="* #{msg['contratoCliente.representanteLegal']}:" />
+                                    <p:inputText id="representanteLegal" value="#{contratoClienteMB.entity.representanteLegal}" maxlength="250"  styleClass="form-control" 
+                                                 required="true" requiredMessage="Nome do Representante (Cliente) é obrigatório!"/>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="cpfRepresentanteAti" value="* #{msg['contratoCliente.cpfRepresentanteAti']}:" />
+                                    <x:cpf id="cpfRepresentanteAti" value="#{contratoClienteMB.entity.cpfRepresentanteAti}" styleClass="form-control"  
+                                           required="true" requiredMessage="CPF do Representante (ATI) é obrigatório!"/>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="representanteLegalAti" value="* #{msg['contratoCliente.representanteLegalAti']}:" />
+                                    <p:inputText id="representanteLegalAti" value="#{contratoClienteMB.entity.representanteAti}" maxlength="250"  styleClass="form-control"  
+                                                 required="true" requiredMessage="Nome do Representante (ATI) é obrigatório!"/>
+                                </div>
+
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="dataInicio" value="* #{msg['contratoCliente.dataInicio']}:" />
+                                    <p:calendar id="dataInicio" value="#{contratoClienteMB.entity.dataInicio}" 
+                                                showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar" 
+                                                required="true" requiredMessage="Data de Inicio do contrato é obrigatória!">
+                                        <x:mask/>
+                                    </p:calendar>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="dataFinal" value="* #{msg['contratoCliente.dataFinal']}:" />
+                                    <p:calendar id="dataFinal" value="#{contratoClienteMB.entity.dataFinal}" 
+                                                showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  
+                                                required="true" requiredMessage="Data de Término do contrato é obrigatória!">
+                                        <x:mask/>
+                                    </p:calendar>
+                                </div>
+                            </p:panel>
+
+
+
+                        </div>
                     </div>
+                </p:fieldset>
+                <p:fieldset legend="Certificados" id="fieldSetCertificados">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="tipo" value="* Tipo certificado:" />
+                            <h:selectOneMenu id="tipo" value="#{contratoClienteMB.certificadoAdd.tipo}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{contratoClienteMB.tiposCertificacos}" 
+                                               var="tipo"
+                                               itemLabel="#{tipo}"/>
+                            </h:selectOneMenu>
+                        </div>
 
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="cliente" value="* #{msg['contratoCliente.cliente']}:" />
-                        <h:selectOneMenu id="cliente" value="#{contratoClienteMB.entity.cliente}" converter="entityConverter" styleClass="form-control" >
-                            <x:initializer/>
-                            <f:selectItem itemLabel="#{xmsg['select']}" />
-                            <f:selectItems value="#{clienteMB.clientesAtivos()}" 
-                                           var="cliente"
-                                           itemLabel="#{cliente}"/>
-                            <p:ajax process="@this" update="@form" />
-                        </h:selectOneMenu>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="valor" value="* Valor:" />
+                            <x:inputNumber id="valor" value="#{contratoClienteMB.certificadoAdd.valor}" styleClass="form-control" 
+                                           />
+                        </div>
                     </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <div class="checkbox">
-                            <label>
-                                <h:selectBooleanCheckbox value="#{contratoClienteMB.entity.ativo}" />
-                                #{msg['contratoCliente.ativo']}
-                            </label>
-                        </div>
-                        <h:outputText value="#{msg['contratoCliente.ativoInfor']}" styleClass="help-block"/>
+                    <div class="uix-center">
+                        <p:commandButton process="@this fieldSetCertificados" update="fieldSetCertificados dataTableCertificado" value="Adicionar" 
+                                         action="#{contratoClienteMB.addCertificado()}" />
                     </div>
-                    <p:panel rendered="#{contratoClienteMB.renderizarPanel()}">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="numeroContrato" value="* #{msg['contratoCliente.numeroContrato']}:" />
-                            <p:inputText id="numeroContrato" value="#{contratoClienteMB.entity.numeroContrato}" maxlength="250"  styleClass="form-control"  
-                                         required="true" requiredMessage="Número de contrato é obrigatório!"/>
-                        </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="cpfRepresentanteLegal" value="* #{msg['contratoCliente.cpfRepresentanteLegal']}:" />
-                            <x:cpf id="cpfRepresentanteLegal" value="#{contratoClienteMB.entity.cpfRepresentanteLegal}" styleClass="form-control" 
-                                   required="true" requiredMessage="CPF do Representante (Cliente) é obrigatório!"/>
-                        </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="representanteLegal" value="* #{msg['contratoCliente.representanteLegal']}:" />
-                            <p:inputText id="representanteLegal" value="#{contratoClienteMB.entity.representanteLegal}" maxlength="250"  styleClass="form-control" 
-                                         required="true" requiredMessage="Nome do Representante (Cliente) é obrigatório!"/>
-                        </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="cpfRepresentanteAti" value="* #{msg['contratoCliente.cpfRepresentanteAti']}:" />
-                            <x:cpf id="cpfRepresentanteAti" value="#{contratoClienteMB.entity.cpfRepresentanteAti}" styleClass="form-control"  
-                                   required="true" requiredMessage="CPF do Representante (ATI) é obrigatório!"/>
-                        </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="representanteLegalAti" value="* #{msg['contratoCliente.representanteLegalAti']}:" />
-                            <p:inputText id="representanteLegalAti" value="#{contratoClienteMB.entity.representanteAti}" maxlength="250"  styleClass="form-control"  
-                                         required="true" requiredMessage="Nome do Representante (ATI) é obrigatório!"/>
-                        </div>
+                    <div class="row">
+                        <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                     var="certificado" rowIndexVar="index" id="dataTableCertificado" widgetVar="dataTableCertificadoWidget" styleClass="table-responsive"
+                                     value="#{contratoClienteMB.certificados}"  >
+                            <p:column styleClass="uix-datatable-index">
+                                <h:outputText value="#{index+1}"/>
+                            </p:column>
+                            <p:column headerText="Tipo Certificado" >
+                                <f:facet name="header">
+                                    <h:outputText value="Tipo Certificado" />
+                                </f:facet>
+                                <h:outputText value="#{certificado.tipo}">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </p:column>
 
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="dataInicio" value="* #{msg['contratoCliente.dataInicio']}:" />
-                            <p:calendar id="dataInicio" value="#{contratoClienteMB.entity.dataInicio}" 
-                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar" 
-                                        required="true" requiredMessage="Data de Inicio do contrato é obrigatória!">
-                                <x:mask/>
-                            </p:calendar>
-                        </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="dataFinal" value="* #{msg['contratoCliente.dataFinal']}:" />
-                            <p:calendar id="dataFinal" value="#{contratoClienteMB.entity.dataFinal}" 
-                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  
-                                        required="true" requiredMessage="Data de Término do contrato é obrigatória!">
-                                <x:mask/>
-                            </p:calendar>
-                        </div>
-                    </p:panel>
+                            <p:column headerText="Valor" style="text-align: right;" >
+                                <f:facet name="header">
+                                    <h:outputText value="Valor" />
+                                </f:facet>
+                                <h:outputText value="#{certificado.valor}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+
+                            </p:column>
 
 
+                            <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{xmsg['actions']}"/>
+                                </f:facet>
 
-                </div>
-            </div>
-        </p:fieldset>
-        <p:fieldset legend="Certificados" id="fieldSetCertificados">
-            <div class="row">
-                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel for="tipo" value="* Tipo certificado:" />
-                    <h:selectOneMenu id="tipo" value="#{contratoClienteMB.certificadoAdd.tipo}" converter="entityConverter" styleClass="form-control" >
-                        <x:initializer/>
-                        <f:selectItem itemLabel="#{xmsg['select']}" />
-                        <f:selectItems value="#{contratoClienteMB.tiposCertificacos}" 
-                                       var="tipo"
-                                       itemLabel="#{tipo}"/>
-                    </h:selectOneMenu>
-                </div>
+                                <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableCertificado" 
+                                                 action="#{contratoClienteMB.removerCertificado(certificado)}" >
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Arquivos">
+                <p:fieldset legend="Adicionar Arquivo">
+                    <p:fileUpload id="arquivo" mode="advanced" requiredMessage="É necessário o envio de pelo menos um arquivo!"
+                                  allowTypes="/(\.|\/)(gif|jpeg|jpg|rtf|odt|ods|png|doc|docx|xls|xlsx|pps|ppsx|ppt|pptx|pdf|jpg|zip|txt|7z|rar|dcm|mp4)$/"
+                                  invalidFileMessage="Tipo de arquivo não permitido" invalidSizeMessage="Arquivo com tamanho acima do permitido" 
+                                  uploadLabel="Carregar" update="dataTableArquivo" cancelLabel="Cancelar" label="Selecionar" multiple="false" 
+                                  sizeLimit="10485760" fileUploadListener="#{contratoClienteMB.upload}" styleClass="grid_9" />
+                </p:fieldset>
+                <p:fieldset legend="Listagem de Arquivos">
+                    <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="arquivo" rowIndexVar="index" id="dataTableArquivo" widgetVar="dataTableArquivoWidget" styleClass="table-responsive"
+                                 value="#{contratoClienteMB.arquivos}" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
 
-                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel for="valor" value="* Valor:" />
-                    <x:inputNumber id="valor" value="#{contratoClienteMB.certificadoAdd.valor}" styleClass="form-control" 
-                                   />
-                </div>
-            </div>
-            <div class="uix-center">
-                <p:commandButton process="@this fieldSetCertificados" update="fieldSetCertificados dataTableCertificado" value="Adicionar" 
-                                 action="#{contratoClienteMB.addCertificado()}" />
-            </div>
-            <div class="row">
-                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
-                             var="certificado" rowIndexVar="index" id="dataTableCertificado" widgetVar="dataTableCertificadoWidget" styleClass="table-responsive"
-                             value="#{contratoClienteMB.certificados}"  >
-                    <p:column styleClass="uix-datatable-index">
-                        <h:outputText value="#{index+1}"/>
-                    </p:column>
-                    <p:column headerText="Tipo Certificado" >
-                        <f:facet name="header">
-                            <h:outputText value="Tipo Certificado" />
-                        </f:facet>
-                        <h:outputText value="#{certificado.tipo}">
-                            <x:initializer/>
-                        </h:outputText>
-                    </p:column>
+                        <p:column headerText="#{msg['arquivo.nome']}" width="80%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['arquivo.nome']}" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.nome}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['arquivo.extensao']}" width="20%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['arquivo.extensao']}" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.extensao}"/>
+                        </p:column>
 
-                    <p:column headerText="Valor" style="text-align: right;" >
-                        <f:facet name="header">
-                            <h:outputText value="Valor" />
-                        </f:facet>
-                        <h:outputText value="#{certificado.valor}">
-                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
-                        </h:outputText>
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>          
+                            <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Download" ajax="false" immediate="true" update="formCreateDenuncia">
+                                <p:fileDownload value="#{contratoClienteMB.download(arquivo)}" />
+                            </p:commandButton>
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableArquivo" 
+                                             action="#{contratoClienteMB.removerArquivo(arquivo)}" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </p:tab>
+        </p:tabView>
 
-                    </p:column>
-
-
-                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
-                        <f:facet name="header">
-                            <h:outputText value="#{xmsg['actions']}"/>
-                        </f:facet>
-
-                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableCertificado" 
-                                         action="#{contratoClienteMB.removerCertificado(certificado)}" >
-                        </p:commandButton>
-                    </p:column>
-                </p:dataTable>
-            </div>
-        </p:fieldset>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">
             <x:securityArea rolesAllowed="contratoCliente.create">

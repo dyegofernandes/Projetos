@@ -5,6 +5,7 @@
  */
 package br.gov.pi.ati.sccd.modelo.certificado;
 
+import br.gov.pi.ati.sccd.modelo.cadastro.Arquivo;
 import br.gov.pi.ati.sccd.modelo.cadastro.Cliente;
 import br.gov.pi.ati.sccd.modelo.enums.SituacaoPedido;
 import com.xpert.audit.NotAudited;
@@ -57,10 +58,13 @@ public class Pedido implements Serializable {
     @NotNull
     private Date dataSolicitacao;
 
+    @ManyToMany(targetEntity = Arquivo.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    private List<Arquivo> arquivos = new ArrayList<Arquivo>();
+
     @Column(length = 30)
     @Enumerated(EnumType.STRING)
     private SituacaoPedido situacao = SituacaoPedido.NAO_ATENDIDO;
-    
+
     @NotAudited
     @OneToMany(mappedBy = "pedido")
     private List<Certificado> certificados;
@@ -124,6 +128,14 @@ public class Pedido implements Serializable {
 
     public void setCertificados(List<Certificado> certificados) {
         this.certificados = certificados;
+    }
+
+    public List<Arquivo> getArquivos() {
+        return arquivos;
+    }
+
+    public void setArquivos(List<Arquivo> arquivos) {
+        this.arquivos = arquivos;
     }
 
     @Override

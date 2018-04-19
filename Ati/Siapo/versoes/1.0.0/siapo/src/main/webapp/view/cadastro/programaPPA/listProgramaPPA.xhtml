@@ -25,12 +25,21 @@
                     </f:facet>
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="#{msg['programaPPA.programa']}" sortBy="#{programaPPA.programaGov}"
-                          >
+                <p:column headerText="#{msg['programaPPA.programa.codigo']}" sortBy="#{programaPPA.programaGov.codigo}"
+                          filterBy="#{programaPPA.programaGov.codigo}" style="text-align: center;">
                     <f:facet name="header">
-                        <h:outputText value="#{msg['programaPPA.programa']}" />
+                        <h:outputText value="#{msg['programaPPA.programa.codigo']}" />
                     </f:facet>
-                    <h:outputText value="#{programaPPA.programaGov}">
+                    <h:outputText value="#{programaPPA.programaGov.codigo}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['programaPPA.programa.nome']}" sortBy="#{programaPPA.programaGov.nome}"
+                          filterBy="#{programaPPA.programaGov.nome}">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['programaPPA.programa.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{programaPPA.programaGov.nome}">
                         <x:initializer/>
                     </h:outputText>
                 </p:column>

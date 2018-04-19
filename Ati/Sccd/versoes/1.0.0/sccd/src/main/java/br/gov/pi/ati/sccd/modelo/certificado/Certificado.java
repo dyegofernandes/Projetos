@@ -5,14 +5,19 @@
  */
 package br.gov.pi.ati.sccd.modelo.certificado;
 
+import br.gov.pi.ati.sccd.modelo.cadastro.Arquivo;
 import br.gov.pi.ati.sccd.modelo.cadastro.AutoridadeCertificadora;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
@@ -94,6 +99,9 @@ public class Certificado implements Serializable {
 
     @Column(columnDefinition = "Text")
     private String observacao;
+
+    @ManyToMany(targetEntity = Arquivo.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    private List<Arquivo> arquivos = new ArrayList<Arquivo>();
 
     @Override
     public String toString() {
@@ -258,6 +266,14 @@ public class Certificado implements Serializable {
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
+    }
+
+    public List<Arquivo> getArquivos() {
+        return arquivos;
+    }
+
+    public void setArquivos(List<Arquivo> arquivos) {
+        this.arquivos = arquivos;
     }
 
     @Override

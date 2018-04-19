@@ -8,143 +8,191 @@
 
     <h:form id="formCreatePedido" >
         <x:modalMessages autoUpdate="true"/>
-        <p:fieldset legend="#{xmsg['generalData']}">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="cliente" value="* #{msg['pedido.cliente']}:" />
-                        <p:autoComplete id="cliente" value="#{pedidoMB.entity.cliente}" 
+        <p:tabView id="tabGeral">
+            <p:tab title="Informações Gerais">
+                <p:fieldset legend="#{xmsg['generalData']}">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cliente" value="* #{msg['pedido.cliente']}:" />
+                                <p:autoComplete id="cliente" value="#{pedidoMB.entity.cliente}" 
 
-                                        completeMethod="#{clienteMB.autocompletePeloNome}" styleClass="uix-autocomplete" 
+                                                completeMethod="#{clienteMB.autocompletePeloNome}" styleClass="uix-autocomplete" 
 
-                                        minQueryLength="3" forceSelection="true" dropdown="true"
+                                                minQueryLength="3" forceSelection="true" dropdown="true"
 
-                                        var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" > 
-                            <x:initializer/>
-                            <p:column> 
-                                <h:outputText value="#{p}"/>
-                            </p:column> 
-                        </p:autoComplete>
-                        
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="protocolo" value="* #{msg['pedido.protocolo']}:" />
-                        <p:inputText id="protocolo" value="#{pedidoMB.entity.protocolo}" maxlength="250"  styleClass="form-control"  />
-                    </div>
+                                                var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" > 
+                                    <x:initializer/>
+                                    <p:column> 
+                                        <h:outputText value="#{p}"/>
+                                    </p:column> 
+                                </p:autoComplete>
 
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="dataSolicitacao" value="* #{msg['pedido.dataSolicitacao']}:" />
-                        <p:calendar id="dataSolicitacao" value="#{pedidoMB.entity.dataSolicitacao}" 
-                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
-                            <x:mask/>
-                        </p:calendar>
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="situacao" value="#{msg['pedido.situacao']}:" />
-                        <p:inputText id="situacao" value="#{pedidoMB.entity.situacao.descricao}"   styleClass="form-control" 
-                                     readonly="true"/>
-                    </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="protocolo" value="* #{msg['pedido.protocolo']}:" />
+                                <p:inputText id="protocolo" value="#{pedidoMB.entity.protocolo}" maxlength="250"  styleClass="form-control"  />
+                            </div>
 
-                </div>
-            </div>
-        </p:fieldset>
-        <p:fieldset legend="Lista de Titulares">
-            <p:fieldset legend="Adicionar Titular" toggleable="true" id="fieldItem">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="tipoPessoa" value="#{msg['itemPedido.tipoPessoa']}:" />
-                            <h:selectOneMenu id="tipoPessoa" value="#{pedidoMB.itemAdd.tipoPessoa}"  styleClass="form-control" >
-                                <f:selectItems value="#{findAllBean.get(classMB.tipoPessoa)}" 
-                                               var="tipoPessoa"
-                                               itemLabel="#{tipoPessoa.descricao}"/>
-                                <p:ajax process="@this" update="panel"/>
-                            </h:selectOneMenu>
-                        </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:panelGroup id="panel">
-                                <h:outputLabel for="cpfTitular" value="#{msg['itemPedido.cpfTitular']}:" rendered="#{pedidoMB.itemAdd.tipoPessoa.num eq 1}" />
-                                <x:cpf id="cpfTitular" value="#{pedidoMB.itemAdd.cpfCnpjTitular}" styleClass="form-control" rendered="#{pedidoMB.itemAdd.tipoPessoa.num eq 1}"/>
-                                <h:outputLabel for="cnpjTitular" value="#{msg['itemPedido.cnpjTitular']}:" rendered="#{pedidoMB.itemAdd.tipoPessoa.num eq 2}"/>
-                                <x:cnpj id="cnpjTitular" value="#{pedidoMB.itemAdd.cpfCnpjTitular}" styleClass="form-control" rendered="#{pedidoMB.itemAdd.tipoPessoa.num eq 2}" />
-                            </h:panelGroup>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="dataSolicitacao" value="* #{msg['pedido.dataSolicitacao']}:" />
+                                <p:calendar id="dataSolicitacao" value="#{pedidoMB.entity.dataSolicitacao}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="situacao" value="#{msg['pedido.situacao']}:" />
+                                <p:inputText id="situacao" value="#{pedidoMB.entity.situacao.descricao}"   styleClass="form-control" 
+                                             readonly="true"/>
+                            </div>
 
                         </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="titular" value="#{msg['itemPedido.titular']}:" />
-                            <p:inputText id="titular" value="#{pedidoMB.itemAdd.nomeTitular}" maxlength="250"  styleClass="form-control"  />
-                        </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="tipoCertificado" value="#{msg['itemPedido.tipoCertificado']}:" />
-                            <h:selectOneMenu id="tipoCertificado" value="#{pedidoMB.itemAdd.tipoCertificado}" converter="entityConverter" styleClass="form-control" >
-                                <x:initializer/>
-                                <f:selectItem itemLabel="#{xmsg['select']}" />
-                                <f:selectItems value="#{findAllBean.get(classMB.tipoCertificado)}" 
-                                               var="tipoCertificado"
-                                               itemLabel="#{tipoCertificado}"/>
-                            </h:selectOneMenu>
-                        </div>
                     </div>
-                </div>
-                <div class="uix-center">
-                    <p:commandButton process="@this fieldItem" update="fieldItem dataTableItemPedido" value="Adicionar" 
-                                     action="#{pedidoMB.adicionar()}" />
-                </div>
-            </p:fieldset>
-            <p:fieldset legend="Titulares">
-                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
-                             var="itemPedido" rowIndexVar="index" id="dataTableItemPedido" widgetVar="dataTableItemPedidoWidget" styleClass="table-responsive"
-                             value="#{pedidoMB.itens}"  >
-                    <p:column styleClass="uix-datatable-index">
-                        <h:outputText value="#{index+1}"/>
-                    </p:column>
-                    <p:column headerText="#{msg['itemPedido.tipoPessoa']}" sortBy="#{itemPedido.tipoPessoa}">
-                        <f:facet name="header">
-                            <h:outputText value="#{msg['itemPedido.tipoPessoa']}" />
-                        </f:facet>
-                        <h:outputText value="#{itemPedido.tipoPessoa.descricao}"/>
-                    </p:column>
-                    <p:column headerText="#{msg['itemPedido.cpfCnpjTitular']}" sortBy="#{itemPedido.cpfCnpjTitular}" >
-                        <f:facet name="header">
-                            <h:outputText value="#{msg['itemPedido.cpfCnpjTitular']}" />
-                        </f:facet>
-                        <h:outputText value="#{itemPedido.cpfCnpjTitular}" rendered="#{itemPedido.tipoPessoa.num eq 1}" converter="cpfConverter"/>
-                        <h:outputText value="#{itemPedido.cpfCnpjTitular}" rendered="#{itemPedido.tipoPessoa.num eq 2}" converter="cnpjConverter"/>
-                    </p:column>
-                    <p:column headerText="#{msg['itemPedido.titular']}" sortBy="#{itemPedido.titular}" >
-                        <f:facet name="header">
-                            <h:outputText value="#{msg['itemPedido.titular']}" />
-                        </f:facet>
-                        <h:outputText value="#{itemPedido.nomeTitular}"/>
-                    </p:column>
-                    <p:column headerText="#{msg['itemPedido.tipoCertificado']}" sortBy="#{itemPedido.tipoCertificado}"
-                              >
-                        <f:facet name="header">
-                            <h:outputText value="#{msg['itemPedido.tipoCertificado']}" />
-                        </f:facet>
-                        <h:outputText value="#{itemPedido.tipoCertificado}">
-                            <x:initializer/>
-                        </h:outputText>
-                    </p:column>
-                    <p:column headerText="#{msg['itemPedido.atendido']}" sortBy="#{itemPedido.atendido}" style="text-align: center;">
-                        <f:facet name="header">
-                            <h:outputText value="#{msg['itemPedido.atendido']}" />
-                        </f:facet>
-                        <h:outputText value="#{itemPedido.atendido}" converter ="yesNoConverter" />
-                    </p:column>
-                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
-                        <f:facet name="header">
-                            <h:outputText value="#{xmsg['actions']}"/>
-                        </f:facet>
+                </p:fieldset>
+                <p:fieldset legend="Lista de Titulares">
+                    <p:fieldset legend="Adicionar Titular" toggleable="true" id="fieldItem">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="tipoPessoa" value="#{msg['itemPedido.tipoPessoa']}:" />
+                                    <h:selectOneMenu id="tipoPessoa" value="#{pedidoMB.itemAdd.tipoPessoa}"  styleClass="form-control" >
+                                        <f:selectItems value="#{findAllBean.get(classMB.tipoPessoa)}" 
+                                                       var="tipoPessoa"
+                                                       itemLabel="#{tipoPessoa.descricao}"/>
+                                        <p:ajax process="@this" update="panel"/>
+                                    </h:selectOneMenu>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:panelGroup id="panel">
+                                        <h:outputLabel for="cpfTitular" value="#{msg['itemPedido.cpfTitular']}:" rendered="#{pedidoMB.itemAdd.tipoPessoa.num eq 1}" />
+                                        <x:cpf id="cpfTitular" value="#{pedidoMB.itemAdd.cpfCnpjTitular}" styleClass="form-control" rendered="#{pedidoMB.itemAdd.tipoPessoa.num eq 1}"/>
+                                        <h:outputLabel for="cnpjTitular" value="#{msg['itemPedido.cnpjTitular']}:" rendered="#{pedidoMB.itemAdd.tipoPessoa.num eq 2}"/>
+                                        <x:cnpj id="cnpjTitular" value="#{pedidoMB.itemAdd.cpfCnpjTitular}" styleClass="form-control" rendered="#{pedidoMB.itemAdd.tipoPessoa.num eq 2}" />
+                                    </h:panelGroup>
 
-                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableItemPedido" 
-                                         action="#{pedidoMB.remover(itemPedido)}" >
-                        </p:commandButton>
-                    </p:column>
-                </p:dataTable>
-            </p:fieldset>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="titular" value="#{msg['itemPedido.titular']}:" />
+                                    <p:inputText id="titular" value="#{pedidoMB.itemAdd.nomeTitular}" maxlength="250"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="tipoCertificado" value="#{msg['itemPedido.tipoCertificado']}:" />
+                                    <h:selectOneMenu id="tipoCertificado" value="#{pedidoMB.itemAdd.tipoCertificado}" converter="entityConverter" styleClass="form-control" >
+                                        <x:initializer/>
+                                        <f:selectItem itemLabel="#{xmsg['select']}" />
+                                        <f:selectItems value="#{findAllBean.get(classMB.tipoCertificado)}" 
+                                                       var="tipoCertificado"
+                                                       itemLabel="#{tipoCertificado}"/>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="uix-center">
+                            <p:commandButton process="@this fieldItem" update="fieldItem dataTableItemPedido" value="Adicionar" 
+                                             action="#{pedidoMB.adicionar()}" />
+                        </div>
+                    </p:fieldset>
+                    <p:fieldset legend="Titulares">
+                        <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                     var="itemPedido" rowIndexVar="index" id="dataTableItemPedido" widgetVar="dataTableItemPedidoWidget" styleClass="table-responsive"
+                                     value="#{pedidoMB.itens}"  >
+                            <p:column styleClass="uix-datatable-index">
+                                <h:outputText value="#{index+1}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['itemPedido.tipoPessoa']}" sortBy="#{itemPedido.tipoPessoa}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{msg['itemPedido.tipoPessoa']}" />
+                                </f:facet>
+                                <h:outputText value="#{itemPedido.tipoPessoa.descricao}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['itemPedido.cpfCnpjTitular']}" sortBy="#{itemPedido.cpfCnpjTitular}" >
+                                <f:facet name="header">
+                                    <h:outputText value="#{msg['itemPedido.cpfCnpjTitular']}" />
+                                </f:facet>
+                                <h:outputText value="#{itemPedido.cpfCnpjTitular}" rendered="#{itemPedido.tipoPessoa.num eq 1}" converter="cpfConverter"/>
+                                <h:outputText value="#{itemPedido.cpfCnpjTitular}" rendered="#{itemPedido.tipoPessoa.num eq 2}" converter="cnpjConverter"/>
+                            </p:column>
+                            <p:column headerText="#{msg['itemPedido.titular']}" sortBy="#{itemPedido.titular}" >
+                                <f:facet name="header">
+                                    <h:outputText value="#{msg['itemPedido.titular']}" />
+                                </f:facet>
+                                <h:outputText value="#{itemPedido.nomeTitular}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['itemPedido.tipoCertificado']}" sortBy="#{itemPedido.tipoCertificado}"
+                                      >
+                                <f:facet name="header">
+                                    <h:outputText value="#{msg['itemPedido.tipoCertificado']}" />
+                                </f:facet>
+                                <h:outputText value="#{itemPedido.tipoCertificado}">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{msg['itemPedido.atendido']}" sortBy="#{itemPedido.atendido}" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="#{msg['itemPedido.atendido']}" />
+                                </f:facet>
+                                <h:outputText value="#{itemPedido.atendido}" converter ="yesNoConverter" />
+                            </p:column>
+                            <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{xmsg['actions']}"/>
+                                </f:facet>
 
-        </p:fieldset>
+                                <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableItemPedido" 
+                                                 action="#{pedidoMB.remover(itemPedido)}" rendered="#{!itemPedido.atendido}">
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </p:fieldset>
+
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Arquivos">
+                <p:fieldset legend="Adicionar Arquivo">
+                    <p:fileUpload id="arquivo" mode="advanced" requiredMessage="É necessário o envio de pelo menos um arquivo!"
+                                  allowTypes="/(\.|\/)(gif|jpeg|jpg|rtf|odt|ods|png|doc|docx|xls|xlsx|pps|ppsx|ppt|pptx|pdf|jpg|zip|txt|7z|rar|dcm|mp4)$/"
+                                  invalidFileMessage="Tipo de arquivo não permitido" invalidSizeMessage="Arquivo com tamanho acima do permitido" 
+                                  uploadLabel="Carregar" update="dataTableArquivo" cancelLabel="Cancelar" label="Selecionar" multiple="false" 
+                                  sizeLimit="10485760" fileUploadListener="#{pedidoMB.upload}" styleClass="grid_9" />
+                </p:fieldset>
+                <p:fieldset legend="Listagem de Arquivos">
+                    <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="arquivo" rowIndexVar="index" id="dataTableArquivo" widgetVar="dataTableArquivoWidget" styleClass="table-responsive"
+                                 value="#{pedidoMB.arquivos}" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg['arquivo.nome']}" width="80%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['arquivo.nome']}" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.nome}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['arquivo.extensao']}" width="20%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['arquivo.extensao']}" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.extensao}"/>
+                        </p:column>
+
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>          
+                            <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Download" ajax="false" immediate="true" update="formCreateDenuncia">
+                                <p:fileDownload value="#{pedidoMB.download(arquivo)}" />
+                            </p:commandButton>
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableArquivo" 
+                                             action="#{pedidoMB.removerArquivo(arquivo)}" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </p:tab>
+        </p:tabView>
+
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">
             <x:securityArea rolesAllowed="pedido.create">

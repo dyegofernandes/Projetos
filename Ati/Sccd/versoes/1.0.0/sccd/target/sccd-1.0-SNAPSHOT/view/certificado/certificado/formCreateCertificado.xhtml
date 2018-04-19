@@ -7,138 +7,197 @@
 
 
     <h:form id="formCreateCertificado" >
-        <p:fieldset legend="#{xmsg['generalData']}">
-            <x:modalMessages/>
+        <x:modalMessages autoUpdate="true"/>
+        <p:tabView id="tabGeral">
+            <p:tab title="Informações Gerais">
+                <p:fieldset legend="#{xmsg['generalData']}">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cliente" value="* #{msg['certificado.cliente']}:" />
+                                <x:initializer value="#{certificadoMB.entity.cliente.cliente}" />
+                                <p:inputText id="clienteOutPut" value="#{certificadoMB.entity.cliente}" maxlength="250"  styleClass="form-control"  
+                                             rendered="#{certificadoMB.entity.id!=null}" readonly="true"/>
+                                <p:autoComplete id="cliente" value="#{certificadoMB.entity.cliente}" 
 
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="cliente" value="* #{msg['certificado.cliente']}:" />
-                        <p:autoComplete id="cliente" value="#{certificadoMB.entity.cliente}" 
+                                                completeMethod="#{contratoClienteMB.autocompleteAtivosPeloNomeDoCliente}" styleClass="uix-autocomplete" 
 
-                                        completeMethod="#{contratoClienteMB.autocompleteAtivosPeloNomeDoCliente}" styleClass="uix-autocomplete" 
+                                                minQueryLength="3" forceSelection="true" dropdown="true"
 
-                                        minQueryLength="3" forceSelection="true" dropdown="true"
+                                                var="p" itemLabel="#{p.cliente}" itemValue="#{p}" converter="entityConverter" rendered="#{certificadoMB.entity.id==null}" > 
+                                    <x:initializer/>
+                                    <p:column> 
+                                        <h:outputText value="#{p.cliente}"/>
+                                    </p:column> 
+                                    <p:column> 
+                                        <h:outputText value="#{p}"/>
+                                    </p:column> 
+                                    <p:ajax event="itemSelect" process="@this" update="pedido titular" listener="#{certificadoMB.pegarPedidos()}"/>
+                                </p:autoComplete>
 
-                                        var="p" itemLabel="#{p.cliente}" itemValue="#{p}" converter="entityConverter" > 
-                            <x:initializer/>
-                            <p:column> 
-                                <h:outputText value="#{p.cliente}"/>
-                            </p:column> 
-                            <p:column> 
-                                <h:outputText value="#{p}"/>
-                            </p:column> 
-                            <p:ajax event="itemSelect" process="@this" update="pedido titular" listener="#{certificadoMB.pegarPedidos()}"/>
-                        </p:autoComplete>
-                        
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="pedido" value="* #{msg['certificado.pedido']}:" />
-                        <h:selectOneMenu id="pedido" value="#{certificadoMB.entity.pedido}" converter="entityConverter" styleClass="form-control" >
-                            <x:initializer/>
-                            <f:selectItem itemLabel="#{xmsg['select']}" />
-                            <f:selectItems value="#{certificadoMB.pedidos}" 
-                                           var="pedido"
-                                           itemLabel="#{pedido}"/>
-                            <p:ajax process="cliente @this" update="titular" listener="#{certificadoMB.pegarTitulares()}"/>
-                        </h:selectOneMenu>
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="titular" value="* #{msg['certificado.titular']}:" />
-                        <h:selectOneMenu id="titular" value="#{certificadoMB.entity.titular}" converter="entityConverter" styleClass="form-control" >
-                            <x:initializer  /> 
-                            <f:selectItem itemLabel="#{xmsg['select']}" />
-                            <f:selectItems value="#{certificadoMB.itensPedido}" 
-                                           var="titular"
-                                           itemLabel="#{titular}"/>
-                            <p:ajax process="@this" update="@form"/>
-                        </h:selectOneMenu>
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="numeroSolicitacao" value="* #{msg['certificado.numeroSolicitacao']}:" />
-                        <p:inputText id="numeroSolicitacao" value="#{certificadoMB.entity.numeroSolicitacao}" maxlength="250"  styleClass="form-control"  />
-                    </div>
-                    <p:panel rendered="#{certificadoMB.verificarSeEhPJ()}">
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="pedido" value="* #{msg['certificado.pedido']}:" />
+                                <p:inputText id="pedidoOutPut" value="#{certificadoMB.entity.pedido}" maxlength="250"  styleClass="form-control"  
+                                             rendered="#{certificadoMB.entity.id!=null}" readonly="true">
+                                    <x:initializer/>
+                                </p:inputText>
+                                <h:selectOneMenu id="pedido" value="#{certificadoMB.entity.pedido}" converter="entityConverter" styleClass="form-control" 
+                                                 rendered="#{certificadoMB.entity.id==null}">
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{certificadoMB.pedidos}" 
+                                                   var="pedido"
+                                                   itemLabel="#{pedido}"/>
+                                    <p:ajax process="cliente @this" update="titular" listener="#{certificadoMB.pegarTitulares()}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="titular" value="* #{msg['certificado.titular']}:" />
+                                <p:inputText id="titularOutPut" value="#{certificadoMB.entity.titular}" maxlength="250"  styleClass="form-control"  
+                                             rendered="#{certificadoMB.entity.id!=null}" readonly="true">
+                                    <x:initializer/>
+                                </p:inputText>
+                                <h:selectOneMenu id="titular" value="#{certificadoMB.entity.titular}" converter="entityConverter" styleClass="form-control" 
+                                                 rendered="#{certificadoMB.entity.id==null}">
+                                    <x:initializer  /> 
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{certificadoMB.itensPedido}" 
+                                                   var="titular"
+                                                   itemLabel="#{titular}"/>
+                                    <p:ajax process="@this" update="@form"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="numeroSolicitacao" value="* #{msg['certificado.numeroSolicitacao']}:" />
+                                <p:inputText id="numeroSolicitacao" value="#{certificadoMB.entity.numeroSolicitacao}" maxlength="250"  styleClass="form-control"  />
+                            </div>
+                            <p:panel rendered="#{certificadoMB.verificarSeEhPJ()}">
 
 
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="cpfRepresentanteLegal" value="#{msg['certificado.cpfRepresentanteLegal']}:" />
-                            <x:cpf id="cpfRepresentanteLegal" value="#{certificadoMB.entity.cpfRepresentanteLegal}"  styleClass="form-control"  />
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="cpfRepresentanteLegal" value="#{msg['certificado.cpfRepresentanteLegal']}:" />
+                                    <x:cpf id="cpfRepresentanteLegal" value="#{certificadoMB.entity.cpfRepresentanteLegal}"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="nomeRepresentanteLegal" value="#{msg['certificado.nomeRepresentanteLegal']}:" />
+                                    <p:inputText id="nomeRepresentanteLegal" value="#{certificadoMB.entity.nomeRepresentanteLegal}" maxlength="250"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="cpfResponsavelLegal" value="#{msg['certificado.cpfResponsavelLegal']}:" />
+                                    <x:cpf id="cpfResponsavelLegal" value="#{certificadoMB.entity.cpfResponsavelLegal}"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="nomeResponsavelLegal" value="#{msg['certificado.nomeResponsavelLegal']}:" />
+                                    <p:inputText id="nomeResponsavelLegal" value="#{certificadoMB.entity.nomeResponsavelLegal}" maxlength="250"  styleClass="form-control"  />
+                                </div>
+                            </p:panel>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="enderecoEmail" value="#{msg['certificado.enderecoEmail']}:" />
+                                <p:inputText id="enderecoEmail" value="#{certificadoMB.entity.enderecoEmail}" maxlength="250"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="autoridadeCertificadora" value="* #{msg['certificado.autoridadeCertificadora']}:" />
+                                <h:selectOneMenu id="autoridadeCertificadora" value="#{certificadoMB.entity.autoridadeCertificadora}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.autoridadeCertificadora)}" 
+                                                   var="autoridadeCertificadora"
+                                                   itemLabel="#{autoridadeCertificadora}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="dataAprovacao" value="* #{msg['certificado.dataAprovacao']}:" />
+                                <p:calendar id="dataAprovacao" value="#{certificadoMB.entity.dataAprovacao}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="documento" value="#{msg['certificado.documento']}:" />
+                                <p:inputText id="documento" value="#{certificadoMB.entity.documento}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="armario" value="* #{msg['certificado.armario']}:" />
+                                <p:inputMask id="armario" mask="9?99999"  value="#{certificadoMB.entity.armario}" styleClass="form-control" />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="caixa" value="* #{msg['certificado.caixa']}:" />
+                                <p:inputMask id="caixa" mask="9?99999" value="#{certificadoMB.entity.caixa}" styleClass="form-control" />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="sequencial" value="* #{msg['certificado.sequencial']}:" />
+                                <p:inputMask id="sequencial" mask="9?99999" value="#{certificadoMB.entity.sequencial}" styleClass="form-control" />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="baixa" value="#{msg['certificado.baixa']}:" />
+                                <p:inputText id="baixa" value="#{certificadoMB.entity.baixa}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="documentoRevogacao" value="#{msg['certificado.documentoRevogacao']}:" />
+                                <p:inputText id="documentoRevogacao" value="#{certificadoMB.entity.documentoRevogacao}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="dataRevogacao" value="#{msg['certificado.dataRevogacao']}:" />
+                                <p:calendar id="dataRevogacao" value="#{certificadoMB.entity.dataRevogacao}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="observacao" value="#{msg['certificado.observacao']}:" />
+                                <p:inputText id="observacao" value="#{certificadoMB.entity.observacao}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+
                         </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="nomeRepresentanteLegal" value="#{msg['certificado.nomeRepresentanteLegal']}:" />
-                            <p:inputText id="nomeRepresentanteLegal" value="#{certificadoMB.entity.nomeRepresentanteLegal}" maxlength="250"  styleClass="form-control"  />
-                        </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="cpfResponsavelLegal" value="#{msg['certificado.cpfResponsavelLegal']}:" />
-                            <x:cpf id="cpfResponsavelLegal" value="#{certificadoMB.entity.cpfResponsavelLegal}"  styleClass="form-control"  />
-                        </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="nomeResponsavelLegal" value="#{msg['certificado.nomeResponsavelLegal']}:" />
-                            <p:inputText id="nomeResponsavelLegal" value="#{certificadoMB.entity.nomeResponsavelLegal}" maxlength="250"  styleClass="form-control"  />
-                        </div>
-                    </p:panel>
+                    </div>
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Arquivos">
+                <p:fieldset legend="Adicionar Arquivo">
+                    <p:fileUpload id="arquivo" mode="advanced" requiredMessage="É necessário o envio de pelo menos um arquivo!"
+                                  allowTypes="/(\.|\/)(gif|jpeg|jpg|rtf|odt|ods|png|doc|docx|xls|xlsx|pps|ppsx|ppt|pptx|pdf|jpg|zip|txt|7z|rar|dcm|mp4)$/"
+                                  invalidFileMessage="Tipo de arquivo não permitido" invalidSizeMessage="Arquivo com tamanho acima do permitido" 
+                                  uploadLabel="Carregar" update="dataTableArquivo" cancelLabel="Cancelar" label="Selecionar" multiple="false" 
+                                  sizeLimit="10485760" fileUploadListener="#{certificadoMB.upload}" styleClass="grid_9" />
+                </p:fieldset>
+                <p:fieldset legend="Listagem de Arquivos">
+                    <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="arquivo" rowIndexVar="index" id="dataTableArquivo" widgetVar="dataTableArquivoWidget" styleClass="table-responsive"
+                                 value="#{certificadoMB.arquivos}" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
 
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="enderecoEmail" value="#{msg['certificado.enderecoEmail']}:" />
-                        <p:inputText id="enderecoEmail" value="#{certificadoMB.entity.enderecoEmail}" maxlength="250"  styleClass="form-control"  />
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="autoridadeCertificadora" value="* #{msg['certificado.autoridadeCertificadora']}:" />
-                        <h:selectOneMenu id="autoridadeCertificadora" value="#{certificadoMB.entity.autoridadeCertificadora}" converter="entityConverter" styleClass="form-control" >
-                            <x:initializer/>
-                            <f:selectItem itemLabel="#{xmsg['select']}" />
-                            <f:selectItems value="#{findAllBean.get(classMB.autoridadeCertificadora)}" 
-                                           var="autoridadeCertificadora"
-                                           itemLabel="#{autoridadeCertificadora}"/>
-                        </h:selectOneMenu>
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="dataAprovacao" value="* #{msg['certificado.dataAprovacao']}:" />
-                        <p:calendar id="dataAprovacao" value="#{certificadoMB.entity.dataAprovacao}" 
-                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
-                            <x:mask/>
-                        </p:calendar>
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="documento" value="#{msg['certificado.documento']}:" />
-                        <p:inputText id="documento" value="#{certificadoMB.entity.documento}" maxlength="255"  styleClass="form-control"  />
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="armario" value="* #{msg['certificado.armario']}:" />
-                        <p:inputMask id="armario" mask="9?99999"  value="#{certificadoMB.entity.armario}" styleClass="form-control" />
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="caixa" value="* #{msg['certificado.caixa']}:" />
-                        <p:inputMask id="caixa" mask="9?99999" value="#{certificadoMB.entity.caixa}" styleClass="form-control" />
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="sequencial" value="* #{msg['certificado.sequencial']}:" />
-                        <p:inputMask id="sequencial" mask="9?99999" value="#{certificadoMB.entity.sequencial}" styleClass="form-control" />
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="baixa" value="#{msg['certificado.baixa']}:" />
-                        <p:inputText id="baixa" value="#{certificadoMB.entity.baixa}" maxlength="255"  styleClass="form-control"  />
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="documentoRevogacao" value="#{msg['certificado.documentoRevogacao']}:" />
-                        <p:inputText id="documentoRevogacao" value="#{certificadoMB.entity.documentoRevogacao}" maxlength="255"  styleClass="form-control"  />
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="dataRevogacao" value="#{msg['certificado.dataRevogacao']}:" />
-                        <p:calendar id="dataRevogacao" value="#{certificadoMB.entity.dataRevogacao}" 
-                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
-                            <x:mask/>
-                        </p:calendar>
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="observacao" value="#{msg['certificado.observacao']}:" />
-                        <p:inputText id="observacao" value="#{certificadoMB.entity.observacao}" maxlength="255"  styleClass="form-control"  />
-                    </div>
+                        <p:column headerText="#{msg['arquivo.nome']}" width="80%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['arquivo.nome']}" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.nome}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['arquivo.extensao']}" width="20%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['arquivo.extensao']}" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.extensao}"/>
+                        </p:column>
 
-                </div>
-            </div>
-        </p:fieldset>
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>          
+                            <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Download" ajax="false" immediate="true" update="formCreateDenuncia">
+                                <p:fileDownload value="#{certificadoMB.download(arquivo)}" />
+                            </p:commandButton>
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableArquivo" 
+                                             action="#{certificadoMB.removerArquivo(arquivo)}" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </p:tab>
+        </p:tabView>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">
             <x:securityArea rolesAllowed="certificadoEmitidos.create">

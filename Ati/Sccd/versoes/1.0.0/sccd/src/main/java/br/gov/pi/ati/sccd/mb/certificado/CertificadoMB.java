@@ -8,6 +8,7 @@ import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.sccd.bo.certificado.CertificadoBO;
 import br.gov.pi.ati.sccd.bo.certificado.ItemPedidoBO;
 import br.gov.pi.ati.sccd.bo.certificado.PedidoBO;
+import br.gov.pi.ati.sccd.modelo.cadastro.Arquivo;
 import br.gov.pi.ati.sccd.modelo.cadastro.Cliente;
 import br.gov.pi.ati.sccd.modelo.certificado.Certificado;
 import br.gov.pi.ati.sccd.modelo.certificado.ContratoCliente;
@@ -16,8 +17,20 @@ import br.gov.pi.ati.sccd.modelo.certificado.Pedido;
 import br.gov.pi.ati.sccd.modelo.enums.SituacaoPedido;
 import br.gov.pi.ati.sccd.modelo.enums.TipoPessoa;
 import com.xpert.persistence.query.JoinBuilder;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import static org.apache.commons.io.FilenameUtils.getExtension;
+import org.bouncycastle.util.encoders.Base64;
+import org.hibernate.proxy.HibernateProxy;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -39,6 +52,8 @@ public class CertificadoMB extends AbstractBaseBean<Certificado> implements Seri
     private List<Pedido> pedidos;
 
     private List<ItemPedido> itensPedido;
+
+    private List<Arquivo> arquivos;
 
     @Override
     public CertificadoBO getBO() {
@@ -66,6 +81,12 @@ public class CertificadoMB extends AbstractBaseBean<Certificado> implements Seri
         pedidos = new ArrayList<Pedido>();
         itensPedido = new ArrayList<ItemPedido>();
 
+        arquivos = new ArrayList<Arquivo>();
+
+        if (getEntity().getId() != null) {
+            arquivos = getBO().getDAO().getInitialized(getEntity().getArquivos());
+        }
+
         if (getEntity().getCliente() != null) {
             ContratoCliente contratoCliente = getDAO().getInitialized(getEntity().getCliente());
 
@@ -84,6 +105,12 @@ public class CertificadoMB extends AbstractBaseBean<Certificado> implements Seri
             }
 
         }
+    }
+
+    @Override
+    public void save() {
+        getEntity().setArquivos(arquivos);
+        super.save();
     }
 
     @Override
@@ -143,6 +170,14 @@ public class CertificadoMB extends AbstractBaseBean<Certificado> implements Seri
         this.itensPedido = itensPedido;
     }
 
+    public List<Arquivo> getArquivos() {
+        return arquivos;
+    }
+
+    public void setArquivos(List<Arquivo> arquivos) {
+        this.arquivos = arquivos;
+    }
+
     public boolean verificarSeEhPJ() {
         if (getEntity().getTitular() != null) {
             ItemPedido titular = getDAO().getInitialized(getEntity().getTitular());
@@ -187,4 +222,37 @@ public class CertificadoMB extends AbstractBaseBean<Certificado> implements Seri
 
     }
 
+    public StreamedContent download(Arquivo arquivo) throws IOException {
+
+        if (arquivo instanceof HibernateProxy) {
+            HibernateProxy proxy = (HibernateProxy) arquivo;
+            arquivo = (Arquivo) proxy.getHibernateLazyInitializer().getImplementation();
+        }
+
+        String nomeArquivo = arquivo.getNome();
+        String extensaoArquivo = arquivo.getExtensao();
+
+        File file = File.createTempFile(nomeArquivo, extensaoArquivo);
+
+        FileOutputStream outputStream = new FileOutputStream(file);
+        outputStream.write(Base64.decode(arquivo.getConteudo()));
+        outputStream.flush();
+        outputStream.close();
+
+        return new DefaultStreamedContent(new FileInputStream(file), extensaoArquivo, nomeArquivo);
+    }
+
+    public void upload(FileUploadEvent event) throws FileNotFoundException, IOException {
+        Arquivo arquivo = new Arquivo();
+        UploadedFile uploadedFile = event.getFile();
+        arquivo.setNome(uploadedFile.getFileName());
+        arquivo.setExtensao(getExtension(uploadedFile.getFileName()));
+        String base64AsString = new String(Base64.encode(uploadedFile.getContents()));
+        arquivo.setConteudo(base64AsString);
+        arquivos.add(arquivo);
+    }
+
+    public void removerArquivo(Arquivo arquivo) {
+        arquivos.remove(arquivo);
+    }
 }

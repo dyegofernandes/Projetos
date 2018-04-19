@@ -6,6 +6,7 @@
 package br.gov.pi.ati.modelo.cadastro.vos;
 
 import br.gov.pi.ati.modelo.cadastro.AcaoEstrategica;
+import br.gov.pi.ati.modelo.cadastro.Produto;
 import br.gov.pi.ati.modelo.cadastro.ProgramaDeGoverno;
 import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
 import java.io.Serializable;
@@ -22,17 +23,19 @@ public class Filtros implements Serializable {
     private List<UnidadeOrcamentaria> unidadesOrcamentaria = new ArrayList<UnidadeOrcamentaria>();
 
     private UnidadeOrcamentaria unidadeOrcamentaria;
-    
+
     private AcaoEstrategica acaoEstrategica;
 
     private ProgramaDeGoverno programaDeGoverno;
 
+    private Produto produto;
+
     private Date dataInicial;
 
     private Date dataFinal;
-    
+
     private String nome;
-    
+
     private String codigo;
 
     public List<UnidadeOrcamentaria> getUnidadesOrcamentaria() {
@@ -99,5 +102,12 @@ public class Filtros implements Serializable {
         this.unidadeOrcamentaria = unidadeOrcamentaria;
     }
 
-    
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+
 }

@@ -16,14 +16,14 @@
                     <div class="row">
                         <x:securityArea rolesAllowed="unidadeOrcamentaria.campo">
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                <h:outputLabel for="unidade" value="Unidade Orçamentária:" />
-                                <h:selectOneMenu id="unidade" value="#{metaAcaoEstrategicaMB.filtros.unidadeOrcamentaria}" converter="entityConverter" styleClass="form-control" >
+                                <h:outputLabel for="unidades" value="Unidade Orçamentária:" />
+                                <p:selectCheckboxMenu id="unidades" value="#{metaAcaoEstrategicaMB.filtros.unidadesOrcamentaria}" label="Selecione"
+                                                      filter="true" filterMatchMode="startsWith" converter="entityConverter" styleClass="form-control">
                                     <x:initializer/>
-                                    <f:selectItem itemLabel="#{xmsg['select']}" />
-                                    <f:selectItems value="#{findAllBean.get(classMB.unidadeOrcamentaria)}" 
+                                    <f:selectItems value="#{findAllBean.get(classMB.unidadeOrcamentaria)}"
                                                    var="unidade"
                                                    itemLabel="#{unidade}"/>
-                                </h:selectOneMenu>
+                                </p:selectCheckboxMenu>
                             </div>
                         </x:securityArea>
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
@@ -71,11 +71,11 @@
                         <f:facet name="header">
                             <h:outputText value="#{msg['acaoEstrategica.unidadeOrcamentaria.nome']}" />
                         </f:facet>
-                        <h:outputText value="#{metaAcaoEstrategica.acaoEstrategica.unidadeOrcamentaria.nome}">
+                        <h:outputText value="#{metaAcaoEstrategica.acaoEstrategica.unidadeOrcamentaria}">
                         </h:outputText>
                     </p:column>
                     <p:column headerText="#{msg['acaoEstrategica.codigo']}" sortBy="#{metaAcaoEstrategica.acaoEstrategica.codigo}"
-                              >
+                              style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="#{msg['acaoEstrategica.codigo']}" />
                         </f:facet>
@@ -90,10 +90,18 @@
                         <h:outputText value="#{metaAcaoEstrategica.acaoEstrategica.nome}">
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="#{msg['metaAcaoEstrategica.programaPPA']}" sortBy="#{metaAcaoEstrategica.programaPPA}"
+                    <p:column headerText="#{msg['metaAcaoEstrategica.programa.codigo']}" sortBy="#{metaAcaoEstrategica.programaPPA.codigo}"
                               >
                         <f:facet name="header">
-                            <h:outputText value="#{msg['metaAcaoEstrategica.programaPPA']}" />
+                            <h:outputText value="#{msg['metaAcaoEstrategica.programa.codigo']}" />
+                        </f:facet>
+                        <h:outputText value="#{metaAcaoEstrategica.programaPPA.programaGov.codigo}">
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['metaAcaoEstrategica.programa.nome']}" sortBy="#{metaAcaoEstrategica.programaPPA.nome}"
+                              >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['metaAcaoEstrategica.programa.nome']}" />
                         </f:facet>
                         <h:outputText value="#{metaAcaoEstrategica.programaPPA.programaGov.nome}">
                         </h:outputText>

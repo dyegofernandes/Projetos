@@ -25,10 +25,6 @@ public class Arquivo implements Serializable {
     @GeneratedValue(generator = "Arquivo")
     private Long id;
 
-//    @NotNull
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    private Denuncia denuncia;
-
     @NotBlank
     private String nome;
 
@@ -47,22 +43,11 @@ public class Arquivo implements Serializable {
         this.id = id;
     }
 
-//    public Denuncia getDenuncia() {
-//        return denuncia;
-//    }
-//
-//    public void setDenuncia(Denuncia denuncia) {
-//        this.denuncia = denuncia;
-//    }
-
     public String getNome() {
         return nome;
     }
 
     public void setNome(String nome) {
-//        if (nome != null) {
-//            nome = nome.trim().toUpperCase();
-//        }
         this.nome = nome;
     }
 

@@ -5,6 +5,7 @@
  */
 package br.gov.pi.ati.sccd.modelo.certificado;
 
+import br.gov.pi.ati.sccd.modelo.cadastro.Arquivo;
 import br.gov.pi.ati.sccd.modelo.cadastro.Fornecedor;
 import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificadoAux;
 import com.xpert.audit.NotAudited;
@@ -75,6 +76,9 @@ public class ContratoFornecedor implements Serializable {
     private List<TipoCertificadoAux> certificados = new ArrayList<TipoCertificadoAux>();
     
     private boolean ativo = true;
+    
+    @ManyToMany(targetEntity = Arquivo.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    private List<Arquivo> arquivos = new ArrayList<Arquivo>();
     
     @NotAudited
     @OneToMany(mappedBy = "contratoFornecedor")
@@ -179,6 +183,14 @@ public class ContratoFornecedor implements Serializable {
 
     public void setContratos(List<ContratoCliente> contratos) {
         this.contratos = contratos;
+    }
+
+    public List<Arquivo> getArquivos() {
+        return arquivos;
+    }
+
+    public void setArquivos(List<Arquivo> arquivos) {
+        this.arquivos = arquivos;
     }
     
     @Override

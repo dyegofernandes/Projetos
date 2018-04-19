@@ -5,78 +5,117 @@
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
     <h:form id="formDetailPedido" styleClass="uix-form-detail">
-        <p:fieldset legend="#{xmsg['generalData']}">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel value="#{msg['pedido.cliente']}:" styleClass="control-label" /><br/>
-                        <h:outputText value="#{pedidoMB.entity.cliente}" styleClass="uix-content-detail">
+        <p:tabView id="tabGeral">
+            <p:tab title="Informações Gerais">
+                <p:fieldset legend="#{xmsg['generalData']}">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['pedido.cliente']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{pedidoMB.entity.cliente}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['pedido.protocolo']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{pedidoMB.entity.protocolo}" styleClass="uix-content-detail"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['pedido.dataSolicitacao']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{pedidoMB.entity.dataSolicitacao}" styleClass="uix-content-detail">
+                                    <f:convertDateTime />
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['pedido.situacao']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{pedidoMB.entity.situacao.descricao}" styleClass="uix-content-detail"/>
+                            </div>
+                        </div>
+                    </div>
+                    <p:fieldset legend="Lista de Titulares">
+                        <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                     var="itemPedido" rowIndexVar="index" id="dataTableItemPedido" widgetVar="dataTableItemPedidoWidget" styleClass="table-responsive"
+                                     value="#{pedidoMB.entity.itens}"  >
                             <x:initializer/>
-                        </h:outputText>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel value="#{msg['pedido.protocolo']}:" styleClass="control-label" /><br/>
-                        <h:outputText value="#{pedidoMB.entity.protocolo}" styleClass="uix-content-detail"/>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel value="#{msg['pedido.dataSolicitacao']}:" styleClass="control-label" /><br/>
-                        <h:outputText value="#{pedidoMB.entity.dataSolicitacao}" styleClass="uix-content-detail">
-                            <f:convertDateTime />
-                        </h:outputText>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel value="#{msg['pedido.situacao']}:" styleClass="control-label" /><br/>
-                        <h:outputText value="#{pedidoMB.entity.situacao.descricao}" styleClass="uix-content-detail"/>
-                    </div>
-                </div>
-            </div>
-            <p:fieldset legend="Lista de Titulares">
-                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
-                             var="itemPedido" rowIndexVar="index" id="dataTableItemPedido" widgetVar="dataTableItemPedidoWidget" styleClass="table-responsive"
-                             value="#{pedidoMB.entity.itens}"  >
-                    <x:initializer/>
-                    <p:column styleClass="uix-datatable-index">
-                        <h:outputText value="#{index+1}"/>
-                    </p:column>
-                    <p:column headerText="#{msg['itemPedido.tipoPessoa']}" sortBy="#{itemPedido.tipoPessoa}">
-                        <f:facet name="header">
-                            <h:outputText value="#{msg['itemPedido.tipoPessoa']}" />
-                        </f:facet>
-                        <h:outputText value="#{itemPedido.tipoPessoa.descricao}"/>
-                    </p:column>
-                    <p:column headerText="#{msg['itemPedido.cpfCnpjTitular']}" sortBy="#{itemPedido.cpfCnpjTitular}" >
-                        <f:facet name="header">
-                            <h:outputText value="#{msg['itemPedido.cpfCnpjTitular']}" />
-                        </f:facet>
-                        <h:outputText value="#{itemPedido.cpfCnpjTitular}" rendered="#{itemPedido.tipoPessoa.num eq 1}" converter="cpfConverter"/>
-                        <h:outputText value="#{itemPedido.cpfCnpjTitular}" rendered="#{itemPedido.tipoPessoa.num eq 2}" converter="cnpjConverter"/>
-                    </p:column>
-                    <p:column headerText="#{msg['itemPedido.titular']}" sortBy="#{itemPedido.titular}" >
-                        <f:facet name="header">
-                            <h:outputText value="#{msg['itemPedido.titular']}" />
-                        </f:facet>
-                        <h:outputText value="#{itemPedido.nomeTitular}"/>
-                    </p:column>
-                    <p:column headerText="#{msg['itemPedido.tipoCertificado']}" sortBy="#{itemPedido.tipoCertificado}"
-                              >
-                        <f:facet name="header">
-                            <h:outputText value="#{msg['itemPedido.tipoCertificado']}" />
-                        </f:facet>
-                        <h:outputText value="#{itemPedido.tipoCertificado}">
-                            <x:initializer/>
-                        </h:outputText>
-                    </p:column>
-                    <p:column headerText="#{msg['itemPedido.atendido']}" sortBy="#{itemPedido.atendido}" style="text-align: center;">
-                        <f:facet name="header">
-                            <h:outputText value="#{msg['itemPedido.atendido']}" />
-                        </f:facet>
-                        <h:outputText value="#{itemPedido.atendido}" converter ="yesNoConverter" />
-                    </p:column>
-                    
-                </p:dataTable>
+                            <p:column styleClass="uix-datatable-index">
+                                <h:outputText value="#{index+1}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['itemPedido.tipoPessoa']}" sortBy="#{itemPedido.tipoPessoa}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{msg['itemPedido.tipoPessoa']}" />
+                                </f:facet>
+                                <h:outputText value="#{itemPedido.tipoPessoa.descricao}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['itemPedido.cpfCnpjTitular']}" sortBy="#{itemPedido.cpfCnpjTitular}" >
+                                <f:facet name="header">
+                                    <h:outputText value="#{msg['itemPedido.cpfCnpjTitular']}" />
+                                </f:facet>
+                                <h:outputText value="#{itemPedido.cpfCnpjTitular}" rendered="#{itemPedido.tipoPessoa.num eq 1}" converter="cpfConverter"/>
+                                <h:outputText value="#{itemPedido.cpfCnpjTitular}" rendered="#{itemPedido.tipoPessoa.num eq 2}" converter="cnpjConverter"/>
+                            </p:column>
+                            <p:column headerText="#{msg['itemPedido.titular']}" sortBy="#{itemPedido.titular}" >
+                                <f:facet name="header">
+                                    <h:outputText value="#{msg['itemPedido.titular']}" />
+                                </f:facet>
+                                <h:outputText value="#{itemPedido.nomeTitular}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['itemPedido.tipoCertificado']}" sortBy="#{itemPedido.tipoCertificado}"
+                                      >
+                                <f:facet name="header">
+                                    <h:outputText value="#{msg['itemPedido.tipoCertificado']}" />
+                                </f:facet>
+                                <h:outputText value="#{itemPedido.tipoCertificado}">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{msg['itemPedido.atendido']}" sortBy="#{itemPedido.atendido}" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="#{msg['itemPedido.atendido']}" />
+                                </f:facet>
+                                <h:outputText value="#{itemPedido.atendido}" converter ="yesNoConverter" />
+                            </p:column>
 
-            </p:fieldset>
-        </p:fieldset>
+                        </p:dataTable>
+
+                    </p:fieldset>
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Arquivos">
+                
+                <p:fieldset legend="Listagem de Arquivos">
+                    <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="arquivo" rowIndexVar="index" id="dataTableArquivo" widgetVar="dataTableArquivoWidget" styleClass="table-responsive"
+                                 value="#{pedidoMB.entity.arquivos}" >
+                        <x:initializer/>
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg['arquivo.nome']}" width="80%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['arquivo.nome']}" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.nome}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['arquivo.extensao']}" width="20%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['arquivo.extensao']}" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.extensao}"/>
+                        </p:column>
+
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>          
+                            <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Download" ajax="false" immediate="true" update="formCreateDenuncia">
+                                <p:fileDownload value="#{pedidoMB.download(arquivo)}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </p:tab>
+        </p:tabView>
 
         <p:separator/>
         <div class="uix-center">

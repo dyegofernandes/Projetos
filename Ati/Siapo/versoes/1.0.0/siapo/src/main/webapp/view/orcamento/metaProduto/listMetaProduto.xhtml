@@ -11,120 +11,142 @@
         <h:form id="formListMetaProduto">
             <x:modalMessages/>
 
-            <x:dataTableActions fileName="metaProduto_export" target=":formListMetaProduto:dataTableMetaProduto"
-                                widgetVar="dataTableMetaProdutoWidget"  />
+            <p:fieldset legend="Filtros de Busca" toggleable="true">
+                <div class="container-fluid">
+                    <div class="row">
+                        <x:securityArea rolesAllowed="unidadeOrcamentaria.campo">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="unidades" value="Unidade Orçamentária:" />
+                                <p:selectCheckboxMenu id="unidades" value="#{metaProdutoMB.filtros.unidadesOrcamentaria}" label="Selecione"
+                                                      filter="true" filterMatchMode="startsWith" converter="entityConverter" styleClass="form-control">
+                                    <x:initializer/>
+                                    <f:selectItems value="#{findAllBean.get(classMB.unidadeOrcamentaria)}"
+                                                   var="unidade"
+                                                   itemLabel="#{unidade}"/>
+                                </p:selectCheckboxMenu>
+                            </div>
+                        </x:securityArea>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="programa" value="Programa:" />
+                            <h:selectOneMenu id="programa" value="#{metaProdutoMB.filtros.programaDeGoverno}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.programaDeGoverno)}" 
+                                               var="programa"
+                                               itemLabel="#{programa}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="nome" value="#{msg['acaoEstrategica.nome']}:" />
+                            <p:inputText id="nome" value="#{metaProdutoMB.filtros.nome}" maxlength="260"  styleClass="form-control"  />
+                        </div>
+                    </div>
+                </div>
+                <div class="uix-center">
+                    <p:commandButton  process="@form" update="dataTableMetaProduto" action="#{metaProdutoMB.buscar()}" 
+                                      value="Buscar" />
+                </div>
+            </p:fieldset>
 
-            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
-                         var="metaProduto" rowIndexVar="index" id="dataTableMetaProduto" widgetVar="dataTableMetaProdutoWidget" styleClass="table-responsive"
-                         currentPageReportTemplate="#{metaProdutoMB.dataModel.currentPageReportTemplate}"
-                         paginatorTemplate="#{metaProdutoMB.dataModel.paginatorTemplate}"
-                         value="#{metaProdutoMB.dataModel}" lazy="true" >
-                <p:column styleClass="uix-datatable-index">
-                    <h:outputText value="#{index+1}"/>
-                </p:column>
-                <p:column headerText="#{msg['metaProduto.programa.codigo']}" sortBy="#{metaProduto.metaAcao.programaPPA.programaGov.codigo}"
-                          >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['metaProduto.programa.codigo']}" />
-                    </f:facet>
-                    <h:outputText value="#{metaProduto.metaAcao.programaPPA.programaGov.codigo}">
-                        <x:initializer/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="#{msg['metaProduto.programa.nome']}" sortBy="#{metaProduto.metaAcao.programaPPA.programaGov.nome}"
-                          >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['metaProduto.programa.nome']}" />
-                    </f:facet>
-                    <h:outputText value="#{metaProduto.metaAcao.programaPPA.programaGov.nome}">
-                        <x:initializer/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="#{msg['metaProduto.acaoEstrategica.unidadeOrcamentaria.codigo']}" sortBy="#{metaProduto.metaAcao.acaoEstrategica.unidadeOrcamentaria.codigo}"
-                          >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['metaProduto.acaoEstrategica.unidadeOrcamentaria.codigo']}" />
-                    </f:facet>
-                    <h:outputText value="#{metaProduto.metaAcao.acaoEstrategica.unidadeOrcamentaria.codigo}">
-                        <x:initializer/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="#{msg['metaProduto.acaoEstrategica.unidadeOrcamentaria.nome']}" sortBy="#{metaProduto.metaAcao.acaoEstrategica.unidadeOrcamentaria.nome}"
-                          >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['metaProduto.acaoEstrategica.unidadeOrcamentaria.nome']}" />
-                    </f:facet>
-                    <h:outputText value="#{metaProduto.metaAcao.acaoEstrategica.unidadeOrcamentaria.nome}">
-                        <x:initializer/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="#{msg['metaProduto.acaoEstrategica.codigo']}" sortBy="#{metaProduto.metaAcao.acaoEstrategica.codigo}"
-                          >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['metaProduto.acaoEstrategica.codigo']}" />
-                    </f:facet>
-                    <h:outputText value="#{metaProduto.metaAcao.acaoEstrategica.codigo}">
-                        <x:initializer/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="#{msg['metaProduto.acaoEstrategica.nome']}" sortBy="#{metaProduto.metaAcao.acaoEstrategica.nome}"
-                          >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['metaProduto.acaoEstrategica.nome']}" />
-                    </f:facet>
-                    <h:outputText value="#{metaProduto.metaAcao.acaoEstrategica.nome}">
-                        <x:initializer/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="#{msg['metaProduto.produto']}" sortBy="#{metaProduto.produto}"
-                          >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['metaProduto.produto']}" />
-                    </f:facet>
-                    <h:outputText value="#{metaProduto.produto}">
-                        <x:initializer/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="#{msg['metaProduto.unidadeMedida']}" sortBy="#{metaProduto.unidadeMedida}"
-                          >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['metaProduto.unidadeMedida']}" />
-                    </f:facet>
-                    <h:outputText value="#{metaProduto.unidadeMedida}">
-                        <x:initializer/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="#{msg['metaProduto.valorMeta']}" sortBy="#{metaProduto.valorMeta}"
-                          style="text-align: right;">
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['metaProduto.valorMeta']}" />
-                    </f:facet>
-                    <h:outputText value="#{metaProduto.valorMeta}">
-                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
-                    </h:outputText>
-                </p:column>
-                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
-                    <f:facet name="header">
-                        <h:outputText value="#{xmsg['actions']}"/>
-                    </f:facet>
-                    <p:commandButton oncomplete="PF('widgetMetaProdutoDetail').show();"  icon="ui-icon-zoomin" 
-                                     process="@form" update=":formDetailMetaProduto" title="#{xmsg['detail']}" >
-                        <f:setPropertyActionListener value="#{metaProduto}" target="#{metaProdutoMB.entity}" />
-                    </p:commandButton>
-                    <x:securityArea rolesAllowed="metaProduto.create">
-                        <p:button icon="ui-icon-pencil" outcome="createMetaProduto" title="#{xmsg['edit']}">
-                            <f:param name="id" value="#{metaProduto.id}" />
-                        </p:button>
-                    </x:securityArea>
-                    <x:securityArea rolesAllowed="metaProduto.delete">
-                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
-                                         action="#{metaProdutoMB.delete}" >
-                            <f:setPropertyActionListener value="#{metaProduto.id}" target="#{metaProdutoMB.id}" />
-                            <x:confirmation message="#{xmsg['confirmDelete']} - #{metaProduto}" />
+            <p:fieldset legend="Resultado da Busca" toggleable="true">
+                <x:dataTableActions fileName="metaProduto_export" target=":formListMetaProduto:dataTableMetaProduto"
+                                    widgetVar="dataTableMetaProdutoWidget"  />
+
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="metaProduto" rowIndexVar="index" id="dataTableMetaProduto" widgetVar="dataTableMetaProdutoWidget" styleClass="table-responsive"
+                             value="#{metaProdutoMB.produdos}"  >
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    
+                    <p:column headerText="#{msg['metaProduto.acaoEstrategica.unidadeOrcamentaria.codigo']}" sortBy="#{metaProduto.metaAcao.acaoEstrategica.unidadeOrcamentaria.codigo}"
+                              style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['metaProduto.acaoEstrategica.unidadeOrcamentaria.codigo']}" />
+                        </f:facet>
+                        <h:outputText value="#{metaProduto.metaAcao.acaoEstrategica.unidadeOrcamentaria.codigo}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['metaProduto.acaoEstrategica.unidadeOrcamentaria.nome']}" sortBy="#{metaProduto.metaAcao.acaoEstrategica.unidadeOrcamentaria.nome}"
+                              >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['metaProduto.acaoEstrategica.unidadeOrcamentaria.nome']}" />
+                        </f:facet>
+                        <h:outputText value="#{metaProduto.metaAcao.acaoEstrategica.unidadeOrcamentaria.nome}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['metaProduto.acaoEstrategica.codigo']}" sortBy="#{metaProduto.metaAcao.acaoEstrategica.codigo}"
+                              style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['metaProduto.acaoEstrategica.codigo']}" />
+                        </f:facet>
+                        <h:outputText value="#{metaProduto.metaAcao.acaoEstrategica.codigo}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['metaProduto.acaoEstrategica.nome']}" sortBy="#{metaProduto.metaAcao.acaoEstrategica.nome}"
+                              >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['metaProduto.acaoEstrategica.nome']}" />
+                        </f:facet>
+                        <h:outputText value="#{metaProduto.metaAcao.acaoEstrategica.nome}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['metaProduto.produto']}" sortBy="#{metaProduto.produto}"
+                              >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['metaProduto.produto']}" />
+                        </f:facet>
+                        <h:outputText value="#{metaProduto.produto}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['metaProduto.unidadeMedida']}" sortBy="#{metaProduto.unidadeMedida}"
+                              >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['metaProduto.unidadeMedida']}" />
+                        </f:facet>
+                        <h:outputText value="#{metaProduto.unidadeMedida}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['metaProduto.valorMeta']}" sortBy="#{metaProduto.valorMeta}"
+                              style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['metaProduto.valorMeta']}" />
+                        </f:facet>
+                        <h:outputText value="#{metaProduto.valorMeta}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+                        <p:commandButton oncomplete="PF('widgetMetaProdutoDetail').show();"  icon="ui-icon-zoomin" 
+                                         process="@form" update=":formDetailMetaProduto" title="#{xmsg['detail']}" >
+                            <f:setPropertyActionListener value="#{metaProduto}" target="#{metaProdutoMB.entity}" />
                         </p:commandButton>
-                    </x:securityArea>
-                </p:column>
-            </p:dataTable>
+                        <x:securityArea rolesAllowed="metaProduto.create">
+                            <p:button icon="ui-icon-pencil" outcome="createMetaProduto" title="#{xmsg['edit']}">
+                                <f:param name="id" value="#{metaProduto.id}" />
+                            </p:button>
+                        </x:securityArea>
+                        <x:securityArea rolesAllowed="metaProduto.delete">
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                             action="#{metaProdutoMB.delete}" >
+                                <f:setPropertyActionListener value="#{metaProduto.id}" target="#{metaProdutoMB.id}" />
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{metaProduto}" />
+                            </p:commandButton>
+                        </x:securityArea>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+
+
             <div class="uix-audit-delete">
                 <x:securityArea rolesAllowed="metaProduto.audit">
                     <x:auditDelete for="#{metaProdutoMB.entityClass}"/>

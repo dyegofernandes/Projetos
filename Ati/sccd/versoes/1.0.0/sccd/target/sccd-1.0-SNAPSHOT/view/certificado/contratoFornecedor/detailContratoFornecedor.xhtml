@@ -5,98 +5,138 @@
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
     <h:form id="formDetailContratoFornecedor" styleClass="uix-form-detail">
-        <p:fieldset legend="#{xmsg['generalData']}">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel value="#{msg['contratoFornecedor.fornecedor']}:" styleClass="control-label" /><br/>
-                        <h:outputText value="#{contratoFornecedorMB.entity.fornecedor}" styleClass="uix-content-detail">
-                            <x:initializer/>
-                        </h:outputText>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel value="#{msg['contratoFornecedor.numeroContrato']}:" styleClass="control-label" /><br/>
-                        <h:outputText value="#{contratoFornecedorMB.entity.numeroContrato}" styleClass="uix-content-detail"/>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel value="#{msg['contratoFornecedor.cpfRepresentanteLegal']}:" styleClass="control-label" /><br/>
-                        <h:outputText value="#{contratoFornecedorMB.entity.cpfRepresentanteLegal}" styleClass="uix-content-detail" converter="cpfConverter"/>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel value="#{msg['contratoFornecedor.representanteLegal']}:" styleClass="control-label" /><br/>
-                        <h:outputText value="#{contratoFornecedorMB.entity.representanteLegal}" styleClass="uix-content-detail"/>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel value="#{msg['contratoFornecedor.cpfRepresentanteAti']}:" styleClass="control-label" /><br/>
-                        <h:outputText value="#{contratoFornecedorMB.entity.cpfRepresentanteAti}" styleClass="uix-content-detail" converter="cpfConverter"/>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel value="#{msg['contratoFornecedor.representanteLegalAti']}:" styleClass="control-label" /><br/>
-                        <h:outputText value="#{contratoFornecedorMB.entity.representanteAti}" styleClass="uix-content-detail"/>
-                    </div>
+        <p:tabView id="tabGeral">
+            <p:tab title="Informações Gerais">
+                <p:fieldset legend="#{xmsg['generalData']}">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['contratoFornecedor.fornecedor']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{contratoFornecedorMB.entity.fornecedor}" styleClass="uix-content-detail">
+                                    <x:initializer/>
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['contratoFornecedor.numeroContrato']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{contratoFornecedorMB.entity.numeroContrato}" styleClass="uix-content-detail"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['contratoFornecedor.cpfRepresentanteLegal']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{contratoFornecedorMB.entity.cpfRepresentanteLegal}" styleClass="uix-content-detail" converter="cpfConverter"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['contratoFornecedor.representanteLegal']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{contratoFornecedorMB.entity.representanteLegal}" styleClass="uix-content-detail"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['contratoFornecedor.cpfRepresentanteAti']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{contratoFornecedorMB.entity.cpfRepresentanteAti}" styleClass="uix-content-detail" converter="cpfConverter"/>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['contratoFornecedor.representanteLegalAti']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{contratoFornecedorMB.entity.representanteAti}" styleClass="uix-content-detail"/>
+                            </div>
 
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel value="#{msg['contratoFornecedor.dataInicio']}:" styleClass="control-label" /><br/>
-                        <h:outputText value="#{contratoFornecedorMB.entity.dataInicio}" styleClass="uix-content-detail">
-                            <f:convertDateTime />
-                        </h:outputText>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['contratoFornecedor.dataInicio']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{contratoFornecedorMB.entity.dataInicio}" styleClass="uix-content-detail">
+                                    <f:convertDateTime />
+                                </h:outputText>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel value="#{msg['contratoFornecedor.dataFinal']}:" styleClass="control-label" /><br/>
+                                <h:outputText value="#{contratoFornecedorMB.entity.dataFinal}" styleClass="uix-content-detail">
+                                    <f:convertDateTime />
+                                </h:outputText>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel value="#{msg['contratoFornecedor.dataFinal']}:" styleClass="control-label" /><br/>
-                        <h:outputText value="#{contratoFornecedorMB.entity.dataFinal}" styleClass="uix-content-detail">
-                            <f:convertDateTime />
-                        </h:outputText>
-                    </div>
-                </div>
-            </div>
-        </p:fieldset>
-        <p:fieldset legend="Certificados" >
-            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
-                         var="certificado" rowIndexVar="index" id="dataTableCertificado" widgetVar="dataTableCertificadoWidget" styleClass="table-responsive"
-                         value="#{contratoFornecedorMB.entity.certificados}"  >
-                <x:initializer/>
-                <p:column styleClass="uix-datatable-index">
-                    <h:outputText value="#{index+1}"/>
-                </p:column>
-                <p:column headerText="Tipo Certificado" >
-                    <f:facet name="header">
-                        <h:outputText value="Tipo Certificado" />
-                    </f:facet>
-                    <h:outputText value="#{certificado.tipo}">
+                </p:fieldset>
+                <p:fieldset legend="Certificados" >
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="certificado" rowIndexVar="index" id="dataTableCertificado" widgetVar="dataTableCertificadoWidget" styleClass="table-responsive"
+                                 value="#{contratoFornecedorMB.entity.certificados}"  >
                         <x:initializer/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="Quantidade" style="text-align: right;" >
-                    <f:facet name="header">
-                        <h:outputText value="Quantidade" />
-                    </f:facet>
-                    <h:outputText value="#{certificado.quantidade}">
-                        <f:convertNumber minFractionDigits="2" maxFractionDigits="0" />
-                    </h:outputText>
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="Tipo Certificado" >
+                            <f:facet name="header">
+                                <h:outputText value="Tipo Certificado" />
+                            </f:facet>
+                            <h:outputText value="#{certificado.tipo}">
+                                <x:initializer/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Quantidade" style="text-align: right;" >
+                            <f:facet name="header">
+                                <h:outputText value="Quantidade" />
+                            </f:facet>
+                            <h:outputText value="#{certificado.quantidade}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="0" />
+                            </h:outputText>
 
-                </p:column>
-                <p:column headerText="Valor" style="text-align: right;" >
-                    <f:facet name="header">
-                        <h:outputText value="Valor" />
-                    </f:facet>
-                    <h:outputText value="#{certificado.valor}">
-                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
-                    </h:outputText>
+                        </p:column>
+                        <p:column headerText="Valor" style="text-align: right;" >
+                            <f:facet name="header">
+                                <h:outputText value="Valor" />
+                            </f:facet>
+                            <h:outputText value="#{certificado.valor}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>
 
-                </p:column>
-                <p:column headerText="Total" style="text-align: right;" >
-                    <f:facet name="header">
-                        <h:outputText value="Total" />
-                    </f:facet>
-                    <h:outputText value="#{certificado.total}">
-                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
-                    </h:outputText>
+                        </p:column>
+                        <p:column headerText="Total" style="text-align: right;" >
+                            <f:facet name="header">
+                                <h:outputText value="Total" />
+                            </f:facet>
+                            <h:outputText value="#{certificado.total}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>
 
-                </p:column>
+                        </p:column>
 
 
-            </p:dataTable>
-        </p:fieldset>
+                    </p:dataTable>
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Arquivos">
+                
+                <p:fieldset legend="Listagem de Arquivos">
+                    <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="arquivo" rowIndexVar="index" id="dataTableArquivo" widgetVar="dataTableArquivoWidget" styleClass="table-responsive"
+                                 value="#{contratoFornecedorMB.entity.arquivos}" >
+                        <x:initializer/>
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg['arquivo.nome']}" width="80%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['arquivo.nome']}" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.nome}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['arquivo.extensao']}" width="20%" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['arquivo.extensao']}" />
+                            </f:facet>
+                            <h:outputText value="#{arquivo.extensao}"/>
+                        </p:column>
+
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>          
+                            <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Download" ajax="false" immediate="true" update="formCreateDenuncia">
+                                <p:fileDownload value="#{contratoFornecedorMB.download(arquivo)}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </p:tab>
+        </p:tabView>
+
 
         <p:separator/>
         <div class="uix-center">

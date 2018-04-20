@@ -95,6 +95,15 @@
                             <x:initializer/>
                         </h:outputText>
                     </p:column>
+                    <p:column headerText="#{msg['metaProduto.produto.codigo']}" sortBy="#{metaProduto.produto.id}"
+                              >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['metaProduto.produto.codigo']}" />
+                        </f:facet>
+                        <h:outputText value="#{metaProduto.produto.id}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
                     <p:column headerText="#{msg['metaProduto.produto']}" sortBy="#{metaProduto.produto}"
                               >
                         <f:facet name="header">

@@ -61,14 +61,16 @@ public class MetaProdutoBO extends AbstractBusinessObject<MetaProduto> {
         }
 
         if (!Utils.isNullOrEmpty(filtros.getNome())) {
-            restrictions.like("meta.nome", filtros.getNome());
+            restrictions.like("produto.nome", filtros.getNome());
         }
 
-        return getDAO().getQueryBuilder().from(MetaProduto.class, "meta").leftJoinFetch("meta.produto", "produto")
+        return getDAO().getQueryBuilder().selectDistinct("meta").from(MetaProduto.class, "meta").leftJoinFetch("meta.produto", "produto")
                 .leftJoinFetch("meta.metaAcao", "metaAcao").leftJoinFetch("metaAcao.acaoEstrategica", "acaoEstrategica")
-                .leftJoinFetch("acaoEstrategica.unidadeOrcamentaria", "unidadeOrcamentaria").leftJoin("meta.ldos", "ldos")
+                .leftJoinFetch("acaoEstrategica.unidadeOrcamentaria", "unidadeOrcamentaria")
                 .leftJoinFetch("metaAcao.programaPPA", "programaPPA").leftJoinFetch("programaPPA.programaGov", "programaGov")
-                .leftJoinFetch("programaPPA.competencia", "competencia").leftJoin("meta.territorios", "territorios")
+                .leftJoinFetch("programaPPA.competencia", "competencia")
+                .leftJoin("meta.territorios", "territorios")
+                .leftJoin("meta.ldos", "ldos")
                 .add(restrictions).orderBy("unidadeOrcamentaria, produto.nome").getResultList();
     }
 }

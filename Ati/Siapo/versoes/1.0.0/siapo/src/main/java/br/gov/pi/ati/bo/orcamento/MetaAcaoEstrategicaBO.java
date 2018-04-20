@@ -65,7 +65,7 @@ public class MetaAcaoEstrategicaBO extends AbstractBusinessObject<MetaAcaoEstrat
             restrictions.add("acaoEstrategica.codigo", filtros.getCodigo());
         }
 
-        return getDAO().getQueryBuilder().from(MetaAcaoEstrategica.class, "metaAcao").leftJoinFetch("metaAcao.acaoEstrategica", "acaoEstrategica")
+        return getDAO().getQueryBuilder().selectDistinct("metaAcao").from(MetaAcaoEstrategica.class, "metaAcao").leftJoinFetch("metaAcao.acaoEstrategica", "acaoEstrategica")
                 .leftJoinFetch("acaoEstrategica.unidadeOrcamentaria", "unidadeOrcamentaria").leftJoinFetch("metaAcao.programaPPA", "programaPPA")
                 .leftJoinFetch("programaPPA.programaGov", "programaGov").leftJoinFetch("metaAcao.receitas", "receitas")
                 .add(restrictions).orderBy("unidadeOrcamentaria.nome, programaGov.nome, acaoEstrategica.codigo").getResultList();

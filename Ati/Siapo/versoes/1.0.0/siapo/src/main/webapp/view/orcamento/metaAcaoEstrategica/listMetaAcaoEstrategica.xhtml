@@ -65,7 +65,12 @@
                     <p:column style="width:16px">
                         <p:rowToggler />
                     </p:column>
-
+                    <p:column styleClass="uix-datatable-index">
+                        <f:facet name="header">
+                            <h:outputText value="" />
+                        </f:facet>
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
                     <p:column headerText="#{msg['acaoEstrategica.unidadeOrcamentaria.nome']}" sortBy="#{metaAcaoEstrategica.acaoEstrategica.unidadeOrcamentaria.nome}"
                               >
                         <f:facet name="header">

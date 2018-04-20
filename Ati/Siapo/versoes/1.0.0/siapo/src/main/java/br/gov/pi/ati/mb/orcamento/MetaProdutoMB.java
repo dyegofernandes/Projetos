@@ -9,15 +9,12 @@ import br.gov.pi.ati.bo.orcamento.MetaProdutoBO;
 import br.gov.pi.ati.modelo.cadastro.Territorio;
 import br.gov.pi.ati.modelo.cadastro.vos.Filtros;
 import br.gov.pi.ati.modelo.orcamento.Ldo;
-import br.gov.pi.ati.modelo.orcamento.MetaAcaoEstrategica;
 import br.gov.pi.ati.modelo.orcamento.MetaProduto;
-import br.gov.pi.ati.modelo.orcamento.ReceitaMetaAcaoEstrategica;
 import br.gov.pi.ati.modelo.orcamento.TerritorioPPA;
 import br.gov.pi.ati.util.SessaoUtils;
 import com.xpert.faces.utils.FacesMessageUtils;
 import java.util.ArrayList;
 import java.util.List;
-import org.omnifaces.util.Faces;
 
 /**
  *
@@ -53,6 +50,15 @@ public class MetaProdutoMB extends AbstractBaseBean<MetaProduto> implements Seri
     }
 
     @Override
+    public void save() {
+        getEntity().setLdos(ldos);
+        getEntity().setTerritorios(territorios);
+        super.save(); 
+    }
+    
+    
+
+    @Override
     public void init() {
         ldos = new ArrayList<Ldo>();
         ldoAdd = new Ldo();
@@ -75,6 +81,14 @@ public class MetaProdutoMB extends AbstractBaseBean<MetaProduto> implements Seri
 
     public void setFiltros(Filtros filtros) {
         this.filtros = filtros;
+    }
+
+    public List<Ldo> getLdos() {
+        return ldos;
+    }
+
+    public void setLdos(List<Ldo> ldos) {
+        this.ldos = ldos;
     }
 
     public Ldo getLdoAdd() {

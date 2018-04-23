@@ -27,14 +27,20 @@
 
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="cliente" value="* #{msg['contratoCliente.cliente']}:" />
-                                <h:selectOneMenu id="cliente" value="#{contratoClienteMB.entity.cliente}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer value="#{contratoClienteMB.entity.cliente}" />
+                                <p:autoComplete id="cliente" value="#{contratoClienteMB.entity.cliente}" 
+
+                                                completeMethod="#{clienteMB.autocompletePeloNome}" styleClass="uix-autocomplete" 
+
+                                                minQueryLength="3" forceSelection="true" dropdown="true"
+
+                                                var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"  > 
                                     <x:initializer/>
-                                    <f:selectItem itemLabel="#{xmsg['select']}" />
-                                    <f:selectItems value="#{clienteMB.clientesAtivos()}" 
-                                                   var="cliente"
-                                                   itemLabel="#{cliente}"/>
-                                    <p:ajax process="@this" update="@form" />
-                                </h:selectOneMenu>
+                                    <p:column> 
+                                        <h:outputText value="#{p}"/>
+                                    </p:column> 
+                                    <p:ajax event="itemSelect" process="@this" update="@form" />
+                                </p:autoComplete>
                             </div>
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <div class="checkbox">

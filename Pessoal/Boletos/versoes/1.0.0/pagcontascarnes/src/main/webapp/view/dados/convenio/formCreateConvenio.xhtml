@@ -15,7 +15,8 @@
                     <x:securityArea rolesAllowed="franquia.campo">
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="franquia" value="#{msg['convenio.franquia']}:" />
-                            <h:selectOneMenu id="franquia" value="#{convenioMB.entity.franquia}"  styleClass="form-control" >
+                            <h:selectOneMenu id="franquia" value="#{convenioMB.entity.franquia}"  styleClass="form-control" 
+                                             converter="entityConverter">
                                 <x:initializer/>
                                 <f:selectItem itemLabel="#{xmsg['select']}" />
                                 <f:selectItems value="#{findAllBean.get(classMB.franquia)}" 
@@ -83,15 +84,11 @@
                         <p:autoComplete id="cidade" value="#{convenioMB.entity.cidade}" 
                                         placeholder="Cidades filtradas pelo Estado"
                                         completeMethod="#{convenioMB.autocompleteCidade}" styleClass="uix-autocomplete" 
-                                        minQueryLength="3" forceSelection="true" dropdown="true"
+                                        minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
                                         var="p" itemLabel="#{p.nome}" itemValue="#{p}" converter="entityConverter" readonly="#{fornecedorMB.somenteLeitura}"> 
                             <x:initializer/>
                             <p:column> 
-
-                                <h:outputText value="#{p.nome} - #{p.uf}">
-
-                                </h:outputText>
-
+                                <h:outputText value="#{p.nome}"/>
                             </p:column> 
                         </p:autoComplete>
 

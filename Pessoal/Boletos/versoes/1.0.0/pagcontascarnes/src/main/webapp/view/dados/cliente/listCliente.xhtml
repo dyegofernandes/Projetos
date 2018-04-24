@@ -83,13 +83,13 @@
                                             placeholder="Cidades filtradas pelo Estado"
                                             completeMethod="#{clienteMB.autocompleteCidadeFiltro}" styleClass="uix-autocomplete" 
 
-                                            minQueryLength="3" forceSelection="true" dropdown="true"
+                                            minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
 
                                             var="p" itemLabel="#{p.nome}" itemValue="#{p}" converter="entityConverter" > 
                                 <x:initializer/>
                                 <p:column> 
 
-                                    <h:outputText value="#{p.nome} - #{p.uf}">
+                                    <h:outputText value="#{p.nome}">
 
                                     </h:outputText>
 

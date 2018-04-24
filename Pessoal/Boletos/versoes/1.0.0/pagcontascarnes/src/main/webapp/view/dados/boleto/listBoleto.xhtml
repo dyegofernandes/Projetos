@@ -47,7 +47,7 @@
 
                                             completeMethod="#{boletoMB.autocompleteClienteFiltros}" styleClass="uix-autocomplete" 
 
-                                            minQueryLength="3" forceSelection="true" dropdown="true"
+                                            minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
 
                                             var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" > 
                                 <x:initializer/>
@@ -63,7 +63,7 @@
 
                                             completeMethod="#{boletoMB.autocompleteProdutoFiltros}" styleClass="uix-autocomplete" 
 
-                                            minQueryLength="3" forceSelection="true" dropdown="true"
+                                            minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
 
                                             var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" > 
                                 <x:initializer/>
@@ -124,15 +124,11 @@
                             <h:outputLabel for="cidade" value="#{msg['cliente.cidade']}:" />
                             <p:autoComplete id="cidade" value="#{boletoMB.filtros.cidade}" placeholder="Cidades filtradas pelo Estado"
                                             completeMethod="#{boletoMB.autocompleteCidadeFiltro}" styleClass="uix-autocomplete" 
-                                            minQueryLength="3" forceSelection="true" dropdown="true"
+                                            minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
                                             var="p" itemLabel="#{p.nome}" itemValue="#{p}" converter="entityConverter" > 
                                 <x:initializer/>
                                 <p:column> 
-
-                                    <h:outputText value="#{p.nome} - #{p.uf}">
-
-                                    </h:outputText>
-
+                                    <h:outputText value="#{p.nome}"/>
                                 </p:column> 
                             </p:autoComplete>
                         </div>

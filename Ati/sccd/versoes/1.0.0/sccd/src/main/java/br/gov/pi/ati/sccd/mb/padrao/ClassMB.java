@@ -24,6 +24,7 @@ import br.gov.pi.ati.sccd.modelo.email.ModeloEmail;
 import br.gov.pi.ati.sccd.modelo.controleacesso.SolicitacaoRecuperacaoSenha;
 import br.gov.pi.ati.sccd.modelo.email.TipoAssuntoEmail;
 import br.gov.pi.ati.sccd.modelo.controleacesso.TipoRecuperacaoSenha;
+import br.gov.pi.ati.sccd.modelo.enums.TipoPedido;
 import javax.faces.bean.ManagedBean;
 
 @ManagedBean
@@ -76,23 +77,27 @@ public class ClassMB {
     public Class getConfiguracaoEmail() {
         return ConfiguracaoEmail.class;
     }
-    
 
     public Class getTipoCertificado() {
         return TipoCertificado.class;
     }
+
     public Class getContratoFornecedor() {
         return ContratoFornecedor.class;
     }
+
     public Class getCliente() {
         return Cliente.class;
     }
+
     public Class getFornecedor() {
         return Fornecedor.class;
     }
+
     public Class getContratoCliente() {
         return ContratoCliente.class;
     }
+
     public Class getTipoPessoa() {
         return TipoPessoa.class;
     }
@@ -108,9 +113,11 @@ public class ClassMB {
     public Class getPedido() {
         return Pedido.class;
     }
+
     public Class getItemPedido() {
         return ItemPedido.class;
     }
+
     public Class getSituacaoPedido() {
         return SituacaoPedido.class;
     }
@@ -119,4 +126,7 @@ public class ClassMB {
         return Certificado.class;
     }
 
+    public Class getTipoPedido() {
+        return TipoPedido.class;
+    }
 }

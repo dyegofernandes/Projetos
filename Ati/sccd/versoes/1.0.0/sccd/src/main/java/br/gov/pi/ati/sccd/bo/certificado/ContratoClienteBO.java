@@ -34,9 +34,9 @@ public class ContratoClienteBO extends AbstractBusinessObject<ContratoCliente> {
     public List<UniqueField> getUniqueFields() {
         UniqueFields uniqueFields = new UniqueFields();
 
-        UniqueField unique = new UniqueField(Restriction.equals("ativo", true), "cliente", "contratoFornecedor").setMessage("Já existe um contrato ativo para esse Cliente!");
-
-        uniqueFields.add(unique);
+//        UniqueField unique = new UniqueField(Restriction.equals("ativo", true), "cliente", "contratoFornecedor").setMessage("Já existe um contrato ativo para esse Cliente!");
+//
+//        uniqueFields.add(unique);
 
         return uniqueFields;
     }

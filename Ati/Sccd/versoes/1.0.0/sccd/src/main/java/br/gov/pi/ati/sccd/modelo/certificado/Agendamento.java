@@ -5,16 +5,10 @@
  */
 package br.gov.pi.ati.sccd.modelo.certificado;
 
-import br.gov.pi.ati.sccd.modelo.cadastro.Arquivo;
 import br.gov.pi.ati.sccd.modelo.cadastro.Cliente;
-import br.gov.pi.ati.sccd.modelo.enums.SituacaoPedido;
-import br.gov.pi.ati.sccd.modelo.enums.TipoPedido;
-import com.xpert.audit.NotAudited;
+import br.gov.pi.ati.sccd.modelo.enums.SituacaoAgendamento;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -22,14 +16,13 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -37,7 +30,7 @@ import org.hibernate.validator.constraints.NotBlank;
  * @author Juniel
  */
 @Entity
-public class Pedido implements Serializable {
+public class Agendamento implements Serializable {
 
     @Id
     @SequenceGenerator(name = "Pedido", sequenceName = "pedido_id_seq")
@@ -50,29 +43,38 @@ public class Pedido implements Serializable {
 
     @Size(max = 250)
     @NotBlank
-    private String protocolo;
+    private String protocolo; //AG.117.2.XXXXXX/AA(ano)
 
-    @ManyToMany(targetEntity = ItemPedido.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    private List<ItemPedido> itens = new ArrayList<ItemPedido>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    private ItemPedido itemPedido;
+
+    @Size(max = 250)
+    @NotBlank
+    @Email
+    private String email;
 
     @Temporal(TemporalType.DATE)
     @NotNull
-    private Date dataSolicitacao;
+    private Date dataAgendamento;
 
-    @ManyToMany(targetEntity = Arquivo.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    private List<Arquivo> arquivos = new ArrayList<Arquivo>();
+    @Temporal(TemporalType.TIME)
+    @NotNull
+    private Date horaInicial;
+
+    @Temporal(TemporalType.TIME)
+    @NotNull
+    private Date horaFinal;
+
+    @Temporal(TemporalType.TIME)
+    private Date horaInicialAtendimento;
+
+    @Temporal(TemporalType.TIME)
+    private Date horaFinalAtendimento;
 
     @Column(length = 30)
     @Enumerated(EnumType.STRING)
-    private SituacaoPedido situacao = SituacaoPedido.NAO_ATENDIDO;
-
-    @NotAudited
-    @OneToMany(mappedBy = "pedido")
-    private List<Certificado> certificados;
-
-    @Column(length = 30)
-    @Enumerated(EnumType.STRING)
-    private TipoPedido tipo = TipoPedido.OFICIO;
+    private SituacaoAgendamento situacao;
 
     @Override
     public String toString() {
@@ -103,58 +105,74 @@ public class Pedido implements Serializable {
         this.protocolo = protocolo;
     }
 
-    public List<ItemPedido> getItens() {
-        return itens;
+    public ItemPedido getItemPedido() {
+        return itemPedido;
     }
 
-    public void setItens(List<ItemPedido> itens) {
-        this.itens = itens;
+    public void setItemPedido(ItemPedido itemPedido) {
+        this.itemPedido = itemPedido;
     }
 
-    public Date getDataSolicitacao() {
-        return dataSolicitacao;
+    public String getEmail() {
+        return email;
     }
 
-    public void setDataSolicitacao(Date dataSolicitacao) {
-        this.dataSolicitacao = dataSolicitacao;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public SituacaoPedido getSituacao() {
+    public Date getDataAgendamento() {
+        return dataAgendamento;
+    }
+
+    public void setDataAgendamento(Date dataAgendamento) {
+        this.dataAgendamento = dataAgendamento;
+    }
+
+    public Date getHoraInicial() {
+        return horaInicial;
+    }
+
+    public void setHoraInicial(Date horaInicial) {
+        this.horaInicial = horaInicial;
+    }
+
+    public Date getHoraFinal() {
+        return horaFinal;
+    }
+
+    public void setHoraFinal(Date horaFinal) {
+        this.horaFinal = horaFinal;
+    }
+
+    public Date getHoraInicialAtendimento() {
+        return horaInicialAtendimento;
+    }
+
+    public void setHoraInicialAtendimento(Date horaInicialAtendimento) {
+        this.horaInicialAtendimento = horaInicialAtendimento;
+    }
+
+    public Date getHoraFinalAtendimento() {
+        return horaFinalAtendimento;
+    }
+
+    public void setHoraFinalAtendimento(Date horaFinalAtendimento) {
+        this.horaFinalAtendimento = horaFinalAtendimento;
+    }
+
+    public SituacaoAgendamento getSituacao() {
         return situacao;
     }
 
-    public void setSituacao(SituacaoPedido situacao) {
+    public void setSituacao(SituacaoAgendamento situacao) {
         this.situacao = situacao;
-    }
-
-    public List<Certificado> getCertificados() {
-        return certificados;
-    }
-
-    public void setCertificados(List<Certificado> certificados) {
-        this.certificados = certificados;
-    }
-
-    public List<Arquivo> getArquivos() {
-        return arquivos;
-    }
-
-    public void setArquivos(List<Arquivo> arquivos) {
-        this.arquivos = arquivos;
-    }
-
-    public TipoPedido getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(TipoPedido tipo) {
-        this.tipo = tipo;
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 43 * hash + (this.id != null ? this.id.hashCode() : 0);
+        int hash = 7;
+        hash = 89 * hash + (this.id != null ? this.id.hashCode() : 0);
         return hash;
     }
 
@@ -166,11 +184,12 @@ public class Pedido implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Pedido other = (Pedido) obj;
+        final Agendamento other = (Agendamento) obj;
         if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
             return false;
         }
         return true;
     }
-
+    
+    
 }

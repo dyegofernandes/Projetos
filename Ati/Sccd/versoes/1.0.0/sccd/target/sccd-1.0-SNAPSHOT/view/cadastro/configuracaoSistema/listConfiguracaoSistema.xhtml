@@ -1,0 +1,80 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['configuracaoSistema.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuConfiguracaoSistema.xhtml" />
+        <h:form id="formListConfiguracaoSistema">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="configuracaoSistema_export" target=":formListConfiguracaoSistema:dataTableConfiguracaoSistema"
+                                     widgetVar="dataTableConfiguracaoSistemaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="configuracaoSistema" rowIndexVar="index" id="dataTableConfiguracaoSistema" widgetVar="dataTableConfiguracaoSistemaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{configuracaoSistemaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{configuracaoSistemaMB.dataModel.paginatorTemplate}"
+                         value="#{configuracaoSistemaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['configuracaoSistema.numeroAtendentes']}" sortBy="#{configuracaoSistema.numeroAtendentes}"
+                    filterBy="#{configuracaoSistema.numeroAtendentes}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['configuracaoSistema.numeroAtendentes']}" />
+                    </f:facet>
+                    <h:outputText value="#{configuracaoSistema.numeroAtendentes}"/>
+                </p:column>
+                <p:column headerText="#{msg['configuracaoSistema.tempoAtendimento']}" sortBy="#{configuracaoSistema.tempoAtendimento}"
+                    filterBy="#{configuracaoSistema.tempoAtendimento}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['configuracaoSistema.tempoAtendimento']}" />
+                    </f:facet>
+                    <h:outputText value="#{configuracaoSistema.tempoAtendimento}"/>
+                </p:column>
+                <p:column headerText="#{msg['configuracaoSistema.ativo']}" sortBy="#{configuracaoSistema.ativo}"
+                    filterBy="#{configuracaoSistema.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['configuracaoSistema.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{configuracaoSistema.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetConfiguracaoSistemaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailConfiguracaoSistema" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{configuracaoSistema}" target="#{configuracaoSistemaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="configuracaoSistema.create">
+                        <p:button icon="ui-icon-pencil" outcome="createConfiguracaoSistema" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{configuracaoSistema.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="configuracaoSistema.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{configuracaoSistemaMB.delete}" >
+                            <f:setPropertyActionListener value="#{configuracaoSistema.id}" target="#{configuracaoSistemaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{configuracaoSistema}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="configuracaoSistema.audit">
+                    <x:auditDelete for="#{configuracaoSistemaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetConfiguracaoSistemaDetail" header="#{msg['configuracaoSistema.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailConfiguracaoSistema.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

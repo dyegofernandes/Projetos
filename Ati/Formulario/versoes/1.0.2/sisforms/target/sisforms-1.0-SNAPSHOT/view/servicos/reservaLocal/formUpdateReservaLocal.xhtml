@@ -8,7 +8,7 @@
 
             <h:form id="formUpdateReservaLocal" >
                 <x:modalMessages/>
-                <p:tabView>
+                <p:tabView id="tabGeral">
                     <p:tab title="Solicitação" >
                         <div class="content-fluid" >
                             <div class="row">
@@ -36,12 +36,24 @@
                                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                     
                                     <p:outputLabel for="local" value="Local:" />
+                                        
+                                            <p:autoComplete id="local" value="#{reservaLocalMB.reserva.local}" 
 
-                                    <p:selectOneMenu id="local" value="#{reservaLocalMB.reserva.local}" converter="entityConverter" styleClass="form-control" >
-                                        <x:initializer />
-                                        <f:selectItem itemLabel="#{xmsg['select']}" />
-                                        <f:selectItems value="#{reservaLocalMB.locais}" var="localReserva" itemLabel="#{localReserva}"/>                             
-                                    </p:selectOneMenu>
+                                                completeMethod="#{reservaLocalMB.localAutocompletePeloNome}" styleClass="uix-autocomplete" 
+
+                                                minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
+
+                                                var="l" itemLabel="#{l}" itemValue="#{l}" converter="entityConverter"  > 
+                                                <x:initializer/>
+                                                
+                                                <p:column> 
+                                                     
+                                                    <h:outputText value=" #{l.nome}" style="font-weight: bold" /> 
+            
+                                                </p:column> 
+                                                
+                                            </p:autoComplete>
+                                         
                                 </div>
 
                                 
@@ -56,32 +68,29 @@
                                 </div>
                                 
                                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <p:outputLabel for="orgaoSolicitante" value="Orgão Solicitante:" />
                                     
-                                    <p:outputLabel for="panelOrgaoSolicitante" value="Orgão do solicitante:" />
-                                    <h:panelGroup layout="block" id="panelOrgaoSolicitante" styleClass="form-control">
-                                        <h:panelGroup id="conteudoPanelOrgaoSolicitante" >
-                                            <h:outputText value="#{reservaLocalMB.reserva.orgao_solicitante.nome}" >
-                                                <x:initializer/>
-                                            </h:outputText>
-                                            <p:commandButton type="button" icon="ui-icon-carat-1-s" 
-                                                             id="buttonOrgaoSolicitante" styleClass="pull-right"
-                                                             style="font-size: 10px;"/>
-                                        </h:panelGroup>
-                                    </h:panelGroup>
+                                        <p:autoComplete id="orgaoSolicitante" value="#{reservaLocalMB.reserva.orgaoSolicitante}" 
 
-                                    <p:overlayPanel for="panelOrgaoSolicitante" styleClass="w-50p" widgetVar="overlayOrgaoSolicitante" >
-                                        <p:tree value="#{orgaoMB.orgaos}" var="orgao" styleClass="w-50p"
-                                                selectionMode="single"  style="max-height: 400px; overflow-y: scroll" >
-                                            <p:ajax event="select" update="@form"
-                                                    listener="#{reservaLocalMB.reserva.setOrgao_solicitante(orgao)}" oncomplete="PF('overlayOrgaoSolicitante').hide()" />
-                                            <p:treeNode collapsedIcon="ui-icon-folder-collapsed" >
-                                                <h:panelGroup styleClass="#{orgao == orgaoMB.entity.orgaoPai ? 'ui-state-highlight' : ''}">
-                                                    <h:outputText value="#{orgao.sigla}" style="font-weight: bold"/>  
-                                                    <h:outputText value=" (#{orgao.nome})" styleClass="font-8"  /> 
-                                                </h:panelGroup>
-                                            </p:treeNode>
-                                        </p:tree>
-                                    </p:overlayPanel>
+                                                completeMethod="#{reservaLocalMB.orgaoAutocompletePeloNome}" styleClass="uix-autocomplete" 
+
+                                                minQueryLength="3" forceSelection="false" dropdown="true" scrollHeight="400"
+
+                                                var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"  > 
+                                                <x:initializer/>
+                                                
+                                                <p:column> 
+                                                    
+                                                    <h:outputText value="#{p.sigla}" style="font-weight: bold"/>  
+                                                    <h:outputText value=" (#{p.nome})" styleClass="font-8"  /> 
+            
+                                                </p:column> 
+                                                
+                                        </p:autoComplete>
+                                        
+
+                                        
+                                    
                                 </div>
                                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" >
                                     <p:outputLabel for="contato" value="Contato do Responsável:" />

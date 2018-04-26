@@ -8,7 +8,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.sisforms.bo.servicos.LocalReservaBO;
 import br.gov.pi.ati.sisforms.modelo.cadastro.Orgao;
+import br.gov.pi.ati.sisforms.modelo.controleacesso.Usuario;
+import br.gov.pi.ati.sisforms.modelo.enums.TipoLocal;
 import br.gov.pi.ati.sisforms.modelo.servicos.LocalReserva;
+import br.gov.pi.ati.sisforms.modelo.vos.FiltrosVO;
 import br.gov.pi.ati.sisforms.util.SessaoUtils;
 import java.util.List;
 
@@ -34,13 +37,19 @@ public class LocalReservaMB extends AbstractBaseBean<LocalReserva> implements Se
     public String getDataModelOrder() {
         return "id";
     }
+    private List<TipoLocal> tipos;
     
     private List<LocalReserva> locais;
-    
-    
+    Usuario usuarioAtual;
+    private FiltrosVO filtros;
     @Override
     public void init() {
-        Orgao orgao = getDAO().getInitialized(SessaoUtils.getUser().getOrgao());
+        
+        usuarioAtual = SessaoUtils.getUser();
+        filtros  = new FiltrosVO();
+        filtros.setUsuario(usuarioAtual);
+        
+        Orgao orgao = getDAO().getInitialized(usuarioAtual.getOrgao());
         
         if(getEntity().getId()==null){
             getEntity().setOrgao(orgao);
@@ -55,8 +64,48 @@ public class LocalReservaMB extends AbstractBaseBean<LocalReserva> implements Se
     public void setLocais(List<LocalReserva> Locais) {
         this.locais = Locais;
     }
+
+    public Usuario getUsuarioAtual() {
+        return usuarioAtual;
+    }
+
+    public void setUsuarioAtual(Usuario usuarioAtual) {
+        this.usuarioAtual = usuarioAtual;
+    }
+
+    public FiltrosVO getFiltros() {
+        return filtros;
+    }
+
+    public void setFiltros(FiltrosVO filtros) {
+        this.filtros = filtros;
+    }
+
+    public LocalReservaBO getLocalReservaBO() {
+        return localReservaBO;
+    }
+
+    public void setLocalReservaBO(LocalReservaBO localReservaBO) {
+        this.localReservaBO = localReservaBO;
+    }
+    
+   public void buscar() {
+        
+        locais = localReservaBO.listarLocais(filtros);
+    }
+
+    public List<TipoLocal> getTipos() {
+        return tipos;
+    }
+
+    public void setTipos(List<TipoLocal> tipos) {
+        this.tipos = tipos;
+    }
+   
+   
+   public List<Orgao> orgaoAutocompletePeloNome(String nome) {
+        return getBO().orgaoPeloNome(nome);
+    }
     
    
-
-    
 }

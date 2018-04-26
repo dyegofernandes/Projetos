@@ -1,5 +1,10 @@
 package br.gov.pi.ati.sccd.mb.padrao;
 
+import br.gov.pi.ati.sccd.modelo.cadastro.Contato;
+import br.gov.pi.ati.sccd.modelo.enums.SituacaoAgendamento;
+import br.gov.pi.ati.sccd.modelo.certificado.ArquivoAgendamento;
+import br.gov.pi.ati.sccd.modelo.certificado.Agendamento;
+import br.gov.pi.ati.sccd.modelo.cadastro.ConfiguracaoSistema;
 import br.gov.pi.ati.sccd.modelo.certificado.Certificado;
 import br.gov.pi.ati.sccd.modelo.certificado.Pedido;
 import br.gov.pi.ati.sccd.modelo.certificado.ItemPedido;
@@ -129,4 +134,21 @@ public class ClassMB {
     public Class getTipoPedido() {
         return TipoPedido.class;
     }
+    public Class getConfiguracaoSistema() {
+        return ConfiguracaoSistema.class;
+    }
+
+    public Class getContato() {
+        return Contato.class;
+    }
+    public Class getSituacaoAgendamento() {
+        return SituacaoAgendamento.class;
+    }
+    public Class getArquivoAgendamento() {
+        return ArquivoAgendamento.class;
+    }
+    public Class getAgendamento() {
+        return Agendamento.class;
+    }
+
 }

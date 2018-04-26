@@ -5,10 +5,15 @@
  */
 package br.gov.pi.ati.sccd.modelo.certificado;
 
+import br.gov.pi.ati.sccd.modelo.cadastro.Arquivo;
 import br.gov.pi.ati.sccd.modelo.cadastro.Cliente;
+import br.gov.pi.ati.sccd.modelo.cadastro.Contato;
 import br.gov.pi.ati.sccd.modelo.enums.SituacaoAgendamento;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,6 +21,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
@@ -33,8 +39,8 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Agendamento implements Serializable {
 
     @Id
-    @SequenceGenerator(name = "Pedido", sequenceName = "pedido_id_seq")
-    @GeneratedValue(generator = "Pedido")
+    @SequenceGenerator(name = "Agendamento", sequenceName = "agendamento_id_seq")
+    @GeneratedValue(generator = "Agendamento")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -54,27 +60,29 @@ public class Agendamento implements Serializable {
     @Email
     private String email;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @NotNull
-    private Date dataAgendamento;
+    private Date dataInicial;
 
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     @NotNull
-    private Date horaInicial;
+    private Date dataFinal;
 
-    @Temporal(TemporalType.TIME)
-    @NotNull
-    private Date horaFinal;
-
-    @Temporal(TemporalType.TIME)
-    private Date horaInicialAtendimento;
-
-    @Temporal(TemporalType.TIME)
-    private Date horaFinalAtendimento;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataAtendimento;
 
     @Column(length = 30)
     @Enumerated(EnumType.STRING)
     private SituacaoAgendamento situacao;
+
+    @ManyToMany(targetEntity = ArquivoAgendamento.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    private List<ArquivoAgendamento> arquivos = new ArrayList<ArquivoAgendamento>();
+
+    @ManyToMany(targetEntity = Contato.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    private List<Contato> contatos = new ArrayList<Contato>();
+    
+    @Column(columnDefinition = "Text")
+    private String observacao;
 
     @Override
     public String toString() {
@@ -121,44 +129,28 @@ public class Agendamento implements Serializable {
         this.email = email;
     }
 
-    public Date getDataAgendamento() {
-        return dataAgendamento;
+    public Date getDataInicial() {
+        return dataInicial;
     }
 
-    public void setDataAgendamento(Date dataAgendamento) {
-        this.dataAgendamento = dataAgendamento;
+    public void setDataInicial(Date dataInicial) {
+        this.dataInicial = dataInicial;
     }
 
-    public Date getHoraInicial() {
-        return horaInicial;
+    public Date getDataFinal() {
+        return dataFinal;
     }
 
-    public void setHoraInicial(Date horaInicial) {
-        this.horaInicial = horaInicial;
+    public void setDataFinal(Date dataFinal) {
+        this.dataFinal = dataFinal;
     }
 
-    public Date getHoraFinal() {
-        return horaFinal;
+    public Date getDataAtendimento() {
+        return dataAtendimento;
     }
 
-    public void setHoraFinal(Date horaFinal) {
-        this.horaFinal = horaFinal;
-    }
-
-    public Date getHoraInicialAtendimento() {
-        return horaInicialAtendimento;
-    }
-
-    public void setHoraInicialAtendimento(Date horaInicialAtendimento) {
-        this.horaInicialAtendimento = horaInicialAtendimento;
-    }
-
-    public Date getHoraFinalAtendimento() {
-        return horaFinalAtendimento;
-    }
-
-    public void setHoraFinalAtendimento(Date horaFinalAtendimento) {
-        this.horaFinalAtendimento = horaFinalAtendimento;
+    public void setDataAtendimento(Date dataAtendimento) {
+        this.dataAtendimento = dataAtendimento;
     }
 
     public SituacaoAgendamento getSituacao() {
@@ -167,6 +159,30 @@ public class Agendamento implements Serializable {
 
     public void setSituacao(SituacaoAgendamento situacao) {
         this.situacao = situacao;
+    }
+
+    public List<ArquivoAgendamento> getArquivos() {
+        return arquivos;
+    }
+
+    public void setArquivos(List<ArquivoAgendamento> arquivos) {
+        this.arquivos = arquivos;
+    }
+
+    public List<Contato> getContatos() {
+        return contatos;
+    }
+
+    public void setContatos(List<Contato> contatos) {
+        this.contatos = contatos;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
     }
 
     @Override
@@ -190,6 +206,5 @@ public class Agendamento implements Serializable {
         }
         return true;
     }
-    
-    
+
 }

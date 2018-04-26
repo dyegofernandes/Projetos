@@ -1,0 +1,128 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['agendamento.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuAgendamento.xhtml" />
+        <h:form id="formListAgendamento">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="agendamento_export" target=":formListAgendamento:dataTableAgendamento"
+                                     widgetVar="dataTableAgendamentoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="agendamento" rowIndexVar="index" id="dataTableAgendamento" widgetVar="dataTableAgendamentoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{agendamentoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{agendamentoMB.dataModel.paginatorTemplate}"
+                         value="#{agendamentoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['agendamento.cliente']}" sortBy="#{agendamento.cliente}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agendamento.cliente']}" />
+                    </f:facet>
+                    <h:outputText value="#{agendamento.cliente}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['agendamento.protocolo']}" sortBy="#{agendamento.protocolo}"
+                    filterBy="#{agendamento.protocolo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agendamento.protocolo']}" />
+                    </f:facet>
+                    <h:outputText value="#{agendamento.protocolo}"/>
+                </p:column>
+                <p:column headerText="#{msg['agendamento.itemPedido']}" sortBy="#{agendamento.itemPedido}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agendamento.itemPedido']}" />
+                    </f:facet>
+                    <h:outputText value="#{agendamento.itemPedido}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['agendamento.email']}" sortBy="#{agendamento.email}"
+                    filterBy="#{agendamento.email}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agendamento.email']}" />
+                    </f:facet>
+                    <h:outputText value="#{agendamento.email}"/>
+                </p:column>
+                <p:column headerText="#{msg['agendamento.dataInicial']}" sortBy="#{agendamento.dataInicial}"
+                    filterBy="#{agendamento.dataInicial}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agendamento.dataInicial']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{agendamento.dataInicial}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['agendamento.dataFinal']}" sortBy="#{agendamento.dataFinal}"
+                    filterBy="#{agendamento.dataFinal}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agendamento.dataFinal']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{agendamento.dataFinal}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['agendamento.dataAtendimento']}" sortBy="#{agendamento.dataAtendimento}"
+                    filterBy="#{agendamento.dataAtendimento}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agendamento.dataAtendimento']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{agendamento.dataAtendimento}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['agendamento.situacao']}" sortBy="#{agendamento.situacao}"
+                    filterBy="#{agendamento.situacao}"  filterOptions="#{findAllBean.getSelect(classMB.situacaoAgendamento)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['agendamento.situacao']}" />
+                    </f:facet>
+                    <h:outputText value="#{agendamento.situacao}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetAgendamentoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailAgendamento" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{agendamento}" target="#{agendamentoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="agendamento.create">
+                        <p:button icon="ui-icon-pencil" outcome="createAgendamento" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{agendamento.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="agendamento.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{agendamentoMB.delete}" >
+                            <f:setPropertyActionListener value="#{agendamento.id}" target="#{agendamentoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{agendamento}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="agendamento.audit">
+                    <x:auditDelete for="#{agendamentoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetAgendamentoDetail" header="#{msg['agendamento.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailAgendamento.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

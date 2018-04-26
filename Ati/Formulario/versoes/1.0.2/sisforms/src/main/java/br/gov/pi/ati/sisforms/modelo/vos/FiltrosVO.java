@@ -9,6 +9,9 @@ import br.gov.pi.ati.sisforms.modelo.cadastro.Orgao;
 import br.gov.pi.ati.sisforms.modelo.controleacesso.Usuario;
 import br.gov.pi.ati.sisforms.modelo.enums.Situacao;
 import br.gov.pi.ati.sisforms.modelo.enums.StatusDominio;
+import br.gov.pi.ati.sisforms.modelo.enums.TipoLocal;
+import br.gov.pi.ati.sisforms.modelo.servicos.LocalReserva;
+import br.gov.pi.ati.sisforms.modelo.servicos.ReservaLocal;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -69,6 +72,18 @@ public class FiltrosVO implements Serializable{
     private Integer ano;
     
     private Integer numero;
+    
+    private ReservaLocal reserva;
+    
+    private LocalReserva local;
+    
+    private String solicitante;
+    
+    public String Titulo;
+    
+    public Orgao orgaoSolicitante;
+    
+    private TipoLocal tipo;
 
     public Usuario getUsuario() {
         return usuario;
@@ -277,6 +292,55 @@ public class FiltrosVO implements Serializable{
     public void setAssunto(String assunto) {
         this.assunto = assunto;
     }
+
+    public ReservaLocal getReserva() {
+        return reserva;
+    }
+
+    public void setReserva(ReservaLocal reserva) {
+        this.reserva = reserva;
+    }
+
+    public LocalReserva getLocal() {
+        return local;
+    }
+
+    public void setLocal(LocalReserva local) {
+        this.local = local;
+    }
+
+    public String getTitulo() {
+        return Titulo;
+    }
+
+    public void setTitulo(String Titulo) {
+        this.Titulo = Titulo;
+    }
+
+    public String getSolicitante() {
+        return solicitante;
+    }
+
+    public void setSolicitante(String solicitante) {
+        this.solicitante = solicitante;
+    }
+
+    public Orgao getOrgaoSolicitante() {
+        return orgaoSolicitante;
+    }
+
+    public void setOrgaoSolicitante(Orgao orgaoSolicitante) {
+        this.orgaoSolicitante = orgaoSolicitante;
+    }
+
+    public TipoLocal getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoLocal tipo) {
+        this.tipo = tipo;
+    }
     
+     
     
 }

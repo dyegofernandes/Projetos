@@ -9,6 +9,57 @@
     <ui:define name="body">
         <ui:include src="menuLocalReserva.xhtml" />
         <h:form id="formListLocalReserva">
+            <p:fieldset legend="Filtros de Busca" toggleable="true">
+
+                <div class="row">
+                    <h:panelGroup id="panel0">
+
+                        <x:securityArea rolesAllowed="orgao.campo">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="orgao" value="Orgão" />
+                                <p:autoComplete id="orgao" value="#{localReservaMB.filtros.orgao}" 
+
+                                                completeMethod="#{localReservaMB.orgaoAutocompletePeloNome}" styleClass="uix-autocomplete" 
+
+                                                minQueryLength="3" forceSelection="false" dropdown="true" scrollHeight="400"
+
+                                                var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"  > 
+                                    <x:initializer/>
+
+                                    <p:column> 
+
+                                        <h:outputText value="#{p.sigla}" style="font-weight: bold"/>  
+                                        <h:outputText value=" (#{p.nome})" styleClass="font-8"  /> 
+
+                                    </p:column> 
+
+                                </p:autoComplete>
+                            </div>
+                        </x:securityArea>
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="nome" value="Nome" />
+                            <p:inputText id="nome" value="#{localReservaMB.filtros.nome}" maxlength="260"  styleClass="form-control"  />
+
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="tipo" value="Tipo" />
+                            <p:selectOneMenu id="tipo" value="#{localReservaMB.filtros.tipo}" converter="entityConverter" 
+                                             styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.tipoLocal)}" 
+                                               var="tipo" itemLabel="#{tipo.descricao}" />
+                            </p:selectOneMenu>
+                        </div>
+
+
+                    </h:panelGroup>
+                </div>
+                <div class="uix-center">
+                    <p:commandButton process="@this panel0" update="dataTableLocalReserva" action="#{localReservaMB.buscar()}" value="Buscar" />
+                </div>
+            </p:fieldset>
             <x:modalMessages/>
 
             <x:dataTableActions fileName="localReserva_export" target=":formListLocalReserva:dataTableLocalReserva"
@@ -20,6 +71,7 @@
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
+
                 <p:column headerText="#{msg['localReserva.orgao']}" rendered="#{x:hasRole('orgao.coluna')}" 
                           sortBy="#{localReserva.orgao.nome}">
                     <f:facet name="header">
@@ -29,29 +81,30 @@
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{msg['localReserva.nome']}" sortBy="#{localReserva.nome}"
-                          filterBy="#{localReserva.nome}"   >
+
+                <p:column headerText="#{msg['localReserva.nome']}" sortBy="#{localReserva.nome}" 
+                          >
                     <f:facet name="header">
                         <h:outputText value="#{msg['localReserva.nome']}" />
                     </f:facet>
                     <h:outputText value="#{localReserva.nome}"/>
                 </p:column>
-                <p:column headerText="#{msg['localReserva.tipo']}" sortBy="#{localReserva.tipo}"
-                          filterBy="#{localReserva.tipo}"  filterOptions="#{findAllBean.getSelect(classMB.tipoLocal)}" >
+                <p:column headerText="#{msg['localReserva.tipo']}" sortBy="#{localReserva.tipo}" 
+                          >
                     <f:facet name="header">
                         <h:outputText value="#{msg['localReserva.tipo']}" />
                     </f:facet>
-                    <h:outputText value="#{localReserva.tipo}"/>
+                    <h:outputText value="#{localReserva.tipo.descricao}"/>
                 </p:column>
                 <p:column headerText="#{msg['localReserva.quantidadeLugares']}" sortBy="#{localReserva.quantidadeLugares}"
-                          filterBy="#{localReserva.quantidadeLugares}"   >
+                          >
                     <f:facet name="header">
                         <h:outputText value="#{msg['localReserva.quantidadeLugares']}" />
                     </f:facet>
                     <h:outputText value="#{localReserva.quantidadeLugares}"/>
                 </p:column>
                 <p:column headerText="#{msg['localReserva.ativo']}" sortBy="#{localReserva.ativo}"
-                          filterBy="#{localReserva.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                          style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['localReserva.ativo']}" />
                     </f:facet>

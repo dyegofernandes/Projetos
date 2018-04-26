@@ -50,7 +50,7 @@
                     <div class="row">
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel value="#{msg['Orgão do Solicitante']}:" styleClass="control-label" /><br/>
-                            <h:outputText value="#{reservaLocalMB.reserva.orgao_solicitante}" styleClass="uix-content-detail">
+                            <h:outputText value="#{reservaLocalMB.reserva.orgaoSolicitante}" styleClass="uix-content-detail">
                                 <x:initializer/>
                             </h:outputText>
                         </div>
@@ -61,8 +61,9 @@
                         </div>
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel value="#{msg['Motivo']}:" styleClass="control-label" /><br/>   
-                            <p:inputTextarea readonly="true" value="#{reservaLocalMB.reserva.observacao}" styleClass="form-control" />
+                            <p:inputTextarea readonly="true" value="#{reservaLocalMB.reserva.observacao}" styleClass="form-control"  />
                         </div>
+
                     </div>
                 </div>
             </p:tab>    

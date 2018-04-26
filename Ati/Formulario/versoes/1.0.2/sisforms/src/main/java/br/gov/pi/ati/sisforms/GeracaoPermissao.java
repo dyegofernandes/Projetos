@@ -188,11 +188,11 @@ public class GeracaoPermissao {
         create(new Permissao("orgao.coluna", "Coluna de Orgao"), "orgao");
 
         //Orgao Certificado
-        create(new Permissao("orgaoCertificado", "Orgao Certificado", false), "cadastro");
-        create(new Permissao("orgaoCertificado.create", "Cadastro de Orgao Certificado", "/view/cadastro/orgaoCertificado/createOrgaoCertificado.jsf", false), "orgaoCertificado");
-        create(new Permissao("orgaoCertificado.list", "Órgãos Certificados", "/view/cadastro/orgaoCertificado/listOrgaoCertificado.jsf", true), "cadastro");
-        create(new Permissao("orgaoCertificado.audit", "Auditoria de Orgao Certificado"), "orgaoCertificado");
-        create(new Permissao("orgaoCertificado.delete", "Exclusão de Orgao Certificado"), "orgaoCertificado");
+//        create(new Permissao("orgaoCertificado", "Orgao Certificado", false), "cadastro");
+//        create(new Permissao("orgaoCertificado.create", "Cadastro de Orgao Certificado", "/view/cadastro/orgaoCertificado/createOrgaoCertificado.jsf", false), "orgaoCertificado");
+//        create(new Permissao("orgaoCertificado.list", "Órgãos Certificados", "/view/cadastro/orgaoCertificado/listOrgaoCertificado.jsf", true), "cadastro");
+//        create(new Permissao("orgaoCertificado.audit", "Auditoria de Orgao Certificado"), "orgaoCertificado");
+//        create(new Permissao("orgaoCertificado.delete", "Exclusão de Orgao Certificado"), "orgaoCertificado");
 
         //Ponto Acesso
         create(new Permissao("pontoAcesso", "Ponto Acesso", false), "cadastro");
@@ -202,11 +202,11 @@ public class GeracaoPermissao {
         create(new Permissao("pontoAcesso.delete", "Exclusão de Ponto Acesso"), "pontoAcesso");
 
         //Tipo Certificado
-        create(new Permissao("tipoCertificado", "Tipo Certificado", false), "cadastro");
-        create(new Permissao("tipoCertificado.create", "Cadastro de Tipo Certificado", "/view/cadastro/tipoCertificado/createTipoCertificado.jsf", false), "tipoCertificado");
-        create(new Permissao("tipoCertificado.list", "Tipos Certificados", "/view/cadastro/tipoCertificado/listTipoCertificado.jsf", true), "cadastro");
-        create(new Permissao("tipoCertificado.audit", "Auditoria de Tipo Certificado"), "tipoCertificado");
-        create(new Permissao("tipoCertificado.delete", "Exclusão de Tipo Certificado"), "tipoCertificado");
+//        create(new Permissao("tipoCertificado", "Tipo Certificado", false), "cadastro");
+//        create(new Permissao("tipoCertificado.create", "Cadastro de Tipo Certificado", "/view/cadastro/tipoCertificado/createTipoCertificado.jsf", false), "tipoCertificado");
+//        create(new Permissao("tipoCertificado.list", "Tipos Certificados", "/view/cadastro/tipoCertificado/listTipoCertificado.jsf", true), "cadastro");
+//        create(new Permissao("tipoCertificado.audit", "Auditoria de Tipo Certificado"), "tipoCertificado");
+//        create(new Permissao("tipoCertificado.delete", "Exclusão de Tipo Certificado"), "tipoCertificado");
 
         //Arquivo Publico
         create(new Permissao("arquivoPublico", "Arquivo Publico", false), "cadastro");
@@ -251,11 +251,11 @@ public class GeracaoPermissao {
         create(new Permissao("fichaDeVisitaDomiciliar.delete", "Exclusão de Ficha De Visita Domiciliar"), "fichaDeVisitaDomiciliar");
 
         //Controle De Certificado
-        create(new Permissao("controleDeCertificado", "Controle De Certificado", false), "formularios.formularios");
-        create(new Permissao("controleDeCertificado.create", "Cadastro de Controle De Certificado", "/view/formulario/controleDeCertificado/createControleDeCertificado.jsf", false), "controleDeCertificado");
-        create(new Permissao("controleDeCertificado.list", "Certificados Emitidos", "/view/formulario/controleDeCertificado/listControleDeCertificado.jsf", true), "formularios.formularios");
-        create(new Permissao("controleDeCertificado.audit", "Auditoria de Controle De Certificado"), "controleDeCertificado");
-        create(new Permissao("controleDeCertificado.delete", "Exclusão de Controle De Certificado"), "controleDeCertificado");
+//        create(new Permissao("controleDeCertificado", "Controle De Certificado", false), "formularios.formularios");
+//        create(new Permissao("controleDeCertificado.create", "Cadastro de Controle De Certificado", "/view/formulario/controleDeCertificado/createControleDeCertificado.jsf", false), "controleDeCertificado");
+//        create(new Permissao("controleDeCertificado.list", "Certificados Emitidos", "/view/formulario/controleDeCertificado/listControleDeCertificado.jsf", true), "formularios.formularios");
+//        create(new Permissao("controleDeCertificado.audit", "Auditoria de Controle De Certificado"), "controleDeCertificado");
+//        create(new Permissao("controleDeCertificado.delete", "Exclusão de Controle De Certificado"), "controleDeCertificado");
 
         //Interrupcao Ponto Acesso
         create(new Permissao("interrupcaoPontoAcesso", "Interrupcao Ponto Acesso", false), "monitoramento.noc");
@@ -270,7 +270,9 @@ public class GeracaoPermissao {
         create(new Permissao("localReserva.list", "Locais Reserva", "/view/servicos/localReserva/listLocalReserva.jsf", true), "cadastro");
         create(new Permissao("localReserva.audit", "Auditoria de Local Reserva"), "localReserva");
         create(new Permissao("localReserva.delete", "Exclusão de Local Reserva"), "localReserva");
-
+        create(new Permissao("localReserva.orgao", "Filtro de Orgao"), "localReserva");
+        
+        
     //Reserva Local
         create(new Permissao("reservaLocal", "Reservas", true), "formularios");
 
@@ -280,7 +282,8 @@ public class GeracaoPermissao {
         create(new Permissao("reservaLocal.audit", "Auditoria de Reserva Local"), "reservaLocal");
         create(new Permissao("reservaLocal.delete", "Exclusão de Reserva Local"), "reservaLocal");
         create(new Permissao("reservaLocal.reservar", "Agenda", "/view/servicos/reservaLocal/createReservaLocal.jsf", true), "reservaLocal");
-  
+        create(new Permissao("reservaLocal.orgao", "Campos de filtro"), "reservaLocal");
+        
         //Termo
         create(new Permissao("termo", "Termo", false), "cadastro");
         create(new Permissao("termo.create", "Cadastro de Termo", "/view/cadastro/termo/createTermo.jsf", false), "termo");

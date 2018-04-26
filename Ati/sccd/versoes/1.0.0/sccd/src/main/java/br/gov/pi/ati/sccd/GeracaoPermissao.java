@@ -130,6 +130,13 @@ public class GeracaoPermissao {
         create(new Permissao("autoridadeCertificadora.audit", "Auditoria de Autoridade Certificadora"), "autoridadeCertificadora");
         create(new Permissao("autoridadeCertificadora.delete", "Exclusão de Autoridade Certificadora"), "autoridadeCertificadora");
 
+        //Configuracao Sistema
+        create(new Permissao("configuracaoSistema", "Configuração Sistema", false), "cadastro");
+        create(new Permissao("configuracaoSistema.create", "Cadastro de Configuração Sistema", "/view/cadastro/configuracaoSistema/createConfiguracaoSistema.jsf", false), "configuracaoSistema");
+        create(new Permissao("configuracaoSistema.list", "Configurações do Sistema", "/view/cadastro/configuracaoSistema/listConfiguracaoSistema.jsf", true), "cadastro");
+        create(new Permissao("configuracaoSistema.audit", "Auditoria de Configuração Sistema"), "configuracaoSistema");
+        create(new Permissao("configuracaoSistema.delete", "Exclusão de Configuração Sistema"), "configuracaoSistema");
+
         //Menu certificados
         create(new Permissao("certificado", "Certificado", true), null);
 
@@ -146,6 +153,14 @@ public class GeracaoPermissao {
         create(new Permissao("certificadoEmitidos.list", "Emitidos", "/view/certificado/certificado/listCertificado.jsf", true), "certificado");
         create(new Permissao("certificadoEmitidos.audit", "Auditoria de Certificado"), "certificadoEmitidos");
         create(new Permissao("certificadoEmitidos.delete", "Exclusão de Certificado"), "certificadoEmitidos");
+
+        //Agendamento
+        create(new Permissao("agendamento", "Agendamento", false), "certificado");
+        create(new Permissao("agendamento.create", "Cadastro de Agendamento", "/view/certificado/agendamento/createAgendamento.jsf", false), "agendamento");
+        create(new Permissao("agendamento.list", "Agendamentos", "/view/certificado/agendamento/listAgendamento.jsf", true), "certificado");
+        create(new Permissao("agendamento.audit", "Auditoria de Agendamento"), "agendamento");
+        create(new Permissao("agendamento.delete", "Exclusão de Agendamento"), "agendamento");
+
         /*
          * Configuracao
          */

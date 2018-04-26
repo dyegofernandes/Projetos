@@ -69,8 +69,8 @@ public class ReservaLocal implements Serializable {
     private Orgao orgao;
     
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Orgao orgao_solicitante;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Orgao orgaoSolicitante;
 
     @Size(max = 200)
     @NotBlank
@@ -163,12 +163,12 @@ public class ReservaLocal implements Serializable {
         this.contato = contato;
     }
 
-    public Orgao getOrgao_solicitante() {
-        return orgao_solicitante;
+    public Orgao getOrgaoSolicitante() {
+        return orgaoSolicitante;
     }
 
-    public void setOrgao_solicitante(Orgao orgao_solicitante) {
-        this.orgao_solicitante = orgao_solicitante;
+    public void setOrgaoSolicitante(Orgao orgaoSolicitante) {
+        this.orgaoSolicitante = orgaoSolicitante;
     }
     
     

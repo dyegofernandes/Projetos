@@ -3,6 +3,7 @@ package br.gov.pi.ati.sisforms.bo.servicos;
 import com.xpert.core.crud.AbstractBusinessObject;
 import br.gov.pi.ati.sisforms.dao.servicos.ReservaLocalDAO;
 import br.gov.pi.ati.sisforms.modelo.cadastro.Orgao;
+import br.gov.pi.ati.sisforms.modelo.controleacesso.Usuario;
 import br.gov.pi.ati.sisforms.modelo.servicos.LocalReserva;
 import com.xpert.core.validation.UniqueField;
 import com.xpert.core.exception.BusinessException;
@@ -10,7 +11,10 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.sisforms.modelo.servicos.ReservaLocal;
+import br.gov.pi.ati.sisforms.modelo.vos.FiltrosVO;
+import br.gov.pi.ati.sisforms.util.Utils;
 import com.xpert.core.validation.UniqueFields;
+import com.xpert.persistence.query.QueryBuilder;
 import com.xpert.persistence.query.Restrictions;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -121,7 +125,7 @@ public class ReservaLocalBO extends AbstractBusinessObject<ReservaLocal> {
         List<ReservaLocal> reservas = getDAO().getQueryBuilder().select("r").from(ReservaLocal.class, "r").leftJoinFetch("r.localReserva", "l")
                 .add(restrictions).getResultList();
 
-        if (reservas.size() > 0) {
+        if(reservas.size() > 0) {
             return true;
         }
 
@@ -190,8 +194,109 @@ public class ReservaLocalBO extends AbstractBusinessObject<ReservaLocal> {
             restrictions.add("orgao", orgao);
             }
         
-            return getDAO().getQueryBuilder().from(ReservaLocal.class, "reservaLocal").leftJoinFetch("reservaLocal.orgao", "orgao").
+        return getDAO().getQueryBuilder().from(ReservaLocal.class, "reservaLocal").leftJoinFetch("reservaLocal.orgao", "orgao").
                     add(restrictions).orderBy("orgao.nome").getResultList();
 
-        }
     }
+    
+     public List<ReservaLocal> reservasPorLocais(LocalReserva local) {
+
+        Restrictions restrictions = new Restrictions();
+        if (local != null) {
+            restrictions.add("local", local);
+            }
+        
+        return getDAO().getQueryBuilder().from(ReservaLocal.class, "reservaLocal").leftJoinFetch("reservaLocal.local", "local").
+                    add(restrictions).orderBy("local.nome").getResultList();
+
+    }
+    
+    public List<ReservaLocal> reservasPorDataInicial(Date dataInicial) {
+
+        Restrictions restrictions = new Restrictions();
+        if (dataInicial!= null) {
+            restrictions.add("dataInicial", dataInicial);
+            }
+        
+        return getDAO().getQueryBuilder().from(ReservaLocal.class, "reservaLocal").leftJoinFetch("reservaLocal.dataInicial", "datainicial").
+                    add(restrictions).orderBy("dataInicial").getResultList();
+
+    }
+
+    public List<ReservaLocal> reservasPorDataFinal(Date dataFinal) {
+
+        Restrictions restrictions = new Restrictions();
+        if (dataFinal!= null) {
+            restrictions.add("dataFinal", dataFinal);
+            }
+        
+        return getDAO().getQueryBuilder().from(ReservaLocal.class, "reservaLocal").leftJoinFetch("reservaLocal.dataFinal", "datafinal").
+                    add(restrictions).orderBy("dataFinal").getResultList();
+
+    }
+    
+    public List<ReservaLocal> listarReservas(FiltrosVO filtros) {
+
+        Restrictions restrictions = new Restrictions();
+
+       
+        if (filtros.getOrgao() != null) {
+            restrictions.add("orgao", filtros.getOrgao());
+        }
+        if (filtros.getOrgaoSolicitante() != null) {
+            restrictions.add("reserva.orgaoSolicitante", filtros.getOrgaoSolicitante());
+        }
+        
+        if (filtros.getLocal() != null) {
+            restrictions.add("reserva.local", filtros.getLocal());
+        }
+
+        if (filtros.getTitulo() != null && !filtros.getTitulo().equals("")) {
+            restrictions.like("reserva.titulo", filtros.getTitulo());
+        }
+
+        if (filtros.getDataInicial() != null) {
+            restrictions.greaterEqualsThan("reserva.dataInicio", filtros.getDataInicial(), TemporalType.TIMESTAMP);
+        }
+
+        if (filtros.getDataFinal() != null) {
+            restrictions.lessEqualsThan("reserva.dataFinal", filtros.getDataFinal(), TemporalType.TIMESTAMP);
+        }
+
+        if (filtros.getSolicitante() != null&& !filtros.getSolicitante().equals("")) {
+            restrictions.like("reserva.solicitante", filtros.getSolicitante());
+        }
+        
+        return reservaLocalDAO.getQueryBuilder().from(ReservaLocal.class, "reserva").leftJoinFetch("reserva.orgaoSolicitante", "orgaosolicitante").
+               leftJoinFetch("reserva.local", "local").leftJoinFetch("reserva.orgao", "orgao").
+               add(restrictions).orderBy("orgao,local").getResultList();
+
+    }
+
+    public List<Orgao> orgaoPeloNome(String nome) {
+        Restrictions restrictions = new Restrictions();
+        if (!Utils.isNullOrEmpty(nome)) {
+            restrictions.like("orgao.nome", nome);
+        }
+
+        restrictions.add("orgao.ativo", true);
+
+        return getDAO().getQueryBuilder().from(Orgao.class, "orgao").add(restrictions).orderBy("orgao.nome").getResultList();
+    }
+
+    public List<LocalReserva> localPeloNomeOrgao(String nome,Orgao orgao) {
+        Restrictions restrictions = new Restrictions();
+        if (orgao != null) {
+            restrictions.add("orgao", orgao);
+            }
+        if (!Utils.isNullOrEmpty(nome)) {
+            restrictions.like("local.nome", nome);
+        }
+
+        restrictions.add("orgao.ativo", true);
+
+        return getDAO().getQueryBuilder().from(LocalReserva.class, "local").add(restrictions).orderBy("local.nome").getResultList();
+    }
+
+
+}

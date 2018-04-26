@@ -1,0 +1,47 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateConfiguracaoSistema" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="numeroAtendentes" value="* #{msg['configuracaoSistema.numeroAtendentes']}:" />
+                        <p:inputMask id="numeroAtendentes" mask="9?99"  value="#{configuracaoSistemaMB.entity.numeroAtendentes}" styleClass="form-control" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tempoAtendimento" value="* #{msg['configuracaoSistema.tempoAtendimento']}:" />
+                        <p:inputMask id="tempoAtendimento" mask="9?99" value="#{configuracaoSistemaMB.entity.tempoAtendimento}" styleClass="form-control" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="ativo" value="#{configuracaoSistemaMB.entity.ativo}" />
+                                #{msg['configuracaoSistema.ativo']}
+                            </label>
+                        </div>
+                        <h:outputText value="Apenas uma configuração ativa pode existir!" styleClass="help-block"/>
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="configuracaoSistema.create">
+                <p:commandButton process="@form" update="@form" action="#{configuracaoSistemaMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="configuracaoSistema.audit">
+                <x:audit for="#{configuracaoSistemaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,65 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+    <h:outputScript library="js" name="locale.js" />
+
+    <h:form id="formCreateAgendamento" >
+        <p:growl id="messages" showDetail="true" />
+        <x:modalMessages autoUpdate="true"/>
+
+        <h:panelGrid columnClasses="value">
+            <h:outputText value="Horário de Funcionamento: Segunda-Feira a Quinta-Feira: 8h às 13h (Sexta-Feira apenas expediente interno)" styleClass="help-block"/>
+            <p:schedule id="schedule" value="#{agendamentoCalendarioMB.eventModel}" widgetVar="myschedule" 
+                        timeZone="GMT-3" axisFormat="HH:mm" locale="pt" minTime="08:00:00" maxTime="13:00:00"
+                        rightHeaderTemplate ="agendaWeek,agendaDay" slotMinutes="30" allDaySlot="false" 
+                        showWeekends="false"  >
+
+                <p:ajax event="dateSelect" listener="#{agendamentoCalendarioMB.onDateSelect}"  oncomplete="PF('eventDialog').show();" />
+                <p:ajax event="eventSelect" listener="#{agendamentoCalendarioMB.onEventSelect}"  oncomplete="PF('eventDialog').show();" />
+                <p:ajax event="eventMove" listener="#{agendamentoCalendarioMB.onEventMove}" update="messages" />
+                <p:ajax event="eventResize" listener="#{agendamentoCalendarioMB.onEventResize}" update="messages" />
+
+            </p:schedule>
+        </h:panelGrid>
+
+    </h:form>
+    <script type="text/javascript">
+        PrimeFaces.locales['pt'] = {
+            closeText: 'Fechar',
+            prevText: 'Anterior',
+            nextText: 'Próximo',
+            currentText: 'Começo',
+            monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+            monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+            dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+            dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+            dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+            weekHeader: 'Semana',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: '',
+            timeOnlyTitle: 'Só Horas',
+            timeText: 'Tempo',
+            hourText: 'Hora',
+            minuteText: 'Minuto',
+            secondText: 'Segundo',
+            currentText: 'Data Atual',
+            ampm: false,
+            month: 'Mês',
+            week: 'Semana',
+            day: 'Dia',
+            allDayText: 'Todo Dia'
+        };
+
+    </script>
+    <style type="text/css">
+        .value {
+            width: 100%;
+        }
+    </style>
+</ui:composition>

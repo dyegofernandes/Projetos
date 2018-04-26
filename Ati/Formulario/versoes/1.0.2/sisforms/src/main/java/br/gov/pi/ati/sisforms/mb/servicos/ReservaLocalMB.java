@@ -1,6 +1,6 @@
 package br.gov.pi.ati.sisforms.mb.servicos;
 
-import br.gov.pi.ati.sisforms.bo.servicos.LocalReservaBO;
+
 import java.io.Serializable;
 import com.xpert.core.crud.AbstractBaseBean;
 import javax.ejb.EJB;
@@ -12,14 +12,14 @@ import br.gov.pi.ati.sisforms.modelo.cadastro.Orgao;
 import br.gov.pi.ati.sisforms.modelo.controleacesso.Usuario;
 import br.gov.pi.ati.sisforms.modelo.servicos.LocalReserva;
 import br.gov.pi.ati.sisforms.modelo.servicos.ReservaLocal;
+import br.gov.pi.ati.sisforms.modelo.vos.FiltrosVO;
 import com.lowagie.text.pdf.codec.Base64;
 import com.xpert.core.exception.BusinessException;
 import br.gov.pi.ati.sisforms.util.SessaoUtils;
-import com.xpert.faces.primefaces.PrimeFacesUtils;
+
 import com.xpert.faces.utils.FacesMessageUtils;
 import com.xpert.persistence.exception.DeleteException;
 
-import com.xpert.persistence.query.Restrictions;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -74,6 +74,8 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
         return "id";
     }
     
+    private FiltrosVO filtros;
+       
     private List<LocalReserva> locais;
             
     private StreamedContent down_file;
@@ -88,11 +90,18 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
     
     private ScheduleEvent event = new DefaultScheduleEvent();
 
-
+    private Usuario usuarioAtual;
+            
     @Override
     public void init() {
-       
-        Orgao orgao = getDAO().getInitialized(SessaoUtils.getUser().getOrgao());
+        usuarioAtual = SessaoUtils.getUser();
+        filtros  = new FiltrosVO();
+        filtros.setUsuario(usuarioAtual);
+        
+        Orgao orgao = getDAO().getInitialized(usuarioAtual.getOrgao());
+        if(getEntity().getId()==null){
+            getEntity().setOrgao(orgao);
+        }
         locais = getBO().locaisPorOrgao(orgao);
         reservas = getBO().reservasPorOrgao(orgao);
         init_reservas();
@@ -164,31 +173,23 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    @Override
-    public void delete() {
+    
+    public void del() {
         
-            
-        
-            if(event.getId() != null) {
-                String titulo=event.getTitle();
+  
+                
                 eventModel.deleteEvent(event);
 
-                Long id = Long.parseLong(titulo.split(" ")[0]);
+                
                 try {
-                    getBO().getDAO().delete(id);
+                    getBO().getDAO().remove(reserva, true);
                     Orgao orgao = getDAO().getInitialized(SessaoUtils.getUser().getOrgao());
                     reservas = getBO().reservasPorOrgao(orgao);
                 } catch (DeleteException ex) {
                     Logger.getLogger(ReservaLocalMB.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
-
-        
-        super.delete(); //To change body of generated methods, choose Tools | Templates.
-        
-        
-   
-       
+       RequestContext context = RequestContext.getCurrentInstance();
+       context.execute("PF(\'eventDialog\').hide();");
     }
    
     
@@ -376,6 +377,22 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
     public void setLocais(List<LocalReserva> locais) {
         this.locais = locais;
     }
+
+    public FiltrosVO getFiltros() {
+        return filtros;
+    }
+
+    public void setFiltros(FiltrosVO filtros) {
+        this.filtros = filtros;
+    }
+
+    public Usuario getUsuarioAtual() {
+        return usuarioAtual;
+    }
+
+    public void setUsuarioAtual(Usuario usuarioAtual) {
+        this.usuarioAtual = usuarioAtual;
+    }
     
     
     
@@ -409,7 +426,7 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
                         ag.setOrgao(ag1.getLocal().getOrgao());
                         ag.setContato(ag1.getContato());
                         ag.setObservacao(ag1.getObservacao());
-                        ag.setOrgao_solicitante(ag1.getOrgao_solicitante());
+                        ag.setOrgaoSolicitante(ag1.getOrgaoSolicitante());
                         
                         List<Arquivo> arquivotemp = new ArrayList();
                         for (Arquivo arquivo : arquivos) {
@@ -485,6 +502,56 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
     }
 
     
+    public void carregarReservasPorOrgaoSolicitante() {
+        if (filtros.getOrgaoSolicitante() != null) {
+            reservas = reservaLocalBO.reservasPorOrgao(filtros.getOrgaoSolicitante());
+            
+        } else {
+            filtros.setReserva(new ReservaLocal());
+            reservas = new ArrayList<ReservaLocal>();
+        }
+    }
+    
+    public void carregarReservasPorLocal() {
+        if (filtros.getLocal() != null) {
+            reservas = reservaLocalBO.reservasPorLocais(filtros.getLocal());
+        } else {
+            filtros.setReserva(new ReservaLocal());
+            reservas = new ArrayList<ReservaLocal>();
+        }
+    }
+    
+    public void carregarReservasPorDataInicial() {
+        if (filtros.getLocal() != null) {
+            reservas = reservaLocalBO.reservasPorDataInicial(filtros.getDataInicial());
+        } else {
+            filtros.setReserva(new ReservaLocal());
+            reservas = new ArrayList<ReservaLocal>();
+        }
+    }
+    
+    public void carregarReservasPorDataFinal() {
+        if (filtros.getLocal() != null) {
+            reservas = reservaLocalBO.reservasPorDataFinal(filtros.getDataFinal());
+        } else {
+            filtros.setReserva(new ReservaLocal());
+            reservas = new ArrayList<ReservaLocal>();
+        }
+    }
+    
+    public void buscar() {
+        
+        reservas = reservaLocalBO.listarReservas(filtros);
+    }
+    
+    public List<Orgao> orgaoAutocompletePeloNome(String nome) {
+        return getBO().orgaoPeloNome(nome);
+    }
+    
+    public List<LocalReserva> localAutocompletePeloNome(String nome) {
+        Orgao orgao = getDAO().getInitialized(usuarioAtual.getOrgao());
+        return getBO().localPeloNomeOrgao(nome,orgao);
+    }
     
     
 }

@@ -51,15 +51,13 @@ public class LocalReserva implements Serializable {
     private Integer quantidadeLugares;
     
     
-    private Boolean ativo;
+    private Boolean ativo=true;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     private Orgao orgao;
     
-    @Size(max = 200)
-    @NotBlank
-    private String endereco;
+ 
 
     public Long getId() {
         return id;
@@ -116,15 +114,7 @@ public class LocalReserva implements Serializable {
     public void setOrgao(Orgao orgao) {
         this.orgao = orgao;
     }
-
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-    
+   
     
     
 

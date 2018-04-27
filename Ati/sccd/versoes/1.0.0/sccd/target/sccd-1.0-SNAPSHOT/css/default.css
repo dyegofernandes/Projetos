@@ -113,19 +113,19 @@ section.conteudo h1.page-header  span{vertical-align: middle;}
     color: #000;
 }
 
-/*.emp1 .fc-event-skin {
+.emp1 .fc-event-skin {
     background: red;
 }
 .emp2 .fc-event-skin {
     background: green;
-}*/
+}
 
-.emp1 .fc-event-inner {
+/*.emp1 .fc-event-inner {
     background: red;
 }
 .emp2 .fc-event-inner {
     background: green;
-}
+}*/
 
 button.ui-button.ui-state-active{ 
     background:  #BED09B; 

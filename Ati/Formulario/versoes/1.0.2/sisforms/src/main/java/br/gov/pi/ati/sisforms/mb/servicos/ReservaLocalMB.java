@@ -504,7 +504,7 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
     
     public void carregarReservasPorOrgaoSolicitante() {
         if (filtros.getOrgaoSolicitante() != null) {
-            reservas = reservaLocalBO.reservasPorOrgao(filtros.getOrgaoSolicitante());
+            reservas = reservaLocalBO.reservasPorOrgaoSolicitante(filtros.getOrgaoSolicitante());
             
         } else {
             filtros.setReserva(new ReservaLocal());

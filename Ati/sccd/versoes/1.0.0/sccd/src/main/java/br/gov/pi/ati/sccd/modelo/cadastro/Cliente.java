@@ -39,6 +39,8 @@ public class Cliente implements Serializable {
     @Enumerated(EnumType.STRING)
     private TipoPessoa tipoPessoa = TipoPessoa.JURIDICA;
 
+    private Long codigo;
+
     @Size(max = 50)
     @NotBlank
     private String cpfCnpj;
@@ -168,6 +170,14 @@ public class Cliente implements Serializable {
 
     public void setSigla(String sigla) {
         this.sigla = sigla;
+    }
+
+    public Long getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
     }
 
 }

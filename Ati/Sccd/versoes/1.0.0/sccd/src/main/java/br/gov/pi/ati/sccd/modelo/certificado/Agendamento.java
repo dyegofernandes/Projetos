@@ -53,7 +53,7 @@ public class Agendamento implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
-    private ItemPedido itemPedido;
+    private ItemPedido itemPedido = new ItemPedido();
 
     @Size(max = 250)
     @NotBlank

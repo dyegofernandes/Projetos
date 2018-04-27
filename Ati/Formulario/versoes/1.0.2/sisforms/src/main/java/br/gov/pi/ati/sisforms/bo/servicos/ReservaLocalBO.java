@@ -194,8 +194,22 @@ public class ReservaLocalBO extends AbstractBusinessObject<ReservaLocal> {
             restrictions.add("orgao", orgao);
             }
         
-        return getDAO().getQueryBuilder().from(ReservaLocal.class, "reservaLocal").leftJoinFetch("reservaLocal.orgao", "orgao").
+        return getDAO().getQueryBuilder().from(ReservaLocal.class, "reservaLocal").leftJoinFetch("reservaLocal.orgao", "orgao")
+                .leftJoinFetch("reservaLocal.local", "localReserva").leftJoinFetch("reservaLocal.orgaoSolicitante", "orgaoSolicitante").
                     add(restrictions).orderBy("orgao.nome").getResultList();
+
+    }
+    
+    
+    public List<ReservaLocal> reservasPorOrgaoSolicitante(Orgao orgaoSolicitante) {
+
+        Restrictions restrictions = new Restrictions();
+        if (orgaoSolicitante != null) {
+            restrictions.add("orgao", orgaoSolicitante);
+            }
+        
+        return getDAO().getQueryBuilder().from(ReservaLocal.class, "reservaLocal").leftJoinFetch("reservaLocal.orgaoSolicitante", "orgaoSolicitante").
+                    add(restrictions).orderBy("orgaoSolicitante.nome").getResultList();
 
     }
     

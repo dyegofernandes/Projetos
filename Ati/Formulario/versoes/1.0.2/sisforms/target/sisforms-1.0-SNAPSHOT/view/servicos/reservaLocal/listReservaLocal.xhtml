@@ -16,6 +16,33 @@
                     <h:panelGroup id="panel0">
                             <x:securityArea rolesAllowed="orgao.campo">
                                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="orgaoUsuario" value="Orgão Usuário" />
+
+                                    
+                                        <p:autoComplete id="orgaoUsuario" value="#{reservaLocalMB.filtros.orgao}" 
+
+                                                completeMethod="#{reservaLocalMB.orgaoAutocompletePeloNome}" styleClass="uix-autocomplete" 
+
+                                                minQueryLength="3" forceSelection="false" dropdown="true" scrollHeight="400"
+
+                                                var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"  > 
+                                                <x:initializer/>
+                                                
+                                                <p:column> 
+                                                    
+                                                    <h:outputText value="#{p.sigla}" style="font-weight: bold"/>  
+                                                    <h:outputText value=" (#{p.nome})" styleClass="font-8"  /> 
+            
+                                                </p:column> 
+                                                
+                                        </p:autoComplete>
+                                        
+ 
+
+                                </div>
+                            </x:securityArea>
+
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                     <h:outputLabel for="orgaoSolicitante" value="Orgão Solicitante" />
 
                                     
@@ -40,9 +67,6 @@
  
 
                                 </div>
-                            </x:securityArea>
-
-                           
                                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                     <h:outputLabel for="dataInicio" value="Data Inicial" />
                                     <p:calendar id="dataInicio" value="#{reservaLocalMB.filtros.dataInicial}" showOn="button" styleClass="uix-calendar" pattern="dd/MM/yyyy HH:mm" >
@@ -117,8 +141,15 @@
                     <h:outputText value="#{index+1}"/>
                 </p:column>
 
+                <p:column headerText="#{msg['Orgão Usuário']}" sortBy="#{reserva.orgaoSolicitante}"  rendered="#{x:hasRole('orgao.coluna')}"
+                            >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['Orgão Usuário']}" />
+                    </f:facet>
+                    <h:outputText value="#{reserva.orgao}"/>
+                </p:column>
                 
-                <p:column headerText="#{msg['Orgão Solicitante']}" sortBy="#{reserva.orgaoSolicitante}"  rendered="#{x:hasRole('orgao.coluna')}"
+                <p:column headerText="#{msg['Orgão Solicitante']}" sortBy="#{reserva.orgaoSolicitante}" 
                             >
                     <f:facet name="header">
                         <h:outputText value="#{msg['Orgão Solicitante']}" />
@@ -153,7 +184,7 @@
                         <f:convertDateTime pattern="#{formatMB.format.dataHoraMinutoSegundo}"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{msg['Local']}" sortBy="#{reserva.local}" rendered="#{x:hasRole('localReserva.coluna')}"
+                <p:column headerText="#{msg['Local']}" sortBy="#{reserva.local}" 
                         >
                     <f:facet name="header">
                         <h:outputText value="#{msg['Local']}" />

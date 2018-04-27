@@ -1,6 +1,11 @@
 package br.gov.pi.ati.sccd.util;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.text.MaskFormatter;
 
 public class Utils {
@@ -27,7 +32,7 @@ public class Utils {
 
         return domainLDap;
     }
-    
+
     public static String format(String pattern, Object value) {
         MaskFormatter mask;
         try {
@@ -38,5 +43,44 @@ public class Utils {
             throw new RuntimeException(e);
         }
     }
-    
+
+    public static String moeda(BigDecimal num) {
+        NumberFormat formatter = new DecimalFormat("##,###,###,###,###,###,###,##0.00");
+
+        return formatter.format(num.doubleValue());
+    }
+
+    public static String inserirZeroAEsquerda(String input, int width) {
+        char ch = '0';
+        String strPad = "";
+
+        if (input == null) {
+            input = "";
+        }
+        StringBuilder sb = new StringBuilder(input.trim());
+
+        while (sb.length() < width) {
+            sb.insert(0, ch);
+        }
+        strPad = sb.toString();
+
+        if (strPad.length() > width) {
+
+            strPad = strPad.substring(0, width);
+        }
+        return strPad;
+    }
+
+    public static String getDateString(Date data, String pattern) {
+        SimpleDateFormat formataData = null;
+
+        if (data == null) {
+            return "";
+        }
+
+        formataData = new SimpleDateFormat(pattern);
+
+        return formataData.format(data);
+    }
+
 }

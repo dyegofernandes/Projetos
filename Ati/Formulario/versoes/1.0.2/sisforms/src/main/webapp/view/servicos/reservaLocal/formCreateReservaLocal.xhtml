@@ -65,9 +65,32 @@
                         <div class="container-fluid">
                             <div class="row">
 
-                                
-                                
-                                
+                                <x:securityArea rolesAllowed="orgao.campo">
+                                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    
+                                        <h:outputLabel for="orgao" value="Orgão" /> 
+
+                                    
+                                        <p:autoComplete id="orgao" value="#{reservaLocalMB.reserva.orgao}" 
+
+                                                completeMethod="#{reservaLocalMB.orgaoAutocompletePeloNome}" styleClass="uix-autocomplete" 
+
+                                                minQueryLength="3" forceSelection="false" dropdown="true" scrollHeight="400"
+
+                                                var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"  > 
+                                                <x:initializer/>
+                                                
+                                                <p:column> 
+                                                    
+                                                    <h:outputText value="#{p.sigla}" style="font-weight: bold"/>  
+                                                    <h:outputText value=" (#{p.nome})" styleClass="font-8"  /> 
+            
+                                                </p:column> 
+                                                
+                                        </p:autoComplete>
+                                    </div>    
+                                </x:securityArea>
+                                        
                                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                     <p:outputLabel for="title" value="Título:" />
                                     <p:inputText id="title" value="#{reservaLocalMB.reserva.titulo}"  styleClass="form-control" />

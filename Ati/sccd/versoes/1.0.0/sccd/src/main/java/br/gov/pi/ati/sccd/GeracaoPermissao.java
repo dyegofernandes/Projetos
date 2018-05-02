@@ -161,6 +161,13 @@ public class GeracaoPermissao {
         create(new Permissao("agendamento.audit", "Auditoria de Agendamento"), "agendamento");
         create(new Permissao("agendamento.delete", "Exclusão de Agendamento"), "agendamento");
 
+        //Feriado
+        create(new Permissao("feriado", "Feriado", false), "cadastro");
+        create(new Permissao("feriado.create", "Cadastro de Feriado", "/view/cadastro/feriado/createFeriado.jsf", false), "feriado");
+        create(new Permissao("feriado.list", "Feriados", "/view/cadastro/feriado/listFeriado.jsf", true), "cadastro");
+        create(new Permissao("feriado.audit", "Auditoria de Feriado"), "feriado");
+        create(new Permissao("feriado.delete", "Exclusão de Feriado"), "feriado");
+
         /*
          * Configuracao
          */

@@ -1,5 +1,6 @@
 package br.gov.pi.ati.sccd.mb.padrao;
 
+import br.gov.pi.ati.sccd.modelo.cadastro.Feriado;
 import br.gov.pi.ati.sccd.modelo.cadastro.Contato;
 import br.gov.pi.ati.sccd.modelo.enums.SituacaoAgendamento;
 import br.gov.pi.ati.sccd.modelo.certificado.ArquivoAgendamento;
@@ -29,6 +30,7 @@ import br.gov.pi.ati.sccd.modelo.email.ModeloEmail;
 import br.gov.pi.ati.sccd.modelo.controleacesso.SolicitacaoRecuperacaoSenha;
 import br.gov.pi.ati.sccd.modelo.email.TipoAssuntoEmail;
 import br.gov.pi.ati.sccd.modelo.controleacesso.TipoRecuperacaoSenha;
+import br.gov.pi.ati.sccd.modelo.enums.TipoArquivoAgendamento;
 import br.gov.pi.ati.sccd.modelo.enums.TipoPedido;
 import javax.faces.bean.ManagedBean;
 
@@ -134,6 +136,7 @@ public class ClassMB {
     public Class getTipoPedido() {
         return TipoPedido.class;
     }
+
     public Class getConfiguracaoSistema() {
         return ConfiguracaoSistema.class;
     }
@@ -141,14 +144,24 @@ public class ClassMB {
     public Class getContato() {
         return Contato.class;
     }
+
     public Class getSituacaoAgendamento() {
         return SituacaoAgendamento.class;
     }
+
     public Class getArquivoAgendamento() {
         return ArquivoAgendamento.class;
     }
+
     public Class getAgendamento() {
         return Agendamento.class;
     }
 
+    public Class getFeriado() {
+        return Feriado.class;
+    }
+
+    public Class getTipoArquivoAgendamento() {
+        return TipoArquivoAgendamento.class;
+    }
 }

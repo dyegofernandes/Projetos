@@ -5,7 +5,6 @@
  */
 package br.gov.pi.ati.sccd.modelo.certificado;
 
-import br.gov.pi.ati.sccd.modelo.cadastro.Arquivo;
 import br.gov.pi.ati.sccd.modelo.cadastro.Cliente;
 import br.gov.pi.ati.sccd.modelo.cadastro.Contato;
 import br.gov.pi.ati.sccd.modelo.enums.SituacaoAgendamento;
@@ -51,7 +50,7 @@ public class Agendamento implements Serializable {
     @NotBlank
     private String protocolo; //AG.117.2.XXXXXX/AA(ano)
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @NotNull
     private ItemPedido itemPedido = new ItemPedido();
 

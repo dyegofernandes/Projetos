@@ -1,0 +1,65 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+    <h:outputScript library="js" name="locale.js" />
+    <script type="text/javascript">
+        PrimeFaces.locales['pt'] = {
+            closeText: 'Fechar',
+            prevText: 'Anterior',
+            nextText: 'Próximo',
+            currentText: 'Começo',
+            monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+            monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+            dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+            dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+            dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+            weekHeader: 'Semana',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false, yearSuffix: '',
+            timeOnlyTitle: 'Só Horas',
+            timeText: 'Tempo',
+            hourText: 'Hora',
+            minuteText: 'Minuto',
+            secondText: 'Segundo',
+            currentText: 'Data Atual',
+                    ampm: false,
+            month: 'Mês',
+            week: 'Semana',
+            day: 'Dia',
+            allDayText: 'Todo Dia'
+        };
+
+    </script>
+    <h:form id="formAgendamento" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:poll id="pool" interval="60" update="@form" process="@this" listener="#{agendamentoMB.carregarAgenda()}"/>
+        <h:panelGrid columnClasses="value">
+            <h:outputText value="Horário de Funcionamento: 8h às 13h (30 min por agendamento)" styleClass="help-block"/>
+            <p:schedule id="schedule" value="#{agendamentoMB.eventModel}" widgetVar="myschedule" 
+                        timeZone="GMT-3" axisFormat="HH:mm" locale="pt" minTime="08:00:00" maxTime="13:00:00"
+                        rightHeaderTemplate ="agendaWeek,agendaDay" view="agendaWeek" slotMinutes="30" allDaySlot="false" 
+                        showWeekends="false"  >
+                
+                <p:ajax event="eventSelect" listener="#{agendamentoMB.onEventSelect}" update="formCreateAgendamento" />
+            </p:schedule>
+        </h:panelGrid>
+
+    </h:form>
+    <p:dialog widgetVar="widgetAgendamento" header="#{msg['agendamento.detail']}" appendTo="@(body)" 
+              modal="true" styleClass="uix-dialog-fluid" showEffect="clip" hideEffect="clip">
+        <ui:include src="formCreateAgendamento.xhtml" />
+        <p:ajax event="close" update=":formCreateAgendamento" listener="#{findAllBean.setReload(true)}"
+                />
+    </p:dialog>
+
+    <style type="text/css">
+        .value {
+            width: 100%;
+        }
+    </style>
+</ui:composition>

@@ -1,5 +1,7 @@
 package br.gov.pi.ati.sccd.bo.certificado;
 
+import br.gov.pi.ati.sccd.bo.email.EmailBO;
+import br.gov.pi.ati.sccd.bo.email.ModeloEmailBO;
 import com.xpert.core.crud.AbstractBusinessObject;
 import br.gov.pi.ati.sccd.dao.certificado.AgendamentoDAO;
 import br.gov.pi.ati.sccd.modelo.cadastro.Cliente;
@@ -11,10 +13,17 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.sccd.modelo.certificado.Agendamento;
 import br.gov.pi.ati.sccd.modelo.certificado.ArquivoAgendamento;
+import br.gov.pi.ati.sccd.modelo.certificado.ItemPedido;
+import br.gov.pi.ati.sccd.modelo.email.ModeloEmail;
+import br.gov.pi.ati.sccd.modelo.email.TipoAssuntoEmail;
 import br.gov.pi.ati.sccd.modelo.enums.SituacaoAgendamento;
+import br.gov.pi.ati.sccd.modelo.enums.TipoPessoa;
 import com.xpert.core.validation.UniqueFields;
+import com.xpert.persistence.query.Restriction;
 import com.xpert.persistence.query.Restrictions;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import javax.persistence.TemporalType;
 
 /**
@@ -26,6 +35,12 @@ public class AgendamentoBO extends AbstractBusinessObject<Agendamento> {
 
     @EJB
     private AgendamentoDAO agendamentoDAO;
+
+    @EJB
+    private EmailBO emailBO;
+
+    @EJB
+    private ModeloEmailBO modeloEmailBO;
 
     @Override
     public AgendamentoDAO getDAO() {
@@ -39,7 +54,27 @@ public class AgendamentoBO extends AbstractBusinessObject<Agendamento> {
 
     @Override
     public void validate(Agendamento agendamento) throws BusinessException {
-        Cliente cliente = getDAO().getInitialized(agendamento.getCliente());
+
+        ItemPedido item = getDAO().getInitialized(agendamento.getItemPedido());
+
+        Restrictions restrictions = new Restrictions();
+
+        restrictions.add("itemPedido.cpfCnpjTitular", item.getCpfCnpjTitular());
+
+        restrictions.equals("dataInicial", agendamento.getDataInicial(), TemporalType.DATE);
+
+        Agendamento agendamentoTemp = getDAO().unique(restrictions);
+
+        if (agendamentoTemp != null) {
+            if (item.getTipoPessoa() == TipoPessoa.FISICA) {
+                throw new BusinessException("Já foi encontrato agendamento para esse CPF no dia informado!");
+            } else {
+                throw new BusinessException("Já foi encontrato agendamento para esse CNPJ no dia informado!");
+            }
+
+        }
+
+//        Cliente cliente = getDAO().getInitialized(agendamento.getCliente());
 
         List<ArquivoAgendamento> arquivos = getDAO().getInitialized(agendamento.getArquivos());
 
@@ -51,12 +86,6 @@ public class AgendamentoBO extends AbstractBusinessObject<Agendamento> {
 
         if (arquivos.size() < 1) {
             throw new BusinessException("Arquivos obrigatórios não anexados!");
-        } else {
-            if (cliente.isIsento()) {
-                for (ArquivoAgendamento arquivo : arquivos) {
-                    
-                }
-            }
         }
     }
 
@@ -75,11 +104,29 @@ public class AgendamentoBO extends AbstractBusinessObject<Agendamento> {
         if (dataFinal != null) {
             restrictions.lessEqualsThan("agendamento.dataFinal", dataFinal, TemporalType.DATE);
         }
-        
-        restrictions.startGroup().add("agendamento.situacao", SituacaoAgendamento.CONFIRMADO).or().add("agendamento.situacao", 
+
+        restrictions.startGroup().add("agendamento.situacao", SituacaoAgendamento.CONFIRMADO).or().add("agendamento.situacao",
                 SituacaoAgendamento.NAO_CONFIRMADO).endGroup();
 
         return getDAO().getQueryBuilder().select("agendamento").from(Agendamento.class, "agendamento").add(restrictions).getResultList();
+    }
+
+    public void enviarEmail(TipoAssuntoEmail assunto, Agendamento agendamento) throws BusinessException {
+        ModeloEmail modelo = modeloEmailBO.getDAO().unique("tipoAssuntoEmail", assunto);
+
+        if (modelo != null) {
+            Map<String, Object> parametros = new HashMap<String, Object>();
+
+            parametros.put("agendamento", agendamento);
+
+            if (assunto == TipoAssuntoEmail.SOLICITACAO_AGENDAMENTO) {
+                emailBO.enviar(modelo, parametros, agendamento.getEmail());
+            }
+
+            if (assunto == TipoAssuntoEmail.CONFIRMACAO_SOLICITACAO) {
+                emailBO.enviar(modelo, parametros, agendamento.getEmail(), null);
+            }
+        }
     }
 
 }

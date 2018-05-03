@@ -66,13 +66,13 @@ public class Pedido implements Serializable {
     @Enumerated(EnumType.STRING)
     private SituacaoPedido situacao = SituacaoPedido.NAO_ATENDIDO;
 
-    @NotAudited
-    @OneToMany(mappedBy = "pedido")
-    private List<Certificado> certificados;
-
     @Column(length = 30)
     @Enumerated(EnumType.STRING)
     private TipoPedido tipo = TipoPedido.OFICIO;
+
+    @NotAudited
+    @OneToMany(mappedBy = "pedido")
+    private List<Certificado> certificados;
 
     @Override
     public String toString() {

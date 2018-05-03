@@ -20,7 +20,7 @@ public class ConfiguracaoSistemaBO extends AbstractBusinessObject<ConfiguracaoSi
 
     @EJB
     private ConfiguracaoSistemaDAO configuracaoSistemaDAO;
-    
+
     @Override
     public ConfiguracaoSistemaDAO getDAO() {
         return configuracaoSistemaDAO;
@@ -39,6 +39,9 @@ public class ConfiguracaoSistemaBO extends AbstractBusinessObject<ConfiguracaoSi
 
     @Override
     public void validate(ConfiguracaoSistema configuracaoSistema) throws BusinessException {
+        if (configuracaoSistema.getInicioTurno().after(configuracaoSistema.getFimTurno())) {
+            throw new BusinessException("Horário inicial não pode ser maior que o Horário final!");
+        }
     }
 
     @Override

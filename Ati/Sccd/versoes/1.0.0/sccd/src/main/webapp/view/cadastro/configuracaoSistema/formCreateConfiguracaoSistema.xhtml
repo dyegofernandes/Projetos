@@ -12,9 +12,24 @@
 
             <div class="container-fluid">
                 <div class="row">
+
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="numeroAtendentes" value="* #{msg['configuracaoSistema.numeroAtendentes']}:" />
                         <p:inputMask id="numeroAtendentes" mask="9?99"  value="#{configuracaoSistemaMB.entity.numeroAtendentes}" styleClass="form-control" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="horaInicial" value="* #{msg['configuracaoSistema.horaInicial']}:" />
+                        <p:calendar id="horaInicial" value="#{configuracaoSistemaMB.entity.inicioTurno}" 
+                                    showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar"  >
+                            <x:mask />
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="horaFinal" value="* #{msg['configuracaoSistema.horaFinal']}:" />
+                        <p:calendar id="horaFinal" value="#{configuracaoSistemaMB.entity.fimTurno}" 
+                                    showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar"  >
+                            <x:mask />
+                        </p:calendar>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="tempoAtendimento" value="* #{msg['configuracaoSistema.tempoAtendimento']}:" />

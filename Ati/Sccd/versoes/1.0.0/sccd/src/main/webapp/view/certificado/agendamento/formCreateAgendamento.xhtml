@@ -4,93 +4,70 @@
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
-    
-  
+
+
     <h:form id="formCreateAgendamento" >
         <p:fieldset legend="#{xmsg['generalData']}">
             <x:modalMessages/>
 
             <div class="container-fluid">
-                 <div class="row">
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="cliente" value="* #{msg['agendamento.cliente']}:" />
-                         <h:selectOneMenu id="cliente" value="#{agendamentoMB.entity.cliente}" converter="entityConverter" styleClass="form-control" >
-                             <x:initializer/>
-                             <f:selectItem itemLabel="#{xmsg['select']}" />
-                             <f:selectItems value="#{findAllBean.get(classMB.cliente)}" 
-                                            var="cliente"
-                                            itemLabel="#{cliente}"/>
-                         </h:selectOneMenu>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="protocolo" value="* #{msg['agendamento.protocolo']}:" />
-                         <p:inputText id="protocolo" value="#{agendamentoMB.entity.protocolo}" maxlength="250"  styleClass="form-control"  />
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="itemPedido" value="* #{msg['agendamento.itemPedido']}:" />
-                         <h:selectOneMenu id="itemPedido" value="#{agendamentoMB.entity.itemPedido}" converter="entityConverter" styleClass="form-control" >
-                             <x:initializer/>
-                             <f:selectItem itemLabel="#{xmsg['select']}" />
-                             <f:selectItems value="#{findAllBean.get(classMB.itemPedido)}" 
-                                            var="itemPedido"
-                                            itemLabel="#{itemPedido}"/>
-                         </h:selectOneMenu>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="email" value="* #{msg['agendamento.email']}:" />
-                         <p:inputText id="email" value="#{agendamentoMB.entity.email}" maxlength="250"  styleClass="form-control"  />
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="dataInicial" value="* #{msg['agendamento.dataInicial']}:" />
-                         <p:calendar id="dataInicial" value="#{agendamentoMB.entity.dataInicial}" 
-                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
-                             <x:mask/>
-                         </p:calendar>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="dataFinal" value="* #{msg['agendamento.dataFinal']}:" />
-                         <p:calendar id="dataFinal" value="#{agendamentoMB.entity.dataFinal}" 
-                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
-                             <x:mask/>
-                         </p:calendar>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="dataAtendimento" value="#{msg['agendamento.dataAtendimento']}:" />
-                         <p:calendar id="dataAtendimento" value="#{agendamentoMB.entity.dataAtendimento}" 
-                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
-                             <x:mask/>
-                         </p:calendar>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="situacao" value="#{msg['agendamento.situacao']}:" />
-                         <h:selectOneMenu id="situacao" value="#{agendamentoMB.entity.situacao}"  styleClass="form-control" >
-                             <f:selectItem itemLabel="#{xmsg['select']}" />
-                             <f:selectItems value="#{findAllBean.get(classMB.situacaoAgendamento)}" 
-                                            var="situacaoAgendamento"
-                                            itemLabel="#{situacaoAgendamento}"/>
-                         </h:selectOneMenu>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel value="#{msg['agendamento.arquivos']}:" />
-                         <h:selectManyCheckbox id="arquivos" value="#{agendamentoMB.entity.arquivos}" converter="entityConverter" >
-                             <x:initializer/>
-                             <f:selectItems value="#{findAllBean.get(classMB.arquivoAgendamento)}" 
-                                            var="arquivoAgendamento"
-                                            itemLabel="#{arquivoAgendamento}"/>
-                         </h:selectManyCheckbox>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel value="#{msg['agendamento.contatos']}:" />
-                         <h:selectManyCheckbox id="contatos" value="#{agendamentoMB.entity.contatos}" converter="entityConverter" >
-                             <x:initializer/>
-                             <f:selectItems value="#{findAllBean.get(classMB.contato)}" 
-                                            var="contato"
-                                            itemLabel="#{contato}"/>
-                         </h:selectManyCheckbox>
-                     </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cliente" value="* #{msg['agendamento.cliente']}:" />
+                        <p:inputText id="cliente" value="#{agendamentoMB.entity.cliente}"  styleClass="form-control" readonly="true" >
+                            <x:initializer/>
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="protocolo" value="* #{msg['agendamento.protocolo']}:" />
+                        <p:inputText id="protocolo" value="#{agendamentoMB.entity.protocolo}"  styleClass="form-control" readonly="true" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tipoDePessoa" value="* #{msg['agendamento.itemPedido.tipoPessoa']}:" />
+                        <p:inputText id="tipoDePessoa" value="#{agendamentoMB.entity.itemPedido.tipoPessoa.descricao}" styleClass="form-control" readonly="true"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cpf" value="* #{msg['agendamento.itemPedido.cpf']}:" rendered="#{agendamentoMB.entity.itemPedido.tipoPessoa.num eq 1}"/>
+                        <p:inputText id="cpf" value="#{agendamentoMB.entity.itemPedido.cpfCnpjTitular}" styleClass="form-control" readonly="true"
+                                     rendered="#{agendamentoMB.entity.itemPedido.tipoPessoa.num eq 1}" converter="cpfConverter">
+                        </p:inputText>
+                        
+                        <h:outputLabel for="cnpj" value="* #{msg['agendamento.itemPedido.cnpj']}:" rendered="#{agendamentoMB.entity.itemPedido.tipoPessoa.num eq 2}"/>
+                        <p:inputText id="cnpj" value="#{agendamentoMB.entity.itemPedido.cpfCnpjTitular}" styleClass="form-control" readonly="true"
+                                     rendered="#{agendamentoMB.entity.itemPedido.tipoPessoa.num eq 2}" converter="cnpjConverter"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nomeTitular" value="* #{msg['agendamento.itemPedido.nome']}:" />
+                        <p:inputText id="nomeTitular" value="#{agendamentoMB.entity.itemPedido.nomeTitular}" styleClass="form-control" readonly="true"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tipoCertificado" value="* #{msg['agendamento.itemPedido.tipoCertificado']}:" />
+                        <p:inputText id="tipoCertificado" value="#{agendamentoMB.entity.itemPedido.tipoCertificado}" styleClass="form-control" readonly="true"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="email" value="* #{msg['agendamento.email']}:" />
+                        <p:inputText id="email" value="#{agendamentoMB.entity.email}" styleClass="form-control"  readonly="true"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataInicial" value="* #{msg['agendamento.dataAgendamento']}:" />
+                        <p:inputText id="dataInicial" value="#{agendamentoMB.entity.dataInicial}" styleClass="form-control" 
+                                     readonly="true">
+                            <f:convertDateTime pattern="dd/MM/yyy HH:mm" />
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="situacao" value="#{msg['agendamento.situacao']}:" />
+                        <h:selectOneMenu id="situacao" value="#{agendamentoMB.entity.situacao}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.situacaoAgendamento)}" 
+                                           var="situacaoAgendamento"
+                                           itemLabel="#{situacaoAgendamento.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
 
-                 </div>
-             </div>
+
+                </div>
+            </div>
         </p:fieldset>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">

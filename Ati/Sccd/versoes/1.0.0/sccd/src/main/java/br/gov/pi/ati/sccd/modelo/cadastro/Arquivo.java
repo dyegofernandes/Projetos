@@ -5,9 +5,12 @@
  */
 package br.gov.pi.ati.sccd.modelo.cadastro;
 
+import br.gov.pi.ati.sccd.modelo.enums.TipoArquivoAgendamento;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
@@ -34,6 +37,10 @@ public class Arquivo implements Serializable {
     @Column(columnDefinition = "Text")
     @NotBlank
     private String conteudo;
+    
+    @Column(length = 200)
+    @Enumerated(EnumType.STRING)
+    private TipoArquivoAgendamento tipo;
 
     public Long getId() {
         return id;
@@ -65,6 +72,14 @@ public class Arquivo implements Serializable {
 
     public void setConteudo(String conteudo) {
         this.conteudo = conteudo;
+    }
+
+    public TipoArquivoAgendamento getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoArquivoAgendamento tipo) {
+        this.tipo = tipo;
     }
 
     @Override

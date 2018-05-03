@@ -155,9 +155,9 @@ public class GeracaoPermissao {
         create(new Permissao("certificadoEmitidos.delete", "Exclusão de Certificado"), "certificadoEmitidos");
 
         //Agendamento
-        create(new Permissao("agendamento", "Agendamento", false), "certificado");
-        create(new Permissao("agendamento.create", "Cadastro de Agendamento", "/view/certificado/agendamento/createAgendamento.jsf", false), "agendamento");
-        create(new Permissao("agendamento.list", "Agendamentos", "/view/certificado/agendamento/listAgendamento.jsf", true), "certificado");
+        create(new Permissao("agendamento", "Agendamento", true), "certificado");
+        create(new Permissao("agendamento.create", "Agenda", "/view/certificado/agendamento/createAgendamento.jsf", true), "agendamento");
+        create(new Permissao("agendamento.list", "Consultar", "/view/certificado/agendamento/listAgendamento.jsf", true), "agendamento");
         create(new Permissao("agendamento.audit", "Auditoria de Agendamento"), "agendamento");
         create(new Permissao("agendamento.delete", "Exclusão de Agendamento"), "agendamento");
 

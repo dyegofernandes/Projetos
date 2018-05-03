@@ -8,6 +8,7 @@ package br.gov.pi.ati.sccd.modelo.certificado;
 import br.gov.pi.ati.sccd.modelo.cadastro.Cliente;
 import br.gov.pi.ati.sccd.modelo.cadastro.Contato;
 import br.gov.pi.ati.sccd.modelo.enums.SituacaoAgendamento;
+import br.gov.pi.ati.sccd.util.Utils;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -79,7 +80,7 @@ public class Agendamento implements Serializable {
 
     @ManyToMany(targetEntity = Contato.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<Contato> contatos = new ArrayList<Contato>();
-    
+
     @Column(columnDefinition = "Text")
     private String observacao;
 
@@ -182,6 +183,13 @@ public class Agendamento implements Serializable {
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
+    }
+
+    public String getDataValidadeFormatada() {
+        if (dataInicial != null) {
+            return Utils.getDateString(dataInicial, "dd/MM/yyyy HH:mm");
+        }
+        return null;
     }
 
     @Override

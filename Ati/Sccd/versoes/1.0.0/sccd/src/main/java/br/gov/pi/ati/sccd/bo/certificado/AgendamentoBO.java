@@ -4,8 +4,8 @@ import br.gov.pi.ati.sccd.bo.email.EmailBO;
 import br.gov.pi.ati.sccd.bo.email.ModeloEmailBO;
 import com.xpert.core.crud.AbstractBusinessObject;
 import br.gov.pi.ati.sccd.dao.certificado.AgendamentoDAO;
-import br.gov.pi.ati.sccd.modelo.cadastro.Cliente;
 import br.gov.pi.ati.sccd.modelo.cadastro.Contato;
+import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificado;
 import com.xpert.core.validation.UniqueField;
 import com.xpert.core.exception.BusinessException;
 import java.util.List;
@@ -19,7 +19,6 @@ import br.gov.pi.ati.sccd.modelo.email.TipoAssuntoEmail;
 import br.gov.pi.ati.sccd.modelo.enums.SituacaoAgendamento;
 import br.gov.pi.ati.sccd.modelo.enums.TipoPessoa;
 import com.xpert.core.validation.UniqueFields;
-import com.xpert.persistence.query.Restriction;
 import com.xpert.persistence.query.Restrictions;
 import java.util.Date;
 import java.util.HashMap;
@@ -56,6 +55,8 @@ public class AgendamentoBO extends AbstractBusinessObject<Agendamento> {
     public void validate(Agendamento agendamento) throws BusinessException {
 
         ItemPedido item = getDAO().getInitialized(agendamento.getItemPedido());
+        
+        TipoCertificado tipoCertificado = getDAO().getInitialized(item.getTipoCertificado());
 
         Restrictions restrictions = new Restrictions();
 
@@ -66,7 +67,7 @@ public class AgendamentoBO extends AbstractBusinessObject<Agendamento> {
         Agendamento agendamentoTemp = getDAO().unique(restrictions);
 
         if (agendamentoTemp != null) {
-            if (item.getTipoPessoa() == TipoPessoa.FISICA) {
+            if (tipoCertificado.getTipoPessoa() == TipoPessoa.FISICA) {
                 throw new BusinessException("Já foi encontrato agendamento para esse CPF no dia informado!");
             } else {
                 throw new BusinessException("Já foi encontrato agendamento para esse CNPJ no dia informado!");

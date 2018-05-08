@@ -1,6 +1,5 @@
 package br.gov.pi.ati.sisforms.mb.servicos;
 
-
 import java.io.Serializable;
 import com.xpert.core.crud.AbstractBaseBean;
 import javax.ejb.EJB;
@@ -19,6 +18,7 @@ import br.gov.pi.ati.sisforms.util.SessaoUtils;
 
 import com.xpert.faces.utils.FacesMessageUtils;
 import com.xpert.persistence.exception.DeleteException;
+import com.xpert.persistence.query.Restrictions;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,6 +34,7 @@ import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.persistence.TemporalType;
 import static org.apache.commons.io.FilenameUtils.getExtension;
 import org.hibernate.proxy.HibernateProxy;
 import org.primefaces.context.RequestContext;
@@ -57,12 +58,8 @@ import org.primefaces.model.UploadedFile;
 @ViewScoped
 public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Serializable {
 
-    
-
     @EJB
     private ReservaLocalBO reservaLocalBO;
-
-    
 
     @Override
     public ReservaLocalBO getBO() {
@@ -73,57 +70,47 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
     public String getDataModelOrder() {
         return "id";
     }
-    
+
     private FiltrosVO filtros;
-       
+
     private List<LocalReserva> locais;
-            
+
     private StreamedContent down_file;
-    
+
     private List<Arquivo> arquivos;
-    
-    private ReservaLocal reserva;
-    
+
     private ScheduleModel eventModel;
 
     private List<ReservaLocal> reservas;
-    
+
     private ScheduleEvent event = new DefaultScheduleEvent();
 
     private Usuario usuarioAtual;
-            
+
     @Override
     public void init() {
-        usuarioAtual = SessaoUtils.getUser();
-        filtros  = new FiltrosVO();
-        filtros.setUsuario(usuarioAtual);
-        
-        Orgao orgao = getDAO().getInitialized(usuarioAtual.getOrgao());
-        if(getEntity().getId()==null){
-            getEntity().setOrgao(orgao);
-        }
-        locais = getBO().locaisPorOrgao(orgao);
-        reservas = getBO().reservasPorOrgao(orgao);
-        init_reservas();
-        
-        reserva = new ReservaLocal();
-        
-        try {
-            down_init_arquivo();
-        } catch (IOException ex) {
-            Logger.getLogger(ReservaLocal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
 
-    
-    public void carregar_arquivos(ReservaLocal reserv){
-        if(reserv.getId() != null){
+        filtros = new FiltrosVO();
+
+        usuarioAtual = SessaoUtils.getUser();
+
+        Orgao orgao = getDAO().getInitialized(usuarioAtual.getOrgao());
+        filtros.setOrgao(orgao);
+
+        locais = getBO().locaisPorOrgao(orgao);
+        
+
+        init_reservas();
+
+    }
+
+    public void carregar_arquivos(ReservaLocal reserv) {
+        if (reserv.getId() != null) {
             arquivos = getDAO().getInitialized(reserv.getArquivos());
-            
+
         }
     }
-   
+
     public Date getRandomDate(Date base) {
         Calendar date = Calendar.getInstance();
         date.setTime(base);
@@ -146,11 +133,11 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
     public void setReservas(List<ReservaLocal> reservas) {
         this.reservas = reservas;
     }
-    
+
     public ScheduleModel getEventModel() {
         return eventModel;
     }
-    
+
     public ScheduleEvent getEvent() {
         return event;
     }
@@ -173,66 +160,36 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    
     public void del() {
-        
-  
-                
-                eventModel.deleteEvent(event);
 
-                
-                try {
-                    getBO().getDAO().remove(reserva, true);
-                    Orgao orgao = getDAO().getInitialized(SessaoUtils.getUser().getOrgao());
-                    reservas = getBO().reservasPorOrgao(orgao);
-                } catch (DeleteException ex) {
-                    Logger.getLogger(ReservaLocalMB.class.getName()).log(Level.SEVERE, null, ex);
-                }
-       RequestContext context = RequestContext.getCurrentInstance();
-       context.execute("PF(\'eventDialog\').hide();");
+        eventModel.deleteEvent(event);
+
+        try {
+            getBO().getDAO().remove(getEntity(), true);
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF(\'eventDialog\').hide();");
+            init_reservas();
+        } catch (DeleteException ex) {
+            Logger.getLogger(ReservaLocalMB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
-   
-    
+
     public void remove_reserva(ReservaLocal reserva) {
-        
-                try {
-                    getBO().getDAO().remove(reserva,true);
-                    Orgao orgao = getDAO().getInitialized(SessaoUtils.getUser().getOrgao());
-                    reservas = getBO().reservasPorOrgao(orgao);
-                } catch (DeleteException ex) {
-                    Logger.getLogger(ReservaLocalMB.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            
 
-       
+        try {
+            getBO().getDAO().remove(reserva, true);
+
+            reservas = getBO().listarReservas(filtros);
+        } catch (DeleteException ex) {
+            Logger.getLogger(ReservaLocalMB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
-    
-    public void update() {
-        reserva.setArquivos(arquivos);
-        
-        preSave();
-        getBO().getDAO().update(reserva);
-        postSave();
-        FacesMessageUtils.sucess();
-        RequestContext context = RequestContext.getCurrentInstance();
-       
-        context.execute("PF('widgetReservaLocalUpdate').update();");
-        context.execute("PF('widgetReservaLocalUpdate').hide();");
-    }
-    
-    public void updateReserva(){
-        reserva.setArquivos(arquivos);
-        preSave();
-        getBO().getDAO().update(reserva);
-        postSave();
-        RequestContext context = RequestContext.getCurrentInstance();
-    
-        context.execute("PF(\'eventDialog\').hide();");
-    }
-    
-    
+
     @Override
     public void save() {
+
         getEntity().setArquivos(arquivos);
 
         super.save();
@@ -242,48 +199,46 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
     @Override
     public void postSave() {
         RequestContext context = RequestContext.getCurrentInstance();
-        reserva = new ReservaLocal();
-        String titulo=event.getTitle();
-        if (titulo == null) { 
-            DefaultScheduleEvent  newEvent = new DefaultScheduleEvent(reserva.getTitulo(), reserva.getDataInicio(), reserva.getDataFinal(), "emp1");
-            eventModel.addEvent(newEvent);   
-        } 
-        
+
+        String titulo = event.getTitle();
+        if (titulo == null) {
+            DefaultScheduleEvent newEvent = new DefaultScheduleEvent(getEntity().getTitulo(), getEntity().getDataInicio(), getEntity().getDataFinal(), "emp1");
+            eventModel.addEvent(newEvent);
+        }
+
         init_reservas();
         context.execute("PF(\'eventDialog\').hide();");
         super.postSave(); //To change body of generated methods, choose Tools | Templates.
-        
-    }
-    
 
-    
-    
+    }
+
     public void selecionarEvento(SelectEvent selectEvent) {
         RequestContext context = RequestContext.getCurrentInstance();
         event = (ScheduleEvent) selectEvent.getObject();
-        
-        String titulo=event.getTitle();
+
+        String titulo = event.getTitle();
 
         Long id = Long.parseLong(titulo.split(" ")[0]);
-        
-        reserva = getBO().getDAO().getInitialized(getBO().getDAO().unique("id", id));
-       
+
+        ReservaLocal reserva = getBO().getDAO().getInitialized(getBO().getDAO().unique("id", id));
+
         setEntity(reserva);
         arquivos = getBO().getDAO().getInitialized(reserva.getArquivos());
-        context.execute("PF('eventDialog').show();");
-        
-        
+        context.execute("PF(\'eventDialog\').show();");
+
     }
 
     public void selecionarData(SelectEvent selectEvent) {
-        
-        RequestContext context = RequestContext.getCurrentInstance();
-        reserva = new ReservaLocal();
-        arquivos = new ArrayList<Arquivo>();
-        reserva.setDataInicio((Date) selectEvent.getObject());
-        reserva.setDataFinal((Date) selectEvent.getObject());
 
-        context.execute("PF('eventDialog').show();");
+        RequestContext context = RequestContext.getCurrentInstance();
+        Orgao orgao = getDAO().getInitialized(usuarioAtual.getOrgao());
+        setEntity(new ReservaLocal());
+        getEntity().setOrgao(orgao);
+        arquivos = new ArrayList<Arquivo>();
+        getEntity().setDataInicio((Date) selectEvent.getObject());
+        getEntity().setDataFinal((Date) selectEvent.getObject());
+
+        context.execute("PF(\'eventDialog\').show();");
     }
 
     public void moverEvento(ScheduleEntryMoveEvent event) {
@@ -297,35 +252,25 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
 
         addMessage(message);
     }
-    public void init_reservas(){
+
+    public void init_reservas() {
         
-        Orgao orgao = getDAO().getInitialized(SessaoUtils.getUser().getOrgao());
-        
-        
+        reservas = getBO().listarReservas(filtros);
+
         eventModel = new DefaultScheduleModel();
-        reservas = getBO().reservasPorOrgao(orgao);
-        /*System.out.println(orgao.getNome());*/
+
         for (ReservaLocal reservax : reservas) {
-            ScheduleEvent eventTemp = new DefaultScheduleEvent(reservax.getId()+" - "+reservax.getTitulo()+" - "+reservax.getSolicitante(),reservax.getDataInicio(), reservax.getDataFinal(),"emp1");
+            ScheduleEvent eventTemp = new DefaultScheduleEvent(reservax.getId() + " - " + reservax.getTitulo() + " - " + reservax.getSolicitante(), reservax.getDataInicio(), reservax.getDataFinal(), "emp1");
             eventModel.addEvent(eventTemp);
-            
-        }
-    }
-    
-    public void down_init_arquivo() throws IOException{
-        Long id = getEntity().getId();
-        if(id!=null){
-            ReservaLocal reservaX = getBO().getDAO().getInitialized(getBO().getDAO().unique("id", id));
-            arquivos = getBO().getDAO().getInitialized(reservaX.getArquivos());
 
         }
-        
+
     }
-    
+
     public StreamedContent getDown_File() {
         return down_file;
     }
-    
+
     public StreamedContent download(Arquivo arquivo) throws IOException {
 
         if (arquivo instanceof HibernateProxy) {
@@ -393,96 +338,123 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
     public void setUsuarioAtual(Usuario usuarioAtual) {
         this.usuarioAtual = usuarioAtual;
     }
-    
-    
-    
-    
-    
+
+    public boolean validate(ReservaLocal reserva) {
+
+        Date dataHoje = new Date();
+        if (reserva.getId() == null) {
+            //Verifica se data inicial não é menor que a data atual.
+            if (reserva.getDataInicio().before(dataHoje)) {
+                FacesMessageUtils.error("A data inicial não pode ser menor que a data atual");
+                return false;
+            }
+            //Verifica se data inicial não é maior que a data final.
+            if (reserva.getDataInicio().after(reserva.getDataFinal())) {
+                FacesMessageUtils.error("A data inicial não pode ser maior que a data final");
+                return false;
+            }
+
+            Restrictions restrictions = new Restrictions();
+            Restrictions restrictions2 = new Restrictions();
+            Restrictions restrictions3 = new Restrictions();
+            Restrictions restrictions4 = new Restrictions();
+            restrictions.add("local", reserva.getLocal());
+            restrictions2.add("local", reserva.getLocal());
+            restrictions3.add("local", reserva.getLocal());
+            restrictions4.add("local", reserva.getLocal());
+
+            restrictions2.greaterEqualsThan("dataFinal", reserva.getDataFinal(), TemporalType.TIMESTAMP);//Nessas 2 linhas a gente cria o data fim dentro do intervalo 
+            restrictions2.lessEqualsThan("dataInicio", reserva.getDataFinal(), TemporalType.TIMESTAMP);
+
+            restrictions3.lessEqualsThan("dataInicio", reserva.getDataInicio(), TemporalType.TIMESTAMP);//Nessas 2 linhas a gente cria o data inicio dentro do intervalo 
+            restrictions3.greaterEqualsThan("dataFinal", reserva.getDataInicio(), TemporalType.TIMESTAMP);
+
+            restrictions4.greaterEqualsThan("dataInicio", reserva.getDataInicio(), TemporalType.TIMESTAMP);
+            restrictions4.lessEqualsThan("dataFinal", reserva.getDataFinal(), TemporalType.TIMESTAMP);
+
+            List<ReservaLocal> agendamentos = new ArrayList<ReservaLocal>();
+
+            //Verifica se a data Final esta entre uma data já reservada.
+            if (getDAO().list(restrictions2) != null) {
+                agendamentos = getDAO().list(restrictions2);
+            }
+            if (agendamentos.size() > 0) {
+                FacesMessageUtils.error("Agendamentos não podem conter o mesmo local e a data final estar entre uma data já reservada!");
+                return false;
+            }
+            //Verifica se a data inicial esta entre uma data já reservada.
+            if (getDAO().list(restrictions3) != null) {
+                agendamentos = getDAO().list(restrictions3);
+            }
+            if (agendamentos.size() > 0) {
+                FacesMessageUtils.error("Agendamentos não podem conter o mesmo local e a data inicial estar entre uma data já reservada!");
+                return false;
+            }
+            //Verifica se a data inicial esta antes e a data final depois de uma data já reservada.
+            if (getDAO().list(restrictions4) != null) {
+                agendamentos = getDAO().list(restrictions4);
+            }
+            if (agendamentos.size() > 0) {
+                FacesMessageUtils.error("Agendamentos não podem conter o mesmo local e a data inicial estar antes de uma data já reservada e a data final depois!");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public void saveAll() throws BusinessException {
-                RequestContext context = RequestContext.getCurrentInstance();
-                
-                Date dataFinal = reserva.getDataFinal();
-                Date dataInicial = reserva.getDataInicio();
-                //System.out.println(reserva.getTitulo());
-                Calendar ini = Calendar.getInstance();
-                ini.setTime(dataInicial);
-                Calendar fim = Calendar.getInstance();
-                fim.setTime(dataFinal);
-                ReservaLocal ag1 = reserva;
-                
-                if(fim.get(Calendar.DAY_OF_YEAR) > ini.get(Calendar.DAY_OF_YEAR)){
-                    for (Date dt = ini.getTime(); ini.before(fim); ini.add(Calendar.DATE, 1), dt = ini.getTime()) {
-                        Calendar calfim = Calendar.getInstance();
-                        calfim.setTime(dt);
-                        calfim.set(Calendar.HOUR_OF_DAY,fim.get(Calendar.HOUR_OF_DAY));
 
-                        ReservaLocal ag = new ReservaLocal();
-                        ag.setDataInicio(dt); 
-                        ag.setDataFinal(calfim.getTime());
-                      
-                        ag.setTitulo(ag1.getTitulo());
-                        ag.setLocal(ag1.getLocal());
-                        ag.setSolicitante(ag1.getSolicitante());
-                        ag.setOrgao(ag1.getLocal().getOrgao());
-                        ag.setContato(ag1.getContato());
-                        ag.setObservacao(ag1.getObservacao());
-                        ag.setOrgaoSolicitante(ag1.getOrgaoSolicitante());
-                        
-                        List<Arquivo> arquivotemp = new ArrayList();
-                        for (Arquivo arquivo : arquivos) {
-                            Arquivo arq = new Arquivo();
-                            arq.setConteudo(arquivo.getConteudo());
-                            arq.setExtensao(arquivo.getExtensao());
-                            arq.setNome(arquivo.getNome());
-                            arquivotemp.add(arq);
-                        }
-                        ag.setArquivos(arquivotemp);
-                        
-                        
-                        if(dt.compareTo(dataInicial) == 1){
-                            if(reserva.getId()==null){
-                            getBO().save(ag);
-                            postSave(); 
-                            
-                            context.execute("PF('eventDialog').hide();");
-                            }else{
-                                reserva.setArquivos(arquivos);
-                                updateReserva();
-                                
-                                }  
-                        }else{
-                            if(ag.getId() == null){
-                                getBO().save(ag);
-                                postSave(); 
-                                
-                                context.execute("PF('eventDialog').hide();");
-                            }else{
-                                reserva.setArquivos(arquivos);
-                                updateReserva();
-                                } 
-                        }
-                    }
-                }else{
-                    if(ag1.getId() == null){
-                        ag1.setOrgao(ag1.getLocal().getOrgao());
-                        ag1.setArquivos(arquivos);
-                        getBO().save(ag1);
-                        postSave();
-                    }else{ 
-                        reserva.setArquivos(arquivos); 
-                        updateReserva();
-                    }
+        //Esses valores seram usados no loop a seguir
+        Calendar ini = Calendar.getInstance();
+        ini.setTime(getEntity().getDataInicio());
+        Calendar fim = Calendar.getInstance();
+        fim.setTime(getEntity().getDataFinal());
+        if (validate(getEntity())) {
+
+            RequestContext context = RequestContext.getCurrentInstance();
+
+            //aqui seram criadas as reservas
+            for (Date dt = ini.getTime(); ini.before(fim); ini.add(Calendar.DATE, 1), dt = ini.getTime()) {
+                //Essa variavél auxiliar está sendo usada para setar o horario final em todas as reservas
+                Calendar calfim = Calendar.getInstance();
+                calfim.setTime(dt);
+                calfim.set(Calendar.HOUR_OF_DAY, fim.get(Calendar.HOUR_OF_DAY));
+
+                //Aqui uma nova reserva surge
+                ReservaLocal ag = new ReservaLocal();
+                ag.setDataInicio(dt);
+
+                ag.setDataFinal(calfim.getTime());
+
+                ag.setTitulo(getEntity().getTitulo());
+                ag.setLocal(getEntity().getLocal());
+                ag.setSolicitante(getEntity().getSolicitante());
+                ag.setOrgao(getEntity().getOrgao());
+                ag.setContato(getEntity().getContato());
+                ag.setFone_contato(getEntity().getFone_contato());
+                ag.setObservacao(getEntity().getObservacao());
+                ag.setOrgaoSolicitante(getEntity().getOrgaoSolicitante());
+
+                List<Arquivo> arquivotemp = new ArrayList();
+                for (Arquivo arquivo : arquivos) {
+                    Arquivo arq = new Arquivo();
+                    arq.setConteudo(arquivo.getConteudo());
+                    arq.setExtensao(arquivo.getExtensao());
+                    arq.setNome(arquivo.getNome());
+                    arquivotemp.add(arq);
                 }
+                ag.setArquivos(arquivotemp);
 
-    }
-    
+                //Aqui a reserva será salva
+                getDAO().saveOrMerge(ag, true);
 
-    public ReservaLocal getReserva() {
-        return reserva;
-    }
+            }
+            FacesMessageUtils.sucess();
+            context.execute("PF('eventDialog').hide();");
 
-    public void setReserva(ReservaLocal reserva) {
-        this.reserva = reserva;
+        }
+        init_reservas();
     }
 
     public ReservaLocalBO getReservaLocalBO() {
@@ -501,17 +473,16 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
         this.down_file = down_file;
     }
 
-    
     public void carregarReservasPorOrgaoSolicitante() {
         if (filtros.getOrgaoSolicitante() != null) {
             reservas = reservaLocalBO.reservasPorOrgaoSolicitante(filtros.getOrgaoSolicitante());
-            
+
         } else {
             filtros.setReserva(new ReservaLocal());
             reservas = new ArrayList<ReservaLocal>();
         }
     }
-    
+
     public void carregarReservasPorLocal() {
         if (filtros.getLocal() != null) {
             reservas = reservaLocalBO.reservasPorLocais(filtros.getLocal());
@@ -520,7 +491,7 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
             reservas = new ArrayList<ReservaLocal>();
         }
     }
-    
+
     public void carregarReservasPorDataInicial() {
         if (filtros.getLocal() != null) {
             reservas = reservaLocalBO.reservasPorDataInicial(filtros.getDataInicial());
@@ -529,7 +500,7 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
             reservas = new ArrayList<ReservaLocal>();
         }
     }
-    
+
     public void carregarReservasPorDataFinal() {
         if (filtros.getLocal() != null) {
             reservas = reservaLocalBO.reservasPorDataFinal(filtros.getDataFinal());
@@ -538,20 +509,19 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
             reservas = new ArrayList<ReservaLocal>();
         }
     }
-    
+
     public void buscar() {
-        
+
         reservas = reservaLocalBO.listarReservas(filtros);
     }
-    
+
     public List<Orgao> orgaoAutocompletePeloNome(String nome) {
         return getBO().orgaoPeloNome(nome);
     }
-    
+
     public List<LocalReserva> localAutocompletePeloNome(String nome) {
         Orgao orgao = getDAO().getInitialized(usuarioAtual.getOrgao());
-        return getBO().localPeloNomeOrgao(nome,orgao);
+        return getBO().localPeloNomeOrgao(nome, orgao);
     }
-    
-    
+
 }

@@ -6,10 +6,14 @@
 package br.gov.pi.ati.sccd.modelo.cadastro;
 
 import br.gov.pi.ati.sccd.modelo.certificado.ItemPedido;
+import br.gov.pi.ati.sccd.modelo.enums.TipoPessoa;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -41,8 +45,12 @@ public class TipoCertificado implements Serializable {
     @NotNull
     private Integer duracao;
 
+    @Column(length = 20)
+    @Enumerated(EnumType.STRING)
+    private TipoPessoa tipoPessoa = TipoPessoa.JURIDICA;
+
     private boolean ativo = true;
-    
+
     @NotAudited
     @OneToMany(mappedBy = "tipoCertificado")
     private List<ItemPedido> itensPedido;
@@ -98,6 +106,14 @@ public class TipoCertificado implements Serializable {
 
     public void setItensPedido(List<ItemPedido> itensPedido) {
         this.itensPedido = itensPedido;
+    }
+
+    public TipoPessoa getTipoPessoa() {
+        return tipoPessoa;
+    }
+
+    public void setTipoPessoa(TipoPessoa tipoPessoa) {
+        this.tipoPessoa = tipoPessoa;
     }
 
     @Override

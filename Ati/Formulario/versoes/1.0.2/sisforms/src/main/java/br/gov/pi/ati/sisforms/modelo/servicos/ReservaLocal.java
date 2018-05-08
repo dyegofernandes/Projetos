@@ -75,6 +75,10 @@ public class ReservaLocal implements Serializable {
     @Size(max = 200)
     @NotBlank
     private String contato;
+    
+    @Size(max = 20)
+    @NotNull
+    private String fone_contato;
 
 
     @Override
@@ -169,6 +173,14 @@ public class ReservaLocal implements Serializable {
 
     public void setOrgaoSolicitante(Orgao orgaoSolicitante) {
         this.orgaoSolicitante = orgaoSolicitante;
+    }
+
+    public String getFone_contato() {
+        return fone_contato;
+    }
+
+    public void setFone_contato(String fone_contato) {
+        this.fone_contato = fone_contato;
     }
     
     

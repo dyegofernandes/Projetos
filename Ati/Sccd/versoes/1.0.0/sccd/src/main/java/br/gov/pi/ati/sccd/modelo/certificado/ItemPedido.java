@@ -35,10 +35,6 @@ public class ItemPedido implements Serializable {
     @GeneratedValue(generator = "ItemPedido")
     private Long id;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
-    private TipoPessoa tipoPessoa = TipoPessoa.JURIDICA;
-
     @Size(max = 50)
     private String cpfCnpjTitular;
 
@@ -60,14 +56,6 @@ public class ItemPedido implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public TipoPessoa getTipoPessoa() {
-        return tipoPessoa;
-    }
-
-    public void setTipoPessoa(TipoPessoa tipoPessoa) {
-        this.tipoPessoa = tipoPessoa;
     }
 
     public String getCpfCnpjTitular() {

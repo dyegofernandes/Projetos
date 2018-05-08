@@ -3,7 +3,7 @@ package br.gov.pi.ati.sisforms.bo.servicos;
 import com.xpert.core.crud.AbstractBusinessObject;
 import br.gov.pi.ati.sisforms.dao.servicos.ReservaLocalDAO;
 import br.gov.pi.ati.sisforms.modelo.cadastro.Orgao;
-import br.gov.pi.ati.sisforms.modelo.controleacesso.Usuario;
+
 import br.gov.pi.ati.sisforms.modelo.servicos.LocalReserva;
 import com.xpert.core.validation.UniqueField;
 import com.xpert.core.exception.BusinessException;
@@ -44,67 +44,72 @@ public class ReservaLocalBO extends AbstractBusinessObject<ReservaLocal> {
     @Override
     public void validate(ReservaLocal reserva) throws BusinessException {
 
-        Date dataHoje = new Date();
-        System.out.println(reserva.getTitulo());
-        if (reserva.getDataInicio().before(dataHoje)) {
-            System.out.println(reserva.getDataInicio());
-                   
-            throw new BusinessException("Data inicial não pode ser menor que a data atual.");
-        }
-        if (reserva.getDataInicio().after(reserva.getDataFinal())) {
-            throw new BusinessException("Data inicial não pode ser maior que a data final.");
-        }
+        if (reserva.getId() == null) {
+            Date dataHoje = new Date();
 
-        if (reserva.getLocal().getAtivo() != true) {
-            throw new BusinessException("Local Inválido");
-        }
+            //Verifica se data inicial não é menor que a data atual.
+            if (reserva.getDataInicio().before(dataHoje)) {
 
-        Restrictions restrictions = new Restrictions();
-        Restrictions restrictions2 = new Restrictions();
-        Restrictions restrictions3 = new Restrictions();
-        Restrictions restrictions4 = new Restrictions();
-        restrictions.add("local", reserva.getLocal());
-        restrictions2.add("local", reserva.getLocal());
-        restrictions3.add("local", reserva.getLocal());
-        restrictions4.add("local", reserva.getLocal());
+                throw new BusinessException("Data inicial não pode ser menor que a data atual.");
+            }
+            //Verifica se data inicial não é maior que a data final.
+            if (reserva.getDataInicio().after(reserva.getDataFinal())) {
+                throw new BusinessException("Data inicial não pode ser maior que a data final.");
+            }
+            //Verifica se o local é váido.
+            if (reserva.getLocal().getAtivo() != true) {
+                throw new BusinessException("Local Inválido");
+            }
 
-        //  restrictions.lessEqualsThan("dataInicio", agendamento.getDataInicio(), TemporalType.TIMESTAMP);//Nessas duas linhas a gente cria o intervalo entre os dois eventos.
-        //  restrictions.greaterEqualsThan("dataFim",agendamento.getDataFim(), TemporalType.TIMESTAMP);
-        restrictions2.greaterEqualsThan("dataFinal", reserva.getDataFinal(), TemporalType.TIMESTAMP);//Nessas 2 linhas a gente cria o data fim dentro do intervalo 
-        restrictions2.lessEqualsThan("dataInicio", reserva.getDataFinal(), TemporalType.TIMESTAMP);
+            Restrictions restrictions = new Restrictions();
+            Restrictions restrictions2 = new Restrictions();
+            Restrictions restrictions3 = new Restrictions();
+            Restrictions restrictions4 = new Restrictions();
+            restrictions.add("local", reserva.getLocal());
+            restrictions2.add("local", reserva.getLocal());
+            restrictions3.add("local", reserva.getLocal());
+            restrictions4.add("local", reserva.getLocal());
 
-        restrictions3.lessEqualsThan("dataInicio", reserva.getDataInicio(), TemporalType.TIMESTAMP);//Nessas 2 linhas a gente cria o data inicio dentro do intervalo 
-        restrictions3.greaterEqualsThan("dataFinal", reserva.getDataInicio(), TemporalType.TIMESTAMP);
+            //  restrictions.lessEqualsThan("dataInicio", agendamento.getDataInicio(), TemporalType.TIMESTAMP);//Nessas duas linhas a gente cria o intervalo entre os dois eventos.
+            //  restrictions.greaterEqualsThan("dataFim",agendamento.getDataFim(), TemporalType.TIMESTAMP);
+            restrictions2.greaterEqualsThan("dataFinal", reserva.getDataFinal(), TemporalType.TIMESTAMP);//Nessas 2 linhas a gente cria o data fim dentro do intervalo 
+            restrictions2.lessEqualsThan("dataInicio", reserva.getDataFinal(), TemporalType.TIMESTAMP);
 
-        restrictions4.greaterEqualsThan("dataInicio", reserva.getDataInicio(), TemporalType.TIMESTAMP);
-        restrictions4.lessEqualsThan("dataFinal", reserva.getDataFinal(), TemporalType.TIMESTAMP);
+            restrictions3.lessEqualsThan("dataInicio", reserva.getDataInicio(), TemporalType.TIMESTAMP);//Nessas 2 linhas a gente cria o data inicio dentro do intervalo 
+            restrictions3.greaterEqualsThan("dataFinal", reserva.getDataInicio(), TemporalType.TIMESTAMP);
 
-        List<ReservaLocal> agendamentos = new ArrayList<ReservaLocal>();
-        //if(getDAO().list(restrictions)!= null){
-        //              agendamentos = getDAO().list(restrictions);
-        // }
-        // if(agendamentos.size()>0){
-        //     throw new BusinessException("Agendamentos não podem conter o mesmo local e estar entre a mesma data!");
-        // }
+            restrictions4.greaterEqualsThan("dataInicio", reserva.getDataInicio(), TemporalType.TIMESTAMP);
+            restrictions4.lessEqualsThan("dataFinal", reserva.getDataFinal(), TemporalType.TIMESTAMP);
 
-        if (getDAO().list(restrictions2) != null) {
-            agendamentos = getDAO().list(restrictions2);
-        }
-        if (agendamentos.size() > 0) {
-            throw new BusinessException("Agendamentos não podem conter o mesmo local e a data Final estar entre uma data já reservada!");
-        }
+            List<ReservaLocal> agendamentos = new ArrayList<ReservaLocal>();
+            //if(getDAO().list(restrictions)!= null){
+            //              agendamentos = getDAO().list(restrictions);
+            // }
+            // if(agendamentos.size()>0){
+            //     throw new BusinessException("Agendamentos não podem conter o mesmo local e estar entre a mesma data!");
+            // }
 
-        if (getDAO().list(restrictions3) != null) {
-            agendamentos = getDAO().list(restrictions3);
-        }
-        if (agendamentos.size() > 0) {
-            throw new BusinessException("Agendamentos não podem conter o mesmo local e a data inicial estar entre uma data já reservada!");
-        }
-        if (getDAO().list(restrictions4) != null) {
-            agendamentos = getDAO().list(restrictions4);
-        }
-        if (agendamentos.size() > 0) {
-            throw new BusinessException("Agendamentos não podem conter o mesmo local e a data inicial estar antes de uma data já reservada e a data final depois!");
+            //Verifica se a data Final esta entre uma data já reservada.
+            if (getDAO().list(restrictions2) != null) {
+                agendamentos = getDAO().list(restrictions2);
+            }
+            if (agendamentos.size() > 0) {
+                throw new BusinessException("Agendamentos não podem conter o mesmo local e a data Final estar entre uma data já reservada!");
+            }
+            //Verifica se a data inicial esta entre uma data já reservada.
+            if (getDAO().list(restrictions3) != null) {
+                agendamentos = getDAO().list(restrictions3);
+            }
+            if (agendamentos.size() > 0) {
+                throw new BusinessException("Agendamentos não podem conter o mesmo local e a data inicial estar entre uma data já reservada!");
+            }
+            //Verifica se a data inicial esta antes e a data final depois de uma data já reservada.
+            if (getDAO().list(restrictions4) != null) {
+                agendamentos = getDAO().list(restrictions4);
+            }
+            if (agendamentos.size() > 0) {
+                throw new BusinessException("Agendamentos não podem conter o mesmo local e a data inicial estar antes de uma data já reservada e a data final depois!");
+            }
         }
     }
 
@@ -125,7 +130,7 @@ public class ReservaLocalBO extends AbstractBusinessObject<ReservaLocal> {
         List<ReservaLocal> reservas = getDAO().getQueryBuilder().select("r").from(ReservaLocal.class, "r").leftJoinFetch("r.localReserva", "l")
                 .add(restrictions).getResultList();
 
-        if(reservas.size() > 0) {
+        if (reservas.size() > 0) {
             return true;
         }
 
@@ -182,85 +187,74 @@ public class ReservaLocalBO extends AbstractBusinessObject<ReservaLocal> {
 
     public List<LocalReserva> locaisPorOrgao(Orgao orgao) {
         Restrictions restrictions = new Restrictions();
-        restrictions.add("orgao", orgao);
+        if (orgao != null) {
+            restrictions.add("orgao", orgao);
+        }
+
         return getDAO().getQueryBuilder().from(LocalReserva.class, "localReserva").leftJoinFetch("localReserva.orgao", "orgao").
                 add(restrictions).orderBy("orgao.nome").getResultList();
     }
 
-    public List<ReservaLocal> reservasPorOrgao(Orgao orgao) {
-
-        Restrictions restrictions = new Restrictions();
-        if (orgao != null) {
-            restrictions.add("orgao", orgao);
-            }
-        
-        return getDAO().getQueryBuilder().from(ReservaLocal.class, "reservaLocal").leftJoinFetch("reservaLocal.orgao", "orgao")
-                .leftJoinFetch("reservaLocal.local", "localReserva").leftJoinFetch("reservaLocal.orgaoSolicitante", "orgaoSolicitante").
-                    add(restrictions).orderBy("orgao.nome").getResultList();
-
-    }
-    
     
     public List<ReservaLocal> reservasPorOrgaoSolicitante(Orgao orgaoSolicitante) {
 
         Restrictions restrictions = new Restrictions();
         if (orgaoSolicitante != null) {
             restrictions.add("orgao", orgaoSolicitante);
-            }
-        
-        return getDAO().getQueryBuilder().from(ReservaLocal.class, "reservaLocal").leftJoinFetch("reservaLocal.orgaoSolicitante", "orgaoSolicitante").
-                    add(restrictions).orderBy("orgaoSolicitante.nome").getResultList();
+        }
+
+        return getDAO().getQueryBuilder().from(ReservaLocal.class, "reservaLocal").leftJoinFetch("reservaLocal.orgao", "orgao").
+                add(restrictions).orderBy("orgao.nome").getResultList();
 
     }
-    
-     public List<ReservaLocal> reservasPorLocais(LocalReserva local) {
+
+    public List<ReservaLocal> reservasPorLocais(LocalReserva local) {
 
         Restrictions restrictions = new Restrictions();
         if (local != null) {
             restrictions.add("local", local);
-            }
-        
+        }
+
         return getDAO().getQueryBuilder().from(ReservaLocal.class, "reservaLocal").leftJoinFetch("reservaLocal.local", "local").
-                    add(restrictions).orderBy("local.nome").getResultList();
+                add(restrictions).orderBy("local.nome").getResultList();
 
     }
-    
+
     public List<ReservaLocal> reservasPorDataInicial(Date dataInicial) {
 
         Restrictions restrictions = new Restrictions();
-        if (dataInicial!= null) {
+        if (dataInicial != null) {
             restrictions.add("dataInicial", dataInicial);
-            }
-        
+        }
+
         return getDAO().getQueryBuilder().from(ReservaLocal.class, "reservaLocal").leftJoinFetch("reservaLocal.dataInicial", "datainicial").
-                    add(restrictions).orderBy("dataInicial").getResultList();
+                add(restrictions).orderBy("dataInicial").getResultList();
 
     }
 
     public List<ReservaLocal> reservasPorDataFinal(Date dataFinal) {
 
         Restrictions restrictions = new Restrictions();
-        if (dataFinal!= null) {
+        if (dataFinal != null) {
             restrictions.add("dataFinal", dataFinal);
-            }
-        
+        }
+
         return getDAO().getQueryBuilder().from(ReservaLocal.class, "reservaLocal").leftJoinFetch("reservaLocal.dataFinal", "datafinal").
-                    add(restrictions).orderBy("dataFinal").getResultList();
+                add(restrictions).orderBy("dataFinal").getResultList();
 
     }
-    
+
     public List<ReservaLocal> listarReservas(FiltrosVO filtros) {
 
         Restrictions restrictions = new Restrictions();
 
-       
         if (filtros.getOrgao() != null) {
             restrictions.add("orgao", filtros.getOrgao());
         }
         if (filtros.getOrgaoSolicitante() != null) {
             restrictions.add("reserva.orgaoSolicitante", filtros.getOrgaoSolicitante());
         }
-        
+
         if (filtros.getLocal() != null) {
             restrictions.add("reserva.local", filtros.getLocal());
         }
@@ -277,20 +271,20 @@ public class ReservaLocalBO extends AbstractBusinessObject<ReservaLocal> {
             restrictions.lessEqualsThan("reserva.dataFinal", filtros.getDataFinal(), TemporalType.TIMESTAMP);
         }
 
-        if (filtros.getSolicitante() != null&& !filtros.getSolicitante().equals("")) {
+        if (filtros.getSolicitante() != null && !filtros.getSolicitante().equals("")) {
             restrictions.like("reserva.solicitante", filtros.getSolicitante());
         }
-        
+
         return reservaLocalDAO.getQueryBuilder().from(ReservaLocal.class, "reserva").leftJoinFetch("reserva.orgaoSolicitante", "orgaosolicitante").
-               leftJoinFetch("reserva.local", "local").leftJoinFetch("reserva.orgao", "orgao").
-               add(restrictions).orderBy("orgao,local").getResultList();
+                leftJoinFetch("reserva.local", "local").leftJoinFetch("reserva.orgao", "orgao").
+                add(restrictions).orderBy("orgao,reserva.dataInicio desc").getResultList();
 
     }
 
     public List<Orgao> orgaoPeloNome(String nome) {
         Restrictions restrictions = new Restrictions();
         if (!Utils.isNullOrEmpty(nome)) {
-            restrictions.like("orgao.nome", nome);
+            restrictions.like("orgao.sigla", nome);
         }
 
         restrictions.add("orgao.ativo", true);
@@ -298,19 +292,19 @@ public class ReservaLocalBO extends AbstractBusinessObject<ReservaLocal> {
         return getDAO().getQueryBuilder().from(Orgao.class, "orgao").add(restrictions).orderBy("orgao.nome").getResultList();
     }
 
-    public List<LocalReserva> localPeloNomeOrgao(String nome,Orgao orgao) {
+    public List<LocalReserva> localPeloNomeOrgao(String nome, Orgao orgao) {
         Restrictions restrictions = new Restrictions();
+
         if (orgao != null) {
             restrictions.add("orgao", orgao);
-            }
+        }
         if (!Utils.isNullOrEmpty(nome)) {
             restrictions.like("local.nome", nome);
         }
 
-        restrictions.add("orgao.ativo", true);
+        restrictions.add("local.ativo", true);
 
         return getDAO().getQueryBuilder().from(LocalReserva.class, "local").add(restrictions).orderBy("local.nome").getResultList();
     }
-
 
 }

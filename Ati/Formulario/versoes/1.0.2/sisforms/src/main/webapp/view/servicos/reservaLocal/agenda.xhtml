@@ -1,0 +1,79 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces"
+                 xmlns:custom="http://java.sun.com/jsf/composite/components" >
+    <script type="text/javascript">
+        PrimeFaces.widget.Schedule.prototype._oldInit = PrimeFaces.widget.Schedule.prototype.init;
+        PrimeFaces.widget.Schedule.prototype.init = function (cfg) {
+            cfg.columnFormat = {
+                month: 'ddd',
+                week: 'ddd DD/M',
+                day: 'dddd DD/MM'
+            };
+
+            this._oldInit.apply(this, arguments);
+        };
+        PrimeFaces.locales['pt-br'] = {
+            closeText: 'Fechar',
+            prevText: 'Anterior',
+            nextText: 'Próximo',
+            currentText: 'Começo',
+            monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+            monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+            dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+            dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+            dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+            weekHeader: 'Semana',
+            firstDay: 0,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: '',
+            timeOnlyTitle: 'Só Horas',
+            timeText: 'Tempo',
+            hourText: 'Hora',
+            minuteText: 'Minuto',
+            secondText: 'Segundo',
+            ampm: false,
+            month: 'Mês',
+            week: 'Semana',
+            day: 'Dia',
+            allDayText: 'Todo o Dia'
+        };
+
+
+    </script>
+
+
+    <h:form id="formAgenda" >
+
+
+        <h:panelGrid columnClasses="value">
+            <h3 style="margin-top: 0">Reservas</h3>
+            <p:schedule id="schedule" value="#{reservaLocalMB.eventModel}" widgetVar="myschedule" timeZone="GMT-3"   timeFormat=" "  axisFormat="H:mm" centerHeaderTemplate="title" >
+                
+                    <p:ajax event="dateSelect" listener="#{reservaLocalMB.selecionarData}" update="eventDetails" disabled="#{x:hasRole('reservaLocal.create')}"/>
+                    <p:ajax event="eventSelect" listener="#{reservaLocalMB.selecionarEvento}" update="eventDetails"  disabled="#{x:hasRole('reservaLocal.create')}"/>
+                    <p:ajax event="eventMove" listener="#{reservaLocalMB.moverEvento}" disabled="#{x:hasRole('reservaLocal.create')}" />
+                    <p:ajax event="eventResize" listener="#{reservaLocalMB.redimensionarEvento}" disabled="#{x:hasRole('reservaLocal.create')}" />
+                
+            </p:schedule>
+
+
+        </h:panelGrid>
+    </h:form>
+    <p:dialog id="eventDetails" widgetVar="eventDialog"  header="#{msg['Cadastrar reservas']}" appendTo="@(body)" 
+              modal="true" styleClass="uix-dialog-fluid" >
+        <ui:include src="formCreateReservaLocal.xhtml" />
+        <p:ajax event="close" update="formAgenda" listener="#{findAllBean.setReload(true)}"/>
+    </p:dialog>
+    <style type="text/css">
+        .value {
+            width: 1000px;
+        }
+    </style>
+
+
+</ui:composition>

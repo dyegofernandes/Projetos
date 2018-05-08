@@ -9,183 +9,183 @@
     <ui:define name="body">
         <ui:include src="menuReservaLocal.xhtml" />
         <h:form id="formListReservaLocal">
-            
+            <x:modalMessages autoUpdate="true" />
             <p:fieldset legend="Filtros de Busca" toggleable="true">
-                
+
                 <div class="row">
                     <h:panelGroup id="panel0">
-                            <x:securityArea rolesAllowed="orgao.campo">
-                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                    <h:outputLabel for="orgaoUsuario" value="Orgão Usuário" />
+                        <x:securityArea rolesAllowed="orgao.campo">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="orgaoUsuario" value="Orgão Usuário" />
 
-                                    
-                                        <p:autoComplete id="orgaoUsuario" value="#{reservaLocalMB.filtros.orgao}" 
 
-                                                completeMethod="#{reservaLocalMB.orgaoAutocompletePeloNome}" styleClass="uix-autocomplete" 
-
-                                                minQueryLength="3" forceSelection="false" dropdown="true" scrollHeight="400"
-
-                                                var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"  > 
-                                                <x:initializer/>
-                                                
-                                                <p:column> 
-                                                    
-                                                    <h:outputText value="#{p.sigla}" style="font-weight: bold"/>  
-                                                    <h:outputText value=" (#{p.nome})" styleClass="font-8"  /> 
-            
-                                                </p:column> 
-                                                
-                                        </p:autoComplete>
-                                        
- 
-
-                                </div>
-                            </x:securityArea>
-
-                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                    <h:outputLabel for="orgaoSolicitante" value="Orgão Solicitante" />
-
-                                    
-                                        <p:autoComplete id="orgaoSolicitante" value="#{reservaLocalMB.filtros.orgaoSolicitante}" 
+                                <p:autoComplete id="orgaoUsuario" value="#{reservaLocalMB.filtros.orgao}" 
 
                                                 completeMethod="#{reservaLocalMB.orgaoAutocompletePeloNome}" styleClass="uix-autocomplete" 
 
                                                 minQueryLength="3" forceSelection="false" dropdown="true" scrollHeight="400"
 
                                                 var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"  > 
-                                                <x:initializer/>
-                                                
-                                                <p:column> 
-                                                    
-                                                    <h:outputText value="#{p.sigla}" style="font-weight: bold"/>  
-                                                    <h:outputText value=" (#{p.nome})" styleClass="font-8"  /> 
-            
-                                                </p:column> 
-                                                
-                                        </p:autoComplete>
-                                        
- 
+                                    <x:initializer/>
 
-                                </div>
-                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                    <h:outputLabel for="dataInicio" value="Data Inicial" />
-                                    <p:calendar id="dataInicio" value="#{reservaLocalMB.filtros.dataInicial}" showOn="button" styleClass="uix-calendar" pattern="dd/MM/yyyy HH:mm" >
-                                        <x:mask/>       
-                                        <p:ajax process="@this" update="@" listener="#{reservaLocalMB.carregarReservasPorDataInicial()}"/>
-                                    </p:calendar>
+                                    <p:column> 
 
-                                </div>
-                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                    <h:outputLabel for="dataFinal" value="Data Final" />
-                                    <p:calendar  id="dataFinal" value="#{reservaLocalMB.filtros.dataFinal}" showOn="button" styleClass="uix-calendar"  pattern="dd/MM/yyyy HH:mm" >
-                                        <x:mask/>       
-                                        <p:ajax process="@this" update="@" listener="#{reservaLocalMB.carregarReservasPorDataFinal()}"/>
-                                    </p:calendar>
+                                        <h:outputText value="#{p.sigla}" style="font-weight: bold"/>  
+                                        <h:outputText value=" (#{p.nome})" styleClass="font-8"  /> 
 
-                                </div>
-                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                    <h:outputLabel for="localReserva" value="Local" />
+                                    </p:column> 
 
-                                    
-                                        <p:autoComplete id="localReserva" value="#{reservaLocalMB.filtros.local}" 
+                                </p:autoComplete>
 
-                                                completeMethod="#{reservaLocalMB.localAutocompletePeloNome}" styleClass="uix-autocomplete" 
 
-                                                minQueryLength="3" forceSelection="true" dropdown="true"
 
-                                                var="l" itemLabel="#{l}" itemValue="#{l}" converter="entityConverter"  > 
-                                                <x:initializer/>
-                                                
-                                                <p:column> 
-                                                     
-                                                    <h:outputText value=" (#{l.nome})" styleClass="font-8"  /> 
-            
-                                                </p:column> 
-                                                
-                                        </p:autoComplete>
-                                    
+                            </div>
+                        </x:securityArea>
 
-                                 </div>
-                            
-                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                    <h:outputLabel for="titulo" value="Título" />
-                                    <p:inputText id="titulo" value="#{reservaLocalMB.filtros.titulo}" maxlength="260"  styleClass="form-control"  />
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="orgaoSolicitante" value="Orgão Solicitante" />
 
-                                </div>
-                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                    <h:outputLabel for="solicitante" value="Solicitante" />
-                                    <p:inputText id="solicitante" value="#{reservaLocalMB.filtros.solicitante}" maxlength="260"  styleClass="form-control"  />
 
-                                </div>
-                            
+                            <p:autoComplete id="orgaoSolicitante" value="#{reservaLocalMB.filtros.orgaoSolicitante}" 
+
+                                            completeMethod="#{reservaLocalMB.orgaoAutocompletePeloNome}" styleClass="uix-autocomplete" 
+
+                                            minQueryLength="3" forceSelection="false" dropdown="true" scrollHeight="400"
+
+                                            var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"  > 
+                                <x:initializer/>
+
+                                <p:column> 
+
+                                    <h:outputText value="#{p.sigla}" style="font-weight: bold"/>  
+                                    <h:outputText value=" (#{p.nome})" styleClass="font-8"  /> 
+
+                                </p:column> 
+
+                            </p:autoComplete>
+
+
+
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dataInicio" value="Data Inicial" />
+                            <p:calendar id="dataInicio" value="#{reservaLocalMB.filtros.dataInicial}" showOn="button" styleClass="uix-calendar" pattern="dd/MM/yyyy HH:mm" >
+                                <x:mask/>       
+                                <p:ajax process="@this" update="@" listener="#{reservaLocalMB.carregarReservasPorDataInicial()}"/>
+                            </p:calendar>
+
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dataFinal" value="Data Final" />
+                            <p:calendar  id="dataFinal" value="#{reservaLocalMB.filtros.dataFinal}" showOn="button" styleClass="uix-calendar"  pattern="dd/MM/yyyy HH:mm" >
+                                <x:mask/>       
+                                <p:ajax process="@this" update="@" listener="#{reservaLocalMB.carregarReservasPorDataFinal()}"/>
+                            </p:calendar>
+
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="localReserva" value="Local" />
+
+
+                            <p:autoComplete id="localReserva" value="#{reservaLocalMB.filtros.local}" 
+
+                                            completeMethod="#{reservaLocalMB.localAutocompletePeloNome}" styleClass="uix-autocomplete" 
+
+                                            minQueryLength="3" forceSelection="true" dropdown="true"
+
+                                            var="l" itemLabel="#{l}" itemValue="#{l}" converter="entityConverter"  > 
+                                <x:initializer/>
+
+                                <p:column> 
+
+                                    <h:outputText value=" #{l.nome}" styleClass="font-8"  /> 
+
+                                </p:column> 
+
+                            </p:autoComplete>
+
+
+                        </div>
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="titulo" value="Título" />
+                            <p:inputText id="titulo" value="#{reservaLocalMB.filtros.titulo}" maxlength="260"  styleClass="form-control"  />
+
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="solicitante" value="Solicitante" />
+                            <p:inputText id="solicitante" value="#{reservaLocalMB.filtros.solicitante}" maxlength="260"  styleClass="form-control"  />
+
+                        </div>
+
                     </h:panelGroup>                
                 </div>
-                    
+
                 <div class="uix-center">
                     <p:commandButton process="@this panel0" update="dataTableReservaLocal" action="#{reservaLocalMB.buscar()}" value="Buscar" />
                 </div>
 
             </p:fieldset>
 
-            
+
             <x:modalMessages/>
 
             <x:dataTableActions fileName="reservaLocal_export" target=":formListReservaLocal:dataTableReservaLocal"
-                                     widgetVar="dataTableReservaLocalWidget"  />
+                                widgetVar="dataTableReservaLocalWidget"  />
 
             <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                          var="reserva" rowIndexVar="index" id="dataTableReservaLocal" widgetVar="dataTableReservaLocalWidget" styleClass="table-responsive"
-                        
+
                          value="#{reservaLocalMB.reservas}" lazy="false" >
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
 
                 <p:column headerText="#{msg['Orgão Usuário']}" sortBy="#{reserva.orgaoSolicitante}"  rendered="#{x:hasRole('orgao.coluna')}"
-                            >
+                          >
                     <f:facet name="header">
                         <h:outputText value="#{msg['Orgão Usuário']}" />
                     </f:facet>
                     <h:outputText value="#{reserva.orgao}"/>
                 </p:column>
-                
+
                 <p:column headerText="#{msg['Orgão Solicitante']}" sortBy="#{reserva.orgaoSolicitante}" 
-                            >
+                          >
                     <f:facet name="header">
                         <h:outputText value="#{msg['Orgão Solicitante']}" />
                     </f:facet>
                     <h:outputText value="#{reserva.orgaoSolicitante}"/>
                 </p:column>
                 <p:column headerText="#{msg['Título']}" sortBy="#{reserva.titulo}"
-                     >
+                          >
                     <f:facet name="header">
                         <h:outputText value="#{msg['Título']}" />
                     </f:facet>
                     <h:outputText value="#{reserva.titulo}"/>
                 </p:column>
-                
+
                 <p:column headerText="#{msg['Data Inicial']}" sortBy="#{reserva.dataInicio}"
-                      style="text-align: center;">
+                          style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['Data Inicial']}" />
-                    
+
                     </f:facet>
                     <h:outputText value="#{reserva.dataInicio}">
                         <f:convertDateTime pattern="#{formatMB.format.dataHoraMinutoSegundo}"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{msg['Data Final']}" sortBy="#{reserva.dataFinal}"
-                       style="text-align: center;">
+                          style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['Data Final']}" />
-                    
+
                     </f:facet>
                     <h:outputText value="#{reserva.dataFinal}">
                         <f:convertDateTime pattern="#{formatMB.format.dataHoraMinutoSegundo}"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{msg['Local']}" sortBy="#{reserva.local}" 
-                        >
+                          >
                     <f:facet name="header">
                         <h:outputText value="#{msg['Local']}" />
                     </f:facet>
@@ -194,32 +194,29 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{msg['Solicitante']}" sortBy="#{reserva.solicitante}"
-                       >
+                          >
                     <f:facet name="header">
                         <h:outputText value="#{msg['Solicitante']}" />
                     </f:facet>
                     <h:outputText value="#{reserva.solicitante}"/>
                 </p:column>
-               
+
                 <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
-                    
+
                     <f:facet name="header">
                         <h:outputText value="#{xmsg['actions']}"/>
                     </f:facet>
                     <p:commandButton oncomplete="PF('widgetReservaLocalDetail').show();"  icon="ui-icon-zoomin" 
                                      process="@form" update=":formDetailReservaLocal" title="#{xmsg['detail']}" actionListener="#{reservaLocalMB.carregar_arquivos(reserva)}">
-                        <f:setPropertyActionListener value="#{reserva}" target="#{reservaLocalMB.reserva}" />
+                        <f:setPropertyActionListener value="#{reserva}" target="#{reservaLocalMB.entity}" />
                     </p:commandButton>
-                    
-                    
-                    <p:commandButton oncomplete="PF('eventDialog').show();"  icon="ui-icon-pencil" 
-                                     process="@form" update=":formUpdateReservaLocal" title="#{xmsg['edit']}" actionListener="#{reservaLocalMB.carregar_arquivos(reserva)}">
-                        <f:setPropertyActionListener value="#{reserva}" target="#{reservaLocalMB.reserva}" />
-                       
-                    </p:commandButton>
-                    
-      
-                    
+                    <x:securityArea rolesAllowed="reservaLocal.create">
+                        <p:commandButton oncomplete="PF('eventDialog').show();"  icon="ui-icon-pencil" rendered="#{reserva.dataInicio >= now}"
+                                         process="@form" update=":formCreateReserva" title="#{xmsg['detail']}" actionListener="#{reservaLocalMB.carregar_arquivos(reserva)}">
+                            <f:setPropertyActionListener value="#{reserva}" target="#{reservaLocalMB.entity}" />
+                        </p:commandButton>
+                    </x:securityArea>
+
                     <x:securityArea rolesAllowed="reservaLocal.delete">
                         <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
                                          action="#{reservaLocalMB.remove_reserva(reserva)}" >
@@ -227,9 +224,9 @@
                             <x:confirmation message="#{xmsg['confirmDelete']} - #{reserva}" />
                         </p:commandButton>
                     </x:securityArea>
-                    
-                  
-                    
+
+
+
                 </p:column>
             </p:dataTable>
             <div class="uix-audit-delete">
@@ -238,15 +235,18 @@
                 </x:securityArea>
             </div>  
         </h:form>
-        
-        <p:dialog widgetVar="eventDialog" header="Editar evento" showEffect="clip" hideEffect="clip" appendTo="@(body)"
-                  modal="true" styleClass="uix-dialog-fluid"  >
-                <ui:include src="formUpdateReservaLocal.xhtml" />
-        </p:dialog>
+
+
 
         <p:dialog widgetVar="widgetReservaLocalDetail" header="#{msg['Detalhes do evento']}" appendTo="@(body)" 
                   modal="true" styleClass="uix-dialog-fluid" >
-                  <ui:include src="detailReservaLocal.xhtml" />
+            <ui:include src="detailReservaLocal.xhtml" />
+        </p:dialog>
+
+        <p:dialog id="eventDetails" widgetVar="eventDialog"  header="#{msg['Cadastrar reservas']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="formCreateReservaLocal.xhtml" />
+            <p:ajax event="close" update="formCreateReserva" listener="#{findAllBean.setReload(true)}"/>
         </p:dialog>
     </ui:define>
 </ui:composition>

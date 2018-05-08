@@ -10,6 +10,7 @@ import br.gov.pi.ati.sccd.bo.certificado.ItemPedidoBO;
 import br.gov.pi.ati.sccd.bo.certificado.PedidoBO;
 import br.gov.pi.ati.sccd.modelo.cadastro.Arquivo;
 import br.gov.pi.ati.sccd.modelo.cadastro.Cliente;
+import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificado;
 import br.gov.pi.ati.sccd.modelo.certificado.Certificado;
 import br.gov.pi.ati.sccd.modelo.certificado.ContratoCliente;
 import br.gov.pi.ati.sccd.modelo.certificado.ItemPedido;
@@ -181,7 +182,8 @@ public class CertificadoMB extends AbstractBaseBean<Certificado> implements Seri
     public boolean verificarSeEhPJ() {
         if (getEntity().getTitular() != null) {
             ItemPedido titular = getDAO().getInitialized(getEntity().getTitular());
-            if (titular.getTipoPessoa() == TipoPessoa.JURIDICA) {
+            TipoCertificado tipoCertificado = getDAO().getInitialized(titular.getTipoCertificado());
+            if (tipoCertificado.getTipoPessoa() == TipoPessoa.JURIDICA) {
                 return true;
             }
 

@@ -30,32 +30,6 @@
                             </div>
 
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                <h:outputLabel for="tipoPessoa" value="* #{msg['itemPedido.tipoPessoa']}:" />
-                                <h:selectOneMenu id="tipoPessoa" value="#{agendamentoCalendarioMB.itemPedido.tipoPessoa}"  styleClass="form-control" 
-                                                 required="true" requiredMessage="Tipo de Pessoa é obrigatório!!">
-                                    <f:selectItems value="#{findAllBean.get(classMB.tipoPessoa)}" 
-                                                   var="tipoPessoa"
-                                                   itemLabel="#{tipoPessoa.descricao}"/>
-                                    <p:ajax process="@this" update="panel"/>
-                                </h:selectOneMenu>
-                            </div>
-                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                <h:panelGroup id="panel">
-                                    <h:outputLabel for="cpfTitular" value="* #{msg['itemPedido.cpfTitular']}:" rendered="#{agendamentoCalendarioMB.itemPedido.tipoPessoa.num eq 1}" />
-                                    <x:cpf id="cpfTitular" value="#{agendamentoCalendarioMB.itemPedido.cpfCnpjTitular}" styleClass="form-control" rendered="#{agendamentoCalendarioMB.itemPedido.tipoPessoa.num eq 1}"
-                                           required="true" requiredMessage="CPF do Titular é obrigatório!!"/>
-                                    <h:outputLabel for="cnpjTitular" value="* #{msg['itemPedido.cnpjTitular']}:" rendered="#{agendamentoCalendarioMB.itemPedido.tipoPessoa.num eq 2}"/>
-                                    <x:cnpj id="cnpjTitular" value="#{agendamentoCalendarioMB.itemPedido.cpfCnpjTitular}" styleClass="form-control" rendered="#{agendamentoCalendarioMB.itemPedido.tipoPessoa.num eq 2}"
-                                            required="true" requiredMessage="CNPJ do Titular é obrigatório!!"/>
-                                </h:panelGroup>
-
-                            </div>
-                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                <h:outputLabel for="titular" value="* #{msg['itemPedido.titular']}:" />
-                                <p:inputText id="titular" value="#{agendamentoCalendarioMB.itemPedido.nomeTitular}" maxlength="250"  styleClass="form-control"  
-                                             required="true" requiredMessage="Nome do Titular é obrigatório!!"/>
-                            </div>
-                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="tipoCertificado" value="* #{msg['itemPedido.tipoCertificado']}:" />
                                 <h:selectOneMenu id="tipoCertificado" value="#{agendamentoCalendarioMB.itemPedido.tipoCertificado}" converter="entityConverter" styleClass="form-control" 
                                                  required="true" requiredMessage="Tipo de Certificado é obrigatório!!">
@@ -63,8 +37,31 @@
                                     <f:selectItems value="#{findAllBean.get(classMB.tipoCertificado)}" 
                                                    var="tipoCertificado"
                                                    itemLabel="#{tipoCertificado}"/>
+                                    <p:ajax process="@this" update="panel"/>
                                 </h:selectOneMenu>
                             </div>
+                            <h:panelGroup id="panel">
+                                <h:panelGroup  rendered="#{agendamentoCalendarioMB.itemPedido.tipoCertificado != null}">
+                                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+
+                                        <h:outputLabel for="cpfTitular" value="* #{msg['itemPedido.cpfTitular']}:" rendered="#{agendamentoCalendarioMB.itemPedido.tipoCertificado.tipoPessoa.num eq 1}" />
+                                        <x:cpf id="cpfTitular" value="#{agendamentoCalendarioMB.itemPedido.cpfCnpjTitular}" styleClass="form-control" rendered="#{agendamentoCalendarioMB.itemPedido.tipoCertificado.tipoPessoa.num eq 1}"
+                                               required="true" requiredMessage="CPF do Titular é obrigatório!!"/>
+                                        <h:outputLabel for="cnpjTitular" value="* #{msg['itemPedido.cnpjTitular']}:" rendered="#{agendamentoCalendarioMB.itemPedido.tipoCertificado.tipoPessoa.num eq 2}"/>
+                                        <x:cnpj id="cnpjTitular" value="#{agendamentoCalendarioMB.itemPedido.cpfCnpjTitular}" styleClass="form-control" rendered="#{agendamentoCalendarioMB.itemPedido.tipoCertificado.tipoPessoa.num eq 2}"
+                                                required="true" requiredMessage="CNPJ do Titular é obrigatório!!"/>
+
+
+                                    </div>
+                                </h:panelGroup>
+                            </h:panelGroup>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="titular" value="* #{msg['itemPedido.titular']}:" />
+                                <p:inputText id="titular" value="#{agendamentoCalendarioMB.itemPedido.nomeTitular}" maxlength="250"  styleClass="form-control"  
+                                             required="true" requiredMessage="Nome do Titular é obrigatório!!"/>
+                            </div>
+
 
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="email" value="* #{msg['agendamento.email']}:" />

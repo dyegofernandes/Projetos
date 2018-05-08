@@ -12,7 +12,7 @@ import br.gov.pi.ati.sisforms.modelo.formulario.FormCriacaoEmail;
 import br.gov.pi.ati.sisforms.modelo.formulario.Participante;
 import br.gov.pi.ati.sisforms.modelo.formulario.PendenciaIdentificada;
 import br.gov.pi.ati.sisforms.modelo.formulario.RelatorioDeVisita;
-import br.gov.pi.ati.sisforms.modelo.formulario.SolicitacaoAcessoSFP;
+
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -247,6 +247,6 @@ public class Orgao implements Serializable {
 
     @Override
     public String toString() {
-        return sigla;
+        return sigla.concat(" - ").concat("nome");
     }
 }

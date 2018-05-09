@@ -247,6 +247,6 @@ public class Orgao implements Serializable {
 
     @Override
     public String toString() {
-        return sigla.concat(" - ").concat("nome");
+        return sigla.concat(" - ").concat(nome);
     }
 }

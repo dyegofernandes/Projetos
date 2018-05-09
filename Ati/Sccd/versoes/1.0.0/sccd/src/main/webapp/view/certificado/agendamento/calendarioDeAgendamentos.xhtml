@@ -5,8 +5,17 @@
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
 
-    <h:outputScript library="js" name="locale.js" />
     <script type="text/javascript">
+        PrimeFaces.widget.Schedule.prototype._oldInit = PrimeFaces.widget.Schedule.prototype.init;
+        PrimeFaces.widget.Schedule.prototype.init = function (cfg) {
+            cfg.columnFormat = {
+                month: 'ddd',
+                week: 'ddd DD/M',
+                day: 'dddd DD/MM'
+            };
+
+            this._oldInit.apply(this, arguments);
+        };
         PrimeFaces.locales['pt'] = {
             closeText: 'Fechar',
             prevText: 'Anterior',
@@ -26,8 +35,7 @@
             hourText: 'Hora',
             minuteText: 'Minuto',
             secondText: 'Segundo',
-            currentText: 'Data Atual',
-                    ampm: false,
+            ampm: false,
             month: 'Mês',
             week: 'Semana',
             day: 'Dia',
@@ -43,8 +51,8 @@
             <p:schedule id="schedule" value="#{agendamentoMB.eventModel}" widgetVar="myschedule" 
                         timeZone="GMT-3" axisFormat="HH:mm" locale="pt" minTime="08:00:00" maxTime="13:00:00"
                         rightHeaderTemplate ="agendaWeek,agendaDay" view="agendaWeek" slotMinutes="30" allDaySlot="false" 
-                        showWeekends="false"  >
-                
+                        showWeekends="false" draggable="false" resizable="false" >
+                        
                 <p:ajax event="eventSelect" listener="#{agendamentoMB.onEventSelect}" update="formCreateAgendamento" />
             </p:schedule>
         </h:panelGrid>
@@ -53,8 +61,7 @@
     <p:dialog widgetVar="widgetAgendamento" header="#{msg['agendamento.detail']}" appendTo="@(body)" 
               modal="true" styleClass="uix-dialog-fluid" showEffect="clip" hideEffect="clip">
         <ui:include src="formCreateAgendamento.xhtml" />
-        <p:ajax event="close" update=":formCreateAgendamento" listener="#{findAllBean.setReload(true)}"
-                />
+        <p:ajax event="close" update=":formCreateAgendamento" listener="#{findAllBean.setReload(true)}"/>
     </p:dialog>
 
     <style type="text/css">

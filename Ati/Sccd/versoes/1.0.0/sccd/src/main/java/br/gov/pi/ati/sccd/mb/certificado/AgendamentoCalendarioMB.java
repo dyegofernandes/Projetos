@@ -14,6 +14,7 @@ import br.gov.pi.ati.sccd.modelo.certificado.Agendamento;
 import br.gov.pi.ati.sccd.modelo.certificado.ArquivoAgendamento;
 import br.gov.pi.ati.sccd.modelo.certificado.ItemPedido;
 import br.gov.pi.ati.sccd.modelo.email.TipoAssuntoEmail;
+import br.gov.pi.ati.sccd.modelo.enums.HeaderCalendario;
 import br.gov.pi.ati.sccd.modelo.enums.SituacaoAgendamento;
 import br.gov.pi.ati.sccd.modelo.enums.TipoArquivoAgendamento;
 import br.gov.pi.ati.sccd.util.Utils;
@@ -24,6 +25,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -83,6 +85,10 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
 
     private boolean oficio;
 
+    private String headerCalendario;
+    
+    private Date dataInicial;
+
     @Override
     public AgendamentoBO getBO() {
         return agendamentoBO;
@@ -95,6 +101,10 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
 
     @Override
     public void init() {
+
+        headerCalendario = HeaderCalendario.MES.getDescricao();
+        
+        dataInicial = new Date();
 
         termo = cnh = rg = cpf = comprovante_residencia = oficio = false;
 
@@ -117,8 +127,6 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
         getEntity().setProtocolo(getProtocolo());
         getEntity().setItemPedido(itemPedido);
         getEntity().setArquivos(arquivos);
-        getEntity().setContatos(contatos);
-
 //        if (termo) {
 //            if (comprovante_residencia) {
 //                if (cnh) {
@@ -144,7 +152,6 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
 //        } else {
 //            FacesMessageUtils.error("Termo de Titularidade e Responsabilidade é obrigatório!!");
 //        }
-
         super.save();
     }
 
@@ -217,32 +224,75 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
         FacesMessageUtils.error("Horário Reservado!!");
     }
 
-    public void onDateSelect(SelectEvent selectEvent) {
+    public String getHeaderCalendario() {
+        return headerCalendario;
+    }
 
+    public void setHeaderCalendario(String headerCalendario) {
+        this.headerCalendario = headerCalendario;
+    }
+
+    public Date getDataInicial() {
+        return dataInicial;
+    }
+
+    public void setDataInicial(Date dataInicial) {
+        this.dataInicial = dataInicial;
+    }
+
+    public void onDateSelect(SelectEvent selectEvent) {
+        
         setEntity(new Agendamento());
 
-        RequestContext context = RequestContext.getCurrentInstance();
+        Date dataSolicitada = (Date) selectEvent.getObject();
 
-        Date dataInicial = (Date) selectEvent.getObject();
+        Feriado feriado = feriadoBO.feriadoPelaData(dataSolicitada);
 
-        Feriado feriado = feriadoBO.feriadoPelaData(dataInicial);
+        Calendar dataSolicitadaZerada = Calendar.getInstance();
+        dataSolicitadaZerada.setTime(dataSolicitada);
+        dataSolicitadaZerada.set(Calendar.HOUR_OF_DAY, 0);
+        dataSolicitadaZerada.set(Calendar.MINUTE, 0);
+        dataSolicitadaZerada.set(Calendar.SECOND, 0);
+        dataSolicitadaZerada.set(Calendar.MILLISECOND, 0);
 
         if (feriado != null) {
             FacesMessageUtils.error(feriado.getDescricao());
         } else {
-            if (dataInicial.before(new Date())) {
-                FacesMessageUtils.error("Reservas não pode ser feita para datas ou horários passados!!");
+            if (verificarHoraZerada(dataSolicitada)) {
+                Calendar dataAtualZerada = Calendar.getInstance();
+                dataAtualZerada.setTime(new Date());
+                dataAtualZerada.set(Calendar.HOUR_OF_DAY, 0);
+                dataAtualZerada.set(Calendar.MINUTE, 0);
+                dataAtualZerada.set(Calendar.SECOND, 0);
+                dataAtualZerada.set(Calendar.MILLISECOND, 0);
+
+                boolean passado = dataSolicitadaZerada.getTime().before(dataAtualZerada.getTime());
+                if (passado) {
+                    FacesMessageUtils.error("Reservas não pode ser feita para datas ou horários passados!!");
+                } else {
+                    headerCalendario = HeaderCalendario.DIA.getDescricao();
+                    dataInicial = dataSolicitada;
+                    carregarAgenda();
+                }
+
             } else {
+                RequestContext context = RequestContext.getCurrentInstance();
 
-                getEntity().setDataInicial(dataInicial);
-                Calendar calendario = Calendar.getInstance();
-                calendario.setTime(dataInicial);
-                calendario.add(Calendar.MINUTE, 30);
+                if (dataSolicitada.before(new Date())) {
+                    FacesMessageUtils.error("Reservas não pode ser feita para datas ou horários passados!!");
+                } else {
 
-                getEntity().setDataFinal(calendario.getTime());
-                getEntity().setSituacao(SituacaoAgendamento.NAO_CONFIRMADO);
+                    getEntity().setDataInicial(dataSolicitada);
+                    Calendar calendario = Calendar.getInstance();
+                    calendario.setTime(dataSolicitada);
+                    calendario.add(Calendar.MINUTE, 30);
 
-                context.execute("PF('widgetAgendamento').show();");
+                    getEntity().setDataFinal(calendario.getTime());
+                    getEntity().setSituacao(SituacaoAgendamento.NAO_CONFIRMADO);
+
+                    context.execute("PF('widgetAgendamento').show();");
+
+                }
 
             }
         }
@@ -366,20 +416,17 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
     }
 
     public void addContato() {
-        if (!Utils.isNullOrEmpty(contatoAdd.getNome())) {
-            if (!Utils.isNullOrEmpty(contatoAdd.getNumero())) {
-                if (numJahAdicionado(contatoAdd.getNumero())) {
-                    FacesMessageUtils.error("Número já encontrado na lista de contatos!");
-                } else {
-                    contatos.add(contatoAdd);
-                    contatoAdd = new Contato();
-                }
+        if (!Utils.isNullOrEmpty(contatoAdd.getNumero())) {
+            if (numJahAdicionado(contatoAdd.getNumero())) {
+                FacesMessageUtils.error("Número já encontrado na lista de contatos!");
             } else {
-                FacesMessageUtils.error("Número do Contato é obrigatório!!");
+                contatos.add(contatoAdd);
+                contatoAdd = new Contato();
             }
         } else {
-            FacesMessageUtils.error("Nome do Contato é obrigatório!!");
+            FacesMessageUtils.error("Número do Contato é obrigatório!!");
         }
+
     }
 
     public void removerContato(Contato contato) {
@@ -405,5 +452,23 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
 //            eventTemp.setId(agendamento.getId().toString());
             eventModel.addEvent(eventTemp);
         }
+    }
+
+    public boolean verificarHoraZerada(Date data) {
+        Calendar dataSolicitada = Calendar.getInstance();
+        dataSolicitada.setTime(data);
+
+        Calendar dataComHoraZero = Calendar.getInstance();
+        dataComHoraZero.setTime(data);
+        dataComHoraZero.set(Calendar.HOUR_OF_DAY, 0);
+        dataComHoraZero.set(Calendar.MINUTE, 0);
+        dataComHoraZero.set(Calendar.SECOND, 0);
+        dataComHoraZero.set(Calendar.MILLISECOND, 0);
+
+        if (dataSolicitada.getTime().equals(dataComHoraZero.getTime())) {
+            return true;
+        }
+
+        return false;
     }
 }

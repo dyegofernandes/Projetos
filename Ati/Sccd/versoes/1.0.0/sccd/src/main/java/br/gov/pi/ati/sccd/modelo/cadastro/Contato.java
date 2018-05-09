@@ -5,6 +5,7 @@
  */
 package br.gov.pi.ati.sccd.modelo.cadastro;
 
+import br.gov.pi.ati.sccd.util.Utils;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,7 +33,12 @@ public class Contato implements Serializable {
 
     @Override
     public String toString() {
-        return nome.concat(" - ").concat(numero); //To change body of generated methods, choose Tools | Templates.
+        if (!Utils.isNullOrEmpty(nome)) {
+            return nome.concat(" - ").concat(numero); //To change body of generated methods, choose Tools | Templates.
+        } else {
+            return numero;
+        }
+
     }
 
     public Long getId() {
@@ -81,5 +87,4 @@ public class Contato implements Serializable {
         return true;
     }
 
-    
 }

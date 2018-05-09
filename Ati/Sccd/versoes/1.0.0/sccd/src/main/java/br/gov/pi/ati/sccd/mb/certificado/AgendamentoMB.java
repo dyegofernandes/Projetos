@@ -114,7 +114,7 @@ public class AgendamentoMB extends AbstractBaseBean<Agendamento> implements Seri
 
         if (getEntity().getId() != null) {
             itemPedido = getDAO().getInitialized(getEntity().getItemPedido());
-            contatos = getDAO().getInitialized(getEntity().getContatos());
+//            contatos = getDAO().getInitialized(getEntity().getContatos());
             arquivos = getDAO().getInitialized(getEntity().getArquivos());
         }
 
@@ -125,7 +125,7 @@ public class AgendamentoMB extends AbstractBaseBean<Agendamento> implements Seri
     public void save() {
         getEntity().setItemPedido(itemPedido);
         getEntity().setArquivos(arquivos);
-        getEntity().setContatos(contatos);
+//        getEntity().setContatos(contatos);
 
         if (getEntity().getSituacao() == SituacaoAgendamento.CONFIRMADO) {
             if (situacaoTemp == SituacaoAgendamento.NAO_CONFIRMADO) {
@@ -303,7 +303,7 @@ public class AgendamentoMB extends AbstractBaseBean<Agendamento> implements Seri
 
         arquivos = getDAO().getInitialized(agendamento.getArquivos());
 
-        contatos = getDAO().getInitialized(agendamento.getContatos());
+//        contatos = getDAO().getInitialized(agendamento.getContatos());
 
         setEntity(agendamento);
 

@@ -5,8 +5,17 @@
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
 
-    <h:outputScript library="js" name="locale.js" />
     <script type="text/javascript">
+        PrimeFaces.widget.Schedule.prototype._oldInit = PrimeFaces.widget.Schedule.prototype.init;
+        PrimeFaces.widget.Schedule.prototype.init = function (cfg) {
+            cfg.columnFormat = {
+                month: 'ddd',
+                week: 'ddd DD/M',
+                day: 'dddd DD/MM'
+            };
+
+            this._oldInit.apply(this, arguments);
+        };
         PrimeFaces.locales['pt'] = {
             closeText: 'Fechar',
             prevText: 'Anterior',
@@ -37,15 +46,14 @@
     </script>
     <h:form id="formAgendamento" >
         <x:modalMessages autoUpdate="true"/>
-        <p:poll id="pool" interval="60" update="schedule" process="@this" listener="#{agendamentoCalendarioMB.carregarAgenda()}"/>
         <h:panelGrid columnClasses="value" >
             <h:outputText value="Horário de Funcionamento: 8h às 13h (30 min por agendamento)" styleClass="help-block"/>
             <p:schedule id="schedule" value="#{agendamentoCalendarioMB.eventModel}" widgetVar="myschedule" 
                         timeZone="GMT-3" axisFormat="HH:mm" locale="pt" minTime="08:00:00" maxTime="13:00:00"
-                        rightHeaderTemplate ="agendaWeek,agendaDay" view="agendaWeek" slotMinutes="30" allDaySlot="false" 
-                        showWeekends="false"  >
+                        slotMinutes="30" allDaySlot="false" showWeekends="false" draggable="false" resizable="false" view="#{agendamentoCalendarioMB.headerCalendario}" 
+                        initialDate="#{agendamentoCalendarioMB.dataInicial}">
                 <p:ajax event="dateSelect" listener="#{agendamentoCalendarioMB.onDateSelect}"
-                        update="formCreateAgendamento"/>
+                        update="formCreateAgendamento @form"/>
                 <p:ajax event="eventSelect" listener="#{agendamentoCalendarioMB.onEventSelect}"  />
             </p:schedule>
         </h:panelGrid>
@@ -54,7 +62,7 @@
     <p:dialog widgetVar="widgetAgendamento" header="#{msg['agendamento.detail']}" appendTo="@(body)" 
               modal="true" styleClass="uix-dialog-fluid" showEffect="clip" hideEffect="clip">
         <ui:include src="/agendamento/formCreateAgendamento.xhtml" />
-        <p:ajax event="close" update=":formCreateAgendamento" listener="#{findAllBean.setReload(true)}"
+        <p:ajax event="close" update="formAgendamento" listener="#{findAllBean.setReload(true)}"
                 />
     </p:dialog>
 

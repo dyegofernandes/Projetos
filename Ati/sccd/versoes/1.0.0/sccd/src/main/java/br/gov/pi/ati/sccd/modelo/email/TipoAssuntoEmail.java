@@ -9,7 +9,9 @@ public enum TipoAssuntoEmail {
     RECUPERACAO_SENHA("Recuperação de Senha"),
     NOVO_USUARIO_SISTEMA("Novo Usuário no Sistema"),
     SOLICITACAO_AGENDAMENTO("Solicitação de Agendamento"),
-    CONFIRMACAO_SOLICITACAO("Confirmação de Solicitação de Agendamento");
+    CONFIRMACAO_SOLICITACAO("Confirmação de Solicitação de Agendamento"),
+    CANCELADO_AGENDAMENTO("Cancelado o Agendamento"),
+    NAO_AUTORIZADO_AGENDAMENTO("Não Autorizado o Agendamento");
 
     private TipoAssuntoEmail(String descricao) {
         this.descricao = descricao;

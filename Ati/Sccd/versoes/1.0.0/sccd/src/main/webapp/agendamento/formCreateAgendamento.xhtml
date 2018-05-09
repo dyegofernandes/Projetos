@@ -8,129 +8,83 @@
 
     <h:form id="formCreateAgendamento" >
         <x:modalMessages autoUpdate="true"/>
-        <p:tabView >
-            <p:tab title="#{xmsg['generalData']}"> 
-                <p:fieldset legend="Dados Obrigatórios para o Certificado">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                <h:outputLabel for="cliente" value="* #{msg['agendamento.cliente']}:" />
-                                <p:autoComplete id="cliente" value="#{agendamentoCalendarioMB.entity.cliente}" 
-
-                                                completeMethod="#{clienteMB.autocompletePeloNome}" styleClass="uix-autocomplete" 
-
-                                                minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
-
-                                                var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" > 
-                                    <x:initializer/>
-                                    <p:column> 
-                                        <h:outputText value="#{p}"/>
-                                    </p:column> 
-                                </p:autoComplete>
-                            </div>
-
-                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                <h:outputLabel for="tipoCertificado" value="* #{msg['itemPedido.tipoCertificado']}:" />
-                                <h:selectOneMenu id="tipoCertificado" value="#{agendamentoCalendarioMB.itemPedido.tipoCertificado}" converter="entityConverter" styleClass="form-control" 
-                                                 required="true" requiredMessage="Tipo de Certificado é obrigatório!!">
-                                    <f:selectItem itemLabel="#{xmsg['select']}" />
-                                    <f:selectItems value="#{findAllBean.get(classMB.tipoCertificado)}" 
-                                                   var="tipoCertificado"
-                                                   itemLabel="#{tipoCertificado}"/>
-                                    <p:ajax process="@this" update="panel"/>
-                                </h:selectOneMenu>
-                            </div>
-                            <h:panelGroup id="panel">
-                                <h:panelGroup  rendered="#{agendamentoCalendarioMB.itemPedido.tipoCertificado != null}">
-                                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-
-                                        <h:outputLabel for="cpfTitular" value="* #{msg['itemPedido.cpfTitular']}:" rendered="#{agendamentoCalendarioMB.itemPedido.tipoCertificado.tipoPessoa.num eq 1}" />
-                                        <x:cpf id="cpfTitular" value="#{agendamentoCalendarioMB.itemPedido.cpfCnpjTitular}" styleClass="form-control" rendered="#{agendamentoCalendarioMB.itemPedido.tipoCertificado.tipoPessoa.num eq 1}"
-                                               required="true" requiredMessage="CPF do Titular é obrigatório!!"/>
-                                        <h:outputLabel for="cnpjTitular" value="* #{msg['itemPedido.cnpjTitular']}:" rendered="#{agendamentoCalendarioMB.itemPedido.tipoCertificado.tipoPessoa.num eq 2}"/>
-                                        <x:cnpj id="cnpjTitular" value="#{agendamentoCalendarioMB.itemPedido.cpfCnpjTitular}" styleClass="form-control" rendered="#{agendamentoCalendarioMB.itemPedido.tipoCertificado.tipoPessoa.num eq 2}"
-                                                required="true" requiredMessage="CNPJ do Titular é obrigatório!!"/>
-
-
-                                    </div>
-                                </h:panelGroup>
-                            </h:panelGroup>
-
-                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                <h:outputLabel for="titular" value="* #{msg['itemPedido.titular']}:" />
-                                <p:inputText id="titular" value="#{agendamentoCalendarioMB.itemPedido.nomeTitular}" maxlength="250"  styleClass="form-control"  
-                                             required="true" requiredMessage="Nome do Titular é obrigatório!!"/>
-                            </div>
-
-
-                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                <h:outputLabel for="email" value="* #{msg['agendamento.email']}:" />
-                                <p:inputText id="email" value="#{agendamentoCalendarioMB.entity.email}" maxlength="250"  styleClass="form-control"  />
-                            </div>
-                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                <h:outputLabel for="dataInicial" value="* Data/Horário do Agendamento:" />
-                                <p:inputText id="dataInicial" value="#{agendamentoCalendarioMB.entity.dataInicial}" maxlength="250"  styleClass="form-control" 
-                                             readonly="true">
-                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
-                                </p:inputText>
-                            </div>
-
-                        </div>
-                    </div>
-                </p:fieldset>
-
-            </p:tab>
-            <p:tab title="Lista de Telefones para Contatos"> 
-                <p:fieldset legend="Adicionar Contato" id="fieldContato">
+        <p:fieldset legend="Dados Obrigatórios para o Certificado">
+            <div class="container-fluid">
+                <div class="row">
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="nomeContato" value="* Nome para Contato:" />
-                        <p:inputText id="nomeContato" value="#{agendamentoCalendarioMB.contatoAdd.nome}" maxlength="250"  styleClass="form-control"  />
+                        <h:outputLabel for="cliente" value="* #{msg['agendamento.cliente']}:" />
+                        <p:autoComplete id="cliente" value="#{agendamentoCalendarioMB.entity.cliente}" 
+
+                                        completeMethod="#{clienteMB.autocompletePeloNome}" styleClass="uix-autocomplete" 
+
+                                        minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
+
+                                        var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" > 
+                            <x:initializer/>
+                            <p:column> 
+                                <h:outputText value="#{p}"/>
+                            </p:column> 
+                        </p:autoComplete>
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tipoCertificado" value="* #{msg['itemPedido.tipoCertificado']}:" />
+                        <h:selectOneMenu id="tipoCertificado" value="#{agendamentoCalendarioMB.itemPedido.tipoCertificado}" converter="entityConverter" styleClass="form-control" 
+                                         required="true" requiredMessage="Tipo de Certificado é obrigatório!!">
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.tipoCertificado)}" 
+                                           var="tipoCertificado"
+                                           itemLabel="#{tipoCertificado}"/>
+                            <p:ajax process="@this" update="panel"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <h:panelGroup id="panel">
+                        <h:panelGroup  rendered="#{agendamentoCalendarioMB.itemPedido.tipoCertificado != null}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+
+                                <h:outputLabel for="cpfTitular" value="* #{msg['itemPedido.cpfTitular']}:" rendered="#{agendamentoCalendarioMB.itemPedido.tipoCertificado.tipoPessoa.num eq 1}" />
+                                <x:cpf id="cpfTitular" value="#{agendamentoCalendarioMB.itemPedido.cpfCnpjTitular}" styleClass="form-control" rendered="#{agendamentoCalendarioMB.itemPedido.tipoCertificado.tipoPessoa.num eq 1}"
+                                       required="true" requiredMessage="CPF do Titular é obrigatório!!"/>
+                                <h:outputLabel for="cnpjTitular" value="* #{msg['itemPedido.cnpjTitular']}:" rendered="#{agendamentoCalendarioMB.itemPedido.tipoCertificado.tipoPessoa.num eq 2}"/>
+                                <x:cnpj id="cnpjTitular" value="#{agendamentoCalendarioMB.itemPedido.cpfCnpjTitular}" styleClass="form-control" rendered="#{agendamentoCalendarioMB.itemPedido.tipoCertificado.tipoPessoa.num eq 2}"
+                                        required="true" requiredMessage="CNPJ do Titular é obrigatório!!"/>
+
+
+                            </div>
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="titular" value="* #{msg['itemPedido.titular']}:" />
+                        <p:inputText id="titular" value="#{agendamentoCalendarioMB.itemPedido.nomeTitular}" maxlength="250"  styleClass="form-control"  
+                                     required="true" requiredMessage="Nome do Titular é obrigatório!!"/>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="numero" value="* Número:" />
-                        <p:inputMask id="numero" value="#{agendamentoCalendarioMB.contatoAdd.numero}" mask="(99) 9999-9999"  styleClass="form-control"  />
+                        <h:outputLabel for="telefone" value="* Telefone para contato:" />
+                        <p:inputMask id="telefone" value="#{agendamentoCalendarioMB.entity.telefone}" mask="(99) 9999-9999"  styleClass="form-control"  
+                                     required="true" requiredMessage="Telefone para contato é obrigatório!!"/>
                     </div>
-                    <div class="uix-center">
-                        <p:commandButton process="@this fieldContato" update="fieldContato dataTableContato" value="Adicionar" 
-                                         action="#{agendamentoCalendarioMB.addContato()}" />
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="email" value="* #{msg['agendamento.email']}:" />
+                        <p:inputText id="email" value="#{agendamentoCalendarioMB.entity.email}" maxlength="250"  styleClass="form-control"  />
                     </div>
-                </p:fieldset>
-                <p:fieldset legend="Contatos adicionados">
-                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
-                                 var="contato" rowIndexVar="index" id="dataTableContato" widgetVar="dataTableContatoWidget" styleClass="table-responsive"
-                                 value="#{agendamentoCalendarioMB.contatos}" >
-                        <p:column styleClass="uix-datatable-index">
-                            <h:outputText value="#{index+1}"/>
-                        </p:column>
-                        <p:column headerText="Nome do Contato"  >
-                            <f:facet name="header">
-                                <h:outputText value="Nome do Contato" />
-                            </f:facet>
-                            <h:outputText value="#{contato.nome}"/>
-                        </p:column>
-                        <p:column headerText="Número">
-                            <f:facet name="header">
-                                <h:outputText value="Número" />
-                            </f:facet>
-                            <h:outputText value="#{contato.numero}">
-                                <x:initializer/>
-                            </h:outputText>
-                        </p:column>
-                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
-                            <f:facet name="header">
-                                <h:outputText value="#{xmsg['actions']}"/>
-                            </f:facet>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataInicial" value="* Data/Horário do Agendamento:" />
+                        <p:inputText id="dataInicial" value="#{agendamentoCalendarioMB.entity.dataInicial}" maxlength="250"  styleClass="form-control" 
+                                     readonly="true">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                        </p:inputText>
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Arquivos obrigatórios">
+            <div class="container-fluid">
 
 
-                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableContato" 
-                                             action="#{agendamentoCalendarioMB.removerContato(contato)}" />
-                        </p:column>
-                    </p:dataTable>
-
-                </p:fieldset>
-            </p:tab>
-            <p:tab title="Lista de Arquivos Obrigatórios"> 
-                <p:fieldset legend="Adicionar Arquivo">
+                <div class="row">
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="tipoArquivo" value="* Tipo Arquivo:" />
                         <h:selectOneMenu id="tipoArquivo" value="#{agendamentoCalendarioMB.tipo}"  styleClass="form-control" 
@@ -142,24 +96,21 @@
                             <p:ajax process="@this" update="panelArquivo"/>
                         </h:selectOneMenu>
                     </div>
-
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <p:panel id="panelArquivo" >
-                            <h:outputLabel for="arquivo" value="* Selecione o documento de acordo com o tipo selecionado:"  rendered="#{agendamentoCalendarioMB.tipo !=null}"/>
-                            <p:fileUpload id="arquivo" mode="advanced" requiredMessage="É necessário o envio de pelo menos um arquivo!"
-                                          allowTypes="/(\.|\/)(jpeg|jpg|png|pdf)$/"
-                                          invalidFileMessage="Tipo de arquivo não permitido" invalidSizeMessage="Arquivo com tamanho acima do permitido" 
-                                          uploadLabel="Carregar" update="panelArquivo tipoArquivo dataTableArquivo" cancelLabel="Cancelar" label="Selecionar" multiple="false" 
-                                          sizeLimit="10485760" fileUploadListener="#{agendamentoCalendarioMB.upload}" styleClass="grid_9" 
-                                          fileLimit="8" fileLimitMessage="Só é possível escolher 8 arquivos por vez." auto="true"
-                                          rendered="#{agendamentoCalendarioMB.tipo !=null}"/>
+                    <p:panel id="panelArquivo" >
+                        <p:panel rendered="#{agendamentoCalendarioMB.tipo !=null}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <p:fileUpload id="arquivo" mode="advanced" requiredMessage="É necessário o envio de pelo menos um arquivo!"
+                                              allowTypes="/(\.|\/)(jpeg|jpg|png|pdf)$/"
+                                              invalidFileMessage="Tipo de arquivo não permitido" invalidSizeMessage="Arquivo com tamanho acima do permitido" 
+                                              uploadLabel="Carregar" update="panelArquivo tipoArquivo dataTableArquivo" cancelLabel="Cancelar" label="Anexa Arquivo" multiple="false" 
+                                              sizeLimit="10485760" fileUploadListener="#{agendamentoCalendarioMB.upload}" styleClass="grid_9" 
+                                              fileLimit="8" fileLimitMessage="Só é possível escolher 8 arquivos por vez." auto="true"/>
+                            </div>
                         </p:panel>
-                    </div>
+                    </p:panel>
+                </div>
 
-
-
-                </p:fieldset>
-                <p:fieldset legend="Listagem de Arquivos">
+                <div class="row">
                     <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
                                  var="arquivo" rowIndexVar="index" id="dataTableArquivo" widgetVar="dataTableArquivoWidget" styleClass="table-responsive"
                                  value="#{agendamentoCalendarioMB.arquivos}" >
@@ -196,10 +147,9 @@
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>
-                </p:fieldset>
-            </p:tab>
-        </p:tabView>
-
+                </div>
+            </div>
+        </p:fieldset>
 
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">

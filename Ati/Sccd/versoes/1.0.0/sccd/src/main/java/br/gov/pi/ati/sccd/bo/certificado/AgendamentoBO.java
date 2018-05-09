@@ -79,11 +79,11 @@ public class AgendamentoBO extends AbstractBusinessObject<Agendamento> {
 
         List<ArquivoAgendamento> arquivos = getDAO().getInitialized(agendamento.getArquivos());
 
-        List<Contato> contatos = getDAO().getInitialized(agendamento.getContatos());
+//        List<Contato> contatos = getDAO().getInitialized(agendamento.getContatos());
 
-        if (contatos.size() < 1) {
-            throw new BusinessException("Informe um ou mais telefones para contatos!");
-        }
+//        if (contatos.size() < 1) {
+//            throw new BusinessException("Informe um ou mais telefones para contatos!");
+//        }
 
         if (arquivos.size() < 1) {
             throw new BusinessException("Arquivos obrigatórios não anexados!");

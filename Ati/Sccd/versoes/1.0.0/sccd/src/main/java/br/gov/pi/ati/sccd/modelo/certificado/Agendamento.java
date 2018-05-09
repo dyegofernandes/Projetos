@@ -50,6 +50,10 @@ public class Agendamento implements Serializable {
     @Size(max = 250)
     @NotBlank
     private String protocolo; //AG.117.2.XXXXXX/AA(ano)
+    
+    @Size(max = 20)
+    @NotBlank
+    private String telefone;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @NotNull
@@ -78,8 +82,8 @@ public class Agendamento implements Serializable {
     @ManyToMany(targetEntity = ArquivoAgendamento.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<ArquivoAgendamento> arquivos = new ArrayList<ArquivoAgendamento>();
 
-    @ManyToMany(targetEntity = Contato.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    private List<Contato> contatos = new ArrayList<Contato>();
+//    @ManyToMany(targetEntity = Contato.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+//    private List<Contato> contatos = new ArrayList<Contato>();
 
     @Column(columnDefinition = "Text")
     private String observacao;
@@ -111,6 +115,14 @@ public class Agendamento implements Serializable {
 
     public void setProtocolo(String protocolo) {
         this.protocolo = protocolo;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     public ItemPedido getItemPedido() {
@@ -167,14 +179,6 @@ public class Agendamento implements Serializable {
 
     public void setArquivos(List<ArquivoAgendamento> arquivos) {
         this.arquivos = arquivos;
-    }
-
-    public List<Contato> getContatos() {
-        return contatos;
-    }
-
-    public void setContatos(List<Contato> contatos) {
-        this.contatos = contatos;
     }
 
     public String getObservacao() {

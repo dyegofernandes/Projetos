@@ -5,52 +5,105 @@
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
     <h:form id="formDetailAgendamento" styleClass="uix-form-detail">
-        <div class="container-fluid">
+        <p:fieldset legend="#{xmsg['generalData']}">
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['agendamento.cliente']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{agendamentoMB.entity.cliente}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['agendamento.protocolo']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{agendamentoMB.entity.protocolo}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['agendamento..titular']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{agendamentoMB.entity.itemPedido}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['agendamento.telefone']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{agendamentoMB.entity.telefone}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['agendamento.email']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{agendamentoMB.entity.email}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['agendamento.dataInicial']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{agendamentoMB.entity.dataInicial}" styleClass="uix-content-detail">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                        </h:outputText>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['agendamento.dataAtendimento']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{agendamentoMB.entity.dataAtendimento}" styleClass="uix-content-detail">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['agendamento.situacao']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{agendamentoMB.entity.situacao.descricao}" styleClass="uix-content-detail"/>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['agendamento.observacao']}:" styleClass="control-label" /><br/>
+                        <p:inputTextarea autoResize="false" value="#{agendamentoMB.entity.observacao}"  rows="10"
+                                         styleClass="form-control"  readonly="true"/>
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Documentos">
             <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['agendamento.cliente']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{agendamentoMB.entity.cliente}" styleClass="uix-content-detail">
-                        <x:initializer/>
-                    </h:outputText>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['agendamento.protocolo']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{agendamentoMB.entity.protocolo}" styleClass="uix-content-detail"/>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['agendamento.itemPedido']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{agendamentoMB.entity.itemPedido}" styleClass="uix-content-detail">
-                        <x:initializer/>
-                    </h:outputText>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['agendamento.email']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{agendamentoMB.entity.email}" styleClass="uix-content-detail"/>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['agendamento.dataInicial']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{agendamentoMB.entity.dataInicial}" styleClass="uix-content-detail">
-                        <f:convertDateTime />
-                    </h:outputText>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['agendamento.dataFinal']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{agendamentoMB.entity.dataFinal}" styleClass="uix-content-detail">
-                        <f:convertDateTime />
-                    </h:outputText>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['agendamento.dataAtendimento']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{agendamentoMB.entity.dataAtendimento}" styleClass="uix-content-detail">
-                        <f:convertDateTime />
-                    </h:outputText>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['agendamento.situacao']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{agendamentoMB.entity.situacao}" styleClass="uix-content-detail"/>
-                </div>
-           </div>
-         </div>
+                <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                             var="arquivo" rowIndexVar="index" id="dataTableArquivo" widgetVar="dataTableArquivoWidget" styleClass="table-responsive"
+                             value="#{agendamentoMB.entity.arquivos}" >
+                    <x:initializer/>
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+
+                    <p:column headerText="#{msg['arquivo.nome']}" width="60%" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['arquivo.nome']}" />
+                        </f:facet>
+                        <h:outputText value="#{arquivo.nome}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['arquivo.extensao']}" width="10%" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['arquivo.extensao']}" />
+                        </f:facet>
+                        <h:outputText value="#{arquivo.extensao}"/>
+                    </p:column>
+                    <p:column headerText="Tipo" width="40%" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Tipo" />
+                        </f:facet>
+                        <h:outputText value="#{arquivo.tipo.descricao}"/>
+                    </p:column>
+
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>          
+                        <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Download" ajax="false" immediate="true" update="formCreateDenuncia">
+                            <p:fileDownload value="#{agendamentoMB.download(arquivo)}" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </div>
+        </p:fieldset>
         <p:separator/>
         <div class="uix-center">
             <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetAgendamentoDetail').hide()" />

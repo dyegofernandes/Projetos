@@ -7,6 +7,7 @@ package br.gov.pi.ati.sccd.modelo.cadastro;
 
 import br.gov.pi.ati.sccd.modelo.certificado.ContratoCliente;
 import br.gov.pi.ati.sccd.modelo.certificado.Pedido;
+import br.gov.pi.ati.sccd.modelo.enums.TipoCliente;
 import br.gov.pi.ati.sccd.modelo.enums.TipoPessoa;
 import br.gov.pi.ati.sccd.util.Utils;
 import com.xpert.audit.NotAudited;
@@ -55,6 +56,10 @@ public class Cliente implements Serializable {
     private boolean isento = false;
 
     private boolean ativo = true;
+
+//    @NotNull
+    @Enumerated(EnumType.STRING)
+    private TipoCliente tipoCliente;
 
     @NotAudited
     @OneToMany(mappedBy = "cliente")
@@ -178,6 +183,14 @@ public class Cliente implements Serializable {
 
     public void setCodigo(Long codigo) {
         this.codigo = codigo;
+    }
+
+    public TipoCliente getTipoCliente() {
+        return tipoCliente;
+    }
+
+    public void setTipoCliente(TipoCliente tipoCliente) {
+        this.tipoCliente = tipoCliente;
     }
 
 }

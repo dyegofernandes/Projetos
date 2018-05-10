@@ -16,12 +16,20 @@
                     <h:outputText value="#{clienteMB.entity.cpfCnpj}" styleClass="uix-content-detail"/>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.codigo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.codigo}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['cliente.sigla']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{clienteMB.entity.sigla}" styleClass="uix-content-detail"/>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['cliente.nome']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{clienteMB.entity.nome}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.tipo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.tipoCliente.descricao}" styleClass="uix-content-detail"/>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['cliente.isento']}:" styleClass="control-label" /><br/>

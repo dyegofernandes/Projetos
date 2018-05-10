@@ -50,9 +50,12 @@
             <h:outputText value="Horário de Funcionamento: 8h às 13h (30 min por agendamento)" styleClass="help-block"/>
             <p:schedule id="schedule" value="#{agendamentoMB.eventModel}" widgetVar="myschedule" 
                         timeZone="GMT-3" axisFormat="HH:mm" locale="pt" minTime="08:00:00" maxTime="13:00:00"
-                        rightHeaderTemplate ="agendaWeek,agendaDay" view="agendaWeek" slotMinutes="30" allDaySlot="false" 
-                        showWeekends="false" draggable="false" resizable="false" >
+                         slotMinutes="30" allDaySlot="false" 
+                        showWeekends="false" draggable="false" resizable="false" view="#{agendamentoMB.headerCalendario}" 
+                        initialDate="#{agendamentoMB.dataInicial}">
                         
+                <p:ajax event="dateSelect" listener="#{agendamentoMB.onDateSelect}"
+                        update="formCreateAgendamento @form"/>
                 <p:ajax event="eventSelect" listener="#{agendamentoMB.onEventSelect}" update="formCreateAgendamento" />
             </p:schedule>
         </h:panelGrid>

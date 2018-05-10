@@ -29,7 +29,7 @@ public class ClienteBO extends AbstractBusinessObject<Cliente> {
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return new UniqueFields().add("nome").add("cpfCnpj");
+        return new UniqueFields().add("nome").add("cpfCnpj").add("codigo");
     }
 
     @Override

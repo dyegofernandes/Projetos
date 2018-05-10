@@ -16,6 +16,7 @@ import br.gov.pi.ati.sccd.modelo.certificado.ArquivoAgendamento;
 import br.gov.pi.ati.sccd.modelo.certificado.ItemPedido;
 import br.gov.pi.ati.sccd.modelo.certificado.Pedido;
 import br.gov.pi.ati.sccd.modelo.email.TipoAssuntoEmail;
+import br.gov.pi.ati.sccd.modelo.enums.HeaderCalendario;
 import br.gov.pi.ati.sccd.modelo.enums.SituacaoAgendamento;
 import br.gov.pi.ati.sccd.modelo.enums.SituacaoPedido;
 import br.gov.pi.ati.sccd.modelo.enums.TipoArquivoAgendamento;
@@ -80,6 +81,10 @@ public class AgendamentoMB extends AbstractBaseBean<Agendamento> implements Seri
 
     private SituacaoAgendamento situacaoTemp;
 
+    private String headerCalendario;
+
+    private Date dataInicial;
+
     @Override
     public AgendamentoBO getBO() {
         return agendamentoBO;
@@ -89,7 +94,7 @@ public class AgendamentoMB extends AbstractBaseBean<Agendamento> implements Seri
     public String getDataModelOrder() {
         return "agendamento.dataInicial";
     }
-    
+
     @Override
     public JoinBuilder getDataModelJoinBuilder() {
         return new JoinBuilder("agendamento")
@@ -100,6 +105,10 @@ public class AgendamentoMB extends AbstractBaseBean<Agendamento> implements Seri
 
     @Override
     public void init() {
+        headerCalendario = HeaderCalendario.MES.getDescricao();
+
+        dataInicial = new Date();
+
         situacaoTemp = getEntity().getSituacao();
 
         eventModel = new DefaultScheduleModel();
@@ -143,8 +152,9 @@ public class AgendamentoMB extends AbstractBaseBean<Agendamento> implements Seri
 
         context.execute("PF('widgetAgendamento').hide();");
 
-        if (getEntity().getSituacao() == SituacaoAgendamento.CONFIRMADO) {
-            if (situacaoTemp == SituacaoAgendamento.NAO_CONFIRMADO) {
+        if (situacaoTemp == SituacaoAgendamento.NAO_CONFIRMADO) {
+            if (getEntity().getSituacao() == SituacaoAgendamento.CONFIRMADO) {
+
                 Pedido pedido = new Pedido();
 
                 pedido.setProtocolo(getEntity().getProtocolo());
@@ -185,8 +195,37 @@ public class AgendamentoMB extends AbstractBaseBean<Agendamento> implements Seri
                 } catch (BusinessException ex) {
                     Logger.getLogger(AgendamentoCalendarioMB.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
 
+            } else {
+                if (getEntity().getSituacao() == SituacaoAgendamento.CANCELADO) {
+                    try {
+                        getBO().enviarEmail(TipoAssuntoEmail.CANCELADO_AGENDAMENTO, getEntity());
+                        FacesMessageUtils.info("Email de cancelamento de Agendamento enviado para: ".concat(getEntity().getEmail()));
+                    } catch (BusinessException ex) {
+                        Logger.getLogger(AgendamentoCalendarioMB.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+                if (getEntity().getSituacao() == SituacaoAgendamento.NAO_AUTORIZADO) {
+                    try {
+                        getBO().enviarEmail(TipoAssuntoEmail.NAO_AUTORIZADO_AGENDAMENTO, getEntity());
+                        FacesMessageUtils.info("Email de Agendamento não autorizado enviado para: ".concat(getEntity().getEmail()));
+                    } catch (BusinessException ex) {
+                        Logger.getLogger(AgendamentoCalendarioMB.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        } else {
+            if (situacaoTemp == SituacaoAgendamento.CONFIRMADO) {
+                if (getEntity().getSituacao() == SituacaoAgendamento.CANCELADO) {
+                    try {
+                        getBO().enviarEmail(TipoAssuntoEmail.CANCELADO_AGENDAMENTO, getEntity());
+                        FacesMessageUtils.info("Email de cancelamento de Agendamento enviado para: ".concat(getEntity().getEmail()));
+                    } catch (BusinessException ex) {
+                        Logger.getLogger(AgendamentoCalendarioMB.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
         }
 
         super.postSave();
@@ -301,10 +340,6 @@ public class AgendamentoMB extends AbstractBaseBean<Agendamento> implements Seri
                 .leftJoinFetch("agendamento.itemPedido", "item").leftJoinFetch("agendamento.cliente", "cliente")
                 .leftJoinFetch("item.tipoCertificado", "tipoCertificado").add("protocolo", codigoTemp[0]).getSingleResult();
 
-        arquivos = getDAO().getInitialized(agendamento.getArquivos());
-
-//        contatos = getDAO().getInitialized(agendamento.getContatos());
-
         setEntity(agendamento);
 
         RequestContext context = RequestContext.getCurrentInstance();
@@ -314,34 +349,12 @@ public class AgendamentoMB extends AbstractBaseBean<Agendamento> implements Seri
 
     public void onDateSelect(SelectEvent selectEvent) {
 
-        setEntity(new Agendamento());
+        Date dataSolicitada = (Date) selectEvent.getObject();
 
-        RequestContext context = RequestContext.getCurrentInstance();
-
-        Date dataInicial = (Date) selectEvent.getObject();
-
-        Feriado feriado = feriadoBO.feriadoPelaData(dataInicial);
-
-        if (feriado != null) {
-            FacesMessageUtils.error(feriado.getDescricao());
-        } else {
-            if (dataInicial.before(new Date())) {
-                FacesMessageUtils.error("Reservas não pode ser feita para datas ou horários passados!!");
-            } else {
-
-                getEntity().setDataInicial(dataInicial);
-                Calendar calendario = Calendar.getInstance();
-                calendario.setTime(dataInicial);
-                calendario.add(Calendar.MINUTE, 30);
-
-                getEntity().setDataFinal(calendario.getTime());
-                getEntity().setSituacao(SituacaoAgendamento.NAO_CONFIRMADO);
-
-                context.execute("PF('widgetAgendamento').show();");
-
-            }
+        if (verificarHoraZerada(dataSolicitada)) {
+            headerCalendario = HeaderCalendario.DIA.getDescricao();
+            dataInicial = dataSolicitada;
         }
-
     }
 
     public ScheduleModel getEventModel() {
@@ -388,4 +401,37 @@ public class AgendamentoMB extends AbstractBaseBean<Agendamento> implements Seri
         this.tipo = tipo;
     }
 
+    public String getHeaderCalendario() {
+        return headerCalendario;
+    }
+
+    public void setHeaderCalendario(String headerCalendario) {
+        this.headerCalendario = headerCalendario;
+    }
+
+    public Date getDataInicial() {
+        return dataInicial;
+    }
+
+    public void setDataInicial(Date dataInicial) {
+        this.dataInicial = dataInicial;
+    }
+
+    public boolean verificarHoraZerada(Date data) {
+        Calendar dataSolicitada = Calendar.getInstance();
+        dataSolicitada.setTime(data);
+
+        Calendar dataComHoraZero = Calendar.getInstance();
+        dataComHoraZero.setTime(data);
+        dataComHoraZero.set(Calendar.HOUR_OF_DAY, 0);
+        dataComHoraZero.set(Calendar.MINUTE, 0);
+        dataComHoraZero.set(Calendar.SECOND, 0);
+        dataComHoraZero.set(Calendar.MILLISECOND, 0);
+
+        if (dataSolicitada.getTime().equals(dataComHoraZero.getTime())) {
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -8,7 +8,7 @@
 
     <h:form id="formCreateAgendamento" >
         <p:fieldset legend="#{xmsg['generalData']}">
-            <x:modalMessages/>
+            <x:modalMessages autoUpdate="true"/>
 
             <div class="container-fluid">
                 <div class="row">
@@ -18,36 +18,35 @@
                             <x:initializer/>
                         </p:inputText>
                     </div>
+
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="protocolo" value="* #{msg['agendamento.protocolo']}:" />
                         <p:inputText id="protocolo" value="#{agendamentoMB.entity.protocolo}"  styleClass="form-control" readonly="true" />
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="tipoDePessoa" value="* #{msg['agendamento.itemPedido.tipoPessoa']}:" />
-                        <p:inputText id="tipoDePessoa" value="#{agendamentoMB.entity.itemPedido.tipoPessoa.descricao}" styleClass="form-control" readonly="true"/>
+                        <h:outputLabel for="tipoCertificado" value="* #{msg['agendamento.itemPedido.tipoCertificado']}:" />
+                        <p:inputText id="tipoCertificado" value="#{agendamentoMB.entity.itemPedido.tipoCertificado}" styleClass="form-control" readonly="true"/>
                     </div>
+
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="cpf" value="* #{msg['agendamento.itemPedido.cpf']}:" rendered="#{agendamentoMB.entity.itemPedido.tipoPessoa.num eq 1}"/>
+                        <h:outputLabel for="cpf" value="* #{msg['agendamento.itemPedido.cpf']}:" rendered="#{agendamentoMB.entity.itemPedido.tipoCertificado.tipoPessoa.num eq 1}"/>
                         <p:inputText id="cpf" value="#{agendamentoMB.entity.itemPedido.cpfCnpjTitular}" styleClass="form-control" readonly="true"
-                                     rendered="#{agendamentoMB.entity.itemPedido.tipoPessoa.num eq 1}" converter="cpfConverter">
+                                     rendered="#{agendamentoMB.entity.itemPedido.tipoCertificado.tipoPessoa.num eq 1}" converter="cpfConverter">
                         </p:inputText>
 
-                        <h:outputLabel for="cnpj" value="* #{msg['agendamento.itemPedido.cnpj']}:" rendered="#{agendamentoMB.entity.itemPedido.tipoPessoa.num eq 2}"/>
+                        <h:outputLabel for="cnpj" value="* #{msg['agendamento.itemPedido.cnpj']}:" rendered="#{agendamentoMB.entity.itemPedido.tipoCertificado.tipoPessoa.num eq 2}"/>
                         <p:inputText id="cnpj" value="#{agendamentoMB.entity.itemPedido.cpfCnpjTitular}" styleClass="form-control" readonly="true"
-                                     rendered="#{agendamentoMB.entity.itemPedido.tipoPessoa.num eq 2}" converter="cnpjConverter"/>
+                                     rendered="#{agendamentoMB.entity.itemPedido.tipoCertificado.tipoPessoa.num eq 2}" converter="cnpjConverter"/>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="nomeTitular" value="* #{msg['agendamento.itemPedido.nome']}:" />
                         <p:inputText id="nomeTitular" value="#{agendamentoMB.entity.itemPedido.nomeTitular}" styleClass="form-control" readonly="true"/>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="telefone" value="* #{msg['itemPedido.titular']}:" />
+                        <h:outputLabel for="telefone" value="* #{msg['agendamento.telefone']}:" />
                         <p:inputMask id="telefone" value="#{agendamentoMB.entity.telefone}" mask="(99) 9999-9999"  styleClass="form-control" readonly="true"/>
                     </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="tipoCertificado" value="* #{msg['agendamento.itemPedido.tipoCertificado']}:" />
-                        <p:inputText id="tipoCertificado" value="#{agendamentoMB.entity.itemPedido.tipoCertificado}" styleClass="form-control" readonly="true"/>
-                    </div>
+
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="email" value="* #{msg['agendamento.email']}:" />
                         <p:inputText id="email" value="#{agendamentoMB.entity.email}" styleClass="form-control"  readonly="true"/>
@@ -71,6 +70,54 @@
 
 
                 </div>
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="obs" value="#{msg['agendamento.observacao']}:" />
+                        <p:editor id="obs" value="#{agendamentoMB.entity.observacao}" style="width: 100%;" />
+                    </div>
+
+                </div>
+
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Documentos">
+            <div class="row">
+                <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                             var="arquivo" rowIndexVar="index" id="dataTableArquivo" widgetVar="dataTableArquivoWidget" styleClass="table-responsive"
+                             value="#{agendamentoMB.entity.arquivos}" >
+                    <x:initializer/>
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+
+                    <p:column headerText="#{msg['arquivo.nome']}" width="60%" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['arquivo.nome']}" />
+                        </f:facet>
+                        <h:outputText value="#{arquivo.nome}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['arquivo.extensao']}" width="10%" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['arquivo.extensao']}" />
+                        </f:facet>
+                        <h:outputText value="#{arquivo.extensao}"/>
+                    </p:column>
+                    <p:column headerText="Tipo" width="40%" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Tipo" />
+                        </f:facet>
+                        <h:outputText value="#{arquivo.tipo.descricao}"/>
+                    </p:column>
+
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>          
+                        <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Download" ajax="false" immediate="true" update="formCreateDenuncia">
+                            <p:fileDownload value="#{agendamentoMB.download(arquivo)}" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
             </div>
         </p:fieldset>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>

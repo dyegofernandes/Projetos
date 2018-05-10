@@ -11,12 +11,17 @@ package br.gov.pi.ati.sccd.modelo.enums;
  */
 public enum TipoArquivoAgendamento {
 
-    TERMO(1, "Termo de Titularidade e Responsabilidade"),
-    CNH(2, "CNH Colorida"),
-    RG(3, "RG Colorido"),
-    CPF(4, "CPF Colorido"),
     COMPROVANTE_RESIDENCIA(5, "Comprovante de Residência"),
-    OFICIO_AUTORIZACAO(6, "Ofício de Autorização/ Protocolo de Autorização");
+    CONTRATO_SOCIAL(1, "Contrato Social"),
+    CNH(2, "CNH Colorida"),
+    CPF(4, "CPF Colorido"),
+    ESTATUTO(1, "Estatuto"),
+    LEI_DE_CRIACAO(1, "Lei de Criação"),
+    NOMEACAO_DIARIO_OFICIAL(6, "Nomeação publicada no Diário Oficial do Piauí"),
+    OFICIO_SOLICITACAO(6, "Ofício de Solicitação"),
+    PIS_PASEP(1,"PIS/PASEP"),
+    RG(3, "RG Colorido"),
+    TERMO(1, "Termo de Titularidade e Responsabilidade");
 
     private TipoArquivoAgendamento(int num, String descricao) {
         this.descricao = descricao;

@@ -14,7 +14,8 @@ public enum SituacaoAgendamento {
     CONFIRMADO(1, "Confirmado"),
     NAO_CONFIRMADO(2, "Não Confirmado"),
     CANCELADO(3, "Cancelado"),
-    REAGENDADO(4, "Reagendamento");
+    NAO_AUTORIZADO(4, "Não Autorizado"),
+    REAGENDADO(5, "Reagendamento");
 
     private SituacaoAgendamento(int num, String descricao) {
         this.descricao = descricao;

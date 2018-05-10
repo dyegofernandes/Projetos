@@ -31,6 +31,7 @@ import br.gov.pi.ati.sccd.modelo.controleacesso.SolicitacaoRecuperacaoSenha;
 import br.gov.pi.ati.sccd.modelo.email.TipoAssuntoEmail;
 import br.gov.pi.ati.sccd.modelo.controleacesso.TipoRecuperacaoSenha;
 import br.gov.pi.ati.sccd.modelo.enums.TipoArquivoAgendamento;
+import br.gov.pi.ati.sccd.modelo.enums.TipoCliente;
 import br.gov.pi.ati.sccd.modelo.enums.TipoPedido;
 import javax.faces.bean.ManagedBean;
 
@@ -163,5 +164,9 @@ public class ClassMB {
 
     public Class getTipoArquivoAgendamento() {
         return TipoArquivoAgendamento.class;
+    }
+    
+    public Class getTipoCliente(){
+        return TipoCliente.class;
     }
 }

@@ -37,12 +37,27 @@
 
                     </h:panelGroup>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="codigo" value="* #{msg['cliente.codigo']}:" />
+                        <p:inputMask id="codigo" value="#{clienteMB.entity.codigo}" mask="999"  styleClass="form-control" 
+                                     required="true" requiredMessage="Código é obrigatório"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="sigla" value="* #{msg['cliente.sigla']}:" />
                         <p:inputText id="sigla" value="#{clienteMB.entity.sigla}" maxlength="50"  styleClass="form-control"  />
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="nome" value="* #{msg['cliente.nome']}:" />
                         <p:inputText id="nome" value="#{clienteMB.entity.nome}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tipo" value="* #{msg['cliente.tipo']}:" />
+                        <h:selectOneMenu id="tipo" value="#{clienteMB.entity.tipoCliente}"  styleClass="form-control"
+                                         required="true" requiredMessage="Tipo de Cliente é obrigatório">
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.tipoCliente)}" 
+                                           var="tipo"
+                                           itemLabel="#{tipo.descricao}"/>
+                        </h:selectOneMenu>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <div class="checkbox">

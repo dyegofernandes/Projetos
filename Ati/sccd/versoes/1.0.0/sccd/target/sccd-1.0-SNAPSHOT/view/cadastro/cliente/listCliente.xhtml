@@ -39,6 +39,13 @@
                     </f:facet>
                     <h:outputText value="#{cliente.cpfCnpj}" converter="cnpjConverter"/>
                 </p:column>
+                <p:column headerText="#{msg['cliente.codigo']}" sortBy="#{cliente.codigo}"
+                    filterBy="#{cliente.codigo}" style="text-align: center;"  >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.codigo']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.codigo}" />
+                </p:column>
                 <p:column headerText="#{msg['cliente.sigla']}" sortBy="#{cliente.sigla}"
                     filterBy="#{cliente.sigla}"   >
                     <f:facet name="header">
@@ -52,6 +59,13 @@
                         <h:outputText value="#{msg['cliente.nome']}" />
                     </f:facet>
                     <h:outputText value="#{cliente.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['cliente.tipo']}" sortBy="#{cliente.tipoCliente}" style="text-align: center;"
+                          filterBy="#{cliente.tipoCliente}"  filterOptions="#{findAllBean.getSelect(classMB.tipoCliente)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cliente.tipo']}" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.tipoCliente.descricao}"/>
                 </p:column>
                 <p:column headerText="#{msg['cliente.isento']}" sortBy="#{cliente.isento}"
                     filterBy="#{cliente.isento}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">

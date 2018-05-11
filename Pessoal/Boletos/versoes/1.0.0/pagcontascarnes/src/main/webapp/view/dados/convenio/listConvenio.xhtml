@@ -18,6 +18,7 @@
                                 <h:outputLabel for="franquia" value="#{msg['convenio.franquia']}:" />
                                 <h:selectOneMenu id="franquia" value="#{convenioMB.filtros.franquia}"  styleClass="form-control" 
                                                  converter="entityConverter">
+                                    <x:initializer/>
                                     <f:selectItem itemLabel="#{xmsg['select']}" />
                                     <f:selectItems value="#{findAllBean.get(classMB.franquia)}" 
                                                    var="franquia"
@@ -26,6 +27,8 @@
 
                             </div>
                         </x:securityArea>
+                        
+
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="tipo_pessoa" value="#{msg['convenio.tipo_pessoa']}:" />
                             <h:selectOneMenu id="tipo_pessoa" value="#{convenioMB.filtros.tipoPessoa}"  styleClass="form-control" >
@@ -86,7 +89,7 @@
                         </div>
                     </div>
                     <div class="uix-center">
-                        <p:commandButton  process="@form" update="@form" action="#{convenioMB.buscar()}" 
+                        <p:commandButton  process="fieldFiltros" update="@form" action="#{convenioMB.buscar()}" 
                                           value="Buscar" />
                     </div>
                 </div>

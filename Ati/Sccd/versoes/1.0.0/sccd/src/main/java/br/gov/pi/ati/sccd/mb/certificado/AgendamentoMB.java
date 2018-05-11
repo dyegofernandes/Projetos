@@ -1,6 +1,5 @@
 package br.gov.pi.ati.sccd.mb.certificado;
 
-import br.gov.pi.ati.sccd.bo.cadastro.FeriadoBO;
 import java.io.Serializable;
 import com.xpert.core.crud.AbstractBaseBean;
 import javax.ejb.EJB;
@@ -9,8 +8,6 @@ import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.sccd.bo.certificado.AgendamentoBO;
 import br.gov.pi.ati.sccd.bo.certificado.PedidoBO;
 import br.gov.pi.ati.sccd.modelo.cadastro.Arquivo;
-import br.gov.pi.ati.sccd.modelo.cadastro.Contato;
-import br.gov.pi.ati.sccd.modelo.cadastro.Feriado;
 import br.gov.pi.ati.sccd.modelo.certificado.Agendamento;
 import br.gov.pi.ati.sccd.modelo.certificado.ArquivoAgendamento;
 import br.gov.pi.ati.sccd.modelo.certificado.ItemPedido;
@@ -18,10 +15,8 @@ import br.gov.pi.ati.sccd.modelo.certificado.Pedido;
 import br.gov.pi.ati.sccd.modelo.email.TipoAssuntoEmail;
 import br.gov.pi.ati.sccd.modelo.enums.HeaderCalendario;
 import br.gov.pi.ati.sccd.modelo.enums.SituacaoAgendamento;
-import br.gov.pi.ati.sccd.modelo.enums.SituacaoPedido;
 import br.gov.pi.ati.sccd.modelo.enums.TipoArquivoAgendamento;
 import br.gov.pi.ati.sccd.modelo.enums.TipoPedido;
-import br.gov.pi.ati.sccd.util.Utils;
 import com.xpert.core.exception.BusinessException;
 import com.xpert.faces.utils.FacesMessageUtils;
 import com.xpert.persistence.query.JoinBuilder;
@@ -62,18 +57,11 @@ public class AgendamentoMB extends AbstractBaseBean<Agendamento> implements Seri
     private AgendamentoBO agendamentoBO;
 
     @EJB
-    private FeriadoBO feriadoBO;
-
-    @EJB
     private PedidoBO pedidoBO;
 
     private ScheduleModel eventModel;
 
     private ItemPedido itemPedido;
-
-    private List<Contato> contatos;
-
-    private Contato contatoAdd;
 
     private TipoArquivoAgendamento tipo;
 
@@ -115,15 +103,10 @@ public class AgendamentoMB extends AbstractBaseBean<Agendamento> implements Seri
 
         itemPedido = new ItemPedido();
 
-        contatoAdd = new Contato();
-
-        contatos = new ArrayList<Contato>();
-
         arquivos = new ArrayList<ArquivoAgendamento>();
 
         if (getEntity().getId() != null) {
             itemPedido = getDAO().getInitialized(getEntity().getItemPedido());
-//            contatos = getDAO().getInitialized(getEntity().getContatos());
             arquivos = getDAO().getInitialized(getEntity().getArquivos());
         }
 
@@ -134,14 +117,13 @@ public class AgendamentoMB extends AbstractBaseBean<Agendamento> implements Seri
     public void save() {
         getEntity().setItemPedido(itemPedido);
         getEntity().setArquivos(arquivos);
-//        getEntity().setContatos(contatos);
 
         if (getEntity().getSituacao() == SituacaoAgendamento.CONFIRMADO) {
             if (situacaoTemp == SituacaoAgendamento.NAO_CONFIRMADO) {
                 getEntity().setDataAtendimento(new Date());
             }
         }
-        super.save(); //To change body of generated methods, choose Tools | Templates.
+        super.save();
     }
 
     @Override
@@ -179,7 +161,6 @@ public class AgendamentoMB extends AbstractBaseBean<Agendamento> implements Seri
                 ItemPedido item = new ItemPedido();
                 item.setCpfCnpjTitular(itemPedido.getCpfCnpjTitular());
                 item.setNomeTitular(itemPedido.getNomeTitular());
-//                item.setTipoPessoa(itemPedido.getTipoPessoa());
                 item.setTipoCertificado(itemPedido.getTipoCertificado());
 
                 itens.add(item);
@@ -299,36 +280,6 @@ public class AgendamentoMB extends AbstractBaseBean<Agendamento> implements Seri
         return false;
     }
 
-    public void addContato() {
-        if (!Utils.isNullOrEmpty(contatoAdd.getNome())) {
-            if (!Utils.isNullOrEmpty(contatoAdd.getNumero())) {
-                if (numJahAdicionado(contatoAdd.getNumero())) {
-                    FacesMessageUtils.error("Número já encontrado na lista de contatos!");
-                } else {
-                    contatos.add(contatoAdd);
-                    contatoAdd = new Contato();
-                }
-            } else {
-                FacesMessageUtils.error("Número do Contato é obrigatório!!");
-            }
-        } else {
-            FacesMessageUtils.error("Nome do Contato é obrigatório!!");
-        }
-    }
-
-    public void removerContato(Contato contato) {
-        contatos.remove(contato);
-    }
-
-    private boolean numJahAdicionado(String num) {
-        for (Contato contato : contatos) {
-            if (contato.getNumero().equals(num)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void onEventSelect(SelectEvent selectEvent) {
         ScheduleEvent event = (ScheduleEvent) selectEvent.getObject();
 
@@ -367,22 +318,6 @@ public class AgendamentoMB extends AbstractBaseBean<Agendamento> implements Seri
 
     public void setItemPedido(ItemPedido itemPedido) {
         this.itemPedido = itemPedido;
-    }
-
-    public List<Contato> getContatos() {
-        return contatos;
-    }
-
-    public void setContatos(List<Contato> contatos) {
-        this.contatos = contatos;
-    }
-
-    public Contato getContatoAdd() {
-        return contatoAdd;
-    }
-
-    public void setContatoAdd(Contato contatoAdd) {
-        this.contatoAdd = contatoAdd;
     }
 
     public List<ArquivoAgendamento> getArquivos() {

@@ -6,7 +6,6 @@
 package br.gov.pi.ati.sccd.modelo.certificado;
 
 import br.gov.pi.ati.sccd.modelo.cadastro.Cliente;
-import br.gov.pi.ati.sccd.modelo.cadastro.Contato;
 import br.gov.pi.ati.sccd.modelo.enums.SituacaoAgendamento;
 import br.gov.pi.ati.sccd.util.Utils;
 import java.io.Serializable;
@@ -50,7 +49,7 @@ public class Agendamento implements Serializable {
     @Size(max = 250)
     @NotBlank
     private String protocolo; //AG.117.2.XXXXXX/AA(ano)
-    
+
     @Size(max = 20)
     @NotBlank
     private String telefone;
@@ -84,7 +83,6 @@ public class Agendamento implements Serializable {
 
 //    @ManyToMany(targetEntity = Contato.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
 //    private List<Contato> contatos = new ArrayList<Contato>();
-
     @Column(columnDefinition = "Text")
     private String observacao;
 

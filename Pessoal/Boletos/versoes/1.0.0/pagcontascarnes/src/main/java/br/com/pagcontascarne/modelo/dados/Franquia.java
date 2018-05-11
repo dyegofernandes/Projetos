@@ -41,7 +41,7 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Franquia implements Serializable {
 
     @Id
-    @SequenceGenerator(schema = "dados", allocationSize = 1, name = "Franquia", sequenceName = "dados.seq_convenio_id")
+    @SequenceGenerator(schema = "dados", allocationSize = 1, name = "Franquia", sequenceName = "dados.seq_franquia_id")
     @GeneratedValue(generator = "Franquia")
     private Long id;
     
@@ -366,6 +366,14 @@ public class Franquia implements Serializable {
 
     public void setDepositos(List<Deposito> depositos) {
         this.depositos = depositos;
+    }
+
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
     }
 
     @Override

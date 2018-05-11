@@ -8,7 +8,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.sccd.bo.certificado.AgendamentoBO;
 import br.gov.pi.ati.sccd.modelo.cadastro.Cliente;
-import br.gov.pi.ati.sccd.modelo.cadastro.Contato;
 import br.gov.pi.ati.sccd.modelo.cadastro.Feriado;
 import br.gov.pi.ati.sccd.modelo.certificado.Agendamento;
 import br.gov.pi.ati.sccd.modelo.certificado.ArquivoAgendamento;
@@ -17,6 +16,7 @@ import br.gov.pi.ati.sccd.modelo.email.TipoAssuntoEmail;
 import br.gov.pi.ati.sccd.modelo.enums.HeaderCalendario;
 import br.gov.pi.ati.sccd.modelo.enums.SituacaoAgendamento;
 import br.gov.pi.ati.sccd.modelo.enums.TipoArquivoAgendamento;
+import br.gov.pi.ati.sccd.modelo.enums.TipoPessoa;
 import br.gov.pi.ati.sccd.util.Utils;
 import com.xpert.core.exception.BusinessException;
 import com.xpert.faces.utils.FacesMessageUtils;
@@ -25,7 +25,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -65,28 +64,34 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
 
     private ItemPedido itemPedido;
 
-    private List<Contato> contatos;
-
-    private Contato contatoAdd;
-
     private List<ArquivoAgendamento> arquivos;
 
     private TipoArquivoAgendamento tipo;
 
-    private boolean termo;
+    private boolean comprovanteResidencia;
+
+    private boolean contratoSocial;
 
     private boolean cnh;
 
-    private boolean rg;
-
     private boolean cpf;
 
-    private boolean comprovante_residencia;
+    private boolean estatuto;
+
+    private boolean leiDeCriacao;
+
+    private boolean nomeacao;
 
     private boolean oficio;
 
+    private boolean pis;
+
+    private boolean rg;
+
+    private boolean termo;
+
     private String headerCalendario;
-    
+
     private Date dataInicial;
 
     @Override
@@ -103,18 +108,14 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
     public void init() {
 
         headerCalendario = HeaderCalendario.MES.getDescricao();
-        
+
         dataInicial = new Date();
 
-        termo = cnh = rg = cpf = comprovante_residencia = oficio = false;
+        pis = nomeacao = leiDeCriacao = estatuto = contratoSocial = termo = cnh = rg = cpf = comprovanteResidencia = oficio = false;
 
         eventModel = new DefaultScheduleModel();
 
         itemPedido = new ItemPedido();
-
-        contatoAdd = new Contato();
-
-        contatos = new ArrayList<Contato>();
 
         arquivos = new ArrayList<ArquivoAgendamento>();
 
@@ -127,38 +128,50 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
         getEntity().setProtocolo(getProtocolo());
         getEntity().setItemPedido(itemPedido);
         getEntity().setArquivos(arquivos);
-//        if (termo) {
-//            if (comprovante_residencia) {
-//                if (cnh) {
-//                    if (getEntity().getCliente().isIsento()) {
-//                        if (oficio) {
-//                            super.save();
-//                        } else {
-//                            FacesMessageUtils.error("Ofício de Autorização/ Protocolo de Autorização é obrigatório!");
-//                        }
-//                    } else {
-//                        super.save();
-//                    }
-//                }else{
-//                    if(rg && cpf){
-//                        
-//                    }else{
-//                        FacesMessageUtils.error("RG e CPF  obrigatório!");
-//                    }
-//                }
-//            } else {
-//                FacesMessageUtils.error("Comprovante de residência é obrigatório!!");
-//            }
-//        } else {
-//            FacesMessageUtils.error("Termo de Titularidade e Responsabilidade é obrigatório!!");
-//        }
-        super.save();
+
+        TipoPessoa tipoPessoa = getEntity().getItemPedido().getTipoCertificado().getTipoPessoa();
+
+        if (oficio) {
+            if (comprovanteResidencia) {
+                if (termo) {
+                    if (tipoPessoa == TipoPessoa.FISICA) {
+                        if (cnh) {
+                            super.save();
+                        } else {
+                            if (cpf && rg) {
+                                super.save();
+                            } else {
+                                FacesMessageUtils.error("RG e CPF são obrigatórios no caso de não anexar a CNH!!!");
+                            }
+                        }
+                    } else {
+                        
+                    }
+                } else {
+                    FacesMessageUtils.error("Termo de Titularidade e Responsabilidade é obrigatório!");
+                }
+            } else {
+                if (tipoPessoa == TipoPessoa.FISICA) {
+                    FacesMessageUtils.error("Comprovante de Endereço é obrigatório!");
+                } else {
+                    FacesMessageUtils.error("Comprovante de Endereço do Representante Legal é obrigatório!");
+                }
+            }
+        } else {
+            if (tipoPessoa == TipoPessoa.FISICA) {
+                FacesMessageUtils.error("Ofício de Solicitação do Certificado Digital contendo o nome e CPF do titular é obrigatório!");
+            } else {
+                FacesMessageUtils.error("Ofício de Solicitação do Certificado Digital contendo o nome e o CNPJ da pessoa Jurídica, nome e CPF do representante legal é obrigatório!");
+            }
+
+        }
+
     }
 
     @Override
     public void postSave() {
 
-        termo = cnh = rg = cpf = comprovante_residencia = oficio = false;
+        pis = nomeacao = leiDeCriacao = estatuto = contratoSocial = termo = cnh = rg = cpf = comprovanteResidencia = oficio = false;
 
         carregarAgenda();
 
@@ -186,22 +199,6 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
 
     public void setItemPedido(ItemPedido itemPedido) {
         this.itemPedido = itemPedido;
-    }
-
-    public List<Contato> getContatos() {
-        return contatos;
-    }
-
-    public void setContatos(List<Contato> contatos) {
-        this.contatos = contatos;
-    }
-
-    public Contato getContatoAdd() {
-        return contatoAdd;
-    }
-
-    public void setContatoAdd(Contato contatoAdd) {
-        this.contatoAdd = contatoAdd;
     }
 
     public List<ArquivoAgendamento> getArquivos() {
@@ -241,7 +238,7 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
     }
 
     public void onDateSelect(SelectEvent selectEvent) {
-        
+
         setEntity(new Agendamento());
 
         Date dataSolicitada = (Date) selectEvent.getObject();
@@ -348,17 +345,6 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
         return formataData.format(data);
     }
 
-    private boolean ehSexta(Date data) {
-        Calendar calendario = Calendar.getInstance();
-        calendario.setTime(data);
-
-        if (calendario.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
-            return true;
-        }
-
-        return false;
-    }
-
     public StreamedContent download(ArquivoAgendamento arquivo) throws IOException {
 
         if (arquivo instanceof HibernateProxy) {
@@ -393,8 +379,10 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
             if (arquivoJahAdicionado(arquivo)) {
                 FacesMessageUtils.error("Tipo de Arquivo: ".concat(tipo.getDescricao()).concat(" já foi adicionado!"));
             } else {
+                verificarTipoArquivoAdd(tipo, true);
                 arquivos.add(arquivo);
                 tipo = null;
+
             }
         } else {
             FacesMessageUtils.error("Informe o tipo de Arquivo!");
@@ -403,6 +391,7 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
     }
 
     public void removerArquivo(ArquivoAgendamento arquivo) {
+        verificarTipoArquivoAdd(arquivo.getTipo(), false);
         arquivos.remove(arquivo);
     }
 
@@ -415,31 +404,47 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
         return false;
     }
 
-    public void addContato() {
-        if (!Utils.isNullOrEmpty(contatoAdd.getNumero())) {
-            if (numJahAdicionado(contatoAdd.getNumero())) {
-                FacesMessageUtils.error("Número já encontrado na lista de contatos!");
-            } else {
-                contatos.add(contatoAdd);
-                contatoAdd = new Contato();
-            }
-        } else {
-            FacesMessageUtils.error("Número do Contato é obrigatório!!");
+    private void verificarTipoArquivoAdd(TipoArquivoAgendamento tipo, boolean boleano) {
+        nomeacao = tipo == TipoArquivoAgendamento.NOMEACAO_DIARIO_OFICIAL;
+        leiDeCriacao = estatuto = contratoSocial = termo = cnh = rg = cpf = comprovanteResidencia = oficio = false;
+
+        switch (tipo.getNum()) {
+            case 1:
+                comprovanteResidencia = boleano;
+                break;
+            case 2:
+                contratoSocial = boleano;
+                break;
+            case 3:
+                cnh = boleano;
+                break;
+            case 4:
+                cpf = boleano;
+                break;
+            case 5:
+                estatuto = boleano;
+                break;
+            case 6:
+                leiDeCriacao = boleano;
+                break;
+            case 7:
+                nomeacao = boleano;
+                break;
+            case 8:
+                oficio = boleano;
+                break;
+            case 9:
+                pis = boleano;
+                break;
+            case 10:
+                rg = boleano;
+                break;
+            case 11:
+                termo = boleano;
+                break;
+
         }
 
-    }
-
-    public void removerContato(Contato contato) {
-        contatos.remove(contato);
-    }
-
-    private boolean numJahAdicionado(String num) {
-        for (Contato contato : contatos) {
-            if (contato.getNumero().equals(num)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void carregarAgenda() {
@@ -449,7 +454,6 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
 
         for (Agendamento agendamento : agendamentos) {
             ScheduleEvent eventTemp = new DefaultScheduleEvent("Reservado", agendamento.getDataInicial(), agendamento.getDataFinal());
-//            eventTemp.setId(agendamento.getId().toString());
             eventModel.addEvent(eventTemp);
         }
     }

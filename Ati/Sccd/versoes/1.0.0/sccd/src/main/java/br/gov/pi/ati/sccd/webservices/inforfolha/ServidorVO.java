@@ -26,6 +26,7 @@ public class ServidorVO {
     private String funcao;
     
     private String cargo;
+    
 
     public String getMatricula() {
         return matricula;

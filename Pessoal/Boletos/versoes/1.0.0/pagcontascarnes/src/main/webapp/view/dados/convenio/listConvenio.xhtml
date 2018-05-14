@@ -10,10 +10,10 @@
         <ui:include src="menuConvenio.xhtml" />
         <h:form id="formListConvenio">
             <x:modalMessages/>
-            <p:fieldset legend="Filtros de Busca" toggleable="true" id="fieldFiltros">
+            <p:fieldset legend="Filtros de Busca" id="fieldFiltros">
                 <div class="container-fluid">
                     <div class="row">
-                        <x:securityArea rolesAllowed="franquia.campo">
+                        <x:securityArea rendered="#{x:hasRole('franquia.campo')}" rolesAllowed="franquia.campo">
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="franquia" value="#{msg['convenio.franquia']}:" />
                                 <h:selectOneMenu id="franquia" value="#{convenioMB.filtros.franquia}"  styleClass="form-control" 
@@ -27,7 +27,7 @@
 
                             </div>
                         </x:securityArea>
-                        
+
 
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="tipo_pessoa" value="#{msg['convenio.tipo_pessoa']}:" />
@@ -89,7 +89,7 @@
                         </div>
                     </div>
                     <div class="uix-center">
-                        <p:commandButton  process="fieldFiltros" update="@form" action="#{convenioMB.buscar()}" 
+                        <p:commandButton  process="@this fieldFiltros" update="@form" action="#{convenioMB.buscar()}" 
                                           value="Buscar" />
                     </div>
                 </div>

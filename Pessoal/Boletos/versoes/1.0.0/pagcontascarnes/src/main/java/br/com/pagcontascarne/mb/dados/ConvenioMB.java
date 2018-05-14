@@ -40,7 +40,7 @@ public class ConvenioMB extends AbstractBaseBean<Convenio> implements Serializab
     private Usuario usuarioAtual;
 
     private FiltrosBusca filtros;
-    
+
     private List<Convenio> convenios;
 
     @Override
@@ -51,20 +51,18 @@ public class ConvenioMB extends AbstractBaseBean<Convenio> implements Serializab
     @Override
     public void init() {
         usuarioAtual = SessaoUtils.getUser();
-        
+
         filtros = new FiltrosBusca();
-        Franquia franquia = getDAO().getInitialized(usuarioAtual.getFranquia());
-        System.out.println(franquia);
-        filtros.setFranquia(franquia);
-        System.out.println(filtros.getFranquia());
-        
+
+        filtros.setFranquia(usuarioAtual.getFranquia());
+
         if (getEntity().getCidade() != null) {
             Cidade cidadeTemp = getDAO().getInitialized(getEntity().getCidade());
             ufFilter = getDAO().getInitialized(cidadeTemp.getUf());
         }
 
         if (getEntity() == null) {
-            getEntity().setFranquia(franquia);
+            getEntity().setFranquia(usuarioAtual.getFranquia());
         }
     }
 
@@ -124,7 +122,6 @@ public class ConvenioMB extends AbstractBaseBean<Convenio> implements Serializab
     }
 
     public void buscar() {
-        System.out.println(filtros.getFranquia());
         convenios = getBO().convenios(filtros);
     }
 

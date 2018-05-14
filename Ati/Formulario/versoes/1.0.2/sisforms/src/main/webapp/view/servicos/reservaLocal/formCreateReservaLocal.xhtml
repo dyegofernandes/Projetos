@@ -47,12 +47,12 @@
 
                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <p:outputLabel for="from" value="* Data Inicial:" />
-                    <p:calendar mindate="#{now}" id="from" value="#{reservaLocalMB.entity.dataInicio}" showOn="button" styleClass="uix-calendar" readonly="#{reservaLocalMB.entity.id!=null}" pattern="dd/MM/yyyy HH:mm" ><x:mask/>       </p:calendar>
+                    <p:calendar mindate="#{now}" id="from" value="#{reservaLocalMB.entity.dataInicio}"  showOn="button" styleClass="uix-calendar" readonly="#{reservaLocalMB.entity.id!=null}" pattern="dd/MM/yyyy HH:mm" ><x:mask/></p:calendar>
                 </div>
 
                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <p:outputLabel for="to" value="* Data Final:" />
-                    <p:calendar mindate="#{now}" id="to" value="#{reservaLocalMB.entity.dataFinal}" showOn="button" styleClass="uix-calendar" readonly="#{reservaLocalMB.entity.id!=null}" pattern="dd/MM/yyyy HH:mm"><x:mask/>  </p:calendar>
+                    <p:calendar mindate="#{now}" id="to" value="#{reservaLocalMB.entity.dataFinal}" disabled="false" showOn="button" styleClass="uix-calendar" readonly="#{reservaLocalMB.entity.id!=null}" pattern="dd/MM/yyyy HH:mm" ><x:mask/></p:calendar>
                 </div>
 
                 <div  class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
@@ -126,7 +126,7 @@
 
                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" >
                     <p:outputLabel for="fone_contato" value="* Telefone do Responsável:" />
-                    <p:inputMask id="fone_contato" value="#{reservaLocalMB.entity.fone_contato}" styleClass="form-control" mask="(99) 9999-9999"/>
+                    <p:inputMask id="fone_contato" value="#{reservaLocalMB.entity.fone_contato}" styleClass="form-control" mask="(99) 99999-9999"/>
                 </div>
 
                 
@@ -241,7 +241,7 @@
             <p:commandButton type="reset" value="Resetar" rendered="#{reservaLocalMB.entity.id==null}"/>
 
             <x:securityArea rolesAllowed="reservaLocal.delete">
-                <p:commandButton title="#{xmsg['delete']}" process="@form" update="formAgenda @form" value="Apagar" action="#{reservaLocalMB.del()}" rendered="#{reservaLocalMB.entity.id!=null}">
+                <p:commandButton title="#{xmsg['delete']}" process="@form" update="@form" value="Apagar" action="#{reservaLocalMB.del()}" rendered="#{reservaLocalMB.entity.id!=null}">
                     <f:setPropertyActionListener value="#{reserva.id}" target="#{reservaLocalMB.id}" />
                     <x:confirmation message="#{xmsg['confirmDelete']} - #{reserva}" />
                 </p:commandButton>

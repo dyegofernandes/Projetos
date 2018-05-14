@@ -54,6 +54,7 @@ public class ContatoMB extends AbstractBaseBean<Contato> implements Serializable
         filtros.setFranquia(getDAO().getInitialized(usuarioAtual.getFranquia()));
         filtros.setConvenio(getDAO().getInitialized(usuarioAtual.getConvenio()));
         conveniosFiltros = new ArrayList<Convenio>();
+        pegarConveniosFiltros();
         if (getEntity().getId() == null) {
             getEntity().setConvenio(getDAO().getInitialized(usuarioAtual.getConvenio()));
         }

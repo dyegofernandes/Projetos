@@ -61,7 +61,7 @@ public class BoletoMB extends AbstractBaseBean<Boleto> implements Serializable {
 
     private List<Boleto> boletosFind;
 
-    Usuario usuarioAtual = SessaoUtils.getUser();
+    Usuario usuarioAtual;
 
     private boolean confirmar = false;
 
@@ -89,10 +89,12 @@ public class BoletoMB extends AbstractBaseBean<Boleto> implements Serializable {
 
     @Override
     public void init() {
+        usuarioAtual = SessaoUtils.getUser();
         confirmar = false;
         filtros = new FiltrosBusca();
         filtros.setFranquia(getDAO().getInitialized(usuarioAtual.getFranquia()));
         filtros.setConvenio(getDAO().getInitialized(usuarioAtual.getConvenio()));
+        pegarConveniosFiltros();
         if (getEntity().getId() == null) {
             getEntity().setConvenio(getDAO().getInitialized(usuarioAtual.getConvenio()));
         }
@@ -407,4 +409,9 @@ public class BoletoMB extends AbstractBaseBean<Boleto> implements Serializable {
             conveniosFiltros = convenioBO.convenioPelaFranquia(filtros.getFranquia());
         }
     }
+
+    public List<Convenio> convenioPeloNomeEFranquia(String nome) {
+        return convenioBO.conveniosPeloNomeOrCnpjOuCpfEFranquia(usuarioAtual.getFranquia(), nome);
+    }
+
 }

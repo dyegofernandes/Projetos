@@ -59,7 +59,11 @@ public class ClienteBO extends AbstractBusinessObject<Cliente> {
 
         if (convenio != null) {
             restrictions.add("convenio", convenio);
+        }else{
+            return null;
         }
+        
+        
 
         return getDAO().list(restrictions, "nome_fantasia");
     }

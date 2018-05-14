@@ -14,11 +14,11 @@
                 <p:panel header="Informe os dados abaixo para geração do (s) boleto (s)">
                     <div class="container-fluid">
                         <div class="row">
-                            <x:securityArea rolesAllowed="convenio.campo">
+                            <x:securityArea rendered="#{x:hasRole('convenio.campo')}" rolesAllowed="convenio.campo">
                                 <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
                                     <h:outputLabel for="convenio" value="* #{msg['boleto.convenio']}:" />
                                     <p:autoComplete id="convenio" value="#{boletoMB.entity.convenio}" 
-                                                    completeMethod="#{convenioMB.autocomplete}" styleClass="uix-autocomplete" 
+                                                    completeMethod="#{boletoMB.convenioPeloNomeEFranquia}" styleClass="uix-autocomplete" 
                                                     minQueryLength="3" forceSelection="true" dropdown="true"
                                                     var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" > 
                                         <x:initializer/>

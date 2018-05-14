@@ -5,8 +5,7 @@
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
     <h:form id="formDetailReservaLocal" styleClass="uix-form-detail">
-        <p:tabView>
-            <p:tab title="Solicitação" >
+
                 <div class="container-fluid">
                     <div class="row">
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
@@ -68,12 +67,6 @@
                             <p:inputTextarea readonly="true" value="#{reservaLocalMB.entity.observacao}" styleClass="form-control"  />
                         </div>
 
-                    </div>
-                </div>
-            </p:tab>    
-            <p:tab title="Anexo">
-                <div class="container-fluid">
-                    <div class="row">
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel value="#{msg['Arquivos']}:" styleClass="control-label" /><br/>
                             <p:fieldset legend="Listagem de Arquivos">
@@ -125,10 +118,11 @@
 
                                 </p:fieldset> 
                         </div>
-                    </div>
-                </div>    
-            </p:tab>
-        </p:tabView>
+                        </div>
+                </div>
+               
+                  
+            
 
         <p:separator/>
         <div class="uix-center">

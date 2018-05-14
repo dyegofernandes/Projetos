@@ -59,7 +59,7 @@ public class ClienteMB extends AbstractBaseBean<Cliente> implements Serializable
     public void init() {
         filtros.setFranquia(getDAO().getInitialized(usuarioAtual.getFranquia()));
         filtros.setConvenio(getDAO().getInitialized(usuarioAtual.getConvenio()));
-        
+        pegarConveniosFiltros();
         if (getEntity().getId() == null) {
             getEntity().setConvenio(getDAO().getInitialized(usuarioAtual.getConvenio()));
         } else {

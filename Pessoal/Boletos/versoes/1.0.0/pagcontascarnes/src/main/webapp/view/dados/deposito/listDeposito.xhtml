@@ -13,7 +13,7 @@
             <p:fieldset legend="Filtros de Busca">
                 <div class="container-fluid">
                     <div class="row">
-                        <x:securityArea rolesAllowed="franquia.campo">
+                        <x:securityArea rendered="#{x:hasRole('franquia.campo')}" rolesAllowed="franquia.campo">
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="franquia" value="#{msg['deposito.franquia']}:" />
                                 <h:selectOneMenu id="franquia" value="#{depositoMB.filtros.franquia}"  styleClass="form-control"
@@ -28,7 +28,7 @@
 
                             </div>
                         </x:securityArea>
-                        <x:securityArea rolesAllowed="convenio.campo">
+                        <x:securityArea rendered="#{x:hasRole('convenio.campo')}" rolesAllowed="convenio.campo">
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="convenio" value="#{msg['deposito.convenio']}:" />
                                 <h:selectOneMenu id="convenio" value="#{depositoMB.filtros.convenio}"  styleClass="form-control"

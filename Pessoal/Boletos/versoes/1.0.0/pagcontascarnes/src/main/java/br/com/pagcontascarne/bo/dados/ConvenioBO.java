@@ -60,6 +60,29 @@ public class ConvenioBO extends AbstractBusinessObject<Convenio> {
         return getDAO().list(restrictions, "nome_fantasia");
     }
 
+    public List<Convenio> conveniosPeloNomeOrCnpjOuCpfEFranquia(Franquia franquia, String nome) {
+        Restrictions restrictions = new Restrictions();
+
+        restrictions.add("ativo", true);
+
+        if (franquia != null) {
+            restrictions.add("franquia", franquia);
+        }else{
+            return null;
+        }
+
+        if (!Utils.isNullOrEmpty(nome)) {
+            if (Utils.ehInteiro(nome)) {
+                restrictions.like("cpf_cnpj", (nome.replace(".", "").replace("/", "").replace("-", "")));
+            } else {
+                restrictions.like("nome_fantasia", nome);
+            }
+
+        }
+
+        return getDAO().list(restrictions, "nome_fantasia");
+    }
+
     public List<Convenio> convenioPelaFranquia(Franquia franquia) {
         return getDAO().list("franquia", franquia, "nome_fantasia");
     }

@@ -29,7 +29,7 @@ public class DepositoMB extends AbstractBaseBean<Deposito> implements Serializab
     @EJB
     private ConvenioBO convenioBO;
 
-    private Usuario usuarioAtual = SessaoUtils.getUser();
+    private Usuario usuarioAtual;
 
     private List<Deposito> depositos;
 
@@ -51,6 +51,7 @@ public class DepositoMB extends AbstractBaseBean<Deposito> implements Serializab
 
     @Override
     public void init() {
+        usuarioAtual = SessaoUtils.getUser();
         filtros = new FiltrosBusca();
 
         filtros.setFranquia(getDAO().getInitialized(usuarioAtual.getFranquia()));
@@ -58,7 +59,7 @@ public class DepositoMB extends AbstractBaseBean<Deposito> implements Serializab
         depositos = new ArrayList<Deposito>();
         convenios = new ArrayList<Convenio>();
         conveniosFiltros = new ArrayList<Convenio>();
-
+        pegarConveniosFiltros();
         if (getEntity().getId() == null) {
             getEntity().setFranquia(getDAO().getInitialized(usuarioAtual.getFranquia()));
             getEntity().setConvenio(getDAO().getInitialized(usuarioAtual.getConvenio()));
@@ -117,5 +118,9 @@ public class DepositoMB extends AbstractBaseBean<Deposito> implements Serializab
         if (filtros.getFranquia() != null) {
             conveniosFiltros = convenioBO.convenioPelaFranquia(filtros.getFranquia());
         }
+    }
+
+    public List<Convenio> convenioPeloNomeEFranquia(String nome) {
+        return convenioBO.conveniosPeloNomeOrCnpjOuCpfEFranquia(usuarioAtual.getFranquia(), nome);
     }
 }

@@ -32,6 +32,7 @@ public class Teste {
             servidorVO = (ServidorVO) xstreamJason.fromXML(xmlString);
             
             System.out.println(servidorVO.getNome());
+            System.out.println(servidorVO.getCategoria());
         }else{
             System.out.println("Não é servidor ou comissionado do estado!!");
         }

@@ -10,23 +10,24 @@ package br.gov.pi.ati.sccd.webservices.inforfolha;
  * @author Juniel
  */
 public class ServidorVO {
-    
+
     private String matricula;
-    
+
     private String nome;
-    
+
     private String orgao;
-    
+
     private String cpf;
-    
+
     private String telefone;
-    
+
     private String email;
-    
+
     private String funcao;
-    
+
     private String cargo;
-    
+
+    private String categoria;
 
     public String getMatricula() {
         return matricula;
@@ -91,7 +92,13 @@ public class ServidorVO {
     public void setCargo(String cargo) {
         this.cargo = cargo;
     }
-    
-    
-    
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
 }

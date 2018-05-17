@@ -227,12 +227,30 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
         context.execute("PF(\'eventDialog\').show();");
 
     }
+    
+    public void selecionarEvento2(SelectEvent selectEvent){
+        RequestContext context = RequestContext.getCurrentInstance();
+        event = (ScheduleEvent) selectEvent.getObject();
+
+        String titulo = event.getTitle();
+
+        Long id = Long.parseLong(titulo.split(" ")[0]);
+
+        ReservaLocal reserva = getBO().getDAO().getInitialized(getBO().getDAO().unique("id", id));
+
+        setEntity(reserva);
+        
+        context.execute("PF(\'widgetReservaLocalDetail\').show();");
+    }
+    
+    
 
     public void selecionarData(SelectEvent selectEvent) {
 
         RequestContext context = RequestContext.getCurrentInstance();
         Orgao orgao = getDAO().getInitialized(usuarioAtual.getOrgao());
         setEntity(new ReservaLocal());
+        
         getEntity().setOrgao(orgao);
         arquivos = new ArrayList<Arquivo>();
         getEntity().setDataInicio((Date) selectEvent.getObject());
@@ -260,7 +278,7 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
         eventModel = new DefaultScheduleModel();
 
         for (ReservaLocal reservax : reservas) {
-            ScheduleEvent eventTemp = new DefaultScheduleEvent(reservax.getId() + " - " + reservax.getTitulo() + " - " + reservax.getSolicitante(), reservax.getDataInicio(), reservax.getDataFinal(), "emp1");
+            ScheduleEvent eventTemp = new DefaultScheduleEvent(reservax.getId()+ " "+reservax.getTitulo() + " - " + reservax.getOrgaoSolicitante(), reservax.getDataInicio(), reservax.getDataFinal(), "emp1");
             eventModel.addEvent(eventTemp);
 
         }
@@ -435,6 +453,9 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
                 ag.setFone_contato(getEntity().getFone_contato());
                 ag.setObservacao(getEntity().getObservacao());
                 ag.setOrgaoSolicitante(getEntity().getOrgaoSolicitante());
+                ag.setNumero_oficio(getEntity().getNumero_oficio());
+                ag.setNumero_protocolo(getEntity().getNumero_protocolo());
+                ag.setUsuario(usuarioAtual);
 
                 List<Arquivo> arquivotemp = new ArrayList();
                 for (Arquivo arquivo : arquivos) {
@@ -523,5 +544,30 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
         Orgao orgao = getDAO().getInitialized(usuarioAtual.getOrgao());
         return getBO().localPeloNomeOrgao(nome, orgao);
     }
-
+        
+    public boolean testeUsuario(){
+        if(usuarioAtual.isSuperUsuario()){
+            return true;
+        }
+        
+        Usuario user = getDAO().getInitialized(getEntity().getUsuario());
+        if(user.equals(usuarioAtual)){
+            return  true;
+        }
+        
+        return false;
+    }
+    
+    
+    public boolean testeUsuarioList(ReservaLocal reserva){
+        if(usuarioAtual.isSuperUsuario()){
+            return true;
+        }
+        
+        Usuario user = getDAO().getInitialized(reserva.getUsuario());
+        if(user.equals(usuarioAtual)){
+            return  true;
+        }
+        return false;
+    }
 }

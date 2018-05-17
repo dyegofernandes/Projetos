@@ -55,8 +55,9 @@
             <p:schedule id="schedule" value="#{reservaLocalMB.eventModel}" widgetVar="myschedule" timeZone="GMT-3"   timeFormat=" " draggable="false" resizable="false"  axisFormat="H:mm" centerHeaderTemplate="title" >
                 
                     <p:ajax event="dateSelect" listener="#{reservaLocalMB.selecionarData}" update="eventDetails" disabled="#{!x:hasRole('reservaLocal.create')}"/>
-                    <p:ajax event="eventSelect" listener="#{reservaLocalMB.selecionarEvento}" update="eventDetails"  disabled="#{!x:hasRole('reservaLocal.create')}"/>
-                 
+                    <p:ajax event="eventSelect" listener="#{reservaLocalMB.selecionarEvento}" update="eventDetails"  disabled="#{!x:hasRole('reservaLocal.create') }"/>
+                    <p:ajax event="eventSelect" listener="#{reservaLocalMB.selecionarEvento2}"  update="realEventDetails"  disabled="#{!x:hasRole('reservaLocal.agenda')}"/>
+                    
             </p:schedule>
 
 
@@ -65,8 +66,15 @@
     <p:dialog id="eventDetails" widgetVar="eventDialog"  header="#{msg['Cadastrar reservas']}" appendTo="@(body)" 
               modal="true" styleClass="uix-dialog-fluid" >
         <ui:include src="formCreateReservaLocal.xhtml" />
-        <p:ajax event="close" update="formAgenda" listener="#{findAllBean.setReload(true)}"/>
+        <p:ajax event="close" update="formAgenda" listener="#{findAllBean.setReload(true)}" />
+        <p:ajax event="close" update="formAgenda" listener="#{reservaLocalMB.init_reservas()}"/>
     </p:dialog>
+    <p:dialog id="realEventDetails" widgetVar="widgetReservaLocalDetail" header="#{msg['Detalhes do evento']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailReservaLocal.xhtml" />
+            <p:ajax event="close" update="formAgenda" listener="#{findAllBean.setReload(true)}"/>
+            <p:ajax event="close" update="formAgenda" listener="#{reservaLocalMB.init_reservas()}"/>
+        </p:dialog>                  
     <style type="text/css">
         .value {
             width: 1000px;

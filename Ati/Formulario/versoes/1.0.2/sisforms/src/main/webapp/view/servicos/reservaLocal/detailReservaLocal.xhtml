@@ -6,123 +6,149 @@
                  xmlns:x="http://xpert.com/faces">
     <h:form id="formDetailReservaLocal" styleClass="uix-form-detail">
 
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel value="#{msg['Orgão']}:" styleClass="control-label" /><br/>
-                            <h:outputText value="#{reservaLocalMB.entity.orgao}" styleClass="uix-content-detail">
-                                    <x:initializer ></x:initializer>
-                            </h:outputText>
-                        </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel value="#{msg['Local']}:" styleClass="control-label" /><br/>
-                            <h:outputText value="#{reservaLocalMB.entity.local}" styleClass="uix-content-detail">
-                                <x:initializer/>
-                            </h:outputText>
-                        </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel value="#{msg['Título']}:" styleClass="control-label" /><br/>
-                            <h:outputText value="#{reservaLocalMB.entity.titulo}" styleClass="uix-content-detail"/>
-                        </div>
+        <div class="container-fluid">
+            <div class="row">
 
-                        
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel value="#{msg['Data Inicial']}:" styleClass="control-label" /><br/>
-                            <h:outputText value="#{reservaLocalMB.entity.dataInicio}" styleClass="uix-content-detail">
-                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
-                            </h:outputText>
-                        </div> 
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel value="#{msg['Data Final']}:" styleClass="control-label" /><br/>
-                            <h:outputText value="#{reservaLocalMB.entity.dataFinal}" styleClass="uix-content-detail">
-                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
-                            </h:outputText>
-                        </div>
-                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel value="#{msg['Solicitante']}:" styleClass="control-label" /><br/>
-                            <h:outputText value="#{reservaLocalMB.entity.solicitante}" styleClass="uix-content-detail"/>
-                        </div>
-                    </div>
-                
-                    <div class="row">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel value="#{msg['Orgão do Solicitante']}:" styleClass="control-label" /><br/>
-                            <h:outputText value="#{reservaLocalMB.entity.orgaoSolicitante}" styleClass="uix-content-detail">
-                                <x:initializer/>
-                            </h:outputText>
-                        </div>
-                        
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel value="#{msg['Nome do Responsável']}:" styleClass="control-label" /><br/>
-                            <h:outputText value="#{reservaLocalMB.entity.contato}" styleClass="uix-content-detail"/>
-                        </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel value="#{msg['Telefone do Responsável']}:" styleClass="control-label" /><br/>
-                            <h:outputText value="#{reservaLocalMB.entity.fone_contato}" styleClass="uix-content-detail" />
-                        </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel value="#{msg['Motivo']}:" styleClass="control-label" /><br/>   
-                            <p:inputTextarea readonly="true" value="#{reservaLocalMB.entity.observacao}" styleClass="form-control"  />
-                        </div>
-
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel value="#{msg['Arquivos']}:" styleClass="control-label" /><br/>
-                            <p:fieldset legend="Listagem de Arquivos">
-
-                                    <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
-
-                                                 var="arquivo" rowIndexVar="index" id="dataTableArquivo" widgetVar="dataTableArquivoWidget" styleClass="table-responsive"
-
-                                                 value="#{reservaLocalMB.arquivos}" >
-
-                                        <p:column styleClass="uix-datatable-index">
-
-                                            <h:outputText value="#{index+1}"/>
-
-                                        </p:column>
-
-
-                                        <p:column headerText="#{msg['arquivo.nome']}" width="80%" style="text-align: center;">
-
-                                            <f:facet name="header">
-
-                                                <h:outputText value="#{msg['Nome']}" />
-
-                                            </f:facet>
-
-                                            <h:outputText value="#{arquivo.nome}"/>
-
-
-
-                                        </p:column>
-
-                                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
-
-                                            <f:facet name="header">
-
-                                                <h:outputText value="#{xmsg['actions']}"/>
-
-                                            </f:facet>          
-
-                                            <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Download" ajax="false" immediate="true" update="dataTableArquivo
-                                                             ">
-
-                                                <p:fileDownload value="#{reservaLocalMB.download(arquivo)}" />
-
-                                            </p:commandButton>
-                                        </p:column>
-
-                                    </p:dataTable>
-
-                                </p:fieldset> 
-                        </div>
-                        </div>
+                <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['Orgão']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{reservaLocalMB.entity.orgao}" styleClass="uix-content-detail">
+                        <x:initializer ></x:initializer>
+                    </h:outputText>
                 </div>
-               
-                  
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['Orgão do Solicitante']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{reservaLocalMB.entity.orgaoSolicitante}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['Solicitante']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{reservaLocalMB.entity.solicitante}" styleClass="uix-content-detail"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['Local']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{reservaLocalMB.entity.local}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['Título']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{reservaLocalMB.entity.titulo}" styleClass="uix-content-detail"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['Data Inicial']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{reservaLocalMB.entity.dataInicio}" styleClass="uix-content-detail">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                    </h:outputText>
+                </div> 
+                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['Data Final']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{reservaLocalMB.entity.dataFinal}" styleClass="uix-content-detail">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                    </h:outputText>
+                </div>
+            </div>
+
+             <div class="row">
+                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                    <h:outputLabel value="#{msg['Número de protocolo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{reservaLocalMB.entity.numero_protocolo}" styleClass="uix-content-detail"/>
+                    
+                </div>
+
+                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                    <h:outputLabel value="#{msg['Número do ofício']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{reservaLocalMB.entity.numero_oficio}" styleClass="uix-content-detail" />
+                    
+                </div>
+            </div>
+
             
+            <div class="row">
+
+
+                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['Nome do Responsável']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{reservaLocalMB.entity.contato}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['Telefone do Responsável']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{reservaLocalMB.entity.fone_contato}" styleClass="uix-content-detail" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['Motivo']}:" styleClass="control-label" /><br/>   
+                    <p:inputTextarea readonly="true" value="#{reservaLocalMB.entity.observacao}" styleClass="form-control" style="border: #ffffff; background-color: #ffffff" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['Arquivos']}:" styleClass="control-label" /><br/>
+                    <p:fieldset legend="Listagem de Arquivos">
+
+                        <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+
+                                     var="arquivo" rowIndexVar="index" id="dataTableArquivo" widgetVar="dataTableArquivoWidget" styleClass="table-responsive"
+
+                                     value="#{reservaLocalMB.entity.arquivos}" >
+                            <x:initializer/>
+                            <p:column styleClass="uix-datatable-index">
+
+                                <h:outputText value="#{index+1}"/>
+
+                            </p:column>
+
+
+                            <p:column headerText="#{msg['arquivo.nome']}" width="80%" style="text-align: center;">
+
+                                <f:facet name="header">
+
+                                    <h:outputText value="#{msg['Nome']}" />
+
+                                </f:facet>
+
+                                <h:outputText value="#{arquivo.nome}"/>
+
+
+
+                            </p:column>
+
+                            <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+
+                                <f:facet name="header">
+
+                                    <h:outputText value="#{xmsg['actions']}"/>
+
+                                </f:facet>          
+
+                                <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="Download" ajax="false" immediate="true" update="dataTableArquivo
+                                                 ">
+
+                                    <p:fileDownload value="#{reservaLocalMB.download(arquivo)}" />
+
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </p:fieldset> 
+                </div>
+            </div>
+        </div>
+
+
+
 
         <p:separator/>
         <div class="uix-center">

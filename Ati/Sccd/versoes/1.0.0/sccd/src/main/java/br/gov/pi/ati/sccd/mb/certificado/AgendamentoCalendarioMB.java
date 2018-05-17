@@ -18,6 +18,10 @@ import br.gov.pi.ati.sccd.modelo.enums.SituacaoAgendamento;
 import br.gov.pi.ati.sccd.modelo.enums.TipoArquivoAgendamento;
 import br.gov.pi.ati.sccd.modelo.enums.TipoPessoa;
 import br.gov.pi.ati.sccd.util.Utils;
+import br.gov.pi.ati.sccd.webservices.inforfolha.ServidorVO;
+import br.gov.pi.ati.sccd.webservices.inforfolha.server.ServerWebservices;
+import br.gov.pi.ati.sccd.webservices.inforfolha.server.ServerWebservicesPortType;
+import com.thoughtworks.xstream.XStream;
 import com.xpert.core.exception.BusinessException;
 import com.xpert.faces.utils.FacesMessageUtils;
 import java.io.File;
@@ -90,6 +94,8 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
 
     private boolean termo;
 
+    private boolean comissionado;
+
     private String headerCalendario;
 
     private Date dataInicial;
@@ -107,11 +113,11 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
     @Override
     public void init() {
 
-        headerCalendario = HeaderCalendario.MES.getDescricao();
+        headerCalendario = HeaderCalendario.SEMANA.getDescricao();
 
         dataInicial = new Date();
 
-        pis = nomeacao = leiDeCriacao = estatuto = contratoSocial = termo = cnh = rg = cpf = comprovanteResidencia = oficio = false;
+        comissionado = pis = nomeacao = leiDeCriacao = estatuto = contratoSocial = termo = cnh = rg = cpf = comprovanteResidencia = oficio = false;
 
         eventModel = new DefaultScheduleModel();
 
@@ -131,39 +137,127 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
 
         TipoPessoa tipoPessoa = getEntity().getItemPedido().getTipoCertificado().getTipoPessoa();
 
-        if (oficio) {
-            if (comprovanteResidencia) {
-                if (termo) {
-                    if (tipoPessoa == TipoPessoa.FISICA) {
-                        if (cnh) {
-                            super.save();
-                        } else {
-                            if (cpf && rg) {
-                                super.save();
+        if (!getEntity().getCliente().isIsento()) {
+            if (oficio) {
+                if (comprovanteResidencia) {
+                    if (termo) {
+                        if (tipoPessoa == TipoPessoa.FISICA) {
+                            if (comissionado) {
+                                if (nomeacao) {
+                                    if (cnh) {
+                                        super.save();
+                                    } else {
+                                        if (cpf && rg) {
+                                            super.save();
+                                        } else {
+                                            FacesMessageUtils.error("Anexos com RG e CPF são obrigatórios no caso de não anexar a CNH!!!");
+                                        }
+                                    }
+                                } else {
+                                    FacesMessageUtils.error("Anexos com a Nomeação para Comissionado é obrigatória!");
+                                }
                             } else {
-                                FacesMessageUtils.error("RG e CPF são obrigatórios no caso de não anexar a CNH!!!");
+                                if (cnh) {
+                                    super.save();
+                                } else {
+                                    if (cpf && rg) {
+                                        super.save();
+                                    } else {
+                                        FacesMessageUtils.error("Anexos com RG e CPF são obrigatórios no caso de não anexar a CNH!!!");
+                                    }
+                                }
                             }
+
+                        } else {
+                            if (nomeacao) {
+                                if (cnh) {
+                                    super.save();
+                                } else {
+                                    if (cpf && rg) {
+                                        super.save();
+                                    } else {
+                                        FacesMessageUtils.error("Anexos com RG e CPF do representante legal são obrigatórios no caso de não anexar a CNH!!!");
+                                    }
+                                }
+                            } else {
+                                FacesMessageUtils.error("Anexos com a Nomeação do Representante Legal é obrigatório!!");
+                            }
+
                         }
                     } else {
-                        
+                        FacesMessageUtils.error("Anexos com Termo de Titularidade e Responsabilidade é obrigatório!");
                     }
                 } else {
-                    FacesMessageUtils.error("Termo de Titularidade e Responsabilidade é obrigatório!");
+                    if (tipoPessoa == TipoPessoa.FISICA) {
+                        FacesMessageUtils.error("Anexos com Comprovante de Residência é obrigatório!");
+                    } else {
+                        FacesMessageUtils.error("Anexos com Comprovante de Residência do Representante Legal é obrigatório!");
+                    }
                 }
             } else {
                 if (tipoPessoa == TipoPessoa.FISICA) {
-                    FacesMessageUtils.error("Comprovante de Endereço é obrigatório!");
+                    FacesMessageUtils.error("Anexos com Ofício de Solicitação do Certificado Digital contendo o nome e CPF do titular é obrigatório!");
                 } else {
-                    FacesMessageUtils.error("Comprovante de Endereço do Representante Legal é obrigatório!");
+                    FacesMessageUtils.error("Anexos com Ofício de Solicitação do Certificado Digital contendo o nome e o CNPJ da pessoa Jurídica, nome e CPF do representante legal é obrigatório!");
                 }
+
             }
         } else {
-            if (tipoPessoa == TipoPessoa.FISICA) {
-                FacesMessageUtils.error("Ofício de Solicitação do Certificado Digital contendo o nome e CPF do titular é obrigatório!");
-            } else {
-                FacesMessageUtils.error("Ofício de Solicitação do Certificado Digital contendo o nome e o CNPJ da pessoa Jurídica, nome e CPF do representante legal é obrigatório!");
-            }
+            if (comprovanteResidencia) {
+                if (termo) {
+                    if (tipoPessoa == TipoPessoa.FISICA) {
+                        if (comissionado) {
+                            if (nomeacao) {
+                                if (cnh) {
+                                    super.save();
+                                } else {
+                                    if (cpf && rg) {
+                                        super.save();
+                                    } else {
+                                        FacesMessageUtils.error("Anexos com RG e CPF são obrigatórios no caso de não anexar a CNH!!!");
+                                    }
+                                }
+                            } else {
+                                FacesMessageUtils.error("Anexos com a Nomeação para Comissionado é obrigatória!");
+                            }
+                        } else {
+                            if (cnh) {
+                                super.save();
+                            } else {
+                                if (cpf && rg) {
+                                    super.save();
+                                } else {
+                                    FacesMessageUtils.error("Anexos com RG e CPF são obrigatórios no caso de não anexar a CNH!!!");
+                                }
+                            }
+                        }
 
+                    } else {
+                        if (nomeacao) {
+                            if (cnh) {
+                                super.save();
+                            } else {
+                                if (cpf && rg) {
+                                    super.save();
+                                } else {
+                                    FacesMessageUtils.error("Anexos com RG e CPF do representante legal são obrigatórios no caso de não anexar a CNH!!!");
+                                }
+                            }
+                        } else {
+                            FacesMessageUtils.error("Anexos com a Nomeação do Representante Legal é obrigatório!!");
+                        }
+
+                    }
+                } else {
+                    FacesMessageUtils.error("Anexos com Termo de Titularidade e Responsabilidade é obrigatório!");
+                }
+            } else {
+                if (tipoPessoa == TipoPessoa.FISICA) {
+                    FacesMessageUtils.error("Anexos com Comprovante de Residência é obrigatório!");
+                } else {
+                    FacesMessageUtils.error("Anexos com Comprovante de Residência do Representante Legal é obrigatório!");
+                }
+            }
         }
 
     }
@@ -171,7 +265,7 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
     @Override
     public void postSave() {
 
-        pis = nomeacao = leiDeCriacao = estatuto = contratoSocial = termo = cnh = rg = cpf = comprovanteResidencia = oficio = false;
+        comissionado = pis = nomeacao = leiDeCriacao = estatuto = contratoSocial = termo = cnh = rg = cpf = comprovanteResidencia = oficio = false;
 
         carregarAgenda();
 
@@ -239,7 +333,15 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
 
     public void onDateSelect(SelectEvent selectEvent) {
 
+        comissionado = pis = nomeacao = leiDeCriacao = estatuto = contratoSocial = termo = cnh = rg = cpf = comprovanteResidencia = oficio = false;
+
         setEntity(new Agendamento());
+
+        arquivos = new ArrayList<ArquivoAgendamento>();
+
+        itemPedido = new ItemPedido();
+
+        tipo = null;
 
         Date dataSolicitada = (Date) selectEvent.getObject();
 
@@ -258,14 +360,20 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
             if (verificarHoraZerada(dataSolicitada)) {
                 Calendar dataAtualZerada = Calendar.getInstance();
                 dataAtualZerada.setTime(new Date());
+//                dataAtualZerada.add(Calendar.DAY_OF_MONTH, 1);
                 dataAtualZerada.set(Calendar.HOUR_OF_DAY, 0);
                 dataAtualZerada.set(Calendar.MINUTE, 0);
                 dataAtualZerada.set(Calendar.SECOND, 0);
                 dataAtualZerada.set(Calendar.MILLISECOND, 0);
 
                 boolean passado = dataSolicitadaZerada.getTime().before(dataAtualZerada.getTime());
-                if (passado) {
-                    FacesMessageUtils.error("Reservas não pode ser feita para datas ou horários passados!!");
+                boolean dataAtual = dataSolicitadaZerada.getTime().equals(dataAtualZerada.getTime());
+                if (passado || dataAtual) {
+                    if (passado) {
+                        FacesMessageUtils.error("Solicitação de Agendamento não pode ser feita para data que já passou!");
+                    } else {
+                        FacesMessageUtils.error("Solicitação de Agendamento não pode ser feita para data atual!");
+                    }
                 } else {
                     headerCalendario = HeaderCalendario.DIA.getDescricao();
                     dataInicial = dataSolicitada;
@@ -274,11 +382,21 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
 
             } else {
                 RequestContext context = RequestContext.getCurrentInstance();
-
-                if (dataSolicitada.before(new Date())) {
-                    FacesMessageUtils.error("Reservas não pode ser feita para datas ou horários passados!!");
+                Calendar dataAtual = Calendar.getInstance();
+                dataAtual.setTime(new Date());
+                dataAtual.set(Calendar.HOUR_OF_DAY, 0);
+                dataAtual.set(Calendar.MINUTE, 0);
+                dataAtual.set(Calendar.SECOND, 0);
+                dataAtual.set(Calendar.MILLISECOND, 0);
+                boolean passado = dataSolicitadaZerada.getTime().before(dataAtual.getTime());
+                boolean atual = dataSolicitadaZerada.getTime().equals(dataAtual.getTime());
+                if (passado || atual) {
+                    if (passado) {
+                        FacesMessageUtils.error("Solicitação de Agendamento não pode ser feita para data que já passou!");
+                    } else {
+                        FacesMessageUtils.error("Solicitação de Agendamento não pode ser feita para data atual!");
+                    }
                 } else {
-
                     getEntity().setDataInicial(dataSolicitada);
                     Calendar calendario = Calendar.getInstance();
                     calendario.setTime(dataSolicitada);
@@ -405,8 +523,8 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
     }
 
     private void verificarTipoArquivoAdd(TipoArquivoAgendamento tipo, boolean boleano) {
-        nomeacao = tipo == TipoArquivoAgendamento.NOMEACAO_DIARIO_OFICIAL;
-        leiDeCriacao = estatuto = contratoSocial = termo = cnh = rg = cpf = comprovanteResidencia = oficio = false;
+//        nomeacao = tipo == TipoArquivoAgendamento.NOMEACAO_DIARIO_OFICIAL;
+//        leiDeCriacao = estatuto = contratoSocial = termo = cnh = rg = cpf = comprovanteResidencia = oficio = false;
 
         switch (tipo.getNum()) {
             case 1:
@@ -474,5 +592,48 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
         }
 
         return false;
+    }
+
+    public void ehComissionado() {
+        if (!Utils.isNullOrEmpty(itemPedido.getCpfCnpjTitular())) {
+            ServerWebservices servicorService = new ServerWebservices();
+            ServerWebservicesPortType servidor = servicorService.getServerWebservicesPort();
+
+            String xmlString = servidor.servidorativoxml(itemPedido.getCpfCnpjTitular());
+
+            ServidorVO servidorVO = new ServidorVO();
+
+            XStream xstreamJason = new XStream();
+
+            xstreamJason.alias("servidor", ServidorVO.class);
+
+            String xml = ("<?xml version=\"".concat("1.0\"").concat(" encoding=\"").concat("ISO-8859-1\"").concat("?>").concat("\n"));
+            if (!xml.equals(xmlString)) {
+                servidorVO = (ServidorVO) xstreamJason.fromXML(xmlString);
+
+                if (servidorVO.getCategoria().equals("3")) {
+                    nomeacao = true;
+                }
+            }
+        }
+    }
+
+    public void mudarTipoCertificado() {
+        comissionado = pis = nomeacao = leiDeCriacao = estatuto = contratoSocial = termo = cnh = rg = cpf = comprovanteResidencia = oficio = false;
+        arquivos = new ArrayList<ArquivoAgendamento>();
+        getEntity().setEmail(null);
+        getEntity().setEmailInstitucional(null);
+        getEntity().setItemPedido(null);
+        getEntity().setTelefone(null);
+        tipo = null;
+    }
+
+    public void fecharDetail() {
+        comissionado = pis = nomeacao = leiDeCriacao = estatuto = contratoSocial = termo = cnh = rg = cpf = comprovanteResidencia = oficio = false;
+        setEntity(new Agendamento());
+        itemPedido = new ItemPedido();
+        arquivos = new ArrayList<ArquivoAgendamento>();
+        tipo = null;
+        carregarAgenda();
     }
 }

@@ -262,7 +262,15 @@ public class ReservaLocalBO extends AbstractBusinessObject<ReservaLocal> {
         if (filtros.getTitulo() != null && !filtros.getTitulo().equals("")) {
             restrictions.like("reserva.titulo", filtros.getTitulo());
         }
+        
+        if (filtros.getNumero_oficio() != null && !filtros.getNumero_oficio().equals("")) {
+            restrictions.like("reserva.numero_oficio", filtros.getNumero_oficio());
+        }
 
+        if (filtros.getNumero_protocolo() != null && !filtros.getNumero_protocolo().equals("")) {
+            restrictions.like("reserva.numero_protocolo", filtros.getNumero_protocolo());
+        }
+        
         if (filtros.getDataInicial() != null) {
             restrictions.greaterEqualsThan("reserva.dataInicio", filtros.getDataInicial(), TemporalType.TIMESTAMP);
         }

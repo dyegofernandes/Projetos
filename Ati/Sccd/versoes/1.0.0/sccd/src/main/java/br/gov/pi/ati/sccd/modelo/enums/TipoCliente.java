@@ -17,7 +17,8 @@ public enum TipoCliente {
     CONSELHO_ESCOLAR(4, "Conselho Escolar"),
     EMPRESA(5, "Empresa"),
     FUNDACAO(6, "Fundação"),
-    SECRETARIA(7, "Secretaria");
+    SECRETARIA(7, "Secretaria"),
+    PRIVADA(8, "Empresa Privada");
 
     private TipoCliente(int num, String descricao) {
         this.descricao = descricao;

@@ -14,7 +14,7 @@
             <p:fieldset legend="Filtros de Busca">
                 <div class="container-fluid">
                     <div class="row">
-                        <x:securityArea rendered="#{x:hasRole('franquia.campo')}" rolesAllowed="franquia.campo">
+                        <x:securityArea  rolesAllowed="franquia.campo">
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="franquia" value="#{msg['produto.franquia']}:" />
                                 <h:selectOneMenu id="franquia" value="#{produtoMB.filtros.franquia}"  styleClass="form-control" 
@@ -28,7 +28,7 @@
 
                             </div>
                         </x:securityArea>
-                        <x:securityArea rendered="#{x:hasRole('convenio.campo')}" rolesAllowed="convenio.campo">
+                        <x:securityArea  rolesAllowed="convenio.campo">
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="convenio" value="#{msg['produto.convenio']}:" />
                                 <h:selectOneMenu id="convenio" value="#{produtoMB.filtros.convenio}"  styleClass="form-control" 

@@ -6,15 +6,11 @@
 package br.gov.pi.ati.sccd.modelo.certificado;
 
 import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificado;
-import br.gov.pi.ati.sccd.modelo.enums.TipoPessoa;
 import br.gov.pi.ati.sccd.util.Utils;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -22,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.Email;
 
 /**
  *
@@ -43,6 +40,10 @@ public class ItemPedido implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private TipoCertificado tipoCertificado;
+    
+    @Size(max = 250)
+    @Email
+    private String email;
 
     private boolean atendido = false;
 
@@ -98,6 +99,14 @@ public class ItemPedido implements Serializable {
 
     public void setCertificados(List<Certificado> certificados) {
         this.certificados = certificados;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

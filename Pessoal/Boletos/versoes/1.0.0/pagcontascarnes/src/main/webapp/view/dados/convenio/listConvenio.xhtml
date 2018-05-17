@@ -13,7 +13,7 @@
             <p:fieldset legend="Filtros de Busca" id="fieldFiltros">
                 <div class="container-fluid">
                     <div class="row">
-                        <x:securityArea rendered="#{x:hasRole('franquia.campo')}" rolesAllowed="franquia.campo">
+                        <x:securityArea rolesAllowed="franquia.campo">
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="franquia" value="#{msg['convenio.franquia']}:" />
                                 <h:selectOneMenu id="franquia" value="#{convenioMB.filtros.franquia}"  styleClass="form-control" 

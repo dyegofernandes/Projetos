@@ -19,7 +19,7 @@ public enum TipoArquivoAgendamento {
     LEI_DE_CRIACAO(6, "Lei de Criação"),
     NOMEACAO_DIARIO_OFICIAL(7, "Nomeação publicada no Diário Oficial do Piauí"),
     OFICIO_SOLICITACAO(8, "Ofício de Solicitação"),
-    PIS_PASEP(9,"PIS/PASEP"),
+    PIS_PASEP(9, "PIS/PASEP"),
     RG(10, "RG Colorido"),
     TERMO(11, "Termo de Titularidade e Responsabilidade");
 

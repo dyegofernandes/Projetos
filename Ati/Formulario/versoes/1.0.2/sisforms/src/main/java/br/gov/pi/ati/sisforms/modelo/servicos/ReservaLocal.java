@@ -7,6 +7,7 @@ package br.gov.pi.ati.sisforms.modelo.servicos;
 
 import br.gov.pi.ati.sisforms.modelo.cadastro.Arquivo;
 import br.gov.pi.ati.sisforms.modelo.cadastro.Orgao;
+import br.gov.pi.ati.sisforms.modelo.controleacesso.Usuario;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -79,8 +80,19 @@ public class ReservaLocal implements Serializable {
     @Size(max = 20)
     @NotNull
     private String fone_contato;
-
-
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    private Usuario usuario;
+    
+    @Size(max = 10)
+    @NotBlank
+    private String numero_protocolo;
+    
+    @Size(max = 8)
+    @NotBlank
+    private String numero_oficio;
+    
     @Override
     public String toString() {
         return titulo + " - " + local;
@@ -181,6 +193,30 @@ public class ReservaLocal implements Serializable {
 
     public void setFone_contato(String fone_contato) {
         this.fone_contato = fone_contato;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getNumero_protocolo() {
+        return numero_protocolo;
+    }
+
+    public void setNumero_protocolo(String numero_protocolo) {
+        this.numero_protocolo = numero_protocolo;
+    }
+
+    public String getNumero_oficio() {
+        return numero_oficio;
+    }
+
+    public void setNumero_oficio(String numero_oficio) {
+        this.numero_oficio = numero_oficio;
     }
     
     

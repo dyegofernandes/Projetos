@@ -3,8 +3,7 @@
                  xmlns:f="http://java.sun.com/jsf/core"
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
-                 xmlns:x="http://xpert.com/faces"
-                 xmlns:custom="http://java.sun.com/jsf/composite/components" >
+                 xmlns:x="http://xpert.com/faces" >
 
 
     <h:form id="formCreateReserva" >
@@ -13,12 +12,12 @@
             <div class="row">
 
                 <x:securityArea rolesAllowed="orgao.campo">
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
 
                         <h:outputLabel for="orgao" value="* Orgão:" /> 
 
 
-                        <p:autoComplete id="orgao" value="#{reservaLocalMB.entity.orgao}" readonly="#{reservaLocalMB.entity.id!=null}"
+                        <p:autoComplete id="orgao" value="#{reservaLocalMB.entity.orgao}" readonly="#{reservaLocalMB.entity.id!=null and !reservaLocalMB.testeUsuario()}"
 
                                         completeMethod="#{reservaLocalMB.orgaoAutocompletePeloNome}" styleClass="uix-autocomplete" 
 
@@ -37,66 +36,14 @@
                         </p:autoComplete>
                     </div>    
                 </x:securityArea>
-
-                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <p:outputLabel for="title" value="* Título:" />
-                    <p:inputText id="title" value="#{reservaLocalMB.entity.titulo}"  styleClass="form-control" />
-                </div>
-
-
-
-                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <p:outputLabel for="from" value="* Data Inicial:" />
-                    <p:calendar mindate="#{now}" id="from" value="#{reservaLocalMB.entity.dataInicio}"  showOn="button" styleClass="uix-calendar" readonly="#{reservaLocalMB.entity.id!=null}" pattern="dd/MM/yyyy HH:mm" ><x:mask/></p:calendar>
-                </div>
-
-                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <p:outputLabel for="to" value="* Data Final:" />
-                    <p:calendar mindate="#{now}" id="to" value="#{reservaLocalMB.entity.dataFinal}" disabled="false" showOn="button" styleClass="uix-calendar" readonly="#{reservaLocalMB.entity.id!=null}" pattern="dd/MM/yyyy HH:mm" ><x:mask/></p:calendar>
-                </div>
-
-                <div  class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-
-                    <p:outputLabel for="local" value="* Local:" />
-
-                    <p:autoComplete id="local" value="#{reservaLocalMB.entity.local}" readonly="#{reservaLocalMB.entity.id!=null}"
-
-                                    completeMethod="#{reservaLocalMB.localAutocompletePeloNome}" styleClass="uix-autocomplete" 
-
-                                    minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
-
-                                    var="l" itemLabel="#{l}" itemValue="#{l}" converter="entityConverter"  > 
-                        <x:initializer/>
-
-                        <p:column> 
-
-                            <h:outputText value=" #{l.nome}" style="font-weight: bold" /> 
-
-                        </p:column> 
-
-                    </p:autoComplete>
-
-                </div>
-
-
-
-
-                <p:messages  severity="info" escape="false" showDetail="true" autoUpdate="true" closable="true"/>
-
-                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <p:outputLabel for="solicitante" value="* Solicitante:" />
-                    <p:inputText id="solicitante" value="#{reservaLocalMB.entity.solicitante}"  styleClass="form-control" />
-
-                </div>
-
-
-
-                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
 
                     <h:outputLabel for="orgaoSolicitante" value="* Orgão Solicitante:" />
 
 
-                    <p:autoComplete id="orgaoSolicitante" value="#{reservaLocalMB.entity.orgaoSolicitante}" readonly="#{reservaLocalMB.entity.id!=null}"
+                    <p:autoComplete id="orgaoSolicitante" value="#{reservaLocalMB.entity.orgaoSolicitante}" readonly="#{reservaLocalMB.entity.id!=null and !reservaLocalMB.testeUsuario()}"
 
                                     completeMethod="#{reservaLocalMB.orgaoAutocompletePeloNome}" styleClass="uix-autocomplete" 
 
@@ -118,34 +65,102 @@
 
 
                 </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                    <p:outputLabel for="solicitante" value="* Solicitante:" />
+                    <p:inputText id="solicitante" value="#{reservaLocalMB.entity.solicitante}"  styleClass="form-control" />
 
-                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" >
+                </div>
+            </div>
+            <div class="row">
+                <div  class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+
+                    <p:outputLabel for="local" value="* Local:" />
+
+                    <p:autoComplete id="local" value="#{reservaLocalMB.entity.local}" readonly="#{reservaLocalMB.entity.id!=null and !reservaLocalMB.testeUsuario()}"
+
+                                    completeMethod="#{reservaLocalMB.localAutocompletePeloNome}" styleClass="uix-autocomplete" 
+
+                                    minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
+
+                                    var="l" itemLabel="#{l}" itemValue="#{l}" converter="entityConverter"  > 
+                        <x:initializer/>
+
+                        <p:column> 
+
+                            <h:outputText value=" #{l.nome}" style="font-weight: bold" /> 
+
+                        </p:column> 
+
+                    </p:autoComplete>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                    <p:outputLabel for="title" value="* Título:" />
+                    <p:inputText id="title" value="#{reservaLocalMB.entity.titulo}"  styleClass="form-control" />
+                </div>
+            </div>
+
+
+            <div class="row">
+
+                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <p:outputLabel for="from" value="* Data Inicial:" />
+                    <p:calendar mindate="#{now}" id="from" value="#{reservaLocalMB.entity.dataInicio}"  showOn="button" styleClass="uix-calendar" readonly="#{reservaLocalMB.entity.id!=null and !reservaLocalMB.testeUsuario()}" pattern="dd/MM/yyyy HH:mm" ><x:mask/></p:calendar>
+                </div>
+
+                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <p:outputLabel for="to" value="* Data Final:" />
+                    <p:calendar mindate="#{now}" id="to" value="#{reservaLocalMB.entity.dataFinal}" disabled="false" showOn="button" styleClass="uix-calendar" readonly="#{reservaLocalMB.entity.id!=null and !reservaLocalMB.testeUsuario()}" pattern="dd/MM/yyyy HH:mm" ><x:mask/></p:calendar>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                    <p:outputLabel for="contato" value="* Número de protocolo:" />
+                    <p:inputMask id="numero_protocolo" value="#{reservaLocalMB.entity.numero_protocolo}"   styleClass="form-control" mask="999999/99"/>
+                </div>
+
+                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                    <p:outputLabel for="fone_contato" value="* Número do ofício:" />
+                    <p:inputMask id="numero_oficio" value="#{reservaLocalMB.entity.numero_oficio}" styleClass="form-control" mask="9999/99"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12" >
                     <p:outputLabel for="contato" value="* Nome do Responsável:" />
                     <p:inputText id="contato" value="#{reservaLocalMB.entity.contato}"   styleClass="form-control" />
                 </div>
 
-                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12" >
+                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12" >
                     <p:outputLabel for="fone_contato" value="* Telefone do Responsável:" />
                     <p:inputMask id="fone_contato" value="#{reservaLocalMB.entity.fone_contato}" styleClass="form-control" mask="(99) 99999-9999"/>
                 </div>
-
-                
-
             </div>
 
+            <p:messages  severity="info" escape="false" showDetail="true" autoUpdate="true" closable="true"/>
+
+
+
             <div class="row">
-                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
                     <p:outputLabel for="Motivo" value="* Motivo:" />
                     <p:inputTextarea  maxlength="500"   value="#{reservaLocalMB.entity.observacao}" required="true" requiredMessage="Motivo da Reserva é Obrigatório!" styleClass="form-control" />
                     <h:outputText id="Motivo" />
                 </div>
-                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12"  >   
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12"  >   
 
                     <p:fieldset styleClass="table-responsive" legend="Enviar Arquivo">
 
                         <p:fileUpload id="arquivo" mode="advanced" requiredMessage="É necessário o envio de pelo menos um arquivo!"
 
-                                      allowTypes="/(\.|\/)(gif|jpeg|jpg|rtf|odt|ods|png|doc|docx|xls|xlsx|pps|ppsx|ppt|pptx|pdf|jpg|zip|txt|7z|rar|dcm)$/"
+                                      allowTypes="/(\.|\/)(gif|jpeg|jpg|rtf|odt|ods|png|doc|docx|xls|xlsx|pps|ppsx|ppt|pptx|pdf|txt)$/"
 
                                       invalidFileMessage="Tipo de arquivo não permitido" invalidSizeMessage="Arquivo com tamanho acima do permitido" 
 
@@ -155,7 +170,9 @@
 
                     </p:fieldset>
                 </div>
-                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12"  >
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12"  >
                     <p:fieldset legend="Listagem de Arquivos">
 
                         <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
@@ -224,6 +241,7 @@
                     </p:fieldset>
                 </div>
             </div>
+
         </div>
 
 

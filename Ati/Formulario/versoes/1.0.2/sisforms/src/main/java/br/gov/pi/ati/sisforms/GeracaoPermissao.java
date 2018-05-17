@@ -278,7 +278,7 @@ public class GeracaoPermissao {
 
         create(new Permissao("reservaLocal.create", "Cadastro de Reserva Local"), "reservaLocal");
         create(new Permissao("reservaLocal.reservar", "Agenda", "/view/servicos/reservaLocal/createReservaLocal.jsf", true), "reservaLocal");
-       
+        create(new Permissao("reservaLocal.agenda", "Detalhes da Agenda"), "reservaLocal");
         create(new Permissao("reservaLocal.list", "Reservas", "/view/servicos/reservaLocal/listReservaLocal.jsf", true), "reservaLocal");
         create(new Permissao("reservaLocal.audit", "Auditoria de Reserva Local"), "reservaLocal");
         create(new Permissao("reservaLocal.delete", "Exclusão de Reserva Local"), "reservaLocal");

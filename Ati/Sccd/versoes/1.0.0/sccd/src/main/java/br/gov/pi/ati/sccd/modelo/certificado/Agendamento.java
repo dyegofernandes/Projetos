@@ -59,9 +59,12 @@ public class Agendamento implements Serializable {
     private ItemPedido itemPedido = new ItemPedido();
 
     @Size(max = 250)
-    @NotBlank
     @Email
     private String email;
+    
+     @Size(max = 250)
+    @Email
+    private String emailInstitucional;
 
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
@@ -81,8 +84,6 @@ public class Agendamento implements Serializable {
     @ManyToMany(targetEntity = ArquivoAgendamento.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<ArquivoAgendamento> arquivos = new ArrayList<ArquivoAgendamento>();
 
-//    @ManyToMany(targetEntity = Contato.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-//    private List<Contato> contatos = new ArrayList<Contato>();
     @Column(columnDefinition = "Text")
     private String observacao;
 
@@ -192,6 +193,14 @@ public class Agendamento implements Serializable {
             return Utils.getDateString(dataInicial, "dd/MM/yyyy HH:mm");
         }
         return null;
+    }
+
+    public String getEmailInstitucional() {
+        return emailInstitucional;
+    }
+
+    public void setEmailInstitucional(String emailInstitucional) {
+        this.emailInstitucional = emailInstitucional;
     }
 
     @Override

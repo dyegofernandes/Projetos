@@ -47,7 +47,7 @@
     <h:form id="formAgendamento" >
         <x:modalMessages autoUpdate="true"/>
         <h:panelGrid columnClasses="value" >
-            <h:outputText value="Horário de Funcionamento: 8h às 13h (30 min por agendamento)" styleClass="help-block"/>
+            <h:outputText value="Horário de Funcionamento: 8h às 13h (Estimativa de 30 min por agendamento)" styleClass="help-block"/>
             <p:schedule id="schedule" value="#{agendamentoCalendarioMB.eventModel}" widgetVar="myschedule" 
                         timeZone="GMT-3" axisFormat="HH:mm" locale="pt" minTime="08:00:00" maxTime="13:00:00"
                         slotMinutes="30" allDaySlot="false" showWeekends="false" draggable="false" resizable="false" view="#{agendamentoCalendarioMB.headerCalendario}" 
@@ -63,6 +63,8 @@
               modal="true" styleClass="uix-dialog-fluid" showEffect="clip" hideEffect="clip">
         <ui:include src="/agendamento/formCreateAgendamento.xhtml" />
         <p:ajax event="close" update="formAgendamento" listener="#{findAllBean.setReload(true)}"
+                />
+        <p:ajax event="close" update="formAgendamento" listener="#{agendamentoCalendarioMB.fecharDetail()}"
                 />
     </p:dialog>
 

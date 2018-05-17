@@ -14,7 +14,7 @@
                 <p:panel header="Informe os dados abaixo para geração do (s) boleto (s)">
                     <div class="container-fluid">
                         <div class="row">
-                            <x:securityArea rendered="#{x:hasRole('convenio.campo')}" rolesAllowed="convenio.campo">
+                            <x:securityArea rolesAllowed="convenio.campo">
                                 <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
                                     <h:outputLabel for="convenio" value="* #{msg['boleto.convenio']}:" />
                                     <p:autoComplete id="convenio" value="#{boletoMB.entity.convenio}" 

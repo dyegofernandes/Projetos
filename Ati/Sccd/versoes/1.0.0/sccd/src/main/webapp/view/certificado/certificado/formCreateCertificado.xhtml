@@ -27,11 +27,15 @@
                                                 var="p" itemLabel="#{p.cliente}" itemValue="#{p}" converter="entityConverter" rendered="#{certificadoMB.entity.id==null}" > 
                                     <x:initializer/>
                                     <p:column> 
+                                        <h:outputText value="#{p.contratoFornecedor}"/>
+                                    </p:column> 
+                                    <p:column> 
                                         <h:outputText value="#{p.cliente}"/>
                                     </p:column> 
                                     <p:column> 
                                         <h:outputText value="#{p}"/>
                                     </p:column> 
+
                                     <p:ajax event="itemSelect" process="@this" update="pedido titular" listener="#{certificadoMB.pegarPedidos()}"/>
                                 </p:autoComplete>
 
@@ -73,8 +77,6 @@
                                 <p:inputText id="numeroSolicitacao" value="#{certificadoMB.entity.numeroSolicitacao}" maxlength="250"  styleClass="form-control"  />
                             </div>
                             <p:panel rendered="#{certificadoMB.verificarSeEhPJ()}">
-
-
                                 <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                     <h:outputLabel for="cpfRepresentanteLegal" value="#{msg['certificado.cpfRepresentanteLegal']}:" />
                                     <x:cpf id="cpfRepresentanteLegal" value="#{certificadoMB.entity.cpfRepresentanteLegal}"  styleClass="form-control"  />
@@ -92,7 +94,6 @@
                                     <p:inputText id="nomeResponsavelLegal" value="#{certificadoMB.entity.nomeResponsavelLegal}" maxlength="250"  styleClass="form-control"  />
                                 </div>
                             </p:panel>
-
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="enderecoEmail" value="#{msg['certificado.enderecoEmail']}:" />
                                 <p:inputText id="enderecoEmail" value="#{certificadoMB.entity.enderecoEmail}" maxlength="250"  styleClass="form-control"  />

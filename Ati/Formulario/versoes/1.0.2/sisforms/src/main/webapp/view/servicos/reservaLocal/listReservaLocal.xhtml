@@ -84,6 +84,11 @@
 
                         </div>
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="solicitante" value="Solicitante" />
+                            <p:inputText id="solicitante" value="#{reservaLocalMB.filtros.solicitante}" maxlength="260"  styleClass="form-control"  />
+
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="localReserva" value="Local" />
 
 
@@ -112,9 +117,16 @@
                             <p:inputText id="titulo" value="#{reservaLocalMB.filtros.titulo}" maxlength="260"  styleClass="form-control"  />
 
                         </div>
+                        
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="solicitante" value="Solicitante" />
-                            <p:inputText id="solicitante" value="#{reservaLocalMB.filtros.solicitante}" maxlength="260"  styleClass="form-control"  />
+                            <h:outputLabel for="numero_protocolo" value="Número de Protocolo" />
+                            <p:inputText id="numero_protocolo" value="#{reservaLocalMB.filtros.numero_protocolo}" maxlength="260"  styleClass="form-control"  />
+
+                        </div>
+                        
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="numero_oficio" value="Número de Ofício" />
+                            <p:inputText id="numero_oficio" value="#{reservaLocalMB.filtros.numero_oficio}" maxlength="260"  styleClass="form-control"  />
 
                         </div>
 
@@ -156,6 +168,13 @@
                     </f:facet>
                     <h:outputText value="#{reserva.orgaoSolicitante}"/>
                 </p:column>
+                <p:column headerText="#{msg['Solicitante']}" sortBy="#{reserva.solicitante}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['Solicitante']}" />
+                    </f:facet>
+                    <h:outputText value="#{reserva.solicitante}"/>
+                </p:column>
                 <p:column headerText="#{msg['Título']}" sortBy="#{reserva.titulo}"
                           >
                     <f:facet name="header">
@@ -193,14 +212,21 @@
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{msg['Solicitante']}" sortBy="#{reserva.solicitante}"
+                <p:column headerText="#{msg['Número de Ofício']}" sortBy="#{reserva.numero_oficio}"
                           >
                     <f:facet name="header">
-                        <h:outputText value="#{msg['Solicitante']}" />
+                        <h:outputText value="#{msg['Número de Ofício']}" />
                     </f:facet>
-                    <h:outputText value="#{reserva.solicitante}"/>
+                    <h:outputText value="#{reserva.numero_oficio}"/>
                 </p:column>
 
+                <p:column headerText="#{msg['Número de Protocolo']}" sortBy="#{reserva.numero_oficio}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['Número de Protocolo']}" />
+                    </f:facet>
+                    <h:outputText value="#{reserva.numero_protocolo}"/>
+                </p:column>
                 <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
 
                     <f:facet name="header">
@@ -211,14 +237,14 @@
                         <f:setPropertyActionListener value="#{reserva}" target="#{reservaLocalMB.entity}" />
                     </p:commandButton>
                     <x:securityArea rolesAllowed="reservaLocal.create">
-                        <p:commandButton oncomplete="PF('eventDialog').show();"  icon="ui-icon-pencil" rendered="#{reserva.dataInicio >= now}"
+                        <p:commandButton oncomplete="PF('eventDialog').show();"  icon="ui-icon-pencil" rendered="#{reserva.dataInicio >= now and reservaLocalMB.testeUsuarioList(reserva)}"
                                          process="@form" update=":formCreateReserva" title="#{xmsg['detail']}" actionListener="#{reservaLocalMB.carregar_arquivos(reserva)}">
                             <f:setPropertyActionListener value="#{reserva}" target="#{reservaLocalMB.entity}" />
                         </p:commandButton>
                     </x:securityArea>
 
                     <x:securityArea rolesAllowed="reservaLocal.delete">
-                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" rendered="#{reserva.dataInicio >= now}"
                                          action="#{reservaLocalMB.remove_reserva(reserva)}" >
                             <f:setPropertyActionListener value="#{reserva.id}" target="#{reservaLocalMB.id}" />
                             <x:confirmation message="#{xmsg['confirmDelete']} - #{reserva}" />

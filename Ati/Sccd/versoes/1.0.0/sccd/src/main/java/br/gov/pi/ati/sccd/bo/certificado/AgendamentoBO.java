@@ -18,6 +18,7 @@ import br.gov.pi.ati.sccd.modelo.email.ModeloEmail;
 import br.gov.pi.ati.sccd.modelo.email.TipoAssuntoEmail;
 import br.gov.pi.ati.sccd.modelo.enums.SituacaoAgendamento;
 import br.gov.pi.ati.sccd.modelo.enums.TipoPessoa;
+import br.gov.pi.ati.sccd.util.Utils;
 import com.xpert.core.validation.UniqueFields;
 import com.xpert.persistence.query.Restrictions;
 import java.util.Date;
@@ -55,7 +56,7 @@ public class AgendamentoBO extends AbstractBusinessObject<Agendamento> {
     public void validate(Agendamento agendamento) throws BusinessException {
 
         ItemPedido item = getDAO().getInitialized(agendamento.getItemPedido());
-        
+
         TipoCertificado tipoCertificado = getDAO().getInitialized(item.getTipoCertificado());
 
         Restrictions restrictions = new Restrictions();
@@ -76,11 +77,14 @@ public class AgendamentoBO extends AbstractBusinessObject<Agendamento> {
         }
 
 //        Cliente cliente = getDAO().getInitialized(agendamento.getCliente());
-
         List<ArquivoAgendamento> arquivos = getDAO().getInitialized(agendamento.getArquivos());
 
         if (arquivos.size() < 1) {
             throw new BusinessException("Arquivos obrigatórios não anexados!");
+        }
+
+        if (Utils.isNullOrEmpty(agendamento.getEmail()) && Utils.isNullOrEmpty(agendamento.getEmailInstitucional())) {
+            throw new BusinessException("Deve ser informado um email pessoal ou um email institucional!");
         }
     }
 
@@ -114,12 +118,12 @@ public class AgendamentoBO extends AbstractBusinessObject<Agendamento> {
 
             parametros.put("agendamento", agendamento);
 
-            if (assunto == TipoAssuntoEmail.SOLICITACAO_AGENDAMENTO) {
-                emailBO.enviar(modelo, parametros, agendamento.getEmail());
+            if (!Utils.isNullOrEmpty(agendamento.getEmailInstitucional())) {
+                emailBO.enviar(modelo, parametros, agendamento.getEmailInstitucional());
             }
 
-            if (assunto == TipoAssuntoEmail.CONFIRMACAO_SOLICITACAO) {
-                emailBO.enviar(modelo, parametros, agendamento.getEmail(), null);
+            if (!Utils.isNullOrEmpty(agendamento.getEmail())) {
+                emailBO.enviar(modelo, parametros, agendamento.getEmail());
             }
         }
     }

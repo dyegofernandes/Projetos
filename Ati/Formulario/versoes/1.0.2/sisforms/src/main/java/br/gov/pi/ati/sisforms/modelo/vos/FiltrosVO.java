@@ -33,7 +33,7 @@ public class FiltrosVO implements Serializable{
     
     private String descricao;
     
-     private String assunto;
+    private String assunto;
     
     private String cnpj;
     
@@ -84,6 +84,10 @@ public class FiltrosVO implements Serializable{
     public Orgao orgaoSolicitante;
     
     private TipoLocal tipo;
+    
+    private String numero_oficio;
+    
+    private String numero_protocolo;
 
     public Usuario getUsuario() {
         return usuario;
@@ -339,6 +343,22 @@ public class FiltrosVO implements Serializable{
 
     public void setTipo(TipoLocal tipo) {
         this.tipo = tipo;
+    }
+
+    public String getNumero_oficio() {
+        return numero_oficio;
+    }
+
+    public void setNumero_oficio(String numero_oficio) {
+        this.numero_oficio = numero_oficio;
+    }
+
+    public String getNumero_protocolo() {
+        return numero_protocolo;
+    }
+
+    public void setNumero_protocolo(String numero_protocolo) {
+        this.numero_protocolo = numero_protocolo;
     }
     
      

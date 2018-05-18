@@ -86,11 +86,11 @@ public class ReservaLocal implements Serializable {
     private Usuario usuario;
     
     @Size(max = 10)
-    @NotBlank
+    //@NotBlank
     private String numero_protocolo;
     
     @Size(max = 8)
-    @NotBlank
+    //@NotBlank
     private String numero_oficio;
     
     @Override

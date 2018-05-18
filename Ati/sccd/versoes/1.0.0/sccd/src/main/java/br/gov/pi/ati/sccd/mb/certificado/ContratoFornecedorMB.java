@@ -7,9 +7,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.sccd.bo.certificado.ContratoFornecedorBO;
 import br.gov.pi.ati.sccd.modelo.cadastro.Arquivo;
-import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificado;
 import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificadoAux;
+import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificadoFornecedor;
 import br.gov.pi.ati.sccd.modelo.certificado.ContratoFornecedor;
+import br.gov.pi.ati.sccd.util.Utils;
 import com.xpert.faces.utils.FacesMessageUtils;
 import com.xpert.persistence.query.JoinBuilder;
 import java.io.File;
@@ -38,9 +39,9 @@ public class ContratoFornecedorMB extends AbstractBaseBean<ContratoFornecedor> i
     @EJB
     private ContratoFornecedorBO contratoFornecedorBO;
 
-    private List<TipoCertificadoAux> certificados;
+    private List<TipoCertificadoFornecedor> certificados;
 
-    private TipoCertificadoAux certificadoAdd;
+    private TipoCertificadoFornecedor certificadoAdd;
 
     private List<Arquivo> arquivos;
 
@@ -62,8 +63,8 @@ public class ContratoFornecedorMB extends AbstractBaseBean<ContratoFornecedor> i
 
     @Override
     public void init() {
-        certificadoAdd = new TipoCertificadoAux();
-        certificados = new ArrayList<TipoCertificadoAux>();
+        certificadoAdd = new TipoCertificadoFornecedor();
+        certificados = new ArrayList<TipoCertificadoFornecedor>();
         arquivos = new ArrayList<Arquivo>();
 
         if (getEntity().getId() != null) {
@@ -85,61 +86,66 @@ public class ContratoFornecedorMB extends AbstractBaseBean<ContratoFornecedor> i
     }
 
     public void addCertificado() {
-        if (certificadoAdd.getTipo() != null) {
-            if (certificadoAdd.getQuantidade() != null) {
-                if (certificadoAdd.getQuantidade().doubleValue() > 0) {
-                    if (certificadoAdd.getValor() != null) {
-                        if (certificadoAdd.getValor().doubleValue() > 0) {
-                            if (certificadoJaAdicionado(certificadoAdd.getTipo())) {
-                                FacesMessageUtils.error("Já foi encontrado esse tipo de certificado na lista!");
+        if (certificadoAdd.getTiposCertificados().size() > 0) {
+            if (!Utils.isNullOrEmpty(certificadoAdd.getNome())) {
+                if (certificadoAdd.getQuantidade() != null) {
+                    if (certificadoAdd.getQuantidade().doubleValue() > 0) {
+                        if (certificadoAdd.getValor() != null) {
+                            if (certificadoAdd.getValor().doubleValue() > 0) {
+                                if (certificadoJaAdicionado(certificadoAdd.getNome())) {
+                                    FacesMessageUtils.error("Já foi encontrado certificado com esse nome na lista!");
+                                } else {
+                                    certificados.add(certificadoAdd);
+                                    certificadoAdd = new TipoCertificadoFornecedor();
+                                }
                             } else {
-                                certificados.add(certificadoAdd);
-                                certificadoAdd = new TipoCertificadoAux();
+                                FacesMessageUtils.error("Valor deve ser maior que zero!");
                             }
                         } else {
-                            FacesMessageUtils.error("Valor deve ser maior que zero!");
+                            FacesMessageUtils.error("Valor é obrigatório!");
                         }
                     } else {
-                        FacesMessageUtils.error("Valor é obrigatório!");
+                        FacesMessageUtils.error("Quantidade deve ser maior que zero!");
                     }
                 } else {
-                    FacesMessageUtils.error("Quantidade deve ser maior que zero!");
+                    FacesMessageUtils.error("Quantidade é obrigatória!");
                 }
             } else {
-                FacesMessageUtils.error("Quantidade é obrigatória!");
+                FacesMessageUtils.error("Nome do Certificado é obrigatório!");
             }
+
         } else {
-            FacesMessageUtils.error("Tipo do certificado é obrigatório!");
+            FacesMessageUtils.error("Um ou mais Tipos de Certificado é obrigatório!");
         }
 
     }
 
-    public void removerCertificado(TipoCertificadoAux certificado) {
+    public void removerCertificado(TipoCertificadoFornecedor certificado) {
         certificados.remove(certificado);
     }
 
-    private boolean certificadoJaAdicionado(TipoCertificado certificado) {
-        for (TipoCertificadoAux certificado1 : certificados) {
-            if (certificado1.getTipo().equals(certificado)) {
+    private boolean certificadoJaAdicionado(String nome) {
+        for (TipoCertificadoFornecedor certificado1 : certificados) {
+            if (certificado1.getNome().equals(nome)) {
                 return true;
             }
         }
         return false;
     }
 
-    public List<TipoCertificadoAux> getCertificados() {
+    public List<TipoCertificadoFornecedor> getCertificados() {
         return certificados;
     }
 
-    public void setCertificados(List<TipoCertificadoAux> certificados) {
+    public void setCertificados(List<TipoCertificadoFornecedor> certificados) {
         this.certificados = certificados;
     }
 
-    public TipoCertificadoAux getCertificadoAdd() {
+    public TipoCertificadoFornecedor getCertificadoAdd() {
         return certificadoAdd;
     }
 
-    public void setCertificadoAdd(TipoCertificadoAux certificadoAdd) {
+    public void setCertificadoAdd(TipoCertificadoFornecedor certificadoAdd) {
         this.certificadoAdd = certificadoAdd;
     }
 
@@ -158,7 +164,7 @@ public class ContratoFornecedorMB extends AbstractBaseBean<ContratoFornecedor> i
     public void setArquivos(List<Arquivo> arquivos) {
         this.arquivos = arquivos;
     }
-    
+
     public StreamedContent download(Arquivo arquivo) throws IOException {
 
         if (arquivo instanceof HibernateProxy) {
@@ -188,7 +194,7 @@ public class ContratoFornecedorMB extends AbstractBaseBean<ContratoFornecedor> i
         arquivo.setConteudo(base64AsString);
         arquivos.add(arquivo);
     }
-    
+
     public void removerArquivo(Arquivo arquivo) {
         arquivos.remove(arquivo);
     }

@@ -72,6 +72,8 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
 
     private TipoArquivoAgendamento tipo;
 
+    private List<TipoArquivoAgendamento> tipos;
+
     private boolean comprovanteResidencia;
 
     private boolean contratoSocial;
@@ -112,6 +114,8 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
 
     @Override
     public void init() {
+
+        tipos = new ArrayList<TipoArquivoAgendamento>();
 
         headerCalendario = HeaderCalendario.SEMANA.getDescricao();
 
@@ -218,7 +222,7 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
                                     }
                                 }
                             } else {
-                                FacesMessageUtils.error("Anexos com a Nomeação para Comissionado é obrigatória!");
+                                FacesMessageUtils.error("Anexos com a Nomeação no Diário Oficial para Comissionado é obrigatória!");
                             }
                         } else {
                             if (cnh) {
@@ -265,6 +269,8 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
     @Override
     public void postSave() {
 
+        tipos = new ArrayList<TipoArquivoAgendamento>();
+
         comissionado = pis = nomeacao = leiDeCriacao = estatuto = contratoSocial = termo = cnh = rg = cpf = comprovanteResidencia = oficio = false;
 
         carregarAgenda();
@@ -275,7 +281,7 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
 
         try {
             getBO().enviarEmail(TipoAssuntoEmail.SOLICITACAO_AGENDAMENTO, getEntity());
-            FacesMessageUtils.info("Solicitação de Agendamento enviado para o email: ".concat(getEntity().getEmail()));
+            FacesMessageUtils.info("Solicitação de Agendamento enviado para os emails informados");
         } catch (BusinessException ex) {
             Logger.getLogger(AgendamentoCalendarioMB.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -336,6 +342,8 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
         comissionado = pis = nomeacao = leiDeCriacao = estatuto = contratoSocial = termo = cnh = rg = cpf = comprovanteResidencia = oficio = false;
 
         setEntity(new Agendamento());
+
+        tipos = new ArrayList<TipoArquivoAgendamento>();
 
         arquivos = new ArrayList<ArquivoAgendamento>();
 
@@ -612,7 +620,7 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
                 servidorVO = (ServidorVO) xstreamJason.fromXML(xmlString);
 
                 if (servidorVO.getCategoria().equals("3")) {
-                    nomeacao = true;
+                    comissionado = true;
                 }
             }
         }
@@ -626,6 +634,7 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
         getEntity().setItemPedido(null);
         getEntity().setTelefone(null);
         tipo = null;
+        
     }
 
     public void fecharDetail() {

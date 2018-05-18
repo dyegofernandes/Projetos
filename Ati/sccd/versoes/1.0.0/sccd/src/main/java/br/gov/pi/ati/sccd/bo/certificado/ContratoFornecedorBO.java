@@ -3,6 +3,7 @@ package br.gov.pi.ati.sccd.bo.certificado;
 import com.xpert.core.crud.AbstractBusinessObject;
 import br.gov.pi.ati.sccd.dao.certificado.impl.ContratoFornecedorDAO;
 import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificadoAux;
+import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificadoFornecedor;
 import com.xpert.core.validation.UniqueField;
 import com.xpert.core.exception.BusinessException;
 import java.util.List;
@@ -45,7 +46,7 @@ public class ContratoFornecedorBO extends AbstractBusinessObject<ContratoFornece
 
     @Override
     public void validate(ContratoFornecedor contratoFornecedor) throws BusinessException {
-        List<TipoCertificadoAux> certificados = getDAO().getInitialized(contratoFornecedor.getCertificados());
+        List<TipoCertificadoFornecedor> certificados = getDAO().getInitialized(contratoFornecedor.getCertificados());
 
         if (contratoFornecedor.getDataInicio().after(contratoFornecedor.getDataFinal())) {
             throw new BusinessException("Data inicial deve ser menor que a Data final do Contrato!");

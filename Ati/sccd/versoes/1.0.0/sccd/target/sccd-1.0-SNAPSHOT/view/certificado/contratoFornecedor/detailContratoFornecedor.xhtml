@@ -60,11 +60,11 @@
                         <p:column styleClass="uix-datatable-index">
                             <h:outputText value="#{index+1}"/>
                         </p:column>
-                        <p:column headerText="Tipo Certificado" >
+                        <p:column headerText="Nome" >
                             <f:facet name="header">
-                                <h:outputText value="Tipo Certificado" />
+                                <h:outputText value="Nome" />
                             </f:facet>
-                            <h:outputText value="#{certificado.tipo}">
+                            <h:outputText value="#{certificado.nome}">
                                 <x:initializer/>
                             </h:outputText>
                         </p:column>

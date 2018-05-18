@@ -11,6 +11,7 @@ import br.gov.pi.ati.sccd.modelo.cadastro.Arquivo;
 import br.gov.pi.ati.sccd.modelo.cadastro.Cliente;
 import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificado;
 import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificadoAux;
+import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificadoFornecedor;
 import br.gov.pi.ati.sccd.modelo.certificado.ContratoCliente;
 import br.gov.pi.ati.sccd.modelo.certificado.ContratoFornecedor;
 import com.xpert.faces.utils.FacesMessageUtils;
@@ -47,7 +48,7 @@ public class ContratoClienteMB extends AbstractBaseBean<ContratoCliente> impleme
 
     private List<TipoCertificadoAux> certificados;
 
-    private List<TipoCertificadoAux> certificadosFornecedor;
+    private List<TipoCertificadoFornecedor> certificadosFornecedor;
 
     private TipoCertificadoAux certificadoAdd;
     
@@ -75,7 +76,7 @@ public class ContratoClienteMB extends AbstractBaseBean<ContratoCliente> impleme
     public void init() {
         certificadoAdd = new TipoCertificadoAux();
         certificados = new ArrayList<TipoCertificadoAux>();
-        certificadosFornecedor = new ArrayList<TipoCertificadoAux>();
+        certificadosFornecedor = new ArrayList<TipoCertificadoFornecedor>();
         arquivos = new ArrayList<Arquivo>();
 
         if (getEntity().getId() != null) {
@@ -190,15 +191,15 @@ public class ContratoClienteMB extends AbstractBaseBean<ContratoCliente> impleme
         if (getEntity().getContratoFornecedor() != null) {
             certificadosFornecedor = getDAO().getInitialized(getEntity().getContratoFornecedor().getCertificados());
         } else {
-            certificadosFornecedor = new ArrayList<TipoCertificadoAux>();
+            certificadosFornecedor = new ArrayList<TipoCertificadoFornecedor>();
         }
     }
 
     public List<TipoCertificado> getTiposCertificacos() {
         if (getEntity().getContratoFornecedor() != null) {
             List<TipoCertificado> tipos = new ArrayList<TipoCertificado>();
-            for (TipoCertificadoAux tipo : certificadosFornecedor) {
-                tipos.add(getDAO().getInitialized(tipo.getTipo()));
+            for (TipoCertificadoFornecedor tipo : certificadosFornecedor) {
+//                tipos.add(getDAO().getInitialized(tipo.getTipo()));
             }
 
             return tipos;

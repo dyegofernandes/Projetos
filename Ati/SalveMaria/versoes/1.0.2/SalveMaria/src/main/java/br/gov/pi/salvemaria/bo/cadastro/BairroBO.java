@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import br.gov.pi.salvemaria.modelo.cadastro.Bairro;
 import br.gov.pi.salvemaria.modelo.cadastro.Cidade;
 import br.gov.pi.salvemaria.modelo.cadastro.CircunscricaoBairro;
+import br.gov.pi.salvemaria.util.Utils;
 import com.xpert.persistence.query.Restrictions;
 
 /**
@@ -42,7 +43,7 @@ public class BairroBO extends AbstractBusinessObject<Bairro> {
     }
 
     public Bairro bairroPeloNomeECidade(String nome, Cidade cidade) {
-        if (cidade == null || nome == null || nome.equals("")) {
+        if (cidade == null || Utils.isNullOrEmpty(nome)) {
             return null;
         }
         Restrictions restrictions = new Restrictions();

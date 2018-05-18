@@ -8,6 +8,7 @@ package br.gov.pi.ati.sccd.modelo.certificado;
 import br.gov.pi.ati.sccd.modelo.cadastro.Arquivo;
 import br.gov.pi.ati.sccd.modelo.cadastro.Fornecedor;
 import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificadoAux;
+import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificadoFornecedor;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -72,8 +73,8 @@ public class ContratoFornecedor implements Serializable {
     @NotNull
     private Date dataFinal;
 
-    @ManyToMany(targetEntity = TipoCertificadoAux.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    private List<TipoCertificadoAux> certificados = new ArrayList<TipoCertificadoAux>();
+    @ManyToMany(targetEntity = TipoCertificadoFornecedor.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    private List<TipoCertificadoFornecedor> certificados = new ArrayList<TipoCertificadoFornecedor>();
     
     private boolean ativo = true;
     
@@ -129,11 +130,11 @@ public class ContratoFornecedor implements Serializable {
         this.dataFinal = dataFinal;
     }
 
-    public List<TipoCertificadoAux> getCertificados() {
+    public List<TipoCertificadoFornecedor> getCertificados() {
         return certificados;
     }
 
-    public void setCertificados(List<TipoCertificadoAux> certificados) {
+    public void setCertificados(List<TipoCertificadoFornecedor> certificados) {
         this.certificados = certificados;
     }
 

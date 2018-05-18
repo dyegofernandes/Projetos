@@ -73,22 +73,26 @@
                 </p:fieldset>
                 <p:fieldset legend="Certificados" id="fieldSetCertificados">
                     <div class="row">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                             <h:outputLabel for="nomeCertificado" value="Nome:" />
+                            <p:inputText id="nomeCertificado" value="#{contratoFornecedorMB.certificadoAdd.nome}" maxlength="50" styleClass="form-control" />
+                        </div>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="tipo" value="* Tipo certificado:" />
-                            <h:selectOneMenu id="tipo" value="#{contratoFornecedorMB.certificadoAdd.tipo}" converter="entityConverter" styleClass="form-control" >
+                            <p:selectCheckboxMenu id="tipo" value="#{contratoFornecedorMB.certificadoAdd.tiposCertificados}" converter="entityConverter" 
+                                                  label="Selecionar um ou mais" filter="true" filterMatchMode="startsWith" styleClass="form-control" >
                                 <x:initializer/>
-                                <f:selectItem itemLabel="#{xmsg['select']}" />
                                 <f:selectItems value="#{findAllBean.get(classMB.tipoCertificado)}" 
                                                var="tipo"
                                                itemLabel="#{tipo}"/>
-                            </h:selectOneMenu>
+                            </p:selectCheckboxMenu>
                         </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="quantidade" value="* Quantidade:" />
                             <x:inputNumber id="quantidade" value="#{contratoFornecedorMB.certificadoAdd.quantidade}" styleClass="form-control" 
                                            centsLimit="0" limit="6"/>
                         </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="valor" value="* Valor:" />
                             <x:inputNumber id="valor" value="#{contratoFornecedorMB.certificadoAdd.valor}" styleClass="form-control" 
                                            />
@@ -105,13 +109,11 @@
                             <p:column styleClass="uix-datatable-index">
                                 <h:outputText value="#{index+1}"/>
                             </p:column>
-                            <p:column headerText="Tipo Certificado" >
+                            <p:column headerText="Nome" >
                                 <f:facet name="header">
-                                    <h:outputText value="Tipo Certificado" />
+                                    <h:outputText value="Nome" />
                                 </f:facet>
-                                <h:outputText value="#{certificado.tipo}">
-                                    <x:initializer/>
-                                </h:outputText>
+                                <h:outputText value="#{certificado.nome}"/>
                             </p:column>
                             <p:column headerText="Quantidade" style="text-align: right;" >
                                 <f:facet name="header">

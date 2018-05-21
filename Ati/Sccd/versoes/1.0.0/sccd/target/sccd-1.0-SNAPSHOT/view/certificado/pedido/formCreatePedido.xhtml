@@ -100,14 +100,20 @@
                                 <f:facet name="header">
                                     <h:outputText value="#{msg['itemPedido.tipoPessoa']}" />
                                 </f:facet>
-                                <h:outputText value="#{itemPedido.tipoPessoa.descricao}"/>
+                                <h:outputText value="#{itemPedido.tipoCertificado.tipoPessoa.descricao}">
+                                    <x:initializer/>
+                                </h:outputText>
                             </p:column>
                             <p:column headerText="#{msg['itemPedido.cpfCnpjTitular']}" sortBy="#{itemPedido.cpfCnpjTitular}" >
                                 <f:facet name="header">
                                     <h:outputText value="#{msg['itemPedido.cpfCnpjTitular']}" />
                                 </f:facet>
-                                <h:outputText value="#{itemPedido.cpfCnpjTitular}" rendered="#{itemPedido.tipoPessoa.num eq 1}" converter="cpfConverter"/>
-                                <h:outputText value="#{itemPedido.cpfCnpjTitular}" rendered="#{itemPedido.tipoPessoa.num eq 2}" converter="cnpjConverter"/>
+                                <h:outputText value="#{itemPedido.cpfCnpjTitular}" rendered="#{itemPedido.tipoCertificado.tipoPessoa.num eq 1}" converter="cpfConverter">
+                                    <x:initializer/>
+                                </h:outputText>
+                                <h:outputText value="#{itemPedido.cpfCnpjTitular}" rendered="#{itemPedido.tipoCertificado.tipoPessoa.num eq 2}" converter="cnpjConverter">
+                                    <x:initializer/>
+                                </h:outputText>
                             </p:column>
                             <p:column headerText="#{msg['itemPedido.titular']}" sortBy="#{itemPedido.titular}" >
                                 <f:facet name="header">

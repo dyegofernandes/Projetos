@@ -104,13 +104,26 @@
                 <p:fieldset legend="Certificados" id="fieldSetCertificados">
                     <div class="row">
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="tipo" value="* Tipo certificado:" />
-                            <h:selectOneMenu id="tipo" value="#{contratoClienteMB.certificadoAdd.tipo}" converter="entityConverter" styleClass="form-control" >
+                            <h:outputLabel for="tipo" value="* Tipo certificado Fornecedor:" />
+                            <h:selectOneMenu id="tipo" value="#{contratoClienteMB.certificadoAdd.tipoCertificadoFornecedor}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{contratoClienteMB.certificadosFornecedorSelecionado}" 
+                                               var="tipo"
+                                               itemLabel="#{tipo.nome}">
+                                </f:selectItems>
+                                <p:ajax  process="@this" update="tipoCertificado" />
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="tipoCertificado" value="* Tipo certificado:" />
+                            <h:selectOneMenu id="tipoCertificado" value="#{contratoClienteMB.certificadoAdd.tipo}" converter="entityConverter" styleClass="form-control" >
                                 <x:initializer/>
                                 <f:selectItem itemLabel="#{xmsg['select']}" />
                                 <f:selectItems value="#{contratoClienteMB.tiposCertificacos}" 
                                                var="tipo"
-                                               itemLabel="#{tipo}"/>
+                                               itemLabel="#{tipo}">
+                                </f:selectItems>
                             </h:selectOneMenu>
                         </div>
 

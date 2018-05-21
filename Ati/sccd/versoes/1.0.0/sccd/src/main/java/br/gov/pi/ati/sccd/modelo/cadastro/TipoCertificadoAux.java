@@ -27,6 +27,9 @@ public class TipoCertificadoAux implements Serializable {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    private TipoCertificadoFornecedor tipoCertificadoFornecedor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     private TipoCertificado tipo;
 
     private BigDecimal valor;
@@ -70,6 +73,14 @@ public class TipoCertificadoAux implements Serializable {
             return quantidade.multiply(valor);
         }
         return BigDecimal.ZERO;
+    }
+
+    public TipoCertificadoFornecedor getTipoCertificadoFornecedor() {
+        return tipoCertificadoFornecedor;
+    }
+
+    public void setTipoCertificadoFornecedor(TipoCertificadoFornecedor tipoCertificadoFornecedor) {
+        this.tipoCertificadoFornecedor = tipoCertificadoFornecedor;
     }
 
     @Override

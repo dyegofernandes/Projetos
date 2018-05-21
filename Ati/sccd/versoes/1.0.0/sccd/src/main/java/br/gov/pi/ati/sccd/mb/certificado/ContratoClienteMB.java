@@ -49,9 +49,9 @@ public class ContratoClienteMB extends AbstractBaseBean<ContratoCliente> impleme
     private List<TipoCertificadoAux> certificados;
 
     private List<TipoCertificadoFornecedor> certificadosFornecedor;
-
-    private TipoCertificadoAux certificadoAdd;
     
+    private TipoCertificadoAux certificadoAdd;
+
     private List<Arquivo> arquivos;
 
     @Override
@@ -63,7 +63,7 @@ public class ContratoClienteMB extends AbstractBaseBean<ContratoCliente> impleme
     public String getDataModelOrder() {
         return "cliente.nome";
     }
-    
+
     @Override
     public JoinBuilder getDataModelJoinBuilder() {
         return new JoinBuilder("contratoCliente")
@@ -196,15 +196,17 @@ public class ContratoClienteMB extends AbstractBaseBean<ContratoCliente> impleme
     }
 
     public List<TipoCertificado> getTiposCertificacos() {
-        if (getEntity().getContratoFornecedor() != null) {
-            List<TipoCertificado> tipos = new ArrayList<TipoCertificado>();
-            for (TipoCertificadoFornecedor tipo : certificadosFornecedor) {
-//                tipos.add(getDAO().getInitialized(tipo.getTipo()));
-            }
-
-            return tipos;
+        if (certificadoAdd.getTipoCertificadoFornecedor() != null) {
+            return getDAO().getInitialized(certificadoAdd.getTipoCertificadoFornecedor().getTiposCertificados());
         }
 
+        return null;
+    }
+
+    public List<TipoCertificadoFornecedor> getCertificadosFornecedorSelecionado() {
+        if (getEntity().getContratoFornecedor() != null) {
+            return getDAO().getInitialized(getEntity().getContratoFornecedor().getCertificados());
+        }
         return null;
     }
 
@@ -225,17 +227,17 @@ public class ContratoClienteMB extends AbstractBaseBean<ContratoCliente> impleme
 
         return false;
     }
-    
-    public void selecionarCertificado(){
-        if(certificadoAdd.getTipo() != null){
-            
+
+    public void selecionarCertificado() {
+        if (certificadoAdd.getTipo() != null) {
+
         }
     }
-    
-    public List<ContratoCliente> autocompleteAtivosPeloNomeDoCliente(String nome){
+
+    public List<ContratoCliente> autocompleteAtivosPeloNomeDoCliente(String nome) {
         return getBO().contratosAtivoPeloNomeCliente(nome);
     }
-    
+
     public List<Arquivo> getArquivos() {
         return arquivos;
     }
@@ -243,7 +245,7 @@ public class ContratoClienteMB extends AbstractBaseBean<ContratoCliente> impleme
     public void setArquivos(List<Arquivo> arquivos) {
         this.arquivos = arquivos;
     }
-    
+
     public StreamedContent download(Arquivo arquivo) throws IOException {
 
         if (arquivo instanceof HibernateProxy) {
@@ -273,8 +275,17 @@ public class ContratoClienteMB extends AbstractBaseBean<ContratoCliente> impleme
         arquivo.setConteudo(base64AsString);
         arquivos.add(arquivo);
     }
-    
+
     public void removerArquivo(Arquivo arquivo) {
         arquivos.remove(arquivo);
     }
+
+    public List<TipoCertificadoFornecedor> getCertificadosFornecedor() {
+        return certificadosFornecedor;
+    }
+
+    public void setCertificadosFornecedor(List<TipoCertificadoFornecedor> certificadosFornecedor) {
+        this.certificadosFornecedor = certificadosFornecedor;
+    }
+
 }

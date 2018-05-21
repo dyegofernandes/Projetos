@@ -7,7 +7,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.sccd.bo.certificado.ContratoFornecedorBO;
 import br.gov.pi.ati.sccd.modelo.cadastro.Arquivo;
-import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificadoAux;
 import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificadoFornecedor;
 import br.gov.pi.ati.sccd.modelo.certificado.ContratoFornecedor;
 import br.gov.pi.ati.sccd.util.Utils;

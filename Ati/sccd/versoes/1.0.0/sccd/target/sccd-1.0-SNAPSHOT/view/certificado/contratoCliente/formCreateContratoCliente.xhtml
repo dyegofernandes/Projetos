@@ -20,7 +20,7 @@
                                     <f:selectItem itemLabel="#{xmsg['select']}" />
                                     <f:selectItems value="#{contratoFornecedorMB.contratosAtivos()}" 
                                                    var="contratoFornecedor"
-                                                   itemLabel="#{contratoFornecedor.fornecedor}"/>
+                                                   itemLabel="#{contratoFornecedor.numeroContrato} - #{contratoFornecedor.fornecedor}"/>
                                     <p:ajax process="@this" update="@form" listener="#{contratoClienteMB.chanceFornecedor()}"/>
                                 </h:selectOneMenu>
                             </div>
@@ -143,6 +143,14 @@
                                      value="#{contratoClienteMB.certificados}"  >
                             <p:column styleClass="uix-datatable-index">
                                 <h:outputText value="#{index+1}"/>
+                            </p:column>
+                            <p:column headerText="Certificado Fornecedor" >
+                                <f:facet name="header">
+                                    <h:outputText value="Certificado Fornecedor" />
+                                </f:facet>
+                                <h:outputText value="#{certificado.tipoCertificadoFornecedor.nome}">
+                                    <x:initializer/>
+                                </h:outputText>
                             </p:column>
                             <p:column headerText="Tipo Certificado" >
                                 <f:facet name="header">

@@ -149,7 +149,8 @@ public class ContratoFornecedorMB extends AbstractBaseBean<ContratoFornecedor> i
     }
 
     public List<ContratoFornecedor> contratosAtivos() {
-        return getBO().contratosAtivoPeloNome(null);
+//        return getBO().contratosAtivoPeloNome(null);
+        return getBO().todos();
     }
 
     public List<ContratoFornecedor> autocomplete(String nome) {

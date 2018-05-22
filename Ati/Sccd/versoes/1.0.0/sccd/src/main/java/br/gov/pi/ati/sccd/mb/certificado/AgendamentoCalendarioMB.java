@@ -102,6 +102,8 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
 
     private Date dataInicial;
 
+    private String informativo;
+
     @Override
     public AgendamentoBO getBO() {
         return agendamentoBO;
@@ -114,6 +116,8 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
 
     @Override
     public void init() {
+
+        informativo = "";
 
         tipos = new ArrayList<TipoArquivoAgendamento>();
 
@@ -337,7 +341,17 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
         this.dataInicial = dataInicial;
     }
 
+    public String getInformativo() {
+        return informativo;
+    }
+
+    public void setInformativo(String informativo) {
+        this.informativo = informativo;
+    }
+
     public void onDateSelect(SelectEvent selectEvent) {
+
+        informativo = "";
 
         comissionado = pis = nomeacao = leiDeCriacao = estatuto = contratoSocial = termo = cnh = rg = cpf = comprovanteResidencia = oficio = false;
 
@@ -531,9 +545,6 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
     }
 
     private void verificarTipoArquivoAdd(TipoArquivoAgendamento tipo, boolean boleano) {
-//        nomeacao = tipo == TipoArquivoAgendamento.NOMEACAO_DIARIO_OFICIAL;
-//        leiDeCriacao = estatuto = contratoSocial = termo = cnh = rg = cpf = comprovanteResidencia = oficio = false;
-
         switch (tipo.getNum()) {
             case 1:
                 comprovanteResidencia = boleano;
@@ -627,6 +638,9 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
     }
 
     public void mudarTipoCertificado() {
+        
+        informativo = getInformativoPF_orgao_isento();
+        
         comissionado = pis = nomeacao = leiDeCriacao = estatuto = contratoSocial = termo = cnh = rg = cpf = comprovanteResidencia = oficio = false;
         arquivos = new ArrayList<ArquivoAgendamento>();
         getEntity().setEmail(null);
@@ -634,7 +648,7 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
         getEntity().setItemPedido(null);
         getEntity().setTelefone(null);
         tipo = null;
-        
+
     }
 
     public void fecharDetail() {
@@ -645,4 +659,21 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
         tipo = null;
         carregarAgenda();
     }
+
+    private String getInformativoPF_orgao_isento() {
+        return "<span style=\"font-weight: bold;\">Documentos necessários para certificado: Pessoa Física</span><div style=\"font-weight: normal;\">1 - Termo de Responsabilidade emitido no endereço: <a href=\"https://certificados.serpro.gov.br/aratipirfb/\">Clique Aqui</a></div><div style=\"font-weight: normal;\">2 - Comprovante de Residência (atualizado);</div><div style=\"font-weight: normal;\">3 - CNH ou CPF e RG (coloridos);</div>";
+    }
+
+    private String getInformativoPF_orgao_nao_isento() {
+        return "<span style=\"font-weight: bold;\">Documentos necessários para certificado: Pessoa Física</span><div style=\"font-weight: normal;\">1 - Termo de Responsabilidade emitido no endereço: <a href=\"https://certificados.serpro.gov.br/aratipirfb/\">Clique Aqui</a></div><div style=\"font-weight: normal;\">2 - Comprovante de Residência (atualizado);</div><div style=\"font-weight: normal;\">3 - CNH ou CPF e RG (coloridos);</div><div style=\"font-weight: normal;\">4 - Ofício de Solicitação constando o nome do Titular do Certificado.</div>";
+    }
+
+    private String getInformativoPF_orgao_isento_commissionado() {
+        return "<span style=\"font-weight: bold;\">Documentos necessários para certificado: Pessoa Física</span><div style=\"font-weight: normal;\">1 - Termo de Responsabilidade emitido no endereço: <a href=\"https://certificados.serpro.gov.br/aratipirfb/\">Clique Aqui</a></div><div style=\"font-weight: normal;\">2 - Comprovante de Residência (atualizado);</div><div style=\"font-weight: normal;\">3 - CNH ou CPF e RG (coloridos);</div><div style=\"font-weight: normal;\"><span style=\"font-size: 10pt;\">4 - Nomeação no Diário Oficial para os que são comissionado.</span></div>";
+    }
+
+    private String getInformativoPF_orgao_nao_isento_commissionado() {
+        return "<span style=\"font-weight: bold;\">Documentos necessários para certificado: Pessoa Física</span><div style=\"font-weight: normal;\">1 - Termo de Responsabilidade emitido no endereço: <a href=\"https://certificados.serpro.gov.br/aratipirfb/\">Clique Aqui</a></div><div style=\"font-weight: normal;\">2 - Comprovante de Residência (atualizado);</div><div style=\"font-weight: normal;\">3 - CNH ou CPF e RG (coloridos);</div><div style=\"font-weight: normal;\">4 - Ofício de Solicitação constando o nome do Titular do Certificado;</div><div style=\"font-weight: normal;\">5 - Nomeação no Diário Oficial para os que são comissionado.</div>";
+    }
+
 }

@@ -88,35 +88,48 @@
                     </p:inputText>
                 </div>
 
-                
+
             </div>
             <h:panelGroup id="panel2">
                 <h:panelGroup  rendered="#{agendamentoCalendarioMB.itemPedido.tipoCertificado != null}">
-                    <div class="row">
-                        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="tipoArquivo" value="Selecione o tipo de Arquivo que será anexado:" />
-                            <h:selectOneMenu id="tipoArquivo" value="#{agendamentoCalendarioMB.tipo}"  styleClass="form-control" 
-                                             >
-                                <f:selectItem itemLabel="#{xmsg['select']}" />
-                                <f:selectItems value="#{findAllBean.get(classMB.tipoArquivoAgendamento)}" 
-                                               var="tipo"
-                                               itemLabel="#{tipo.descricao}" />
-                                <p:ajax process="@this" update="panelArquivo"/>
-                            </h:selectOneMenu>
-                        </div>
-                        <p:panel id="panelArquivo" style="border: none">
-                            <p:panel rendered="#{agendamentoCalendarioMB.tipo !=null}" style="border: none">
-                                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                    <p:fileUpload id="arquivo" mode="advanced" requiredMessage="É necessário o envio de pelo menos um arquivo!"
-                                                  allowTypes="/(\.|\/)(jpeg|jpg|png|pdf)$/"
-                                                  invalidFileMessage="Tipo de arquivo não permitido" invalidSizeMessage="Arquivo com tamanho acima do permitido" 
-                                                  uploadLabel="Carregar" update="panelArquivo tipoArquivo dataTableArquivo" cancelLabel="Cancelar" label="Anexa Arquivo" multiple="false" 
-                                                  sizeLimit="10485760" fileUploadListener="#{agendamentoCalendarioMB.upload}" styleClass="grid_9" 
-                                                  fileLimit="8" fileLimitMessage="Só é possível escolher 8 arquivos por vez." auto="true"/>
+
+                    <p:layout style="min-width:400px;min-height:170px;">
+                        <p:layoutUnit position="west" size="50%" style="border: none;" > 
+                            <div class="row">
+                                <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="tipoArquivo" value="Selecione o tipo de Arquivo que será anexado:" />
+                                    <h:selectOneMenu id="tipoArquivo" value="#{agendamentoCalendarioMB.tipo}"  styleClass="form-control" 
+                                                     >
+                                        <f:selectItem itemLabel="#{xmsg['select']}" />
+                                        <f:selectItems value="#{findAllBean.get(classMB.tipoArquivoAgendamento)}" 
+                                                       var="tipo"
+                                                       itemLabel="#{tipo.descricao}" />
+                                        <p:ajax process="@this" update="panelArquivo"/>
+                                    </h:selectOneMenu>
                                 </div>
-                            </p:panel>
-                        </p:panel>
-                    </div>
+                            </div>
+                            <div class="row">
+                                <p:panel id="panelArquivo" style="border: none; margin-left:2px;" >
+                                    <p:panel rendered="#{agendamentoCalendarioMB.tipo !=null}" style="border: none; margin-left:2px">
+                                        <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                                            <p:fileUpload id="arquivo" mode="advanced" requiredMessage="É necessário o envio de pelo menos um arquivo!"
+                                                          allowTypes="/(\.|\/)(jpeg|jpg|png|pdf)$/"
+                                                          invalidFileMessage="Tipo de arquivo não permitido" invalidSizeMessage="Arquivo com tamanho acima do permitido" 
+                                                          uploadLabel="Carregar" update="panelArquivo tipoArquivo dataTableArquivo" cancelLabel="Cancelar" label="Anexa Arquivo" multiple="false" 
+                                                          sizeLimit="10485760" fileUploadListener="#{agendamentoCalendarioMB.upload}" styleClass="grid_9" 
+                                                          fileLimit="8" fileLimitMessage="Só é possível escolher 8 arquivos por vez." auto="true"/>
+                                        </div>
+                                    </p:panel>
+                                </p:panel>
+                            </div>
+                        </p:layoutUnit>
+
+                        <p:layoutUnit position="center" style="border: none;">
+                            <h:outputText value="#{agendamentoCalendarioMB.informativo}" escape="false" />
+                            
+                        </p:layoutUnit>
+                    </p:layout>
+
 
                     <div class="row">
                         <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"

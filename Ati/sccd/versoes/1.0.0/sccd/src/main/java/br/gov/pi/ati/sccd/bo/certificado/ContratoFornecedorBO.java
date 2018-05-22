@@ -74,4 +74,11 @@ public class ContratoFornecedorBO extends AbstractBusinessObject<ContratoFornece
         return getDAO().getQueryBuilder().from(ContratoFornecedor.class, "contrato").leftJoinFetch("contrato.fornecedor", "fornecedor")
                 .add(restrictions).orderBy("fornecedor.nome").getResultList();
     }
+    
+    public List<ContratoFornecedor> todos() {
+        Restrictions restrictions = new Restrictions();
+ 
+        return getDAO().getQueryBuilder().from(ContratoFornecedor.class, "contrato").leftJoinFetch("contrato.fornecedor", "fornecedor")
+                .add(restrictions).orderBy("fornecedor.nome").getResultList();
+    }
 }

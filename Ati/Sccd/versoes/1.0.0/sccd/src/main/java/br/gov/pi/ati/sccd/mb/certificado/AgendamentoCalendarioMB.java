@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.sccd.bo.certificado.AgendamentoBO;
 import br.gov.pi.ati.sccd.modelo.cadastro.Cliente;
 import br.gov.pi.ati.sccd.modelo.cadastro.Feriado;
+import br.gov.pi.ati.sccd.modelo.cadastro.TipoCertificado;
 import br.gov.pi.ati.sccd.modelo.certificado.Agendamento;
 import br.gov.pi.ati.sccd.modelo.certificado.ArquivoAgendamento;
 import br.gov.pi.ati.sccd.modelo.certificado.ItemPedido;
@@ -626,22 +627,123 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
 
             xstreamJason.alias("servidor", ServidorVO.class);
 
+            Cliente cliente = getDAO().getInitialized(getEntity().getCliente());
+
+            TipoCertificado tipoTemp = getDAO().getInitialized(itemPedido.getTipoCertificado());
+
             String xml = ("<?xml version=\"".concat("1.0\"").concat(" encoding=\"").concat("ISO-8859-1\"").concat("?>").concat("\n"));
             if (!xml.equals(xmlString)) {
                 servidorVO = (ServidorVO) xstreamJason.fromXML(xmlString);
 
                 if (servidorVO.getCategoria().equals("3")) {
                     comissionado = true;
+
+                    if (cliente != null) {
+                        if (cliente.isIsento()) {
+                            if (tipoTemp.getTipoPessoa() == TipoPessoa.FISICA) {
+                                informativo = getInformativoPF_orgao_isento_commissionado();
+                            } else {
+                                informativo = getInformativoPJ_orgao_isento();
+                            }
+                        } else {
+                            if (tipoTemp.getTipoPessoa() == TipoPessoa.FISICA) {
+                                informativo = getInformativoPF_orgao_nao_isento_commissionado();
+                            } else {
+                                informativo = getInformativoPJ_orgao_nao_isento();
+                            }
+
+                        }
+                    }
+                } else {
+                    if (cliente != null) {
+                        if (cliente.isIsento()) {
+                            if (tipoTemp.getTipoPessoa() == TipoPessoa.FISICA) {
+                                informativo = getInformativoPF_orgao_isento();
+                            } else {
+                                informativo = getInformativoPJ_orgao_isento();
+                            }
+                        } else {
+                            if (tipoTemp.getTipoPessoa() == TipoPessoa.FISICA) {
+                                informativo = getInformativoPF_orgao_nao_isento();
+                            } else {
+                                informativo = getInformativoPJ_orgao_nao_isento();
+                            }
+
+                        }
+                    }
+                }
+            } else {
+                if (cliente != null) {
+                    if (cliente.isIsento()) {
+                        if (tipoTemp.getTipoPessoa() == TipoPessoa.FISICA) {
+                            informativo = getInformativoPF_orgao_isento();
+                        } else {
+                            informativo = getInformativoPJ_orgao_isento();
+                        }
+                    } else {
+                        if (tipoTemp.getTipoPessoa() == TipoPessoa.FISICA) {
+                            informativo = getInformativoPF_orgao_nao_isento();
+                        } else {
+                            informativo = getInformativoPJ_orgao_nao_isento();
+                        }
+
+                    }
+                } else {
+                    if (tipoTemp.getTipoPessoa() == TipoPessoa.FISICA) {
+                        informativo = getInformativoPF_orgao_nao_isento();
+                    } else {
+                        informativo = getInformativoPJ_orgao_nao_isento();
+                    }
                 }
             }
         }
     }
 
-    public void mudarTipoCertificado() {
-        
-        informativo = getInformativoPF_orgao_isento();
-        
+    public void mudarCliente() {
+        itemPedido = new ItemPedido();
+
         comissionado = pis = nomeacao = leiDeCriacao = estatuto = contratoSocial = termo = cnh = rg = cpf = comprovanteResidencia = oficio = false;
+        
+        getEntity().setEmail(null);
+        getEntity().setEmailInstitucional(null);
+        getEntity().setItemPedido(null);
+        getEntity().setTelefone(null);
+        tipo = null;
+    }
+
+    public void mudarTipoCertificado() {
+
+        comissionado = pis = nomeacao = leiDeCriacao = estatuto = contratoSocial = termo = cnh = rg = cpf = comprovanteResidencia = oficio = false;
+
+        Cliente cliente = getDAO().getInitialized(getEntity().getCliente());
+
+        TipoCertificado tipoTemp = getDAO().getInitialized(itemPedido.getTipoCertificado());
+
+        if (cliente != null) {
+            if (cliente.isIsento()) {
+                if (tipoTemp.getTipoPessoa() == TipoPessoa.FISICA) {
+                    informativo = getInformativoPF_orgao_isento();
+                } else {
+                    informativo = getInformativoPJ_orgao_isento();
+                }
+            } else {
+                if (tipoTemp.getTipoPessoa() == TipoPessoa.FISICA) {
+                    informativo = getInformativoPF_orgao_nao_isento();
+                } else {
+                    informativo = getInformativoPJ_orgao_nao_isento();
+                }
+
+            }
+        } else {
+            if (tipoTemp.getTipoPessoa() == TipoPessoa.FISICA) {
+                informativo = getInformativoPF_orgao_nao_isento();
+            } else {
+                informativo = getInformativoPJ_orgao_nao_isento();
+            }
+        }
+
+        itemPedido.setCpfCnpjTitular(null);
+        itemPedido.setNomeTitular(null);
         arquivos = new ArrayList<ArquivoAgendamento>();
         getEntity().setEmail(null);
         getEntity().setEmailInstitucional(null);
@@ -661,19 +763,26 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
     }
 
     private String getInformativoPF_orgao_isento() {
-        return "<span style=\"font-weight: bold;\">Documentos necessários para certificado: Pessoa Física</span><div style=\"font-weight: normal;\">1 - Termo de Responsabilidade emitido no endereço: <a href=\"https://certificados.serpro.gov.br/aratipirfb/\">Clique Aqui</a></div><div style=\"font-weight: normal;\">2 - Comprovante de Residência (atualizado);</div><div style=\"font-weight: normal;\">3 - CNH ou CPF e RG (coloridos);</div>";
+        return "<span bold;\\\"=\"\">Documentos necessários para o Certificado: <span style=\"font-weight: bold;\">Pessoa Física</span></span><div style=\"font-weight: normal;\" normal;\\\"=\"\"><ul><li><span style=\"font-size: 10pt;\">Termo de Responsabilidade emitido no endereço: </span><a href=\"\\&quot;https://certificados.serpro.gov.br/aratipirfb/\\&quot;\" style=\"font-size: 10pt;\">Clique Aqui</a></li><li><span style=\"font-size: 10pt;\">Comprovante de Residência (atualizado);</span></li><li><span style=\"font-size: 10pt;\">CNH ou CPF e RG (coloridos).</span></li></ul></div>";
     }
 
     private String getInformativoPF_orgao_nao_isento() {
-        return "<span style=\"font-weight: bold;\">Documentos necessários para certificado: Pessoa Física</span><div style=\"font-weight: normal;\">1 - Termo de Responsabilidade emitido no endereço: <a href=\"https://certificados.serpro.gov.br/aratipirfb/\">Clique Aqui</a></div><div style=\"font-weight: normal;\">2 - Comprovante de Residência (atualizado);</div><div style=\"font-weight: normal;\">3 - CNH ou CPF e RG (coloridos);</div><div style=\"font-weight: normal;\">4 - Ofício de Solicitação constando o nome do Titular do Certificado.</div>";
+        return "<span bold;\\\"=\"\">Documentos necessários para o Certificado: <span style=\"font-weight: bold;\">Pessoa Física</span></span><div style=\"font-weight: normal;\" normal;\\\"=\"\"><ul><li><span style=\"font-size: 10pt;\">Termo de Responsabilidade emitido no endereço: </span><a href=\"\\&quot;https://certificados.serpro.gov.br/aratipirfb/\\&quot;\" style=\"font-size: 10pt;\">Clique Aqui</a></li><li><span style=\"font-size: 10pt;\">Comprovante de Residência (atualizado);</span></li><li><span style=\"font-size: 10pt;\">CNH ou CPF e RG (coloridos);</span></li><li><span style=\"font-size: 10pt;\">Ofício de Solicitação constando o nome do Titular do Certificado.</span></li></ul></div>";
     }
 
     private String getInformativoPF_orgao_isento_commissionado() {
-        return "<span style=\"font-weight: bold;\">Documentos necessários para certificado: Pessoa Física</span><div style=\"font-weight: normal;\">1 - Termo de Responsabilidade emitido no endereço: <a href=\"https://certificados.serpro.gov.br/aratipirfb/\">Clique Aqui</a></div><div style=\"font-weight: normal;\">2 - Comprovante de Residência (atualizado);</div><div style=\"font-weight: normal;\">3 - CNH ou CPF e RG (coloridos);</div><div style=\"font-weight: normal;\"><span style=\"font-size: 10pt;\">4 - Nomeação no Diário Oficial para os que são comissionado.</span></div>";
+        return "<span bold;\\\"=\"\">Documentos necessários para o Certificado: <span style=\"font-weight: bold;\">Pessoa Física</span></span><div style=\"font-weight: normal;\" normal;\\\"=\"\"><ul><li><span style=\"font-size: 10pt;\">Termo de Responsabilidade emitido no endereço: </span><a href=\"\\&quot;https://certificados.serpro.gov.br/aratipirfb/\\&quot;\" style=\"font-size: 10pt;\">Clique Aqui</a></li><li><span style=\"font-size: 10pt;\">Comprovante de Residência (atualizado);</span></li><li><span style=\"font-size: 10pt;\">CNH ou CPF e RG (coloridos);</span></li><li><span style=\"font-size: 10pt;\">Nomeação no Diário Oficial para os que são comissionados.</span></li></ul></div>";
     }
 
     private String getInformativoPF_orgao_nao_isento_commissionado() {
-        return "<span style=\"font-weight: bold;\">Documentos necessários para certificado: Pessoa Física</span><div style=\"font-weight: normal;\">1 - Termo de Responsabilidade emitido no endereço: <a href=\"https://certificados.serpro.gov.br/aratipirfb/\">Clique Aqui</a></div><div style=\"font-weight: normal;\">2 - Comprovante de Residência (atualizado);</div><div style=\"font-weight: normal;\">3 - CNH ou CPF e RG (coloridos);</div><div style=\"font-weight: normal;\">4 - Ofício de Solicitação constando o nome do Titular do Certificado;</div><div style=\"font-weight: normal;\">5 - Nomeação no Diário Oficial para os que são comissionado.</div>";
+        return "<span bold;\\\"=\"\">Documentos necessários para o Certificado: <span style=\"font-weight: bold;\">Pessoa Física</span></span><div style=\"font-weight: normal;\" normal;\\\"=\"\"><ul><li><span style=\"font-size: 10pt;\">Termo de Responsabilidade emitido no endereço: </span><a href=\"\\&quot;https://certificados.serpro.gov.br/aratipirfb/\\&quot;\" style=\"font-size: 10pt;\">Clique Aqui</a></li><li><span style=\"font-size: 10pt;\">Comprovante de Residência (atualizado);</span></li><li><span style=\"font-size: 10pt;\">CNH ou CPF e RG (coloridos);</span></li><li><span style=\"font-size: 10pt;\">Ofício de Solicitação constando o nome do Titular do Certificado;</span></li><li><span style=\"font-size: 10pt;\">Nomeação no Diário Oficial para os que são comissionados.</span></li></ul></div>";
     }
 
+    private String getInformativoPJ_orgao_isento() {
+        return "<span style=\"font-style: normal; box-sizing: border-box; color: rgb(51, 51, 51); font-variant-ligatures: normal; orphans: 2; widows: 2; font-family: Arial; font-size: small;\">Documentos necessários para o Certificado: <span style=\"font-weight: bold;\">Pessoa Jurídica</span></span><div style=\"box-sizing: border-box; color: rgb(51, 51, 51);\" helvetica=\"\" neue\",=\"\" helvetica,=\"\" arial,=\"\" sans-serif;=\"\" font-size:=\"\" 12px;=\"\" font-variant-ligatures:=\"\" normal;=\"\" orphans:=\"\" 2;=\"\" widows:=\"\" 2;\"=\"\"><ul><li style=\"font-style: normal; font-weight: normal;\"><span style=\"font-family: Arial; font-size: small;\">Comprovante de Residência;</span></li><li style=\"font-style: normal; font-weight: normal;\"><span style=\"font-family: Arial; font-size: small;\">Termo de Responsabilidade emitido no endereço:&nbsp;</span><span style=\"font-family: Arial; box-sizing: border-box;\"><a href=\"https://certificados.serpro.gov.br/aratipirfb/\">Clique aqui</a></span><span style=\"font-family: Arial; font-size: small;\">;</span></li><li><span style=\"font-family: Arial; font-size: small;\">CNH ou RG e CPF do Representante Legal (<span style=\"font-weight: bold;\">Colorido</span>);</span></li><li style=\"font-style: normal; font-weight: normal;\"><span style=\"font-family: Arial; font-size: small;\">Nomeação do Representante Lega;</span></li><li style=\"font-style: normal; font-weight: normal;\"><span style=\"font-family: Arial; font-size: small;\">Lei de criação, no caso de órgãos públicos, ou contrato social e seus aditivos no caso de entidades privadas;</span></li></ul></div>";
+    }
+
+    private String getInformativoPJ_orgao_nao_isento() {
+        return "<span style=\"font-style: normal; box-sizing: border-box; color: rgb(51, 51, 51); font-variant-ligatures: normal; orphans: 2; widows: 2; font-family: Arial; font-size: small;\">Documentos necessários para o Certificado: <span style=\"font-weight: bold;\">Pessoa Jurídica</span></span><div style=\"box-sizing: border-box; color: rgb(51, 51, 51);\" helvetica=\"\" neue\",=\"\" helvetica,=\"\" arial,=\"\" sans-serif;=\"\" font-size:=\"\" 12px;=\"\" font-variant-ligatures:=\"\" normal;=\"\" orphans:=\"\" 2;=\"\" widows:=\"\" 2;\"=\"\"><ul><li style=\"font-style: normal; font-weight: normal;\"><span style=\"font-family: Arial; font-size: small;\">Comprovante de Residência;</span></li><li style=\"font-style: normal; font-weight: normal;\"><span style=\"font-family: Arial; font-size: small;\">Termo de Responsabilidade emitido no endereço:&nbsp;</span><span style=\"font-family: Arial; box-sizing: border-box;\"><a href=\"https://certificados.serpro.gov.br/aratipirfb/\">Clique aqui</a></span><span style=\"font-family: Arial; font-size: small;\">;</span></li><li><span style=\"font-family: Arial; font-size: small;\">CNH ou RG e CPF do Representante Legal (<span style=\"font-weight: bold;\">Colorido</span>);</span></li><li style=\"font-style: normal; font-weight: normal;\"><span style=\"font-family: Arial; font-size: small;\">Nomeação do Representante Lega;</span></li><li style=\"font-style: normal; font-weight: normal;\"><span style=\"font-family: Arial; font-size: small;\">Lei de criação, no caso de órgãos públicos, ou contrato social e seus aditivos no caso de entidades privadas;</span></li><li style=\"font-style: normal; font-weight: normal;\"><span style=\"font-family: Arial; font-size: small;\">Ofício de Solicitação.</span></li></ul></div>";
+    }
 }

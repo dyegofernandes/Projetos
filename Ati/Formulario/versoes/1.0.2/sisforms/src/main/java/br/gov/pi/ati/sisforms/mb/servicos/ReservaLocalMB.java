@@ -57,7 +57,9 @@ import org.primefaces.model.UploadedFile;
 @ManagedBean
 @ViewScoped
 public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Serializable {
-
+    
+    
+    
     @EJB
     private ReservaLocalBO reservaLocalBO;
 
@@ -70,6 +72,8 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
     public String getDataModelOrder() {
         return "id";
     }
+    
+    
 
     private FiltrosVO filtros;
 
@@ -99,7 +103,6 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
 
         locais = getBO().locaisPorOrgao(orgao);
         
-
         init_reservas();
 
     }
@@ -203,6 +206,7 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
         String titulo = event.getTitle();
         if (titulo == null) {
             DefaultScheduleEvent newEvent = new DefaultScheduleEvent(getEntity().getTitulo(), getEntity().getDataInicio(), getEntity().getDataFinal(), "emp1");
+            
             eventModel.addEvent(newEvent);
         }
 
@@ -215,10 +219,10 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
     public void selecionarEvento(SelectEvent selectEvent) {
         RequestContext context = RequestContext.getCurrentInstance();
         event = (ScheduleEvent) selectEvent.getObject();
-
+        
         String titulo = event.getTitle();
-
-        Long id = Long.parseLong(titulo.split(" ")[0]);
+        String temp = titulo.split("~ ")[1];
+        Long id = Long.parseLong(temp);
 
         ReservaLocal reserva = getBO().getDAO().getInitialized(getBO().getDAO().unique("id", id));
 
@@ -234,7 +238,7 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
 
         String titulo = event.getTitle();
 
-        Long id = Long.parseLong(titulo.split(" ")[0]);
+        Long id = Long.parseLong(titulo.split("~ ")[1]);
 
         ReservaLocal reserva = getBO().getDAO().getInitialized(getBO().getDAO().unique("id", id));
 
@@ -276,9 +280,10 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
         reservas = getBO().listarReservas(filtros);
 
         eventModel = new DefaultScheduleModel();
-
+        
+        
         for (ReservaLocal reservax : reservas) {
-            ScheduleEvent eventTemp = new DefaultScheduleEvent(reservax.getId()+ " "+reservax.getTitulo() + " - " + reservax.getOrgaoSolicitante(), reservax.getDataInicio(), reservax.getDataFinal(), "emp1");
+            ScheduleEvent eventTemp = new DefaultScheduleEvent(reservax.getTitulo() + " - " + reservax.getOrgaoSolicitante()+" - "+reservax.getLocal() +" ~ "+reservax.getId(), reservax.getDataInicio(), reservax.getDataFinal(), "procesada");
             eventModel.addEvent(eventTemp);
 
         }

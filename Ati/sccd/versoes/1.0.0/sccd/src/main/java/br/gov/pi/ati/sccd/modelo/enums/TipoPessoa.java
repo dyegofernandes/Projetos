@@ -12,7 +12,8 @@ package br.gov.pi.ati.sccd.modelo.enums;
 public enum TipoPessoa {
 
     FISICA(1, "Física"),
-    JURIDICA(2, "Jurídica");
+    JURIDICA(2, "Jurídica"),
+    EQUIPAMENTO(3, "Equipamento");
 
     private TipoPessoa(int num, String descricao) {
         this.descricao = descricao;

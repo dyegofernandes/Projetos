@@ -122,6 +122,24 @@ button.ui-button.ui-state-active{
     text-transform: uppercase !important;
 }*/
 
+.ui-state-highlight{
+    background-color:  #FFB3EC;
+}
+        .vencida .fc-event-inner {
+        background: Red;
+        border-color: Yellow;
+        }
+
+        .ajustada .fc-event-inner {
+        background: Green;
+        border-color: Yellow;
+        }
+
+        .procesada .fc-today {
+        background-image: #FFB3EC;
+        border-color: Yellow;
+        }
+        
 
 @media (max-width: 600px) {
     .login-wraper {width: auto;height: auto;margin: 10% auto;}

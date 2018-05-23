@@ -34,9 +34,9 @@
                                      rendered="#{agendamentoMB.entity.itemPedido.tipoCertificado.tipoPessoa.num eq 1}" converter="cpfConverter">
                         </p:inputText>
 
-                        <h:outputLabel for="cnpj" value="* #{msg['agendamento.itemPedido.cnpj']}:" rendered="#{agendamentoMB.entity.itemPedido.tipoCertificado.tipoPessoa.num eq 2}"/>
+                        <h:outputLabel for="cnpj" value="* #{msg['agendamento.itemPedido.cnpj']}:" rendered="#{agendamentoMB.entity.itemPedido.tipoCertificado.tipoPessoa.num eq 2 or agendamentoMB.entity.itemPedido.tipoCertificado.tipoPessoa.num eq 3}"/>
                         <p:inputText id="cnpj" value="#{agendamentoMB.entity.itemPedido.cpfCnpjTitular}" styleClass="form-control" readonly="true"
-                                     rendered="#{agendamentoMB.entity.itemPedido.tipoCertificado.tipoPessoa.num eq 2}" converter="cnpjConverter"/>
+                                     rendered="#{agendamentoMB.entity.itemPedido.tipoCertificado.tipoPessoa.num eq 2 or agendamentoMB.entity.itemPedido.tipoCertificado.tipoPessoa.num eq 3}" converter="cnpjConverter"/>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="nomeTitular" value="* #{msg['agendamento.itemPedido.nome']}:" />

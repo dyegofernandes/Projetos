@@ -43,6 +43,13 @@
                     </f:facet>
                     <h:outputText value="#{tipoCertificado.duracao}"/>
                 </p:column>
+                <p:column headerText="#{msg['tipoCertificado.tipoPessoa']}" sortBy="#{tipoCertificado.tipoPessoa}"
+                    filterBy="#{tipoCertificado.tipoPessoa}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['tipoCertificado.tipoPessoa']}" />
+                    </f:facet>
+                    <h:outputText value="#{tipoCertificado.tipoPessoa.descricao}"/>
+                </p:column>
                 <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
                     <f:facet name="header">
                         <h:outputText value="#{xmsg['actions']}"/>

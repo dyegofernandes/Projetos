@@ -127,6 +127,7 @@ public class UsuarioBO extends AbstractBusinessObject<Usuario> {
 
     @Override
     public void validate(Usuario usuario) throws BusinessException {
+        //teste 2
     }
 
     @Override

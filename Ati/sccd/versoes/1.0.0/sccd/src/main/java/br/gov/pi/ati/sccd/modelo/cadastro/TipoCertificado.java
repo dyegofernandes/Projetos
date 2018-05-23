@@ -47,7 +47,7 @@ public class TipoCertificado implements Serializable {
 
     @Column(length = 20)
     @Enumerated(EnumType.STRING)
-    private TipoPessoa tipoPessoa = TipoPessoa.JURIDICA;
+    private TipoPessoa tipoPessoa;
 
     private boolean ativo = true;
 

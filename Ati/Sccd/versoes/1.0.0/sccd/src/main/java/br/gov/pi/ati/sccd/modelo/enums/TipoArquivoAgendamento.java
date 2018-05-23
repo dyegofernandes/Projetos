@@ -21,7 +21,7 @@ public enum TipoArquivoAgendamento {
     OFICIO_SOLICITACAO(8, "Ofício de Solicitação"),
     PIS_PASEP(9, "PIS/PASEP"),
     RG(10, "RG Colorido"),
-    TERMO(11, "Termo de Titularidade e Responsabilidade");
+    TERMO(11, "Termo de Responsabilidade e Titularidade");
 
     private TipoArquivoAgendamento(int num, String descricao) {
         this.descricao = descricao;

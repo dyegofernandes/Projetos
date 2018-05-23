@@ -24,7 +24,16 @@
                         <h:outputLabel for="duracao" value="* #{msg['tipoCertificado.duracao']}:" />
                         <p:inputMask id="duracao" mask="9?99" value="#{tipoCertificadoMB.entity.duracao}" styleClass="form-control" />
                     </div>
-
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tipo_pessoa" value="* #{msg['cliente.tipoPessoa']}:" />
+                        
+                        <h:selectOneMenu id="tipo_pessoa" value="#{tipoCertificadoMB.entity.tipoPessoa}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.tipoPessoa)}" 
+                                           var="tipoPessoa"
+                                           itemLabel="#{tipoPessoa.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
                 </div>
             </div>
         </p:fieldset>

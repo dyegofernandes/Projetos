@@ -5,6 +5,9 @@
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces"
                  xmlns:custom="http://java.sun.com/jsf/composite/components" >
+    
+
+    
     <script type="text/javascript">
         PrimeFaces.widget.Schedule.prototype._oldInit = PrimeFaces.widget.Schedule.prototype.init;
         PrimeFaces.widget.Schedule.prototype.init = function (cfg) {
@@ -16,6 +19,8 @@
 
             this._oldInit.apply(this, arguments);
         };
+        
+        
         PrimeFaces.locales['pt-br'] = {
             closeText: 'Fechar',
             prevText: 'Anterior',
@@ -52,6 +57,7 @@
 
         <h:panelGrid columnClasses="value">
             <h3 style="margin-top: 0">Reservas</h3>
+            
             <p:schedule id="schedule" value="#{reservaLocalMB.eventModel}" widgetVar="myschedule" timeZone="GMT-3"   timeFormat=" " draggable="false" resizable="false"  axisFormat="H:mm" centerHeaderTemplate="title" >
                 
                     <p:ajax event="dateSelect" listener="#{reservaLocalMB.selecionarData}" update="eventDetails" disabled="#{!x:hasRole('reservaLocal.create')}"/>

@@ -152,7 +152,7 @@ public class DenunciaResource {
                     endereco.setLatitude(denunciaVO.getLatitude());
                 }
                 
-                if (Utils.isNullOrEmpty(denunciaVO.getLongitude())) {
+                if (!Utils.isNullOrEmpty(denunciaVO.getLongitude())) {
                     endereco.setLongitude(denunciaVO.getLongitude());
                 }
                 

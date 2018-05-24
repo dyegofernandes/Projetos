@@ -36,7 +36,7 @@ public class DespesaPublica implements Serializable {
 
     @NotBlank
     @Size(max = 50)
-    private String numeroProcesso;
+    private String numeroProcesso; //AA.002.1.008295/17
 
     @NotBlank
     @Column(columnDefinition = "Text")

@@ -23,8 +23,8 @@ import java.util.Date;
  *
  * @author Juniel
  */
-public class Filtros implements Serializable{
-    
+public class Filtros implements Serializable {
+
     private Usuario usuario;
 
     private Unidade unidade;
@@ -48,34 +48,34 @@ public class Filtros implements Serializable{
     private TipoDenuncia tipo;
 
     private Bairro bairro;
-    
+
     private Cidade cidade;
-    
+
     private Circunscricao circunscricao;
-    
+
     private CircunscricaoBairro circunscricaoBairro;
-    
+
     private String vitima;
-    
+
     private String agressor;
-    
+
     private Long id;
-    
+
     private String cpfVitima;
-    
+
     private String rgVitima;
-    
+
     private String cnhVitima;
-    
+
     private String cpfAgressor;
-    
+
     private String rgAgressor;
-    
+
     private String cnhAgressor;
-    
-    private FaixaEtaria faixaEtariaVitima;
-    
-    private FaixaEtaria faixaEtariaAgressor;
+
+    private FaixaEtaria faixaEtariaVitima = FaixaEtaria.TODAS;
+
+    private FaixaEtaria faixaEtariaAgressor = FaixaEtaria.TODAS;
 
     public Unidade getUnidade() {
         return unidade;
@@ -285,5 +285,4 @@ public class Filtros implements Serializable{
         this.faixaEtariaAgressor = faixaEtariaAgressor;
     }
 
-    
 }

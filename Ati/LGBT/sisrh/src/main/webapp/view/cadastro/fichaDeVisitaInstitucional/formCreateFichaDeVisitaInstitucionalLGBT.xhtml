@@ -1,0 +1,117 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateFichaDeVisitaInstitucionalLGBT" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:fieldset legend="#{xmsg['generalData']}">
+
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataEmissao" value="#{msg['fichaDeVisitaInstitucionalLGBT.dataEmissao']}:" />
+                        <p:calendar id="dataEmissao" value="#{fichaDeVisitaInstitucionalLGBTMB.entity.dataEmissao}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="instituicao" value="* #{msg['fichaDeVisitaInstitucionalLGBT.instituicao']}:" />
+                        <p:inputText id="instituicao" value="#{fichaDeVisitaInstitucionalLGBTMB.entity.instituicao}" maxlength="120"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="naturezaInstituicao" value="#{msg['fichaDeVisitaInstitucionalLGBT.naturezaInstituicao']}:" />
+                        <p:inputText id="naturezaInstituicao" value="#{fichaDeVisitaInstitucionalLGBTMB.entity.naturezaInstituicao}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="telefone" value="#{msg['fichaDeVisitaInstitucionalLGBT.telefone']}:" />
+                        <p:inputMask id="telefone" value="#{fichaDeVisitaInstitucionalLGBTMB.entity.telefone}" mask="(99) 9999-9999" styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="endereco" value="#{msg['fichaDeVisitaInstitucionalLGBT.endereco']}:" />
+                        <p:inputText id="endereco" value="#{fichaDeVisitaInstitucionalLGBTMB.entity.endereco}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Profissionais de Referências">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nomeProfissional" value="Nome:" />
+                        <p:inputText id="nomeProfissional" value="#{fichaDeVisitaInstitucionalLGBTMB.nome}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="telefoneProfissional" value="Telefone:" />
+                        <p:inputMask id="telefoneProfissional" value="#{fichaDeVisitaInstitucionalLGBTMB.telefone}" mask="(99) 9999-9999"  styleClass="form-control"  />
+                    </div>
+
+                </div>
+                <div class="uix-center">
+                    <p:commandButton process="@this telefoneProfissional nomeProfissional" update="nomeProfissional telefoneProfissional dataTableProfissionais" value="Adicionar" 
+                                     action="#{fichaDeVisitaInstitucionalLGBTMB.addProfissional()}" />
+                </div>
+                <div class="row">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="profissional" rowIndexVar="index" id="dataTableProfissionais" widgetVar="dataTableProfissionais" styleClass="table-responsive"
+                                 value="#{fichaDeVisitaInstitucionalLGBTMB.profissionais}" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="Nome" >
+                            <f:facet name="header">
+                                <h:outputText value="Nome" />
+                            </f:facet>
+                            <h:outputText value="#{profissional.nome}"/>
+                        </p:column>
+                        <p:column headerText="Telefone"  >
+                            <f:facet name="header">
+                                <h:outputText value="Telefone" />
+                            </f:facet>
+                            <h:outputText value="#{profissional.telefone}"/>
+                        </p:column>
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" 
+                                             update="dataTableProfissionais" action="#{fichaDeVisitaInstitucionalLGBTMB.removerProfissional(profissional)}" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Serviços oferecidos">
+            <div class="row">
+                <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                    <p:inputTextarea id="servicosOferecidos" value="#{fichaDeVisitaInstitucionalLGBTMB.entity.servicosOferecidos}" rows="5" styleClass="form-control"
+                                     cols="50"/>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Observações">
+            <div class="row">
+                <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                    <p:inputTextarea id="observacao" value="#{fichaDeVisitaInstitucionalLGBTMB.entity.observacoes}" rows="5" styleClass="form-control"
+                                     cols="50"/>
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="fichaDeVisitaInstitucionalLGBT.create">
+                <p:commandButton process="@form" update="@form" action="#{fichaDeVisitaInstitucionalLGBTMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="fichaDeVisitaInstitucionalLGBT.audit">
+                <x:audit for="#{fichaDeVisitaInstitucionalLGBTMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

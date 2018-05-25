@@ -1,0 +1,102 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailFichaDeVisitaDomiciliar" styleClass="uix-form-detail">
+        <p:fieldset legend="#{xmsg['generalData']}" id="fieldGeral">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['fichaDeVisitaDomiciliar.usuario']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{fichaDeVisitaDomiciliarMB.entity.usuario}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['fichaDeVisitaDomiciliar.nc']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{fichaDeVisitaDomiciliarMB.entity.nc}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['fichaDeVisitaDomiciliar.endereco']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{fichaDeVisitaDomiciliarMB.entity.endereco}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['fichaDeVisitaDomiciliar.bairro']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{fichaDeVisitaDomiciliarMB.entity.bairro}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['fichaDeVisitaDomiciliar.cidade']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{fichaDeVisitaDomiciliarMB.entity.cidade}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['fichaDeVisitaDomiciliar.telefone']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{fichaDeVisitaDomiciliarMB.entity.telefone}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['fichaDeVisitaDomiciliar.solicitante']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{fichaDeVisitaDomiciliarMB.entity.solicitante.descricao}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['fichaDeVisitaDomiciliar.solicitanteOutroA']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{fichaDeVisitaDomiciliarMB.entity.solicitanteOutroA}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['fichaDeVisitaDomiciliar.residencia']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{fichaDeVisitaDomiciliarMB.entity.residencia.descricao}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['fichaDeVisitaDomiciliar.residenciaOutroA']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{fichaDeVisitaDomiciliarMB.entity.residenciaOutroA}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['fichaDeVisitaDomiciliar.dataVisita']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{fichaDeVisitaDomiciliarMB.entity.dataVisita}" styleClass="uix-content-detail">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['fichaDeVisitaDomiciliar.agendamento']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{fichaDeVisitaDomiciliarMB.entity.agendamento}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['fichaDeVisitaDomiciliar.equipe']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{fichaDeVisitaDomiciliarMB.entity.equipe}" styleClass="uix-content-detail"/>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Procedimento (s)">
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="procedimento" rowIndexVar="index" id="dataTableProcedimentos" widgetVar="dataTableProcedimentos" styleClass="table-responsive"
+                             value="#{fichaDeVisitaDomiciliarMB.entity.procedimentos}">
+                    <x:initializer/>
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column headerText="Data" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Data" />
+                        </f:facet>
+                        <h:outputText value="#{procedimento.dataProcedimento}">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Procedimento"  >
+                        <f:facet name="header">
+                            <h:outputText value="Procedimento:" />
+                        </f:facet>
+                        <h:outputText value="#{procedimento.procedimento}"/>
+                    </p:column>
+
+                </p:dataTable>
+        </p:fieldset>
+
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetFichaDeVisitaDomiciliarDetail').hide()" />
+            <x:securityArea rolesAllowed="fichaDeVisitaDomiciliar.audit">
+                <x:audit for="#{fichaDeVisitaDomiciliarMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

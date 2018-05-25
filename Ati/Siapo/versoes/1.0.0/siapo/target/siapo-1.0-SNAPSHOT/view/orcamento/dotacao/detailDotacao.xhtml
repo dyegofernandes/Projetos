@@ -1,0 +1,54 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailDotacao" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['dotacao.acaoOrcamentaria']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{dotacaoMB.entity.acaoOrcamentaria}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['dotacao.fonteDeRecurso']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{dotacaoMB.entity.fonteDeRecurso}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['dotacao.naturezaDaDespesa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{dotacaoMB.entity.naturezaDaDespesa}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['dotacao.produtoLDO']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{dotacaoMB.entity.produtoLDO}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['dotacao.quantidadeRealizada']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{dotacaoMB.entity.quantidadeRealizada}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['dotacao.geraQuantificador']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{dotacaoMB.entity.geraQuantificador}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetDotacaoDetail').hide()" />
+            <x:securityArea rolesAllowed="dotacao.audit">
+                <x:audit for="#{dotacaoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

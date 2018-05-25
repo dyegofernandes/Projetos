@@ -10,10 +10,13 @@ package br.gov.pi.salvemaria.modelo.vos;
  * @author Juniel
  */
 public class BairroVO {
+
     private Long id;
-    
+
     private String nome;
-    
+
+    private Long cidade_id;
+
     private String cidade;
 
     public Long getId() {
@@ -40,7 +43,13 @@ public class BairroVO {
         this.cidade = cidade;
     }
 
-    
+    public Long getCidade_id() {
+        return cidade_id;
+    }
+
+    public void setCidade_id(Long cidade_id) {
+        this.cidade_id = cidade_id;
+    }
 
     public BairroVO(Long id, String nome, String cidade) {
         this.id = id;
@@ -50,7 +59,5 @@ public class BairroVO {
 
     public BairroVO() {
     }
-    
-    
-    
+
 }

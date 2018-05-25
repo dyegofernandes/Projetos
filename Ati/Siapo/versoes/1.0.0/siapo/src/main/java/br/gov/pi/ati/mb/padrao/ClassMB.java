@@ -1,5 +1,8 @@
 package br.gov.pi.ati.mb.padrao;
 
+import br.gov.pi.ati.modelo.cadastro.enums.Meses;
+import br.gov.pi.ati.modelo.orcamento.Dotacao;
+import br.gov.pi.ati.modelo.orcamento.ProgramacaoFinanceira;
 import br.gov.pi.ati.modelo.orcamento.DespesaPublica;
 import br.gov.pi.ati.modelo.orcamento.MetaProduto;
 import br.gov.pi.ati.modelo.orcamento.ReceitaMetaAcaoEstrategica;
@@ -254,6 +257,16 @@ public class ClassMB {
     }
     public Class getMetaProduto() {
         return MetaProduto.class;
+    }
+
+    public Class getMeses() {
+        return Meses.class;
+    }
+    public Class getDotacao() {
+        return Dotacao.class;
+    }
+    public Class getProgramacaoFinanceira() {
+        return ProgramacaoFinanceira.class;
     }
 
 }

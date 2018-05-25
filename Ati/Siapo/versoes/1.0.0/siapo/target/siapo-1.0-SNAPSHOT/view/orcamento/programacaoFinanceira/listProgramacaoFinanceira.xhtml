@@ -1,0 +1,82 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['programacaoFinanceira.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuProgramacaoFinanceira.xhtml" />
+        <h:form id="formListProgramacaoFinanceira">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="programacaoFinanceira_export" target=":formListProgramacaoFinanceira:dataTableProgramacaoFinanceira"
+                                     widgetVar="dataTableProgramacaoFinanceiraWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="programacaoFinanceira" rowIndexVar="index" id="dataTableProgramacaoFinanceira" widgetVar="dataTableProgramacaoFinanceiraWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{programacaoFinanceiraMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{programacaoFinanceiraMB.dataModel.paginatorTemplate}"
+                         value="#{programacaoFinanceiraMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['programacaoFinanceira.mes']}" sortBy="#{programacaoFinanceira.mes}"
+                    filterBy="#{programacaoFinanceira.mes}"  filterOptions="#{findAllBean.getSelect(classMB.meses)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['programacaoFinanceira.mes']}" />
+                    </f:facet>
+                    <h:outputText value="#{programacaoFinanceira.mes}"/>
+                </p:column>
+                <p:column headerText="#{msg['programacaoFinanceira.ano']}" sortBy="#{programacaoFinanceira.ano}"
+                    filterBy="#{programacaoFinanceira.ano}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['programacaoFinanceira.ano']}" />
+                    </f:facet>
+                    <h:outputText value="#{programacaoFinanceira.ano}"/>
+                </p:column>
+                <p:column headerText="#{msg['programacaoFinanceira.valor']}" sortBy="#{programacaoFinanceira.valor}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['programacaoFinanceira.valor']}" />
+                    </f:facet>
+                    <h:outputText value="#{programacaoFinanceira.valor}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetProgramacaoFinanceiraDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailProgramacaoFinanceira" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{programacaoFinanceira}" target="#{programacaoFinanceiraMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="programacaoFinanceira.create">
+                        <p:button icon="ui-icon-pencil" outcome="createProgramacaoFinanceira" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{programacaoFinanceira.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="programacaoFinanceira.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{programacaoFinanceiraMB.delete}" >
+                            <f:setPropertyActionListener value="#{programacaoFinanceira.id}" target="#{programacaoFinanceiraMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{programacaoFinanceira}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="programacaoFinanceira.audit">
+                    <x:auditDelete for="#{programacaoFinanceiraMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetProgramacaoFinanceiraDetail" header="#{msg['programacaoFinanceira.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailProgramacaoFinanceira.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

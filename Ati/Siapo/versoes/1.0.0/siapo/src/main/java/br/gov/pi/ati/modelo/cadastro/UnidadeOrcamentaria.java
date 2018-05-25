@@ -5,6 +5,7 @@
  */
 package br.gov.pi.ati.modelo.cadastro;
 
+import br.gov.pi.ati.modelo.orcamento.DespesaPublica;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.List;
@@ -47,6 +48,10 @@ public class UnidadeOrcamentaria implements Serializable {
     private String mnemonico;
 
     private boolean ativo = true;
+    
+    @OneToMany(mappedBy = "unidadeOrcamentaria")
+    @NotAudited
+    private List<DespesaPublica> despesas;
 
     @OneToMany(mappedBy = "unidadeOrcamentaria")
     @NotAudited
@@ -159,6 +164,14 @@ public class UnidadeOrcamentaria implements Serializable {
 
     public void setProdutos(List<Produto> produtos) {
         this.produtos = produtos;
+    }
+
+    public List<DespesaPublica> getDespesas() {
+        return despesas;
+    }
+
+    public void setDespesas(List<DespesaPublica> despesas) {
+        this.despesas = despesas;
     }
 
     @Override

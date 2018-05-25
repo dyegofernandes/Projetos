@@ -58,7 +58,7 @@ public class MetaProduto implements Serializable {
 
     @OneToMany(mappedBy = "produtoLDO")
     @NotAudited
-    private List<DespesaPublica> despesas;
+    private List<Dotacao> dotacoes;
 
     public Long getId() {
         return id;
@@ -116,12 +116,12 @@ public class MetaProduto implements Serializable {
         this.territorios = territorios;
     }
 
-    public List<DespesaPublica> getDespesas() {
-        return despesas;
+    public List<Dotacao> getDotacoes() {
+        return dotacoes;
     }
 
-    public void setDespesas(List<DespesaPublica> despesas) {
-        this.despesas = despesas;
+    public void setDotacoes(List<Dotacao> dotacoes) {
+        this.dotacoes = dotacoes;
     }
 
     @Override

@@ -2,7 +2,6 @@ package br.gov.pi.ati.bo.cadastro;
 
 import com.xpert.core.crud.AbstractBusinessObject;
 import br.gov.pi.ati.dao.cadastro.TerritorioDAO;
-import br.gov.pi.ati.modelo.cadastro.Municipio;
 import com.xpert.core.validation.UniqueField;
 import com.xpert.core.exception.BusinessException;
 import java.util.List;

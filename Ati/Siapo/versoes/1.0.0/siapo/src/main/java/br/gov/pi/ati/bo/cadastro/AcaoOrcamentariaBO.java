@@ -8,6 +8,9 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.modelo.cadastro.AcaoOrcamentaria;
+import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
+import br.gov.pi.ati.util.Utils;
+import com.xpert.persistence.query.Restrictions;
 
 /**
  *
@@ -18,7 +21,7 @@ public class AcaoOrcamentariaBO extends AbstractBusinessObject<AcaoOrcamentaria>
 
     @EJB
     private AcaoOrcamentariaDAO acaoOrcamentariaDAO;
-    
+
     @Override
     public AcaoOrcamentariaDAO getDAO() {
         return acaoOrcamentariaDAO;
@@ -36,6 +39,22 @@ public class AcaoOrcamentariaBO extends AbstractBusinessObject<AcaoOrcamentaria>
     @Override
     public boolean isAudit() {
         return true;
+    }
+
+    public List<AcaoOrcamentaria> listarPeloNomeEUnidadeOrcamentaria(String nome, UnidadeOrcamentaria unidade) {
+        Restrictions restrictions = new Restrictions();
+
+        if (!Utils.isNullOrEmpty(nome)) {
+            restrictions.like("acao.nome", nome);
+        }
+
+        if (unidade != null) {
+            restrictions.add("unidadeOrcamentaria", unidade);
+        }
+
+        return getDAO().getQueryBuilder().from(AcaoOrcamentaria.class, "acao").leftJoin("acao.unidadeOrcamentaria", "unidadeOrcamentaria")
+                .leftJoinFetch("acao.funcao", "funcao").leftJoinFetch("acao.subfuncao", "subfuncao").leftJoinFetch("acao.programa", "programa")
+                .add(restrictions).orderBy("unidadeOrcamentaria, acao.nome").getResultList();
     }
 
 }

@@ -33,6 +33,7 @@ public class ApplicationConfig extends Application {
         resources.add(br.gov.pi.salvemaria.acessoapp.CidadeResource.class);
         resources.add(br.gov.pi.salvemaria.acessoapp.DenunciaResource.class);
         resources.add(br.gov.pi.salvemaria.acessoapp.EstadoResource.class);
+        resources.add(br.gov.pi.salvemaria.acessoapp.UnidadeResource.class);
         resources.add(br.gov.pi.salvemaria.acessoapp.ViaturaResource.class);
     }
     

@@ -6,7 +6,7 @@
 package br.gov.pi.ati.modelo.cadastro;
 
 import br.gov.pi.ati.modelo.cadastro.enums.TipoDeFonte;
-import br.gov.pi.ati.modelo.orcamento.DespesaPublica;
+import br.gov.pi.ati.modelo.orcamento.Dotacao;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.List;
@@ -54,10 +54,10 @@ public class FonteDeRecurso implements Serializable {
     private GrupoDeFonte grupoDeFonte;
 
     private boolean ativo = true;
-
-//    @OneToMany(mappedBy = "fonteDeRecurso")
-//    @NotAudited
-//    private List<DespesaPublica> despesas;
+    
+    @OneToMany(mappedBy = "fonteDeRecurso")
+    @NotAudited
+    private List<Dotacao> dotacoes;
 
     @Override
     public String toString() {
@@ -123,6 +123,13 @@ public class FonteDeRecurso implements Serializable {
         this.ativo = ativo;
     }
 
+    public List<Dotacao> getDotacoes() {
+        return dotacoes;
+    }
+
+    public void setDotacoes(List<Dotacao> dotacoes) {
+        this.dotacoes = dotacoes;
+    }
 
     @Override
     public int hashCode() {

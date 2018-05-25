@@ -303,6 +303,13 @@ public class GeracaoPermissao {
         create(new Permissao("metaProduto.list", "Produtos", "/view/orcamento/metaProduto/listMetaProduto.jsf", true), "metas");
         create(new Permissao("metaProduto.audit", "Auditoria de Meta Produto"), "metaProduto");
         create(new Permissao("metaProduto.delete", "Exclusão de Meta Produto"), "metaProduto");
+
+        //Despesa Publica
+        create(new Permissao("despesaPublica", "Despesa Publica", false), "orcamento");
+        create(new Permissao("despesaPublica.create", "Cadastro de Despesa Publica", "/view/orcamento/despesaPublica/createDespesaPublica.jsf", false), "despesaPublica");
+        create(new Permissao("despesaPublica.list", "Despesas", "/view/orcamento/despesaPublica/listDespesaPublica.jsf", true), "orcamento");
+        create(new Permissao("despesaPublica.audit", "Auditoria de Despesa Publica"), "despesaPublica");
+        create(new Permissao("despesaPublica.delete", "Exclusão de Despesa Publica"), "despesaPublica");
         /*
          * Configuracao
          */

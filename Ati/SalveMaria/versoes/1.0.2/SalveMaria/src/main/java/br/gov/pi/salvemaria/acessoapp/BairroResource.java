@@ -8,6 +8,7 @@ package br.gov.pi.salvemaria.acessoapp;
 import br.gov.pi.salvemaria.bo.cadastro.BairroBO;
 import br.gov.pi.salvemaria.modelo.cadastro.Bairro;
 import br.gov.pi.salvemaria.modelo.vos.BairroVO;
+import com.google.gson.Gson;
 import com.xpert.persistence.query.Restrictions;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,20 +45,27 @@ public class BairroResource {
         return bairroVO;
     }
 
-    @Path("listar/{id}")
+    @Path("listar/{filtros}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<BairroVO> listarBairroPeloIdCidade(@PathParam("id") Long idCidade) {
+    public List<BairroVO> listarBairroPeloIdCidade(@PathParam("filtros") String filtros) {
+        Gson gson = new Gson();
+        Filtros filtrosDeBusca = gson.fromJson(filtros, Filtros.class);
+
         Restrictions restrictions = new Restrictions();
-        restrictions.add("cidade.id", idCidade);
-        List<Bairro> bairros = bairroBO.getDAO().getQueryBuilder().select("bairro").from(Bairro.class, "bairro").innerJoinFetch("bairro.regiao", "regiao")
-                .innerJoinFetch("regiao.cidade", "cidade").add(restrictions).orderBy("bairro.nome").getResultList();
+
+        if (filtrosDeBusca.getCidade_id() != null) {
+            restrictions.add("cidade.id", filtrosDeBusca.getCidade_id());
+        }
+
+        List<Bairro> bairros = bairroBO.getDAO().getQueryBuilder().select("bairro").from(Bairro.class, "bairro").leftJoinFetch("bairro.cidade", "cidade").add(restrictions).orderBy("cidade, bairro.nome").getResultList();
         List<BairroVO> bairrosVO = new ArrayList<BairroVO>();
         for (Bairro bairro : bairros) {
             BairroVO bairroVO = new BairroVO();
             bairroVO.setId(bairro.getId());
             bairroVO.setNome(bairro.getNome());
-            bairroVO.setCidade(bairroBO.getDAO().getInitialized(bairro.getCidade()).getNome());
+            bairroVO.setCidade_id(bairro.getCidade().getId());
+            bairroVO.setCidade(bairro.getCidade().getNome());
             bairrosVO.add(bairroVO);
         }
 

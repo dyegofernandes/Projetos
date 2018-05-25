@@ -6,6 +6,7 @@
 package br.gov.pi.ati.modelo.orcamento;
 
 import br.gov.pi.ati.modelo.cadastro.AcaoOrcamentaria;
+import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,10 @@ public class DespesaPublica implements Serializable {
     @GeneratedValue(generator = "DespesaPublica")
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    private UnidadeOrcamentaria unidadeOrcamentaria;
+
     @NotBlank
     @Size(max = 50)
     private String numeroProcesso; //AA.002.1.008295/17
@@ -42,25 +47,77 @@ public class DespesaPublica implements Serializable {
     @Column(columnDefinition = "Text")
     private String descricaoDespesa;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    private AcaoOrcamentaria acaoOrcamentaria;
+    @ManyToMany(targetEntity = Dotacao.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    private List<Dotacao> dotacao = new ArrayList<Dotacao>();
 
-    @ManyToMany(targetEntity = ProgramacaoFinanceira.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    private List<ProgramacaoFinanceira> programacaoFinanceira = new ArrayList<ProgramacaoFinanceira>();
+    public Long getId() {
+        return id;
+    }
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    private MetaProduto produtoLDO;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    private boolean geraQuantificador = false;
+    public UnidadeOrcamentaria getUnidadeOrcamentaria() {
+        return unidadeOrcamentaria;
+    }
 
-    
+    public void setUnidadeOrcamentaria(UnidadeOrcamentaria unidadeOrcamentaria) {
+        this.unidadeOrcamentaria = unidadeOrcamentaria;
+    }
+
+    public String getNumeroProcesso() {
+        return numeroProcesso;
+    }
+
+    public void setNumeroProcesso(String numeroProcesso) {
+        if (numeroProcesso != null) {
+            numeroProcesso = numeroProcesso.trim().toUpperCase();
+        }
+        this.numeroProcesso = numeroProcesso;
+    }
+
+    public String getDescricaoDespesa() {
+        return descricaoDespesa;
+    }
+
+    public void setDescricaoDespesa(String descricaoDespesa) {
+        this.descricaoDespesa = descricaoDespesa;
+    }
+
+    public List<Dotacao> getDotacao() {
+        return dotacao;
+    }
+
+    public void setDotacao(List<Dotacao> dotacao) {
+        this.dotacao = dotacao;
+    }
+
     @Override
     public String toString() {
-        return super.toString(); 
+        return numeroProcesso;
     }
-    
-    
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 61 * hash + (this.id != null ? this.id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final DespesaPublica other = (DespesaPublica) obj;
+        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
 }

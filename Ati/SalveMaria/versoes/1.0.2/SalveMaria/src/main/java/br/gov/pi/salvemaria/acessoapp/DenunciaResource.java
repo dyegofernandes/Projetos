@@ -49,25 +49,25 @@ import javax.ws.rs.PathParam;
  */
 @Path("/denuncia")
 public class DenunciaResource {
-    
+
     @EJB
     private BairroBO bairroBO;
-    
+
     @EJB
     private EstadoBO estadoBO;
-    
+
     @EJB
     private CidadeBO cidadeBO;
-    
+
     @EJB
     private UnidadeBO unidadeBO;
-    
+
     @EJB
     private DenunciaBO denunciaBO;
-    
+
     @EJB
     private ArquivoBO arquivoBO;
-    
+
     @POST
     @Path("salvar")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -82,9 +82,9 @@ public class DenunciaResource {
         Bairro bairro = null;
         URL url = null;
         String stringDeBusca = "";
-        
+
         TipoDenuncia tipo = Utils.tipoDenunciaPeloNome(denunciaVO.getTipo());
-        
+
         if (Utils.isNullOrEmpty(json)) {
             return Response.status(503).entity("String Json vazia!").header("CustomHeader", "CustomValue").build();
         } else {
@@ -92,72 +92,72 @@ public class DenunciaResource {
                 estado = estadoBO.estadoPorNome("Piauí");
                 cidade = cidadeBO.cidadePeloNomeEestado(denunciaVO.getCidade(), estado);
                 bairro = bairroBO.bairroPeloNomeECidade(denunciaVO.getBairro(), cidade);
-                
+
                 if (bairro == null) {
                     bairro = bairroBO.bairrosPrincipalPela(cidade);
-                    
+
                     endereco.setComplemento((endereco.getComplemento() != null ? endereco.getComplemento() : "")
                             .concat(" O bairro:".concat(denunciaVO.getBairro()).
                                     concat(" não consta na basae de dados!").concat(new Date().toString())));
                 }
-                
+
                 if (denunciaVO.getHoraDenuncia() != null) {
                     if (!denunciaVO.getHoraDenuncia().equals("")) {
                         denuncia.setHoraDenuncia(Utils.convertStringToDate(denunciaVO.getHoraDenuncia(), "HH:mm:ss"));
                     }
                 }
-                
+
                 if (denunciaVO.getDataDenuncia() != null) {
                     if (!denunciaVO.getDataDenuncia().equals("")) {
                         denuncia.setDataDenuncia(Utils.convertStringToDate(denunciaVO.getDataDenuncia(), "yy-MM-dd"));
                     }
                 }
-                
+
                 denuncia.setObservacao(denunciaVO.getObservacao());
-                
+
                 if (!Utils.isNullOrEmpty(denunciaVO.getFormaDeViolencia())) {
                     denuncia.setFormaDeViolencia(Utils.formaViolenciaPeloNome(denunciaVO.getFormaDeViolencia()));
                 }
-                
+
                 denuncia.setVitima(denunciaVO.getVitima());
-                
+
                 if (!Utils.isNullOrEmpty(denunciaVO.getIdadeVitima())) {
                     denuncia.setIdadeVitima(new Integer(denunciaVO.getIdadeVitima()));
                 }
-                
+
                 denuncia.setAgressor(denunciaVO.getAgressor());
-                
+
                 if (!Utils.isNullOrEmpty(denunciaVO.getIdadeAgressor())) {
                     denuncia.setIdadeAgressor(new Integer(denunciaVO.getIdadeAgressor()));
-                    
+
                 }
-                
+
                 if (!Utils.isNullOrEmpty(denunciaVO.getDemandante())) {
                     denuncia.setDemandante(Utils.demandantePeloNome(denunciaVO.getDemandante()));
                 }
-                
+
                 if (!Utils.isNullOrEmpty(denunciaVO.getCep())) {
                     endereco.setCep(denunciaVO.getCep().length() < 9 ? "64000-000" : denunciaVO.getCep());
                 }
-                
+
                 endereco.setComplemento(denunciaVO.getComplemento());
-                
+
                 endereco.setBairro(bairro);
-                
+
                 endereco.setEndereco(denunciaVO.getEndereco());
-                
+
                 endereco.setNumero(denunciaVO.getNumero());
-                
+
                 if (!Utils.isNullOrEmpty(denunciaVO.getLatitude())) {
                     endereco.setLatitude(denunciaVO.getLatitude());
                 }
-                
+
                 if (!Utils.isNullOrEmpty(denunciaVO.getLongitude())) {
                     endereco.setLongitude(denunciaVO.getLongitude());
                 }
-                
+
                 if (tipo == TipoDenuncia.DENUNCIA) {
-                    
+
                     if (!Utils.isNullOrEmpty(denunciaVO.getDescricao())) {
                         denuncia.setDescricao(denunciaVO.getDescricao());
                     } else {
@@ -191,15 +191,15 @@ public class DenunciaResource {
                         denuncia.setDescricao("Botão Pânico!! Latidude: ".concat(denunciaVO.getLatitude()).concat(" Longitude: ").concat(denunciaVO.getLongitude()));
                     }
                 }
-                
+
                 endereco.setBairro(bairro);
-                
+
                 denuncia.setTipo(tipo);
                 denuncia.setEndereco(endereco);
                 denuncia.setImei(denunciaVO.getImei());
                 denuncia.setCpfUsuario(denunciaVO.getCpfUsuario());
                 denuncia.setUnidade(unidadeBO.unidadePelaDenuncia(denuncia));
-                
+
                 try {
                     List<Arquivo> arquivos = new ArrayList<Arquivo>();
                     if (denunciaVO.getArquivos() != null) {
@@ -222,54 +222,52 @@ public class DenunciaResource {
                         build(); //se o tipo nao for encontrado
             }
         }
-        
+
     }
-    
+
     @Path("listar/{filtros}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<DenunciaLdtAndLgtVO> listarDenuncias(@PathParam("filtros") String filtros) throws ParseException {
-        
-        String campos[] = filtros.split(",");
-        String tipo = new String(campos[0]);
-        String dataInicial = new String(campos[1]);
-        String dataFinal = new String(campos[2]);
-        
+        Gson gson = new Gson();
+        Filtros filtrosDeBusca = gson.fromJson(filtros, Filtros.class);
+
         List<DenunciaLdtAndLgtVO> lista = new ArrayList<DenunciaLdtAndLgtVO>();
-        
+
         List<Denuncia> denuncias = new ArrayList<Denuncia>();
-        
+
         Restrictions restrictions = new Restrictions();
-        
-        if (!tipo.equals("")) {
-            restrictions.add("tipo", Utils.tipoDenunciaPeloNome(tipo));
+
+        if (filtrosDeBusca.getTipo() != null) {
+            restrictions.add("tipo", Utils.tipoDenunciaPeloNome(filtrosDeBusca.getTipo()));
         }
-        
-        if (!dataInicial.equals("")) {
-            restrictions.greaterEqualsThan("dataDenuncia", Utils.convertStringToDate(dataInicial, "dd-MM-yyyy"));
+
+        if (filtrosDeBusca.getDataInicial() != null) {
+            restrictions.greaterEqualsThan("dataDenuncia", Utils.convertStringToDate(filtrosDeBusca.getDataInicial(), "dd-MM-yyyy"));
         }
-        if (!dataFinal.equals("")) {
-            restrictions.lessEqualsThan("dataDenuncia", Utils.convertStringToDate(dataFinal, "dd-MM-yyyy"));
+
+        if (filtrosDeBusca.getDataFinal() != null) {
+            restrictions.lessEqualsThan("dataDenuncia", Utils.convertStringToDate(filtrosDeBusca.getDataFinal(), "dd-MM-yyyy"));
         }
-        
-        restrictions.isNotNull("endereco.latitude");
-        
-        restrictions.isNotNull("endereco.longitude");
-        
-        denuncias = denunciaBO.getDAO().list(restrictions, "dataDenuncia");
-        
+
+        if (filtrosDeBusca.getUnidade_id() != null) {
+            restrictions.add("unidade.id", filtrosDeBusca.getUnidade_id());
+        }
+
+        denuncias = denunciaBO.getDAO().getQueryBuilder().from(Denuncia.class, "denuncia").leftJoinFetch("denuncia.endereco", "endereco").leftJoinFetch("denuncia.unidade", "unidade").
+                leftJoinFetch("endereco.bairro", "bairro").leftJoinFetch("bairro.cidade", "cidade").add(restrictions).orderBy("denuncia.dataDenuncia").getResultList();
+
         for (Denuncia denuncia : denuncias) {
             DenunciaLdtAndLgtVO denunciaVO = new DenunciaLdtAndLgtVO();
             denunciaVO.setTipo(denuncia.getTipo().getDescricao());
             denunciaVO.setDataDenuncia(Utils.convertDateToString(denuncia.getDataDenuncia(), "dd/MM/yyyy"));
             denunciaVO.setHoraDenuncia(Utils.convertDateToString(denuncia.getHoraDenuncia(), "HH:mm"));
-            Endereco endereco = denunciaBO.getDAO().getInitialized(denuncia.getEndereco());
-            denunciaVO.setLgt(endereco.getLongitude());
-            denunciaVO.setLtd(endereco.getLatitude());
-            
+            denunciaVO.setLgt(denuncia.getEndereco().getLongitude());
+            denunciaVO.setLtd(denuncia.getEndereco().getLatitude());
+
             lista.add(denunciaVO);
         }
-        
+
         return lista;
     }
 }

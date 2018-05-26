@@ -8,6 +8,9 @@ import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.bo.cadastro.ProdutoBO;
 import br.gov.pi.ati.modelo.cadastro.AcaoEstrategica;
 import br.gov.pi.ati.modelo.cadastro.Produto;
+import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
+import br.gov.pi.ati.modelo.controleacesso.Usuario;
+import br.gov.pi.ati.util.SessaoUtils;
 import java.util.List;
 
 /**
@@ -22,6 +25,10 @@ public class ProdutoMB extends AbstractBaseBean<Produto> implements Serializable
     private ProdutoBO produtoBO;
 
     private AcaoEstrategica acao;
+    
+    private Usuario usuarioAtual;
+    
+    private List<UnidadeOrcamentaria> unidades;
 
     @Override
     public ProdutoBO getBO() {
@@ -32,6 +39,23 @@ public class ProdutoMB extends AbstractBaseBean<Produto> implements Serializable
     public String getDataModelOrder() {
         return "id";
     }
+
+    @Override
+    public void init() {
+        usuarioAtual = SessaoUtils.getUser();
+        
+        unidades = getDAO().getInitialized(usuarioAtual.getUnidadesDeAcesso());
+    }
+
+    public List<UnidadeOrcamentaria> getUnidades() {
+        return unidades;
+    }
+
+    public void setUnidades(List<UnidadeOrcamentaria> unidades) {
+        this.unidades = unidades;
+    }
+    
+    
 
     public List<Produto> autocompletePeloNome(String nome) {
         return getBO().produtoPeloNome(nome);

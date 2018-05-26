@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="acaoOrcamentaria" value="#{msg['dotacao.acaoOrcamentaria']}:" />
-                        <h:selectOneMenu id="acaoOrcamentaria" value="#{dotacaoMB.entity.acaoOrcamentaria}" converter="entityConverter" styleClass="form-control" >
+                        <h:selectOneMenu id="acaoOrcamentaria" value="#{despesaPublicaMB.dotacaoAdd.acaoOrcamentaria}" converter="entityConverter" styleClass="form-control" >
                             <x:initializer/>
                             <f:selectItem itemLabel="#{xmsg['select']}" />
                             <f:selectItems value="#{findAllBean.get(classMB.acaoOrcamentaria)}" 
@@ -24,7 +24,7 @@
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="fonteDeRecurso" value="#{msg['dotacao.fonteDeRecurso']}:" />
-                        <h:selectOneMenu id="fonteDeRecurso" value="#{dotacaoMB.entity.fonteDeRecurso}" converter="entityConverter" styleClass="form-control" >
+                        <h:selectOneMenu id="fonteDeRecurso" value="#{despesaPublicaMB.dotacaoAdd.fonteDeRecurso}" converter="entityConverter" styleClass="form-control" >
                             <x:initializer/>
                             <f:selectItem itemLabel="#{xmsg['select']}" />
                             <f:selectItems value="#{findAllBean.get(classMB.fonteDeRecurso)}" 
@@ -34,7 +34,7 @@
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="naturezaDaDespesa" value="#{msg['dotacao.naturezaDaDespesa']}:" />
-                        <h:selectOneMenu id="naturezaDaDespesa" value="#{dotacaoMB.entity.naturezaDaDespesa}" converter="entityConverter" styleClass="form-control" >
+                        <h:selectOneMenu id="naturezaDaDespesa" value="#{despesaPublicaMB.dotacaoAdd.naturezaDaDespesa}" converter="entityConverter" styleClass="form-control" >
                             <x:initializer/>
                             <f:selectItem itemLabel="#{xmsg['select']}" />
                             <f:selectItems value="#{findAllBean.get(classMB.naturezaDeDespesa)}" 
@@ -45,7 +45,7 @@
 
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="produtoLDO" value="#{msg['dotacao.produtoLDO']}:" />
-                        <h:selectOneMenu id="produtoLDO" value="#{dotacaoMB.entity.produtoLDO}" converter="entityConverter" styleClass="form-control" >
+                        <h:selectOneMenu id="produtoLDO" value="#{despesaPublicaMB.dotacaoAdd.produtoLDO}" converter="entityConverter" styleClass="form-control" >
                             <x:initializer/>
                             <f:selectItem itemLabel="#{xmsg['select']}" />
                             <f:selectItems value="#{findAllBean.get(classMB.metaProduto)}" 
@@ -57,15 +57,7 @@
                         <h:outputLabel for="quantidadeRealizada" value="#{msg['dotacao.quantidadeRealizada']}:" />
                         <x:inputNumber id="quantidadeRealizada" value="#{dotacaoMB.entity.quantidadeRealizada}" styleClass="form-control"/>
                     </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel value="#{msg['dotacao.cidades']}:" />
-                        <h:selectManyCheckbox id="cidades" value="#{dotacaoMB.entity.cidades}" converter="entityConverter" >
-                            <x:initializer/>
-                            <f:selectItems value="#{findAllBean.get(classMB.municipio)}" 
-                                           var="municipio"
-                                           itemLabel="#{municipio}"/>
-                        </h:selectManyCheckbox>
-                    </div>
+
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <div class="checkbox">
                             <label>
@@ -80,14 +72,9 @@
         </p:fieldset>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">
-            <x:securityArea rolesAllowed="dotacao.create">
-                <p:commandButton process="@form" update="@form" action="#{dotacaoMB.save}" value="#{xmsg['save']}" />
-            </x:securityArea>
-            <x:securityArea rolesAllowed="dotacao.audit">
-                <x:audit for="#{dotacaoMB.entity}"/>
-            </x:securityArea>
+            <p:commandButton process="@form" update="formCreateDespesaPublica @form" action="#{despesaPublicaMB.incluirDotacao()}" value="Incluir" />
         </div>
     </h:form>
-    
+
 
 </ui:composition>

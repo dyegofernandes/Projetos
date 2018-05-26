@@ -71,22 +71,23 @@
                                 <h:outputText value="#{msg['usuario.superUsuarioInfo']}" styleClass="help-block"/>
                             </div>
                         </h:panelGroup>                        
-                        <div class="row">
-                            <div class="form-group col-lg-12 col-md-12 col-sm-6 col-xs-12">
-                                <div class="checkbox">
-                                    <label>
-                                        <h:selectBooleanCheckbox value="#{usuarioMB.entity.autenticacaoLdap}" />
-                                        Autenticação LDAP
-                                    </label>
-                                </div>
-                                <h:outputText value="Ao marcar essa opção o usuário usará o email institucional para fazer login" styleClass="help-block"/>
+
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-12 col-md-12 col-sm-6 col-xs-12">
+                            <div class="checkbox">
+                                <label>
+                                    <h:selectBooleanCheckbox value="#{usuarioMB.entity.autenticacaoLdap}" />
+                                    Autenticação LDAP
+                                </label>
                             </div>
+                            <h:outputText value="Ao marcar essa opção o usuário usará o email institucional para fazer login" styleClass="help-block"/>
                         </div>
                     </div>
                 </div>
             </p:tab>
             <p:tab title="Unidades Orçamentárias">
-                <h:selectManyCheckbox value="#{usuarioMB.entity.unidadesDeAcesso}" converter="entityConverter" styleClass="checkbox">
+                <h:selectManyCheckbox value="#{usuarioMB.unidadesAcesso}" converter="entityConverter" styleClass="checkbox">
                     <x:initializer/>
                     <x:spread columns="5"/>
                     <f:selectItems value="#{unidadeOrcamentariaMB.ativas()}" 

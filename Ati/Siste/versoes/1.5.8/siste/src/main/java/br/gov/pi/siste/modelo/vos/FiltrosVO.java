@@ -29,6 +29,8 @@ public class FiltrosVO {
     private Usuario usuario;
 
     private String codigo;
+    
+    private Integer code;
 
     private String codigoUnidade;
 
@@ -280,6 +282,14 @@ public class FiltrosVO {
 
     public void setDataFinal(Date dataFinal) {
         this.dataFinal = dataFinal;
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
     }
     
     

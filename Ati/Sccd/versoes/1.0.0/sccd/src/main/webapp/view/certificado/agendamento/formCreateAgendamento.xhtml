@@ -25,22 +25,29 @@
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="tipoCertificado" value="* #{msg['agendamento.itemPedido.tipoCertificado']}:" />
-                        <p:inputText id="tipoCertificado" value="#{agendamentoMB.entity.itemPedido.tipoCertificado}" styleClass="form-control" readonly="true"/>
+                        <p:inputText id="tipoCertificado" value="#{agendamentoMB.entity.itemPedido.tipoCertificado}" styleClass="form-control" readonly="true">
+                            <x:initializer/>
+                        </p:inputText>
                     </div>
 
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="cpf" value="* #{msg['agendamento.itemPedido.cpf']}:" rendered="#{agendamentoMB.entity.itemPedido.tipoCertificado.tipoPessoa.num eq 1}"/>
                         <p:inputText id="cpf" value="#{agendamentoMB.entity.itemPedido.cpfCnpjTitular}" styleClass="form-control" readonly="true"
                                      rendered="#{agendamentoMB.entity.itemPedido.tipoCertificado.tipoPessoa.num eq 1}" converter="cpfConverter">
+                            <x:initializer/>
                         </p:inputText>
 
                         <h:outputLabel for="cnpj" value="* #{msg['agendamento.itemPedido.cnpj']}:" rendered="#{agendamentoMB.entity.itemPedido.tipoCertificado.tipoPessoa.num eq 2 or agendamentoMB.entity.itemPedido.tipoCertificado.tipoPessoa.num eq 3}"/>
                         <p:inputText id="cnpj" value="#{agendamentoMB.entity.itemPedido.cpfCnpjTitular}" styleClass="form-control" readonly="true"
-                                     rendered="#{agendamentoMB.entity.itemPedido.tipoCertificado.tipoPessoa.num eq 2 or agendamentoMB.entity.itemPedido.tipoCertificado.tipoPessoa.num eq 3}" converter="cnpjConverter"/>
+                                     rendered="#{agendamentoMB.entity.itemPedido.tipoCertificado.tipoPessoa.num eq 2 or agendamentoMB.entity.itemPedido.tipoCertificado.tipoPessoa.num eq 3}" converter="cnpjConverter">
+                            <x:initializer/>
+                        </p:inputText>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="nomeTitular" value="* #{msg['agendamento.itemPedido.nome']}:" />
-                        <p:inputText id="nomeTitular" value="#{agendamentoMB.entity.itemPedido.nomeTitular}" styleClass="form-control" readonly="true"/>
+                        <p:inputText id="nomeTitular" value="#{agendamentoMB.entity.itemPedido.nomeTitular}" styleClass="form-control" readonly="true">
+                            <x:initializer/>
+                        </p:inputText>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="telefone" value="* #{msg['agendamento.telefone']}:" />

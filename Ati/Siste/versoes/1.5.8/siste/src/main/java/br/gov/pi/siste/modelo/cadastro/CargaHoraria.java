@@ -9,11 +9,14 @@ import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
+
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -38,6 +41,9 @@ public class CargaHoraria implements Serializable {
     @OneToMany(mappedBy = "cargaHoraria")
     private List<DadosFuncionais> dadosFuncionais;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Orgao orgao;
+    
     @Override
     public String toString() {
         return descricao; 
@@ -69,8 +75,17 @@ public class CargaHoraria implements Serializable {
     public void setDadosFuncionais(List<DadosFuncionais> dadosFuncionais) {
         this.dadosFuncionais = dadosFuncionais;
     }
-   
 
+    public Orgao getOrgao() {
+        return orgao;
+    }
+
+    public void setOrgao(Orgao orgao) {
+        this.orgao = orgao;
+    }
+   
+    
+        
     @Override
     public int hashCode() {
         int hash = 7;

@@ -9,6 +9,50 @@
     <ui:define name="body">
         <ui:include src="menuCargaHoraria.xhtml" />
         <h:form id="formListCargaHoraria">
+            
+            <p:fieldset legend="Filtros de Busca" toggleable="true">
+                <div class="row">
+                    <h:panelGroup id="panel1">
+                        <x:securityArea rolesAllowed="campos.orgao">
+                            
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="orgao" value="Órgão" />
+
+
+                                <p:autoComplete id="orgao" value="#{cargaHorariaMB.filtros.orgao}" 
+
+                                                completeMethod="#{cargaHorariaMB.orgaoAutocompletePeloNome}" styleClass="uix-autocomplete" 
+
+                                                minQueryLength="3" forceSelection="false" dropdown="true" scrollHeight="400"
+
+                                                var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"  > 
+                                    <x:initializer/>
+
+                                    <p:column> 
+
+                                        <h:outputText value="#{p.sigla}" style="font-weight: bold"/>  
+                                        <h:outputText value=" (#{p.nome})" styleClass="font-8"  /> 
+
+                                    </p:column> 
+
+                                </p:autoComplete>
+
+
+
+                            </div>
+                       
+                        </x:securityArea>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="descricao" value="Descrição" />
+                                <p:inputText id="descricao" value="#{cargaHorariaMB.filtros.descricao}" styleClass="form-control"  />
+                            </div>
+
+                    </h:panelGroup>
+                </div>
+                <div class="uix-center">
+                    <p:commandButton process="@this panel1" update="dataTableCargaHoraria" action="#{cargaHorariaMB.buscar()}" value="Buscar" />
+                </div>
+            </p:fieldset>
             <x:modalMessages/>
 
             <x:dataTableActions fileName="cargaHoraria_export" target=":formListCargaHoraria:dataTableCargaHoraria"
@@ -16,14 +60,20 @@
 
             <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                          var="cargaHoraria" rowIndexVar="index" id="dataTableCargaHoraria" widgetVar="dataTableCargaHorariaWidget" styleClass="table-responsive"
-                         currentPageReportTemplate="#{cargaHorariaMB.dataModel.currentPageReportTemplate}"
-                         paginatorTemplate="#{cargaHorariaMB.dataModel.paginatorTemplate}"
-                         value="#{cargaHorariaMB.dataModel}" lazy="true" >
+                         
+                         value="#{cargaHorariaMB.cargasHorarias}"  >
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="#{msg['cargaHoraria.descricao']}" sortBy="#{cargaHoraria.descricao}"
-                    filterBy="#{cargaHoraria.descricao}"   >
+                <p:column headerText="Órgão" rendered="#{x:hasRole('campos.orgao')}">
+                    <f:facet name="header">
+                        <h:outputText value="Órgão" />
+                    </f:facet>
+                    <h:outputText value="#{cargaHoraria.orgao}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['cargaHoraria.descricao']}" >
                     <f:facet name="header">
                         <h:outputText value="#{msg['cargaHoraria.descricao']}" />
                     </f:facet>

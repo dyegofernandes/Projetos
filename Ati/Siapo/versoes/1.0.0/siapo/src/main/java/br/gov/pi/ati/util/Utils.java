@@ -7,7 +7,7 @@ import java.util.Date;
 import javax.swing.text.MaskFormatter;
 
 public class Utils {
-    
+
     public static boolean isNullOrEmpty(String s) {
         return (s == null || s.equals(""));
     }
@@ -93,5 +93,19 @@ public class Utils {
         formataData = new SimpleDateFormat("yyyy");
 
         return formataData.format(data);
+    }
+
+    public static boolean ehInteiro(String s) {
+        // cria um array de char
+        char[] c = s.replace(".", "").replace("-", "").replace("/", "").toCharArray();
+        boolean d = true;
+        for (int i = 0; i < c.length; i++) // verifica se o char não é um dígito
+        {
+            if (!Character.isDigit(c[i])) {
+                d = false;
+                break;
+            }
+        }
+        return d;
     }
 }

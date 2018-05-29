@@ -7,6 +7,13 @@
     <h:form id="formDetailCargaHoraria" styleClass="uix-form-detail">
         <div class="container-fluid">
             <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="Órgão" /><br/>
+                    <h:outputText value="#{cargaHorariaMB.entity.orgao}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                        
+                    </h:outputText>
+                </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['cargaHoraria.descricao']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{cargaHorariaMB.entity.descricao}" styleClass="uix-content-detail"/>

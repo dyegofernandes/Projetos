@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.bo.cadastro.NaturezaDeDespesaBO;
 import br.gov.pi.ati.modelo.cadastro.NaturezaDeDespesa;
+import java.util.List;
 
 /**
  *
@@ -28,5 +29,9 @@ public class NaturezaDeDespesaMB extends AbstractBaseBean<NaturezaDeDespesa> imp
     @Override
     public String getDataModelOrder() {
         return "id";
+    }
+    
+    public List<NaturezaDeDespesa> autocomplete(String nome){
+        return getBO().listarPeloNome(nome);
     }
 }

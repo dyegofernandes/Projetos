@@ -615,6 +615,14 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
     }
 
     public void ehComissionado() {
+        itemPedido.setNomeTitular(null);
+        getEntity().setEmail(null);
+        getEntity().setEmailInstitucional(null);
+        getEntity().setTelefone(null);
+        tipo = null;
+        arquivos = new ArrayList<ArquivoAgendamento>();
+        comissionado = pis = nomeacao = leiDeCriacao = estatuto = contratoSocial = termo = cnh = rg = cpf = comprovanteResidencia = oficio = false;
+
         if (!Utils.isNullOrEmpty(itemPedido.getCpfCnpjTitular())) {
             ServerWebservices servicorService = new ServerWebservices();
             ServerWebservicesPortType servidor = servicorService.getServerWebservicesPort();
@@ -634,6 +642,8 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
             String xml = ("<?xml version=\"".concat("1.0\"").concat(" encoding=\"").concat("ISO-8859-1\"").concat("?>").concat("\n"));
             if (!xml.equals(xmlString)) {
                 servidorVO = (ServidorVO) xstreamJason.fromXML(xmlString);
+
+                itemPedido.setNomeTitular(servidorVO.getNome());
 
                 if (servidorVO.getCategoria().equals("3")) {
                     comissionado = true;
@@ -703,7 +713,7 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
         itemPedido = new ItemPedido();
 
         comissionado = pis = nomeacao = leiDeCriacao = estatuto = contratoSocial = termo = cnh = rg = cpf = comprovanteResidencia = oficio = false;
-        
+
         getEntity().setEmail(null);
         getEntity().setEmailInstitucional(null);
         getEntity().setItemPedido(null);
@@ -763,7 +773,7 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
     }
 
     private String getInformativoPF_orgao_isento() {
-        return "<span bold;\\\"=\"\">Documentos necessários para o Certificado: <span style=\"font-weight: bold;\">Pessoa Física</span></span><div style=\"font-weight: normal;\" normal;\\\"=\"\"><ul><li><span style=\"font-size: 10pt;\">Termo de Responsabilidade emitido no endereço: </span><a href=\"\\&quot;https://certificados.serpro.gov.br/aratipirfb/\\&quot;\" style=\"font-size: 10pt;\">Clique Aqui</a></li><li><span style=\"font-size: 10pt;\">Comprovante de Residência (atualizado);</span></li><li><span style=\"font-size: 10pt;\">CNH ou CPF e RG (coloridos).</span></li></ul></div>";
+        return "<span bold;\\\"=\"\">Documentos necessários para o Certificado: <span style=\"font-weight: bold;\">Pessoa Física</span></span><div style=\"font-weight: normal;\" normal;\\\"=\"\"><ul><li><span style=\"font-size: 10pt;\">Termo de Responsabilidade emitido no endereço: </span><a href=\"\\&quot;https://certificados.serpro.gov.br/aratipirfb/\\&quot;\" style=\"font-size: 10pt;\">Clique Aqui (Tutorial)</a></li><li><span style=\"font-size: 10pt;\">Comprovante de Residência (atualizado);</span></li><li><span style=\"font-size: 10pt;\">CNH ou CPF e RG (coloridos).</span></li></ul></div>";
     }
 
     private String getInformativoPF_orgao_nao_isento() {
@@ -771,11 +781,11 @@ public class AgendamentoCalendarioMB extends AbstractBaseBean<Agendamento> imple
     }
 
     private String getInformativoPF_orgao_isento_commissionado() {
-        return "<span bold;\\\"=\"\">Documentos necessários para o Certificado: <span style=\"font-weight: bold;\">Pessoa Física</span></span><div style=\"font-weight: normal;\" normal;\\\"=\"\"><ul><li><span style=\"font-size: 10pt;\">Termo de Responsabilidade emitido no endereço: </span><a href=\"\\&quot;https://certificados.serpro.gov.br/aratipirfb/\\&quot;\" style=\"font-size: 10pt;\">Clique Aqui</a></li><li><span style=\"font-size: 10pt;\">Comprovante de Residência (atualizado);</span></li><li><span style=\"font-size: 10pt;\">CNH ou CPF e RG (coloridos);</span></li><li><span style=\"font-size: 10pt;\">Nomeação no Diário Oficial para os que são comissionados.</span></li></ul></div>";
+        return "<span bold;\\\"=\"\">Documentos necessários para o Certificado: <span style=\"font-weight: bold;\">Pessoa Física</span></span><div style=\"font-weight: normal;\" normal;\\\"=\"\"><ul><li><span style=\"font-size: 10pt;\">Termo de Responsabilidade emitido no endereço: </span><a href=\"\\&quot;https://certificados.serpro.gov.br/aratipirfb/\\&quot;\" style=\"font-size: 10pt;\">Clique Aqui (Tutorial)</a></li><li><span style=\"font-size: 10pt;\">Comprovante de Residência (atualizado);</span></li><li><span style=\"font-size: 10pt;\">CNH ou CPF e RG (coloridos);</span></li><li><span style=\"font-size: 10pt;\">Nomeação no Diário Oficial para os que são comissionados.</span></li></ul></div>";
     }
 
     private String getInformativoPF_orgao_nao_isento_commissionado() {
-        return "<span bold;\\\"=\"\">Documentos necessários para o Certificado: <span style=\"font-weight: bold;\">Pessoa Física</span></span><div style=\"font-weight: normal;\" normal;\\\"=\"\"><ul><li><span style=\"font-size: 10pt;\">Termo de Responsabilidade emitido no endereço: </span><a href=\"\\&quot;https://certificados.serpro.gov.br/aratipirfb/\\&quot;\" style=\"font-size: 10pt;\">Clique Aqui</a></li><li><span style=\"font-size: 10pt;\">Comprovante de Residência (atualizado);</span></li><li><span style=\"font-size: 10pt;\">CNH ou CPF e RG (coloridos);</span></li><li><span style=\"font-size: 10pt;\">Ofício de Solicitação constando o nome do Titular do Certificado;</span></li><li><span style=\"font-size: 10pt;\">Nomeação no Diário Oficial para os que são comissionados.</span></li></ul></div>";
+        return "<span bold;\\\"=\"\">Documentos necessários para o Certificado: <span style=\"font-weight: bold;\">Pessoa Física</span></span><div style=\"font-weight: normal;\" normal;\\\"=\"\"><ul><li><span style=\"font-size: 10pt;\">Termo de Responsabilidade emitido no endereço: </span><a href=\"\\&quot;https://certificados.serpro.gov.br/aratipirfb/\\&quot;\" style=\"font-size: 10pt;\">Clique Aqui (Tutorial)</a></li><li><span style=\"font-size: 10pt;\">Comprovante de Residência (atualizado);</span></li><li><span style=\"font-size: 10pt;\">CNH ou CPF e RG (coloridos);</span></li><li><span style=\"font-size: 10pt;\">Ofício de Solicitação constando o nome do Titular do Certificado;</span></li><li><span style=\"font-size: 10pt;\">Nomeação no Diário Oficial para os que são comissionados.</span></li></ul></div>";
     }
 
     private String getInformativoPJ_orgao_isento() {

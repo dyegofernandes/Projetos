@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.bo.cadastro.FonteDeRecursoBO;
 import br.gov.pi.ati.modelo.cadastro.FonteDeRecurso;
+import java.util.List;
 
 /**
  *
@@ -28,5 +29,9 @@ public class FonteDeRecursoMB extends AbstractBaseBean<FonteDeRecurso> implement
     @Override
     public String getDataModelOrder() {
         return "id";
+    }
+    
+    public List<FonteDeRecurso> autocomplete(String nome){
+        return getBO().listarPeloNome(nome);
     }
 }

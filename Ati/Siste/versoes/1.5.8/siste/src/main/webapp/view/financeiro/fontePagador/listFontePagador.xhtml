@@ -9,6 +9,51 @@
     <ui:define name="body">
         <ui:include src="menuFontePagador.xhtml" />
         <h:form id="formListFontePagador">
+            <p:fieldset legend="Filtros de Busca" toggleable="true">
+                <div class="row">
+                    <h:panelGroup id="panel1">
+                        <x:securityArea rolesAllowed="campos.orgao">
+                            
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="orgao" value="Órgão" />
+
+
+                                <p:autoComplete id="orgao" value="#{fontePagadorMB.filtros.orgao}" 
+
+                                                completeMethod="#{fontePagadorMB.orgaoAutocompletePeloNome}" styleClass="uix-autocomplete" 
+
+                                                minQueryLength="3" forceSelection="false" dropdown="true" scrollHeight="400"
+
+                                                var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"  > 
+                                    <x:initializer/>
+
+                                    <p:column> 
+
+                                        <h:outputText value="#{p.sigla}" style="font-weight: bold"/>  
+                                        <h:outputText value=" (#{p.nome})" styleClass="font-8"  /> 
+
+                                    </p:column> 
+
+                                </p:autoComplete>
+                                
+                            </div>
+                       
+                        </x:securityArea>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="codigo" value="Código" />
+                            <p:inputText id="codigo" value="#{fontePagadorMB.filtros.code}" styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="nome" value="Nome" />
+                            <p:inputText id="nome" value="#{fontePagadorMB.filtros.nome}" styleClass="form-control"  />
+                        </div>
+                        
+                    </h:panelGroup>
+                </div>
+                <div class="uix-center">
+                    <p:commandButton process="@this panel1" update="dataTableFontePagador" action="#{fontePagadorMB.buscar()}" value="Buscar" />
+                </div>
+            </p:fieldset>
             <x:modalMessages/>
 
             <x:dataTableActions fileName="fontePagador_export" target=":formListFontePagador:dataTableFontePagador"
@@ -16,21 +61,26 @@
 
             <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                          var="fontePagador" rowIndexVar="index" id="dataTableFontePagador" widgetVar="dataTableFontePagadorWidget" styleClass="table-responsive"
-                         currentPageReportTemplate="#{fontePagadorMB.dataModel.currentPageReportTemplate}"
-                         paginatorTemplate="#{fontePagadorMB.dataModel.paginatorTemplate}"
-                         value="#{fontePagadorMB.dataModel}" lazy="true" >
+                         
+                         value="#{fontePagadorMB.fontesPagadoras}" >
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="#{msg['fontePagador.codigo']}" sortBy="#{fontePagador.codigo}"
-                    filterBy="#{fontePagador.codigo}"   >
+                <p:column headerText="Órgão" rendered="#{x:hasRole('campos.orgao')}">
+                    <f:facet name="header">
+                        <h:outputText value="Órgão" />
+                    </f:facet>
+                    <h:outputText value="#{fontePagador.orgao}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['fontePagador.codigo']}"  >
                     <f:facet name="header">
                         <h:outputText value="#{msg['fontePagador.codigo']}" />
                     </f:facet>
                     <h:outputText value="#{fontePagador.codigo}"/>
                 </p:column>
-                <p:column headerText="#{msg['fontePagador.nome']}" sortBy="#{fontePagador.nome}"
-                    filterBy="#{fontePagador.nome}"   >
+                <p:column headerText="#{msg['fontePagador.nome']}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['fontePagador.nome']}" />
                     </f:facet>

@@ -8,7 +8,9 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.modelo.cadastro.NaturezaDeDespesa;
+import br.gov.pi.ati.util.Utils;
 import com.xpert.core.validation.UniqueFields;
+import com.xpert.persistence.query.Restrictions;
 
 /**
  *
@@ -19,7 +21,7 @@ public class NaturezaDeDespesaBO extends AbstractBusinessObject<NaturezaDeDespes
 
     @EJB
     private NaturezaDeDespesaDAO naturezaDeDespesaDAO;
-    
+
     @Override
     public NaturezaDeDespesaDAO getDAO() {
         return naturezaDeDespesaDAO;
@@ -37,6 +39,23 @@ public class NaturezaDeDespesaBO extends AbstractBusinessObject<NaturezaDeDespes
     @Override
     public boolean isAudit() {
         return true;
+    }
+
+    public List<NaturezaDeDespesa> listarPeloNome(String nome) {
+        Restrictions restrictions = new Restrictions();
+
+        restrictions.add("natureza.ativo", true);
+
+        if (!Utils.isNullOrEmpty(nome)) {
+            if (Utils.ehInteiro(nome)) {
+                restrictions.like("natureza.codigo", nome);
+            } else {
+                restrictions.like("natureza.nome", nome);
+            }
+
+        }
+
+        return getDAO().getQueryBuilder().from(NaturezaDeDespesa.class, "natureza").add(restrictions).orderBy("natureza.nome").getResultList();
     }
 
 }

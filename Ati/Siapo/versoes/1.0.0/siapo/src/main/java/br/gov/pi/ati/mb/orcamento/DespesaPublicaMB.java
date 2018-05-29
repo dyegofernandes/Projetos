@@ -1,17 +1,21 @@
 package br.gov.pi.ati.mb.orcamento;
 
+import br.gov.pi.ati.bo.cadastro.AcaoOrcamentariaBO;
 import java.io.Serializable;
 import com.xpert.core.crud.AbstractBaseBean;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.bo.orcamento.DespesaPublicaBO;
+import br.gov.pi.ati.bo.orcamento.MetaProdutoBO;
+import br.gov.pi.ati.modelo.cadastro.AcaoOrcamentaria;
 import br.gov.pi.ati.modelo.cadastro.Municipio;
 import br.gov.pi.ati.modelo.cadastro.Territorio;
 import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
 import br.gov.pi.ati.modelo.controleacesso.Usuario;
 import br.gov.pi.ati.modelo.orcamento.DespesaPublica;
 import br.gov.pi.ati.modelo.orcamento.Dotacao;
+import br.gov.pi.ati.modelo.orcamento.MetaProduto;
 import br.gov.pi.ati.modelo.orcamento.ProgramacaoFinanceira;
 import br.gov.pi.ati.util.SessaoUtils;
 import br.gov.pi.ati.webservice.process.ProcessBO;
@@ -30,6 +34,12 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
 
     @EJB
     private DespesaPublicaBO despesaPublicaBO;
+
+    @EJB
+    private AcaoOrcamentariaBO acaoBO;
+
+    @EJB
+    private MetaProdutoBO produtoBO;
 
     private List<Dotacao> dotacoes;
 
@@ -66,6 +76,8 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
         dotacoes = new ArrayList<Dotacao>();
 
         programacaoFinanceira = new ArrayList<ProgramacaoFinanceira>();
+        
+        programacaoAdd = new ProgramacaoFinanceira();
 
         cidades = new ArrayList<Municipio>();
 
@@ -276,5 +288,13 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
         } else {
             FacesMessageUtils.error("Processo não encontrado!");
         }
+    }
+
+    public List<AcaoOrcamentaria> autocompleteAcao(String nome) {
+        return acaoBO.listarPeloNomeEUnidadeOrcamentaria(nome, getEntity().getUnidadeOrcamentaria());
+    }
+
+    public List<MetaProduto> autocompleteProduto(String nome) {
+        return produtoBO.metaPeloNomeEUnidadeOrcamentaria(nome, getEntity().getUnidadeOrcamentaria());
     }
 }

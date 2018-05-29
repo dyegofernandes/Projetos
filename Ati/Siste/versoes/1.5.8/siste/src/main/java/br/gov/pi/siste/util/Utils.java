@@ -31,6 +31,10 @@ public class Utils {
         return domainLDap;
     }
 
+    public static boolean isNullOrEmpty(String s) {
+        return (s == null || s.equals(""));
+    }
+
     public String retiraCaracteresEspeciais(String stringFonte) {
         String passa = stringFonte.toUpperCase();
         passa = passa.replaceAll("[ÂÀÁÄÃ]", "A");

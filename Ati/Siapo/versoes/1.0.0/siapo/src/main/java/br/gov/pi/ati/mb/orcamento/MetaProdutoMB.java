@@ -53,10 +53,8 @@ public class MetaProdutoMB extends AbstractBaseBean<MetaProduto> implements Seri
     public void save() {
         getEntity().setLdos(ldos);
         getEntity().setTerritorios(territorios);
-        super.save(); 
+        super.save();
     }
-    
-    
 
     @Override
     public void init() {

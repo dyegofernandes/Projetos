@@ -2,6 +2,7 @@ package br.gov.pi.ati.bo.orcamento;
 
 import com.xpert.core.crud.AbstractBusinessObject;
 import br.gov.pi.ati.dao.orcamento.MetaProdutoDAO;
+import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
 import br.gov.pi.ati.modelo.cadastro.vos.Filtros;
 import com.xpert.core.validation.UniqueField;
 import com.xpert.core.exception.BusinessException;
@@ -66,11 +67,28 @@ public class MetaProdutoBO extends AbstractBusinessObject<MetaProduto> {
 
         return getDAO().getQueryBuilder().selectDistinct("meta").from(MetaProduto.class, "meta").leftJoinFetch("meta.produto", "produto")
                 .leftJoinFetch("meta.metaAcao", "metaAcao").leftJoinFetch("metaAcao.acaoEstrategica", "acaoEstrategica")
-                .leftJoinFetch("acaoEstrategica.unidadeOrcamentaria", "unidadeOrcamentaria")
+                .leftJoinFetch("produto.unidadeOrcamentaria", "unidadeOrcamentaria")
                 .leftJoinFetch("metaAcao.programaPPA", "programaPPA").leftJoinFetch("programaPPA.programaGov", "programaGov")
                 .leftJoinFetch("programaPPA.competencia", "competencia")
                 .leftJoin("meta.territorios", "territorios")
                 .leftJoin("meta.ldos", "ldos")
                 .add(restrictions).orderBy("unidadeOrcamentaria, produto.nome").getResultList();
+    }
+
+    public List<MetaProduto> metaPeloNomeEUnidadeOrcamentaria(String nome, UnidadeOrcamentaria unidade) {
+        Restrictions restrictions = new Restrictions();
+
+        if (unidade == null) {
+            return null;
+        } else {
+            restrictions.add("produto.unidadeOrcamentaria", unidade);
+        }
+
+        if (!Utils.isNullOrEmpty(nome)) {
+            restrictions.like("produto.nome", nome);
+        }
+
+        return getDAO().getQueryBuilder().from(MetaProduto.class, "meta").leftJoinFetch("meta.produto", "produto")
+                .leftJoinFetch("produto.unidadeOrcamentaria", "unidadeOrcamentaria").add(restrictions).orderBy("produto.nome").getResultList();
     }
 }

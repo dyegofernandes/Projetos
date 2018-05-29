@@ -49,11 +49,7 @@
             <h:panelGroup id="panel1">
                 <h:panelGroup  rendered="#{agendamentoCalendarioMB.itemPedido.tipoCertificado != null}">
                     <div class="row">
-                        <div class="form-group col-lg-8 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="titular" value="* #{msg['itemPedido.titular']}:" />
-                            <p:inputText id="titular" value="#{agendamentoCalendarioMB.itemPedido.nomeTitular}" maxlength="250"  styleClass="form-control"  
-                                         required="true" requiredMessage="Nome do Titular é obrigatório!!"/>
-                        </div>
+                        
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="cpfTitular" value="* #{msg['itemPedido.cpfTitular']}:" rendered="#{agendamentoCalendarioMB.itemPedido.tipoCertificado.tipoPessoa.num eq 1}" />
                             <x:cpf id="cpfTitular" value="#{agendamentoCalendarioMB.itemPedido.cpfCnpjTitular}" styleClass="form-control" rendered="#{agendamentoCalendarioMB.itemPedido.tipoCertificado.tipoPessoa.num eq 1}"
@@ -64,6 +60,11 @@
                             <x:cnpj id="cnpjTitular" value="#{agendamentoCalendarioMB.itemPedido.cpfCnpjTitular}" styleClass="form-control" 
                                     rendered="#{agendamentoCalendarioMB.itemPedido.tipoCertificado.tipoPessoa.num eq 2 or agendamentoCalendarioMB.itemPedido.tipoCertificado.tipoPessoa.num eq 3}"
                                     required="true" requiredMessage="CNPJ do Titular é obrigatório!!"/>
+                        </div>
+                        <div class="form-group col-lg-8 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="titular" value="* #{msg['itemPedido.titular']}:" />
+                            <p:inputText id="titular" value="#{agendamentoCalendarioMB.itemPedido.nomeTitular}" maxlength="250"  styleClass="form-control"  
+                                         required="true" requiredMessage="Nome do Titular é obrigatório!!"/>
                         </div>
                     </div>
                     <div class="row">

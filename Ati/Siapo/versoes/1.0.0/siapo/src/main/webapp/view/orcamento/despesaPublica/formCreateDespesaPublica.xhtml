@@ -29,95 +29,92 @@
                     </div>
                 </div>
                 <div class="row">
-                    
                     <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="descricaoDespesa" value="* #{msg['despesaPublica.descricaoDespesa']}:" />
                         <p:inputText id="descricaoDespesa" value="#{despesaPublicaMB.entity.descricaoDespesa}"  styleClass="form-control" readonly="true" 
                                      />
                     </div>
-
-
                 </div>
-
             </div>
         </p:fieldset>
         <div class="uix-center">
             <p:commandButton process="unidadeOrcamentaria @this" update="formCreateDotacao" action="#{despesaPublicaMB.novoDotacao()}" value="Incluir Dotação" />
         </div>
         <p:fieldset legend="Dotações">
-            <div class="row">
-                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
-                             var="dotacao" rowIndexVar="index" id="dataTableDotacao" widgetVar="dataTableDotacaoWidget" styleClass="table-responsive"
-                             value="#{despesaPublicaMB.dotacoes}" >
-                    <p:column styleClass="uix-datatable-index">
-                        <h:outputText value="#{index+1}"/>
-                    </p:column>
-                    <p:column headerText="#{msg['dotacao.acaoOrcamentaria']}" sortBy="#{dotacao.acaoOrcamentaria}"
-                              >
-                        <f:facet name="header">
-                            <h:outputText value="#{msg['dotacao.acaoOrcamentaria']}" />
-                        </f:facet>
-                        <h:outputText value="#{dotacao.acaoOrcamentaria}">
-                            <x:initializer/>
-                        </h:outputText>
-                    </p:column>
-                    <p:column headerText="#{msg['dotacao.fonteDeRecurso']}" sortBy="#{dotacao.fonteDeRecurso}"
-                              >
-                        <f:facet name="header">
-                            <h:outputText value="#{msg['dotacao.fonteDeRecurso']}" />
-                        </f:facet>
-                        <h:outputText value="#{dotacao.fonteDeRecurso}">
-                            <x:initializer/>
-                        </h:outputText>
-                    </p:column>
-                    <p:column headerText="#{msg['dotacao.naturezaDaDespesa']}" sortBy="#{dotacao.naturezaDaDespesa}"
-                              >
-                        <f:facet name="header">
-                            <h:outputText value="#{msg['dotacao.naturezaDaDespesa']}" />
-                        </f:facet>
-                        <h:outputText value="#{dotacao.naturezaDaDespesa}">
-                            <x:initializer/>
-                        </h:outputText>
-                    </p:column>
-                    <p:column headerText="#{msg['dotacao.produtoLDO']}" sortBy="#{dotacao.produtoLDO}"
-                              >
-                        <f:facet name="header">
-                            <h:outputText value="#{msg['dotacao.produtoLDO']}" />
-                        </f:facet>
-                        <h:outputText value="#{dotacao.produtoLDO}">
-                            <x:initializer/>
-                        </h:outputText>
-                    </p:column>
-                    <p:column headerText="#{msg['dotacao.quantidadeRealizada']}" sortBy="#{dotacao.quantidadeRealizada}">
-                        <f:facet name="header">
-                            <h:outputText value="#{msg['dotacao.quantidadeRealizada']}" />
-                        </f:facet>
-                        <h:outputText value="#{dotacao.quantidadeRealizada}">
-                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
-                        </h:outputText>
-                    </p:column>
-                    <p:column headerText="#{msg['dotacao.geraQuantificador']}" sortBy="#{dotacao.geraQuantificador}" style="text-align: center;">
-                        <f:facet name="header">
-                            <h:outputText value="#{msg['dotacao.geraQuantificador']}" />
-                        </f:facet>
-                        <h:outputText value="#{dotacao.geraQuantificador}" converter ="yesNoConverter" />
-                    </p:column>
-                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
-                        <f:facet name="header">
-                            <h:outputText value="#{xmsg['actions']}"/>
-                        </f:facet>
-                        <p:commandButton oncomplete="PF('widgetDotacaoDetail').show();"  icon="ui-icon-zoomin" 
-                                         process="@form" update=":formDetailDotacao" title="#{xmsg['detail']}" >
-                        </p:commandButton>
-                        <p:button icon="ui-icon-pencil" outcome="createDotacao" title="#{xmsg['edit']}">
-                            <f:param name="id" value="#{dotacao.id}" />
-                        </p:button>
-                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
-                                         action="#{dotacaoMB.delete}" >
-                            <x:confirmation message="#{xmsg['confirmDelete']} - #{dotacao}" />
-                        </p:commandButton>
-                    </p:column>
-                </p:dataTable>
+            <div class="container-fluid">
+                <div class="row">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="dotacao" rowIndexVar="index" id="dataTableDotacao" widgetVar="dataTableDotacaoWidget" styleClass="table-responsive"
+                                 value="#{despesaPublicaMB.dotacoes}" >
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['dotacao.acaoOrcamentaria']}" sortBy="#{dotacao.acaoOrcamentaria.nome}"
+                                  >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['dotacao.acaoOrcamentaria']}" />
+                            </f:facet>
+                            <h:outputText value="#{dotacao.acaoOrcamentaria}">
+                                <x:initializer/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{msg['dotacao.fonteDeRecurso']}" sortBy="#{dotacao.fonteDeRecurso.nome}"
+                                  >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['dotacao.fonteDeRecurso']}" />
+                            </f:facet>
+                            <h:outputText value="#{dotacao.fonteDeRecurso}">
+                                <x:initializer/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{msg['dotacao.naturezaDaDespesa']}" sortBy="#{dotacao.naturezaDaDespesa.nome}"
+                                  >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['dotacao.naturezaDaDespesa']}" />
+                            </f:facet>
+                            <h:outputText value="#{dotacao.naturezaDaDespesa}">
+                                <x:initializer/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{msg['dotacao.produtoLDO']}" sortBy="#{dotacao.produtoLDO.produto.nome}"
+                                  >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['dotacao.produtoLDO']}" />
+                            </f:facet>
+                            <h:outputText value="#{dotacao.produtoLDO.produto}">
+                                <x:initializer/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{msg['dotacao.quantidadeRealizada']}" sortBy="#{dotacao.quantidadeRealizada}">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['dotacao.quantidadeRealizada']}" />
+                            </f:facet>
+                            <h:outputText value="#{dotacao.quantidadeRealizada}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{msg['dotacao.geraQuantificador']}" sortBy="#{dotacao.geraQuantificador}" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['dotacao.geraQuantificador']}" />
+                            </f:facet>
+                            <h:outputText value="#{dotacao.geraQuantificador}" converter ="yesNoConverter" />
+                        </p:column>
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <f:facet name="header">
+                                <h:outputText value="#{xmsg['actions']}"/>
+                            </f:facet>
+                            <p:commandButton process="@this" update="formDetailDotacao" action="#{despesaPublicaMB.detalharDotacao(dotacao)}" 
+                                             icon="ui-icon-zoomin" title="#{xmsg['detail']}" />
+                            <p:commandButton process="@this" update="formCreateDotacao" action="#{despesaPublicaMB.editarDotacao(dotacao)}" 
+                                             icon="ui-icon-pencil" title="#{xmsg['edit']}" />
+
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="@form" 
+                                             action="#{despesaPublicaMB.removerDotacao(dotacao)}" >
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{dotacao}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
             </div>
         </p:fieldset>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
@@ -132,13 +129,13 @@
     </h:form>
     <p:dialog widgetVar="widgetNovo"  header="Incluir Dotação" appendTo="@(body)" 
               modal="true" styleClass="uix-dialog-fluid" >
-        <ui:include src="/view/orcamento/dotacao/formCreateDotacao.xhtml" />
-        <p:ajax event="close" update="formCreateDespesaPublica" listener="#{findAllBean.setReload(true)}" />
+        <ui:include src="formCreateDotacao.xhtml" />
+        <p:ajax event="close" update="formCreateDespesaPublica"  />
     </p:dialog>
     <p:dialog widgetVar="widgetDetail"  header="Visualizar Dotação}" appendTo="@(body)" 
               modal="true" styleClass="uix-dialog-fluid" >
-        <ui:include src="/view/orcamento/dotacao/detailDotacao.xhtml" />
-        <p:ajax event="close" update="formCreateDespesaPublica" listener="#{findAllBean.setReload(true)}" />
+        <ui:include src="detailDotacao.xhtml" />
+        <p:ajax event="close" update="formCreateDespesaPublica"  />
     </p:dialog>
 
 </ui:composition>

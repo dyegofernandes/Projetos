@@ -5,13 +5,16 @@
  */
 package br.gov.pi.siste.modelo.financeiro;
 
+import br.gov.pi.siste.modelo.cadastro.Orgao;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
@@ -42,6 +45,9 @@ public class FontePagador implements Serializable {
     @NotAudited
     @OneToMany(mappedBy = "fonte")
     private List<Movimento> movimentos;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Orgao orgao;
 
     @Override
     public String toString() {
@@ -90,6 +96,16 @@ public class FontePagador implements Serializable {
     public void setMovimentos(List<Movimento> movimentos) {
         this.movimentos = movimentos;
     }
+
+    public Orgao getOrgao() {
+        return orgao;
+    }
+
+    public void setOrgao(Orgao orgao) {
+        this.orgao = orgao;
+    }
+    
+    
 
     @Override
     public int hashCode() {

@@ -12,6 +12,29 @@
 
             <div class="container-fluid">
                  <div class="row">
+                     <x:securityArea rolesAllowed="campos.orgao">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="orgao" value="* Órgão" />
+                            <p:autoComplete id="orgao" value="#{fontePagadorMB.entity.orgao}" 
+
+                                                completeMethod="#{fontePagadorMB.orgaoAutocompletePeloNome}" styleClass="uix-autocomplete" 
+
+                                                minQueryLength="3" forceSelection="false" dropdown="true" scrollHeight="400"
+
+                                                var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"  > 
+                                    <x:initializer/>
+
+                                    <p:column> 
+
+                                        <h:outputText value="#{p.sigla}" style="font-weight: bold"/>  
+                                        <h:outputText value=" (#{p.nome})" styleClass="font-8"  /> 
+
+                                    </p:column> 
+
+                            </p:autoComplete>
+                            
+                        </div>
+                    </x:securityArea>
                       <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                          <h:outputLabel for="codigo" value="* #{msg['fontePagador.codigo']}:" />
                          <p:inputMask id="codigo" mask="9?999999999" value="#{fontePagadorMB.entity.codigo}" styleClass="form-control" />

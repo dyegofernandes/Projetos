@@ -44,15 +44,21 @@ public class AcaoOrcamentariaBO extends AbstractBusinessObject<AcaoOrcamentaria>
     public List<AcaoOrcamentaria> listarPeloNomeEUnidadeOrcamentaria(String nome, UnidadeOrcamentaria unidade) {
         Restrictions restrictions = new Restrictions();
 
-        if (!Utils.isNullOrEmpty(nome)) {
-            restrictions.like("acao.nome", nome);
-        }
-
         if (unidade != null) {
             restrictions.add("unidadeOrcamentaria", unidade);
+        } else {
+            return null;
         }
 
-        return getDAO().getQueryBuilder().from(AcaoOrcamentaria.class, "acao").leftJoin("acao.unidadeOrcamentaria", "unidadeOrcamentaria")
+        if (!Utils.isNullOrEmpty(nome)) {
+            if (Utils.ehInteiro(nome)) {
+                restrictions.like("acao.codigo", nome);
+            } else {
+                restrictions.like("acao.nome", nome);
+            }
+        }
+
+        return getDAO().getQueryBuilder().select("acao").from(AcaoOrcamentaria.class, "acao").leftJoin("acao.unidadeOrcamentaria", "unidadeOrcamentaria")
                 .leftJoinFetch("acao.funcao", "funcao").leftJoinFetch("acao.subfuncao", "subfuncao").leftJoinFetch("acao.programa", "programa")
                 .add(restrictions).orderBy("unidadeOrcamentaria, acao.nome").getResultList();
     }

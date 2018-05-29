@@ -8,7 +8,9 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.modelo.cadastro.FonteDeRecurso;
+import br.gov.pi.ati.util.Utils;
 import com.xpert.core.validation.UniqueFields;
+import com.xpert.persistence.query.Restrictions;
 
 /**
  *
@@ -19,7 +21,7 @@ public class FonteDeRecursoBO extends AbstractBusinessObject<FonteDeRecurso> {
 
     @EJB
     private FonteDeRecursoDAO fonteDeRecursoDAO;
-    
+
     @Override
     public FonteDeRecursoDAO getDAO() {
         return fonteDeRecursoDAO;
@@ -39,4 +41,20 @@ public class FonteDeRecursoBO extends AbstractBusinessObject<FonteDeRecurso> {
         return true;
     }
 
+    public List<FonteDeRecurso> listarPeloNome(String nome) {
+        Restrictions restrictions = new Restrictions();
+
+        if (!Utils.isNullOrEmpty(nome)) {
+            if (Utils.ehInteiro(nome)) {
+                restrictions.like("fonte.codigo", nome);
+            }else{
+                restrictions.like("fonte.nome", nome);
+            }
+            
+        }
+
+        restrictions.add("fonte.ativo", true);
+
+        return getDAO().getQueryBuilder().from(FonteDeRecurso.class, "fonte").add(restrictions).orderBy("fonte.nome").getResultList();
+    }
 }

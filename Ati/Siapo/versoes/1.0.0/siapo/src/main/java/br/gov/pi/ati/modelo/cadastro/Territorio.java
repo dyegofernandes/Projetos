@@ -15,7 +15,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Size;
@@ -43,7 +42,7 @@ public class Territorio implements Serializable {
 
     private boolean ativo = true;
 
-    @ManyToMany(targetEntity = Municipio.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    @OneToMany(targetEntity = Municipio.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     private List<Municipio> municipios = new ArrayList<Municipio>();
 
     @OneToMany(mappedBy = "territorio")

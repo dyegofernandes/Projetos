@@ -150,7 +150,7 @@
             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                 <h:outputLabel for="cidades" value="* Municípios:" />
                 <p:selectCheckboxMenu id="cidades" value="#{despesaPublicaMB.cidades}" converter="entityConverter" styleClass="form-control"
-                                      filter="true" filterMatchMode="startsWith" label="Selecione o (s)  município (s)">
+                                      filter="true" filterMatchMode="startsWith" label="Selecione o (s)  município (s)" >
                     <f:selectItems value="#{municipioMB.autocomplete(null)}"
                                    var="municipio"
                                    itemLabel="#{municipio}"/>

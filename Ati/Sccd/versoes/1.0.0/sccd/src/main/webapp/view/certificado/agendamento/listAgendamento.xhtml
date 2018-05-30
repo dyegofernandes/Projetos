@@ -12,7 +12,7 @@
             <x:modalMessages/>
 
             <x:dataTableActions fileName="agendamento_export" target=":formListAgendamento:dataTableAgendamento"
-                                     widgetVar="dataTableAgendamentoWidget"  />
+                                widgetVar="dataTableAgendamentoWidget"  />
 
             <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                          var="agendamento" rowIndexVar="index" id="dataTableAgendamento" widgetVar="dataTableAgendamentoWidget" styleClass="table-responsive"
@@ -41,7 +41,7 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{msg['agendamento.protocolo']}" sortBy="#{agendamento.protocolo}"
-                    filterBy="#{agendamento.protocolo}"   >
+                          filterBy="#{agendamento.protocolo}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['agendamento.protocolo']}" />
                     </f:facet>
@@ -88,16 +88,16 @@
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
-                
+
                 <p:column headerText="#{msg['agendamento.email']}" sortBy="#{agendamento.email}"
-                    filterBy="#{agendamento.email}"   >
+                          filterBy="#{agendamento.email}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['agendamento.email']}" />
                     </f:facet>
                     <h:outputText value="#{agendamento.email}"/>
                 </p:column>
                 <p:column headerText="#{msg['agendamento.dataInicial']}" sortBy="#{agendamento.dataInicial}"
-                    filterBy="#{agendamento.dataInicial}"   style="text-align: center;">
+                          filterBy="#{agendamento.dataInicial}"   style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['agendamento.dataInicial']}" />
                         <x:dateFilter/>
@@ -107,7 +107,7 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{msg['agendamento.dataFinal']}" sortBy="#{agendamento.dataFinal}"
-                    filterBy="#{agendamento.dataFinal}"   style="text-align: center;">
+                          filterBy="#{agendamento.dataFinal}"   style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['agendamento.dataFinal']}" />
                         <x:dateFilter/>
@@ -117,7 +117,7 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{msg['agendamento.dataAtendimento']}" sortBy="#{agendamento.dataAtendimento}"
-                    filterBy="#{agendamento.dataAtendimento}"   style="text-align: center;">
+                          filterBy="#{agendamento.dataAtendimento}"   style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['agendamento.dataAtendimento']}" />
                         <x:dateFilter/>
@@ -127,7 +127,7 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{msg['agendamento.situacao']}" sortBy="#{agendamento.situacao}"
-                    filterBy="#{agendamento.situacao}"  filterOptions="#{findAllBean.getSelect(classMB.situacaoAgendamento)}" >
+                          filterBy="#{agendamento.situacao}"  filterOptions="#{findAllBean.getSelect(classMB.situacaoAgendamento)}" >
                     <f:facet name="header">
                         <h:outputText value="#{msg['agendamento.situacao']}" />
                     </f:facet>
@@ -141,10 +141,10 @@
                                      process="@form" update=":formDetailAgendamento" title="#{xmsg['detail']}" >
                         <f:setPropertyActionListener value="#{agendamento}" target="#{agendamentoMB.entity}" />
                     </p:commandButton>
-                    <x:securityArea rolesAllowed="agendamento.create">
-                        <p:button icon="ui-icon-pencil" outcome="createAgendamento" title="#{xmsg['edit']}">
-                            <f:param name="id" value="#{agendamento.id}" />
-                        </p:button>
+                    <x:securityArea rolesAllowed="agendamento.editar">
+                        <p:commandButton icon="ui-icon-pencil" title="#{xmsg['create']}" process="@this" update="formCreateAgendamento" 
+                                         action="#{agendamentoMB.editar(agendamento)}" >
+                        </p:commandButton>
                     </x:securityArea>
                     <x:securityArea rolesAllowed="agendamento.delete">
                         <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
@@ -164,7 +164,12 @@
 
         <p:dialog widgetVar="widgetAgendamentoDetail" header="#{msg['agendamento.detail']}" appendTo="@(body)" 
                   modal="true" styleClass="uix-dialog-fluid" >
-                  <ui:include src="detailAgendamento.xhtml" />
+            <ui:include src="detailAgendamento.xhtml" />
+        </p:dialog>
+        <p:dialog widgetVar="widgetAgendamento" header="#{msg['agendamento.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" showEffect="clip" hideEffect="clip">
+            <ui:include src="formCreateAgendamento.xhtml" />
+            <p:ajax event="close" update=":formCreateAgendamento" listener="#{findAllBean.setReload(true)}"/>
         </p:dialog>
     </ui:define>
 </ui:composition>

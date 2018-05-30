@@ -310,6 +310,20 @@ public class AgendamentoMB extends AbstractBaseBean<Agendamento> implements Seri
 
         context.execute("PF('widgetAgendamento').show();");
     }
+    
+    public void editar(Agendamento agendamento) {
+
+        setEntity(agendamento);
+
+        situacaoTemp = agendamento.getSituacao();
+
+        itemPedido = getDAO().getInitialized(agendamento.getItemPedido());
+        arquivos = getDAO().getInitialized(agendamento.getArquivos());
+
+        RequestContext context = RequestContext.getCurrentInstance();
+
+        context.execute("PF('widgetAgendamento').show();");
+    }
 
     public void onDateSelect(SelectEvent selectEvent) {
 

@@ -54,7 +54,7 @@ public class Dotacao implements Serializable {
     @ManyToMany(targetEntity = Municipio.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     private List<Municipio> cidades = new ArrayList<Municipio>();
 
-    private boolean geraQuantificador = false;
+    private boolean geraQuantificador = true;
 
     public Long getId() {
         return id;

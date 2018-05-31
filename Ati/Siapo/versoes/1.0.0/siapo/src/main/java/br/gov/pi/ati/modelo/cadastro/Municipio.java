@@ -9,6 +9,9 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
@@ -32,6 +35,12 @@ public class Municipio implements Serializable {
     @Size(max = 250)
     @NotBlank
     private String nome;
+    
+    @ManyToOne
+    @JoinTable(name="territorio_municipio",
+    joinColumns={@JoinColumn(name="municipios_id")},
+    inverseJoinColumns={@JoinColumn(name="territorio_id")})
+    private Territorio territorio;
 
     @Override
     public String toString() {
@@ -60,6 +69,14 @@ public class Municipio implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public Territorio getTerritorio() {
+        return territorio;
+    }
+
+    public void setTerritorio(Territorio territorio) {
+        this.territorio = territorio;
     }
 
     @Override

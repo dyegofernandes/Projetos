@@ -144,27 +144,35 @@
                 </p:inputText>
             </div>
             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                <h:outputLabel for="quantidadeRealizada" value="* #{msg['dotacao.quantidadeRealizada']}:" />
-                <x:inputNumber id="quantidadeRealizada" value="#{despesaPublicaMB.dotacaoAdd.quantidadeRealizada}" styleClass="form-control"/>
+                <div class="checkbox">
+                    <label>
+                        <h:selectBooleanCheckbox id="geraQuantificador" value="#{despesaPublicaMB.dotacaoAdd.geraQuantificador}" >
+                            <p:ajax process="@this" update="panelQuantidade" listener="#{despesaPublicaMB.desmarcaQuantificador()}"/>
+                        </h:selectBooleanCheckbox>
+                        #{msg['dotacao.geraQuantificador']}
+                    </label>
+                </div>
+                <h:outputText value="Esse processo de despesa é responsável por realizar meta física de produtos constantes no anexo de metas e prioridades da Lei de Diretrizes orçamentárias" styleClass="help-block"/>
             </div>
+            <h:panelGroup id="panelQuantidade">
+                <h:panelGroup rendered="#{despesaPublicaMB.dotacaoAdd.geraQuantificador}">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="quantidadeRealizada" value="* #{msg['dotacao.quantidadeRealizada']}:" />
+                        <x:inputNumber id="quantidadeRealizada" value="#{despesaPublicaMB.dotacaoAdd.quantidadeRealizada}" styleClass="form-control"/>
+                    </div>
+                </h:panelGroup>
+            </h:panelGroup>
             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                 <h:outputLabel for="cidades" value="* Municípios:" />
                 <p:selectCheckboxMenu id="cidades" value="#{despesaPublicaMB.cidades}" converter="entityConverter" styleClass="form-control"
                                       filter="true" filterMatchMode="startsWith" label="Selecione o (s)  município (s)" >
                     <f:selectItems value="#{municipioMB.autocomplete(null)}"
                                    var="municipio"
-                                   itemLabel="#{municipio}"/>
+                                   itemLabel="#{municipio} - #{municipio.territorio.nome}">
+                    </f:selectItems>
                 </p:selectCheckboxMenu>
             </div>
-            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                <div class="checkbox">
-                    <label>
-                        <h:selectBooleanCheckbox id="geraQuantificador" value="#{despesaPublicaMB.dotacaoAdd.geraQuantificador}" />
-                        #{msg['dotacao.geraQuantificador']}
-                    </label>
-                </div>
-                <h:outputText value="Esse processo de despesa é responsável por realizar meta física de produtos constantes no anexo de metas e prioridades da Lei de Diretrizes orçamentárias" styleClass="help-block"/>
-            </div>
+
 
         </p:fieldset>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>

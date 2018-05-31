@@ -15,6 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Size;
@@ -43,6 +45,9 @@ public class Territorio implements Serializable {
     private boolean ativo = true;
 
     @OneToMany(targetEntity = Municipio.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    @JoinTable(name = "territorio_municipio",
+    joinColumns = { @JoinColumn(name = "territorio_id") }, 
+    inverseJoinColumns = { @JoinColumn(name = "municipios_id") })
     private List<Municipio> municipios = new ArrayList<Municipio>();
 
     @OneToMany(mappedBy = "territorio")

@@ -45,10 +45,11 @@ public class MunicipioBO extends AbstractBusinessObject<Municipio> {
         Restrictions restrictions = new Restrictions();
 
         if (!Utils.isNullOrEmpty(nome)) {
-            restrictions.like("nome", nome);
+            restrictions.like("municipio.nome", nome);
         }
 
-        return getDAO().list(restrictions, "nome");
+        return getDAO().getQueryBuilder().select("municipio").from(Municipio.class, "municipio").
+                leftJoinFetch("municipio.territorio", "territorio").add(restrictions).orderBy("municipio.nome").getResultList();
     }
 
 }

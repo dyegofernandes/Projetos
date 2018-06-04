@@ -12,6 +12,7 @@ import br.gov.pi.ati.modelo.cadastro.AcaoOrcamentaria;
 import br.gov.pi.ati.modelo.cadastro.Municipio;
 import br.gov.pi.ati.modelo.cadastro.Territorio;
 import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
+import br.gov.pi.ati.modelo.cadastro.vos.Filtros;
 import br.gov.pi.ati.modelo.controleacesso.Usuario;
 import br.gov.pi.ati.modelo.orcamento.DespesaPublica;
 import br.gov.pi.ati.modelo.orcamento.Dotacao;
@@ -31,140 +32,164 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @ViewScoped
 public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implements Serializable {
-    
+
     @EJB
     private DespesaPublicaBO despesaPublicaBO;
-    
+
     @EJB
     private AcaoOrcamentariaBO acaoBO;
-    
+
     @EJB
     private MetaProdutoBO produtoBO;
-    
+
     private List<Dotacao> dotacoes;
-    
+
     private Dotacao dotacaoAdd;
-    
+
     private ProgramacaoFinanceira programacaoAdd;
-    
+
     private List<ProgramacaoFinanceira> programacaoFinanceira;
-    
+
     private List<Municipio> cidades;
-    
+
     private Territorio territorio;
-    
+
     private Usuario usuarioAtual;
-    
+
+    private Filtros filtros;
+
+    private List<DespesaPublica> despesas;
+
     private List<UnidadeOrcamentaria> unidades;
-    
+
     @Override
     public DespesaPublicaBO getBO() {
         return despesaPublicaBO;
     }
-    
+
     @Override
     public String getDataModelOrder() {
         return "id";
     }
-    
+
     @Override
     public void init() {
         usuarioAtual = SessaoUtils.getUser();
-        
+
         unidades = getDAO().getInitialized(usuarioAtual.getUnidadesDeAcesso());
-        
+
+        despesas = new ArrayList<DespesaPublica>();
+
         dotacoes = new ArrayList<Dotacao>();
-        
+
         programacaoFinanceira = new ArrayList<ProgramacaoFinanceira>();
-        
+
         programacaoAdd = new ProgramacaoFinanceira();
-        
+
         cidades = new ArrayList<Municipio>();
-        
+
+        filtros = new Filtros();
+
         if (getEntity().getId() != null) {
             dotacoes = getDAO().getInitialized(getEntity().getDotacao());
         }
     }
-    
+
     @Override
     public void save() {
         getEntity().setDotacao(dotacoes);
         super.save();
     }
-    
+
     public List<Dotacao> getDotacoes() {
         return dotacoes;
     }
-    
+
     public void setDotacoes(List<Dotacao> dotacoes) {
         this.dotacoes = dotacoes;
     }
-    
+
     public ProgramacaoFinanceira getProgramacaoAdd() {
         return programacaoAdd;
     }
-    
+
     public void setProgramacaoAdd(ProgramacaoFinanceira programacaoAdd) {
         this.programacaoAdd = programacaoAdd;
     }
-    
+
     public List<ProgramacaoFinanceira> getProgramacaoFinanceira() {
         return programacaoFinanceira;
     }
-    
+
     public void setProgramacaoFinanceira(List<ProgramacaoFinanceira> programacaoFinanceira) {
         this.programacaoFinanceira = programacaoFinanceira;
     }
-    
+
     public List<Municipio> getCidades() {
         return cidades;
     }
-    
+
     public void setCidades(List<Municipio> cidades) {
         this.cidades = cidades;
     }
-    
+
     public Dotacao getDotacaoAdd() {
         return dotacaoAdd;
     }
-    
+
     public void setDotacaoAdd(Dotacao dotacaoAdd) {
         this.dotacaoAdd = dotacaoAdd;
     }
-    
+
     public Territorio getTerritorio() {
         return territorio;
     }
-    
+
     public void setTerritorio(Territorio territorio) {
         this.territorio = territorio;
     }
-    
+
     public List<UnidadeOrcamentaria> getUnidades() {
         return unidades;
     }
-    
+
     public void setUnidades(List<UnidadeOrcamentaria> unidades) {
         this.unidades = unidades;
     }
-    
+
+    public Filtros getFiltros() {
+        return filtros;
+    }
+
+    public void setFiltros(Filtros filtros) {
+        this.filtros = filtros;
+    }
+
+    public List<DespesaPublica> getDespesas() {
+        return despesas;
+    }
+
+    public void setDespesas(List<DespesaPublica> despesas) {
+        this.despesas = despesas;
+    }
+
     public void novoDotacao() {
         if (getEntity().getUnidadeOrcamentaria() != null) {
             dotacaoAdd = new Dotacao();
-            
+
             programacaoFinanceira = new ArrayList<ProgramacaoFinanceira>();
-            
+
             cidades = new ArrayList<Municipio>();
-            
+
             RequestContext context = RequestContext.getCurrentInstance();
-            
+
             context.execute("PF('widgetNovo').show();");
         } else {
             FacesMessageUtils.error("Unidade Orçamentária é obrigatória!!");
         }
-        
+
     }
-    
+
     public void editarDotacao(Dotacao dotacao) {
         if (getEntity().getUnidadeOrcamentaria() != null) {
             dotacaoAdd = new Dotacao();
@@ -172,23 +197,23 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
             cidades = getDAO().getInitialized(dotacao.getCidades());
             programacaoFinanceira = getDAO().getInitialized(dotacao.getProgramacaoFinanceira());
             RequestContext context = RequestContext.getCurrentInstance();
-            
+
             context.execute("PF('widgetNovo').show();");
         } else {
             FacesMessageUtils.error("Unidade Orçamentária é obrigatória!!");
         }
-        
+
     }
-    
+
     public void detalharDotacao(Dotacao dotacao) {
         dotacaoAdd = new Dotacao();
         dotacaoAdd = dotacao;
-        
+
         RequestContext context = RequestContext.getCurrentInstance();
-        
+
         context.execute("PF('widgetDetail').show();");
     }
-    
+
     public void incluirDotacao() {
         if (dotacaoAdd.getAcaoOrcamentaria() != null) {
             if (dotacaoAdd.getFonteDeRecurso() != null) {
@@ -218,12 +243,12 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
                                         context.execute("PF('widgetNovo').hide();");
                                         dotacaoAdd = new Dotacao();
                                     }
-                                    
+
                                 }
                             } else {
                                 FacesMessageUtils.error("Municipio (s) é (são) obrigatório (s)!");
                             }
-                            
+
                         } else {
                             FacesMessageUtils.error("Produto LDO é obrigatório!");
                         }
@@ -239,13 +264,13 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
         } else {
             FacesMessageUtils.error("Ação Orçamentária é obrigatória!");
         }
-        
+
     }
-    
+
     public void removerDotacao(Dotacao dotacao) {
         dotacoes.remove(dotacao);
     }
-    
+
     private boolean dotacaoJahAdicionada(Dotacao dotacao) {
         for (Dotacao dota : dotacoes) {
             if (dota.getAcaoOrcamentaria().equals(dotacao.getAcaoOrcamentaria()) && dota.getFonteDeRecurso().equals(dotacao.getFonteDeRecurso())
@@ -255,7 +280,7 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
         }
         return false;
     }
-    
+
     public void adicionarProgramacao() {
         if (programacaoAdd.getMes() != null) {
             if (programacaoAdd.getAno() != null) {
@@ -266,7 +291,7 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
                         programacaoFinanceira.add(programacaoAdd);
                         programacaoAdd = new ProgramacaoFinanceira();
                     }
-                    
+
                 } else {
                     FacesMessageUtils.error("Valor é obrigatório!");
                 }
@@ -277,11 +302,11 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
             FacesMessageUtils.error("Mês é obrigatório!");
         }
     }
-    
+
     public void removerProgramacao(ProgramacaoFinanceira programcao) {
         programacaoFinanceira.remove(programcao);
     }
-    
+
     private boolean programacaoJahAdd(ProgramacaoFinanceira programacao) {
         for (ProgramacaoFinanceira pro : programacaoFinanceira) {
             if ((pro.getAno().compareTo(programacao.getAno()) == 0) && (pro.getMes() == programacao.getMes())) {
@@ -290,28 +315,33 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
         }
         return false;
     }
-    
+
     public void pegarDescricao() {
         String descricao = ProcessBO.getDescricao(getEntity().getNumeroProcesso());
-        
+
         if (descricao != null) {
             getEntity().setDescricaoDespesa(descricao);
         } else {
             FacesMessageUtils.error("Processo não encontrado!");
         }
     }
-    
+
     public List<AcaoOrcamentaria> autocompleteAcao(String nome) {
         return acaoBO.listarPeloNomeEUnidadeOrcamentaria(nome, getEntity().getUnidadeOrcamentaria());
     }
-    
+
     public List<MetaProduto> autocompleteProduto(String nome) {
         return produtoBO.metaPeloNomeEUnidadeOrcamentaria(nome, getEntity().getUnidadeOrcamentaria());
     }
-    
+
     public void desmarcaQuantificador() {
         if (!dotacaoAdd.isGeraQuantificador()) {
             dotacaoAdd.setQuantidadeRealizada(null);
         }
+    }
+
+    public void buscar() {
+        despesas = despesaPublicaBO.consultar(filtros.getUnidadesOrcamentaria(), filtros.getCodigo(), filtros.getAcaoOrcamentaria(),
+                filtros.getFonteDeRecurso(), filtros.getNaturezaDespesa(), filtros.getAcaoEstrategica(), filtros.getProduto());
     }
 }

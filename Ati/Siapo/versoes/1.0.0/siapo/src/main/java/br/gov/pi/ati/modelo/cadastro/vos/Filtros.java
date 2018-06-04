@@ -6,6 +6,9 @@
 package br.gov.pi.ati.modelo.cadastro.vos;
 
 import br.gov.pi.ati.modelo.cadastro.AcaoEstrategica;
+import br.gov.pi.ati.modelo.cadastro.AcaoOrcamentaria;
+import br.gov.pi.ati.modelo.cadastro.FonteDeRecurso;
+import br.gov.pi.ati.modelo.cadastro.NaturezaDeDespesa;
 import br.gov.pi.ati.modelo.cadastro.Produto;
 import br.gov.pi.ati.modelo.cadastro.ProgramaDeGoverno;
 import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
@@ -25,8 +28,14 @@ public class Filtros implements Serializable {
     private UnidadeOrcamentaria unidadeOrcamentaria;
 
     private AcaoEstrategica acaoEstrategica;
+    
+    private AcaoOrcamentaria acaoOrcamentaria;
 
     private ProgramaDeGoverno programaDeGoverno;
+    
+    private FonteDeRecurso fonteDeRecurso;
+    
+    private NaturezaDeDespesa naturezaDespesa;
 
     private Produto produto;
 
@@ -108,6 +117,30 @@ public class Filtros implements Serializable {
 
     public void setProduto(Produto produto) {
         this.produto = produto;
+    }
+
+    public AcaoOrcamentaria getAcaoOrcamentaria() {
+        return acaoOrcamentaria;
+    }
+
+    public void setAcaoOrcamentaria(AcaoOrcamentaria acaoOrcamentaria) {
+        this.acaoOrcamentaria = acaoOrcamentaria;
+    }
+
+    public FonteDeRecurso getFonteDeRecurso() {
+        return fonteDeRecurso;
+    }
+
+    public void setFonteDeRecurso(FonteDeRecurso fonteDeRecurso) {
+        this.fonteDeRecurso = fonteDeRecurso;
+    }
+
+    public NaturezaDeDespesa getNaturezaDespesa() {
+        return naturezaDespesa;
+    }
+
+    public void setNaturezaDespesa(NaturezaDeDespesa naturezaDespesa) {
+        this.naturezaDespesa = naturezaDespesa;
     }
 
 }

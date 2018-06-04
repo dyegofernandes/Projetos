@@ -9,64 +9,87 @@
     <ui:define name="body">
         <ui:include src="menuDespesaPublica.xhtml" />
         <h:form id="formListDespesaPublica">
-            <x:modalMessages/>
+            <x:modalMessages />
 
-            <x:dataTableActions fileName="despesaPublica_export" target=":formListDespesaPublica:dataTableDespesaPublica"
-                                     widgetVar="dataTableDespesaPublicaWidget"  />
+            <p:fieldset legend="Filtros de Busca" id="filtros" toggleable="true">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="unidadeOrcamentaria" value="#{msg['despesaPublica.unidadeOrcamentaria']}:" />
+                            <p:selectCheckboxMenu id="unidadeOrcamentaria" value="#{despesaPublicaMB.filtros.unidadesOrcamentaria}" converter="entityConverter" styleClass="form-control"
+                                                  filter="true" filterMatchMode="startsWith" label="Selecione a (s) Unidade (s)" >
+                                <f:selectItems value="#{despesaPublicaMB.unidades}"
+                                               var="unidade"
+                                               itemLabel="#{unidade}">
+                                </f:selectItems>
+                            </p:selectCheckboxMenu>
 
-            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
-                         var="despesaPublica" rowIndexVar="index" id="dataTableDespesaPublica" widgetVar="dataTableDespesaPublicaWidget" styleClass="table-responsive"
-                         currentPageReportTemplate="#{despesaPublicaMB.dataModel.currentPageReportTemplate}"
-                         paginatorTemplate="#{despesaPublicaMB.dataModel.paginatorTemplate}"
-                         value="#{despesaPublicaMB.dataModel}" lazy="true" >
-                <p:column styleClass="uix-datatable-index">
-                    <h:outputText value="#{index+1}"/>
-                </p:column>
-                <p:column headerText="#{msg['despesaPublica.unidadeOrcamentaria']}" sortBy="#{despesaPublica.unidadeOrcamentaria}"
-                       >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['despesaPublica.unidadeOrcamentaria']}" />
-                    </f:facet>
-                    <h:outputText value="#{despesaPublica.unidadeOrcamentaria}">
-                        <x:initializer/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="#{msg['despesaPublica.numeroProcesso']}" sortBy="#{despesaPublica.numeroProcesso}"
-                    filterBy="#{despesaPublica.numeroProcesso}"   >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['despesaPublica.numeroProcesso']}" />
-                    </f:facet>
-                    <h:outputText value="#{despesaPublica.numeroProcesso}"/>
-                </p:column>
-                <p:column headerText="#{msg['despesaPublica.descricaoDespesa']}" sortBy="#{despesaPublica.descricaoDespesa}"
-                    filterBy="#{despesaPublica.descricaoDespesa}"   >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['despesaPublica.descricaoDespesa']}" />
-                    </f:facet>
-                    <h:outputText value="#{despesaPublica.descricaoDespesa}"/>
-                </p:column>
-                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
-                    <f:facet name="header">
-                        <h:outputText value="#{xmsg['actions']}"/>
-                    </f:facet>
-                    <p:commandButton oncomplete="PF('widgetDespesaPublicaDetail').show();"  icon="ui-icon-zoomin" 
-                                     process="@form" update=":formDetailDespesaPublica" title="#{xmsg['detail']}" >
-                        <f:setPropertyActionListener value="#{despesaPublica}" target="#{despesaPublicaMB.entity}" />
-                    </p:commandButton>
-                    <x:securityArea rolesAllowed="despesaPublica.create">
-                        <p:button icon="ui-icon-pencil" outcome="createDespesaPublica" title="#{xmsg['edit']}">
-                            <f:param name="id" value="#{despesaPublica.id}" />
-                        </p:button>
-                    </x:securityArea>
-                    <x:securityArea rolesAllowed="despesaPublica.delete">
-                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
-                                         action="#{despesaPublicaMB.delete}" >
-                            <f:setPropertyActionListener value="#{despesaPublica.id}" target="#{despesaPublicaMB.id}" />
-                            <x:confirmation message="#{xmsg['confirmDelete']} - #{despesaPublica}" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="uix-center">
+                    <p:commandButton process="filtros @this" update="filtros dataTableDespesaPublica" action="#{despesaPublicaMB.buscar()}" value="Buscar" />
+                </div>
+            </p:fieldset>
+
+            <p:fieldset legend="Resultado da Consulta" id="resultado" toggleable="true">
+                <x:dataTableActions fileName="despesaPublica_export" target=":formListDespesaPublica:dataTableDespesaPublica"
+                                    widgetVar="dataTableDespesaPublicaWidget"  />
+
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="despesaPublica" rowIndexVar="index" id="dataTableDespesaPublica" widgetVar="dataTableDespesaPublicaWidget" styleClass="table-responsive"
+                             value="#{despesaPublicaMB.despesas}"  >
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['despesaPublica.unidadeOrcamentaria']}" sortBy="#{despesaPublica.unidadeOrcamentaria}"
+                              >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['despesaPublica.unidadeOrcamentaria']}" />
+                        </f:facet>
+                        <h:outputText value="#{despesaPublica.unidadeOrcamentaria}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['despesaPublica.numeroProcesso']}" sortBy="#{despesaPublica.numeroProcesso}"
+                              filterBy="#{despesaPublica.numeroProcesso}"   >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['despesaPublica.numeroProcesso']}" />
+                        </f:facet>
+                        <h:outputText value="#{despesaPublica.numeroProcesso}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['despesaPublica.descricaoDespesa']}" sortBy="#{despesaPublica.descricaoDespesa}"
+                              filterBy="#{despesaPublica.descricaoDespesa}"   >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['despesaPublica.descricaoDespesa']}" />
+                        </f:facet>
+                        <h:outputText value="#{despesaPublica.descricaoDespesa}"/>
+                    </p:column>
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+                        <p:commandButton oncomplete="PF('widgetDespesaPublicaDetail').show();"  icon="ui-icon-zoomin" 
+                                         process="@form" update=":formDetailDespesaPublica" title="#{xmsg['detail']}" >
+                            <f:setPropertyActionListener value="#{despesaPublica}" target="#{despesaPublicaMB.entity}" />
                         </p:commandButton>
-                    </x:securityArea>
-                </p:column>
-            </p:dataTable>
+                        <x:securityArea rolesAllowed="despesaPublica.create">
+                            <p:button icon="ui-icon-pencil" outcome="createDespesaPublica" title="#{xmsg['edit']}">
+                                <f:param name="id" value="#{despesaPublica.id}" />
+                            </p:button>
+                        </x:securityArea>
+                        <x:securityArea rolesAllowed="despesaPublica.delete">
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                             action="#{despesaPublicaMB.delete}" >
+                                <f:setPropertyActionListener value="#{despesaPublica.id}" target="#{despesaPublicaMB.id}" />
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{despesaPublica}" />
+                            </p:commandButton>
+                        </x:securityArea>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+
             <div class="uix-audit-delete">
                 <x:securityArea rolesAllowed="despesaPublica.audit">
                     <x:auditDelete for="#{despesaPublicaMB.entityClass}"/>
@@ -76,7 +99,7 @@
 
         <p:dialog widgetVar="widgetDespesaPublicaDetail" header="#{msg['despesaPublica.detail']}" appendTo="@(body)" 
                   modal="true" styleClass="uix-dialog-fluid" >
-                  <ui:include src="detailDespesaPublica.xhtml" />
+            <ui:include src="detailDespesaPublica.xhtml" />
         </p:dialog>
     </ui:define>
 </ui:composition>

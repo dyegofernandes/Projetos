@@ -49,14 +49,10 @@ public class DespesaPublicaBO extends AbstractBusinessObject<DespesaPublica> {
     public List<DespesaPublica> consultar(List<UnidadeOrcamentaria> unidades, String numeroProcesso, AcaoOrcamentaria acaoOrcamentaria, FonteDeRecurso fonte, NaturezaDeDespesa natureza, AcaoEstrategica acaoEstrategica, Produto produto) {
         Restrictions restrictions = new Restrictions();
 
-        if (unidades != null) {
-            if (unidades.size() > 0) {
-                restrictions.in("unidade", unidades);
-            }
-        }
+        restrictions.in("unidade", unidades);
 
         if (Utils.isNullOrEmpty(numeroProcesso)) {
-            restrictions.add("despesa.numeroProcesso", numeroProcesso);
+            restrictions.add("despesa.numeroProcesso", numeroProcesso.toUpperCase());
         }
 
         List<DespesaPublica> depesasas = getDAO().getQueryBuilder().selectDistinct("despesa").from(DespesaPublica.class, "despesa")

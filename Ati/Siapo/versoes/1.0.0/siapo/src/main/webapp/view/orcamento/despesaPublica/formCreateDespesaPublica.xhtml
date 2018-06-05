@@ -105,7 +105,7 @@
                             </f:facet>
                             <p:commandButton process="@this" update="formDetailDotacao" action="#{despesaPublicaMB.detalharDotacao(dotacao)}" 
                                              icon="ui-icon-zoomin" title="#{xmsg['detail']}" />
-                            <p:commandButton process="@this" update="formCreateDotacao" action="#{despesaPublicaMB.editarDotacao(dotacao)}" 
+                            <p:commandButton process="@this" update="formUpdateDotacao" action="#{despesaPublicaMB.editarDotacao(dotacao)}" 
                                              icon="ui-icon-pencil" title="#{xmsg['edit']}" />
 
                             <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="@form" 
@@ -132,7 +132,12 @@
         <ui:include src="formCreateDotacao.xhtml" />
         <p:ajax event="close" update="formCreateDespesaPublica"  />
     </p:dialog>
-    <p:dialog widgetVar="widgetDetail"  header="Visualizar Dotação}" appendTo="@(body)" 
+    <p:dialog widgetVar="widgetEditar"  header="Editar Dotação" appendTo="@(body)" 
+              modal="true" styleClass="uix-dialog-fluid" >
+        <ui:include src="formUpdateDotacao.xhtml" />
+        <p:ajax event="close" update="formCreateDespesaPublica"  />
+    </p:dialog>
+    <p:dialog widgetVar="widgetDetail"  header="Visualizar Dotação" appendTo="@(body)" 
               modal="true" styleClass="uix-dialog-fluid" >
         <ui:include src="detailDotacao.xhtml" />
         <p:ajax event="close" update="formCreateDespesaPublica"  />

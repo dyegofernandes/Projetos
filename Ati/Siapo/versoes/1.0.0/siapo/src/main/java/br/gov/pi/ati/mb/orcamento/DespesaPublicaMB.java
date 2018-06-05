@@ -198,7 +198,7 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
             programacaoFinanceira = getDAO().getInitialized(dotacao.getProgramacaoFinanceira());
             RequestContext context = RequestContext.getCurrentInstance();
 
-            context.execute("PF('widgetNovo').show();");
+            context.execute("PF('widgetEditar').show();");
         } else {
             FacesMessageUtils.error("Unidade Orçamentária é obrigatória!!");
         }
@@ -212,6 +212,21 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
         RequestContext context = RequestContext.getCurrentInstance();
 
         context.execute("PF('widgetDetail').show();");
+    }
+
+    public void salvarDotacao() {
+        if (programacaoFinanceira.size() > 0) {
+            if (cidades.size() > 0) {
+                RequestContext context = RequestContext.getCurrentInstance();
+
+                context.execute("PF('widgetEditar').hide();");
+            } else {
+                FacesMessageUtils.error("Informe um ou mais municípios!!");
+            }
+        } else {
+            FacesMessageUtils.error("Adicione uma ou mais programações financeira!");
+        }
+
     }
 
     public void incluirDotacao() {

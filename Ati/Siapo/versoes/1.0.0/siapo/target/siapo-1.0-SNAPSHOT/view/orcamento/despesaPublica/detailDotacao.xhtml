@@ -5,44 +5,126 @@
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
     <h:form id="formDetailDotacao" styleClass="uix-form-detail">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['dotacao.acaoOrcamentaria']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{despesaPublicaMB.dotacaoAdd.acaoOrcamentaria}" styleClass="uix-content-detail">
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['dotacao.acaoOrcamentaria']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.dotacaoAdd.acaoOrcamentaria}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['dotacao.fonteDeRecurso']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.dotacaoAdd.fonteDeRecurso}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['dotacao.naturezaDaDespesa']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.dotacaoAdd.naturezaDaDespesa}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Programação Financeira" >
+            <div class="container-fluid">
+                <div class="row">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="programacaoFinanceira" rowIndexVar="index" id="dataTableProgramacaoFinanceira" widgetVar="dataTableProgramacaoFinanceiraWidget" styleClass="table-responsive"
+                                 value="#{despesaPublicaMB.dotacaoAdd.programacaoFinanceira}" >
                         <x:initializer/>
-                    </h:outputText>
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['programacaoFinanceira.mes']}" sortBy="#{programacaoFinanceira.mes}">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['programacaoFinanceira.mes']}" />
+                            </f:facet>
+                            <h:outputText value="#{programacaoFinanceira.mes.descricao}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['programacaoFinanceira.ano']}" sortBy="#{programacaoFinanceira.ano}">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['programacaoFinanceira.ano']}" />
+                            </f:facet>
+                            <h:outputText value="#{programacaoFinanceira.ano}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['programacaoFinanceira.valor']}" sortBy="#{programacaoFinanceira.valor}"
+                                  style="text-align: right;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['programacaoFinanceira.valor']}" />
+                            </f:facet>
+                            <h:outputText value="#{programacaoFinanceira.valor}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>
+
+                    </p:dataTable>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['dotacao.fonteDeRecurso']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{despesaPublicaMB.dotacaoAdd.fonteDeRecurso}" styleClass="uix-content-detail">
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Produto LDO">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Produto:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.dotacaoAdd.produtoLDO.produto}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Quantidade Meta:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.dotacaoAdd.produtoLDO.valorMeta}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Unidade de Medida:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.dotacaoAdd.produtoLDO.unidadeMedida}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['dotacao.quantidadeRealizada']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.dotacaoAdd.quantidadeRealizada}" styleClass="uix-content-detail">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['dotacao.geraQuantificador']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.dotacaoAdd.geraQuantificador}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="cidade" rowIndexVar="index" id="cidades" widgetVar="dataTableCidadeWidget" styleClass="table-responsive"
+                                 value="#{despesaPublicaMB.dotacaoAdd.cidades}" >
                         <x:initializer/>
-                    </h:outputText>
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="Município" sortBy="#{cidade}">
+                            <f:facet name="header">
+                                <h:outputText value="Município" />
+                            </f:facet>
+                            <h:outputText value="#{cidade.nome}"/>
+                        </p:column>
+                        <p:column headerText="Territorio" sortBy="#{programacaoFinanceira.ano}">
+                            <f:facet name="header">
+                                <h:outputText value="Territorio" />
+                            </f:facet>
+                            <h:outputText value="#{cidade.territorio}">
+                                <x:initializer/>
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['dotacao.naturezaDaDespesa']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{despesaPublicaMB.dotacaoAdd.naturezaDaDespesa}" styleClass="uix-content-detail">
-                        <x:initializer/>
-                    </h:outputText>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['dotacao.produtoLDO']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{despesaPublicaMB.dotacaoAdd.produtoLDO.produto}" styleClass="uix-content-detail">
-                        <x:initializer/>
-                    </h:outputText>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['dotacao.quantidadeRealizada']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{despesaPublicaMB.dotacaoAdd.quantidadeRealizada}" styleClass="uix-content-detail">
-                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
-                    </h:outputText>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['dotacao.geraQuantificador']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{despesaPublicaMB.dotacaoAdd.geraQuantificador}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
-                </div>
-           </div>
-         </div>
+            </div>
+        </p:fieldset>
+
         <p:separator/>
         <div class="uix-center">
             <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetDetail').hide()" />

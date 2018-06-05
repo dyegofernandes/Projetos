@@ -1,5 +1,5 @@
 
-package com.tibco.schemas.bws_registro_cbr.recursos.xsd.schema;
+package carnepagcontas.com.tibco.schemas.bws_registro_cbr.recursos.xsd.schema;
 
 import carnepagcontas.com.tibco.schemas.bws_registro_cbr.recursos.xsd.schema.Erro;
 import carnepagcontas.com.tibco.schemas.bws_registro_cbr.recursos.xsd.schema.Requisicao;

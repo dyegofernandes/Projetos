@@ -5,7 +5,6 @@
  */
 package br.gov.pi.ati.modelo.orcamento;
 
-import br.gov.pi.ati.modelo.cadastro.AcaoOrcamentaria;
 import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
 import java.io.Serializable;
 import java.util.ArrayList;

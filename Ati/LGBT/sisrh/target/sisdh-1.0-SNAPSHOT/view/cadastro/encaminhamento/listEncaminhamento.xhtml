@@ -1,0 +1,117 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['encaminhamentoLGBT.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuEncaminhamento.xhtml" />
+        <h:form id="formListEncaminhamentoLGBT">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="encaminhamentoLGBT_export" target=":formListEncaminhamentoLGBT:dataTableEncaminhamentoLGBT"
+                                     widgetVar="dataTableEncaminhamentoLGBTWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="encaminhamentoLGBT" rowIndexVar="index" id="dataTableEncaminhamentoLGBT" widgetVar="dataTableEncaminhamentoLGBTWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{encaminhamentoLGBTMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{encaminhamentoLGBTMB.dataModel.paginatorTemplate}"
+                         value="#{encaminhamentoLGBTMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">
+                        <h:outputText value="" />
+                    </f:facet>
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['encaminhamentoLGBT.dataEmissao']}" sortBy="#{encaminhamentoLGBT.dataEmissao}"
+                    filterBy="#{encaminhamentoLGBT.dataEmissao}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['encaminhamentoLGBT.dataEmissao']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{encaminhamentoLGBT.dataEmissao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['encaminhamentoLGBT.nome']}" sortBy="#{encaminhamentoLGBT.nome}"
+                    filterBy="#{encaminhamentoLGBT.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['encaminhamentoLGBT.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{encaminhamentoLGBT.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['encaminhamentoLGBT.rg']}" sortBy="#{encaminhamentoLGBT.rg}"
+                    filterBy="#{encaminhamentoLGBT.rg}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['encaminhamentoLGBT.rg']}" />
+                    </f:facet>
+                    <h:outputText value="#{encaminhamentoLGBT.rg}"/>
+                </p:column>
+                <p:column headerText="#{msg['encaminhamentoLGBT.cpf']}" sortBy="#{encaminhamentoLGBT.cpf}"
+                    filterBy="#{encaminhamentoLGBT.cpf}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['encaminhamentoLGBT.cpf']}" />
+                    </f:facet>
+                    <h:outputText value="#{encaminhamentoLGBT.cpf}"/>
+                </p:column>
+                <p:column headerText="#{msg['encaminhamentoLGBT.telefone']}" sortBy="#{encaminhamentoLGBT.telefone}"
+                    filterBy="#{encaminhamentoLGBT.telefone}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['encaminhamentoLGBT.telefone']}" />
+                    </f:facet>
+                    <h:outputText value="#{encaminhamentoLGBT.telefone}"/>
+                </p:column>
+                
+                
+                <p:column headerText="#{msg['encaminhamentoLGBT.responsavelRedeServico']}" sortBy="#{encaminhamentoLGBT.responsavelRedeServico}"
+                    filterBy="#{encaminhamentoLGBT.responsavelRedeServico}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['encaminhamentoLGBT.responsavelRedeServico']}" />
+                    </f:facet>
+                    <h:outputText value="#{encaminhamentoLGBT.responsavelRedeServico}"/>
+                </p:column>
+                <p:column headerText="#{msg['encaminhamentoLGBT.responsavelCR']}-LGBT" sortBy="#{encaminhamentoLGBT.responsavelCR}"
+                    filterBy="#{encaminhamentoLGBT.responsavelCR}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['encaminhamentoLGBT.responsavelCR']}-LGBT" />
+                    </f:facet>
+                    <h:outputText value="#{encaminhamentoLGBT.responsavelCR}"/>
+                </p:column>
+                
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetEncaminhamentoLGBTDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailEncaminhamentoLGBT" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{encaminhamentoLGBT}" target="#{encaminhamentoLGBTMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="encaminhamento.create">
+                        <p:button icon="ui-icon-pencil" outcome="createEncaminhamento" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{encaminhamentoLGBT.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="encaminhamento.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{encaminhamentoLGBTMB.delete}" >
+                            <f:setPropertyActionListener value="#{encaminhamentoLGBT.id}" target="#{encaminhamentoLGBTMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{encaminhamentoLGBT}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="encaminhamento.audit">
+                    <x:auditDelete for="#{encaminhamentoLGBTMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetEncaminhamentoLGBTDetail" header="#{msg['encaminhamentoLGBT.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailEncaminhamento.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -4,14 +4,14 @@
     <!-- 
     Abaixo deve ser comentado caso seja configuracao diretamente no servidor
     -->
-    <jdbc-resource enabled="true" jndi-name="jdbc/sisrhDS" object-type="user" pool-name="sisrh">
+    <jdbc-resource enabled="true" jndi-name="jdbc/sisdhDS" object-type="user" pool-name="sisdh">
         <description/>
     </jdbc-resource>
-    <jdbc-connection-pool name="sisrh"  
+    <jdbc-connection-pool name="sisdh"  
                           datasource-classname="org.postgresql.ds.PGSimpleDataSource" 
                           res-type="javax.sql.DataSource">
         <property name="User" value="postgres"></property>
-        <property name="DatabaseName" value="sisrh"></property>
+        <property name="DatabaseName" value="sisdh"></property>
         <property name="Password" value="postgres"></property>
         <property name="Ssl" value="false"></property>
         <property name="ServerName" value="localhost"></property>

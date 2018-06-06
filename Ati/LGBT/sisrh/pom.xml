@@ -3,12 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
    
 
-    <groupId>sisrh</groupId>
-    <artifactId>sisrh</artifactId>
+    <groupId>sisdh</groupId>
+    <artifactId>sisdh</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>sisrh</name>
+    <name>sisdh</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>

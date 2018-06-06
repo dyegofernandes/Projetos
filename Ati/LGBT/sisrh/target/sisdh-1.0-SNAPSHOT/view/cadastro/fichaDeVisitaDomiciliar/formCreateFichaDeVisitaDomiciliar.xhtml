@@ -1,0 +1,164 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateFichaDeVisitaDomiciliar" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:fieldset legend="#{xmsg['generalData']}" id="fieldGeral">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="usuario" value="* #{msg['fichaDeVisitaDomiciliar.usuario']}:" />
+                        <p:inputText id="usuario" value="#{fichaDeVisitaDomiciliarMB.entity.usuario}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nc" value="* #{msg['fichaDeVisitaDomiciliar.nc']}:" />
+                        <p:inputText id="nc" value="#{fichaDeVisitaDomiciliarMB.entity.nc}" maxlength="50"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="endereco" value="* #{msg['fichaDeVisitaDomiciliar.endereco']}:" />
+                        <p:inputText id="endereco" value="#{fichaDeVisitaDomiciliarMB.entity.endereco}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="bairro" value="* #{msg['fichaDeVisitaDomiciliar.bairro']}:" />
+                        <p:inputText id="bairro" value="#{fichaDeVisitaDomiciliarMB.entity.bairro}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cidade" value="* #{msg['fichaDeVisitaDomiciliar.cidade']}:" />
+                        <p:inputText id="cidade" value="#{fichaDeVisitaDomiciliarMB.entity.cidade}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="telefone" value="* #{msg['fichaDeVisitaDomiciliar.telefone']}:" />
+                        <p:inputMask id="telefone" value="#{fichaDeVisitaDomiciliarMB.entity.telefone}" mask="(99) 9999-9999"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="solicitante" value="* #{msg['fichaDeVisitaDomiciliar.solicitante']}:" />
+                        <h:selectOneMenu id="solicitante" value="#{fichaDeVisitaDomiciliarMB.entity.solicitante}"  styleClass="form-control" >
+                            <f:selectItems value="#{findAllBean.get(classMB.solicitante)}" 
+                                           var="solicitante"
+                                           itemLabel="#{solicitante.descricao}"/>
+                            <p:ajax process="@this" update="panelOutrosSolicitante"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <h:panelGroup id="panelOutrosSolicitante">
+                        <h:panelGroup  rendered="#{fichaDeVisitaDomiciliarMB.entity.solicitante.num eq 2}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="solicitanteOutroA" value="#{msg['fichaDeVisitaDomiciliar.solicitanteOutroA']}:" />
+                                <p:inputText id="solicitanteOutroA" value="#{fichaDeVisitaDomiciliarMB.entity.solicitanteOutroA}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="residencia" value="* #{msg['fichaDeVisitaDomiciliar.residencia']}?:" />
+                        <h:selectOneMenu id="residencia" value="#{fichaDeVisitaDomiciliarMB.entity.residencia}"  styleClass="form-control" >
+                            <f:selectItems value="#{findAllBean.get(classMB.simOuNaoOutros)}" 
+                                           var="simOuNao"
+                                           itemLabel="#{simOuNao.descricao}"/>
+                            <p:ajax process="@this" update="panelOutrosResidencia"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <h:panelGroup id="panelOutrosResidencia">
+                        <h:panelGroup rendered="#{fichaDeVisitaDomiciliarMB.entity.residencia.num eq 3}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="residenciaOutroA" value="#{msg['fichaDeVisitaDomiciliar.residenciaOutroA']}:" />
+                                <p:inputText id="residenciaOutroA" value="#{fichaDeVisitaDomiciliarMB.entity.residenciaOutroA}" maxlength="255"  styleClass="form-control"  />
+                            </div>
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataVisita" value="* #{msg['fichaDeVisitaDomiciliar.dataVisita']}:" />
+                        <p:calendar id="dataVisita" value="#{fichaDeVisitaDomiciliarMB.entity.dataVisita}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="agendamento" value="#{msg['fichaDeVisitaDomiciliar.agendamento']}:" />
+                        <p:inputText id="agendamento" value="#{fichaDeVisitaDomiciliarMB.entity.agendamento}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="equipe" value="#{msg['fichaDeVisitaDomiciliar.equipe']}:" />
+                        <p:inputText id="equipe" value="#{fichaDeVisitaDomiciliarMB.entity.equipe}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Procedimento (s)">
+            <p:fieldset legend="Procedimento" id="procedimento">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="dataProcedimento" value="* Data:" />
+                    <p:calendar id="dataProcedimento" value="#{fichaDeVisitaDomiciliarMB.procedimento.dataProcedimento}" 
+                                showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                        <x:mask/>
+                    </p:calendar>
+                </div>
+                <div class="form-group col-lg-8 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="descricaoProcimento" value="* Descrição do Procedimento:" />
+                    <p:inputText id="descricaoProcimento" value="#{fichaDeVisitaDomiciliarMB.procedimento.procedimento}" maxlength="255"  styleClass="form-control"  />
+                </div>
+            </p:fieldset>
+            <div class="uix-center">
+                <p:commandButton process="@this procedimento" update="procedimento dataTableProcedimentos" value="Adicionar" 
+                                 action="#{fichaDeVisitaDomiciliarMB.addProcedimento()}"/>
+            </div>
+            <p:fieldset legend="Procedimento (s)" id="procedimentos">
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="procedimento" rowIndexVar="index" id="dataTableProcedimentos" widgetVar="dataTableProcedimentos" styleClass="table-responsive"
+                             value="#{fichaDeVisitaDomiciliarMB.procedimentos}">
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column headerText="Data" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Data" />
+                        </f:facet>
+                        <h:outputText value="#{procedimento.dataProcedimento}">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Procedimento"  >
+                        <f:facet name="header">
+                            <h:outputText value="Procedimento:" />
+                        </f:facet>
+                        <h:outputText value="#{procedimento.procedimento}"/>
+                    </p:column>
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableProcedimentos" 
+                                         action="#{fichaDeVisitaDomiciliarMB.removerProcedimento(procedimento)}" >
+                        </p:commandButton>
+
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="fichaDeVisitaDomiciliar.create">
+                <p:commandButton process="@this fieldGeral" update="@form" action="#{fichaDeVisitaDomiciliarMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="fichaDeVisitaDomiciliar.audit">
+                <x:audit for="#{fichaDeVisitaDomiciliarMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

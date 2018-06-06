@@ -20,7 +20,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import com.google.gson.Gson;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Base64;
+import javax.xml.bind.DatatypeConverter;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 
 /**
  *
@@ -29,16 +34,31 @@ import java.util.Base64;
 public class HttpBasicAuth {
 
     public static void main(String[] args) throws IOException {
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost post = new HttpPost("https://oauth.hm.bb.com.br:4300/oauth/token");
-        post.getParams().setParameter("client_id", "eyJpZCI6IjgwNDNiNTMtZjQ5Mi00YyIsImNvZGlnb1B1YmxpY2Fkb3IiOjEwOSwiY29kaWdvU29mdHdhcmUiOjEsInNlcXVlbmNpYWxJbnN0YWxhY2FvIjoxfQ");
-        post.getParams().setParameter("client_secret", "eyJpZCI6IjBjZDFlMGQtN2UyNC00MGQyLWI0YSIsImNvZGlnb1B1YmxpY2Fkb3IiOjEwOSwiY29kaWdvU29mdHdhcmUiOjEsInNlcXVlbmNpYWxJbnN0YWxhY2FvIjoxLCJzZXF1ZW5jaWFsQ3JlZGVuY2lhbCI6MX0");
-        post.getParams().setParameter("Content-Type", "application/x-www-form-urlencoded");
-        post.getParams().setParameter("grant_type", "client_credentials");
-        post.getParams().setParameter("scope", "cobranca.registro-boletos");
-//        post.getParams().setParameter("redirect_uri", "https://login.salesforce.com/services/oauth2/success");
-        HttpResponse response = httpclient.execute(post);
-        JSONObject json = (JSONObject) JSONValue.parse(new InputStreamReader(response.getEntity().getContent()));
-        System.out.println(json);
+        String requestUrl = "https://oauth.hm.bb.com.br";
+        URLConnection connection = new URL(requestUrl).openConnection();
+        System.out.println("orignal url: " + connection.getURL());
+        connection.connect();
+        System.out.println("connected url: " + connection.getURL());
+        HttpPost httpPost = new HttpPost(requestUrl);
+        String username = "eyJpZCI6IjgwNDNiNTMtZjQ5Mi00YyIsImNvZGlnb1B1YmxpY2Fkb3IiOjEwOSwiY29kaWdvU29mdHdhcmUiOjEsInNlcXVlbmNpYWxJbnN0YWxhY2FvIjoxfQ";
+        String password = "eyJpZCI6IjBjZDFlMGQtN2UyNC00MGQyLWI0YSIsImNvZGlnb1B1YmxpY2Fkb3IiOjEwOSwiY29kaWdvU29mdHdhcmUiOjEsInNlcXVlbmNpYWxJbnN0YWxhY2FvIjoxLCJzZXF1ZW5jaWFsQ3JlZGVuY2lhbCI6MX0";
+        String encoded = DatatypeConverter.printBase64Binary((username + ":" + password).getBytes("UTF-8"));
+        
+        httpPost.addHeader("AUTHORIZATION", "Basic " + encoded);
+        httpPost.addHeader("Content-Type", "application/xml");
+        httpPost.addHeader("Cache-Control", "no-cache");
+        
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        HttpResponse response = httpClient.execute(httpPost);
+        
+        System.out.println("Response --> " + response.getStatusLine().toString());
+        
+        HttpEntity entity = response.getEntity();
+        
+        String responseString = EntityUtils.toString(entity, "UTF-8");
+        
+        System.out.println("ResponseString" + responseString);
+        
+        EntityUtils.consume(entity);
     }
 }

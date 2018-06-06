@@ -5,8 +5,6 @@
  */
 package carnepagcontas;
 
-import javax.servlet.http.HttpServletRequest;
-import org.apache.oltu.oauth2.as.request.OAuthTokenRequest;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 
@@ -17,11 +15,7 @@ import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse;
 import org.apache.oltu.oauth2.common.message.types.GrantType;
 import java.util.Base64;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import org.apache.oltu.oauth2.common.OAuth;
 
 /**
  *
@@ -34,20 +28,20 @@ public class Principal {
      * https://oauth.hm.bb.com.br:43000/oauth/token
      * https://oauth.hm.bb.com.br/oauth/token
      */
-    public static final String TOKEN_REQUEST_URL = "https://oauth.hm.bb.com.br:4300/oauth/token";
+    public static final String TOKEN_REQUEST_URL = "https://oauth.hm.bb.com.br/oauth/token";
 
     /**
      * Client ID of your client credential. Change this to match whatever
      * credential you have created.
      */
-    public static final String CLIENT_ID="eyJpZCI6IjgwNDNiNTMtZjQ5Mi00YyIsImNvZGlnb1B1YmxpY2Fkb3IiOjEwOSwiY29kaWdvU29mdHdhcmUiOjEsInNlcXVlbmNpYWxJbnN0YWxhY2FvIjoxfQ";
+    public static final String CLIENT_ID = "eyJpZCI6IjgwNDNiNTMtZjQ5Mi00YyIsImNvZGlnb1B1YmxpY2Fkb3IiOjEwOSwiY29kaWdvU29mdHdhcmUiOjEsInNlcXVlbmNpYWxJbnN0YWxhY2FvIjoxfQ";
 //            = Base64.getEncoder().withoutPadding().encodeToString("eyJpZCI6IjgwNDNiNTMtZjQ5Mi00YyIsImNvZGlnb1B1YmxpY2Fkb3IiOjEwOSwiY29kaWdvU29mdHdhcmUiOjEsInNlcXVlbmNpYWxJbnN0YWxhY2FvIjoxfQ".getBytes());
 
     /**
      * Client secret of your client credential. Change this to match whatever
      * credential you have created.
      */
-    public static final String CLIENT_SECRET="eyJpZCI6IjBjZDFlMGQtN2UyNC00MGQyLWI0YSIsImNvZGlnb1B1YmxpY2Fkb3IiOjEwOSwiY29kaWdvU29mdHdhcmUiOjEsInNlcXVlbmNpYWxJbnN0YWxhY2FvIjoxLCJzZXF1ZW5jaWFsQ3JlZGVuY2lhbCI6MX0";
+    public static final String CLIENT_SECRET = "eyJpZCI6IjBjZDFlMGQtN2UyNC00MGQyLWI0YSIsImNvZGlnb1B1YmxpY2Fkb3IiOjEwOSwiY29kaWdvU29mdHdhcmUiOjEsInNlcXVlbmNpYWxJbnN0YWxhY2FvIjoxLCJzZXF1ZW5jaWFsQ3JlZGVuY2lhbCI6MX0";
 //            = Base64.getEncoder().withoutPadding().encodeToString("eyJpZCI6IjBjZDFlMGQtN2UyNC00MGQyLWI0YSIsImNvZGlnb1B1YmxpY2Fkb3IiOjEwOSwiY29kaWdvU29mdHdhcmUiOjEsInNlcXVlbmNpYWxJbnN0YWxhY2FvIjoxLCJzZXF1ZW5jaWFsQ3JlZGVuY2lhbCI6MX0".getBytes());
 
     /**
@@ -62,7 +56,7 @@ public class Principal {
      * {@link ACCOUNT_ID} below.
      */
     public static final String RESOURCE_URL_TPL
-            = "https://cobranca.homologa.bb.com.br:7101/registrarBoleto";
+            = "https://cobranca.homologa.bb.com.br/registrarBoleto";
 
     public static void main(String[] args) throws OAuthSystemException, OAuthProblemException {
 //        HttpServletRequest request = new HttpServletRequestt();
@@ -74,14 +68,21 @@ public class Principal {
             OAuthClientRequest request
                     = OAuthClientRequest.tokenLocation(TOKEN_REQUEST_URL)
                     .setGrantType(GrantType.CLIENT_CREDENTIALS)
-                    .setClientId(CLIENT_ID)
-                    .setClientSecret(CLIENT_SECRET)
+                    .setUsername(CLIENT_ID)
+                    .setPassword(CLIENT_SECRET)
                     .setScope("cobranca.registro-boletos")
-                            
                     .buildQueryMessage();
 
+//            request.addHeader("Accept", "application/x-www-form-urlencoded");
+//            request.addHeader("Content-Type", "application/x-www-form-urlencoded");
+            request.addHeader("Accept", "application/json");
+            request.addHeader("Content-Type", "application/json");
+
+            request.addHeader("Cache-Control", "no-cache");
+            request.addHeader("Authorization", "Basic");
+
             String token
-                    = client.accessToken(request, OAuthJSONAccessTokenResponse.class)
+                    = client.accessToken(request, OAuth.HttpMethod.POST, OAuthJSONAccessTokenResponse.class)
                     .getAccessToken();
 
 //            String resourceUrl = RESOURCE_URL_TPL.replace(":account-id", ACCOUNT_ID);
@@ -101,6 +102,11 @@ public class Principal {
         } catch (Exception exn) {
             exn.printStackTrace();
         }
+    }
+
+    private static String base64EncodedBasicAuthentication() {
+        return Base64.getEncoder().withoutPadding().encodeToString(CLIENT_ID.getBytes()).concat(":").concat(Base64.getEncoder().withoutPadding().encodeToString(CLIENT_SECRET.getBytes()));
+        //return Base64.getEncoder().withoutPadding().encodeToString(CLIENT_ID.concat(":").concat(CLIENT_SECRET).getBytes());
     }
 
 }

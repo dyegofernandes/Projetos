@@ -1,0 +1,156 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['fichaDeVisitaDomiciliar.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuFichaDeVisitaDomiciliar.xhtml" />
+        <h:form id="formListFichaDeVisitaDomiciliar">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="fichaDeVisitaDomiciliar_export" target=":formListFichaDeVisitaDomiciliar:dataTableFichaDeVisitaDomiciliar"
+                                     widgetVar="dataTableFichaDeVisitaDomiciliarWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="fichaDeVisitaDomiciliar" rowIndexVar="index" id="dataTableFichaDeVisitaDomiciliar" widgetVar="dataTableFichaDeVisitaDomiciliarWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{fichaDeVisitaDomiciliarMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{fichaDeVisitaDomiciliarMB.dataModel.paginatorTemplate}"
+                         value="#{fichaDeVisitaDomiciliarMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">
+                        <h:outputText value="" />
+                    </f:facet>
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['fichaDeVisitaDomiciliar.usuario']}" sortBy="#{fichaDeVisitaDomiciliar.usuario}"
+                    filterBy="#{fichaDeVisitaDomiciliar.usuario}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fichaDeVisitaDomiciliar.usuario']}" />
+                    </f:facet>
+                    <h:outputText value="#{fichaDeVisitaDomiciliar.usuario}"/>
+                </p:column>
+                <p:column headerText="#{msg['fichaDeVisitaDomiciliar.nc']}" sortBy="#{fichaDeVisitaDomiciliar.nc}"
+                    filterBy="#{fichaDeVisitaDomiciliar.nc}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fichaDeVisitaDomiciliar.nc']}" />
+                    </f:facet>
+                    <h:outputText value="#{fichaDeVisitaDomiciliar.nc}"/>
+                </p:column>
+                <p:column headerText="#{msg['fichaDeVisitaDomiciliar.endereco']}" sortBy="#{fichaDeVisitaDomiciliar.endereco}"
+                    filterBy="#{fichaDeVisitaDomiciliar.endereco}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fichaDeVisitaDomiciliar.endereco']}" />
+                    </f:facet>
+                    <h:outputText value="#{fichaDeVisitaDomiciliar.endereco}"/>
+                </p:column>
+                <p:column headerText="#{msg['fichaDeVisitaDomiciliar.bairro']}" sortBy="#{fichaDeVisitaDomiciliar.bairro}"
+                    filterBy="#{fichaDeVisitaDomiciliar.bairro}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fichaDeVisitaDomiciliar.bairro']}" />
+                    </f:facet>
+                    <h:outputText value="#{fichaDeVisitaDomiciliar.bairro}"/>
+                </p:column>
+                <p:column headerText="#{msg['fichaDeVisitaDomiciliar.cidade']}" sortBy="#{fichaDeVisitaDomiciliar.cidade}"
+                    filterBy="#{fichaDeVisitaDomiciliar.cidade}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fichaDeVisitaDomiciliar.cidade']}" />
+                    </f:facet>
+                    <h:outputText value="#{fichaDeVisitaDomiciliar.cidade}"/>
+                </p:column>
+                <p:column headerText="#{msg['fichaDeVisitaDomiciliar.telefone']}" sortBy="#{fichaDeVisitaDomiciliar.telefone}"
+                    filterBy="#{fichaDeVisitaDomiciliar.telefone}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fichaDeVisitaDomiciliar.telefone']}" />
+                    </f:facet>
+                    <h:outputText value="#{fichaDeVisitaDomiciliar.telefone}"/>
+                </p:column>
+                <p:column headerText="#{msg['fichaDeVisitaDomiciliar.solicitante']}" sortBy="#{fichaDeVisitaDomiciliar.solicitante}"
+                    filterBy="#{fichaDeVisitaDomiciliar.solicitante}"  filterOptions="#{findAllBean.getSelect(classMB.solicitante)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fichaDeVisitaDomiciliar.solicitante']}" />
+                    </f:facet>
+                    <h:outputText value="#{fichaDeVisitaDomiciliar.solicitante}"/>
+                </p:column>
+                <p:column headerText="#{msg['fichaDeVisitaDomiciliar.solicitanteOutroA']}" sortBy="#{fichaDeVisitaDomiciliar.solicitanteOutroA}"
+                    filterBy="#{fichaDeVisitaDomiciliar.solicitanteOutroA}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fichaDeVisitaDomiciliar.solicitanteOutroA']}" />
+                    </f:facet>
+                    <h:outputText value="#{fichaDeVisitaDomiciliar.solicitanteOutroA}"/>
+                </p:column>
+                <p:column headerText="#{msg['fichaDeVisitaDomiciliar.residencia']}" sortBy="#{fichaDeVisitaDomiciliar.residencia}"
+                    filterBy="#{fichaDeVisitaDomiciliar.residencia}"  filterOptions="#{findAllBean.getSelect(classMB.simOuNaoOutros)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fichaDeVisitaDomiciliar.residencia']}" />
+                    </f:facet>
+                    <h:outputText value="#{fichaDeVisitaDomiciliar.residencia}"/>
+                </p:column>
+                <p:column headerText="#{msg['fichaDeVisitaDomiciliar.residenciaOutroA']}" sortBy="#{fichaDeVisitaDomiciliar.residenciaOutroA}"
+                    filterBy="#{fichaDeVisitaDomiciliar.residenciaOutroA}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fichaDeVisitaDomiciliar.residenciaOutroA']}" />
+                    </f:facet>
+                    <h:outputText value="#{fichaDeVisitaDomiciliar.residenciaOutroA}"/>
+                </p:column>
+                <p:column headerText="#{msg['fichaDeVisitaDomiciliar.dataVisita']}" sortBy="#{fichaDeVisitaDomiciliar.dataVisita}"
+                    filterBy="#{fichaDeVisitaDomiciliar.dataVisita}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fichaDeVisitaDomiciliar.dataVisita']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{fichaDeVisitaDomiciliar.dataVisita}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['fichaDeVisitaDomiciliar.agendamento']}" sortBy="#{fichaDeVisitaDomiciliar.agendamento}"
+                    filterBy="#{fichaDeVisitaDomiciliar.agendamento}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fichaDeVisitaDomiciliar.agendamento']}" />
+                    </f:facet>
+                    <h:outputText value="#{fichaDeVisitaDomiciliar.agendamento}"/>
+                </p:column>
+                <p:column headerText="#{msg['fichaDeVisitaDomiciliar.equipe']}" sortBy="#{fichaDeVisitaDomiciliar.equipe}"
+                    filterBy="#{fichaDeVisitaDomiciliar.equipe}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fichaDeVisitaDomiciliar.equipe']}" />
+                    </f:facet>
+                    <h:outputText value="#{fichaDeVisitaDomiciliar.equipe}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetFichaDeVisitaDomiciliarDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailFichaDeVisitaDomiciliar" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{fichaDeVisitaDomiciliar}" target="#{fichaDeVisitaDomiciliarMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="fichaDeVisitaDomiciliar.create">
+                        <p:button icon="ui-icon-pencil" outcome="createFichaDeVisitaDomiciliar" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{fichaDeVisitaDomiciliar.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="fichaDeVisitaDomiciliar.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{fichaDeVisitaDomiciliarMB.delete}" >
+                            <f:setPropertyActionListener value="#{fichaDeVisitaDomiciliar.id}" target="#{fichaDeVisitaDomiciliarMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{fichaDeVisitaDomiciliar}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="fichaDeVisitaDomiciliar.audit">
+                    <x:auditDelete for="#{fichaDeVisitaDomiciliarMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetFichaDeVisitaDomiciliarDetail" header="#{msg['fichaDeVisitaDomiciliar.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailFichaDeVisitaDomiciliar.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

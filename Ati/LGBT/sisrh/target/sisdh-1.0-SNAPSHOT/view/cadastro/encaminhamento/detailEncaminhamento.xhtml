@@ -1,0 +1,70 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailEncaminhamentoLGBT" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['encaminhamentoLGBT.dataEmissao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{encaminhamentoLGBTMB.entity.dataEmissao}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['encaminhamentoLGBT.nome']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{encaminhamentoLGBTMB.entity.nome}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['encaminhamentoLGBT.rg']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{encaminhamentoLGBTMB.entity.rg}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['encaminhamentoLGBT.cpf']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{encaminhamentoLGBTMB.entity.cpf}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['encaminhamentoLGBT.telefone']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{encaminhamentoLGBTMB.entity.telefone}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['encaminhamentoLGBT.endereco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{encaminhamentoLGBTMB.entity.endereco}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['encaminhamentoLGBT.area']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{encaminhamentoLGBTMB.entity.area}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['encaminhamentoLGBT.ncUsuario']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{encaminhamentoLGBTMB.entity.ncUsuario}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['encaminhamentoLGBT.encaminhadoPara']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{encaminhamentoLGBTMB.entity.encaminhadoPara}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['encaminhamentoLGBT.responsavelRedeServico']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{encaminhamentoLGBTMB.entity.responsavelRedeServico}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['encaminhamentoLGBT.responsavelCR']}-LGBT:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{encaminhamentoLGBTMB.entity.responsavelCR}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['encaminhamentoLGBT.observacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{encaminhamentoLGBTMB.entity.observacao}" styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetEncaminhamentoLGBTDetail').hide()" />
+            <x:securityArea rolesAllowed="encaminhamento.audit">
+                <x:audit for="#{encaminhamentoLGBTMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

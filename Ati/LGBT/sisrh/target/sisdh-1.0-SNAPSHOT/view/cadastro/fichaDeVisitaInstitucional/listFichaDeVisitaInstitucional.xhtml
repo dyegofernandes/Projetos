@@ -1,0 +1,114 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['fichaDeVisitaInstitucionalLGBT.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuFichaDeVisitaInstitucional.xhtml" />
+        <h:form id="formListFichaDeVisitaInstitucionalLGBT">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="fichaDeVisitaInstitucionalLGBT_export" target=":formListFichaDeVisitaInstitucionalLGBT:dataTableFichaDeVisitaInstitucionalLGBT"
+                                     widgetVar="dataTableFichaDeVisitaInstitucionalLGBTWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="fichaDeVisitaInstitucionalLGBT" rowIndexVar="index" id="dataTableFichaDeVisitaInstitucionalLGBT" widgetVar="dataTableFichaDeVisitaInstitucionalLGBTWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{fichaDeVisitaInstitucionalLGBTMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{fichaDeVisitaInstitucionalLGBTMB.dataModel.paginatorTemplate}"
+                         value="#{fichaDeVisitaInstitucionalLGBTMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">
+                        <h:outputText value="" />
+                    </f:facet>
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['fichaDeVisitaInstitucionalLGBT.dataEmissao']}" sortBy="#{fichaDeVisitaInstitucionalLGBT.dataEmissao}"
+                    filterBy="#{fichaDeVisitaInstitucionalLGBT.dataEmissao}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fichaDeVisitaInstitucionalLGBT.dataEmissao']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{fichaDeVisitaInstitucionalLGBT.dataEmissao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['fichaDeVisitaInstitucionalLGBT.instituicao']}" sortBy="#{fichaDeVisitaInstitucionalLGBT.instituicao}"
+                    filterBy="#{fichaDeVisitaInstitucionalLGBT.instituicao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fichaDeVisitaInstitucionalLGBT.instituicao']}" />
+                    </f:facet>
+                    <h:outputText value="#{fichaDeVisitaInstitucionalLGBT.instituicao}"/>
+                </p:column>
+                <p:column headerText="#{msg['fichaDeVisitaInstitucionalLGBT.naturezaInstituicao']}" sortBy="#{fichaDeVisitaInstitucionalLGBT.naturezaInstituicao}"
+                    filterBy="#{fichaDeVisitaInstitucionalLGBT.naturezaInstituicao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fichaDeVisitaInstitucionalLGBT.naturezaInstituicao']}" />
+                    </f:facet>
+                    <h:outputText value="#{fichaDeVisitaInstitucionalLGBT.naturezaInstituicao}"/>
+                </p:column>
+                <p:column headerText="#{msg['fichaDeVisitaInstitucionalLGBT.telefone']}" sortBy="#{fichaDeVisitaInstitucionalLGBT.telefone}"
+                    filterBy="#{fichaDeVisitaInstitucionalLGBT.telefone}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fichaDeVisitaInstitucionalLGBT.telefone']}" />
+                    </f:facet>
+                    <h:outputText value="#{fichaDeVisitaInstitucionalLGBT.telefone}"/>
+                </p:column>
+                <p:column headerText="#{msg['fichaDeVisitaInstitucionalLGBT.endereco']}" sortBy="#{fichaDeVisitaInstitucionalLGBT.endereco}"
+                    filterBy="#{fichaDeVisitaInstitucionalLGBT.endereco}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fichaDeVisitaInstitucionalLGBT.endereco']}" />
+                    </f:facet>
+                    <h:outputText value="#{fichaDeVisitaInstitucionalLGBT.endereco}"/>
+                </p:column>
+                <p:column headerText="#{msg['fichaDeVisitaInstitucionalLGBT.servicosOferecidos']}" sortBy="#{fichaDeVisitaInstitucionalLGBT.servicosOferecidos}"
+                    filterBy="#{fichaDeVisitaInstitucionalLGBT.servicosOferecidos}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fichaDeVisitaInstitucionalLGBT.servicosOferecidos']}" />
+                    </f:facet>
+                    <h:outputText value="#{fichaDeVisitaInstitucionalLGBT.servicosOferecidos}"/>
+                </p:column>
+                <p:column headerText="#{msg['fichaDeVisitaInstitucionalLGBT.observacoes']}" sortBy="#{fichaDeVisitaInstitucionalLGBT.observacoes}"
+                    filterBy="#{fichaDeVisitaInstitucionalLGBT.observacoes}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fichaDeVisitaInstitucionalLGBT.observacoes']}" />
+                    </f:facet>
+                    <h:outputText value="#{fichaDeVisitaInstitucionalLGBT.observacoes}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetFichaDeVisitaInstitucionalLGBTDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailFichaDeVisitaInstitucionalLGBT" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{fichaDeVisitaInstitucionalLGBT}" target="#{fichaDeVisitaInstitucionalLGBTMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="fichaDeVisitaInstitucional.create">
+                        <p:button icon="ui-icon-pencil" outcome="createFichaDeVisitaInstitucional" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{fichaDeVisitaInstitucionalLGBT.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="fichaDeVisitaInstitucional.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{fichaDeVisitaInstitucionalLGBTMB.delete}" >
+                            <f:setPropertyActionListener value="#{fichaDeVisitaInstitucionalLGBT.id}" target="#{fichaDeVisitaInstitucionalLGBTMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{fichaDeVisitaInstitucionalLGBT}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="fichaDeVisitaInstitucional.audit">
+                    <x:auditDelete for="#{fichaDeVisitaInstitucionalLGBTMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetFichaDeVisitaInstitucionalLGBTDetail" header="#{msg['fichaDeVisitaInstitucionalLGBT.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailFichaDeVisitaInstitucional.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

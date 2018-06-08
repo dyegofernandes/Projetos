@@ -9,6 +9,50 @@
     <ui:define name="body">
         <ui:include src="menuReferencia.xhtml" />
         <h:form id="formListReferencia">
+            <p:fieldset legend="Filtros de Busca" toggleable="true">
+                <div class="row">
+                    <h:panelGroup id="panel1">
+                        <x:securityArea rolesAllowed="campos.orgao">
+                            
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="orgao" value="Órgão" />
+
+
+                                <p:autoComplete id="orgao" value="#{referenciaMB.filtros.orgao}" 
+
+                                                completeMethod="#{referenciaMB.orgaoAutocompletePeloNome}" styleClass="uix-autocomplete" 
+
+                                                minQueryLength="3" forceSelection="false" dropdown="true" scrollHeight="400"
+
+                                                var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"  > 
+                                    <x:initializer/>
+
+                                    <p:column> 
+
+                                        <h:outputText value="#{p.sigla}" style="font-weight: bold"/>  
+                                        <h:outputText value=" (#{p.nome})" styleClass="font-8"  /> 
+
+                                    </p:column> 
+
+                                </p:autoComplete>
+                                
+                            </div>
+                       
+                        </x:securityArea>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="codigo" value="Código" />
+                            <p:inputMask id="codigo" mask="99/9999" value="#{referenciaMB.filtros.codigo}" styleClass="form-control" 
+                                     converter="periodoConverter"/>
+                            
+                        </div>
+                       
+                        
+                    </h:panelGroup>
+                </div>
+                <div class="uix-center">
+                    <p:commandButton process="@this panel1" update="dataTableReferencia" action="#{referenciaMB.buscar()}" value="Buscar" />
+                </div>
+            </p:fieldset>
             <x:modalMessages autoUpdate="true"/>
 
             <x:dataTableActions fileName="Relatorio_Competencia" target=":formListReferencia:dataTableReferencia"
@@ -16,32 +60,36 @@
 
             <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                          var="referencia" rowIndexVar="index" id="dataTableReferencia" widgetVar="dataTableReferenciaWidget" styleClass="table-responsive"
-                         currentPageReportTemplate="#{referenciaMB.dataModel.currentPageReportTemplate}"
-                         paginatorTemplate="#{referenciaMB.dataModel.paginatorTemplate}"
-                         value="#{referenciaMB.dataModel}" lazy="true" >
+                        
+                         value="#{referenciaMB.referencias}">
                 <p:column styleClass="uix-datatable-index">
                     <f:facet name="header">
                         <h:outputText value="" />
                     </f:facet>
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="#{msg['referencia.codigo']}" sortBy="#{referencia.codigo}"
-                          filterBy="#{referencia.codigo}"  style="text-align: right;" width="10%" >
+                <p:column headerText="Órgão" rendered="#{x:hasRole('campos.orgao')}" sortBy="#{referencia.orgao.nome}">
+                    <f:facet name="header">
+                        <h:outputText value="Órgão" />
+                    </f:facet>
+                    <h:outputText value="#{referencia.orgao}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['referencia.codigo']}" sortBy="#{referencia.codigo}" style="text-align: right;" width="10%" >
                     <f:facet name="header">
                         <h:outputText value="#{msg['referencia.codigo']}" />
                     </f:facet>
                     <h:outputText value="#{referencia.codigo}" converter="periodoConverter"/>
                 </p:column>
-                <p:column headerText="#{msg['referencia.status']}" sortBy="#{referencia.status}"
-                          filterBy="#{referencia.status}"  filterOptions="#{findAllBean.getSelect(classMB.statusReferencia)}" 
+                <p:column headerText="#{msg['referencia.status']}"  sortBy="#{referencia.status}" filterOptions="#{findAllBean.getSelect(classMB.statusReferencia)}" 
                           style="text-align: center;" width="20%">
                     <f:facet name="header">
                         <h:outputText value="#{msg['referencia.status']}" />
                     </f:facet>
                     <h:outputText value="#{referencia.status.descricao}"/>
                 </p:column>
-                <p:column headerText="Observação" sortBy="#{referencia.obs}"
-                          filterBy="#{referencia.obs}"   >
+                <p:column headerText="Observação" sortBy="#{referencia.obs}">
                     <f:facet name="header">
                         <h:outputText value="Observação" />
                     </f:facet>
@@ -63,34 +111,34 @@
                         </p:button>
                     </x:securityArea>
                     <x:securityArea rolesAllowed="referencia.delete">
-                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form"
                                          action="#{referenciaMB.delete}" disabled="#{referencia.status.num==2 || referencia.status.num==3}" >
                             <f:setPropertyActionListener value="#{referencia.id}" target="#{referenciaMB.id}" />
-                            <x:confirmation message="#{xmsg['confirmDelete']} - #{referencia}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{referencia.codigo}" />
                         </p:commandButton>
                     </x:securityArea>
                     <x:securityArea rolesAllowed="referencia.abrir">
                         <p:commandButton icon="ui-icon-unlocked" title="Abrir Competência" ajax="true" action="#{referenciaMB.abrir(referencia)}" 
-                                         process="@form" update="@form" disabled="#{referencia.status.num==1 || referencia.status.num==3}">
+                                         process="@this" update="dataTableReferencia" disabled="#{referencia.status.num==1 || referencia.status.num==3}">
                         </p:commandButton>
 
                     </x:securityArea>  
                     <x:securityArea rolesAllowed="referencia.fechar">
                         <p:commandButton icon="ui-icon-locked" title="Fechar Competência" ajax="true" action="#{referenciaMB.fechar(referencia)}" 
-                                         process="@form" update="@form" disabled="#{referencia.status.num==2 || referencia.status.num==3}">
+                                         process="@this" update="dataTableReferencia" disabled="#{referencia.status.num==2 || referencia.status.num==3}">
                         </p:commandButton>
 
                     </x:securityArea>  
                     <x:securityArea rolesAllowed="referencia.processar">
                         <p:commandButton icon="ui-icon-circle-check" title="Processar Competência" ajax="true" action="#{referenciaMB.processar(referencia)}" 
-                                         process="@form" update="@form" disabled="#{referencia.status.num==1 || referencia.status.num==3}">
+                                         process="@this" update="dataTableReferencia" disabled="#{referencia.status.num==1 || referencia.status.num==3}">
                         </p:commandButton>
 
                     </x:securityArea> 
 
                     <x:securityArea rolesAllowed="referencia.gerarGfip">
                         <p:commandButton icon="ui-icon-document-b" title="Gerar Gfip" ajax="false" action="#{referenciaMB.gerarGfip(referencia)}" 
-                                         process="@form" update="@form" disabled="#{referencia.status.num==1 || referencia.status.num==2}"
+                                         process="@this" update="dataTableReferencia" disabled="#{referencia.status.num==1 || referencia.status.num==2}"
                                          rendered="#{!sessaoUsuarioMB.user.superUsuario}">
                         </p:commandButton>
                         <p:commandButton oncomplete="PF('widgetGfipPorOrgaoOuUnidade').show();" icon="ui-icon-document-b" title="Gerar Gfip por Órgão ou Unidade" 

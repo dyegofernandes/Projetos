@@ -16,8 +16,10 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
@@ -35,6 +37,9 @@ public class Cliente implements Serializable {
     @SequenceGenerator(name = "Cliente", sequenceName = "cliente_id_seq")
     @GeneratedValue(generator = "Cliente")
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Cliente clientePai;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -64,6 +69,10 @@ public class Cliente implements Serializable {
     @NotAudited
     @OneToMany(mappedBy = "cliente")
     private List<ContratoCliente> contratos;
+
+    @NotAudited
+    @OneToMany(mappedBy = "clientePai")
+    private List<Cliente> filhos;
 
     @NotAudited
     @OneToMany(mappedBy = "cliente")
@@ -191,6 +200,22 @@ public class Cliente implements Serializable {
 
     public void setTipoCliente(TipoCliente tipoCliente) {
         this.tipoCliente = tipoCliente;
+    }
+
+    public Cliente getClientePai() {
+        return clientePai;
+    }
+
+    public void setClientePai(Cliente clientePai) {
+        this.clientePai = clientePai;
+    }
+
+    public List<Cliente> getFilhos() {
+        return filhos;
+    }
+
+    public void setFilhos(List<Cliente> filhos) {
+        this.filhos = filhos;
     }
 
 }

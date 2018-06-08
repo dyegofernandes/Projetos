@@ -13,13 +13,17 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.siste.bo.financeiro.MovimentoBO;
 import br.gov.pi.siste.bo.financeiro.ReferenciaBO;
+import br.gov.pi.siste.modelo.cadastro.Orgao;
 import br.gov.pi.siste.modelo.cadastro.Unidade;
+import br.gov.pi.siste.modelo.cadastro.enums.Mes;
 import br.gov.pi.siste.modelo.cadastro.enums.StatusReferencia;
 import br.gov.pi.siste.modelo.controleacesso.Usuario;
 import br.gov.pi.siste.modelo.financeiro.Referencia;
 import br.gov.pi.siste.modelo.vos.FiltrosVO;
 import br.gov.pi.siste.util.SessaoUtils;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,6 +51,11 @@ public class ReferenciaMB extends AbstractBaseBean<Referencia> implements Serial
 
     private List<Unidade> unidadesFiltros;
 
+    private List<Referencia> referencias;
+
+    private Mes mes;
+    private Integer ano;
+    
     @Override
     public ReferenciaBO getBO() {
         return referenciaBO;
@@ -60,12 +69,71 @@ public class ReferenciaMB extends AbstractBaseBean<Referencia> implements Serial
     @Override
     public void init() {
         if (getEntity().getId() == null) {
-            getEntity().setCodigo(referenciaBO.pegarProximaReferencia());
+
+            getEntity().setOrgao(usuarioAtual.getOrgao());
+
+            if (getEntity().getOrgao() != null) {
+                getEntity().setCodigo(referenciaBO.pegarProximaReferencia(usuarioAtual.getOrgao()));
+            }
+        }else{
+            String aux = getEntity().getCodigo().toString();
+            
+            mes =  switchMes(new Integer(aux.subSequence(4,6).toString()));
+            ano =  new Integer(aux.subSequence(0,4).toString());
         }
         filtros = new FiltrosVO();
 
         filtros.setUsuario(usuarioAtual);
 
+        referencias = referenciaBO.listarReferencias(filtros);
+        
+        
+
+    }
+    
+    public Mes switchMes(Integer mes){
+        switch (mes){
+                case 1:
+                    return Mes.JANEIRO;
+                case 2:
+                    return Mes.FEVEREIRO;
+                case 3:
+                    return Mes.MARCO;
+                case 4:
+                    return Mes.ABRIL;
+                case 5:
+                    return Mes.MAIO;
+                case 6:
+                    return Mes.JUNHO;
+                case 7:
+                    return Mes.JULHO;
+                case 8:
+                    return Mes.AGOSTO;
+                case 9:
+                    return Mes.SETEMBRO;
+                case 10:
+                    return Mes.OUTUBRO;
+                case 11:
+                    return Mes.NOVEMBRO;
+                case 12:
+                    return Mes.DEZEMBRO;
+                
+        }
+        System.out.println("Esse é um mês invalido");
+        return null;
+                
+    }
+
+    public void buscar() {
+
+        filtros.setUsuario(usuarioAtual);
+
+        referencias = referenciaBO.listarReferencias(filtros);
+
+    }
+
+    public List<Orgao> orgaoAutocompletePeloNome(String nome) {
+        return getBO().orgaoPeloNome(nome);
     }
 
     @Override
@@ -75,12 +143,31 @@ public class ReferenciaMB extends AbstractBaseBean<Referencia> implements Serial
 
     @Override
     public void save() {
-        if (referenciaBO.verificarReferenciaAnterior(getEntity(), StatusReferencia.ABERTA)) {
-            FacesMessageUtils.error("Não pode existir duas Competência em Aberto!");
-        } else {
-            super.save();;
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        Calendar dateCodigo = Calendar.getInstance();
+        dateCodigo.set(ano, new Integer(mes.getNum()),1);
+        if(dateCodigo.after(today)){
+            FacesMessageUtils.error("Competência não pode conter data após a atual");
+        }else{
+            getEntity().setCodigo(new Integer(ano.toString()+mes.getNum()));
+            super.save();
+            
         }
     }
+
+    @Override
+    public void delete() {
+        super.delete(); //To change body of generated methods, choose Tools | Templates.
+        filtros = new FiltrosVO();
+
+        filtros.setUsuario(usuarioAtual);
+
+        referencias = referenciaBO.listarReferencias(filtros);
+
+    }
+    
+    
 
     public void gerarGfip(Referencia referencia) throws InterruptedException, UnsupportedEncodingException {
         if (referencia != null) {
@@ -163,6 +250,14 @@ public class ReferenciaMB extends AbstractBaseBean<Referencia> implements Serial
         }
     }
 
+    public void gerarCodigo() {
+        if (getEntity().getOrgao() != null) {
+            getEntity().setCodigo(referenciaBO.pegarProximaReferencia(getEntity().getOrgao()));
+        }
+    }
+    
+    
+
     public FiltrosVO getFiltros() {
         return filtros;
     }
@@ -187,4 +282,61 @@ public class ReferenciaMB extends AbstractBaseBean<Referencia> implements Serial
         this.unidadesFiltros = unidadesFiltros;
     }
 
+    public ReferenciaBO getReferenciaBO() {
+        return referenciaBO;
+    }
+
+    public void setReferenciaBO(ReferenciaBO referenciaBO) {
+        this.referenciaBO = referenciaBO;
+    }
+
+    public MovimentoBO getMovimentoBO() {
+        return movimentoBO;
+    }
+
+    public void setMovimentoBO(MovimentoBO movimentoBO) {
+        this.movimentoBO = movimentoBO;
+    }
+
+    public UnidadeBO getUnidadeBO() {
+        return unidadeBO;
+    }
+
+    public void setUnidadeBO(UnidadeBO unidadeBO) {
+        this.unidadeBO = unidadeBO;
+    }
+
+    public Usuario getUsuarioAtual() {
+        return usuarioAtual;
+    }
+
+    public void setUsuarioAtual(Usuario usuarioAtual) {
+        this.usuarioAtual = usuarioAtual;
+    }
+
+    public List<Referencia> getReferencias() {
+        return referencias;
+    }
+
+    public void setReferencias(List<Referencia> referencias) {
+        this.referencias = referencias;
+    }
+
+    public Mes getMes() {
+        return mes;
+    }
+
+    public void setMes(Mes mes) {
+        this.mes = mes;
+    }
+ 
+
+    public Integer getAno() {
+        return ano;
+    }
+
+    public void setAno(Integer ano) {
+        this.ano = ano;
+    }
+    
 }

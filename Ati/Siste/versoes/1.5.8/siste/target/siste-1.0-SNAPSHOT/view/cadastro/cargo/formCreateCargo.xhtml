@@ -15,19 +15,29 @@
                     <x:securityArea rolesAllowed="campos.orgao">
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="orgao" value="* Órgão" />
-                            <h:selectOneMenu id="orgao" value="#{cargoMB.entity.orgao}" converter="entityConverter" styleClass="form-control" 
-                                             >
-                                <x:initializer/>
-                                <f:selectItem itemLabel="#{xmsg['select']}" />
-                                <f:selectItems value="#{findAllBean.get(classMB.orgao)}" 
-                                               var="orgao"
-                                               itemLabel="#{orgao}"/>
-                            </h:selectOneMenu>
+                            <p:autoComplete id="orgao" value="#{cargoMB.entity.orgao}" 
+
+                                            completeMethod="#{cargoMB.orgaoAutocompletePeloNome(nome)}" styleClass="uix-autocomplete" 
+
+                                                minQueryLength="3" forceSelection="false" dropdown="true" scrollHeight="400"
+
+                                                var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"  > 
+                                    <x:initializer/>
+
+                                    <p:column> 
+
+                                        <h:outputText value="#{p.sigla}" style="font-weight: bold"/>  
+                                        <h:outputText value=" (#{p.nome})" styleClass="font-8"  /> 
+
+                                    </p:column> 
+                                    
+                            </p:autoComplete>
                         </div>
                     </x:securityArea>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="codigo" value="* CBO:" />
-                        <p:inputText id="codigo" value="#{cargoMB.entity.codigo}" maxlength="6"  styleClass="form-control"  />
+                        <p:inputMask mask="999999" id="codigo" value="#{cargoMB.entity.codigo}" maxlength="6"  styleClass="form-control"/>
+                        
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="nome" value="* #{msg['cargo.nome']}:" />

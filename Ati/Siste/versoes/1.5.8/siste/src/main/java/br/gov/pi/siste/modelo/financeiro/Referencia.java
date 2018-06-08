@@ -5,6 +5,7 @@
  */
 package br.gov.pi.siste.modelo.financeiro;
 
+import br.gov.pi.siste.modelo.cadastro.Orgao;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.List;
@@ -17,6 +18,8 @@ import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import br.gov.pi.siste.modelo.cadastro.enums.StatusReferencia;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -43,7 +46,12 @@ public class Referencia implements Serializable {
     @OrderBy("codigo")
     @OneToMany(mappedBy = "referencia")
     private List<Movimento> movimentos;
+    
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Orgao orgao;
 
+    
     @Override
     public String toString() {
         if (codigo == null) {
@@ -106,6 +114,16 @@ public class Referencia implements Serializable {
     public void setMovimentos(List<Movimento> movimentos) {
         this.movimentos = movimentos;
     }
+
+    public Orgao getOrgao() {
+        return orgao;
+    }
+
+    public void setOrgao(Orgao orgao) {
+        this.orgao = orgao;
+    }
+    
+    
 
     @Override
     public int hashCode() {

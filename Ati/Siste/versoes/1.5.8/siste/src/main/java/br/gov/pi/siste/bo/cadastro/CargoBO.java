@@ -13,7 +13,9 @@ import javax.ejb.Stateless;
 import br.gov.pi.siste.modelo.cadastro.Cargo;
 import br.gov.pi.siste.modelo.cadastro.Orgao;
 import br.gov.pi.siste.modelo.controleacesso.Usuario;
+
 import br.gov.pi.siste.modelo.vos.FiltrosVO;
+import br.gov.pi.siste.util.Utils;
 
 /**
  *
@@ -57,23 +59,31 @@ public class CargoBO extends AbstractBusinessObject<Cargo> {
             Orgao orgao = getDAO().getInitialized(usuario.getOrgao());
 
             restrictions.add("orgao", orgao);
+        }else{
+            if (filtros.getOrgao() != null) {
+                restrictions.add("orgao", filtros.getOrgao());
+           }
         }
 
-        if (filtros.getNomeCargo() != null && !filtros.getNomeCargo().equals("")) {
+        if (!Utils.isNullOrEmpty(filtros.getNomeCargo())){
             restrictions.like("cargo.nome", filtros.getNomeCargo());
         }
 
-        if (filtros.getCodigo() != null && !filtros.getCodigo().equals("")) {
-            restrictions.add("cargo.codigo", filtros.getCodigo());
+        if (!Utils.isNullOrEmpty(filtros.getCodigo())) {
+            restrictions.like("cargo.codigo", filtros.getCodigo());
         }
 
-        cargos = cargoDAO.getQueryBuilder().select("cargo").from(Cargo.class, "cargo").innerJoinFetch("cargo.orgao", "orgao").add(restrictions).orderBy("orgao, cargo.nome")
+        cargos = cargoDAO.getQueryBuilder().from(Cargo.class, "cargo")
+                .leftJoinFetch("cargo.orgao", "orgao")
+                .add(restrictions)
+                .orderBy("orgao.nome")
                 .getResultList();
-
+        
+        
         return cargos;
     }
 
-    public List<Cargo> listarCargos(Orgao orgao) {
+    public List<Cargo> listarCargosPorOrgao(Orgao orgao) {
 
         if (orgao == null) {
             return null;
@@ -89,5 +99,15 @@ public class CargoBO extends AbstractBusinessObject<Cargo> {
 
         return cargos;
     }
+    
+    public List<Orgao> orgaoPeloNome(String nome) {
+        Restrictions restrictions = new Restrictions();
+        if (!Utils.isNullOrEmpty(nome)) {
+            restrictions.like("orgao.sigla", nome);
+        }
+
+        return getDAO().getQueryBuilder().from(Orgao.class, "orgao").add(restrictions).orderBy("orgao.nome").getResultList();
+    }
+
 
 }

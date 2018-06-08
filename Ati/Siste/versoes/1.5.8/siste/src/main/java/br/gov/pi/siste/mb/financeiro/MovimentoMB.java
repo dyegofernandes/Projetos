@@ -214,7 +214,7 @@ public class MovimentoMB extends AbstractBaseBean<Movimento> implements Serializ
             }
         }
 
-        return cargoBO.listarCargos(orgao);
+        return cargoBO.listarCargosPorOrgao(orgao);
     }
 
     public void carregarMovimentosPorReferencia() {

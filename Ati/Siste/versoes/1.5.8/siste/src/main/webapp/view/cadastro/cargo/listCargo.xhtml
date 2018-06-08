@@ -14,15 +14,28 @@
                     <h:panelGroup id="panel0">
                         <x:securityArea rolesAllowed="campos.orgao">
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                
                                 <h:outputLabel for="orgao" value="Órgão" />
-                                <h:selectOneMenu id="orgao" value="#{cargoMB.filtros.orgao}" converter="entityConverter" styleClass="form-control" 
-                                                 >
+
+
+                                <p:autoComplete id="orgao" value="#{cargoMB.filtros.orgao}" 
+
+                                                completeMethod="#{cargoMB.orgaoAutocompletePeloNome}" styleClass="uix-autocomplete" 
+
+                                                minQueryLength="3" forceSelection="false" dropdown="true" scrollHeight="400"
+
+                                                var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"  > 
                                     <x:initializer/>
-                                    <f:selectItem itemLabel="#{xmsg['select']}" />
-                                    <f:selectItems value="#{findAllBean.get(classMB.orgao)}" 
-                                                   var="orgao"
-                                                   itemLabel="#{orgao}"/>
-                                </h:selectOneMenu>
+
+                                    <p:column> 
+
+                                        <h:outputText value="#{p.sigla}" style="font-weight: bold"/>  
+                                        <h:outputText value=" (#{p.nome})" styleClass="font-8"  /> 
+
+                                    </p:column> 
+
+                                </p:autoComplete>
+                                
                             </div>
                         </x:securityArea>
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
@@ -53,7 +66,7 @@
                     <h:outputText value="#{index+1}"/>
                 </p:column>
 
-                <p:column headerText="Órgão" rendered="#{x:hasRole('campos.orgao')}">
+                <p:column headerText="Órgão" rendered="#{x:hasRole('campos.orgao')}" sortBy="#{cargo.orgao.nome}">
                     <f:facet name="header">
                         <h:outputText value="Órgão" />
                     </f:facet>
@@ -62,13 +75,13 @@
                     </h:outputText>
                 </p:column>
 
-                <p:column headerText="CBO" width="10%" >
+                <p:column headerText="CBO" width="10%"  sortBy="#{cargo.codigo}">
                     <f:facet name="header">
                         <h:outputText value="CBO" />
                     </f:facet>
                     <h:outputText value="#{cargo.codigo}"/>
                 </p:column>
-                <p:column headerText="#{msg['cargo.nome']}">
+                <p:column headerText="#{msg['cargo.nome']}" sortBy="#{cargo.nome}">
                     <f:facet name="header">
                         <h:outputText value="#{msg['cargo.nome']}" />
                     </f:facet>
@@ -99,7 +112,7 @@
             <div class="uix-audit-delete">
                 <x:securityArea rolesAllowed="cargo.audit">
                     <x:auditDelete for="#{cargoMB.entityClass}"/>
-                </x:securityArea>
+                </x:securityArea>,
             </div>  
         </h:form>
 

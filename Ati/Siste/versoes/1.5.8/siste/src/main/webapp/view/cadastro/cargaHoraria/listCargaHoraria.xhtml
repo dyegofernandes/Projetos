@@ -65,7 +65,7 @@
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="Órgão" rendered="#{x:hasRole('campos.orgao')}">
+                <p:column headerText="Órgão" rendered="#{x:hasRole('campos.orgao')}" sortBy="#{cargaHoraria.orgao}">
                     <f:facet name="header">
                         <h:outputText value="Órgão" />
                     </f:facet>
@@ -73,7 +73,7 @@
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{msg['cargaHoraria.descricao']}" >
+                <p:column headerText="#{msg['cargaHoraria.descricao']}" sortBy="#{cargaHoraria.descricao}">
                     <f:facet name="header">
                         <h:outputText value="#{msg['cargaHoraria.descricao']}" />
                     </f:facet>

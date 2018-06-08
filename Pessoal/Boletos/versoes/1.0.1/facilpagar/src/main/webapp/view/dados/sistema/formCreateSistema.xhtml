@@ -1,0 +1,74 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateSistema" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tokenRequestURL_BB" value="* #{msg['sistema.tokenRequestURL_BB']}:" />
+                        <p:inputText id="tokenRequestURL_BB" value="#{sistemaMB.entity.tokenRequestURL_BB}"   styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="clienteID_BB" value="* #{msg['sistema.clienteID_BB']}:" />
+                        <p:inputText id="clienteID_BB" value="#{sistemaMB.entity.clienteID_BB}"   styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="clienteSecret_BB" value="* #{msg['sistema.clienteSecret_BB']}:" />
+                        <p:inputText id="clienteSecret_BB" value="#{sistemaMB.entity.clienteSecret_BB}"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="urlRegistrarBoleto_BB" value="#{msg['sistema.urlRegistrarBoleto_BB']}:" />
+                        <p:inputText id="urlRegistrarBoleto_BB" value="#{sistemaMB.entity.urlRegistrarBoleto_BB}"   styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="token_BB" value="#{msg['sistema.token_BB']}:" />
+                        <p:inputText id="token_BB" value="#{sistemaMB.entity.token_BB}"   styleClass="form-control"  readonly="true" />
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataGeracao" value="Data/Hora da Geração Token:" />
+                        <p:calendar id="dataGeracao" value="#{sistemaMB.entity.dataGeracaoToken}" 
+                                    showOn="button" pattern="dd/MM/yyyy HH:mm" styleClass="uix-calendar"  readonly="true" >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tempo" value="Tempo de Validade (segundos):" />
+                        <p:inputText id="tempo" value="#{sistemaMB.entity.tempoValidadeEmSegundos_BB}"   styleClass="form-control"  readonly="true" />
+                    </div>
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="obs" value="Observação:" />
+                        <p:inputText id="obs" value="#{sistemaMB.entity.observacaoToken_BB}"   styleClass="form-control"  readonly="true"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="ativo" value="#{sistemaMB.entity.ativo}" />
+                                #{msg['sistema.ativo']}
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="sistema.create">
+                <p:commandButton process="@form" update="@form" action="#{sistemaMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="sistema.audit">
+                <x:audit for="#{sistemaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

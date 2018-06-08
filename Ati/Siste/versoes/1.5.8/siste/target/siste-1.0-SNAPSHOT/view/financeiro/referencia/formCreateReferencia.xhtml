@@ -12,10 +12,43 @@
 
             <div class="container-fluid">
                 <div class="row">
+                    <x:securityArea rolesAllowed="campos.orgao">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="orgao" value="* Órgão" />
+                            <p:autoComplete id="orgao" value="#{referenciaMB.entity.orgao}" 
+
+                                                completeMethod="#{referenciaMB.orgaoAutocompletePeloNome}" styleClass="uix-autocomplete" 
+
+                                                minQueryLength="3" forceSelection="false" dropdown="true" scrollHeight="400"
+
+                                                var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"  > 
+                                    <x:initializer/>
+
+                                    <p:column> 
+
+                                        <h:outputText value="#{p.sigla}" style="font-weight: bold"/>  
+                                        <h:outputText value=" (#{p.nome})" styleClass="font-8"  /> 
+
+                                    </p:column> 
+                                    <p:ajax event="itemSelect" process="@this" update="mes ano" listener="#{referenciaMB.gerarCodigo()}"/> 
+
+                            </p:autoComplete>
+                            
+                        </div>
+                    </x:securityArea>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="codigo" value="* #{msg['referencia.codigo']}:" />
-                        <p:inputMask id="codigo" mask="99/9999" slotChar="" value="#{referenciaMB.entity.codigo}" styleClass="form-control" 
-                                     converter="periodoConverter" disabled="true"/>
+                        <h:outputLabel for="mes" value="*Mês" />
+                        <h:selectOneMenu id="mes" value="#{referenciaMB.mes}" styleClass="form-control" 
+                                      disabled="#{referenciaMB.entity.orgao == null}">
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.mes)}" 
+                                           var="mesCodigo"
+                                           itemLabel="#{mesCodigo.descricao}"/>
+                        </h:selectOneMenu>
+                        <h:outputLabel for="ano" value="*Ano" />
+                        <p:inputMask id="ano" mask="9999" slotChar="" value="#{referenciaMB.ano}" styleClass="form-control" 
+                                      disabled="#{referenciaMB.entity.orgao == null}"/>
+                        
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="status" value="* #{msg['referencia.status']}:" />

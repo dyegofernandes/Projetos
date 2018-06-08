@@ -34,6 +34,7 @@ import br.gov.pi.siste.modelo.cadastro.Endereco;
 import br.gov.pi.siste.modelo.cadastro.DadosFuncionais;
 import br.gov.pi.siste.modelo.cadastro.Unidade;
 import br.gov.pi.siste.modelo.cadastro.enums.Estrangeiro;
+import br.gov.pi.siste.modelo.cadastro.enums.Mes;
 import br.gov.pi.siste.modelo.cadastro.enums.TipoPessoa;
 import br.gov.pi.siste.modelo.controleacesso.Permissao;
 import br.gov.pi.siste.modelo.controleacesso.Usuario;
@@ -213,5 +214,8 @@ public class ClassMB {
     public Class getAjuda() {
         return Ajuda.class;
     }
-
+    
+    public Class getMes(){
+        return Mes.class;
+    }
 }

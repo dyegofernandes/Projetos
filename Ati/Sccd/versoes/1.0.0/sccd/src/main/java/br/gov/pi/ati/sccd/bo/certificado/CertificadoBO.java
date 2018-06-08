@@ -37,5 +37,9 @@ public class CertificadoBO extends AbstractBusinessObject<Certificado> {
     public boolean isAudit() {
         return true;
     }
+    
+    public Integer sequencial(Integer caixa){
+        return (Integer) getDAO().getQueryBuilder().select("certificado.sequencial").from(Certificado.class, "certificado").add("certificado.caixa", caixa).max("certificado.sequencial");
+    }
 
 }

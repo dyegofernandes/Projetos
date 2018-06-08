@@ -2,7 +2,7 @@ package br.gov.pi.siste.bo.financeiro;
 
 import com.xpert.core.crud.AbstractBusinessObject;
 import br.gov.pi.siste.dao.financeiro.FontePagadorDAO;
-import br.gov.pi.siste.modelo.cadastro.CargaHoraria;
+
 import br.gov.pi.siste.modelo.cadastro.Orgao;
 import com.xpert.core.validation.UniqueField;
 import com.xpert.core.exception.BusinessException;
@@ -65,7 +65,7 @@ public class FontePagadorBO extends AbstractBusinessObject<FontePagador> {
         List<FontePagador> fontes = fontePagadorDAO.getQueryBuilder().from(FontePagador.class, "fontePagador")
                 .leftJoinFetch("fontePagador.orgao", "orgao")
                 .add(restrictions)
-                .orderBy("orgao")
+                .orderBy("orgao.nome")
                 .getResultList();
 
         return fontes;

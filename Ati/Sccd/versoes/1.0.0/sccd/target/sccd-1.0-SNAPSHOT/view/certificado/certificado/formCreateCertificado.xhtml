@@ -16,7 +16,7 @@
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="cliente" value="* #{msg['certificado.cliente']}:" />
                                 <x:initializer value="#{certificadoMB.entity.cliente.cliente}" />
-                                <p:inputText id="clienteOutPut" value="#{certificadoMB.entity.cliente}" maxlength="250"  styleClass="form-control"  
+                                <p:inputText id="clienteOutPut" value="#{certificadoMB.entity.cliente.cliente}" maxlength="250"  styleClass="form-control"  
                                              rendered="#{certificadoMB.entity.id!=null}" readonly="true"/>
                                 <p:autoComplete id="cliente" value="#{certificadoMB.entity.cliente}" 
 
@@ -125,11 +125,14 @@
                             </div>
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="caixa" value="* #{msg['certificado.caixa']}:" />
-                                <p:inputMask id="caixa" mask="9?99999" value="#{certificadoMB.entity.caixa}" styleClass="form-control" />
+                                <p:inputMask id="caixa" mask="9?99999" value="#{certificadoMB.entity.caixa}" styleClass="form-control">
+                                    <p:ajax process="@this" update="sequencial" listener="#{certificadoMB.setarSequencial()}"/>
+                                </p:inputMask>
                             </div>
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="sequencial" value="* #{msg['certificado.sequencial']}:" />
-                                <p:inputMask id="sequencial" mask="9?99999" value="#{certificadoMB.entity.sequencial}" styleClass="form-control" />
+                                <p:inputMask id="sequencial" mask="9?99999" value="#{certificadoMB.entity.sequencial}" styleClass="form-control" readonly="true"
+                                             placeholder="Sequencial gerado pelo número da Caixa"/>
                             </div>
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="baixa" value="#{msg['certificado.baixa']}:" />

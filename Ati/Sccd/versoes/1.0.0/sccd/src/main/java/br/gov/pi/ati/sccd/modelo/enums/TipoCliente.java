@@ -19,8 +19,9 @@ public enum TipoCliente {
     INSTITUICAO_PUBLICA(6, "Instituição Pública"),
     EMPRESA(7, "Empresa Pública"),
     FUNDACAO(8, "Fundação"),
-    SECRETARIA(9, "Secretaria"),
-    PRIVADA(10, "Empresa Privada");
+    HOSPITAL(9,"Hospital"),
+    SECRETARIA(10, "Secretaria"),
+    PRIVADA(11, "Empresa Privada");
 
     private TipoCliente(int num, String descricao) {
         this.descricao = descricao;

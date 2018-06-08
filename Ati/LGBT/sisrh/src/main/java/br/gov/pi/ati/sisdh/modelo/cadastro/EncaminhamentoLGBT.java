@@ -24,8 +24,8 @@ import org.hibernate.validator.constraints.NotBlank;
 public class EncaminhamentoLGBT implements Serializable {
 
     @Id
-    @SequenceGenerator(name = "RequerimentoLGBT", sequenceName = "seq_requerimentoLGBT")
-    @GeneratedValue(generator = "RequerimentoLGBT")
+    @SequenceGenerator(name = "EncaminhamentoLGBT", sequenceName = "seq_encaminhamento")
+    @GeneratedValue(generator = "EncaminhamentoLGBT")
     private Long id;
 
     @Temporal(TemporalType.DATE)

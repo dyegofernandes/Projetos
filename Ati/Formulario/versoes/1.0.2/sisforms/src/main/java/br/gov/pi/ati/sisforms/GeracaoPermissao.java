@@ -113,7 +113,7 @@ public class GeracaoPermissao {
         create(new Permissao("formularios.requerimentos", "Requerimentos", true), "formularios");
         create(new Permissao("formularios.relatorios", "Relatórios", true), "formularios");
         create(new Permissao("formularios.Solicitações", "Solicitações", true), "formularios");
-        create(new Permissao("formularios.lgbt", "LGBT", true), "formularios");
+        create(new Permissao("formularios.lgbt", "LGBT", false), "formularios");
 
         //Requerimento
         create(new Permissao("requerimento", "Diversos", false), "formularios.requerimentos");

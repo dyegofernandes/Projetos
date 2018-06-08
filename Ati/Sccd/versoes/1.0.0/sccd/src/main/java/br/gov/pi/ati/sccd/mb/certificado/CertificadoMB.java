@@ -63,7 +63,7 @@ public class CertificadoMB extends AbstractBaseBean<Certificado> implements Seri
 
     @Override
     public String getDataModelOrder() {
-        return "cliente.nome";
+        return "certificado.caixa, certificado.sequencial";
     }
 
     @Override
@@ -256,5 +256,18 @@ public class CertificadoMB extends AbstractBaseBean<Certificado> implements Seri
 
     public void removerArquivo(Arquivo arquivo) {
         arquivos.remove(arquivo);
+    }
+
+    public void setarSequencial() {
+        if (getEntity().getCaixa() != null) {
+            Integer sequencial = getBO().sequencial(getEntity().getCaixa());
+
+            if (sequencial == null) {
+                sequencial = 1;
+            } else {
+                sequencial++;
+            }
+            getEntity().setSequencial(sequencial);
+        }
     }
 }

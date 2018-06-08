@@ -2,7 +2,7 @@ package br.gov.pi.siste.mb.cadastro;
 
 import java.io.Serializable;
 import com.xpert.core.crud.AbstractBaseBean;
-import com.xpert.persistence.query.JoinBuilder;
+
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -10,7 +10,7 @@ import javax.faces.bean.ViewScoped;
 import br.gov.pi.siste.bo.cadastro.CargoBO;
 import br.gov.pi.siste.modelo.cadastro.Cargo;
 import br.gov.pi.siste.modelo.cadastro.Orgao;
-import br.gov.pi.siste.modelo.cadastro.Unidade;
+
 import br.gov.pi.siste.modelo.controleacesso.Usuario;
 import br.gov.pi.siste.modelo.vos.FiltrosVO;
 import br.gov.pi.siste.util.SessaoUtils;
@@ -96,5 +96,8 @@ public class CargoMB extends AbstractBaseBean<Cargo> implements Serializable {
         super.delete();
         cargos = cargoBO.listarCargos(filtros);
     }
-
+    
+    public List<Orgao> orgaoAutocompletePeloNome(String nome) {
+        return getBO().orgaoPeloNome(nome);
+    }
 }

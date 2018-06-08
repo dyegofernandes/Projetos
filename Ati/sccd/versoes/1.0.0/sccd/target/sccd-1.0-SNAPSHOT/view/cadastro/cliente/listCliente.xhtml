@@ -12,7 +12,7 @@
             <x:modalMessages/>
 
             <x:dataTableActions fileName="cliente_export" target=":formListCliente:dataTableCliente"
-                                     widgetVar="dataTableClienteWidget"  />
+                                widgetVar="dataTableClienteWidget"  />
 
             <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                          var="cliente" rowIndexVar="index" id="dataTableCliente" widgetVar="dataTableClienteWidget" styleClass="table-responsive"
@@ -25,36 +25,45 @@
                     </f:facet>
                     <h:outputText value="#{index+1}"/>
                 </p:column>
+                <p:column headerText="Cliente Pai" sortBy="#{cliente.clientePai}"
+                          filterBy="#{cliente.clientePai.nome}">
+                    <f:facet name="header">
+                        <h:outputText value="Cliente Pai" />
+                    </f:facet>
+                    <h:outputText value="#{cliente.clientePai}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
                 <p:column headerText="#{msg['cliente.tipoPessoa']}" sortBy="#{cliente.tipoPessoa}" style="text-align: center;"
-                    filterBy="#{cliente.tipoPessoa}"  filterOptions="#{findAllBean.getSelect(classMB.tipoPessoa)}" >
+                          filterBy="#{cliente.tipoPessoa}"  filterOptions="#{findAllBean.getSelect(classMB.tipoPessoa)}" >
                     <f:facet name="header">
                         <h:outputText value="#{msg['cliente.tipoPessoa']}" />
                     </f:facet>
                     <h:outputText value="#{cliente.tipoPessoa.descricao}"/>
                 </p:column>
                 <p:column headerText="#{msg['cliente.cpfCnpj']}" sortBy="#{cliente.cpfCnpj}"
-                    filterBy="#{cliente.cpfCnpj}" style="text-align: center;"  >
+                          filterBy="#{cliente.cpfCnpj}" style="text-align: center;"  >
                     <f:facet name="header">
                         <h:outputText value="#{msg['cliente.cpfCnpj']}" />
                     </f:facet>
                     <h:outputText value="#{cliente.cpfCnpj}" converter="cnpjConverter"/>
                 </p:column>
                 <p:column headerText="#{msg['cliente.codigo']}" sortBy="#{cliente.codigo}"
-                    filterBy="#{cliente.codigo}" style="text-align: center;"  >
+                          filterBy="#{cliente.codigo}" style="text-align: center;"  >
                     <f:facet name="header">
                         <h:outputText value="#{msg['cliente.codigo']}" />
                     </f:facet>
                     <h:outputText value="#{cliente.codigo}" />
                 </p:column>
                 <p:column headerText="#{msg['cliente.sigla']}" sortBy="#{cliente.sigla}"
-                    filterBy="#{cliente.sigla}"   >
+                          filterBy="#{cliente.sigla}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['cliente.sigla']}" />
                     </f:facet>
                     <h:outputText value="#{cliente.sigla}"/>
                 </p:column>
                 <p:column headerText="#{msg['cliente.nome']}" sortBy="#{cliente.nome}"
-                    filterBy="#{cliente.nome}"   >
+                          filterBy="#{cliente.nome}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['cliente.nome']}" />
                     </f:facet>
@@ -68,14 +77,14 @@
                     <h:outputText value="#{cliente.tipoCliente.descricao}"/>
                 </p:column>
                 <p:column headerText="#{msg['cliente.isento']}" sortBy="#{cliente.isento}"
-                    filterBy="#{cliente.isento}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                          filterBy="#{cliente.isento}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['cliente.isento']}" />
                     </f:facet>
                     <h:outputText value="#{cliente.isento}" converter ="yesNoConverter" />
                 </p:column>
                 <p:column headerText="#{msg['cliente.ativo']}" sortBy="#{cliente.ativo}"
-                    filterBy="#{cliente.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                          filterBy="#{cliente.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['cliente.ativo']}" />
                     </f:facet>
@@ -112,7 +121,7 @@
 
         <p:dialog widgetVar="widgetClienteDetail" header="#{msg['cliente.detail']}" appendTo="@(body)" 
                   modal="true" styleClass="uix-dialog-fluid" >
-                  <ui:include src="detailCliente.xhtml" />
+            <ui:include src="detailCliente.xhtml" />
         </p:dialog>
     </ui:define>
 </ui:composition>

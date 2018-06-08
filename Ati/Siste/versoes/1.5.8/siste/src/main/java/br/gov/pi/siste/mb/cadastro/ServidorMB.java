@@ -122,7 +122,7 @@ public class ServidorMB extends AbstractBaseBean<Servidor> implements Serializab
     public void carregarUnidadesECargosPorOrgao(Orgao orgao) {
         if (orgao != null) {
             unidades = unidadeBO.unidadesPorOrgao(filtros.getOrgao());
-            cargos = cargoBO.listarCargos(orgao);
+            cargos = cargoBO.listarCargosPorOrgao(orgao);
         } else {
             filtros.setUnidade(new Unidade());
             filtros.setCargo(new Cargo());

@@ -31,7 +31,7 @@ public class CargaHorariaBO extends AbstractBusinessObject<CargaHoraria> {
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return new UniqueFields().add("orgao","descricao");
+        return new UniqueFields().add("orgao");
     }
 
     @Override
@@ -60,7 +60,7 @@ public class CargaHorariaBO extends AbstractBusinessObject<CargaHoraria> {
         return cargaHorariaDAO.getQueryBuilder().from(CargaHoraria.class, "cargaHoraria")
                 .leftJoinFetch("cargaHoraria.orgao", "orgao")
                 .add(restrictions)
-                .orderBy("orgao, cargaHoraria.descricao")
+                .orderBy("orgao.nome, cargaHoraria.descricao")
                 .getResultList();
 
         

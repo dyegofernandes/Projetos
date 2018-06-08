@@ -5,6 +5,7 @@
  */
 package br.gov.pi.siste.convertores;
 
+import br.gov.pi.siste.util.Utils;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -20,7 +21,7 @@ public class PeriodoConverter implements Converter {
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
         String periodo = "";
-        if (value != null && !value.equals("")) {
+        if (!Utils.isNullOrEmpty(value)) {
             String[] temp = value.split("/");
             periodo = temp[1].concat(temp[0]);
         }
@@ -31,7 +32,7 @@ public class PeriodoConverter implements Converter {
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
         if (value == null) {
-            return "";
+            return null;
         }
         String valor = Integer.toString((Integer) value);
 

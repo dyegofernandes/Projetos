@@ -29,6 +29,7 @@ import br.gov.pi.siste.modelo.cadastro.Unidade;
 import br.gov.pi.siste.modelo.cadastro.enums.Formato;
 import br.gov.pi.siste.modelo.cadastro.enums.StatusReferencia;
 import br.gov.pi.siste.modelo.cadastro.enums.TipoPessoa;
+
 import br.gov.pi.siste.modelo.financeiro.Movimento;
 import br.gov.pi.siste.modelo.financeiro.Referencia;
 import br.gov.pi.siste.modelo.sefip.ConstruirTxt;
@@ -77,7 +78,7 @@ public class ReferenciaBO extends AbstractBusinessObject<Referencia> {
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return new UniqueFields().add("codigo");
+        return new UniqueFields().add("orgao","codigo");
     }
 
     @Override
@@ -293,12 +294,13 @@ public class ReferenciaBO extends AbstractBusinessObject<Referencia> {
     public boolean verificarReferenciaAnterior(Referencia referenciaAtual, StatusReferencia status) {
 
         Restrictions restrictions = new Restrictions();
-
+        restrictions.add("orgao",referenciaAtual.getOrgao());
         if (status == StatusReferencia.PROCESSADA) {
             restrictions.add("codigo", util.periodoAnterior(referenciaAtual.getCodigo()));
             restrictions.add("status", StatusReferencia.FECHADA);
         } else {
             restrictions.add("status", status);
+            
         }
 
         Referencia referenciaAnterior = referenciaDAO.unique(restrictions);
@@ -314,9 +316,9 @@ public class ReferenciaBO extends AbstractBusinessObject<Referencia> {
         }
     }
 
-    public Integer pegarProximaReferencia() {
+    public Integer pegarProximaReferencia(Orgao orgao) {
 
-        Integer periodoAtual = (Integer) getDAO().getQueryBuilder().from(Referencia.class).max("codigo", new Integer(0));
+        Integer periodoAtual = (Integer) getDAO().getQueryBuilder().select("referencia").from(Referencia.class,"referencia").leftJoinFetch("referencia.orgao","orgao").add("orgao", orgao).max("referencia.codigo", new Integer(0));
         Integer mes;
         Integer ano;
         String periodoProximo;
@@ -555,5 +557,35 @@ public class ReferenciaBO extends AbstractBusinessObject<Referencia> {
 
         return lista;
     }
+    
+    
+    public List<Referencia> listarReferencias(FiltrosVO filtros) {
+ 
+        Restrictions restrictions = new Restrictions();
+ 
+        if (filtros.getOrgao() != null) {
+            restrictions.add("orgao", filtros.getOrgao());
+        }
+        
+        if (!Utils.isNullOrEmpty(filtros.getCodigo())){
+            restrictions.add("referencia.codigo", new Integer(filtros.getCodigo()));
+        }
 
+        List<Referencia> fontes = referenciaDAO.getQueryBuilder().from(Referencia.class, "referencia")
+                .leftJoinFetch("referencia.orgao", "orgao")
+                .add(restrictions)
+                .orderBy("orgao")
+                .getResultList();
+
+        return fontes;
+    }
+    
+    public List<Orgao> orgaoPeloNome(String nome) {
+        Restrictions restrictions = new Restrictions();
+        if (!Utils.isNullOrEmpty(nome)) {
+            restrictions.like("orgao.sigla", nome);
+        }
+
+        return getDAO().getQueryBuilder().from(Orgao.class, "orgao").add(restrictions).orderBy("orgao.nome").getResultList();
+    }
 }

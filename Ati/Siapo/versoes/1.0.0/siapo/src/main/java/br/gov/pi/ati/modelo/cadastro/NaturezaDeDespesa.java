@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -30,6 +31,10 @@ public class NaturezaDeDespesa implements Serializable {
     @SequenceGenerator(name = "NaturezaDeDespesa", sequenceName = "naturezaDeDespesa_seq_id")
     @GeneratedValue(generator = "NaturezaDeDespesa")
     private Long id;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    private UnidadeOrcamentaria unidadeOrcamentaria;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private NaturezaDeDespesa naturezaDeDespesaPai;
@@ -55,6 +60,14 @@ public class NaturezaDeDespesa implements Serializable {
     @Override
     public String toString() {
         return codigo.concat(" - ").concat(nome);
+    }
+
+    public UnidadeOrcamentaria getUnidadeOrcamentaria() {
+        return unidadeOrcamentaria;
+    }
+
+    public void setUnidadeOrcamentaria(UnidadeOrcamentaria unidadeOrcamentaria) {
+        this.unidadeOrcamentaria = unidadeOrcamentaria;
     }
 
     public Long getId() {

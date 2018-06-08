@@ -1,6 +1,8 @@
 package br.gov.pi.ati.mb.orcamento;
 
 import br.gov.pi.ati.bo.cadastro.AcaoOrcamentariaBO;
+import br.gov.pi.ati.bo.cadastro.FonteDeRecursoBO;
+import br.gov.pi.ati.bo.cadastro.NaturezaDeDespesaBO;
 import java.io.Serializable;
 import com.xpert.core.crud.AbstractBaseBean;
 import javax.ejb.EJB;
@@ -9,7 +11,9 @@ import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.bo.orcamento.DespesaPublicaBO;
 import br.gov.pi.ati.bo.orcamento.MetaProdutoBO;
 import br.gov.pi.ati.modelo.cadastro.AcaoOrcamentaria;
+import br.gov.pi.ati.modelo.cadastro.FonteDeRecurso;
 import br.gov.pi.ati.modelo.cadastro.Municipio;
+import br.gov.pi.ati.modelo.cadastro.NaturezaDeDespesa;
 import br.gov.pi.ati.modelo.cadastro.Territorio;
 import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
 import br.gov.pi.ati.modelo.cadastro.vos.Filtros;
@@ -19,9 +23,11 @@ import br.gov.pi.ati.modelo.orcamento.Dotacao;
 import br.gov.pi.ati.modelo.orcamento.MetaProduto;
 import br.gov.pi.ati.modelo.orcamento.ProgramacaoFinanceira;
 import br.gov.pi.ati.util.SessaoUtils;
+import br.gov.pi.ati.util.Utils;
 import br.gov.pi.ati.webservice.process.ProcessBO;
 import com.xpert.faces.utils.FacesMessageUtils;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.primefaces.context.RequestContext;
 
@@ -42,6 +48,12 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
     @EJB
     private MetaProdutoBO produtoBO;
 
+    @EJB
+    private FonteDeRecursoBO fonteBO;
+
+    @EJB
+    private NaturezaDeDespesaBO naturezaBO;
+
     private List<Dotacao> dotacoes;
 
     private Dotacao dotacaoAdd;
@@ -61,6 +73,9 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
     private List<DespesaPublica> despesas;
 
     private List<UnidadeOrcamentaria> unidades;
+    
+    private Integer anoAtual = new Integer(Utils.convertDateToString(new Date(), "yyyy"));
+
 
     @Override
     public DespesaPublicaBO getBO() {
@@ -179,6 +194,8 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
 
             programacaoFinanceira = new ArrayList<ProgramacaoFinanceira>();
 
+            programacaoAdd = new ProgramacaoFinanceira();
+            programacaoAdd.setAno(anoAtual);
             cidades = new ArrayList<Municipio>();
 
             RequestContext context = RequestContext.getCurrentInstance();
@@ -305,6 +322,7 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
                     } else {
                         programacaoFinanceira.add(programacaoAdd);
                         programacaoAdd = new ProgramacaoFinanceira();
+                        programacaoAdd.setAno(anoAtual);
                     }
 
                 } else {
@@ -347,6 +365,14 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
 
     public List<MetaProduto> autocompleteProduto(String nome) {
         return produtoBO.metaPeloNomeEUnidadeOrcamentaria(nome, getEntity().getUnidadeOrcamentaria());
+    }
+
+    public List<NaturezaDeDespesa> autocompleteNaturezaDespesa(String nome) {
+        return naturezaBO.listarPeloNomeEUnidade(getEntity().getUnidadeOrcamentaria(), nome);
+    }
+
+    public List<FonteDeRecurso> autocompleteFonteRecurso(String nome) {
+        return fonteBO.listarPorNomeEUnidade(getEntity().getUnidadeOrcamentaria(), nome);
     }
 
     public void desmarcaQuantificador() {

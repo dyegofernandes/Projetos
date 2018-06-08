@@ -72,6 +72,14 @@ public class UnidadeOrcamentaria implements Serializable {
     @OneToMany(mappedBy = "unidadeOrcamentaria")
     @NotAudited
     private List<Produto> produtos;
+    
+    @OneToMany(mappedBy = "unidadeOrcamentaria")
+    @NotAudited
+    private List<FonteDeRecurso> fontesDeRecurso;
+    
+    @OneToMany(mappedBy = "unidadeOrcamentaria")
+    @NotAudited
+    private List<NaturezaDeDespesa> naturezasDeDepesas;
 
     @Override
     public String toString() {
@@ -172,6 +180,22 @@ public class UnidadeOrcamentaria implements Serializable {
 
     public void setDespesas(List<DespesaPublica> despesas) {
         this.despesas = despesas;
+    }
+
+    public List<FonteDeRecurso> getFontesDeRecurso() {
+        return fontesDeRecurso;
+    }
+
+    public void setFontesDeRecurso(List<FonteDeRecurso> fontesDeRecurso) {
+        this.fontesDeRecurso = fontesDeRecurso;
+    }
+
+    public List<NaturezaDeDespesa> getNaturezasDeDepesas() {
+        return naturezasDeDepesas;
+    }
+
+    public void setNaturezasDeDepesas(List<NaturezaDeDespesa> naturezasDeDepesas) {
+        this.naturezasDeDepesas = naturezasDeDepesas;
     }
 
     @Override

@@ -25,7 +25,7 @@
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="fonteDeRecurso" value="* #{msg['dotacao.fonteDeRecurso']}:" />
                         <p:autoComplete id="fonteDeRecurso" value="#{despesaPublicaMB.dotacaoAdd.fonteDeRecurso}" 
-                                        completeMethod="#{fonteDeRecursoMB.autocomplete}" styleClass="uix-autocomplete" 
+                                        completeMethod="#{despesaPublicaMB.autocompleteFonteRecurso}" styleClass="uix-autocomplete" 
                                         minQueryLength="3" forceSelection="true" dropdown="true"
                                         var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"  > 
                             <p:column> 
@@ -36,7 +36,7 @@
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="naturezaDaDespesa" value="* #{msg['dotacao.naturezaDaDespesa']}:" />
                         <p:autoComplete id="naturezaDaDespesa" value="#{despesaPublicaMB.dotacaoAdd.naturezaDaDespesa}" 
-                                        completeMethod="#{naturezaDeDespesaMB.autocomplete}" styleClass="uix-autocomplete" 
+                                        completeMethod="#{despesaPublicaMB.autocompleteNaturezaDespesa}" styleClass="uix-autocomplete" 
                                         minQueryLength="3" forceSelection="true" dropdown="true"
                                         var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"  > 
                             <p:column> 
@@ -64,7 +64,8 @@
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="ano" value="* #{msg['programacaoFinanceira.ano']}:" />
-                        <p:inputMask id="ano" mask="9999" value="#{despesaPublicaMB.programacaoAdd.ano}" styleClass="form-control" />
+                        <p:inputMask id="ano" mask="9999" value="#{despesaPublicaMB.programacaoAdd.ano}" styleClass="form-control"
+                                     readonly="true"/>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="valor" value="* #{msg['programacaoFinanceira.valor']}:" />

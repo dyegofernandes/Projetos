@@ -2,6 +2,7 @@ package br.gov.pi.ati.bo.cadastro;
 
 import com.xpert.core.crud.AbstractBusinessObject;
 import br.gov.pi.ati.dao.cadastro.UnidadeOrcamentariaDAO;
+import br.gov.pi.ati.modelo.cadastro.Orgao;
 import com.xpert.core.validation.UniqueField;
 import com.xpert.core.exception.BusinessException;
 import java.util.List;
@@ -87,7 +88,26 @@ public class UnidadeOrcamentariaBO extends AbstractBusinessObject<UnidadeOrcamen
 
         restrictions.add("uo.ativo", true);
 
-        return getDAO().getQueryBuilder().select("uo").from(UnidadeOrcamentaria.class, "uo").add(restrictions).orderBy("uo.nome").getResultList();
+        return getDAO().getQueryBuilder().select("uo").from(UnidadeOrcamentaria.class, "uo").add(restrictions).orderBy("uo.codigo").getResultList();
+
+    }
+
+    public List<UnidadeOrcamentaria> unidadesPeloOrgao(Orgao orgao, String nome, String codigo) {
+        Restrictions restrictions = new Restrictions();
+
+        if (orgao != null) {
+            restrictions.add("orgao", orgao);
+        }
+        
+        if(!Utils.isNullOrEmpty(codigo)){
+            restrictions.like("uo.codigo", codigo);
+        }
+        
+        if(!Utils.isNullOrEmpty(nome)){
+            restrictions.like("uo.nome", nome);
+        }
+
+        return getDAO().getQueryBuilder().select("uo").from(UnidadeOrcamentaria.class, "uo").leftJoinFetch("uo.orgao", "orgao").add(restrictions).orderBy("uo.codigo").getResultList();
 
     }
 }

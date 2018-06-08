@@ -8,6 +8,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.modelo.cadastro.NaturezaDeDespesa;
+import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
 import br.gov.pi.ati.util.Utils;
 import com.xpert.core.validation.UniqueFields;
 import com.xpert.persistence.query.Restrictions;
@@ -29,7 +30,7 @@ public class NaturezaDeDespesaBO extends AbstractBusinessObject<NaturezaDeDespes
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return new UniqueFields().add("codigo").add("nome");
+        return new UniqueFields().add("unidadeOrcamentaria", "codigo").add("unidadeOrcamentaria", "nome");
     }
 
     @Override
@@ -56,6 +57,29 @@ public class NaturezaDeDespesaBO extends AbstractBusinessObject<NaturezaDeDespes
         }
 
         return getDAO().getQueryBuilder().from(NaturezaDeDespesa.class, "natureza").add(restrictions).orderBy("natureza.nome").getResultList();
+    }
+
+    public List<NaturezaDeDespesa> listarPeloNomeEUnidade(UnidadeOrcamentaria unidade, String nome) {
+        Restrictions restrictions = new Restrictions();
+
+        if (unidade == null) {
+            return null;
+        }
+
+        restrictions.add("unidade", unidade);
+
+        restrictions.add("natureza.ativo", true);
+
+        if (!Utils.isNullOrEmpty(nome)) {
+            if (Utils.ehInteiro(nome)) {
+                restrictions.like("natureza.codigo", nome);
+            } else {
+                restrictions.like("natureza.nome", nome);
+            }
+
+        }
+
+        return getDAO().getQueryBuilder().select("natureza").from(NaturezaDeDespesa.class, "natureza").leftJoinFetch("natureza.unidadeOrcamentaria", "unidade").add(restrictions).orderBy("natureza.codigo").getResultList();
     }
 
 }

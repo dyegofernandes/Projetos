@@ -34,6 +34,10 @@ public class FonteDeRecurso implements Serializable {
     @SequenceGenerator(name = "FonteDeRecurso", sequenceName = "fonteDeRecurso_seq_id")
     @GeneratedValue(generator = "FonteDeRecurso")
     private Long id;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    private UnidadeOrcamentaria unidadeOrcamentaria;
 
     @NotBlank
     private String codigo;
@@ -62,6 +66,14 @@ public class FonteDeRecurso implements Serializable {
     @Override
     public String toString() {
         return codigo.concat(" - ").concat(nome);
+    }
+
+    public UnidadeOrcamentaria getUnidadeOrcamentaria() {
+        return unidadeOrcamentaria;
+    }
+
+    public void setUnidadeOrcamentaria(UnidadeOrcamentaria unidadeOrcamentaria) {
+        this.unidadeOrcamentaria = unidadeOrcamentaria;
     }
 
     public Long getId() {

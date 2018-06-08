@@ -80,9 +80,8 @@ public class MetaProdutoBO extends AbstractBusinessObject<MetaProduto> {
 
         if (unidade == null) {
             return null;
-        } else {
-            restrictions.add("produto.unidadeOrcamentaria", unidade);
         }
+        restrictions.add("produto.unidadeOrcamentaria", unidade);
 
         if (!Utils.isNullOrEmpty(nome)) {
             restrictions.like("produto.nome", nome);

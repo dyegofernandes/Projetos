@@ -44,11 +44,11 @@ public class AcaoOrcamentariaBO extends AbstractBusinessObject<AcaoOrcamentaria>
     public List<AcaoOrcamentaria> listarPeloNomeEUnidadeOrcamentaria(String nome, UnidadeOrcamentaria unidade) {
         Restrictions restrictions = new Restrictions();
 
-        if (unidade != null) {
-            restrictions.add("unidadeOrcamentaria", unidade);
-        } else {
+        if (unidade == null) {
             return null;
         }
+
+        restrictions.add("unidadeOrcamentaria", unidade);
 
         if (!Utils.isNullOrEmpty(nome)) {
             if (Utils.ehInteiro(nome)) {

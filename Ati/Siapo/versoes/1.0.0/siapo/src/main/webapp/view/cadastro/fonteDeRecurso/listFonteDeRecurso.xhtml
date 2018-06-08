@@ -22,6 +22,15 @@
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
+                <p:column headerText="Unidade Orçamentaria" sortBy="#{fonteDeRecurso.unidadeOrcamentaria.nome}"
+                          filterBy="#{fonteDeRecurso.unidadeOrcamentaria.nome}">
+                    <f:facet name="header">
+                        <h:outputText value="Unidade Orçamentaria" />
+                    </f:facet>
+                    <h:outputText value="#{fonteDeRecurso.unidadeOrcamentaria}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
                 <p:column headerText="#{msg['fonteDeRecurso.codigo']}" sortBy="#{fonteDeRecurso.codigo}"
                     filterBy="#{fonteDeRecurso.codigo}"   >
                     <f:facet name="header">

@@ -8,6 +8,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.modelo.cadastro.FonteDeRecurso;
+import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
 import br.gov.pi.ati.util.Utils;
 import com.xpert.core.validation.UniqueFields;
 import com.xpert.persistence.query.Restrictions;
@@ -29,7 +30,7 @@ public class FonteDeRecursoBO extends AbstractBusinessObject<FonteDeRecurso> {
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return new UniqueFields().add("codigo").add("nome").add("mnemonico");
+        return new UniqueFields().add("unidadeOrcamentaria", "codigo").add("unidadeOrcamentaria", "nome").add("unidadeOrcamentaria", "mnemonico");
     }
 
     @Override
@@ -47,14 +48,37 @@ public class FonteDeRecursoBO extends AbstractBusinessObject<FonteDeRecurso> {
         if (!Utils.isNullOrEmpty(nome)) {
             if (Utils.ehInteiro(nome)) {
                 restrictions.like("fonte.codigo", nome);
-            }else{
+            } else {
                 restrictions.like("fonte.nome", nome);
             }
-            
+
         }
 
         restrictions.add("fonte.ativo", true);
 
         return getDAO().getQueryBuilder().from(FonteDeRecurso.class, "fonte").add(restrictions).orderBy("fonte.nome").getResultList();
+    }
+    
+    public List<FonteDeRecurso> listarPorNomeEUnidade(UnidadeOrcamentaria unidade, String nome) {
+        Restrictions restrictions = new Restrictions();
+        
+        if(unidade==null){
+            return null;
+        }
+        
+        restrictions.add("unidade", unidade);
+
+        if (!Utils.isNullOrEmpty(nome)) {
+            if (Utils.ehInteiro(nome)) {
+                restrictions.like("fonte.codigo", nome);
+            } else {
+                restrictions.like("fonte.nome", nome);
+            }
+
+        }
+
+        restrictions.add("fonte.ativo", true);
+
+        return getDAO().getQueryBuilder().select("fonte").from(FonteDeRecurso.class, "fonte").leftJoinFetch("fonte.unidadeOrcamentaria", "unidade").add(restrictions).orderBy("fonte.codigo").getResultList();
     }
 }

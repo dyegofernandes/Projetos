@@ -87,13 +87,53 @@
                 </div>
             </p:tab>
             <p:tab title="Unidades Orçamentárias">
-                <h:selectManyCheckbox value="#{usuarioMB.unidadesAcesso}" converter="entityConverter" styleClass="checkbox">
-                    <x:initializer/>
-                    <x:spread columns="5"/>
-                    <f:selectItems value="#{unidadeOrcamentariaMB.ativas()}" 
-                                   var="unidade" 
-                                   itemLabel="#{unidade.nome}"/>
-                </h:selectManyCheckbox>
+                <p:fieldset legend="Filtrar Unidades">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="orgao" value="Órgão:" />
+                                <h:selectOneMenu id="orgao" value="#{usuarioMB.orgao}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.orgao)}" 
+                                                   var="orgao"
+                                                   itemLabel="#{orgao}"/>
+                                    <p:ajax process="@this" update="unidades" listener="#{usuarioMB.filtrarUnidades()}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="codigo" value="Código da Unidade Orçamentária:" />
+                                <p:inputText id="codigo" value="#{usuarioMB.codigo}" maxlength="260"  styleClass="form-control"  >
+                                    <p:ajax event="keyup" process="@this orgao" update="unidades" listener="#{usuarioMB.filtrarUnidades()}"/>
+                                </p:inputText>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nome" value="Nome da Unidade Orçamentária::" />
+                                <p:inputText id="nome" value="#{usuarioMB.nome}" maxlength="260"  styleClass="form-control"  >
+                                    <p:ajax event="keyup" process="@this orgao" update="unidades" listener="#{usuarioMB.filtrarUnidades()}"/>
+                                </p:inputText>
+                            </div>
+                        </div>
+                    </div>
+                </p:fieldset>                
+                <p:fieldset legend="Unidades">
+                    <div class="checkbox">
+                        <label>
+                            <h:selectBooleanCheckbox   value="#{usuarioMB.selectAll}" >
+                                <p:ajax process="@this" update="unidades" listener="#{usuarioMB.onSelectAll()}"/>
+                            </h:selectBooleanCheckbox>
+                            Selecionar todos
+                        </label>
+                    </div>
+
+                    <h:selectManyCheckbox id="unidades" value="#{usuarioMB.entity.unidadesDeAcesso}" converter="entityConverter" styleClass="checkbox" >
+                        <x:initializer/>
+                        <x:spread columns="5"/>
+                        <f:selectItems value="#{usuarioMB.unidadesAcesso}" 
+                                       var="unidade" itemLabel="#{unidade}" />
+                    </h:selectManyCheckbox>
+                </p:fieldset>
+
             </p:tab>
             <p:tab title="#{msg['usuario.perfisAcesso']}">
                 <h:selectManyCheckbox value="#{usuarioMB.entity.perfis}" converter="entityConverter" styleClass="checkbox">

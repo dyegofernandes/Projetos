@@ -1,9 +1,11 @@
 package br.gov.pi.ati.mb.controleacesso;
 
+import br.gov.pi.ati.bo.cadastro.UnidadeOrcamentariaBO;
 import br.gov.pi.ati.bo.controleacesso.SolicitacaoRecuperacaoSenhaBO;
 import br.gov.pi.ati.bo.controleacesso.UsuarioBO;
 import br.gov.pi.ati.bo.controleacesso.UsuarioMenuBO;
 import br.gov.pi.ati.dao.controleacesso.AcessoSistemaDAO;
+import br.gov.pi.ati.modelo.cadastro.Orgao;
 import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
 import br.gov.pi.ati.modelo.controleacesso.AcessoSistema;
 import br.gov.pi.ati.modelo.controleacesso.TipoRecuperacaoSenha;
@@ -33,24 +35,37 @@ public class UsuarioMB extends AbstractBaseBean<Usuario> implements Serializable
 
     @EJB
     private UsuarioMenuBO usuarioMenuBO;
+
     private MenuModel menuModel;
+
     @EJB
     private UsuarioBO usuarioBO;
+
     @EJB
     private AcessoSistemaDAO acessoSistemaDAO;
+
     @EJB
     private SolicitacaoRecuperacaoSenhaBO solicitacaoRecuperacaoSenhaBO;
+
+    @EJB
+    private UnidadeOrcamentariaBO unidadeBO;
 
     private LazyDataModelImpl<AcessoSistema> ultimosAcessos;
 
     private List<UnidadeOrcamentaria> unidadesAcesso;
 
-    private UnidadeOrcamentaria unidadeOrcamentaria;
+    private boolean selectAll;
+
+    private Orgao orgao;
+
+    private String nome;
+
+    private String codigo;
 
     @Override
     public void init() {
-        unidadeOrcamentaria = new UnidadeOrcamentaria();
         unidadesAcesso = new ArrayList<UnidadeOrcamentaria>();
+        unidadesAcesso = unidadeBO.unidadesPeloOrgao(orgao, nome, codigo);
 
         if (getEntity().getId() != null) {
             unidadesAcesso = (List<UnidadeOrcamentaria>) getBO().getDAO().getInitialized(getEntity().getUnidadesDeAcesso());
@@ -91,7 +106,7 @@ public class UsuarioMB extends AbstractBaseBean<Usuario> implements Serializable
     @Override
     public void save() {
         boolean novo = getEntity().getId() == null;
-        getEntity().setUnidadesDeAcesso(unidadesAcesso);
+//        getEntity().setUnidadesDeAcesso(unidadesAcesso);
         try {
             getBO().save(getEntity());
             //apos o cadastro feito tentar enviar senha do usuario
@@ -145,40 +160,47 @@ public class UsuarioMB extends AbstractBaseBean<Usuario> implements Serializable
         this.unidadesAcesso = unidadesAcesso;
     }
 
-    public UnidadeOrcamentaria getUnidadeOrcamentaria() {
-        return unidadeOrcamentaria;
+    public boolean isSelectAll() {
+        return selectAll;
     }
 
-    public void setUnidadeOrcamentaria(UnidadeOrcamentaria unidadeOrcamentaria) {
-        this.unidadeOrcamentaria = unidadeOrcamentaria;
+    public void setSelectAll(boolean selectAll) {
+        this.selectAll = selectAll;
     }
 
-   
-    public void addUnidadeAcesso() {
-        if (unidadeOrcamentaria != null) {
-            if (unidadeOrcamentariaJahAdd(unidadeOrcamentaria)) {
-                FacesMessageUtils.error("Unidade Orçamentária já adicionada!");
-            } else {
-                unidadesAcesso.add(unidadeOrcamentaria);
-                unidadeOrcamentaria = new UnidadeOrcamentaria();
-            }
+    public Orgao getOrgao() {
+        return orgao;
+    }
+
+    public void setOrgao(Orgao orgao) {
+        this.orgao = orgao;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public void filtrarUnidades() {
+        unidadesAcesso = unidadeBO.unidadesPeloOrgao(orgao, nome, codigo);
+    }
+
+    public void onSelectAll() {
+        if (selectAll) {
+            getEntity().setUnidadesDeAcesso(unidadesAcesso);
         } else {
-            FacesMessageUtils.error("Unidade Orçamentária é obrigatória!");
+            getEntity().setUnidadesDeAcesso(null);
         }
     }
-
-    public void removerUnidadeAcesso(UnidadeOrcamentaria unidade) {
-        unidadesAcesso.remove(unidade);
-    }
-
-    private boolean unidadeOrcamentariaJahAdd(UnidadeOrcamentaria unidade) {
-        for (UnidadeOrcamentaria unid : unidadesAcesso) {
-            if (unid.equals(unidade)) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    
 }

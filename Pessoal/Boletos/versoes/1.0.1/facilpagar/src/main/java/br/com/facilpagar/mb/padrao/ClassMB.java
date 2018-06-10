@@ -1,5 +1,6 @@
 package br.com.facilpagar.mb.padrao;
 
+import br.com.facilpagar.modelo.dados.Categoria;
 import br.com.facilpagar.modelo.dados.Sistema;
 import br.com.facilpagar.modelo.dados.Franquia;
 import br.com.facilpagar.modelo.dados.Contato;
@@ -28,6 +29,7 @@ import br.com.facilpagar.modelo.email.TipoAssuntoEmail;
 import br.com.facilpagar.modelo.controleacesso.TipoRecuperacaoSenha;
 import br.com.facilpagar.modelo.enums.Ativo;
 import br.com.facilpagar.modelo.enums.SituacaoDeposito;
+import br.com.facilpagar.modelo.enums.SituacaoRegistro;
 import javax.faces.bean.ManagedBean;
 
 @ManagedBean
@@ -136,6 +138,7 @@ public class ClassMB {
     public Class getSituacaoDeposito() {
         return SituacaoDeposito.class;
     }
+
     public Class getFranquia() {
         return Franquia.class;
     }
@@ -144,4 +147,11 @@ public class ClassMB {
         return Sistema.class;
     }
 
+    public Class getCategoria() {
+        return Categoria.class;
+    }
+
+    public Class getSituacaoRegistro() {
+        return SituacaoRegistro.class;
+    }
 }

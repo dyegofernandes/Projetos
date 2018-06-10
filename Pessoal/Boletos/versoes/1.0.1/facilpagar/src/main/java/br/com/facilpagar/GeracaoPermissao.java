@@ -120,9 +120,9 @@ public class GeracaoPermissao {
         create(new Permissao("uf.delete", "Exclusão de Estado"), "uf");
 
         //Sistema
-        create(new Permissao("sistema", "Configurações Sistema", false), "cadastros");
+        create(new Permissao("sistema", "Configurações Sistema", false), "administracaoSistema");
         create(new Permissao("sistema.create", "Cadastro de Configurações Sistema", "/view/dados/sistema/createSistema.jsf", false), "sistema");
-        create(new Permissao("sistema.list", "Configurações Sistema", "/view/dados/sistema/listSistema.jsf", true), "cadastros");
+        create(new Permissao("sistema.list", "Configurações Sistema", "/view/dados/sistema/listSistema.jsf", true), "administracaoSistema");
         create(new Permissao("sistema.audit", "Auditoria de Configurações Sistema"), "sistema");
         create(new Permissao("sistema.delete", "Exclusão de Configurações Sistema"), "sistema");
 
@@ -169,6 +169,13 @@ public class GeracaoPermissao {
         create(new Permissao("deposito.list", "Extrato", "/view/dados/deposito/listDeposito.jsf", true), "financeiro");
         create(new Permissao("deposito.audit", "Auditoria de Depósito"), "deposito");
         create(new Permissao("deposito.delete", "Exclusão de Depósito"), "deposito");
+
+        //Categoria
+        create(new Permissao("categoria", "Categoria", false), "cadastros");
+        create(new Permissao("categoria.create", "Cadastro de Categoria", "/view/dados/categoria/createCategoria.jsf", false), "categoria");
+        create(new Permissao("categoria.list", "Categorias", "/view/dados/categoria/listCategoria.jsf", true), "cadastros");
+        create(new Permissao("categoria.audit", "Auditoria de Categoria"), "categoria");
+        create(new Permissao("categoria.delete", "Exclusão de Categoria"), "categoria");
 
 
         /*

@@ -290,7 +290,12 @@
                             </h:outputText>
                         </f:facet>
                     </p:column>
-
+                    <p:column headerText="#{msg['boleto.situacao_registro']}" style="text-align: center;" sortBy="#{boleto.situacao_registro.descricao}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['boleto.situacao_registro']}" />
+                        </f:facet>
+                        <h:outputText value="#{boleto.situacao_registro.descricao}"/>
+                    </p:column>
 
                     <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
                         <f:facet name="header">

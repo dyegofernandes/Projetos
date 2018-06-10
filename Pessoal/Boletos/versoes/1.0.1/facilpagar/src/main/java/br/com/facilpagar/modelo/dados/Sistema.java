@@ -15,6 +15,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -26,9 +27,42 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Sistema implements Serializable {
 
     @Id
+    @Column(columnDefinition = "bigserial")
     @SequenceGenerator(schema = "dados", allocationSize = 1, name = "Sistema", sequenceName = "dados.seq_sistema_id")
     @GeneratedValue(generator = "Sistema")
     private Long id;
+
+    @Size(max = 250)
+    @NotBlank
+    private String nomeConvenio;
+
+    @Size(max = 100)
+    @NotBlank
+    private String nomeFantasiaConvenio;
+
+    @Size(max = 50)
+    @NotBlank
+    private String agencia_BB;
+
+    @Size(max = 50)
+    @NotBlank
+    private String beneficiario_BB;
+
+    @Size(max = 50)
+    @NotBlank
+    private String cartVariacao_BB;
+
+    @Size(max = 50)
+    @NotBlank
+    private String numeroConvenio_BB;
+
+    @Size(max = 50)
+    @NotBlank
+    private String numeroCarteira_BB;
+    
+    @Size(max = 50)
+    @NotBlank
+    private String numeroVariacaoCarteira_BB;
 
     @Column(columnDefinition = "Text")
     @NotBlank
@@ -47,9 +81,9 @@ public class Sistema implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataGeracaoToken;
-    
+
     private Long tempoValidadeEmSegundos_BB;
-    
+
     @Column(columnDefinition = "Text")
     private String observacaoToken_BB;
 
@@ -136,6 +170,70 @@ public class Sistema implements Serializable {
 
     public void setTempoValidadeEmSegundos_BB(Long tempoValidadeEmSegundos_BB) {
         this.tempoValidadeEmSegundos_BB = tempoValidadeEmSegundos_BB;
+    }
+
+    public String getNomeConvenio() {
+        return nomeConvenio;
+    }
+
+    public void setNomeConvenio(String nomeConvenio) {
+        this.nomeConvenio = nomeConvenio;
+    }
+
+    public String getNomeFantasiaConvenio() {
+        return nomeFantasiaConvenio;
+    }
+
+    public void setNomeFantasiaConvenio(String nomeFantasiaConvenio) {
+        this.nomeFantasiaConvenio = nomeFantasiaConvenio;
+    }
+
+    public String getBeneficiario_BB() {
+        return beneficiario_BB;
+    }
+
+    public void setBeneficiario_BB(String beneficiario_BB) {
+        this.beneficiario_BB = beneficiario_BB;
+    }
+
+    public String getCartVariacao_BB() {
+        return cartVariacao_BB;
+    }
+
+    public void setCartVariacao_BB(String cartVariacao_BB) {
+        this.cartVariacao_BB = cartVariacao_BB;
+    }
+
+    public String getNumeroConvenio_BB() {
+        return numeroConvenio_BB;
+    }
+
+    public void setNumeroConvenio_BB(String numeroConvenio_BB) {
+        this.numeroConvenio_BB = numeroConvenio_BB;
+    }
+
+    public String getNumeroCarteira_BB() {
+        return numeroCarteira_BB;
+    }
+
+    public void setNumeroCarteira_BB(String numeroCarteira_BB) {
+        this.numeroCarteira_BB = numeroCarteira_BB;
+    }
+
+    public String getAgencia_BB() {
+        return agencia_BB;
+    }
+
+    public void setAgencia_BB(String agencia_BB) {
+        this.agencia_BB = agencia_BB;
+    }
+
+    public String getNumeroVariacaoCarteira_BB() {
+        return numeroVariacaoCarteira_BB;
+    }
+
+    public void setNumeroVariacaoCarteira_BB(String numeroVariacaoCarteira_BB) {
+        this.numeroVariacaoCarteira_BB = numeroVariacaoCarteira_BB;
     }
 
     @Override

@@ -137,11 +137,19 @@
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['boleto.situacao']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{boletoMB.entity.situacao}" styleClass="uix-content-detail"/>
+                    <h:outputText value="#{boletoMB.entity.situacao.descricao}" styleClass="uix-content-detail"/>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['boleto.travado']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{boletoMB.entity.travado}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['boleto.situacao_registro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{boletoMB.entity.situacao_registro.descricao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['boleto.motivo_recusa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{boletoMB.entity.motivo_recusa}" styleClass="uix-content-detail"/>
                 </div>
            </div>
          </div>

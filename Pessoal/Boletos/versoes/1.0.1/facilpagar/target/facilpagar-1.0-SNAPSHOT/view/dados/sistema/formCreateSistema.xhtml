@@ -12,7 +12,40 @@
 
             <div class="container-fluid">
                 <div class="row">
-                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nomeConvenio" value="* #{msg['sistema.nomeConvenio']}:" />
+                        <p:inputText id="nomeConvenio" value="#{sistemaMB.entity.nomeConvenio}" styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nomeConvenioFantasia" value="* #{msg['sistema.nomeFantasiaConvenio']}" />
+                        <p:inputText id="nomeConvenioFantasia" value="#{sistemaMB.entity.nomeFantasiaConvenio}" styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="agenciaBB" value="* #{msg['sistema.agencia_BB']}" />
+                        <p:inputText id="agenciaBB" value="#{sistemaMB.entity.agencia_BB}" styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="beneficiario_BB" value="* #{msg['sistema.beneficiario']}" />
+                        <p:inputText id="beneficiario_BB" value="#{sistemaMB.entity.beneficiario_BB}" styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cartVariacao" value="* #{msg['sistema.cartVariacao']}" />
+                        <p:inputText id="cartVariacao" value="#{sistemaMB.entity.cartVariacao_BB}" styleClass="form-control"  />
+                    </div>
+                    
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="numeroConvenio_BB" value="* #{msg['sistema.numeroConvenioBB']}" />
+                        <p:inputText id="numeroConvenio_BB" value="#{sistemaMB.entity.numeroConvenio_BB}" styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="numeroCarteira_BB" value="* #{msg['sistema.numeroCarteiraBB']}" />
+                        <p:inputText id="numeroCarteira_BB" value="#{sistemaMB.entity.numeroCarteira_BB}" styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="numeroVariacaoCarteira_BB" value="* #{msg['sistema.numeroVariacaoCarteira_BB']}" />
+                        <p:inputText id="numeroVariacaoCarteira_BB" value="#{sistemaMB.entity.numeroVariacaoCarteira_BB}" styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="tokenRequestURL_BB" value="* #{msg['sistema.tokenRequestURL_BB']}:" />
                         <p:inputText id="tokenRequestURL_BB" value="#{sistemaMB.entity.tokenRequestURL_BB}"   styleClass="form-control"  />
                     </div>
@@ -45,7 +78,7 @@
                         <p:inputText id="tempo" value="#{sistemaMB.entity.tempoValidadeEmSegundos_BB}"   styleClass="form-control"  readonly="true" />
                     </div>
                     <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="obs" value="Observação:" />
+                        <h:outputLabel for="obs" value="* #{msg['sistema.observacao']}:" />
                         <p:inputText id="obs" value="#{sistemaMB.entity.observacaoToken_BB}"   styleClass="form-control"  readonly="true"/>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">

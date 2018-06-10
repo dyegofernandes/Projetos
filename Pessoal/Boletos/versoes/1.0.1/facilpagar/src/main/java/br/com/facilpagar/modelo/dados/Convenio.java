@@ -86,6 +86,11 @@ public class Convenio implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     private Cidade cidade;
+    
+    // By JJ
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    private Categoria categoria;
 
     @Size(max = 100)
     @Email
@@ -408,6 +413,14 @@ public class Convenio implements Serializable {
 
     public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
     @Override

@@ -6,11 +6,10 @@
 package br.com.facilpagar.modelo.dados;
 
 import br.com.facilpagar.modelo.enums.SituacaoBoleto;
+import br.com.facilpagar.modelo.enums.SituacaoRegistro;
 import br.com.facilpagar.modelo.enums.TipoRepasse;
-import br.com.facilpagar.util.Utils;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -127,6 +126,14 @@ public class Boleto implements Serializable {
     @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private SituacaoBoleto situacao = SituacaoBoleto.EM_ABERTO;
+    
+    @Column(columnDefinition = "Text")
+    private String motivo_recusa;
+    
+    @NotNull
+    @Column(length = 20)
+    @Enumerated(EnumType.STRING)
+    private SituacaoRegistro situacao_registro = SituacaoRegistro.NAO_REGISTRADO;
 
     private boolean travado = false;
 
@@ -344,6 +351,22 @@ public class Boleto implements Serializable {
 
     public void setTravado(boolean travado) {
         this.travado = travado;
+    }
+
+    public String getMotivo_recusa() {
+        return motivo_recusa;
+    }
+
+    public void setMotivo_recusa(String motivo_recusa) {
+        this.motivo_recusa = motivo_recusa;
+    }
+
+    public SituacaoRegistro getSituacao_registro() {
+        return situacao_registro;
+    }
+
+    public void setSituacao_registro(SituacaoRegistro situacao_registro) {
+        this.situacao_registro = situacao_registro;
     }
 
     public BigDecimal getVl_deposito() {

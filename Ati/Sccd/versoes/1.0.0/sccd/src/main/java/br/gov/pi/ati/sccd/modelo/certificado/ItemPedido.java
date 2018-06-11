@@ -38,9 +38,12 @@ public class ItemPedido implements Serializable {
     @Size(max = 250)
     private String nomeTitular;
 
+    @Size(max = 250)
+    private String url;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private TipoCertificado tipoCertificado;
-    
+
     @Size(max = 250)
     @Email
     private String email;
@@ -75,8 +78,6 @@ public class ItemPedido implements Serializable {
         this.nomeTitular = nomeTitular;
     }
 
-   
-
     public TipoCertificado getTipoCertificado() {
         return tipoCertificado;
     }
@@ -107,6 +108,14 @@ public class ItemPedido implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override

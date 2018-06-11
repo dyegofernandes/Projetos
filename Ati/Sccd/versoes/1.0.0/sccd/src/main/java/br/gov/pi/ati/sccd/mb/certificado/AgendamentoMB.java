@@ -163,6 +163,7 @@ public class AgendamentoMB extends AbstractBaseBean<Agendamento> implements Seri
                 ItemPedido item = new ItemPedido();
                 item.setCpfCnpjTitular(itemPedido.getCpfCnpjTitular());
                 item.setNomeTitular(itemPedido.getNomeTitular());
+                item.setUrl(itemPedido.getUrl());
                 item.setTipoCertificado(itemPedido.getTipoCertificado());
 
                 if (!Utils.isNullOrEmpty(getEntity().getEmailInstitucional())) {

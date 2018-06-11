@@ -7,13 +7,17 @@ package br.gov.pi.ati.modelo.cadastro;
 
 import br.gov.pi.ati.modelo.orcamento.DespesaPublica;
 import br.gov.pi.ati.modelo.orcamento.Dotacao;
+import br.gov.pi.ati.modelo.orcamento.ProgramacaoFinanceira;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -48,6 +52,10 @@ public class AcaoOrcamentaria implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     private ProgramaPPA programa;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    private AcaoEstrategica acaoEstrategica;
 
     @Size(max = 50)
     @NotBlank
@@ -62,6 +70,9 @@ public class AcaoOrcamentaria implements Serializable {
     @OneToMany(mappedBy = "acaoOrcamentaria")
     @NotAudited
     private List<Dotacao> dotacoes;
+    
+    @ManyToMany(targetEntity = FonteDeRecurso.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    private List<FonteDeRecurso> fontesDeRecurso = new ArrayList<FonteDeRecurso>();
 
     @Override
     public String toString() {
@@ -124,6 +135,14 @@ public class AcaoOrcamentaria implements Serializable {
         this.programa = programa;
     }
 
+    public AcaoEstrategica getAcaoEstrategica() {
+        return acaoEstrategica;
+    }
+
+    public void setAcaoEstrategica(AcaoEstrategica acaoEstrategica) {
+        this.acaoEstrategica = acaoEstrategica;
+    }
+
     public String getCodigo() {
         return codigo;
     }
@@ -138,6 +157,14 @@ public class AcaoOrcamentaria implements Serializable {
 
     public void setDotacoes(List<Dotacao> dotacoes) {
         this.dotacoes = dotacoes;
+    }
+
+    public List<FonteDeRecurso> getFontesDeRecurso() {
+        return fontesDeRecurso;
+    }
+
+    public void setFontesDeRecurso(List<FonteDeRecurso> fontesDeRecurso) {
+        this.fontesDeRecurso = fontesDeRecurso;
     }
 
     @Override

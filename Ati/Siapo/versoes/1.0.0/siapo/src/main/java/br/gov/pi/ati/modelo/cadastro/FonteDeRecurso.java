@@ -9,13 +9,16 @@ import br.gov.pi.ati.modelo.cadastro.enums.TipoDeFonte;
 import br.gov.pi.ati.modelo.orcamento.Dotacao;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -34,10 +37,6 @@ public class FonteDeRecurso implements Serializable {
     @SequenceGenerator(name = "FonteDeRecurso", sequenceName = "fonteDeRecurso_seq_id")
     @GeneratedValue(generator = "FonteDeRecurso")
     private Long id;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull
-    private UnidadeOrcamentaria unidadeOrcamentaria;
 
     @NotBlank
     private String codigo;
@@ -56,6 +55,9 @@ public class FonteDeRecurso implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private GrupoDeFonte grupoDeFonte;
+    
+    @ManyToMany(targetEntity = NaturezaDeDespesa.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    private List<NaturezaDeDespesa> naturezasDeDespesas = new ArrayList<NaturezaDeDespesa>();
 
     private boolean ativo = true;
     
@@ -66,14 +68,6 @@ public class FonteDeRecurso implements Serializable {
     @Override
     public String toString() {
         return codigo.concat(" - ").concat(nome);
-    }
-
-    public UnidadeOrcamentaria getUnidadeOrcamentaria() {
-        return unidadeOrcamentaria;
-    }
-
-    public void setUnidadeOrcamentaria(UnidadeOrcamentaria unidadeOrcamentaria) {
-        this.unidadeOrcamentaria = unidadeOrcamentaria;
     }
 
     public Long getId() {
@@ -141,6 +135,14 @@ public class FonteDeRecurso implements Serializable {
 
     public void setDotacoes(List<Dotacao> dotacoes) {
         this.dotacoes = dotacoes;
+    }
+
+    public List<NaturezaDeDespesa> getNaturezasDeDespesas() {
+        return naturezasDeDespesas;
+    }
+
+    public void setNaturezasDeDespesas(List<NaturezaDeDespesa> naturezasDeDespesas) {
+        this.naturezasDeDespesas = naturezasDeDespesas;
     }
 
     @Override

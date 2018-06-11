@@ -10,13 +10,10 @@ import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -31,13 +28,6 @@ public class NaturezaDeDespesa implements Serializable {
     @SequenceGenerator(name = "NaturezaDeDespesa", sequenceName = "naturezaDeDespesa_seq_id")
     @GeneratedValue(generator = "NaturezaDeDespesa")
     private Long id;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull
-    private UnidadeOrcamentaria unidadeOrcamentaria;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private NaturezaDeDespesa naturezaDeDespesaPai;
 
     @NotBlank
     @Size(max = 260)
@@ -49,10 +39,6 @@ public class NaturezaDeDespesa implements Serializable {
 
     private boolean ativo = true;
 
-    @NotAudited
-    @OneToMany(mappedBy = "naturezaDeDespesaPai")
-    private List<NaturezaDeDespesa> naturezes;
-
     @OneToMany(mappedBy = "naturezaDaDespesa")
     @NotAudited
     private List<Dotacao> dotacoes;
@@ -60,14 +46,6 @@ public class NaturezaDeDespesa implements Serializable {
     @Override
     public String toString() {
         return codigo.concat(" - ").concat(nome);
-    }
-
-    public UnidadeOrcamentaria getUnidadeOrcamentaria() {
-        return unidadeOrcamentaria;
-    }
-
-    public void setUnidadeOrcamentaria(UnidadeOrcamentaria unidadeOrcamentaria) {
-        this.unidadeOrcamentaria = unidadeOrcamentaria;
     }
 
     public Long getId() {
@@ -92,22 +70,6 @@ public class NaturezaDeDespesa implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public NaturezaDeDespesa getNaturezaDeDespesaPai() {
-        return naturezaDeDespesaPai;
-    }
-
-    public void setNaturezaDeDespesaPai(NaturezaDeDespesa naturezaDeDespesaPai) {
-        this.naturezaDeDespesaPai = naturezaDeDespesaPai;
-    }
-
-    public List<NaturezaDeDespesa> getNaturezes() {
-        return naturezes;
-    }
-
-    public void setNaturezes(List<NaturezaDeDespesa> naturezes) {
-        this.naturezes = naturezes;
     }
 
     public boolean isAtivo() {

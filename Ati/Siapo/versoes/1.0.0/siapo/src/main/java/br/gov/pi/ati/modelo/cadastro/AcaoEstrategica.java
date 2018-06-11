@@ -50,6 +50,10 @@ public class AcaoEstrategica implements Serializable {
     @OneToMany(mappedBy = "acaoEstrategica")
     @NotAudited
     private List<MetaAcaoEstrategica> metas;
+    
+    @OneToMany(mappedBy = "acaoEstrategica")
+    @NotAudited
+    private List<AcaoOrcamentaria> acoesOrcamentarias;
 
     @Override
     public String toString() {
@@ -102,6 +106,14 @@ public class AcaoEstrategica implements Serializable {
 
     public void setMetas(List<MetaAcaoEstrategica> metas) {
         this.metas = metas;
+    }
+
+    public List<AcaoOrcamentaria> getAcoesOrcamentarias() {
+        return acoesOrcamentarias;
+    }
+
+    public void setAcoesOrcamentarias(List<AcaoOrcamentaria> acoesOrcamentarias) {
+        this.acoesOrcamentarias = acoesOrcamentarias;
     }
 
     @Override

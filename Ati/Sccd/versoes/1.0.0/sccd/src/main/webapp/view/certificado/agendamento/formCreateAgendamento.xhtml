@@ -44,6 +44,13 @@
                         </p:inputText>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="url" value="* URL:" rendered="#{agendamentoMB.entity.itemPedido.tipoCertificado.tipoPessoa.num eq 3}"/>
+                        <p:inputText id="url" value="#{agendamentoMB.entity.itemPedido.url}" styleClass="form-control" readonly="true" 
+                                     rendered="#{agendamentoMB.entity.itemPedido.tipoCertificado.tipoPessoa.num eq 3}">
+                            <x:initializer/>
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="nomeTitular" value="* #{msg['agendamento.itemPedido.nome']}:" />
                         <p:inputText id="nomeTitular" value="#{agendamentoMB.entity.itemPedido.nomeTitular}" styleClass="form-control" readonly="true">
                             <x:initializer/>

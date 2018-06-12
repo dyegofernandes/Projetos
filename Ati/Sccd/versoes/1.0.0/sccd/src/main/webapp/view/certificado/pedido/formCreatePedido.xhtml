@@ -74,13 +74,21 @@
                                             <h:outputLabel for="cnpjTitular" value="#{msg['itemPedido.cnpjTitular']}:" rendered="#{pedidoMB.itemAdd.tipoCertificado.tipoPessoa.num eq 2 or pedidoMB.itemAdd.tipoCertificado.tipoPessoa.num eq 3}"/>
                                             <x:cnpj id="cnpjTitular" value="#{pedidoMB.itemAdd.cpfCnpjTitular}" styleClass="form-control" rendered="#{pedidoMB.itemAdd.tipoCertificado.tipoPessoa.num eq 2 or pedidoMB.itemAdd.tipoCertificado.tipoPessoa.num eq 3}" />
                                         </div>
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="titular" value="#{msg['itemPedido.titular']}:" />
+                                            <p:inputText id="titular" value="#{pedidoMB.itemAdd.nomeTitular}" maxlength="250"  styleClass="form-control"  />
+                                        </div>
+                                        <h:panelGroup  rendered="#{pedidoMB.itemAdd.tipoCertificado.tipoPessoa.num eq 3}">
+                                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                                <h:outputLabel for="url" value="* URL:" />
+                                                <p:inputText id="url" value="#{pedidoMB.itemAdd.url}" maxlength="250"  styleClass="form-control"  />
+                                            </div>
+                                        </h:panelGroup >
+
                                     </h:panelGroup>
                                 </h:panelGroup>
 
-                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                    <h:outputLabel for="titular" value="#{msg['itemPedido.titular']}:" />
-                                    <p:inputText id="titular" value="#{pedidoMB.itemAdd.nomeTitular}" maxlength="250"  styleClass="form-control"  />
-                                </div>
+
 
                             </div>
                         </div>

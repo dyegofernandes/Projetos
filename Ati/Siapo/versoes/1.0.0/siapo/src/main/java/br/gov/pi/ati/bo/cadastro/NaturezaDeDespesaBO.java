@@ -30,7 +30,7 @@ public class NaturezaDeDespesaBO extends AbstractBusinessObject<NaturezaDeDespes
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return new UniqueFields().add("unidadeOrcamentaria", "codigo").add("unidadeOrcamentaria", "nome");
+        return new UniqueFields().add("codigo");
     }
 
     @Override

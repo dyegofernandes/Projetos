@@ -5,9 +5,7 @@
  */
 package br.gov.pi.ati.modelo.cadastro;
 
-import br.gov.pi.ati.modelo.orcamento.DespesaPublica;
 import br.gov.pi.ati.modelo.orcamento.Dotacao;
-import br.gov.pi.ati.modelo.orcamento.ProgramacaoFinanceira;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.ArrayList;

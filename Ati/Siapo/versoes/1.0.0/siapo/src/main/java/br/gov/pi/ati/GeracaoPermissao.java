@@ -27,6 +27,39 @@ public class GeracaoPermissao {
         create(new Permissao("administracaoSistema", "Sistema", true), null);
 
         create(new Permissao("cadastro", "Cadastro", true), null);
+        
+        create(new Permissao("institucional", "Institucional", true), null);
+            create(new Permissao("sobreSeplan", "Sobre a Seplan", true), "institucional");
+            create(new Permissao("competencias", "Competências", true), "institucional");
+            create(new Permissao("organograma", "Organograma", true), "institucional");
+            create(new Permissao("legislacao", "Institucional", true), "institucional");
+
+        create(new Permissao("planejamento", "Planejamento Governamental", true), null);
+            create(new Permissao("ppa", "PPA", true), "planejamento");
+            create(new Permissao("ldo", "LDO", true), "planejamento");
+            create(new Permissao("loa", "LOA", true), "planejamento");
+            create(new Permissao("planejamentoTerritorial", "Planejamento Territórial", true), "planejamento");
+
+        create(new Permissao("balanco", "Balanço Anual", true), null);
+            create(new Permissao("balancoRealizacoes", "Balanço Anual de Realizações", true), "balanco");
+            create(new Permissao("balancoEstado", "Balanço Geral do Estado", true), "balanco");
+
+        create(new Permissao("operacaoDeCredito", "Operação de Crédito", false), null);
+            create(new Permissao("operacaoDeCreditoInterna", "Operação de Crédito Interna", true), "operacaoDeCredito");
+            create(new Permissao("operacaoDeCreditoExterna", "Operação de Crédito Externa", true), "operacaoDeCredito");
+
+        create(new Permissao("estudos", "Estudos Conjunturais", true), null);
+            create(new Permissao("projecoesFiscais", "Projeções Fiscais", true), "estudos");
+            create(new Permissao("dadosEconomia", "Dados de economia", true), "estudos");
+            create(new Permissao("relatorios", "Relatórios", true), "estudos");
+                create(new Permissao("relatorios.fiscal", "Gestão Fiscal", true), "relatorios");
+                create(new Permissao("relatorios.orcamentaria", "Execução Orçamentaria", true), "relatorios");
+            create(new Permissao("indicesFiscais", "Índices Fiscais", true), "estudos");
+            create(new Permissao("folhaDePagamento", "Folha de Pagamento", true), "estudos");
+
+        create(new Permissao("atendimento", "Atendimento Virtual", true), null);
+            create(new Permissao("cadastrarDemanda", "Cadastrar Demanda", true), "atendimento");
+            create(new Permissao("consultarDemanda", "Consultar Demanda", true), "atendimento");
 
         /*
          * Controle de Acesso

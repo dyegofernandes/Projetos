@@ -61,6 +61,15 @@
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
+                <p:column headerText="Ação Estratégia" sortBy="#{acaoOrcamentaria.acaoEstrategica.nome}"
+                          filterBy="#{acaoOrcamentaria.acaoEstrategica.nome}" >
+                    <f:facet name="header">
+                        <h:outputText value="Ação Estratégia" />
+                    </f:facet>
+                    <h:outputText value="#{acaoOrcamentaria.acaoEstrategica}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
                 <p:column headerText="Código" sortBy="#{acaoOrcamentaria.codigo}"
                           filterBy="#{acaoOrcamentaria.codigo}"   >
                     <f:facet name="header">

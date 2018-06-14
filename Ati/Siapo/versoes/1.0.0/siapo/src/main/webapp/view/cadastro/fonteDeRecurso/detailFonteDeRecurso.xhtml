@@ -5,30 +5,58 @@
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
     <h:form id="formDetailFonteDeRecurso" styleClass="uix-form-detail">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="Unidade Orçamentária:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{fonteDeRecursoMB.entity.unidadeOrcamentaria}" styleClass="uix-content-detail">
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['fonteDeRecurso.codigo']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{fonteDeRecursoMB.entity.codigo}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['fonteDeRecurso.nome']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{fonteDeRecursoMB.entity.nome}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['fonteDeRecurso.grupoDeFonte']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{fonteDeRecursoMB.entity.grupoDeFonte}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Naturezas">
+            <div class="container-fluid">
+                <div class="row">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="naturezaDeDespesa" rowIndexVar="index" id="dataTableNaturezaDeDespesa" widgetVar="dataTableNaturezaDeDespesaWidget" styleClass="table-responsive"
+                                 value="#{fonteDeRecursoMB.entity.naturezasDeDespesas}"  >
                         <x:initializer/>
-                    </h:outputText>
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg['naturezaDeDespesa.codigo']}" sortBy="#{naturezaDeDespesa.codigo}"
+                                  >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['naturezaDeDespesa.codigo']}" />
+                            </f:facet>
+                            <h:outputText value="#{naturezaDeDespesa.codigo}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['naturezaDeDespesa.nome']}" sortBy="#{naturezaDeDespesa.nome}"
+                                  >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['naturezaDeDespesa.nome']}" />
+                            </f:facet>
+                            <h:outputText value="#{naturezaDeDespesa.nome}"/>
+                        </p:column>
+                        
+                    </p:dataTable>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['fonteDeRecurso.codigo']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{fonteDeRecursoMB.entity.codigo}" styleClass="uix-content-detail"/>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['fonteDeRecurso.nome']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{fonteDeRecursoMB.entity.nome}" styleClass="uix-content-detail"/>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['fonteDeRecurso.grupoDeFonte']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{fonteDeRecursoMB.entity.grupoDeFonte}" styleClass="uix-content-detail">
-                        <x:initializer/>
-                    </h:outputText>
-                </div>
-           </div>
-         </div>
+            </div>
+        </p:fieldset>
+
         <p:separator/>
         <div class="uix-center">
             <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetFonteDeRecursoDetail').hide()" />

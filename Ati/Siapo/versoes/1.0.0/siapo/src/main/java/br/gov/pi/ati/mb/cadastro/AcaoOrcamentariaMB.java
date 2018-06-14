@@ -6,8 +6,10 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.bo.cadastro.AcaoOrcamentariaBO;
+import br.gov.pi.ati.bo.cadastro.ProgramaPPABO;
 import br.gov.pi.ati.modelo.cadastro.AcaoOrcamentaria;
 import br.gov.pi.ati.modelo.cadastro.FonteDeRecurso;
+import br.gov.pi.ati.modelo.cadastro.ProgramaPPA;
 import com.xpert.faces.utils.FacesMessageUtils;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,9 @@ public class AcaoOrcamentariaMB extends AbstractBaseBean<AcaoOrcamentaria> imple
 
     @EJB
     private AcaoOrcamentariaBO acaoOrcamentariaBO;
+
+    @EJB
+    private ProgramaPPABO programaPPABO;
 
     @Override
     public AcaoOrcamentariaBO getBO() {
@@ -76,5 +81,25 @@ public class AcaoOrcamentariaMB extends AbstractBaseBean<AcaoOrcamentaria> imple
             }
         }
         return false;
+    }
+
+    public FonteDeRecurso getFonteRecursoAdd() {
+        return fonteRecursoAdd;
+    }
+
+    public void setFonteRecursoAdd(FonteDeRecurso fonteRecursoAdd) {
+        this.fonteRecursoAdd = fonteRecursoAdd;
+    }
+
+    public List<FonteDeRecurso> getFontesRecurso() {
+        return fontesRecurso;
+    }
+
+    public void setFontesRecurso(List<FonteDeRecurso> fontesRecurso) {
+        this.fontesRecurso = fontesRecurso;
+    }
+
+    public List<ProgramaPPA> produtos() {
+        return programaPPABO.programaPeloNome(null);
     }
 }

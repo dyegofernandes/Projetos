@@ -7,18 +7,7 @@
     <h:form id="formDetailNaturezaDeDespesa" styleClass="uix-form-detail">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="Unidade Orçamentária:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{naturezaDeDespesaMB.entity.unidadeOrcamentaria}" styleClass="uix-content-detail">
-                        <x:initializer/>
-                    </h:outputText>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['naturezaDeDespesa.naturezaDeDespesaPai']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{naturezaDeDespesaMB.entity.naturezaDeDespesaPai}" styleClass="uix-content-detail">
-                        <x:initializer/>
-                    </h:outputText>
-                </div>
+
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['naturezaDeDespesa.codigo']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{naturezaDeDespesaMB.entity.codigo}" styleClass="uix-content-detail"/>
@@ -27,8 +16,8 @@
                     <h:outputLabel value="#{msg['naturezaDeDespesa.nome']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{naturezaDeDespesaMB.entity.nome}" styleClass="uix-content-detail"/>
                 </div>
-           </div>
-         </div>
+            </div>
+        </div>
         <p:separator/>
         <div class="uix-center">
             <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetNaturezaDeDespesaDetail').hide()" />

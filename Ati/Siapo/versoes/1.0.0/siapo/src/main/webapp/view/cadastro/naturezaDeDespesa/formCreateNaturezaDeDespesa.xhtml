@@ -12,29 +12,7 @@
 
             <div class="container-fluid">
                 <div class="row">
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="unidade" value="* Unidade Orçamentária:" />
-                        <h:selectOneMenu id="unidade" value="#{naturezaDeDespesaMB.entity.unidadeOrcamentaria}" converter="entityConverter" styleClass="form-control" >
-                            <x:initializer/>
-                            <f:selectItem itemLabel="#{xmsg['select']}" />
-                            <f:selectItems value="#{findAllBean.get(classMB.unidadeOrcamentaria)}" 
-                                           var="unidade"
-                                           itemLabel="#{unidade}"/>
-                            <p:ajax process="@this" update="naturezaDeDespesaPai"/>
-                        </h:selectOneMenu>
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="naturezaDeDespesaPai" value="#{msg['naturezaDeDespesa.naturezaDeDespesaPai']}:" />
-                        <h:selectOneMenu id="naturezaDeDespesaPai" value="#{naturezaDeDespesaMB.entity.naturezaDeDespesaPai}" converter="entityConverter" styleClass="form-control" >
-                            <x:initializer/>
-                            <f:selectItem itemLabel="#{xmsg['select']}" />
-                            <f:selectItems value="#{naturezaDeDespesaMB.entity.unidadeOrcamentaria.naturezasDeDepesas}" 
-                                           var="naturezaDeDespesa"
-                                           itemLabel="#{naturezaDeDespesa}">
-                                <x:initializer/>
-                            </f:selectItems>
-                        </h:selectOneMenu>
-                    </div>
+                    
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="codigo" value="* #{msg['naturezaDeDespesa.codigo']}:" />
                         <p:inputText id="codigo" value="#{naturezaDeDespesaMB.entity.codigo}" maxlength="260"  styleClass="form-control"  />

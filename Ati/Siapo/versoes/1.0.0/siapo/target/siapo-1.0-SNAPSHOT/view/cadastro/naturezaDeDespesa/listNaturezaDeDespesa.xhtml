@@ -22,24 +22,7 @@
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                 <p:column headerText="Unidade Orçamentaria" sortBy="#{naturezaDeDespesa.unidadeOrcamentaria.nome}"
-                          filterBy="#{naturezaDeDespesa.unidadeOrcamentaria.nome}">
-                    <f:facet name="header">
-                        <h:outputText value="Unidade Orçamentaria" />
-                    </f:facet>
-                    <h:outputText value="#{naturezaDeDespesa.unidadeOrcamentaria}">
-                        <x:initializer/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="#{msg['naturezaDeDespesa.naturezaDeDespesaPai']}" sortBy="#{naturezaDeDespesa.naturezaDeDespesaPai}"
-                       >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['naturezaDeDespesa.naturezaDeDespesaPai']}" />
-                    </f:facet>
-                    <h:outputText value="#{naturezaDeDespesa.naturezaDeDespesaPai}">
-                        <x:initializer/>
-                    </h:outputText>
-                </p:column>
+                 
                 <p:column headerText="#{msg['naturezaDeDespesa.codigo']}" sortBy="#{naturezaDeDespesa.codigo}"
                     filterBy="#{naturezaDeDespesa.codigo}"   >
                     <f:facet name="header">

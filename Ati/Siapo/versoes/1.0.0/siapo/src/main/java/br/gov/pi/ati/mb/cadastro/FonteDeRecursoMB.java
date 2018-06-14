@@ -82,4 +82,22 @@ public class FonteDeRecursoMB extends AbstractBaseBean<FonteDeRecurso> implement
     public List<FonteDeRecurso> autocomplete(String nome) {
         return getBO().listarPeloNome(nome);
     }
+
+    public NaturezaDeDespesa getNaturezaDespesaAdd() {
+        return naturezaDespesaAdd;
+    }
+
+    public void setNaturezaDespesaAdd(NaturezaDeDespesa naturezaDespesaAdd) {
+        this.naturezaDespesaAdd = naturezaDespesaAdd;
+    }
+
+    public List<NaturezaDeDespesa> getNaturezasDespesas() {
+        return naturezasDespesas;
+    }
+
+    public void setNaturezasDespesas(List<NaturezaDeDespesa> naturezasDespesas) {
+        this.naturezasDespesas = naturezasDespesas;
+    }
+    
+    
 }

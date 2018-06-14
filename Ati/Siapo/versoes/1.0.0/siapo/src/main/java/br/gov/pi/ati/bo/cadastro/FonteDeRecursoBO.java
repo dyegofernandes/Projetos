@@ -30,7 +30,7 @@ public class FonteDeRecursoBO extends AbstractBusinessObject<FonteDeRecurso> {
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return new UniqueFields().add("unidadeOrcamentaria", "codigo").add("unidadeOrcamentaria", "nome").add("unidadeOrcamentaria", "mnemonico");
+        return new UniqueFields().add("codigo").add("nome").add( "mnemonico");
     }
 
     @Override

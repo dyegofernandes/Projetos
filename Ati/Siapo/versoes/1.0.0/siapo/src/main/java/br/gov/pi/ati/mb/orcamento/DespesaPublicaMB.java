@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.bo.orcamento.DespesaPublicaBO;
 import br.gov.pi.ati.bo.orcamento.MetaProdutoBO;
+import br.gov.pi.ati.modelo.cadastro.AcaoEstrategica;
 import br.gov.pi.ati.modelo.cadastro.AcaoOrcamentaria;
 import br.gov.pi.ati.modelo.cadastro.FonteDeRecurso;
 import br.gov.pi.ati.modelo.cadastro.Municipio;
@@ -73,9 +74,8 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
     private List<DespesaPublica> despesas;
 
     private List<UnidadeOrcamentaria> unidades;
-    
-    private Integer anoAtual = new Integer(Utils.convertDateToString(new Date(), "yyyy"));
 
+    private Integer anoAtual = new Integer(Utils.convertDateToString(new Date(), "yyyy"));
 
     @Override
     public DespesaPublicaBO getBO() {
@@ -364,21 +364,44 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
     }
 
     public List<MetaProduto> autocompleteProduto(String nome) {
-        return produtoBO.metaPeloNomeEUnidadeOrcamentaria(nome, getEntity().getUnidadeOrcamentaria());
+        if (dotacaoAdd.getAcaoOrcamentaria() != null) {
+            AcaoEstrategica acaoTemp = getDAO().getInitialized(dotacaoAdd.getAcaoOrcamentaria().getAcaoEstrategica());
+            return produtoBO.metaPelaAcaoEstrategica(acaoTemp, nome);
+        }
+
+        return null;
     }
 
     public List<NaturezaDeDespesa> autocompleteNaturezaDespesa(String nome) {
-        return naturezaBO.listarPeloNomeEUnidade(getEntity().getUnidadeOrcamentaria(), nome);
+        if (dotacaoAdd.getFonteDeRecurso() != null) {
+            return naturezaBO.listarPeloNome(dotacaoAdd.getFonteDeRecurso().getNaturezasDeDespesas(), nome);
+        }
+
+        return null;
     }
 
     public List<FonteDeRecurso> autocompleteFonteRecurso(String nome) {
-        return fonteBO.listarPorNomeEUnidade(getEntity().getUnidadeOrcamentaria(), nome);
+        if (dotacaoAdd.getAcaoOrcamentaria() != null) {
+            return fonteBO.listarPorNome(dotacaoAdd.getAcaoOrcamentaria().getFontesDeRecurso(), nome);
+        }
+
+        return null;
     }
 
     public void desmarcaQuantificador() {
         if (!dotacaoAdd.isGeraQuantificador()) {
             dotacaoAdd.setQuantidadeRealizada(null);
         }
+    }
+
+    public void mudarAcaoOrcamentaria() {
+        dotacaoAdd.setFonteDeRecurso(null);
+        dotacaoAdd.setNaturezaDaDespesa(null);
+        dotacaoAdd.setProdutoLDO(null);
+    }
+
+    public void mudarFonteDeRecurso() {
+        dotacaoAdd.setNaturezaDaDespesa(null);
     }
 
     public void buscar() {

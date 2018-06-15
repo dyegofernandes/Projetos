@@ -16,7 +16,9 @@
                         <p:autoComplete id="acaoOrcamentaria" value="#{despesaPublicaMB.dotacaoAdd.acaoOrcamentaria}" 
                                         completeMethod="#{despesaPublicaMB.autocompleteAcao}" styleClass="uix-autocomplete" 
                                         minQueryLength="3" forceSelection="true" dropdown="true"
-                                        var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"  > 
+                                        var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" 
+                                        placeholder="Filtrado por Unidade Orçamentária"> 
+                            <p:ajax event="itemSelect" process="@this" update="@form" listener="#{despesaPublicaMB.mudarAcaoOrcamentaria()}" />
                             <p:column> 
                                 <h:outputText value="#{p}"/>
                             </p:column> 
@@ -27,7 +29,10 @@
                         <p:autoComplete id="fonteDeRecurso" value="#{despesaPublicaMB.dotacaoAdd.fonteDeRecurso}" 
                                         completeMethod="#{despesaPublicaMB.autocompleteFonteRecurso}" styleClass="uix-autocomplete" 
                                         minQueryLength="3" forceSelection="true" dropdown="true"
-                                        var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"  > 
+                                        var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" 
+                                        placeholder="Filtrado por Ação Orçamentária"> 
+                            <x:initializer/>
+                            <p:ajax event="itemSelect" process="acaoOrcamentaria @this" update="naturezaDaDespesa" listener="#{despesaPublicaMB.mudarFonteDeRecurso()}"/>
                             <p:column> 
                                 <h:outputText value="#{p}"/>
                             </p:column> 
@@ -38,14 +43,57 @@
                         <p:autoComplete id="naturezaDaDespesa" value="#{despesaPublicaMB.dotacaoAdd.naturezaDaDespesa}" 
                                         completeMethod="#{despesaPublicaMB.autocompleteNaturezaDespesa}" styleClass="uix-autocomplete" 
                                         minQueryLength="3" forceSelection="true" dropdown="true"
-                                        var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"  > 
+                                        var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"  
+                                        placeholder="Filtrado por Fonte de Recurso"> 
+                            <p:ajax event="itemSelect" process="fonteDeRecurso @this" update="@this dotacaoInicial dotacaoAtualizada despesasEmpenhadas despesasLiquidadas despesasPagas saldoDisponivel" />
+                            <x:initializer/>
                             <p:column> 
                                 <h:outputText value="#{p}"/>
                             </p:column> 
                         </p:autoComplete>
                     </div>
-
-
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dotacaoInicial" value="#{msg['naturezaDeDespesa.dotacaoInicial']}:" />
+                        <p:inputText id="dotacaoInicial" value="#{despesaPublicaMB.dotacaoAdd.naturezaDaDespesa.dotacaoInicial}" styleClass="form-control" readonly="true">
+                            <x:initializer/>
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dotacaoAtualizada" value="#{msg['naturezaDeDespesa.dotacaoAtualizada']}:" />
+                        <p:inputText id="dotacaoAtualizada" value="#{despesaPublicaMB.dotacaoAdd.naturezaDaDespesa.dotacaoAtualizada}" styleClass="form-control" readonly="true">
+                            <x:initializer/>
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="despesasEmpenhadas" value="#{msg['naturezaDeDespesa.despesasEmpenhadas']}:" />
+                        <p:inputText id="despesasEmpenhadas" value="#{despesaPublicaMB.dotacaoAdd.naturezaDaDespesa.despesasEmpenhadas}" styleClass="form-control" readonly="true">
+                            <x:initializer/>
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="despesasLiquidadas" value="#{msg['naturezaDeDespesa.despesasLiquidadas']}:" />
+                        <p:inputText id="despesasLiquidadas" value="#{despesaPublicaMB.dotacaoAdd.naturezaDaDespesa.despesasLiquidadas}" styleClass="form-control" readonly="true">
+                            <x:initializer/>
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="despesasPagas" value="#{msg['naturezaDeDespesa.despesasPagas']}:" />
+                        <p:inputText id="despesasPagas" value="#{despesaPublicaMB.dotacaoAdd.naturezaDaDespesa.despesasPagas}" styleClass="form-control" readonly="true">
+                            <x:initializer/>
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="saldoDisponivel" value="#{msg['naturezaDeDespesa.saldoDisponivel']}:" />
+                        <p:inputText id="saldoDisponivel" value="#{despesaPublicaMB.dotacaoAdd.naturezaDaDespesa.saldoDisponivel}" styleClass="form-control" readonly="true">
+                            <x:initializer/>
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </p:inputText>
+                    </div>
 
                 </div>
             </div>
@@ -121,6 +169,18 @@
         </p:fieldset>
         <p:fieldset legend="Produto LDO">
             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="programa" value="Programa:" />
+                <p:inputText id="programa" value="#{despesaPublicaMB.dotacaoAdd.acaoOrcamentaria.programa.programaGov}" styleClass="form-control" readonly="true">
+                    <x:initializer/>
+                </p:inputText>
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="acaoEstrategica" value="Ação Estratégica:" />
+                <p:inputText id="acaoEstrategica" value="#{despesaPublicaMB.dotacaoAdd.acaoOrcamentaria.acaoEstrategica}" styleClass="form-control" readonly="true">
+                    <x:initializer/>
+                </p:inputText>
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                 <h:outputLabel for="produtoLDO" value="* Produto:" />
                 <p:autoComplete id="produtoLDO" value="#{despesaPublicaMB.dotacaoAdd.produtoLDO}" 
                                 completeMethod="#{despesaPublicaMB.autocompleteProduto}" styleClass="uix-autocomplete" 
@@ -129,7 +189,7 @@
                     <p:column> 
                         <h:outputText value="#{p.produto}"/>
                     </p:column> 
-                    <p:ajax event="itemSelect" process="@this" update="quantidadeMeta unidadeMedida" />
+                    <p:ajax event="itemSelect" process="@this acaoOrcamentaria" update="quantidadeMeta unidadeMedida" />
                 </p:autoComplete>
             </div>
             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">

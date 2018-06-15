@@ -8,7 +8,6 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.modelo.cadastro.FonteDeRecurso;
-import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
 import br.gov.pi.ati.util.Utils;
 import com.xpert.core.validation.UniqueFields;
 import com.xpert.persistence.query.Restrictions;
@@ -30,7 +29,7 @@ public class FonteDeRecursoBO extends AbstractBusinessObject<FonteDeRecurso> {
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return new UniqueFields().add("codigo").add("nome").add( "mnemonico");
+        return new UniqueFields().add("codigo");
     }
 
     @Override
@@ -58,15 +57,21 @@ public class FonteDeRecursoBO extends AbstractBusinessObject<FonteDeRecurso> {
 
         return getDAO().getQueryBuilder().from(FonteDeRecurso.class, "fonte").add(restrictions).orderBy("fonte.nome").getResultList();
     }
-    
-    public List<FonteDeRecurso> listarPorNomeEUnidade(UnidadeOrcamentaria unidade, String nome) {
+
+    public List<FonteDeRecurso> listarPorNome(List<FonteDeRecurso> fontes, String nome) {
         Restrictions restrictions = new Restrictions();
-        
-        if(unidade==null){
+
+        if (fontes != null) {
+            List<FonteDeRecurso> fontesTemp = getDAO().getInitialized(fontes);
+                    
+            if (fontesTemp.size() > 0) {
+                restrictions.in("fonte", fontesTemp);
+            } else {
+                return null;
+            }
+        } else {
             return null;
         }
-        
-        restrictions.add("unidade", unidade);
 
         if (!Utils.isNullOrEmpty(nome)) {
             if (Utils.ehInteiro(nome)) {
@@ -79,6 +84,6 @@ public class FonteDeRecursoBO extends AbstractBusinessObject<FonteDeRecurso> {
 
         restrictions.add("fonte.ativo", true);
 
-        return getDAO().getQueryBuilder().select("fonte").from(FonteDeRecurso.class, "fonte").leftJoinFetch("fonte.unidadeOrcamentaria", "unidade").add(restrictions).orderBy("fonte.codigo").getResultList();
+        return getDAO().getQueryBuilder().select("fonte").from(FonteDeRecurso.class, "fonte").add(restrictions).orderBy("fonte.codigo").getResultList();
     }
 }

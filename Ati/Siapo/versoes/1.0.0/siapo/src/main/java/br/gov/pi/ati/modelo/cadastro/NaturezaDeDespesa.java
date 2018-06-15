@@ -8,6 +8,7 @@ package br.gov.pi.ati.modelo.cadastro;
 import br.gov.pi.ati.modelo.orcamento.Dotacao;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,6 +37,18 @@ public class NaturezaDeDespesa implements Serializable {
     @Size(max = 260)
     @NotBlank
     private String nome;
+
+    private BigDecimal dotacaoInicial = BigDecimal.ZERO;
+
+    private BigDecimal dotacaoAtualizada = BigDecimal.ZERO;
+
+    private BigDecimal despesasEmpenhadas = BigDecimal.ZERO;
+
+    private BigDecimal despesasLiquidadas = BigDecimal.ZERO;
+
+    private BigDecimal despesasPagas = BigDecimal.ZERO;
+
+    private BigDecimal saldoDisponivel = BigDecimal.ZERO;
 
     private boolean ativo = true;
 
@@ -86,6 +99,54 @@ public class NaturezaDeDespesa implements Serializable {
 
     public void setDotacoes(List<Dotacao> dotacoes) {
         this.dotacoes = dotacoes;
+    }
+
+    public BigDecimal getDotacaoInicial() {
+        return dotacaoInicial;
+    }
+
+    public void setDotacaoInicial(BigDecimal dotacaoInicial) {
+        this.dotacaoInicial = dotacaoInicial;
+    }
+
+    public BigDecimal getDotacaoAtualizada() {
+        return dotacaoAtualizada;
+    }
+
+    public void setDotacaoAtualizada(BigDecimal dotacaoAtualizada) {
+        this.dotacaoAtualizada = dotacaoAtualizada;
+    }
+
+    public BigDecimal getDespesasEmpenhadas() {
+        return despesasEmpenhadas;
+    }
+
+    public void setDespesasEmpenhadas(BigDecimal despesasEmpenhadas) {
+        this.despesasEmpenhadas = despesasEmpenhadas;
+    }
+
+    public BigDecimal getDespesasLiquidadas() {
+        return despesasLiquidadas;
+    }
+
+    public void setDespesasLiquidadas(BigDecimal despesasLiquidadas) {
+        this.despesasLiquidadas = despesasLiquidadas;
+    }
+
+    public BigDecimal getDespesasPagas() {
+        return despesasPagas;
+    }
+
+    public void setDespesasPagas(BigDecimal despesasPagas) {
+        this.despesasPagas = despesasPagas;
+    }
+
+    public BigDecimal getSaldoDisponivel() {
+        return saldoDisponivel;
+    }
+
+    public void setSaldoDisponivel(BigDecimal saldoDisponivel) {
+        this.saldoDisponivel = saldoDisponivel;
     }
 
     @Override

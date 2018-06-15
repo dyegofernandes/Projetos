@@ -12,7 +12,7 @@
 
             <div class="container-fluid">
                 <div class="row">
-                    
+
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="codigo" value="* #{msg['naturezaDeDespesa.codigo']}:" />
                         <p:inputText id="codigo" value="#{naturezaDeDespesaMB.entity.codigo}" maxlength="260"  styleClass="form-control"  />
@@ -22,6 +22,30 @@
                         <p:inputText id="nome" value="#{naturezaDeDespesaMB.entity.nome}" maxlength="260"  styleClass="form-control"  />
                     </div>
 
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dotacaoInicial" value="* #{msg['naturezaDeDespesa.dotacaoInicial']}:" />
+                        <x:inputNumber id="dotacaoInicial" value="#{naturezaDeDespesaMB.entity.dotacaoInicial}" styleClass="form-control"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dotacaoAtualizada" value="* #{msg['naturezaDeDespesa.dotacaoAtualizada']}:" />
+                        <x:inputNumber id="dotacaoAtualizada" value="#{naturezaDeDespesaMB.entity.dotacaoAtualizada}" styleClass="form-control"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="despesasEmpenhadas" value="* #{msg['naturezaDeDespesa.despesasEmpenhadas']}:" />
+                        <x:inputNumber id="despesasEmpenhadas" value="#{naturezaDeDespesaMB.entity.despesasEmpenhadas}" styleClass="form-control"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="despesasLiquidadas" value="* #{msg['naturezaDeDespesa.despesasLiquidadas']}:" />
+                        <x:inputNumber id="despesasLiquidadas" value="#{naturezaDeDespesaMB.entity.despesasLiquidadas}" styleClass="form-control"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="despesasPagas" value="* #{msg['naturezaDeDespesa.despesasPagas']}:" />
+                        <x:inputNumber id="despesasPagas" value="#{naturezaDeDespesaMB.entity.despesasPagas}" styleClass="form-control"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="saldoDisponivel" value="* #{msg['naturezaDeDespesa.saldoDisponivel']}:" />
+                        <x:inputNumber id="saldoDisponivel" value="#{naturezaDeDespesaMB.entity.saldoDisponivel}" styleClass="form-control"/>
+                    </div>
                 </div>
             </div>
         </p:fieldset>

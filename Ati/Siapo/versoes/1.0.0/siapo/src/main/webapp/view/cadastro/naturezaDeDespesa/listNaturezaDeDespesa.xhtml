@@ -12,7 +12,7 @@
             <x:modalMessages/>
 
             <x:dataTableActions fileName="naturezaDeDespesa_export" target=":formListNaturezaDeDespesa:dataTableNaturezaDeDespesa"
-                                     widgetVar="dataTableNaturezaDeDespesaWidget"  />
+                                widgetVar="dataTableNaturezaDeDespesaWidget"  />
 
             <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                          var="naturezaDeDespesa" rowIndexVar="index" id="dataTableNaturezaDeDespesa" widgetVar="dataTableNaturezaDeDespesaWidget" styleClass="table-responsive"
@@ -22,20 +22,110 @@
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                 
+
                 <p:column headerText="#{msg['naturezaDeDespesa.codigo']}" sortBy="#{naturezaDeDespesa.codigo}"
-                    filterBy="#{naturezaDeDespesa.codigo}"   >
+                          filterBy="#{naturezaDeDespesa.codigo}"   style="text-align: right;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['naturezaDeDespesa.codigo']}" />
                     </f:facet>
                     <h:outputText value="#{naturezaDeDespesa.codigo}"/>
                 </p:column>
                 <p:column headerText="#{msg['naturezaDeDespesa.nome']}" sortBy="#{naturezaDeDespesa.nome}"
-                    filterBy="#{naturezaDeDespesa.nome}"   >
+                          filterBy="#{naturezaDeDespesa.nome}"   >
                     <f:facet name="header">
                         <h:outputText value="#{msg['naturezaDeDespesa.nome']}" />
                     </f:facet>
                     <h:outputText value="#{naturezaDeDespesa.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['naturezaDeDespesa.dotacaoInicial']}" sortBy="#{naturezaDeDespesa.dotacaoInicial}"
+                          style="text-align: right;" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['naturezaDeDespesa.dotacaoInicial']}" />
+                    </f:facet>
+                    <h:outputText value="#{naturezaDeDespesa.dotacaoInicial}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{x:sum(naturezaDeDespesaMB.dataModel, 'dotacaoInicial')}" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                    </f:facet>
+
+                </p:column>
+                <p:column headerText="#{msg['naturezaDeDespesa.dotacaoAtualizada']}" sortBy="#{naturezaDeDespesa.dotacaoAtualizada}"
+                          style="text-align: right;" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['naturezaDeDespesa.dotacaoAtualizada']}" />
+                    </f:facet>
+                    <h:outputText value="#{naturezaDeDespesa.dotacaoAtualizada}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{x:sum(naturezaDeDespesaMB.dataModel, 'dotacaoAtualizada')}" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                    </f:facet>
+
+                </p:column>
+                <p:column headerText="#{msg['naturezaDeDespesa.despesasEmpenhadas']}" sortBy="#{naturezaDeDespesa.despesasEmpenhadas}"
+                          style="text-align: right;" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['naturezaDeDespesa.despesasEmpenhadas']}" />
+                    </f:facet>
+                    <h:outputText value="#{naturezaDeDespesa.despesasEmpenhadas}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{x:sum(naturezaDeDespesaMB.dataModel, 'despesasEmpenhadas')}" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                    </f:facet>
+
+                </p:column>
+                <p:column headerText="#{msg['naturezaDeDespesa.despesasLiquidadas']}" sortBy="#{naturezaDeDespesa.despesasLiquidadas}"
+                          style="text-align: right;" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['naturezaDeDespesa.despesasLiquidadas']}" />
+                    </f:facet>
+                    <h:outputText value="#{naturezaDeDespesa.despesasLiquidadas}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{x:sum(naturezaDeDespesaMB.dataModel, 'despesasLiquidadas')}" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                    </f:facet>
+
+                </p:column>
+                <p:column headerText="#{msg['naturezaDeDespesa.saldoDisponivel']}" sortBy="#{naturezaDeDespesa.saldoDisponivel}"
+                          style="text-align: right;" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['naturezaDeDespesa.saldoDisponivel']}" />
+                    </f:facet>
+                    <h:outputText value="#{naturezaDeDespesa.saldoDisponivel}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{x:sum(naturezaDeDespesaMB.dataModel, 'saldoDisponivel')}" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                    </f:facet>
+
+                </p:column>
+                <p:column headerText="#{msg['naturezaDeDespesa.despesasPagas']}" sortBy="#{naturezaDeDespesa.despesasPagas}"
+                          style="text-align: right;" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['naturezaDeDespesa.despesasPagas']}" />
+                    </f:facet>
+                    <h:outputText value="#{naturezaDeDespesa.despesasPagas}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{x:sum(naturezaDeDespesaMB.dataModel, 'despesasPagas')}" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                    </f:facet>
+
                 </p:column>
                 <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
                     <f:facet name="header">
@@ -68,7 +158,7 @@
 
         <p:dialog widgetVar="widgetNaturezaDeDespesaDetail" header="#{msg['naturezaDeDespesa.detail']}" appendTo="@(body)" 
                   modal="true" styleClass="uix-dialog-fluid" >
-                  <ui:include src="detailNaturezaDeDespesa.xhtml" />
+            <ui:include src="detailNaturezaDeDespesa.xhtml" />
         </p:dialog>
     </ui:define>
 </ui:composition>

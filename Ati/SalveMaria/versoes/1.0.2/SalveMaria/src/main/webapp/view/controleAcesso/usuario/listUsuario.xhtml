@@ -21,7 +21,11 @@
                          paginatorTemplate="#{usuarioMB.dataModel.paginatorTemplate}"
                          value="#{usuarioMB.dataModel}" lazy="true" >
                 <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">
+                        <h:outputText value="" />
+                    </f:facet>
                     <h:outputText value="#{index+1}"/>
+
                 </p:column>
                 <p:column headerText="Unidade" sortBy="#{usuario.unidade.nome}"
                           filterBy="#{usuario.unidade.nome}" >

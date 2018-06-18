@@ -38,8 +38,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import javax.ws.rs.GET;
 import javax.ws.rs.PathParam;
 
@@ -164,28 +162,28 @@ public class DenunciaResource {
                         denuncia.setDescricao("Denúncia feita através do preenchimento do Formulário no Celular!");
                     }
 
-                    stringDeBusca = stringDeBusca.concat(denunciaVO.getEndereco() != null ? denunciaVO.getEndereco() : "").concat(", ")
-                            .concat(denunciaVO.getNumero() != null ? denunciaVO.getNumero() : "").concat(", ")
-                            .concat(denunciaVO.getBairro()).concat(",").concat(denunciaVO.getCidade()).concat(", ").concat(denunciaVO.getEstado());
-
-                    url = new URL("http://maps.googleapis.com/maps/api/geocode/json?address=BUSCA_PELO_VALOR".
-                            replace("BUSCA_PELO_VALOR", stringDeBusca.replace(" ", "+")));
-
-                    String stringJson = Utils.pegarRetornoUrlGoogle(url);
-
-                    if (!Utils.isNullOrEmpty(stringJson)) {
-                        JSONObject jsonObjTest = new JSONObject(stringJson);
-
-                        JSONArray jsonArray = jsonObjTest.getJSONArray("results");
-
-                        if (jsonArray.length() > 0) {
-                            endereco.setLatitude(Utils.pegarLatitude(stringJson));
-                            endereco.setLongitude(Utils.pegarLongitude(stringJson));
-                        }
-                    } else {
-                        return Response.status(503).entity("Nenhum resultado encontrado para latitude e longitude informadados!").
-                                header("CustomHeader", "CustomValue").build();
-                    }
+//                    stringDeBusca = stringDeBusca.concat(denunciaVO.getEndereco() != null ? denunciaVO.getEndereco() : "").concat(", ")
+//                            .concat(denunciaVO.getNumero() != null ? denunciaVO.getNumero() : "").concat(", ")
+//                            .concat(denunciaVO.getBairro()).concat(",").concat(denunciaVO.getCidade()).concat(", ").concat(denunciaVO.getEstado());
+//
+//                    url = new URL("http://maps.googleapis.com/maps/api/geocode/json?address=BUSCA_PELO_VALOR".
+//                            replace("BUSCA_PELO_VALOR", stringDeBusca.replace(" ", "+")));
+//
+//                    String stringJson = Utils.pegarRetornoUrlGoogle(url);
+//
+//                    if (!Utils.isNullOrEmpty(stringJson)) {
+//                        JSONObject jsonObjTest = new JSONObject(stringJson);
+//
+//                        JSONArray jsonArray = jsonObjTest.getJSONArray("results");
+//
+//                        if (jsonArray.length() > 0) {
+//                            endereco.setLatitude(Utils.pegarLatitude(stringJson));
+//                            endereco.setLongitude(Utils.pegarLongitude(stringJson));
+//                        }
+//                    } else {
+//                        return Response.status(503).entity("Nenhum resultado encontrado para latitude e longitude informadados!").
+//                                header("CustomHeader", "CustomValue").build();
+//                    }
                 } else {
                     if (tipo == TipoDenuncia.PANICO) {
                         denuncia.setDescricao("Botão Pânico!! Latidude: ".concat(denunciaVO.getLatitude()).concat(" Longitude: ").concat(denunciaVO.getLongitude()));

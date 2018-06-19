@@ -26,40 +26,40 @@ public class GeracaoPermissao {
          */
         create(new Permissao("administracaoSistema", "Sistema", true), null);
 
-        create(new Permissao("cadastro", "Cadastro", true), null);
-        
+        create(new Permissao("cadastro", "Cadastro", true), "administracaoSistema");
+
         create(new Permissao("institucional", "Institucional", true), null);
-            create(new Permissao("sobreSeplan", "Sobre a Seplan", true), "institucional");
-            create(new Permissao("competencias", "Competências", true), "institucional");
-            create(new Permissao("organograma", "Organograma", true), "institucional");
-            create(new Permissao("legislacao", "Institucional", true), "institucional");
+        create(new Permissao("sobreSeplan", "Sobre a Seplan", true), "institucional");
+        create(new Permissao("competencias", "Competências", true), "institucional");
+        create(new Permissao("organograma", "Organograma", true), "institucional");
+        create(new Permissao("legislacao", "Institucional", true), "institucional");
 
         create(new Permissao("planejamento", "Planejamento Governamental", true), null);
-            create(new Permissao("ppa", "PPA", true), "planejamento");
-            create(new Permissao("ldo", "LDO", true), "planejamento");
-            create(new Permissao("loa", "LOA", true), "planejamento");
-            create(new Permissao("planejamentoTerritorial", "Planejamento Territórial", true), "planejamento");
+        create(new Permissao("ppa", "PPA", true), "planejamento");
+        create(new Permissao("ldo", "LDO", true), "planejamento");
+        create(new Permissao("loa", "LOA", true), "planejamento");
+        create(new Permissao("planejamentoTerritorial", "Planejamento Territórial", true), "planejamento");
 
         create(new Permissao("balanco", "Balanço Anual", true), null);
-            create(new Permissao("balancoRealizacoes", "Balanço Anual de Realizações", true), "balanco");
-            create(new Permissao("balancoEstado", "Balanço Geral do Estado", true), "balanco");
+        create(new Permissao("balancoRealizacoes", "Balanço Anual de Realizações", true), "balanco");
+        create(new Permissao("balancoEstado", "Balanço Geral do Estado", true), "balanco");
 
         create(new Permissao("operacaoDeCredito", "Operação de Crédito", false), null);
-            create(new Permissao("operacaoDeCreditoInterna", "Operação de Crédito Interna", true), "operacaoDeCredito");
-            create(new Permissao("operacaoDeCreditoExterna", "Operação de Crédito Externa", true), "operacaoDeCredito");
+        create(new Permissao("operacaoDeCreditoInterna", "Operação de Crédito Interna", true), "operacaoDeCredito");
+        create(new Permissao("operacaoDeCreditoExterna", "Operação de Crédito Externa", true), "operacaoDeCredito");
 
         create(new Permissao("estudos", "Estudos Conjunturais", true), null);
-            create(new Permissao("projecoesFiscais", "Projeções Fiscais", true), "estudos");
-            create(new Permissao("dadosEconomia", "Dados de economia", true), "estudos");
-            create(new Permissao("relatorios", "Relatórios", true), "estudos");
-                create(new Permissao("relatorios.fiscal", "Gestão Fiscal", true), "relatorios");
-                create(new Permissao("relatorios.orcamentaria", "Execução Orçamentaria", true), "relatorios");
-            create(new Permissao("indicesFiscais", "Índices Fiscais", true), "estudos");
-            create(new Permissao("folhaDePagamento", "Folha de Pagamento", true), "estudos");
+        create(new Permissao("projecoesFiscais", "Projeções Fiscais", true), "estudos");
+        create(new Permissao("dadosEconomia", "Dados de economia", true), "estudos");
+        create(new Permissao("relatorios", "Relatórios", true), "estudos");
+        create(new Permissao("relatorios.fiscal", "Gestão Fiscal", true), "relatorios");
+        create(new Permissao("relatorios.orcamentaria", "Execução Orçamentaria", true), "relatorios");
+        create(new Permissao("indicesFiscais", "Índices Fiscais", true), "estudos");
+        create(new Permissao("folhaDePagamento", "Folha de Pagamento", true), "estudos");
 
         create(new Permissao("atendimento", "Atendimento Virtual", true), null);
-            create(new Permissao("cadastrarDemanda", "Cadastrar Demanda", true), "atendimento");
-            create(new Permissao("consultarDemanda", "Consultar Demanda", true), "atendimento");
+        create(new Permissao("cadastrarDemanda", "Cadastrar Demanda", true), "atendimento");
+        create(new Permissao("consultarDemanda", "Consultar Demanda", true), "atendimento");
 
         /*
          * Controle de Acesso
@@ -210,12 +210,9 @@ public class GeracaoPermissao {
         create(new Permissao("produto.audit", "Auditoria de Produto"), "produto");
         create(new Permissao("produto.delete", "Exclusão de Produto"), "produto");
 
-//Compentencia PPA
-        create(new Permissao("compentencia", "Competencias", true), "cadastro");
-
-        create(new Permissao("compentenciaPPA", "Competencia PPA", false), "compentencia");
+        create(new Permissao("compentenciaPPA", "Competencia PPA", false), "competencias");
         create(new Permissao("compentenciaPPA.create", "Cadastro de Competencia PPA", "/view/cadastro/compentenciaPPA/createCompentenciaPPA.jsf", false), "compentenciaPPA");
-        create(new Permissao("compentenciaPPA.list", "PPA", "/view/cadastro/compentenciaPPA/listCompentenciaPPA.jsf", true), "compentencia");
+        create(new Permissao("compentenciaPPA.list", "PPA", "/view/cadastro/compentenciaPPA/listCompentenciaPPA.jsf", true), "competencias");
         create(new Permissao("compentenciaPPA.audit", "Auditoria de Competencia PPA"), "compentenciaPPA");
         create(new Permissao("compentenciaPPA.delete", "Exclusão de Competencia PPA"), "compentenciaPPA");
 
@@ -236,9 +233,9 @@ public class GeracaoPermissao {
         create(new Permissao("areaTematica.delete", "Exclusão de Area Tematica"), "areaTematica");
 
         //Territorio
-        create(new Permissao("territorio", "Territorio", false), "governo");
+        create(new Permissao("territorio", "Territorio", false), "planejamentoTerritorial");
         create(new Permissao("territorio.create", "Cadastro de Territorio", "/view/cadastro/territorio/createTerritorio.jsf", false), "territorio");
-        create(new Permissao("territorio.list", "Territórios", "/view/cadastro/territorio/listTerritorio.jsf", true), "governo");
+        create(new Permissao("territorio.list", "Territórios", "/view/cadastro/territorio/listTerritorio.jsf", true), "planejamentoTerritorial");
         create(new Permissao("territorio.audit", "Auditoria de Territorio"), "territorio");
         create(new Permissao("territorio.delete", "Exclusão de Territorio"), "territorio");
 
@@ -311,17 +308,11 @@ public class GeracaoPermissao {
         create(new Permissao("metas", "Metas PPA", true), "orcamento");
 
         //Programa PPA
-        create(new Permissao("programaPPA", "Programa PPA", false), "orcamento");
+        create(new Permissao("programaPPA", "Programa PPA", false), "ppa");
         create(new Permissao("programaPPA.create", "Cadastro de Programa PPA", "/view/cadastro/programaPPA/createProgramaPPA.jsf", false), "programaPPA");
-        create(new Permissao("programaPPA.list", "Programas", "/view/cadastro/programaPPA/listProgramaPPA.jsf", true), "orcamento");
+        create(new Permissao("programaPPA.list", "Programas", "/view/cadastro/programaPPA/listProgramaPPA.jsf", true), "ppa");
         create(new Permissao("programaPPA.audit", "Auditoria de Programa PPA"), "programaPPA");
         create(new Permissao("programaPPA.delete", "Exclusão de Programa PPA"), "programaPPA");
-
-        create(new Permissao("metaPPA", "Produto PPA", false), "metas");
-        create(new Permissao("metaPPA.create", "Cadastro de Produto PPA", "/view/orcamento/metaPPA/createMetaPPA.jsf", false), "metaPPA");
-        create(new Permissao("metaPPA.list", "Produtos", "/view/orcamento/metaPPA/listMetaPPA.jsf", false), "metas");
-        create(new Permissao("metaPPA.audit", "Auditoria de Produto PPA"), "metaPPA");
-        create(new Permissao("metaPPA.delete", "Exclusão de Produto PPA"), "metaPPA");
 
         //Meta Acao Estrategica
         create(new Permissao("metaAcaoEstrategica", "Meta Acao Estrategica", false), "metas");
@@ -331,16 +322,16 @@ public class GeracaoPermissao {
         create(new Permissao("metaAcaoEstrategica.delete", "Exclusão de Meta Acao Estrategica"), "metaAcaoEstrategica");
 
         //Meta Produto
-        create(new Permissao("metaProduto", "Produto", false), "metas");
+        create(new Permissao("metaProduto", "Produto", false), "ppa");
         create(new Permissao("metaProduto.create", "Cadastro de Meta Produto", "/view/orcamento/metaProduto/createMetaProduto.jsf", false), "metaProduto");
-        create(new Permissao("metaProduto.list", "Produtos", "/view/orcamento/metaProduto/listMetaProduto.jsf", true), "metas");
+        create(new Permissao("metaProduto.list", "Produtos", "/view/orcamento/metaProduto/listMetaProduto.jsf", true), "ppa");
         create(new Permissao("metaProduto.audit", "Auditoria de Meta Produto"), "metaProduto");
         create(new Permissao("metaProduto.delete", "Exclusão de Meta Produto"), "metaProduto");
 
         //Despesa Publica
-        create(new Permissao("despesaPublica", "Despesa Publica", false), "orcamento");
+        create(new Permissao("despesaPublica", "Despesa Publica", false), "loa");
         create(new Permissao("despesaPublica.create", "Cadastro de Despesa Publica", "/view/orcamento/despesaPublica/createDespesaPublica.jsf", false), "despesaPublica");
-        create(new Permissao("despesaPublica.list", "Despesas", "/view/orcamento/despesaPublica/listDespesaPublica.jsf", true), "orcamento");
+        create(new Permissao("despesaPublica.list", "Despesas", "/view/orcamento/despesaPublica/listDespesaPublica.jsf", true), "loa");
         create(new Permissao("despesaPublica.audit", "Auditoria de Despesa Publica"), "despesaPublica");
         create(new Permissao("despesaPublica.delete", "Exclusão de Despesa Publica"), "despesaPublica");
         /*

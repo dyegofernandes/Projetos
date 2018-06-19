@@ -15,14 +15,17 @@ public enum TipoCliente {
     AUTARQUIA(2, "Autarquia"),
     COORDENADORIA(3, "Coordenadoria"),
     CONSELHO_ESCOLAR(4, "Conselho Escolar"),
-    DEPARTAMENTO(5,"Departamento"),
+    DEPARTAMENTO(5, "Departamento"),
     INSTITUICAO_PUBLICA(6, "Instituição Pública"),
     INSTITUTO(7, "Instituto"),
     EMPRESA(8, "Empresa Pública"),
     FUNDACAO(9, "Fundação"),
-    HOSPITAL(10,"Hospital"),
-    SECRETARIA(11, "Secretaria"),
-    PRIVADA(12, "Empresa Privada");
+    FUNDO(10, "Fundo"),
+    HOSPITAL(11, "Hospital"),
+    SECRETARIA(12, "Secretaria"),
+    PESSOA_FISICA(13,"Pessoa Física"),
+    PRIVADA(14, "Empresa Privada"),
+    TRIBUNAL(15, "Tribunal");
 
     private TipoCliente(int num, String descricao) {
         this.descricao = descricao;

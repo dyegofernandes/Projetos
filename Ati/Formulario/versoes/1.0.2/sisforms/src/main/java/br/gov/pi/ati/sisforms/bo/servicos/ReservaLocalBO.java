@@ -14,11 +14,13 @@ import br.gov.pi.ati.sisforms.modelo.servicos.ReservaLocal;
 import br.gov.pi.ati.sisforms.modelo.vos.FiltrosVO;
 import br.gov.pi.ati.sisforms.util.Utils;
 import com.xpert.core.validation.UniqueFields;
-import com.xpert.persistence.query.QueryBuilder;
+
 import com.xpert.persistence.query.Restrictions;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.persistence.TemporalType;
 
 /**
@@ -43,9 +45,18 @@ public class ReservaLocalBO extends AbstractBusinessObject<ReservaLocal> {
 
     @Override
     public void validate(ReservaLocal reserva) throws BusinessException {
-
+        
+        if(inputFone(reserva.getFone_contato())){
+            String foneTemp = foneMask(reserva.getFone_contato());
+            reserva.setFone_contato(foneTemp);
+        }else{
+            throw new BusinessException("Telefone se encontra em formato incorreto.");
+        }
+        
         if (reserva.getId() == null) {
             Date dataHoje = new Date();
+            
+            
 
             //Verifica se data inicial não é menor que a data atual.
             if (reserva.getDataInicio().before(dataHoje)) {
@@ -111,6 +122,29 @@ public class ReservaLocalBO extends AbstractBusinessObject<ReservaLocal> {
                 throw new BusinessException("Agendamentos não podem conter o mesmo local e a data inicial estar antes de uma data já reservada e a data final depois!");
             }
         }
+    }
+    
+    private String foneMask(String telefone){
+        String telefoneTemp = telefone.replaceAll("(", "").replaceAll(")", "").replaceAll("-", ""); 
+        StringBuilder stb = new StringBuilder(telefoneTemp); 
+        if(telefoneTemp.length()==10){
+            stb.insert(6, "-");
+            stb.insert(2, ")");
+            stb.insert(0, "(");
+        }else{
+            stb.insert(7, "-");
+            stb.insert(2, ")");
+            stb.insert(0, "(");
+        }
+        return telefoneTemp;
+    }
+    
+    private boolean inputFone(String telefone){
+        
+        Pattern pattern = Pattern.compile("^(\\(\\d{2}\\)|\\d{2})(\\d{5}|\\d{4})-?\\d{4}");
+        Matcher match = pattern.matcher(telefone);
+        
+        return match.find();
     }
 
     @Override

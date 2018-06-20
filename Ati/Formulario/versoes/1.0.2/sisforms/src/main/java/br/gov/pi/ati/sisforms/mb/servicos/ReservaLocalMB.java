@@ -19,7 +19,8 @@ import br.gov.pi.ati.sisforms.util.SessaoUtils;
 import com.xpert.faces.utils.FacesMessageUtils;
 import com.xpert.persistence.exception.DeleteException;
 import com.xpert.persistence.query.Restrictions;
-
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -90,6 +91,8 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
     private ScheduleEvent event = new DefaultScheduleEvent();
 
     private Usuario usuarioAtual;
+    
+   
 
     @Override
     public void init() {
@@ -363,6 +366,14 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
     }
 
     public boolean validate(ReservaLocal reserva) {
+        
+        if(inputFone(reserva.getFone_contato())){
+            String foneTemp = foneMask(reserva.getFone_contato());
+            reserva.setFone_contato(foneTemp);
+        }else{
+            FacesMessageUtils.error("Telefone se encontra em formato incorreto.");
+            return false;
+        }
 
         Date dataHoje = new Date();
         if (reserva.getId() == null) {
@@ -425,6 +436,30 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
 
         return true;
     }
+    
+    private String foneMask(String telefone){
+        String telefoneTemp = telefone.replaceAll(Pattern.quote("("), "").replaceAll(Pattern.quote(")"), "").replaceAll(Pattern.quote("-"), ""); 
+
+        StringBuilder stb = new StringBuilder(telefoneTemp); 
+        if(telefoneTemp.length()==10){
+            stb.insert(6, "-");
+            stb.insert(2, ")");
+            stb.insert(0, "(");
+        }else{
+            stb.insert(7, "-");
+            stb.insert(2, ")");
+            stb.insert(0, "(");
+        }
+        return stb.toString();
+    }
+    
+    private boolean inputFone(String telefone){
+        
+        Pattern pattern = Pattern.compile("^(\\(\\d{2}\\)|\\d{2})(\\d{5}|\\d{4})-?\\d{4}");
+        Matcher match = pattern.matcher(telefone);
+        
+        return match.find();
+    }
 
     public void saveAll() throws BusinessException {
 
@@ -447,21 +482,19 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
                 //Aqui uma nova reserva surge
                 ReservaLocal ag = new ReservaLocal();
                 ag.setDataInicio(dt);
-
                 ag.setDataFinal(calfim.getTime());
-
                 ag.setTitulo(getEntity().getTitulo());
                 ag.setLocal(getEntity().getLocal());
                 ag.setSolicitante(getEntity().getSolicitante());
                 ag.setOrgao(getEntity().getOrgao());
                 ag.setContato(getEntity().getContato());
-                ag.setFone_contato(getEntity().getFone_contato());
                 ag.setObservacao(getEntity().getObservacao());
                 ag.setOrgaoSolicitante(getEntity().getOrgaoSolicitante());
                 ag.setNumero_oficio(getEntity().getNumero_oficio());
                 ag.setNumero_protocolo(getEntity().getNumero_protocolo());
                 ag.setUsuario(usuarioAtual);
-
+                ag.setFone_contato(getEntity().getFone_contato());
+                
                 List<Arquivo> arquivotemp = new ArrayList();
                 for (Arquivo arquivo : arquivos) {
                     Arquivo arq = new Arquivo();
@@ -575,4 +608,7 @@ public class ReservaLocalMB extends AbstractBaseBean<ReservaLocal> implements Se
         }
         return false;
     }
+    
+    
+    
 }

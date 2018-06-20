@@ -173,6 +173,12 @@
                 <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                              var="denuncia" rowIndexVar="index" id="dataTableDenuncia" widgetVar="dataTableDenunciaWidget" styleClass="table-responsive"
                              value="#{denunciaMB.denuncias}">
+                    <p:column styleClass="uix-datatable-index">
+                        <f:facet name="header">
+                            <h:outputText value="" />
+                        </f:facet>
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
                     <p:column headerText="Unidade" sortBy="#{denuncia.unidade}">
                         <f:facet name="header">
                             <h:outputText value="Unidade" />

@@ -78,7 +78,7 @@ public class ReservaLocal implements Serializable {
     private String contato;
     
     @Size(max = 20)
-    @NotNull
+    @NotBlank
     private String fone_contato;
     
     @ManyToOne(fetch = FetchType.LAZY)
@@ -89,7 +89,7 @@ public class ReservaLocal implements Serializable {
     //@NotBlank
     private String numero_protocolo;
     
-    @Size(max = 8)
+    @Size(max = 9)
     //@NotBlank
     private String numero_oficio;
     

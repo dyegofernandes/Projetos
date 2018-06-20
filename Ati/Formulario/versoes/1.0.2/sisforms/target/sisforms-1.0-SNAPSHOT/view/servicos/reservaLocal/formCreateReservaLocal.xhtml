@@ -126,7 +126,7 @@
 
                 <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12" >
                     <p:outputLabel for="numero_oficio" value=" Número do ofício:" />
-                    <p:inputMask id="numero_oficio" value="#{reservaLocalMB.entity.numero_oficio}" styleClass="form-control" mask="9999/9999"/>
+                    <p:inputMask id="numero_oficio" value="#{reservaLocalMB.entity.numero_oficio}" styleClass="form-control" mask="9999/9999" maxlength="9"/>
                 </div>
             </div>
 
@@ -137,8 +137,9 @@
                 </div>
 
                 <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12" >
-                    <p:outputLabel for="fone_contato" value="* Telefone do Responsável:" />
-                    <p:inputMask id="fone_contato" value="#{reservaLocalMB.entity.fone_contato}" styleClass="form-control" mask="(99) 99999-9999"/>
+                    <p:outputLabel for="fone_contato" value="* Telefone do Responsável:" /> 
+                    <p:inputText id="fone_contato" value="#{reservaLocalMB.entity.fone_contato}" placeholder="Preencha com os formatos (86)99999-9999/(86)9999-9999" styleClass="form-control"/>
+
                 </div>
             </div>
 

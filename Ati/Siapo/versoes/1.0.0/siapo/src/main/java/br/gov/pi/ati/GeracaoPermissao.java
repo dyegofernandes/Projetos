@@ -32,7 +32,7 @@ public class GeracaoPermissao {
         create(new Permissao("sobreSeplan", "Sobre a Seplan", true), "institucional");
         create(new Permissao("competencias", "Competências", true), "institucional");
         create(new Permissao("organograma", "Organograma", true), "institucional");
-        create(new Permissao("legislacao", "Institucional", true), "institucional");
+        create(new Permissao("legislacao", "Legislação", true), "institucional");
 
         create(new Permissao("planejamento", "Planejamento Governamental", true), null);
         create(new Permissao("ppa", "PPA", true), "planejamento");
@@ -302,11 +302,6 @@ public class GeracaoPermissao {
         create(new Permissao("naturezaDeReceita.audit", "Auditoria de Natureza De Receita"), "naturezaDeReceita");
         create(new Permissao("naturezaDeReceita.delete", "Exclusão de Natureza De Receita"), "naturezaDeReceita");
 
-        //Meta PPA
-        create(new Permissao("orcamento", "Orçamento", true), null);
-
-        create(new Permissao("metas", "Metas PPA", true), "orcamento");
-
         //Programa PPA
         create(new Permissao("programaPPA", "Programa PPA", false), "ppa");
         create(new Permissao("programaPPA.create", "Cadastro de Programa PPA", "/view/cadastro/programaPPA/createProgramaPPA.jsf", false), "programaPPA");
@@ -315,9 +310,9 @@ public class GeracaoPermissao {
         create(new Permissao("programaPPA.delete", "Exclusão de Programa PPA"), "programaPPA");
 
         //Meta Acao Estrategica
-        create(new Permissao("metaAcaoEstrategica", "Meta Acao Estrategica", false), "metas");
+        create(new Permissao("metaAcaoEstrategica", "Meta Acao Estrategica", false), "ppa");
         create(new Permissao("metaAcaoEstrategica.create", "Cadastro de Meta Acao Estrategica", "/view/orcamento/metaAcaoEstrategica/createMetaAcaoEstrategica.jsf", false), "metaAcaoEstrategica");
-        create(new Permissao("metaAcaoEstrategica.list", "Acão Estratégica", "/view/orcamento/metaAcaoEstrategica/listMetaAcaoEstrategica.jsf", true), "metas");
+        create(new Permissao("metaAcaoEstrategica.list", "Acão Estratégica", "/view/orcamento/metaAcaoEstrategica/listMetaAcaoEstrategica.jsf", true), "ppa");
         create(new Permissao("metaAcaoEstrategica.audit", "Auditoria de Meta Acao Estrategica"), "metaAcaoEstrategica");
         create(new Permissao("metaAcaoEstrategica.delete", "Exclusão de Meta Acao Estrategica"), "metaAcaoEstrategica");
 

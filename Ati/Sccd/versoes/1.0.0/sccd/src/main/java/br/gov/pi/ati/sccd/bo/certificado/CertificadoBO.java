@@ -8,6 +8,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.sccd.modelo.certificado.Certificado;
+import com.xpert.core.validation.UniqueFields;
 
 /**
  *
@@ -26,7 +27,7 @@ public class CertificadoBO extends AbstractBusinessObject<Certificado> {
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return null;
+        return new UniqueFields().add("armario","caixa","sequencial").add("numeroSolicitacao");
     }
 
     @Override

@@ -1,0 +1,55 @@
+{
+	"info": {
+		"_postman_id": "5217da91-f07d-4ccb-87a4-a39d24b7c8ee",
+		"name": "TesteBB",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Registro BB",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "DxZzrHl4EuTnYMvFfV4moAJB-oR9zAP5ca8npsoi0LKSAEVX58QA9JDWsUY8pnduzm_epX5ye7rMqD2iM2qD7w.KA_nSbOgNCq7HZXucwjkIGczEP-GWWj_0uXM0I_zKzAzIw73kXJdM1At03yhBsAc-O6ZwAE8Duw8XRLGMwler3UBpaIfpt0Ju7_F-mvb0Jl_sEROT1_zUMrQ-9Sz0R1XXZJmM2uypqNnJNYs-phTz1mQ8iSvh_eNHbtbQsTeapq0J5Vsfp1OuenezptK6feCLMKRsgZdmrZ9OEwxuzKS9WLaV70hKcRxXMDsZwY5u1GGpoB-X055sJZi44z8WxaadKti7onImZAZ7rbzTi6h3d7dfFnlQOc4hUmOw0CVE94D5wVc-h24vmopFjNLD-NOrVXCJPuXqeBqxrl8-8W_Mxw811PUKtRa93j_aJrFvUL4DNNHrBrfWDrBB0hAuqCfRm95JsWeJa1kcfQUvOx_-g-o1IOtd856dZoi4Upviiv23A0JCUSpUOLJb3oYGSx_Vbe_XVO_b5W6qlrX3RwfUJ5sATNWfqxTmgY7O300AXS1LRwpXIO94_9xz1NCJPqauSGHY35XL5m37X6lNzHX4dvkpYAs-Y-1cMT0W95AClszkPjmpArpnSt4RxSsWx1Qh06k-p_640jK3FMcRRrBsc_s7boRXx0Ul9qFCFyOZBxonadYSfK_XXSHaX4LVujJXNHSd4KtCai7nhwtqNHlMg.QlLxIaJmhV4uAnfBVXK1ntHKvnymQ1uUKcO0guEn26DE-GQQ8iP9LD0CHwBcpH_RHuCeP5YilUiKL4AkFi4QLQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "SOAPACTION",
+						"value": "registrarBoleto"
+					},
+					{
+						"key": "Content-Type",
+						"value": "text/xml"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<soapenv:Envelope\n    xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n    xmlns:sch=\"http://www.tibco.com/schemas/bws_registro_cbr/Recursos/XSD/Schema.xsd\">\n    <soapenv:Header/>\n    <soapenv:Body>\n        <sch:requisicao>\n            <sch:numeroConvenio>2625444</sch:numeroConvenio>\n            <sch:numeroCarteira>17</sch:numeroCarteira>\n            <sch:numeroVariacaoCarteira>19</sch:numeroVariacaoCarteira>\n            <sch:codigoModalidadeTitulo>1</sch:codigoModalidadeTitulo>\n            <sch:dataEmissaoTitulo>16-05-2018</sch:dataEmissaoTitulo>\n            <sch:dataVencimentoTitulo>19-06-2018</sch:dataVencimentoTitulo>\n            <sch:valorOriginalTitulo>300</sch:valorOriginalTitulo>\n            <sch:codigoTipoDesconto>1</sch:codigoTipoDesconto>\n            <sch:dataDescontoTitulo>16-05-2018</sch:dataDescontoTitulo>\n            <sch:percentualDescontoTitulo>0</sch:percentualDescontoTitulo>\n            <sch:valorDescontoTitulo>20</sch:valorDescontoTitulo>\n            <sch:valorAbatimentoTitulo>0</sch:valorAbatimentoTitulo>\n            <sch:quantidadeDiaProtesto>0</sch:quantidadeDiaProtesto>\n            <sch:codigoTipoJuroMora>0</sch:codigoTipoJuroMora>\n            <sch:percentualJuroMoraTitulo>0</sch:percentualJuroMoraTitulo>\n            <sch:valorJuroMoraTitulo>0</sch:valorJuroMoraTitulo>\n            <sch:codigoTipoMulta>2</sch:codigoTipoMulta>\n            <sch:dataMultaTitulo>20-06-2018</sch:dataMultaTitulo>\n            <sch:percentualMultaTitulo>10</sch:percentualMultaTitulo>\n            <sch:valorMultaTitulo>0</sch:valorMultaTitulo>\n            <sch:codigoAceiteTitulo>N</sch:codigoAceiteTitulo>\n            <sch:codigoTipoTitulo>2</sch:codigoTipoTitulo>\n            <sch:textoDescricaoTipoTitulo>DUPLICATA</sch:textoDescricaoTipoTitulo>\n            <sch:indicadorPermissaoRecebimentoParcial>N</sch:indicadorPermissaoRecebimentoParcial>\n            <sch:textoNumeroTituloBeneficiario>987654321987654</sch:textoNumeroTituloBeneficiario>\n            <sch:textoCampoUtilizacaoBeneficiario>999999</sch:textoCampoUtilizacaoBeneficiario>\n            <sch:codigoTipoContaCaucao>0</sch:codigoTipoContaCaucao>\n            <sch:textoNumeroTituloCliente>00026254440000000002</sch:textoNumeroTituloCliente>\n            <sch:textoMensagemBloquetoOcorrencia>Pagamento disponível</sch:textoMensagemBloquetoOcorrencia>\n            <sch:codigoTipoInscricaoPagador>1</sch:codigoTipoInscricaoPagador>\n            <sch:numeroInscricaoPagador>92527938523</sch:numeroInscricaoPagador>\n            <sch:nomePagador>MERCADO ANDREZA DE MACEDO</sch:nomePagador>\n            <sch:textoEnderecoPagador>RUA SEM NOME</sch:textoEnderecoPagador>\n            <sch:numeroCepPagador>64000000</sch:numeroCepPagador>\n            <sch:nomeMunicipioPagador>TERESINA</sch:nomeMunicipioPagador>\n            <sch:nomeBairroPagador>CENTRO</sch:nomeBairroPagador>\n            <sch:siglaUfPagador>PI</sch:siglaUfPagador>\n            <sch:textoNumeroTelefonePagador>86999999999</sch:textoNumeroTelefonePagador>\n            <sch:codigoChaveUsuario>1</sch:codigoChaveUsuario>\n            <sch:codigoTipoCanalSolicitacao>5</sch:codigoTipoCanalSolicitacao>\n        </sch:requisicao>\n    </soapenv:Body>\n</soapenv:Envelope>"
+				},
+				"url": {
+					"raw": "https://cobranca.homologa.bb.com.br:7101/registrarBoleto",
+					"protocol": "https",
+					"host": [
+						"cobranca",
+						"homologa",
+						"bb",
+						"com",
+						"br"
+					],
+					"port": "7101",
+					"path": [
+						"registrarBoleto"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

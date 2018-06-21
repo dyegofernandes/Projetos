@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Body>
+        <ns0:resposta xmlns:ns0="http://www.tibco.com/schemas/bws_registro_cbr/Recursos/XSD/Schema.xsd">
+            <ns0:siglaSistemaMensagem>   </ns0:siglaSistemaMensagem>
+            <ns0:codigoRetornoPrograma>63</ns0:codigoRetornoPrograma>
+            <ns0:nomeProgramaErro>CBRSR002</ns0:nomeProgramaErro>
+            <ns0:textoMensagemErro>Para este Desconto informe somente valor e data                     </ns0:textoMensagemErro>
+            <ns0:numeroPosicaoErroPrograma>63</ns0:numeroPosicaoErroPrograma>
+            <ns0:codigoTipoRetornoPrograma>0</ns0:codigoTipoRetornoPrograma>
+            <ns0:textoNumeroTituloCobrancaBb>                    </ns0:textoNumeroTituloCobrancaBb>
+            <ns0:numeroCarteiraCobranca>17</ns0:numeroCarteiraCobranca>
+            <ns0:numeroVariacaoCarteiraCobranca>19</ns0:numeroVariacaoCarteiraCobranca>
+            <ns0:codigoPrefixoDependenciaBeneficiario>1911</ns0:codigoPrefixoDependenciaBeneficiario>
+            <ns0:numeroContaCorrenteBeneficiario>5277</ns0:numeroContaCorrenteBeneficiario>
+            <ns0:codigoCliente>314898486</ns0:codigoCliente>
+            <ns0:linhaDigitavel>                                               </ns0:linhaDigitavel>
+            <ns0:codigoBarraNumerico>                                                    </ns0:codigoBarraNumerico>
+            <ns0:codigoTipoEnderecoBeneficiario>0</ns0:codigoTipoEnderecoBeneficiario>
+            <ns0:nomeLogradouroBeneficiario>                                                            </ns0:nomeLogradouroBeneficiario>
+            <ns0:nomeBairroBeneficiario>                              </ns0:nomeBairroBeneficiario>
+            <ns0:nomeMunicipioBeneficiario>                              </ns0:nomeMunicipioBeneficiario>
+            <ns0:codigoMunicipioBeneficiario>0</ns0:codigoMunicipioBeneficiario>
+            <ns0:siglaUfBeneficiario>  </ns0:siglaUfBeneficiario>
+            <ns0:codigoCepBeneficiario>0</ns0:codigoCepBeneficiario>
+            <ns0:indicadorComprovacaoBeneficiario> </ns0:indicadorComprovacaoBeneficiario>
+            <ns0:numeroContratoCobranca>19144999</ns0:numeroContratoCobranca>
+        </ns0:resposta>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

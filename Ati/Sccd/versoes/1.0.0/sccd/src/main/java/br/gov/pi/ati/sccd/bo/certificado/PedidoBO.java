@@ -10,7 +10,9 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.sccd.modelo.certificado.Pedido;
+import br.gov.pi.ati.sccd.util.Utils;
 import com.xpert.core.validation.UniqueFields;
+import com.xpert.persistence.query.Restrictions;
 import java.util.ArrayList;
 
 /**
@@ -30,7 +32,8 @@ public class PedidoBO extends AbstractBusinessObject<Pedido> {
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return new UniqueFields().add("protocolo");
+        return null;
+//        return new UniqueFields().add("protocolo");
     }
 
     @Override
@@ -77,6 +80,34 @@ public class PedidoBO extends AbstractBusinessObject<Pedido> {
             }
 
         }
-        return (List<ItemPedido> ) itens;
+        return (List<ItemPedido>) itens;
     }
+
+    public Pedido pedidoPeloCNPJouCpfEPedido(String pedidoID, String cnpjCpf) {
+        Restrictions restrictions = new Restrictions();
+
+        if (Utils.isNullOrEmpty(cnpjCpf) || Utils.isNullOrEmpty(pedidoID)) {
+            return null;
+        } else {
+            restrictions.add("pedido.id", new Long(pedidoID));
+            restrictions.add("item.cpfCnpjTitular", cnpjCpf);
+        }
+
+        return (Pedido) getDAO().getQueryBuilder().select("pedido").from(Pedido.class, "pedido").leftJoinFetch("pedido.itens", "item").add(restrictions).getSingleResult();
+
+    }
+
+    public Pedido pedidoPeloProtocolo(String protocolo) {
+        Restrictions restrictions = new Restrictions();
+
+        if (Utils.isNullOrEmpty(protocolo)) {
+            return null;
+        } else {
+            restrictions.add("REPLACE(REPLACE(pedido.protocolo,'/',''),'.','')", protocolo);
+        }
+
+        return (Pedido) getDAO().getQueryBuilder().select("pedido").from(Pedido.class, "pedido").add(restrictions).getSingleResult();
+
+    }
+
 }

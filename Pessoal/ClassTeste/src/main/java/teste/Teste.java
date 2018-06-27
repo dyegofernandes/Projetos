@@ -11,7 +11,9 @@ package teste;
  */
 public class Teste {
     public static void main(String[] args){
+        StringBuilder protocoloTemp = new StringBuilder("CI.GAB.DGE.Nº061/2011");
         
+        System.out.println(protocoloTemp);
     }
     
 }

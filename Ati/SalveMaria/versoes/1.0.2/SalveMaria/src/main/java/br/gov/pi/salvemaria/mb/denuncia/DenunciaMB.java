@@ -53,7 +53,7 @@ public class DenunciaMB extends AbstractBaseBean<Denuncia> implements Serializab
 
     private Filtros filtro;
 
-    private Usuario usuarioAtual = SessaoUtils.getUser();
+    private Usuario usuarioAtual;
 
     private List<Arquivo> arquivos;
 
@@ -82,6 +82,9 @@ public class DenunciaMB extends AbstractBaseBean<Denuncia> implements Serializab
 
     @Override
     public void init() {
+        
+        usuarioAtual = SessaoUtils.getUser();
+
         denuncias = new ArrayList<Denuncia>();
 
         filtro = new Filtros();

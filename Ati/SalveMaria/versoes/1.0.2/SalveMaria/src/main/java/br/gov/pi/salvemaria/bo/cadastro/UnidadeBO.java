@@ -33,15 +33,6 @@ public class UnidadeBO extends AbstractBusinessObject<Unidade> {
     @EJB
     private UnidadeDAO unidadeDAO;
 
-    @EJB
-    private CircunscricaoBO circuPorCidadeBO;
-
-    @EJB
-    private Circunscricao_BairroBO circuPorBairroBO;
-
-    @EJB
-    private BairroBO bairroBO;
-
     @Override
     public UnidadeDAO getDAO() {
         return unidadeDAO;
@@ -250,6 +241,8 @@ public class UnidadeBO extends AbstractBusinessObject<Unidade> {
         if (areasDoBairro != null) {
             if (areasDoBairro.size() > 0) {
                 restrictions.startGroup().in("circunscricaoBairro", areasDoBairro).or().in("circunscricao", areasCidade).endGroup();
+            }else{
+                restrictions.in("circunscricao", areasCidade);
             }
         } else {
             restrictions.in("circunscricao", areasCidade);

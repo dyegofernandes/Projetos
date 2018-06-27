@@ -58,6 +58,9 @@ public class Pedido implements Serializable {
     @Temporal(TemporalType.DATE)
     @NotNull
     private Date dataSolicitacao;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date inicioAtendimento;
 
     @ManyToMany(targetEntity = Arquivo.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<Arquivo> arquivos = new ArrayList<Arquivo>();
@@ -149,6 +152,14 @@ public class Pedido implements Serializable {
 
     public void setTipo(TipoPedido tipo) {
         this.tipo = tipo;
+    }
+
+    public Date getInicioAtendimento() {
+        return inicioAtendimento;
+    }
+
+    public void setInicioAtendimento(Date inicioAtendimento) {
+        this.inicioAtendimento = inicioAtendimento;
     }
 
     @Override

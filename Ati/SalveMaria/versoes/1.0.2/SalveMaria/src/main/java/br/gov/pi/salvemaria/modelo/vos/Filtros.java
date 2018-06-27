@@ -17,7 +17,9 @@ import br.gov.pi.salvemaria.modelo.enums.FormasDeViolencia;
 import br.gov.pi.salvemaria.modelo.enums.Situacao;
 import br.gov.pi.salvemaria.modelo.enums.TipoDenuncia;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -76,6 +78,8 @@ public class Filtros implements Serializable {
     private FaixaEtaria faixaEtariaVitima = FaixaEtaria.TODAS;
 
     private FaixaEtaria faixaEtariaAgressor = FaixaEtaria.TODAS;
+
+    private List<Unidade> unidadesAcesso = new ArrayList<Unidade>();
 
     public Unidade getUnidade() {
         return unidade;
@@ -283,6 +287,14 @@ public class Filtros implements Serializable {
 
     public void setFaixaEtariaAgressor(FaixaEtaria faixaEtariaAgressor) {
         this.faixaEtariaAgressor = faixaEtariaAgressor;
+    }
+
+    public List<Unidade> getUnidadesAcesso() {
+        return unidadesAcesso;
+    }
+
+    public void setUnidadesAcesso(List<Unidade> unidadesAcesso) {
+        this.unidadesAcesso = unidadesAcesso;
     }
 
 }

@@ -44,10 +44,10 @@ public class PedidoResource {
         try {
 
             if (pedidoTemp != null) {
-//                if (pedidoTemp.getInicioAtendimento() == null) {
-//                    pedidoTemp.setInicioAtendimento(new Date());
-//                }
-//                pedidoBO.getDAO().saveOrMerge(pedidoTemp);
+                if (pedidoTemp.getInicioAtendimento() == null) {
+                    pedidoTemp.setInicioAtendimento(new Date());
+                }
+                pedidoBO.getDAO().saveOrMerge(pedidoTemp);
 
                 return Response.status(200).entity("Presença confirmada! Aguarde ser chamado!").header("CustomHeader", "CustomValue").build();
             } else {

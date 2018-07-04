@@ -21,6 +21,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -50,6 +52,10 @@ public class Dotacao implements Serializable {
     private MetaProduto produtoLDO;
 
     private BigDecimal quantidadeRealizada;
+
+    @NotBlank
+    @Size(max = 3)
+    private String subelemento;
 
     @ManyToMany(targetEntity = Municipio.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     private List<Municipio> cidades = new ArrayList<Municipio>();
@@ -126,6 +132,14 @@ public class Dotacao implements Serializable {
 
     public void setGeraQuantificador(boolean geraQuantificador) {
         this.geraQuantificador = geraQuantificador;
+    }
+
+    public String getSubelemento() {
+        return subelemento;
+    }
+
+    public void setSubelemento(String subelemento) {
+        this.subelemento = subelemento;
     }
 
     @Override

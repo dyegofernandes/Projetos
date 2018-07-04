@@ -45,6 +45,10 @@ public class DespesaPublica implements Serializable {
     @NotBlank
     @Column(columnDefinition = "Text")
     private String descricaoDespesa;
+    
+    @NotBlank
+    @Size(max = 100)
+    private String resumoDaDespesa;
 
     @ManyToMany(targetEntity = Dotacao.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<Dotacao> dotacao = new ArrayList<Dotacao>();
@@ -90,6 +94,14 @@ public class DespesaPublica implements Serializable {
 
     public void setDotacao(List<Dotacao> dotacao) {
         this.dotacao = dotacao;
+    }
+
+    public String getResumoDaDespesa() {
+        return resumoDaDespesa;
+    }
+
+    public void setResumoDaDespesa(String resumoDaDespesa) {
+        this.resumoDaDespesa = resumoDaDespesa;
     }
 
     @Override

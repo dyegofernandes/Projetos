@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import static org.apache.commons.io.FilenameUtils.getExtension;
 import org.bouncycastle.util.encoders.Base64;
@@ -40,32 +41,36 @@ import org.primefaces.model.UploadedFile;
 @ManagedBean
 @ViewScoped
 public class CertificadoMB extends AbstractBaseBean<Certificado> implements Serializable {
-
+    
     @EJB
     private CertificadoBO certificadoBO;
-
+    
     @EJB
     private PedidoBO pedidoBO;
-
+    
     @EJB
     private ItemPedidoBO itemBO;
-
+    
     private List<Pedido> pedidos;
-
+    
     private List<ItemPedido> itensPedido;
-
+    
     private List<Arquivo> arquivos;
-
+    
+    private Date inicioAtendimento;
+    
+    private boolean novo = false;
+    
     @Override
     public CertificadoBO getBO() {
         return certificadoBO;
     }
-
+    
     @Override
     public String getDataModelOrder() {
         return "certificado.caixa, certificado.sequencial";
     }
-
+    
     @Override
     public JoinBuilder getDataModelJoinBuilder() {
         return new JoinBuilder("certificado")
@@ -76,109 +81,119 @@ public class CertificadoMB extends AbstractBaseBean<Certificado> implements Seri
                 .leftJoinFetch("certificado.autoridadeCertificadora", "ac")
                 .leftJoinFetch("titular.tipoCertificado", "tipoCertificado");
     }
-
+    
     @Override
     public void init() {
+        novo = getEntity().getId() == null;
         pedidos = new ArrayList<Pedido>();
+        inicioAtendimento = new Date();
         itensPedido = new ArrayList<ItemPedido>();
-
+        
         arquivos = new ArrayList<Arquivo>();
-
+        
         if (getEntity().getId() != null) {
             arquivos = getBO().getDAO().getInitialized(getEntity().getArquivos());
         }
-
+        
         if (getEntity().getCliente() != null) {
             ContratoCliente contratoCliente = getDAO().getInitialized(getEntity().getCliente());
-
+            
             if (contratoCliente != null) {
                 Cliente cliente = getDAO().getInitialized(contratoCliente.getCliente());
-
+                
                 pedidos = pedidoBO.pedidosPeloCliente(cliente);
             }
         }
-
+        
         if (getEntity().getPedido() != null) {
             Pedido pedido = getDAO().getInitialized(getEntity().getPedido());
-
+            
             if (pedido != null) {
                 itensPedido = pedidoBO.itensPedidoSituacao(pedido, false);
             }
-
+            
         }
     }
-
+    
     @Override
     public void save() {
         getEntity().setArquivos(arquivos);
         super.save();
     }
-
+    
     @Override
     public void postSave() {
-
+        
         ItemPedido item = getDAO().getInitialized(getEntity().getTitular());
         item.setAtendido(true);
         itemBO.getDAO().saveOrMerge(item, true);
-
+        
         Pedido pedido = getDAO().getInitialized(getEntity().getPedido());
-
+        
         List<ItemPedido> itens = getDAO().getInitialized(pedido.getItens());
-
+        
         int contador = 0;
-
+        
         for (ItemPedido iten : itens) {
             if (iten.isAtendido()) {
                 contador++;
             }
         }
-
+        
         if (itens.size() == contador) {
             pedido.setSituacao(SituacaoPedido.ATENDIDO);
         } else {
             pedido.setSituacao(SituacaoPedido.PARCIALMENTE_ATENDIDO);
         }
-
+        
+        if (novo) {
+            if (pedido.getInicioAtendimento() == null) {
+                pedido.setInicioAtendimento(inicioAtendimento);
+            }
+            
+            pedido.setFimAtendimento(new Date());
+        }
+        
         pedidoBO.getDAO().saveOrMerge(pedido, true);
-
+        
         super.postSave();
     }
-
+    
     @Override
     public void delete() {
         Certificado certificado = getDAO().unique("id", getId());
         ItemPedido item = getDAO().getInitialized(certificado.getTitular());
-
+        
         item.setAtendido(false);
         itemBO.getDAO().saveOrMerge(item, true);
-
+        
         super.delete();
     }
-
+    
     public List<Pedido> getPedidos() {
         return pedidos;
     }
-
+    
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
     }
-
+    
     public List<ItemPedido> getItensPedido() {
         return itensPedido;
     }
-
+    
     public void setItensPedido(List<ItemPedido> itensPedido) {
         this.itensPedido = itensPedido;
     }
-
+    
     public List<Arquivo> getArquivos() {
         return arquivos;
     }
-
+    
     public void setArquivos(List<Arquivo> arquivos) {
         this.arquivos = arquivos;
     }
-
+    
     public boolean verificarSeEhPJ() {
         if (getEntity().getTitular() != null) {
             ItemPedido titular = getDAO().getInitialized(getEntity().getTitular());
@@ -186,64 +201,64 @@ public class CertificadoMB extends AbstractBaseBean<Certificado> implements Seri
             if (tipoCertificado.getTipoPessoa() == TipoPessoa.JURIDICA) {
                 return true;
             }
-
+            
         }
-
+        
         return false;
     }
-
+    
     public void pegarPedidos() {
-
+        
         pedidos = new ArrayList<Pedido>();
         itensPedido = new ArrayList<ItemPedido>();
         getEntity().setPedido(null);
         getEntity().setTitular(null);
-
+        
         if (getEntity().getCliente() != null) {
             ContratoCliente contratoCliente = getDAO().getInitialized(getEntity().getCliente());
-
+            
             if (contratoCliente != null) {
                 Cliente cliente = getDAO().getInitialized(contratoCliente.getCliente());
-
+                
                 pedidos = pedidoBO.pedidosPeloCliente(cliente);
             }
         }
     }
-
+    
     public void pegarTitulares() {
         getEntity().setTitular(null);
         itensPedido = new ArrayList<ItemPedido>();
-
+        
         if (getEntity().getPedido() != null) {
             Pedido pedido = getDAO().getInitialized(getEntity().getPedido());
-
+            
             if (pedido != null) {
                 itensPedido = pedidoBO.itensPedidoSituacao(pedido, false);
             }
         }
-
+        
     }
-
+    
     public StreamedContent download(Arquivo arquivo) throws IOException {
-
+        
         if (arquivo instanceof HibernateProxy) {
             HibernateProxy proxy = (HibernateProxy) arquivo;
             arquivo = (Arquivo) proxy.getHibernateLazyInitializer().getImplementation();
         }
-
+        
         String nomeArquivo = arquivo.getNome();
         String extensaoArquivo = arquivo.getExtensao();
-
+        
         File file = File.createTempFile(nomeArquivo, extensaoArquivo);
-
+        
         FileOutputStream outputStream = new FileOutputStream(file);
         outputStream.write(Base64.decode(arquivo.getConteudo()));
         outputStream.flush();
         outputStream.close();
-
+        
         return new DefaultStreamedContent(new FileInputStream(file), extensaoArquivo, nomeArquivo);
     }
-
+    
     public void upload(FileUploadEvent event) throws FileNotFoundException, IOException {
         Arquivo arquivo = new Arquivo();
         UploadedFile uploadedFile = event.getFile();
@@ -253,15 +268,15 @@ public class CertificadoMB extends AbstractBaseBean<Certificado> implements Seri
         arquivo.setConteudo(base64AsString);
         arquivos.add(arquivo);
     }
-
+    
     public void removerArquivo(Arquivo arquivo) {
         arquivos.remove(arquivo);
     }
-
+    
     public void setarSequencial() {
         if (getEntity().getCaixa() != null) {
             Integer sequencial = getBO().sequencial(getEntity().getCaixa());
-
+            
             if (sequencial == null) {
                 sequencial = 1;
             } else {

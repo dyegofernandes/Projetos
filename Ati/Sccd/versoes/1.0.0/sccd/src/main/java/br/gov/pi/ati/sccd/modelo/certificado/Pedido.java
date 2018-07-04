@@ -61,6 +61,9 @@ public class Pedido implements Serializable {
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date inicioAtendimento;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fimAtendimento;
 
     @ManyToMany(targetEntity = Arquivo.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<Arquivo> arquivos = new ArrayList<Arquivo>();
@@ -160,6 +163,14 @@ public class Pedido implements Serializable {
 
     public void setInicioAtendimento(Date inicioAtendimento) {
         this.inicioAtendimento = inicioAtendimento;
+    }
+
+    public Date getFimAtendimento() {
+        return fimAtendimento;
+    }
+
+    public void setFimAtendimento(Date fimAtendimento) {
+        this.fimAtendimento = fimAtendimento;
     }
 
     @Override

@@ -25,8 +25,12 @@ public class Usuario implements Serializable, User {
 
     @NotBlank
     private String nome;
+    
+//    @NotBlank
+    private String cargo;
 
     @Size(max = 16)
+//    @NotBlank
     private String cpf;
 
     @NotBlank
@@ -199,6 +203,14 @@ public class Usuario implements Serializable, User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
     }
 
     public List<Perfil> getPerfis() {

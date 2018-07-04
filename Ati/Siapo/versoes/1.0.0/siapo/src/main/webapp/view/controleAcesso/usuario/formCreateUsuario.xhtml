@@ -20,18 +20,24 @@
                             <h:outputLabel value="* #{msg['usuario.nome']}:" />
                             <p:inputText value="#{usuarioMB.entity.nome}" maxlength="255" styleClass="form-control"/>
                         </div>
+                        <div class="form-group col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <h:outputLabel value="* Cargo:" />
+                            <p:inputText value="#{usuarioMB.entity.cargo}" maxlength="255" styleClass="form-control"
+                                         required="true" requiredMessage="Cargo é obrigatório!"/>
+                        </div>
 
                     </div>
                     <div class="row">
 
                         <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel value="#{msg['usuario.cpf']}:" />
-                            <x:cpf value="#{usuarioMB.entity.cpf}" styleClass="form-control" />
+                            <h:outputLabel value="* #{msg['usuario.cpf']}:" />
+                            <x:cpf value="#{usuarioMB.entity.cpf}" styleClass="form-control" 
+                                   required="true" requiredMessage="CPF é obrigatório!"/>
                         </div>
 
                         <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel value="#{msg['usuario.rg']}:" />
-                            <p:inputText value="#{usuarioMB.entity.rg}" maxlength="255" styleClass="form-control" />
+                            <h:outputLabel value="Matricula:" />
+                            <p:inputText value="#{usuarioMB.entity.matricula}" maxlength="255" styleClass="form-control" />
                         </div>
 
                         <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">

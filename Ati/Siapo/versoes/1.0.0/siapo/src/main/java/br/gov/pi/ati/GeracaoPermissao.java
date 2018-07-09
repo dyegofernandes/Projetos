@@ -329,7 +329,14 @@ public class GeracaoPermissao {
         create(new Permissao("despesaPublica.list", "Despesas", "/view/orcamento/despesaPublica/listDespesaPublica.jsf", true), "loa");
         create(new Permissao("despesaPublica.audit", "Auditoria de Despesa Publica"), "despesaPublica");
         create(new Permissao("despesaPublica.delete", "Exclusão de Despesa Publica"), "despesaPublica");
-        
+
+        //Execucao Orcamentaria
+        create(new Permissao("execucaoOrcamentaria", "Execução Orçamentária", false), "loa");
+        create(new Permissao("execucaoOrcamentaria.create", "Cadastro de Execução Orçamentária", "/view/orcamento/execucaoOrcamentaria/createExecucaoOrcamentaria.jsf", false), "execucaoOrcamentaria");
+        create(new Permissao("execucaoOrcamentaria.list", "Execuções Orçamentária", "/view/orcamento/execucaoOrcamentaria/listExecucaoOrcamentaria.jsf", true), "loa");
+        create(new Permissao("execucaoOrcamentaria.audit", "Auditoria de Execução Orçamentária"), "execucaoOrcamentaria");
+        create(new Permissao("execucaoOrcamentaria.delete", "Exclusão de Execução Orçamentária"), "execucaoOrcamentaria");
+
         create(new Permissao("loa.homologacao", "Homologação", true), "loa");
         create(new Permissao("loa.relatorios", "Relatórios", true), "loa");
         /*

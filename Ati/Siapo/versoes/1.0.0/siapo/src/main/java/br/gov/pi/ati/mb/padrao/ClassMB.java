@@ -1,5 +1,6 @@
 package br.gov.pi.ati.mb.padrao;
 
+import br.gov.pi.ati.modelo.orcamento.ExecucaoOrcamentaria;
 import br.gov.pi.ati.modelo.cadastro.enums.Meses;
 import br.gov.pi.ati.modelo.orcamento.Dotacao;
 import br.gov.pi.ati.modelo.orcamento.ProgramacaoFinanceira;
@@ -267,6 +268,10 @@ public class ClassMB {
     }
     public Class getProgramacaoFinanceira() {
         return ProgramacaoFinanceira.class;
+    }
+
+    public Class getExecucaoOrcamentaria() {
+        return ExecucaoOrcamentaria.class;
     }
 
 }

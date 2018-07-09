@@ -20,12 +20,15 @@
                             <h:outputLabel value="* #{msg['usuario.nome']}:" />
                             <p:inputText value="#{usuarioMB.entity.nome}" maxlength="255" styleClass="form-control"/>
                         </div>
+
+
+                    </div>
+                    <div class="row">
                         <div class="form-group col-lg-6 col-md-12 col-sm-12 col-xs-12">
                             <h:outputLabel value="* Cargo:" />
                             <p:inputText value="#{usuarioMB.entity.cargo}" maxlength="255" styleClass="form-control"
                                          required="true" requiredMessage="Cargo é obrigatório!"/>
                         </div>
-
                     </div>
                     <div class="row">
 
@@ -62,6 +65,17 @@
                                                var="situacaoUsuario"
                                                itemLabel="#{situacaoUsuario.descricao}"/>
                             </h:selectOneRadio>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-12 col-md-12 col-sm-6 col-xs-12">
+                            <div class="checkbox">
+                                <label>
+                                    <h:selectBooleanCheckbox value="#{usuarioMB.entity.homologar}" />
+                                    Homologação de Dotações
+                                </label>
+                            </div>
+                            <h:outputText value="Marcar apenas os usuários que Homologarão as Dotações das Despesas" styleClass="help-block"/>
                         </div>
                     </div>
                     <div class="row">

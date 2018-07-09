@@ -55,42 +55,7 @@
             </div>
         </p:fieldset>
 
-        <p:fieldset legend="Fontes de Recursos">
-            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
-                         var="fonteDeRecurso" rowIndexVar="index" id="dataTableFonteDeRecurso" widgetVar="dataTableFonteDeRecursoWidget" styleClass="table-responsive"
-                         value="#{acaoOrcamentariaMB.entity.fontesDeRecurso}"  >
-                <x:initializer/>
-                <p:column styleClass="uix-datatable-index">
-                    <h:outputText value="#{index+1}"/>
-                </p:column>
-
-                <p:column headerText="#{msg['fonteDeRecurso.codigo']}" sortBy="#{fonteDeRecurso.codigo}"
-                          >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['fonteDeRecurso.codigo']}" />
-                    </f:facet>
-                    <h:outputText value="#{fonteDeRecurso.codigo}"/>
-                </p:column>
-                <p:column headerText="#{msg['fonteDeRecurso.nome']}" sortBy="#{fonteDeRecurso.nome}"
-                          >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['fonteDeRecurso.nome']}" />
-                    </f:facet>
-                    <h:outputText value="#{fonteDeRecurso.nome}"/>
-                </p:column>
-                <p:column headerText="#{msg['fonteDeRecurso.grupoDeFonte']}" sortBy="#{fonteDeRecurso.grupoDeFonte}"
-                          >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['fonteDeRecurso.grupoDeFonte']}" />
-                    </f:facet>
-                    <h:outputText value="#{fonteDeRecurso.grupoDeFonte}">
-                        <x:initializer/>
-                    </h:outputText>
-                </p:column>
-                
-            </p:dataTable>
-
-        </p:fieldset>
+        
         <p:separator/>
         <div class="uix-center">
             <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetAcaoOrcamentariaDetail').hide()" />

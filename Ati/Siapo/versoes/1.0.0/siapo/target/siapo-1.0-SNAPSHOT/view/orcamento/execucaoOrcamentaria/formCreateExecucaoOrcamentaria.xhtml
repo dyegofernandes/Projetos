@@ -1,0 +1,84 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateExecucaoOrcamentaria" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="acaoOrcamentaria" value="* #{msg['execucaoOrcamentaria.acaoOrcamentaria']}:" />
+                         <h:selectOneMenu id="acaoOrcamentaria" value="#{execucaoOrcamentariaMB.entity.acaoOrcamentaria}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.acaoOrcamentaria)}" 
+                                            var="acaoOrcamentaria"
+                                            itemLabel="#{acaoOrcamentaria}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="fonteDeRecurso" value="* #{msg['execucaoOrcamentaria.fonteDeRecurso']}:" />
+                         <h:selectOneMenu id="fonteDeRecurso" value="#{execucaoOrcamentariaMB.entity.fonteDeRecurso}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.fonteDeRecurso)}" 
+                                            var="fonteDeRecurso"
+                                            itemLabel="#{fonteDeRecurso}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="naturezaDaDespesa" value="* #{msg['execucaoOrcamentaria.naturezaDaDespesa']}:" />
+                         <h:selectOneMenu id="naturezaDaDespesa" value="#{execucaoOrcamentariaMB.entity.naturezaDaDespesa}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.naturezaDeDespesa)}" 
+                                            var="naturezaDeDespesa"
+                                            itemLabel="#{naturezaDeDespesa}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="dotacaoInicial" value="#{msg['execucaoOrcamentaria.dotacaoInicial']}:" />
+                         <x:inputNumber id="dotacaoInicial" value="#{execucaoOrcamentariaMB.entity.dotacaoInicial}" styleClass="form-control"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="dotacaoAtualizada" value="#{msg['execucaoOrcamentaria.dotacaoAtualizada']}:" />
+                         <x:inputNumber id="dotacaoAtualizada" value="#{execucaoOrcamentariaMB.entity.dotacaoAtualizada}" styleClass="form-control"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="despesasEmpenhadas" value="#{msg['execucaoOrcamentaria.despesasEmpenhadas']}:" />
+                         <x:inputNumber id="despesasEmpenhadas" value="#{execucaoOrcamentariaMB.entity.despesasEmpenhadas}" styleClass="form-control"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="despesasLiquidadas" value="#{msg['execucaoOrcamentaria.despesasLiquidadas']}:" />
+                         <x:inputNumber id="despesasLiquidadas" value="#{execucaoOrcamentariaMB.entity.despesasLiquidadas}" styleClass="form-control"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="despesasPagas" value="#{msg['execucaoOrcamentaria.despesasPagas']}:" />
+                         <x:inputNumber id="despesasPagas" value="#{execucaoOrcamentariaMB.entity.despesasPagas}" styleClass="form-control"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="saldoDisponivel" value="#{msg['execucaoOrcamentaria.saldoDisponivel']}:" />
+                         <x:inputNumber id="saldoDisponivel" value="#{execucaoOrcamentariaMB.entity.saldoDisponivel}" styleClass="form-control"/>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="execucaoOrcamentaria.create">
+                <p:commandButton process="@form" update="@form" action="#{execucaoOrcamentariaMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="execucaoOrcamentaria.audit">
+                <x:audit for="#{execucaoOrcamentariaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

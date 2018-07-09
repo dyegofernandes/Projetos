@@ -13,7 +13,7 @@
                 <div class="row">
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="acaoOrcamentaria" value="* #{msg['dotacao.acaoOrcamentaria']}:" />
-                        <p:autoComplete id="acaoOrcamentaria" value="#{despesaPublicaMB.dotacaoAdd.acaoOrcamentaria}" 
+                        <p:autoComplete id="acaoOrcamentaria" value="#{despesaPublicaMB.acaoOrcamentaria}" 
                                         completeMethod="#{despesaPublicaMB.autocompleteAcao}" styleClass="uix-autocomplete" 
                                         minQueryLength="3" forceSelection="true" dropdown="true"
                                         var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" 
@@ -26,13 +26,13 @@
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="fonteDeRecurso" value="* #{msg['dotacao.fonteDeRecurso']}:" />
-                        <p:autoComplete id="fonteDeRecurso" value="#{despesaPublicaMB.dotacaoAdd.fonteDeRecurso}" 
-                                        completeMethod="#{despesaPublicaMB.autocompleteFonteRecurso}" styleClass="uix-autocomplete" 
+                        <p:autoComplete id="fonteDeRecurso" value="#{despesaPublicaMB.fonte}" 
+                                        completeMethod="#{despesaPublicaMB.autocompleteFonte}" styleClass="uix-autocomplete" 
                                         minQueryLength="3" forceSelection="true" dropdown="true"
                                         var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" 
                                         placeholder="Filtrado por Ação Orçamentária"> 
                             <x:initializer/>
-                            <p:ajax event="itemSelect" process="acaoOrcamentaria @this" update="naturezaDaDespesa" listener="#{despesaPublicaMB.mudarFonteDeRecurso()}"/>
+                            <p:ajax event="itemSelect" process="@this" update="naturezaDaDespesa" listener="#{despesaPublicaMB.mudarFonteDeRecurso()}"/>
                             <p:column> 
                                 <h:outputText value="#{p}"/>
                             </p:column> 
@@ -40,62 +40,69 @@
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="naturezaDaDespesa" value="* #{msg['dotacao.naturezaDaDespesa']}:" />
-                        <p:autoComplete id="naturezaDaDespesa" value="#{despesaPublicaMB.dotacaoAdd.naturezaDaDespesa}" 
-                                        completeMethod="#{despesaPublicaMB.autocompleteNaturezaDespesa}" styleClass="uix-autocomplete" 
+                        <p:autoComplete id="naturezaDaDespesa" value="#{despesaPublicaMB.dotacaoAdd.execucaoOrcamentaria}" 
+                                        completeMethod="#{despesaPublicaMB.autocompleteExecucaoNatureza}" styleClass="uix-autocomplete" 
                                         minQueryLength="3" forceSelection="true" dropdown="true"
-                                        var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"  
+                                        var="p" itemLabel="#{p.naturezaDaDespesa}" itemValue="#{p}" converter="entityConverter"  
                                         placeholder="Filtrado por Fonte de Recurso"> 
-                            <p:ajax event="itemSelect" process="fonteDeRecurso @this" update="@this dotacaoInicial dotacaoAtualizada despesasEmpenhadas despesasLiquidadas despesasPagas saldoDisponivel" />
+                            <p:ajax event="itemSelect" process="acaoOrcamentaria fonteDeRecurso @this" update="@form" />
                             <x:initializer/>
                             <p:column> 
-                                <h:outputText value="#{p}"/>
+                                <h:outputText value="#{p.naturezaDaDespesa}"/>
                             </p:column> 
                         </p:autoComplete>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="subelemento" value="* SubElemento:" />
+                        <p:inputMask id="subelemento" value="#{despesaPublicaMB.dotacaoAdd.subelemento}"  styleClass="form-control"
+                                     mask="99"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="dotacaoInicial" value="#{msg['naturezaDeDespesa.dotacaoInicial']}:" />
-                        <p:inputText id="dotacaoInicial" value="#{despesaPublicaMB.dotacaoAdd.naturezaDaDespesa.dotacaoInicial}" styleClass="form-control" readonly="true">
+                        <p:inputText id="dotacaoInicial" value="#{despesaPublicaMB.dotacaoAdd.execucaoOrcamentaria.dotacaoInicial}" styleClass="form-control" readonly="true">
                             <x:initializer/>
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                         </p:inputText>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="dotacaoAtualizada" value="#{msg['naturezaDeDespesa.dotacaoAtualizada']}:" />
-                        <p:inputText id="dotacaoAtualizada" value="#{despesaPublicaMB.dotacaoAdd.naturezaDaDespesa.dotacaoAtualizada}" styleClass="form-control" readonly="true">
+                        <p:inputText id="dotacaoAtualizada" value="#{despesaPublicaMB.dotacaoAdd.execucaoOrcamentaria.dotacaoAtualizada}" styleClass="form-control" readonly="true">
                             <x:initializer/>
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                         </p:inputText>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="despesasEmpenhadas" value="#{msg['naturezaDeDespesa.despesasEmpenhadas']}:" />
-                        <p:inputText id="despesasEmpenhadas" value="#{despesaPublicaMB.dotacaoAdd.naturezaDaDespesa.despesasEmpenhadas}" styleClass="form-control" readonly="true">
+                        <p:inputText id="despesasEmpenhadas" value="#{despesaPublicaMB.dotacaoAdd.execucaoOrcamentaria.despesasEmpenhadas}" styleClass="form-control" readonly="true">
                             <x:initializer/>
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                         </p:inputText>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="despesasLiquidadas" value="#{msg['naturezaDeDespesa.despesasLiquidadas']}:" />
-                        <p:inputText id="despesasLiquidadas" value="#{despesaPublicaMB.dotacaoAdd.naturezaDaDespesa.despesasLiquidadas}" styleClass="form-control" readonly="true">
+                        <p:inputText id="despesasLiquidadas" value="#{despesaPublicaMB.dotacaoAdd.execucaoOrcamentaria.despesasLiquidadas}" styleClass="form-control" readonly="true">
                             <x:initializer/>
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                         </p:inputText>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="despesasPagas" value="#{msg['naturezaDeDespesa.despesasPagas']}:" />
-                        <p:inputText id="despesasPagas" value="#{despesaPublicaMB.dotacaoAdd.naturezaDaDespesa.despesasPagas}" styleClass="form-control" readonly="true">
+                        <p:inputText id="despesasPagas" value="#{despesaPublicaMB.dotacaoAdd.execucaoOrcamentaria.despesasPagas}" styleClass="form-control" readonly="true">
                             <x:initializer/>
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                         </p:inputText>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="saldoDisponivel" value="#{msg['naturezaDeDespesa.saldoDisponivel']}:" />
-                        <p:inputText id="saldoDisponivel" value="#{despesaPublicaMB.dotacaoAdd.naturezaDaDespesa.saldoDisponivel}" styleClass="form-control" readonly="true">
+                        <p:inputText id="saldoDisponivel" value="#{despesaPublicaMB.dotacaoAdd.execucaoOrcamentaria.saldoDisponivel}" styleClass="form-control" readonly="true">
                             <x:initializer/>
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                         </p:inputText>
                     </div>
-
                 </div>
+
             </div>
         </p:fieldset>
         <p:fieldset legend="Programação Financeira" id="fieldProgramacao">
@@ -112,8 +119,13 @@
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="ano" value="* #{msg['programacaoFinanceira.ano']}:" />
-                        <p:inputMask id="ano" mask="9999" value="#{despesaPublicaMB.programacaoAdd.ano}" styleClass="form-control"
-                                     readonly="true"/>
+                        <h:selectOneMenu id="ano" value="#{despesaPublicaMB.programacaoAdd.ano}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{despesaPublicaMB.anos}" 
+                                           var="anos"
+                                           itemLabel="#{anos}"/>
+                        </h:selectOneMenu>
+
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="valor" value="* #{msg['programacaoFinanceira.valor']}:" />
@@ -137,12 +149,26 @@
                                 <h:outputText value="#{msg['programacaoFinanceira.mes']}" />
                             </f:facet>
                             <h:outputText value="#{programacaoFinanceira.mes.descricao}"/>
+                            <f:facet name="footer">
+                                <h:outputText value="TOTAL EXERCÍCIO VINGENTE: " style="font-weight:bold"/>
+
+                                <h:outputText value="#{despesaPublicaMB.totalExercicioVingente}" style="font-weight:bold">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                            </f:facet>
                         </p:column>
                         <p:column headerText="#{msg['programacaoFinanceira.ano']}" sortBy="#{programacaoFinanceira.ano}">
                             <f:facet name="header">
                                 <h:outputText value="#{msg['programacaoFinanceira.ano']}" />
                             </f:facet>
                             <h:outputText value="#{programacaoFinanceira.ano}"/>
+                            <f:facet name="footer">
+                                <h:outputText value="TOTAL PRÓXIMO EXERCÍCIO: " style="font-weight:bold"/>
+
+                                <h:outputText value="#{despesaPublicaMB.totalProximoExercicio}" style="font-weight:bold">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                            </f:facet>
                         </p:column>
                         <p:column headerText="#{msg['programacaoFinanceira.valor']}" sortBy="#{programacaoFinanceira.valor}"
                                   style="text-align: right;">
@@ -152,6 +178,13 @@
                             <h:outputText value="#{programacaoFinanceira.valor}">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                             </h:outputText>
+                            <f:facet name="footer">
+                                <h:outputText value="TOTAL ACUMULADO: " style="font-weight:bold"/>
+
+                                <h:outputText value="#{despesaPublicaMB.totalAcumulado}" style="font-weight:bold">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                            </f:facet>
                         </p:column>
                         <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
                             <f:facet name="header">
@@ -170,13 +203,13 @@
         <p:fieldset legend="Produto LDO">
             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                 <h:outputLabel for="programa" value="Programa:" />
-                <p:inputText id="programa" value="#{despesaPublicaMB.dotacaoAdd.acaoOrcamentaria.programa.programaGov}" styleClass="form-control" readonly="true">
+                <p:inputText id="programa" value="#{despesaPublicaMB.dotacaoAdd.execucaoOrcamentaria.acaoOrcamentaria.programa.programaGov}" styleClass="form-control" readonly="true">
                     <x:initializer/>
                 </p:inputText>
             </div>
             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                 <h:outputLabel for="acaoEstrategica" value="Ação Estratégica:" />
-                <p:inputText id="acaoEstrategica" value="#{despesaPublicaMB.dotacaoAdd.acaoOrcamentaria.acaoEstrategica}" styleClass="form-control" readonly="true">
+                <p:inputText id="acaoEstrategica" value="#{despesaPublicaMB.dotacaoAdd.execucaoOrcamentaria.acaoOrcamentaria.acaoEstrategica}" styleClass="form-control" readonly="true">
                     <x:initializer/>
                 </p:inputText>
             </div>
@@ -233,7 +266,18 @@
                     </f:selectItems>
                 </p:selectCheckboxMenu>
             </div>
-
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="responsavel" value="* Responsável pela Homologação:" />
+                <p:autoComplete id="responsavel" value="#{despesaPublicaMB.dotacaoAdd.responsavel}" 
+                                completeMethod="#{despesaPublicaMB.autocompleteUsuario}" styleClass="uix-autocomplete" 
+                                minQueryLength="3" forceSelection="true" dropdown="true"
+                                var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" 
+                                placeholder="Filtrado por Unidade Orçamentária"> 
+                    <p:column> 
+                        <h:outputText value="#{p}"/>
+                    </p:column> 
+                </p:autoComplete>
+            </div>
 
         </p:fieldset>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>

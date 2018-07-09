@@ -30,15 +30,23 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="descricaoDespesa" value="* #{msg['despesaPublica.descricaoDespesa']}:" />
+                        <h:outputLabel for="descricaoDespesa" value="* #{msg['despesaPublica.descricaoDespesa']} no Process:" />
                         <p:inputText id="descricaoDespesa" value="#{despesaPublicaMB.entity.descricaoDespesa}"  styleClass="form-control" readonly="true" 
                                      />
                     </div>
                 </div>
+                <div class="row">
+                    <div class="form-group col-lg-8 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="resumoDespesa" value="* Resumo da Despesa:" />
+                        <p:inputText id="resumoDespesa" value="#{despesaPublicaMB.entity.resumoDaDespesa}"  styleClass="form-control"
+                                     required="true" requiredMessage="Resumo da Despesa é obrigatório!" maxlength="100"/>
+                    </div>
+                </div>
+
             </div>
         </p:fieldset>
         <div class="uix-center">
-            <p:commandButton process="unidadeOrcamentaria @this" update="formCreateDotacao" action="#{despesaPublicaMB.novoDotacao()}" value="Incluir Dotação" />
+            <p:commandButton process="@form" update="formCreateDotacao" action="#{despesaPublicaMB.novoDotacao()}" value="Incluir Dotação" />
         </div>
         <p:fieldset legend="Dotações">
             <div class="container-fluid">

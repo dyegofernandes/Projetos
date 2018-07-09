@@ -1,0 +1,140 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['execucaoOrcamentaria.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuExecucaoOrcamentaria.xhtml" />
+        <h:form id="formListExecucaoOrcamentaria">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="execucaoOrcamentaria_export" target=":formListExecucaoOrcamentaria:dataTableExecucaoOrcamentaria"
+                                     widgetVar="dataTableExecucaoOrcamentariaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="execucaoOrcamentaria" rowIndexVar="index" id="dataTableExecucaoOrcamentaria" widgetVar="dataTableExecucaoOrcamentariaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{execucaoOrcamentariaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{execucaoOrcamentariaMB.dataModel.paginatorTemplate}"
+                         value="#{execucaoOrcamentariaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['execucaoOrcamentaria.acaoOrcamentaria']}" sortBy="#{execucaoOrcamentaria.acaoOrcamentaria}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['execucaoOrcamentaria.acaoOrcamentaria']}" />
+                    </f:facet>
+                    <h:outputText value="#{execucaoOrcamentaria.acaoOrcamentaria}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['execucaoOrcamentaria.fonteDeRecurso']}" sortBy="#{execucaoOrcamentaria.fonteDeRecurso}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['execucaoOrcamentaria.fonteDeRecurso']}" />
+                    </f:facet>
+                    <h:outputText value="#{execucaoOrcamentaria.fonteDeRecurso}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['execucaoOrcamentaria.naturezaDaDespesa']}" sortBy="#{execucaoOrcamentaria.naturezaDaDespesa}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['execucaoOrcamentaria.naturezaDaDespesa']}" />
+                    </f:facet>
+                    <h:outputText value="#{execucaoOrcamentaria.naturezaDaDespesa}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['execucaoOrcamentaria.dotacaoInicial']}" sortBy="#{execucaoOrcamentaria.dotacaoInicial}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['execucaoOrcamentaria.dotacaoInicial']}" />
+                    </f:facet>
+                    <h:outputText value="#{execucaoOrcamentaria.dotacaoInicial}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['execucaoOrcamentaria.dotacaoAtualizada']}" sortBy="#{execucaoOrcamentaria.dotacaoAtualizada}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['execucaoOrcamentaria.dotacaoAtualizada']}" />
+                    </f:facet>
+                    <h:outputText value="#{execucaoOrcamentaria.dotacaoAtualizada}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['execucaoOrcamentaria.despesasEmpenhadas']}" sortBy="#{execucaoOrcamentaria.despesasEmpenhadas}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['execucaoOrcamentaria.despesasEmpenhadas']}" />
+                    </f:facet>
+                    <h:outputText value="#{execucaoOrcamentaria.despesasEmpenhadas}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['execucaoOrcamentaria.despesasLiquidadas']}" sortBy="#{execucaoOrcamentaria.despesasLiquidadas}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['execucaoOrcamentaria.despesasLiquidadas']}" />
+                    </f:facet>
+                    <h:outputText value="#{execucaoOrcamentaria.despesasLiquidadas}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['execucaoOrcamentaria.despesasPagas']}" sortBy="#{execucaoOrcamentaria.despesasPagas}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['execucaoOrcamentaria.despesasPagas']}" />
+                    </f:facet>
+                    <h:outputText value="#{execucaoOrcamentaria.despesasPagas}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['execucaoOrcamentaria.saldoDisponivel']}" sortBy="#{execucaoOrcamentaria.saldoDisponivel}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['execucaoOrcamentaria.saldoDisponivel']}" />
+                    </f:facet>
+                    <h:outputText value="#{execucaoOrcamentaria.saldoDisponivel}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetExecucaoOrcamentariaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailExecucaoOrcamentaria" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{execucaoOrcamentaria}" target="#{execucaoOrcamentariaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="execucaoOrcamentaria.create">
+                        <p:button icon="ui-icon-pencil" outcome="createExecucaoOrcamentaria" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{execucaoOrcamentaria.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="execucaoOrcamentaria.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{execucaoOrcamentariaMB.delete}" >
+                            <f:setPropertyActionListener value="#{execucaoOrcamentaria.id}" target="#{execucaoOrcamentariaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{execucaoOrcamentaria}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="execucaoOrcamentaria.audit">
+                    <x:auditDelete for="#{execucaoOrcamentariaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetExecucaoOrcamentariaDetail" header="#{msg['execucaoOrcamentaria.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailExecucaoOrcamentaria.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

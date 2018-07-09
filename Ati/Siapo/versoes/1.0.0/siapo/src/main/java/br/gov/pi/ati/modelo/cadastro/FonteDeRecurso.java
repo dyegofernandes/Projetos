@@ -6,19 +6,16 @@
 package br.gov.pi.ati.modelo.cadastro;
 
 import br.gov.pi.ati.modelo.cadastro.enums.TipoDeFonte;
-import br.gov.pi.ati.modelo.orcamento.Dotacao;
+import br.gov.pi.ati.modelo.orcamento.ExecucaoOrcamentaria;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -55,19 +52,20 @@ public class FonteDeRecurso implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private GrupoDeFonte grupoDeFonte;
-    
-    @ManyToMany(targetEntity = NaturezaDeDespesa.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
-    private List<NaturezaDeDespesa> naturezasDeDespesas = new ArrayList<NaturezaDeDespesa>();
 
     private boolean ativo = true;
-    
+
     @OneToMany(mappedBy = "fonteDeRecurso")
     @NotAudited
-    private List<Dotacao> dotacoes;
+    private List<ExecucaoOrcamentaria> execucoes;
 
     @Override
     public String toString() {
-        return codigo.concat(" - ").concat(nome);
+        if (codigo != null && nome != null) {
+            return codigo.concat(" - ").concat(nome);
+        }
+
+        return nome;
     }
 
     public Long getId() {
@@ -129,20 +127,12 @@ public class FonteDeRecurso implements Serializable {
         this.ativo = ativo;
     }
 
-    public List<Dotacao> getDotacoes() {
-        return dotacoes;
+    public List<ExecucaoOrcamentaria> getExecucoes() {
+        return execucoes;
     }
 
-    public void setDotacoes(List<Dotacao> dotacoes) {
-        this.dotacoes = dotacoes;
-    }
-
-    public List<NaturezaDeDespesa> getNaturezasDeDespesas() {
-        return naturezasDeDespesas;
-    }
-
-    public void setNaturezasDeDespesas(List<NaturezaDeDespesa> naturezasDeDespesas) {
-        this.naturezasDeDespesas = naturezasDeDespesas;
+    public void setExecucoes(List<ExecucaoOrcamentaria> execucoes) {
+        this.execucoes = execucoes;
     }
 
     @Override

@@ -4,17 +4,20 @@ import br.gov.pi.ati.util.SessaoUtils;
 import br.gov.pi.ati.dao.controleacesso.HistoricoSituacaoUsuarioDAO;
 import br.gov.pi.ati.dao.controleacesso.PerfilDAO;
 import br.gov.pi.ati.dao.controleacesso.UsuarioDAO;
+import br.gov.pi.ati.modelo.cadastro.Orgao;
 import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
 import br.gov.pi.ati.modelo.controleacesso.HistoricoSituacaoUsuario;
 import br.gov.pi.ati.modelo.controleacesso.Perfil;
 import br.gov.pi.ati.modelo.controleacesso.SituacaoUsuario;
 import br.gov.pi.ati.modelo.controleacesso.TipoRecuperacaoSenha;
 import br.gov.pi.ati.modelo.controleacesso.Usuario;
+import br.gov.pi.ati.util.Utils;
 import com.xpert.core.crud.AbstractBusinessObject;
 import com.xpert.persistence.dao.BaseDAO;
 import com.xpert.core.validation.UniqueField;
 import com.xpert.core.exception.BusinessException;
 import com.xpert.core.validation.UniqueFields;
+import com.xpert.persistence.query.Restrictions;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -144,5 +147,24 @@ public class UsuarioBO extends AbstractBusinessObject<Usuario> {
      */
     public Usuario getUsuario(String cpf) {
         return usuarioDAO.unique("cpf", cpf);
+    }
+    
+    public List<Usuario> usuariosPeloUnidadeOrcamentaria(UnidadeOrcamentaria unidade, String nome){
+        Restrictions restrictions = new Restrictions();
+        
+        if(unidade==null){
+            return null;
+        }
+        
+        if(!Utils.isNullOrEmpty(nome)){
+            restrictions.like("usuario.nome", nome);
+        }
+        
+        restrictions.in("unidades", unidade);
+        
+        restrictions.add("usuario.homologar", true);
+        
+        return getDAO().getQueryBuilder().selectDistinct("usuario").from(Usuario.class, "usuario").leftJoinFetch("usuario.unidadesDeAcesso", "unidades")
+                .leftJoinFetch("unidades.orgao", "orgao").add(restrictions).orderBy("usuario.nome").getResultList();
     }
 }

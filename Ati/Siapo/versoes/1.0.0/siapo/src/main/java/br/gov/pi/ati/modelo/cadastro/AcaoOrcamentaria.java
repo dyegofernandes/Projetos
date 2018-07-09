@@ -5,17 +5,14 @@
  */
 package br.gov.pi.ati.modelo.cadastro;
 
-import br.gov.pi.ati.modelo.orcamento.Dotacao;
+import br.gov.pi.ati.modelo.orcamento.ExecucaoOrcamentaria;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -50,7 +47,7 @@ public class AcaoOrcamentaria implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     private ProgramaPPA programa;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     private AcaoEstrategica acaoEstrategica;
@@ -64,17 +61,18 @@ public class AcaoOrcamentaria implements Serializable {
     private String nome;
 
     private boolean ativo = true;
-    
-    @OneToMany(mappedBy = "acaoOrcamentaria")
+
+    @OneToMany(mappedBy = "fonteDeRecurso")
     @NotAudited
-    private List<Dotacao> dotacoes;
-    
-    @ManyToMany(targetEntity = FonteDeRecurso.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
-    private List<FonteDeRecurso> fontesDeRecurso = new ArrayList<FonteDeRecurso>();
+    private List<ExecucaoOrcamentaria> execucoes;
 
     @Override
     public String toString() {
-        return codigo.concat(" - ").concat(nome);
+        if (codigo != null && nome != null) {
+            return codigo.concat(" - ").concat(nome);
+        }
+
+        return nome;
     }
 
     public Long getId() {
@@ -149,20 +147,12 @@ public class AcaoOrcamentaria implements Serializable {
         this.codigo = codigo;
     }
 
-    public List<Dotacao> getDotacoes() {
-        return dotacoes;
+    public List<ExecucaoOrcamentaria> getExecucoes() {
+        return execucoes;
     }
 
-    public void setDotacoes(List<Dotacao> dotacoes) {
-        this.dotacoes = dotacoes;
-    }
-
-    public List<FonteDeRecurso> getFontesDeRecurso() {
-        return fontesDeRecurso;
-    }
-
-    public void setFontesDeRecurso(List<FonteDeRecurso> fontesDeRecurso) {
-        this.fontesDeRecurso = fontesDeRecurso;
+    public void setExecucoes(List<ExecucaoOrcamentaria> execucoes) {
+        this.execucoes = execucoes;
     }
 
     @Override

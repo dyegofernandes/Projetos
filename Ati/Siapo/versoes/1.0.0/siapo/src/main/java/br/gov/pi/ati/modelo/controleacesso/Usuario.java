@@ -1,6 +1,7 @@
 package br.gov.pi.ati.modelo.controleacesso;
 
 import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
+import br.gov.pi.ati.modelo.orcamento.Dotacao;
 import com.xpert.audit.NotAudited;
 import com.xpert.security.model.User;
 import java.io.Serializable;
@@ -25,7 +26,7 @@ public class Usuario implements Serializable, User {
 
     @NotBlank
     private String nome;
-    
+
 //    @NotBlank
     private String cargo;
 
@@ -73,9 +74,15 @@ public class Usuario implements Serializable, User {
     private Boolean senhaCadastrada;
 
     private Boolean autenticacaoLdap;
+    
+    private Boolean homologar = Boolean.FALSE;
 
     @ManyToMany(targetEntity = UnidadeOrcamentaria.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     private List<UnidadeOrcamentaria> unidadesDeAcesso = new ArrayList<UnidadeOrcamentaria>();
+
+    @NotAudited
+    @OneToMany(mappedBy = "responsavel")
+    private List<Dotacao> dotacoes;
 
     public Boolean getAutenticacaoLdap() {
         if (autenticacaoLdap == null) {
@@ -227,6 +234,22 @@ public class Usuario implements Serializable, User {
 
     public void setUnidadesDeAcesso(List<UnidadeOrcamentaria> unidadesDeAcesso) {
         this.unidadesDeAcesso = unidadesDeAcesso;
+    }
+
+    public List<Dotacao> getDotacoes() {
+        return dotacoes;
+    }
+
+    public void setDotacoes(List<Dotacao> dotacoes) {
+        this.dotacoes = dotacoes;
+    }
+
+    public Boolean getHomologar() {
+        return homologar;
+    }
+
+    public void setHomologar(Boolean homologar) {
+        this.homologar = homologar;
     }
 
     @Override

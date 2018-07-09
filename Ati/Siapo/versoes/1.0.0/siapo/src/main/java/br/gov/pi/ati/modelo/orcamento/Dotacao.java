@@ -5,13 +5,12 @@
  */
 package br.gov.pi.ati.modelo.orcamento;
 
-import br.gov.pi.ati.modelo.cadastro.AcaoOrcamentaria;
-import br.gov.pi.ati.modelo.cadastro.FonteDeRecurso;
 import br.gov.pi.ati.modelo.cadastro.Municipio;
-import br.gov.pi.ati.modelo.cadastro.NaturezaDeDespesa;
+import br.gov.pi.ati.modelo.controleacesso.Usuario;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -21,6 +20,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -37,13 +39,7 @@ public class Dotacao implements Serializable {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private AcaoOrcamentaria acaoOrcamentaria;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private FonteDeRecurso fonteDeRecurso;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private NaturezaDeDespesa naturezaDaDespesa;
+    private ExecucaoOrcamentaria execucaoOrcamentaria;
 
     @ManyToMany(targetEntity = ProgramacaoFinanceira.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<ProgramacaoFinanceira> programacaoFinanceira = new ArrayList<ProgramacaoFinanceira>();
@@ -57,6 +53,15 @@ public class Dotacao implements Serializable {
     @Size(max = 3)
     private String subelemento;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataHomologacao;
+
+    private boolean homologado = false;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    private Usuario responsavel;
+
     @ManyToMany(targetEntity = Municipio.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     private List<Municipio> cidades = new ArrayList<Municipio>();
 
@@ -68,30 +73,6 @@ public class Dotacao implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public AcaoOrcamentaria getAcaoOrcamentaria() {
-        return acaoOrcamentaria;
-    }
-
-    public void setAcaoOrcamentaria(AcaoOrcamentaria acaoOrcamentaria) {
-        this.acaoOrcamentaria = acaoOrcamentaria;
-    }
-
-    public FonteDeRecurso getFonteDeRecurso() {
-        return fonteDeRecurso;
-    }
-
-    public void setFonteDeRecurso(FonteDeRecurso fonteDeRecurso) {
-        this.fonteDeRecurso = fonteDeRecurso;
-    }
-
-    public NaturezaDeDespesa getNaturezaDaDespesa() {
-        return naturezaDaDespesa;
-    }
-
-    public void setNaturezaDaDespesa(NaturezaDeDespesa naturezaDaDespesa) {
-        this.naturezaDaDespesa = naturezaDaDespesa;
     }
 
     public List<ProgramacaoFinanceira> getProgramacaoFinanceira() {
@@ -140,6 +121,38 @@ public class Dotacao implements Serializable {
 
     public void setSubelemento(String subelemento) {
         this.subelemento = subelemento;
+    }
+
+    public Date getDataHomologacao() {
+        return dataHomologacao;
+    }
+
+    public void setDataHomologacao(Date dataHomologacao) {
+        this.dataHomologacao = dataHomologacao;
+    }
+
+    public boolean isHomologado() {
+        return homologado;
+    }
+
+    public void setHomologado(boolean homologado) {
+        this.homologado = homologado;
+    }
+
+    public Usuario getResponsavel() {
+        return responsavel;
+    }
+
+    public void setResponsavel(Usuario responsavel) {
+        this.responsavel = responsavel;
+    }
+
+    public ExecucaoOrcamentaria getExecucaoOrcamentaria() {
+        return execucaoOrcamentaria;
+    }
+
+    public void setExecucaoOrcamentaria(ExecucaoOrcamentaria execucaoOrcamentaria) {
+        this.execucaoOrcamentaria = execucaoOrcamentaria;
     }
 
     @Override

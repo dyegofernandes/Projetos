@@ -22,9 +22,9 @@ import java.util.List;
 @ViewScoped
 public class AcaoOrcamentariaMB extends AbstractBaseBean<AcaoOrcamentaria> implements Serializable {
 
-    private FonteDeRecurso fonteRecursoAdd;
-
-    private List<FonteDeRecurso> fontesRecurso;
+//    private FonteDeRecurso fonteRecursoAdd;
+//
+//    private List<FonteDeRecurso> fontesRecurso;
 
     @EJB
     private AcaoOrcamentariaBO acaoOrcamentariaBO;
@@ -44,61 +44,42 @@ public class AcaoOrcamentariaMB extends AbstractBaseBean<AcaoOrcamentaria> imple
 
     @Override
     public void init() {
-        fontesRecurso = new ArrayList<FonteDeRecurso>();
+//        fontesRecurso = new ArrayList<FonteDeRecurso>();
 
-        if (getEntity().getId() != null) {
-            fontesRecurso = getDAO().getInitialized(getEntity().getFontesDeRecurso());
-        }
     }
 
     @Override
     public void save() {
-        getEntity().setFontesDeRecurso(fontesRecurso);
         super.save();
     }
 
-    public void addFonteRecurso() {
-        if (fonteRecursoAdd != null) {
-            if (fonteJahAdicionada(fonteRecursoAdd)) {
-                FacesMessageUtils.error("Fonte já foi adicionada!");
-            } else {
-                fontesRecurso.add(fonteRecursoAdd);
-                fonteRecursoAdd = null;
-            }
-        } else {
-            FacesMessageUtils.error("Fonte de Recurso é obrigatória!");
-        }
-    }
+//    public void addFonteRecurso() {
+//        if (fonteRecursoAdd != null) {
+//            if (fonteJahAdicionada(fonteRecursoAdd)) {
+//                FacesMessageUtils.error("Fonte já foi adicionada!");
+//            } else {
+//                fontesRecurso.add(fonteRecursoAdd);
+//                fonteRecursoAdd = null;
+//            }
+//        } else {
+//            FacesMessageUtils.error("Fonte de Recurso é obrigatória!");
+//        }
+//    }
+//
+//    public void removerFonteRecurso(FonteDeRecurso fonte) {
+//        fontesRecurso.remove(fonte);
+//    }
+//
+//    public boolean fonteJahAdicionada(FonteDeRecurso fonte) {
+//        for (FonteDeRecurso fonteTemp : fontesRecurso) {
+//            if (fonteTemp.equals(fonte)) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
-    public void removerFonteRecurso(FonteDeRecurso fonte) {
-        fontesRecurso.remove(fonte);
-    }
-
-    public boolean fonteJahAdicionada(FonteDeRecurso fonte) {
-        for (FonteDeRecurso fonteTemp : fontesRecurso) {
-            if (fonteTemp.equals(fonte)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public FonteDeRecurso getFonteRecursoAdd() {
-        return fonteRecursoAdd;
-    }
-
-    public void setFonteRecursoAdd(FonteDeRecurso fonteRecursoAdd) {
-        this.fonteRecursoAdd = fonteRecursoAdd;
-    }
-
-    public List<FonteDeRecurso> getFontesRecurso() {
-        return fontesRecurso;
-    }
-
-    public void setFontesRecurso(List<FonteDeRecurso> fontesRecurso) {
-        this.fontesRecurso = fontesRecurso;
-    }
-
+   
     public List<ProgramaPPA> produtos() {
         return programaPPABO.programaPeloNome(null);
     }

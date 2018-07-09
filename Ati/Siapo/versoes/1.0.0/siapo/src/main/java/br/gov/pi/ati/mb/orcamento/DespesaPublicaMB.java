@@ -1,32 +1,33 @@
 package br.gov.pi.ati.mb.orcamento;
 
 import br.gov.pi.ati.bo.cadastro.AcaoOrcamentariaBO;
-import br.gov.pi.ati.bo.cadastro.FonteDeRecursoBO;
-import br.gov.pi.ati.bo.cadastro.NaturezaDeDespesaBO;
+import br.gov.pi.ati.bo.controleacesso.UsuarioBO;
 import java.io.Serializable;
 import com.xpert.core.crud.AbstractBaseBean;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.bo.orcamento.DespesaPublicaBO;
+import br.gov.pi.ati.bo.orcamento.ExecucaoOrcamentariaBO;
 import br.gov.pi.ati.bo.orcamento.MetaProdutoBO;
 import br.gov.pi.ati.modelo.cadastro.AcaoEstrategica;
 import br.gov.pi.ati.modelo.cadastro.AcaoOrcamentaria;
 import br.gov.pi.ati.modelo.cadastro.FonteDeRecurso;
 import br.gov.pi.ati.modelo.cadastro.Municipio;
-import br.gov.pi.ati.modelo.cadastro.NaturezaDeDespesa;
 import br.gov.pi.ati.modelo.cadastro.Territorio;
 import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
 import br.gov.pi.ati.modelo.cadastro.vos.Filtros;
 import br.gov.pi.ati.modelo.controleacesso.Usuario;
 import br.gov.pi.ati.modelo.orcamento.DespesaPublica;
 import br.gov.pi.ati.modelo.orcamento.Dotacao;
+import br.gov.pi.ati.modelo.orcamento.ExecucaoOrcamentaria;
 import br.gov.pi.ati.modelo.orcamento.MetaProduto;
 import br.gov.pi.ati.modelo.orcamento.ProgramacaoFinanceira;
 import br.gov.pi.ati.util.SessaoUtils;
 import br.gov.pi.ati.util.Utils;
 import br.gov.pi.ati.webservice.process.ProcessBO;
 import com.xpert.faces.utils.FacesMessageUtils;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,16 +45,13 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
     private DespesaPublicaBO despesaPublicaBO;
 
     @EJB
-    private AcaoOrcamentariaBO acaoBO;
-
-    @EJB
     private MetaProdutoBO produtoBO;
 
     @EJB
-    private FonteDeRecursoBO fonteBO;
+    private UsuarioBO usuarioBO;
 
     @EJB
-    private NaturezaDeDespesaBO naturezaBO;
+    private ExecucaoOrcamentariaBO execucaoBO;
 
     private List<Dotacao> dotacoes;
 
@@ -75,7 +73,13 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
 
     private List<UnidadeOrcamentaria> unidades;
 
-    private Integer anoAtual = new Integer(Utils.convertDateToString(new Date(), "yyyy"));
+    private List<Integer> anos;
+
+    private FonteDeRecurso fonte;
+
+    private Integer anoAtual;
+
+    private AcaoOrcamentaria acaoOrcamentaria;
 
     @Override
     public DespesaPublicaBO getBO() {
@@ -89,6 +93,14 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
 
     @Override
     public void init() {
+        anos = new ArrayList<Integer>();
+
+        anoAtual = new Integer(Utils.convertDateToString(new Date(), "yyyy"));
+
+        anos.add(anoAtual);
+
+        anos.add(anoAtual + 1);
+
         usuarioAtual = SessaoUtils.getUser();
 
         unidades = getDAO().getInitialized(usuarioAtual.getUnidadesDeAcesso());
@@ -188,14 +200,42 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
         this.despesas = despesas;
     }
 
+    public List<Integer> getAnos() {
+        return anos;
+    }
+
+    public void setAnos(List<Integer> anos) {
+        this.anos = anos;
+    }
+
+    public FonteDeRecurso getFonte() {
+        return fonte;
+    }
+
+    public void setFonte(FonteDeRecurso fonte) {
+        this.fonte = fonte;
+    }
+
+    public AcaoOrcamentaria getAcaoOrcamentaria() {
+        return acaoOrcamentaria;
+    }
+
+    public void setAcaoOrcamentaria(AcaoOrcamentaria acaoOrcamentaria) {
+        this.acaoOrcamentaria = acaoOrcamentaria;
+    }
+
     public void novoDotacao() {
         if (getEntity().getUnidadeOrcamentaria() != null) {
             dotacaoAdd = new Dotacao();
 
+            fonte = new FonteDeRecurso();
+
+            acaoOrcamentaria = new AcaoOrcamentaria();
+
             programacaoFinanceira = new ArrayList<ProgramacaoFinanceira>();
 
             programacaoAdd = new ProgramacaoFinanceira();
-            programacaoAdd.setAno(anoAtual);
+
             cidades = new ArrayList<Municipio>();
 
             RequestContext context = RequestContext.getCurrentInstance();
@@ -210,9 +250,14 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
     public void editarDotacao(Dotacao dotacao) {
         if (getEntity().getUnidadeOrcamentaria() != null) {
             dotacaoAdd = new Dotacao();
-            dotacaoAdd = dotacao;
-            cidades = getDAO().getInitialized(dotacao.getCidades());
-            programacaoFinanceira = getDAO().getInitialized(dotacao.getProgramacaoFinanceira());
+            dotacaoAdd = getDAO().getInitialized(dotacao);
+            cidades = getDAO().getInitialized(dotacaoAdd.getCidades());
+            programacaoFinanceira = getDAO().getInitialized(dotacaoAdd.getProgramacaoFinanceira());
+            ExecucaoOrcamentaria execucaoTemp = getDAO().getInitialized(dotacaoAdd.getExecucaoOrcamentaria());
+            if (execucaoTemp != null) {
+                fonte = getDAO().getInitialized(execucaoTemp.getFonteDeRecurso());
+                acaoOrcamentaria = getDAO().getInitialized(execucaoTemp.getAcaoOrcamentaria());
+            }
             RequestContext context = RequestContext.getCurrentInstance();
 
             context.execute("PF('widgetEditar').show();");
@@ -247,70 +292,45 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
     }
 
     public void incluirDotacao() {
-        if (dotacaoAdd.getAcaoOrcamentaria() != null) {
-            if (dotacaoAdd.getFonteDeRecurso() != null) {
-                if (dotacaoAdd.getNaturezaDaDespesa() != null) {
-                    if (programacaoFinanceira.size() > 0) {
-                        if (dotacaoAdd.getProdutoLDO() != null) {
-                            if (cidades.size() > 0) {
-                                if (dotacaoJahAdicionada(dotacaoAdd)) {
-                                    FacesMessageUtils.error("Não pode conter Dotação com os mesmo atributos informados: Ação Orçamentaria, Fonte de Recurso e Natureza!");
-                                } else {
-                                    if (dotacaoAdd.isGeraQuantificador()) {
-                                        if (dotacaoAdd.getQuantidadeRealizada() != null) {
-                                            dotacaoAdd.setCidades(cidades);
-                                            dotacaoAdd.setProgramacaoFinanceira(programacaoFinanceira);
-                                            dotacoes.add(dotacaoAdd);
-                                            RequestContext context = RequestContext.getCurrentInstance();
-                                            context.execute("PF('widgetNovo').hide();");
-                                            dotacaoAdd = new Dotacao();
-                                        } else {
-                                            FacesMessageUtils.error("Quantidade realizada é obrigatória!");
-                                        }
-                                    } else {
-                                        dotacaoAdd.setCidades(cidades);
-                                        dotacaoAdd.setProgramacaoFinanceira(programacaoFinanceira);
-                                        dotacoes.add(dotacaoAdd);
-                                        RequestContext context = RequestContext.getCurrentInstance();
-                                        context.execute("PF('widgetNovo').hide();");
-                                        dotacaoAdd = new Dotacao();
-                                    }
-
-                                }
+        if (dotacaoAdd.getExecucaoOrcamentaria() != null) {
+            if (programacaoFinanceira.size() > 0) {
+                if (dotacaoAdd.getProdutoLDO() != null) {
+                    if (cidades.size() > 0) {
+                        if (dotacaoAdd.isGeraQuantificador()) {
+                            if (dotacaoAdd.getQuantidadeRealizada() != null) {
+                                dotacaoAdd.setCidades(cidades);
+                                dotacaoAdd.setProgramacaoFinanceira(programacaoFinanceira);
+                                dotacoes.add(dotacaoAdd);
+                                RequestContext context = RequestContext.getCurrentInstance();
+                                context.execute("PF('widgetNovo').hide();");
+                                dotacaoAdd = new Dotacao();
                             } else {
-                                FacesMessageUtils.error("Municipio (s) é (são) obrigatório (s)!");
+                                FacesMessageUtils.error("Quantidade realizada é obrigatória!");
                             }
-
                         } else {
-                            FacesMessageUtils.error("Produto LDO é obrigatório!");
+                            dotacaoAdd.setCidades(cidades);
+                            dotacaoAdd.setProgramacaoFinanceira(programacaoFinanceira);
+                            dotacoes.add(dotacaoAdd);
+                            RequestContext context = RequestContext.getCurrentInstance();
+                            context.execute("PF('widgetNovo').hide();");
+                            dotacaoAdd = new Dotacao();
                         }
                     } else {
-                        FacesMessageUtils.error("Programação Financeira é obrigatória!");
+                        FacesMessageUtils.error("Municipio (s) é (são) obrigatório (s)!");
                     }
                 } else {
-                    FacesMessageUtils.error("Natureza da Despesa é obrigatória!");
+                    FacesMessageUtils.error("Produto LDO é obrigatório!");
                 }
             } else {
-                FacesMessageUtils.error("Fonte de Recurso é obrigatória!");
+                FacesMessageUtils.error("Programação Financeira é obrigatória!");
             }
         } else {
-            FacesMessageUtils.error("Ação Orçamentária é obrigatória!");
+            FacesMessageUtils.error("Natureza de Despesa é obrigatória!!");
         }
-
     }
 
     public void removerDotacao(Dotacao dotacao) {
         dotacoes.remove(dotacao);
-    }
-
-    private boolean dotacaoJahAdicionada(Dotacao dotacao) {
-        for (Dotacao dota : dotacoes) {
-            if (dota.getAcaoOrcamentaria().equals(dotacao.getAcaoOrcamentaria()) && dota.getFonteDeRecurso().equals(dotacao.getFonteDeRecurso())
-                    && dota.getNaturezaDaDespesa().equals(dotacao.getNaturezaDaDespesa())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void adicionarProgramacao() {
@@ -322,7 +342,6 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
                     } else {
                         programacaoFinanceira.add(programacaoAdd);
                         programacaoAdd = new ProgramacaoFinanceira();
-                        programacaoAdd.setAno(anoAtual);
                     }
 
                 } else {
@@ -359,35 +378,6 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
         }
     }
 
-    public List<AcaoOrcamentaria> autocompleteAcao(String nome) {
-        return acaoBO.listarPeloNomeEUnidadeOrcamentaria(nome, getEntity().getUnidadeOrcamentaria());
-    }
-
-    public List<MetaProduto> autocompleteProduto(String nome) {
-        if (dotacaoAdd.getAcaoOrcamentaria() != null) {
-            AcaoEstrategica acaoTemp = getDAO().getInitialized(dotacaoAdd.getAcaoOrcamentaria().getAcaoEstrategica());
-            return produtoBO.metaPelaAcaoEstrategica(acaoTemp, nome);
-        }
-
-        return null;
-    }
-
-    public List<NaturezaDeDespesa> autocompleteNaturezaDespesa(String nome) {
-        if (dotacaoAdd.getFonteDeRecurso() != null) {
-            return naturezaBO.listarPeloNome(dotacaoAdd.getFonteDeRecurso().getNaturezasDeDespesas(), nome);
-        }
-
-        return null;
-    }
-
-    public List<FonteDeRecurso> autocompleteFonteRecurso(String nome) {
-        if (dotacaoAdd.getAcaoOrcamentaria() != null) {
-            return fonteBO.listarPorNome(dotacaoAdd.getAcaoOrcamentaria().getFontesDeRecurso(), nome);
-        }
-
-        return null;
-    }
-
     public void desmarcaQuantificador() {
         if (!dotacaoAdd.isGeraQuantificador()) {
             dotacaoAdd.setQuantidadeRealizada(null);
@@ -395,17 +385,76 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
     }
 
     public void mudarAcaoOrcamentaria() {
-        dotacaoAdd.setFonteDeRecurso(null);
-        dotacaoAdd.setNaturezaDaDespesa(null);
+        dotacaoAdd.setExecucaoOrcamentaria(null);
         dotacaoAdd.setProdutoLDO(null);
     }
 
     public void mudarFonteDeRecurso() {
-        dotacaoAdd.setNaturezaDaDespesa(null);
+        dotacaoAdd.setExecucaoOrcamentaria(null);
     }
 
     public void buscar() {
         despesas = despesaPublicaBO.consultar(filtros.getUnidadesOrcamentaria(), filtros.getCodigo(), filtros.getAcaoOrcamentaria(),
                 filtros.getFonteDeRecurso(), filtros.getNaturezaDespesa(), filtros.getAcaoEstrategica(), filtros.getProduto());
+    }
+
+    public List<Usuario> autocompleteUsuario(String nome) {
+        if (getEntity().getUnidadeOrcamentaria() != null) {
+            return usuarioBO.usuariosPeloUnidadeOrcamentaria(getEntity().getUnidadeOrcamentaria(), nome);
+        }
+
+        return null;
+    }
+
+    public List<ExecucaoOrcamentaria> autocompleteExecucaoNatureza(String nome) {
+        return execucaoBO.execucaoOrcamentariaNatureza(acaoOrcamentaria, fonte, nome);
+    }
+
+    public List<AcaoOrcamentaria> autocompleteAcao(String nome) {
+        return execucaoBO.execucaoOrcamentariaAcaoOrcamentaria(getEntity().getUnidadeOrcamentaria(), nome);
+    }
+
+    public List<FonteDeRecurso> autocompleteFonte(String nome) {
+        return execucaoBO.execucaoOrcamentariaFonte(acaoOrcamentaria, nome);
+    }
+
+    public List<MetaProduto> autocompleteProduto(String nome) {
+        if (dotacaoAdd.getExecucaoOrcamentaria() != null) {
+            AcaoOrcamentaria acaoOrcamentariaTemp = getDAO().getInitialized(dotacaoAdd.getExecucaoOrcamentaria().getAcaoOrcamentaria());
+            AcaoEstrategica acaoTemp = getDAO().getInitialized(acaoOrcamentariaTemp.getAcaoEstrategica());
+            return produtoBO.metaPelaAcaoEstrategica(acaoTemp, nome);
+        }
+
+        return null;
+    }
+
+    public BigDecimal getTotalExercicioVingente() {
+        BigDecimal total = BigDecimal.ZERO;
+
+        for (ProgramacaoFinanceira program : programacaoFinanceira) {
+            if (program.getAno().equals(anoAtual)) {
+                total = total.add(program.getValor());
+            }
+        }
+
+        return total;
+    }
+
+    public BigDecimal getTotalProximoExercicio() {
+        BigDecimal total = BigDecimal.ZERO;
+
+        for (ProgramacaoFinanceira program : programacaoFinanceira) {
+            if (!program.getAno().equals(anoAtual)) {
+                total = total.add(program.getValor());
+            }
+        }
+
+        return total;
+    }
+
+    public BigDecimal getTotalAcumulado() {
+        BigDecimal total = BigDecimal.ZERO;
+
+        return total;
     }
 }

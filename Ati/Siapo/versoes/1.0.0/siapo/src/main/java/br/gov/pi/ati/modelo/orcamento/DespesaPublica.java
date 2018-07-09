@@ -8,6 +8,7 @@ package br.gov.pi.ati.modelo.orcamento;
 import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,6 +19,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
@@ -49,6 +52,10 @@ public class DespesaPublica implements Serializable {
     @NotBlank
     @Size(max = 100)
     private String resumoDaDespesa;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
+    private Date dataCadastro = new Date();
 
     @ManyToMany(targetEntity = Dotacao.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<Dotacao> dotacao = new ArrayList<Dotacao>();
@@ -102,6 +109,14 @@ public class DespesaPublica implements Serializable {
 
     public void setResumoDaDespesa(String resumoDaDespesa) {
         this.resumoDaDespesa = resumoDaDespesa;
+    }
+
+    public Date getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(Date dataCadastro) {
+        this.dataCadastro = dataCadastro;
     }
 
     @Override

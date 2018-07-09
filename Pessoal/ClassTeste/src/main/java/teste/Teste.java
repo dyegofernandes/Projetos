@@ -11,9 +11,9 @@ package teste;
  */
 public class Teste {
     public static void main(String[] args){
-        StringBuilder protocoloTemp = new StringBuilder("CI.GAB.DGE.Nº061/2011");
-        
-        System.out.println(protocoloTemp);
+       String teste = "aa.002.1.008295/17";
+       
+       System.out.println(teste.matches("^[a-zA-Z]{2}\\.\\d{3}\\.\\d\\.\\d{6}\\/\\d{2}$"));
     }
     
 }

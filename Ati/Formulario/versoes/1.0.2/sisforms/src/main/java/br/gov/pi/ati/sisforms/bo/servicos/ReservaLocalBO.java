@@ -125,7 +125,7 @@ public class ReservaLocalBO extends AbstractBusinessObject<ReservaLocal> {
     }
     
     private String foneMask(String telefone){
-        String telefoneTemp = telefone.replaceAll("(", "").replaceAll(")", "").replaceAll("-", ""); 
+        String telefoneTemp = telefone.replaceAll(Pattern.quote("("), "").replaceAll(Pattern.quote(")"), "").replaceAll(Pattern.quote("-"), ""); 
         StringBuilder stb = new StringBuilder(telefoneTemp); 
         if(telefoneTemp.length()==10){
             stb.insert(6, "-");

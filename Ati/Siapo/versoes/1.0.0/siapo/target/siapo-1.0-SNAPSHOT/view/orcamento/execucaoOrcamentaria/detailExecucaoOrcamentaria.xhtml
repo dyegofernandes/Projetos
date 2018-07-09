@@ -1,0 +1,74 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailExecucaoOrcamentaria" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['execucaoOrcamentaria.acaoOrcamentaria']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{execucaoOrcamentariaMB.entity.acaoOrcamentaria}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['execucaoOrcamentaria.fonteDeRecurso']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{execucaoOrcamentariaMB.entity.fonteDeRecurso}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['execucaoOrcamentaria.naturezaDaDespesa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{execucaoOrcamentariaMB.entity.naturezaDaDespesa}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['execucaoOrcamentaria.dotacaoInicial']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{execucaoOrcamentariaMB.entity.dotacaoInicial}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['execucaoOrcamentaria.dotacaoAtualizada']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{execucaoOrcamentariaMB.entity.dotacaoAtualizada}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['execucaoOrcamentaria.despesasEmpenhadas']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{execucaoOrcamentariaMB.entity.despesasEmpenhadas}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['execucaoOrcamentaria.despesasLiquidadas']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{execucaoOrcamentariaMB.entity.despesasLiquidadas}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['execucaoOrcamentaria.despesasPagas']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{execucaoOrcamentariaMB.entity.despesasPagas}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['execucaoOrcamentaria.saldoDisponivel']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{execucaoOrcamentariaMB.entity.saldoDisponivel}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetExecucaoOrcamentariaDetail').hide()" />
+            <x:securityArea rolesAllowed="execucaoOrcamentaria.audit">
+                <x:audit for="#{execucaoOrcamentariaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

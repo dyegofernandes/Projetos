@@ -14,33 +14,39 @@
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="metaAcao" value="* #{msg['metaProduto.metaAcao']}:" />
                         <x:initializer value="#{metaProdutoMB.entity.metaAcao.acaoEstrategica}"/>
-                        <h:selectOneMenu id="metaAcao" value="#{metaProdutoMB.entity.metaAcao}" converter="entityConverter" styleClass="form-control" >
+                        <p:autoComplete id="metaAcao" value="#{metaProdutoMB.entity.metaAcao}" 
+                                        completeMethod="#{metaProdutoMB.autocompleteMetaAcao}" styleClass="uix-autocomplete" 
+                                        minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
+                                        var="p" itemLabel="#{p.acaoEstrategica}" itemValue="#{p}" converter="entityConverter"> 
                             <x:initializer/>
-                            <f:selectItem itemLabel="#{xmsg['select']}" />
-                            <f:selectItems value="#{findAllBean.get(classMB.metaAcaoEstrategica)}" 
-                                           var="metaAcaoEstrategica"
-                                           itemLabel="#{metaProdutoMB.entity.metaAcao.acaoEstrategica}"/>
-                        </h:selectOneMenu>
+                            <p:column> 
+                                <h:outputText value="#{p.acaoEstrategica}"/>
+                            </p:column> 
+                        </p:autoComplete>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="produto" value="* #{msg['metaProduto.produto']}:" />
-                        <h:selectOneMenu id="produto" value="#{metaProdutoMB.entity.produto}" converter="entityConverter" styleClass="form-control" >
+                        <p:autoComplete id="produto" value="#{metaProdutoMB.entity.produto}" 
+                                        completeMethod="#{metaProdutoMB.autocompleteProduto}" styleClass="uix-autocomplete" 
+                                        minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
+                                        var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"> 
                             <x:initializer/>
-                            <f:selectItem itemLabel="#{xmsg['select']}" />
-                            <f:selectItems value="#{findAllBean.get(classMB.produto)}" 
-                                           var="produto"
-                                           itemLabel="#{produto}"/>
-                        </h:selectOneMenu>
+                            <p:column> 
+                                <h:outputText value="#{p}"/>
+                            </p:column> 
+                        </p:autoComplete>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="unidadeMedida" value="* #{msg['metaProduto.unidadeMedida']}:" />
-                        <h:selectOneMenu id="unidadeMedida" value="#{metaProdutoMB.entity.unidadeMedida}" converter="entityConverter" styleClass="form-control" >
+                        <p:autoComplete id="unidadeMedida" value="#{metaProdutoMB.entity.unidadeMedida}" 
+                                        completeMethod="#{unidadeDeMedidaMB.autocomplete}" styleClass="uix-autocomplete" 
+                                        minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
+                                        var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"> 
                             <x:initializer/>
-                            <f:selectItem itemLabel="#{xmsg['select']}" />
-                            <f:selectItems value="#{findAllBean.get(classMB.unidadeDeMedida)}" 
-                                           var="unidadeDeMedida"
-                                           itemLabel="#{unidadeDeMedida}"/>
-                        </h:selectOneMenu>
+                            <p:column> 
+                                <h:outputText value="#{p}"/>
+                            </p:column> 
+                        </p:autoComplete>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="valorMeta" value="* #{msg['metaProduto.valorMeta']}:" />
@@ -70,11 +76,11 @@
                     <f:facet name="header">
                         <h:outputText value="Valor" />
                     </f:facet>
-                    <h:outputText value="#{ldo.valor}">
+                    <h:outputText value="#{ldo.meta}">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                     </h:outputText>
                     <f:facet name="footer">
-                        <h:outputText value="#{x:sum(metaProdutoMB.ldos, 'valor')}" style="font-weight:bold">
+                        <h:outputText value="#{x:sum(metaProdutoMB.ldos, 'meta')}" style="font-weight:bold">
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                         </h:outputText>
                     </f:facet>
@@ -91,50 +97,7 @@
                 </p:column>
             </p:dataTable>
         </p:fieldset>
-        <p:fieldset legend="Territórios">
-            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
-                         var="territorio" rowIndexVar="index" id="dataTableTerritorio" widgetVar="dataTableTerritorioWidget" styleClass="table-responsive"
-                         value="#{metaProdutoMB.territorios}" >
-                <p:column styleClass="uix-datatable-index">
-                    <f:facet name="header">
-                        <h:outputText value="" />
-                    </f:facet>
-                    <h:outputText value="#{index+1}"/>
-                </p:column>
-                <p:column headerText="Territorio" >
-                    <f:facet name="header">
-                        <h:outputText value="Territorio" />
-                    </f:facet>
-                    <h:outputText value="#{territorio.territorio}">
-                        <x:initializer/>
-                    </h:outputText>
-                </p:column>
 
-                <p:column headerText="Valor" style="text-align: right;" >
-                    <f:facet name="header">
-                        <h:outputText value="Valor" />
-                    </f:facet>
-                    <h:outputText value="#{territorio.valor}">
-                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
-                    </h:outputText>
-                    <f:facet name="footer">
-                        <h:outputText value="#{x:sum(metaProdutoMB.territorios, 'valor')}" style="font-weight:bold">
-                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
-                        </h:outputText>
-                    </f:facet>
-
-                </p:column>
-                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
-                    <f:facet name="header">
-                        <h:outputText value="#{xmsg['actions']}"/>
-                    </f:facet>
-
-                    <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="@form" 
-                                     action="#{metaProdutoMB.removerTerritorio(territorio)}" >
-                    </p:commandButton>
-                </p:column>
-            </p:dataTable>
-        </p:fieldset>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">
             <x:securityArea rolesAllowed="metaProduto.create">

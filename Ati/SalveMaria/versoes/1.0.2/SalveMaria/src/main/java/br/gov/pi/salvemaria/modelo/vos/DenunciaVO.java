@@ -67,6 +67,8 @@ public class DenunciaVO {
     private String cpfUsuario;
 
     private String unidade;
+    
+    private String so;
 
     public DenunciaVO() {
 
@@ -301,6 +303,14 @@ public class DenunciaVO {
 
     public void setUnidade(String unidade) {
         this.unidade = unidade;
+    }
+
+    public String getSo() {
+        return so;
+    }
+
+    public void setSo(String so) {
+        this.so = so;
     }
 
 }

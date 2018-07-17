@@ -57,35 +57,31 @@
                         <p:column styleClass="uix-datatable-index">
                             <h:outputText value="#{index+1}"/>
                         </p:column>
-                        <p:column headerText="#{msg['dotacao.acaoOrcamentaria']}" sortBy="#{dotacao.acaoOrcamentaria.nome}"
-                                  >
+                        <p:column headerText="#{msg['dotacao.acaoOrcamentaria']}" sortBy="#{dotacao.execucaoOrcamentaria.acaoOrcamentaria.nome}">
                             <f:facet name="header">
                                 <h:outputText value="#{msg['dotacao.acaoOrcamentaria']}" />
                             </f:facet>
-                            <h:outputText value="#{dotacao.acaoOrcamentaria}">
+                            <h:outputText value="#{dotacao.execucaoOrcamentaria.acaoOrcamentaria}">
                                 <x:initializer/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="#{msg['dotacao.fonteDeRecurso']}" sortBy="#{dotacao.fonteDeRecurso.nome}"
-                                  >
+                        <p:column headerText="#{msg['dotacao.fonteDeRecurso']}" sortBy="#{dotacao.execucaoOrcamentaria.fonteDeRecurso.nome}">
                             <f:facet name="header">
                                 <h:outputText value="#{msg['dotacao.fonteDeRecurso']}" />
                             </f:facet>
-                            <h:outputText value="#{dotacao.fonteDeRecurso}">
+                            <h:outputText value="#{dotacao.execucaoOrcamentaria.fonteDeRecurso}">
                                 <x:initializer/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="#{msg['dotacao.naturezaDaDespesa']}" sortBy="#{dotacao.naturezaDaDespesa.nome}"
-                                  >
+                        <p:column headerText="#{msg['dotacao.naturezaDaDespesa']}" sortBy="#{dotacao.execucaoOrcamentaria.naturezaDaDespesa.nome}">
                             <f:facet name="header">
                                 <h:outputText value="#{msg['dotacao.naturezaDaDespesa']}" />
                             </f:facet>
-                            <h:outputText value="#{dotacao.naturezaDaDespesa}">
+                            <h:outputText value="#{dotacao.execucaoOrcamentaria.naturezaDaDespesa}">
                                 <x:initializer/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="#{msg['dotacao.produtoLDO']}" sortBy="#{dotacao.produtoLDO.produto.nome}"
-                                  >
+                        <p:column headerText="#{msg['dotacao.produtoLDO']}" sortBy="#{dotacao.produtoLDO.produto.nome}">
                             <f:facet name="header">
                                 <h:outputText value="#{msg['dotacao.produtoLDO']}" />
                             </f:facet>

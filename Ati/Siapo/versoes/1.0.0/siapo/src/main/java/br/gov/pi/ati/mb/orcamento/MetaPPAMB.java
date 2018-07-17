@@ -93,7 +93,7 @@ public class MetaPPAMB extends AbstractBaseBean<MetaPPA> implements Serializable
                     } else {
                         Ldo ldo = new Ldo();
                         ldo.setAno(anoLDO);
-                        ldo.setValor(valorLDO);
+                        ldo.setMeta(valorLDO);
                         ldos.add(ldo);
                         anoLDO = null;
                         valorLDO = null;
@@ -119,7 +119,7 @@ public class MetaPPAMB extends AbstractBaseBean<MetaPPA> implements Serializable
         BigDecimal total = BigDecimal.ZERO;
 
         for (Ldo ldoTemp : ldos) {
-            total = total.add(ldoTemp.getValor());
+            total = total.add(ldoTemp.getMeta());
         }
 
         return total;
@@ -185,7 +185,7 @@ public class MetaPPAMB extends AbstractBaseBean<MetaPPA> implements Serializable
     private boolean somaValorLDOs(BigDecimal valor) {
         BigDecimal soma = BigDecimal.ZERO;
         for (Ldo ldo : ldos) {
-            soma = soma.add(ldo.getValor());
+            soma = soma.add(ldo.getMeta());
         }
 
         soma = soma.add(valor);

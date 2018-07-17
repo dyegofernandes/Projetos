@@ -53,9 +53,6 @@ public class MetaProduto implements Serializable {
     @ManyToMany(targetEntity = Ldo.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<Ldo> ldos = new ArrayList<Ldo>();
 
-    @ManyToMany(targetEntity = TerritorioPPA.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    private List<TerritorioPPA> territorios = new ArrayList<TerritorioPPA>();
-
     @OneToMany(mappedBy = "produtoLDO")
     @NotAudited
     private List<Dotacao> dotacoes;
@@ -106,14 +103,6 @@ public class MetaProduto implements Serializable {
 
     public void setLdos(List<Ldo> ldos) {
         this.ldos = ldos;
-    }
-
-    public List<TerritorioPPA> getTerritorios() {
-        return territorios;
-    }
-
-    public void setTerritorios(List<TerritorioPPA> territorios) {
-        this.territorios = territorios;
     }
 
     public List<Dotacao> getDotacoes() {

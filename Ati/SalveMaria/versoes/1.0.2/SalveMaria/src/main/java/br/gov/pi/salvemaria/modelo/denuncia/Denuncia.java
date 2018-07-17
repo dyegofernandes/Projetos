@@ -9,6 +9,7 @@ import br.gov.pi.salvemaria.modelo.cadastro.Endereco;
 import br.gov.pi.salvemaria.modelo.cadastro.Unidade;
 import br.gov.pi.salvemaria.modelo.enums.Demandante;
 import br.gov.pi.salvemaria.modelo.enums.FormasDeViolencia;
+import br.gov.pi.salvemaria.modelo.enums.SO;
 import br.gov.pi.salvemaria.modelo.enums.Situacao;
 import br.gov.pi.salvemaria.modelo.enums.TipoDenuncia;
 import br.gov.pi.salvemaria.util.Utils;
@@ -19,6 +20,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -128,6 +131,8 @@ public class Denuncia implements Serializable, Comparable<Denuncia> {
     private String imei;
 
     private String cpfUsuario;
+    
+    private String so;
 
     @ManyToMany(targetEntity = Arquivo.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<Arquivo> arquivos = new ArrayList<Arquivo>();
@@ -447,6 +452,14 @@ public class Denuncia implements Serializable, Comparable<Denuncia> {
 
         return Utils.getTempoAtendimentoEmMinutos(dataInicial, dataFinal);
 
+    }
+
+    public String getSo() {
+        return so;
+    }
+
+    public void setSo(String so) {
+        this.so = so;
     }
 
     @Override

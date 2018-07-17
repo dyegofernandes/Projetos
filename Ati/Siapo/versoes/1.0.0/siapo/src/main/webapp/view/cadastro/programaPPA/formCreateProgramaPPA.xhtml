@@ -14,17 +14,15 @@
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="programa" value="* #{msg['programaPPA.programa']}:" />
                         <p:autoComplete id="programa" value="#{programaPPAMB.entity.programaGov}" 
-
                                         completeMethod="#{programaDeGovernoMB.autocomplete}" styleClass="uix-autocomplete" 
-
-                                        minQueryLength="3" forceSelection="true" dropdown="true"
-
+                                        minQueryLength="1" forceSelection="true" dropdown="true" scrollHeight="400"
                                         var="p" itemLabel="#{p.nome}" itemValue="#{p}" converter="entityConverter"> 
                             <x:initializer/>
                             <p:column> 
-
+                                <h:outputText value="#{p.codigo}"/>
+                            </p:column> 
+                            <p:column> 
                                 <h:outputText value="#{p.nome}"/>
-
                             </p:column> 
 
                         </p:autoComplete>

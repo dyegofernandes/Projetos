@@ -19,8 +19,12 @@
                          currentPageReportTemplate="#{territorioMB.dataModel.currentPageReportTemplate}"
                          paginatorTemplate="#{territorioMB.dataModel.paginatorTemplate}"
                          value="#{territorioMB.dataModel}" lazy="true" >
-                <p:column styleClass="uix-datatable-index">
-                    <h:outputText value="#{index+1}"/>
+                <p:column headerText="ID" sortBy="#{territorio.id}"
+                    filterBy="#{territorio.id}">
+                    <f:facet name="header">
+                        <h:outputText value="ID" />
+                    </f:facet>
+                    <h:outputText value="#{territorio.id}"/>
                 </p:column>
                 <p:column headerText="#{msg['territorio.codigo']}" sortBy="#{territorio.codigo}"
                     filterBy="#{territorio.codigo}"   >

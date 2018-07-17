@@ -6,10 +6,8 @@ import com.xpert.core.crud.AbstractBusinessObject;
 import br.gov.pi.salvemaria.dao.denuncia.DenunciaDAO;
 import br.gov.pi.salvemaria.modelo.cadastro.Bairro;
 import br.gov.pi.salvemaria.modelo.cadastro.Circunscricao;
-import br.gov.pi.salvemaria.modelo.cadastro.CircunscricaoBairro;
 import br.gov.pi.salvemaria.modelo.cadastro.Endereco;
 import br.gov.pi.salvemaria.modelo.cadastro.Unidade;
-import br.gov.pi.salvemaria.modelo.controleacesso.Usuario;
 import com.xpert.core.validation.UniqueField;
 import com.xpert.core.exception.BusinessException;
 import java.util.List;
@@ -174,6 +172,10 @@ public class DenunciaBO extends AbstractBusinessObject<Denuncia> {
 
         if (!Utils.isNullOrEmpty(filtros.getVitima())) {
             restrictions.like("denuncia.vitima", filtros.getVitima());
+        }
+        
+        if (!Utils.isNullOrEmpty(filtros.getSo())) {
+            restrictions.like("denuncia.so", filtros.getSo());
         }
 
         if (!Utils.isNullOrEmpty(filtros.getCpfVitima())) {

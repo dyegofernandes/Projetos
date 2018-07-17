@@ -9,6 +9,7 @@ import br.gov.pi.ati.modelo.cadastro.Municipio;
 import br.gov.pi.ati.modelo.controleacesso.Usuario;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,6 +18,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
@@ -37,6 +40,12 @@ public class Dotacao implements Serializable {
     @SequenceGenerator(name = "Dotacao", sequenceName = "dotacao_id_seq")
     @GeneratedValue(generator = "Dotacao")
     private Long id;
+    
+    @ManyToOne
+    @JoinTable(name="depesapublica_dotacao",
+    joinColumns={@JoinColumn(name="dotacao_id")},
+    inverseJoinColumns={@JoinColumn(name="despesapublica_id")})
+    private DespesaPublica despesaPublica;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private ExecucaoOrcamentaria execucaoOrcamentaria;
@@ -47,7 +56,11 @@ public class Dotacao implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private MetaProduto produtoLDO;
 
-    private BigDecimal quantidadeRealizada;
+    @NotNull
+    private BigDecimal quantidadeRealizada = BigDecimal.ZERO;
+
+    @NotNull
+    private BigDecimal metaAcumulada = BigDecimal.ZERO;
 
     @NotBlank
     @Size(max = 3)
@@ -153,6 +166,32 @@ public class Dotacao implements Serializable {
 
     public void setExecucaoOrcamentaria(ExecucaoOrcamentaria execucaoOrcamentaria) {
         this.execucaoOrcamentaria = execucaoOrcamentaria;
+    }
+
+    public BigDecimal getGAP() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        if (quantidadeRealizada != null && metaAcumulada != null) {
+            valor = valor.add(quantidadeRealizada).subtract(metaAcumulada);
+        }
+
+        return valor;
+    }
+
+    public BigDecimal getMetaAcumulada() {
+        return metaAcumulada;
+    }
+
+    public void setMetaAcumulada(BigDecimal metaAcumulada) {
+        this.metaAcumulada = metaAcumulada;
+    }
+
+    public DespesaPublica getDespesaPublica() {
+        return despesaPublica;
+    }
+
+    public void setDespesaPublica(DespesaPublica despesaPublica) {
+        this.despesaPublica = despesaPublica;
     }
 
     @Override

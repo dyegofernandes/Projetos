@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="469" leftMargin="70" rightMargin="56" topMargin="56" bottomMargin="56">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="106" splitType="Stretch">
+			<image>
+				<reportElement x="238" y="0" width="89" height="67"/>
+				<imageExpression><![CDATA["/Users/KillerBeeTwo/Documents/Projetos/Ati/Siapo/versoes/1.0.0/siapo/src/main/webapp/images/logGoverno.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="81" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DECLARAÇÃO DE ADEQUAÇÃO DA DESPESA]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="607" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="26" width="469" height="29"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial"/>
+					<paragraph firstLineIndent="40"/>
+				</textElement>
+				<text><![CDATA[Declaro que a despesa prevista está adequada à lei 8.666/93, portanto incluída no Plano Plurianual, na Lei de Diretrizes Orçamentárias – LDO e na Lei Orçamentária Anual.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="189" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº DO PROCESSO: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="72" width="469" height="61"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial"/>
+					<paragraph firstLineIndent="40"/>
+				</textElement>
+				<text><![CDATA[A despesa prevista preenche os requisitos exigidos pela Lei Complementar 101, de 04 de maio de 2000, especialmente quanto às normas dos artigos 16º e 17º, o impacto orçamentário e financeiro não ultrapassará os dois subsequentes (se o impacto ultrapassar dois exercícios subsequentes deverão ser observados todos os aspectos relativos às despesas de duração continuada).
+]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

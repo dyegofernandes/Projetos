@@ -65,28 +65,27 @@ public class ProdutoBO extends AbstractBusinessObject<Produto> {
                 add(restrictions).orderBy("acao, p.nome").getResultList();
     }
 
-    public List<Produto> produtoPeloNome(String nome) {
+    public List<Produto> produtoPeloNome(List<UnidadeOrcamentaria> unidades, String nome) {
         Restrictions restrictions = new Restrictions();
-
-        Usuario usuarioAtual = SessaoUtils.getUser();
-
-        List<UnidadeOrcamentaria> unidadesDeAcesso = getDAO().getInitialized(usuarioAtual.getUnidadesDeAcesso());
-
-        if (unidadesDeAcesso != null) {
-            if (unidadesDeAcesso.size() > 0) {
-                restrictions.in("unidade", unidadesDeAcesso);
+        List<UnidadeOrcamentaria> unidadesTemp = getDAO().getInitialized(unidades);
+        if (unidadesTemp != null) {
+            if (unidadesTemp.size() > 0) {
+                restrictions.in("unidade", unidadesTemp);
+            } else {
+                return null;
             }
+        } else {
+            return null;
         }
 
         restrictions.add("p.ativo", true);
-        restrictions.add("acao.ativo", true);
 
         if (!Utils.isNullOrEmpty(nome)) {
             restrictions.like("p.nome", nome);
         }
 
-        return getDAO().getQueryBuilder().select("p").from(Produto.class, "p").leftJoinFetch("p.acao", "acao").leftJoinFetch("acao.unidadeOrcamentaria", "unidade").
-                add(restrictions).orderBy("acao, p.nome").getResultList();
+        return getDAO().getQueryBuilder().select("p").from(Produto.class, "p").leftJoinFetch("p.unidadeOrcamentaria", "unidade").
+                add(restrictions).orderBy("unidade, p.nome").getResultList();
     }
 
 }

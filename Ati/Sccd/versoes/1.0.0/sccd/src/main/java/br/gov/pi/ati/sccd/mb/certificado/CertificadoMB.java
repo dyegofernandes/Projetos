@@ -198,7 +198,20 @@ public class CertificadoMB extends AbstractBaseBean<Certificado> implements Seri
         if (getEntity().getTitular() != null) {
             ItemPedido titular = getDAO().getInitialized(getEntity().getTitular());
             TipoCertificado tipoCertificado = getDAO().getInitialized(titular.getTipoCertificado());
-            if (tipoCertificado.getTipoPessoa() == TipoPessoa.JURIDICA) {
+            if (tipoCertificado.getTipoPessoa() == TipoPessoa.JURIDICA || tipoCertificado.getTipoPessoa() == TipoPessoa.EQUIPAMENTO) {
+                return true;
+            }
+            
+        }
+        
+        return false;
+    }
+    
+    public boolean verificarSeEhEquipamento() {
+        if (getEntity().getTitular() != null) {
+            ItemPedido titular = getDAO().getInitialized(getEntity().getTitular());
+            TipoCertificado tipoCertificado = getDAO().getInitialized(titular.getTipoCertificado());
+            if (tipoCertificado.getTipoPessoa() == TipoPessoa.EQUIPAMENTO) {
                 return true;
             }
             

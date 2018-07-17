@@ -40,7 +40,7 @@ public class MetaPPABO extends AbstractBusinessObject<MetaPPA> {
             BigDecimal soma = BigDecimal.ZERO;
 
             for (Ldo ldo : metaPPA.getLdos()) {
-                soma = soma.add(ldo.getValor());
+                soma = soma.add(ldo.getMeta());
             }
 
             if (soma.compareTo(metaPPA.getValorMeta()) != 0) {

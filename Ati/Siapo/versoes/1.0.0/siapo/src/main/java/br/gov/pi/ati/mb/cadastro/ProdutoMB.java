@@ -58,7 +58,7 @@ public class ProdutoMB extends AbstractBaseBean<Produto> implements Serializable
     
 
     public List<Produto> autocompletePeloNome(String nome) {
-        return getBO().produtoPeloNome(nome);
+        return getBO().produtoPeloNome(unidades, nome);
     }
 
     public List<Produto> autocompletePeloNomeEacao(String nome) {

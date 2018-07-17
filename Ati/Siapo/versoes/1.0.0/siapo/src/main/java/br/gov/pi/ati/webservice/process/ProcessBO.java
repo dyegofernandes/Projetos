@@ -30,6 +30,8 @@ public class ProcessBO {
                     ProcessVO processo = new ProcessVO();
 
                     XStream xstream = new XStream();
+                    
+//                    xstream.addPermission(NoTypePermission.NONE); 
 
                     xstream.alias("processo", ProcessVO.class);
 

@@ -7,6 +7,7 @@
     <h:form id="formDetailMetaAcaoEstrategica" styleClass="uix-form-detail">
         <div class="container-fluid">
             <div class="row">
+
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['metaAcaoEstrategica.acaoEstrategica']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{metaAcaoEstrategicaMB.entity.acaoEstrategica}" styleClass="uix-content-detail">
@@ -15,12 +16,56 @@
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['metaAcaoEstrategica.programaPPA']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{metaAcaoEstrategicaMB.entity.programaPPA}" styleClass="uix-content-detail">
+                    <h:outputText value="#{metaAcaoEstrategicaMB.entity.programaPPA.programaGov}" styleClass="uix-content-detail">
                         <x:initializer/>
                     </h:outputText>
                 </div>
-           </div>
-         </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="Receitas Estaduais - Aplicação em Despesa Corrente:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{metaAcaoEstrategicaMB.entity.receitasEstaduaisAplicacaoDespesaCorrente}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="Receitas Estaduais - Aplicação em Despesa de Capital" styleClass="control-label" /><br/>
+                    <h:outputText value="#{metaAcaoEstrategicaMB.entity.receitasEstaduaisAplicacaoDespesasCapital}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="Receitas Corrente" styleClass="control-label" /><br/>
+                    <h:outputText value="#{metaAcaoEstrategicaMB.entity.receitasCorrente}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="Outras Receitas - Aplicação em Despesa Corrente" styleClass="control-label" /><br/>
+                    <h:outputText value="#{metaAcaoEstrategicaMB.entity.outrasReceitasAplicacaoDespesaCorrente}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="Outras Receitas - Aplicação em Despesa de Capital" styleClass="control-label" /><br/>
+                    <h:outputText value="#{metaAcaoEstrategicaMB.entity.outrasReceitasAplicacaoDespesaCapital}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="Receitas de Capital" styleClass="control-label" /><br/>
+                    <h:outputText value="#{metaAcaoEstrategicaMB.entity.receitasCapital}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                
+               <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="Meta Financeira Total" styleClass="control-label" /><br/>
+                    <h:outputText value="#{metaAcaoEstrategicaMB.entity.metaFinanceiraTotal}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+            </div>
+        </div>
         <p:separator/>
         <div class="uix-center">
             <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetMetaAcaoEstrategicaDetail').hide()" />

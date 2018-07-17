@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="declaracao" pageWidth="595" pageHeight="842" columnWidth="483" leftMargin="70" rightMargin="42" topMargin="35" bottomMargin="56">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="numeroProcesso" class="java.lang.String"/>
+	<field name="resumoDespesa" class="java.lang.String"/>
+	<field name="dotacaoPrimeiroMes" class="java.lang.String"/>
+	<field name="totalExercicioVingente" class="java.lang.String"/>
+	<field name="codigoOrgao" class="java.lang.String"/>
+	<field name="codigoUnidade" class="java.lang.String"/>
+	<field name="codigoFuncao" class="java.lang.String"/>
+	<field name="codigoSubfuncao" class="java.lang.String"/>
+	<field name="codigoPrograma" class="java.lang.String"/>
+	<field name="codigoAcao" class="java.lang.String"/>
+	<field name="codigoNatureza" class="java.lang.String"/>
+	<field name="codigoSubelemento" class="java.lang.String"/>
+	<field name="codigoFonte" class="java.lang.String"/>
+	<field name="dotacaoInicial" class="java.lang.String"/>
+	<field name="alteracaoNaLoa" class="java.lang.String"/>
+	<field name="despesasEmpenhadas" class="java.lang.String"/>
+	<field name="somaTotalExercioVingente" class="java.lang.String"/>
+	<field name="saldoOrcamentariaDisponivel" class="java.lang.String"/>
+	<field name="totalProximoExercicio" class="java.lang.String"/>
+	<field name="nomeResponsavel" class="java.lang.String"/>
+	<field name="cargoResponsavel" class="java.lang.String"/>
+	<field name="cpfResponsavel" class="java.lang.String"/>
+	<field name="dataHomogacao" class="java.lang.String"/>
+	<background>
+		<band height="751" splitType="Stretch">
+			<elementGroup>
+				<staticText>
+					<reportElement x="0" y="59" width="469" height="42" forecolor="#CCCCCC"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="24" isBold="false" isItalic="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[RASCUNHO	RASCUNHO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="635" width="469" height="42" forecolor="#CCCCCC"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="24" isBold="false" isItalic="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[RASCUNHO	RASCUNHO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Transparent" x="0" y="0" width="469" height="42" forecolor="#CCCCCC"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="24" isBold="false" isItalic="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[RASCUNHO	RASCUNHO	RASCUNHO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="576" width="469" height="42" forecolor="#CCCCCC"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="24" isBold="false" isItalic="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[RASCUNHO	RASCUNHO	RASCUNHO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="697" width="469" height="42" forecolor="#CCCCCC"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="24" isBold="false" isItalic="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[RASCUNHO	RASCUNHO	RASCUNHO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="223" width="469" height="42" forecolor="#CCCCCC"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="24" isBold="false" isItalic="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[RASCUNHO	RASCUNHO	RASCUNHO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="170" width="469" height="42" forecolor="#CCCCCC"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="24" isBold="false" isItalic="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[RASCUNHO	RASCUNHO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="334" width="469" height="42" forecolor="#CCCCCC"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="24" isBold="false" isItalic="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[RASCUNHO	RASCUNHO	RASCUNHO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="512" width="469" height="42" forecolor="#CCCCCC"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="24" isBold="false" isItalic="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[RASCUNHO	RASCUNHO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="393" width="469" height="42" forecolor="#CCCCCC"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="24" isBold="false" isItalic="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[RASCUNHO	RASCUNHO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="111" width="469" height="42" forecolor="#CCCCCC"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="24" isBold="false" isItalic="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[RASCUNHO	RASCUNHO	RASCUNHO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="282" width="469" height="42" forecolor="#CCCCCC"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="24" isBold="false" isItalic="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[RASCUNHO	RASCUNHO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="453" width="469" height="42" forecolor="#CCCCCC"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="24" isBold="false" isItalic="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[RASCUNHO	RASCUNHO	RASCUNHO]]></text>
+				</staticText>
+			</elementGroup>
+		</band>
+	</background>
+	<pageHeader>
+		<band height="84">
+			<staticText>
+				<reportElement x="0" y="58" width="469" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DECLARAÇÃO DE ADEQUAÇÃO DA DESPESA]]></text>
+			</staticText>
+			<image>
+				<reportElement x="204" y="2" width="54" height="48"/>
+				<imageExpression><![CDATA["/Users/KillerBeeTwo/Documents/Projetos/Ati/Siapo/versoes/1.0.0/siapo/src/main/webapp/images/logGoverno.png"]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="667" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="26" width="482" height="29"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font fontName="Arial"/>
+					<paragraph firstLineIndent="40"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Declaro que a despesa prevista está adequada à lei 8.666/93, portanto incluída no Plano Plurianual, na Lei de Diretrizes Orçamentárias – LDO e na Lei Orçamentária Anual."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="55" width="482" height="57"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font fontName="Arial"/>
+					<paragraph firstLineIndent="40"/>
+				</textElement>
+				<text><![CDATA[A despesa prevista preenche os requisitos exigidos pela Lei Complementar 101, de 04 de maio de 2000, especialmente quanto às normas dos artigos 16º e 17º, o impacto orçamentário e financeiro não ultrapassará os dois subsequentes (se o impacto ultrapassar dois exercícios subsequentes deverão ser observados todos os aspectos relativos às despesas de duração continuada).]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="112" width="482" height="41"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font fontName="Arial"/>
+					<paragraph firstLineIndent="40"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Informamos que a despesa prevista se refere a "+ $F{resumoDespesa}+", cujo valor do impacto mensal é de R$ "+$F{dotacaoPrimeiroMes}+" e no exercício vigente é de R$ "+$F{totalExercicioVingente}+", conforme classificação orçamentária e financeira, abaixo:"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="153" width="133" height="19"/>
+				<textElement>
+					<font fontName="Arial" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Classificação institucional:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="253" y="153" width="125" height="19"/>
+				<textElement>
+					<font fontName="Arial" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Classificação institucional:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="172" width="133" height="19"/>
+				<textElement>
+					<font fontName="Arial" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[1. Órgão Orçamentário:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="191" width="133" height="19"/>
+				<textElement>
+					<font fontName="Arial" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[2. Unidade Orçamentária:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="253" y="191" width="108" height="19"/>
+				<textElement>
+					<font fontName="Arial" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[2. Subfunção:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="253" y="172" width="108" height="19"/>
+				<textElement>
+					<font fontName="Arial" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[1. Função:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="218" width="133" height="19"/>
+				<textElement>
+					<font fontName="Arial" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Estrutura Programática:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="253" y="218" width="108" height="19"/>
+				<textElement>
+					<font fontName="Arial" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Natureza da Despesa:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="256" width="133" height="19"/>
+				<textElement>
+					<font fontName="Arial" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[2. Ação (Proj/Ativ/Op.Esp.):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="237" width="133" height="19"/>
+				<textElement>
+					<font fontName="Arial" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[1. Programa:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="253" y="237" width="108" height="19"/>
+				<textElement>
+					<font fontName="Arial" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Subelemento:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="253" y="256" width="108" height="19"/>
+				<textElement>
+					<font fontName="Arial" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Fonte de Recursos:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="287" width="482" height="37"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font fontName="Arial"/>
+					<paragraph firstLineIndent="40"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Declaro a existência de saldo orçamentário disponível e suficiente para o empenho da despesa prevista, considerando o comprometimento do saldo apresentado com outras despesas já existentes e novos processos em andamento."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="324" width="482" height="37"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font fontName="Arial"/>
+					<paragraph firstLineIndent="40"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Declaro, ainda, que os valores do Impacto orçamentário- financeiro que ultrapassem esse exercício financeiro serão incluídos nos valores de despesas de órgão que irão compor a LDO e a LOA para o exercício subsequente."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="361" width="482" height="14"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font fontName="Arial"/>
+					<paragraph firstLineIndent="40"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Seguem informações relativas ao saldo orçamentário/financeiro:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="375" width="482" height="14"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA["1. Saldo de Dotação Orçamentária Inicial (LOA) (A): "+$F{dotacaoInicial}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="389" width="482" height="14"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA["2. Alterações na LOA (B): "+$F{alteracaoNaLoa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="403" width="482" height="14"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA["3. Valores empenhados na referida classificação (C): "+$F{despesasEmpenhadas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="417" width="482" height="16"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA["4.  Valores comprometidos com outras despesas vigentes e em andamento (no exercício) (D): "+$F{somaTotalExercioVingente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="433" width="482" height="19"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA["5. Saldo Orçamentário disponível para novas contratações (E) E = A +ou – B – C – D:"+$F{saldoOrcamentariaDisponivel}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="452" width="482" height="14"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA["6. Valor do impacto da nova contratação (no exercício) (G): "+$F{totalExercicioVingente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="466" width="482" height="14"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA["7. Valor do impacto da nova contratação (para o exercício seguinte) (H): "+$F{totalProximoExercicio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="486" width="482" height="37"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial"/>
+					<paragraph firstLineIndent="40"/>
+				</textElement>
+				<text><![CDATA[OBS: As alterações LOA (adições ou reduções) correspondentes aos créditos adicionais (suplementares, especiais e extraordinários), remanejamentos ou quaisquer outras alterações que possuam afetar o saldo inicial da LOA.]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="269" height="20"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Nº DO PROCESSO: "+$F{numeroProcesso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="172" width="100" height="20"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoOrgao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="190" width="100" height="20"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoUnidade}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="361" y="172" width="108" height="19"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoFuncao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="236" width="100" height="20"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoPrograma}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="255" width="100" height="20"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoAcao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="361" y="190" width="108" height="20"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoSubfuncao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="361" y="218" width="108" height="20"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoNatureza}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="361" y="237" width="108" height="20"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoSubelemento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="361" y="256" width="100" height="19"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoFonte}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="560" width="469" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomeResponsavel}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="580" width="469" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cargoResponsavel}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="600" width="469" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cpfResponsavel}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="635" width="469" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ASSINADO ELETRONICAMENTE EM "+$F{dataHomogacao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

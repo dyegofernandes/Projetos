@@ -47,7 +47,11 @@ public class ProgramaDeGovernoBO extends AbstractBusinessObject<ProgramaDeGovern
         restrictions.add("ativo", true);
 
         if (!Utils.isNullOrEmpty(nome)) {
-            restrictions.like("nome", nome);
+            if (Utils.ehInteiro(nome)) {
+                restrictions.like("codigo", nome);
+            } else {
+                restrictions.like("nome", nome);
+            }
         }
 
         return getDAO().list(restrictions, "nome");

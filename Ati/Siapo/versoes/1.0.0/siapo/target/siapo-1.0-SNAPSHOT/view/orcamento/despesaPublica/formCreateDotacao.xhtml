@@ -15,7 +15,7 @@
                         <h:outputLabel for="acaoOrcamentaria" value="* #{msg['dotacao.acaoOrcamentaria']}:" />
                         <p:autoComplete id="acaoOrcamentaria" value="#{despesaPublicaMB.acaoOrcamentaria}" 
                                         completeMethod="#{despesaPublicaMB.autocompleteAcao}" styleClass="uix-autocomplete" 
-                                        minQueryLength="3" forceSelection="true" dropdown="true"
+                                        minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
                                         var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" 
                                         placeholder="Filtrado por Unidade Orçamentária"> 
                             <p:ajax event="itemSelect" process="@this" update="@form" listener="#{despesaPublicaMB.mudarAcaoOrcamentaria()}" />
@@ -28,7 +28,7 @@
                         <h:outputLabel for="fonteDeRecurso" value="* #{msg['dotacao.fonteDeRecurso']}:" />
                         <p:autoComplete id="fonteDeRecurso" value="#{despesaPublicaMB.fonte}" 
                                         completeMethod="#{despesaPublicaMB.autocompleteFonte}" styleClass="uix-autocomplete" 
-                                        minQueryLength="3" forceSelection="true" dropdown="true"
+                                        minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
                                         var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" 
                                         placeholder="Filtrado por Ação Orçamentária"> 
                             <x:initializer/>
@@ -42,7 +42,7 @@
                         <h:outputLabel for="naturezaDaDespesa" value="* #{msg['dotacao.naturezaDaDespesa']}:" />
                         <p:autoComplete id="naturezaDaDespesa" value="#{despesaPublicaMB.dotacaoAdd.execucaoOrcamentaria}" 
                                         completeMethod="#{despesaPublicaMB.autocompleteExecucaoNatureza}" styleClass="uix-autocomplete" 
-                                        minQueryLength="3" forceSelection="true" dropdown="true"
+                                        minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
                                         var="p" itemLabel="#{p.naturezaDaDespesa}" itemValue="#{p}" converter="entityConverter"  
                                         placeholder="Filtrado por Fonte de Recurso"> 
                             <p:ajax event="itemSelect" process="acaoOrcamentaria fonteDeRecurso @this" update="@form" />
@@ -215,13 +215,17 @@
             </div>
             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                 <h:outputLabel for="produtoLDO" value="* Produto:" />
+                <x:initializer value="#{despesaPublicaMB.dotacaoAdd.produtoLDO}"/>
                 <p:autoComplete id="produtoLDO" value="#{despesaPublicaMB.dotacaoAdd.produtoLDO}" 
                                 completeMethod="#{despesaPublicaMB.autocompleteProduto}" styleClass="uix-autocomplete" 
                                 minQueryLength="3" forceSelection="true" dropdown="true"
                                 var="p" itemLabel="#{p.produto}" itemValue="#{p}" converter="entityConverter"  > 
+                    <x:initializer/>
+                    
                     <p:column> 
                         <h:outputText value="#{p.produto}"/>
                     </p:column> 
+                    
                     <p:ajax event="itemSelect" process="@this acaoOrcamentaria" update="quantidadeMeta unidadeMedida" />
                 </p:autoComplete>
             </div>

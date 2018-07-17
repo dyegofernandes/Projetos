@@ -80,6 +80,8 @@ public class Filtros implements Serializable {
     private FaixaEtaria faixaEtariaAgressor = FaixaEtaria.TODAS;
 
     private List<Unidade> unidadesAcesso = new ArrayList<Unidade>();
+    
+    private String so;
 
     public Unidade getUnidade() {
         return unidade;
@@ -295,6 +297,14 @@ public class Filtros implements Serializable {
 
     public void setUnidadesAcesso(List<Unidade> unidadesAcesso) {
         this.unidadesAcesso = unidadesAcesso;
+    }
+
+    public String getSo() {
+        return so;
+    }
+
+    public void setSo(String so) {
+        this.so = so;
     }
 
 }

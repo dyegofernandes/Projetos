@@ -2,6 +2,7 @@ package br.gov.pi.ati.bo.orcamento;
 
 import com.xpert.core.crud.AbstractBusinessObject;
 import br.gov.pi.ati.dao.orcamento.MetaAcaoEstrategicaDAO;
+import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
 import br.gov.pi.ati.modelo.cadastro.vos.Filtros;
 import com.xpert.core.validation.UniqueField;
 import com.xpert.core.exception.BusinessException;
@@ -56,18 +57,44 @@ public class MetaAcaoEstrategicaBO extends AbstractBusinessObject<MetaAcaoEstrat
         if (filtros.getProgramaDeGoverno() != null) {
             restrictions.add("programaGov", filtros.getProgramaDeGoverno());
         }
-        
-        if(!Utils.isNullOrEmpty(filtros.getNome())){
+
+        if (!Utils.isNullOrEmpty(filtros.getNome())) {
             restrictions.like("acaoEstrategica.nome", filtros.getNome());
         }
-        
-        if(!Utils.isNullOrEmpty(filtros.getCodigo())){
+
+        if (!Utils.isNullOrEmpty(filtros.getCodigo())) {
             restrictions.add("acaoEstrategica.codigo", filtros.getCodigo());
         }
 
-        return getDAO().getQueryBuilder().selectDistinct("metaAcao").from(MetaAcaoEstrategica.class, "metaAcao").leftJoinFetch("metaAcao.acaoEstrategica", "acaoEstrategica")
+        return getDAO().getQueryBuilder().select("metaAcao").from(MetaAcaoEstrategica.class, "metaAcao").leftJoinFetch("metaAcao.acaoEstrategica", "acaoEstrategica")
                 .leftJoinFetch("acaoEstrategica.unidadeOrcamentaria", "unidadeOrcamentaria").leftJoinFetch("metaAcao.programaPPA", "programaPPA")
-                .leftJoinFetch("programaPPA.programaGov", "programaGov").leftJoinFetch("metaAcao.receitas", "receitas")
-                .add(restrictions).orderBy("unidadeOrcamentaria.nome, programaGov.nome, acaoEstrategica.codigo").getResultList();
+                .leftJoinFetch("programaPPA.programaGov", "programaGov").add(restrictions).orderBy("unidadeOrcamentaria.nome, programaGov.nome, acaoEstrategica.codigo").getResultList();
+    }
+
+    public List<MetaAcaoEstrategica> listarPeloNome(List<UnidadeOrcamentaria> unidades, String nome) {
+        Restrictions restrictions = new Restrictions();
+
+        List<UnidadeOrcamentaria> unidadesTemp = getDAO().getInitialized(unidades);
+        if (unidadesTemp == null) {
+            return null;
+        } else {
+            if (unidadesTemp.size() > 0) {
+                restrictions.in("unidadeOrcamentaria", unidadesTemp);
+            } else {
+                return null;
+            }
+        }
+
+        if (!Utils.isNullOrEmpty(nome)) {
+            if (Utils.ehInteiro(nome)) {
+                restrictions.like("acaoEstrategica.codigo", nome);
+            } else {
+                restrictions.like("acaoEstrategica.nome", nome);
+            }
+        }
+
+        return getDAO().getQueryBuilder().select("metaAcao").from(MetaAcaoEstrategica.class, "metaAcao").leftJoinFetch("metaAcao.acaoEstrategica", "acaoEstrategica")
+                .leftJoinFetch("acaoEstrategica.unidadeOrcamentaria", "unidadeOrcamentaria").add(restrictions).orderBy("unidadeOrcamentaria.nome, acaoEstrategica.codigo").getResultList();
+
     }
 }

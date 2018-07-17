@@ -393,6 +393,10 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
         dotacaoAdd.setExecucaoOrcamentaria(null);
     }
 
+    public void desmarcarQuantificador() {
+        dotacaoAdd.setQuantidadeRealizada(BigDecimal.ZERO);
+    }
+
     public void buscar() {
         despesas = despesaPublicaBO.consultar(filtros.getUnidadesOrcamentaria(), filtros.getCodigo(), filtros.getAcaoOrcamentaria(),
                 filtros.getFonteDeRecurso(), filtros.getNaturezaDespesa(), filtros.getAcaoEstrategica(), filtros.getProduto());
@@ -454,6 +458,10 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
 
     public BigDecimal getTotalAcumulado() {
         BigDecimal total = BigDecimal.ZERO;
+
+        for (ProgramacaoFinanceira program : programacaoFinanceira) {
+            total = total.add(program.getValor());
+        }
 
         return total;
     }

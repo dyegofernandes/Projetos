@@ -16,8 +16,11 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -57,7 +60,10 @@ public class DespesaPublica implements Serializable {
     @NotNull
     private Date dataCadastro = new Date();
 
-    @ManyToMany(targetEntity = Dotacao.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @OneToMany(targetEntity = Dotacao.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinTable(name = "depesapublica_dotacao",
+    joinColumns = { @JoinColumn(name = "despesapublica_id") }, 
+    inverseJoinColumns = { @JoinColumn(name = "dotacao_id") })
     private List<Dotacao> dotacao = new ArrayList<Dotacao>();
 
     public Long getId() {

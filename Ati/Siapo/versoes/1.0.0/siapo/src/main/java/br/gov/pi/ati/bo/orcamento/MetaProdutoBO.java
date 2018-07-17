@@ -68,22 +68,20 @@ public class MetaProdutoBO extends AbstractBusinessObject<MetaProduto> {
 
         return getDAO().getQueryBuilder().selectDistinct("meta").from(MetaProduto.class, "meta").leftJoinFetch("meta.produto", "produto")
                 .leftJoinFetch("meta.metaAcao", "metaAcao").leftJoinFetch("metaAcao.acaoEstrategica", "acaoEstrategica")
-                .leftJoinFetch("produto.unidadeOrcamentaria", "unidadeOrcamentaria")
+                .leftJoinFetch("acaoEstrategica.unidadeOrcamentaria", "unidadeOrcamentaria")
                 .leftJoinFetch("metaAcao.programaPPA", "programaPPA").leftJoinFetch("programaPPA.programaGov", "programaGov")
                 .leftJoinFetch("programaPPA.competencia", "competencia")
-                .leftJoin("meta.territorios", "territorios")
-                .leftJoin("meta.ldos", "ldos")
                 .add(restrictions).orderBy("unidadeOrcamentaria, produto.nome").getResultList();
     }
 
-    public List<MetaProduto> metaPeloNomeEUnidadeOrcamentaria(String nome, UnidadeOrcamentaria unidade) {
+    public List<MetaProduto> metaPeloNomeEUnidadeOrcamentaria(String nome, UnidadeOrcamentaria unidades) {
         Restrictions restrictions = new Restrictions();
 
-        if (unidade == null) {
+        if (unidades == null) {
             return null;
         }
 
-        restrictions.add("produto.unidadeOrcamentaria", unidade);
+        restrictions.add("unidadeOrcamentaria", unidades);
 
         if (!Utils.isNullOrEmpty(nome)) {
             restrictions.like("produto.nome", nome);
@@ -106,7 +104,7 @@ public class MetaProdutoBO extends AbstractBusinessObject<MetaProduto> {
             restrictions.like("produto.nome", nome);
         }
 
-        return getDAO().getQueryBuilder().from(MetaProduto.class, "meta").leftJoinFetch("meta.produto", "produto")
+        return getDAO().getQueryBuilder().selectDistinct("meta").from(MetaProduto.class, "meta").leftJoinFetch("meta.produto", "produto")
                 .leftJoinFetch("meta.metaAcao", "metaAcao").leftJoinFetch("metaAcao.acaoEstrategica", "acaoEstrategica").add(restrictions).orderBy("produto.nome").getResultList();
     }
 }

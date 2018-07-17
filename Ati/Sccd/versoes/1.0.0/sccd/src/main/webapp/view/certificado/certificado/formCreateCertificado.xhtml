@@ -94,6 +94,14 @@
                                     <p:inputText id="nomeResponsavelLegal" value="#{certificadoMB.entity.nomeResponsavelLegal}" maxlength="250"  styleClass="form-control"  />
                                 </div>
                             </p:panel>
+                            <p:panel rendered="#{certificadoMB.verificarSeEhEquipamento()}">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="url" value="URL:" />
+                                    <p:inputText id="url" value="#{certificadoMB.entity.titular.url}" maxlength="250"  styleClass="form-control"  >
+                                        <x:initializer/>
+                                    </p:inputText>
+                                </div>
+                            </p:panel>
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="enderecoEmail" value="#{msg['certificado.enderecoEmail']}:" />
                                 <p:inputText id="enderecoEmail" value="#{certificadoMB.entity.enderecoEmail}" maxlength="250"  styleClass="form-control"  />

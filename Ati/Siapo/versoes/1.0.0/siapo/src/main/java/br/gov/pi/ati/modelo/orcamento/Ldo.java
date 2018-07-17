@@ -5,11 +5,17 @@
  */
 package br.gov.pi.ati.modelo.orcamento;
 
+import br.gov.pi.ati.modelo.cadastro.Territorio;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
@@ -29,7 +35,10 @@ public class Ldo implements Serializable {
     private Integer ano;
 
     @NotNull
-    private BigDecimal valor;
+    private BigDecimal meta;
+
+    @ManyToMany(targetEntity = Territorio.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    private List<Territorio> territorios = new ArrayList<Territorio>();
 
     @Override
     public String toString() {
@@ -52,12 +61,20 @@ public class Ldo implements Serializable {
         this.ano = ano;
     }
 
-    public BigDecimal getValor() {
-        return valor;
+    public BigDecimal getMeta() {
+        return meta;
     }
 
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
+    public void setMeta(BigDecimal meta) {
+        this.meta = meta;
+    }
+
+    public List<Territorio> getTerritorios() {
+        return territorios;
+    }
+
+    public void setTerritorios(List<Territorio> territorios) {
+        this.territorios = territorios;
     }
 
     @Override

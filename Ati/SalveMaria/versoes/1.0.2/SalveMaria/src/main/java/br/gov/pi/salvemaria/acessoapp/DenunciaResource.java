@@ -79,7 +79,7 @@ public class DenunciaResource {
         Cidade cidade = null;
         Bairro bairro = null;
         URL url = null;
-        String stringDeBusca = "";
+//        String stringDeBusca = "";
 
         TipoDenuncia tipo = Utils.tipoDenunciaPeloNome(denunciaVO.getTipo());
 
@@ -122,6 +122,8 @@ public class DenunciaResource {
                 if (!Utils.isNullOrEmpty(denunciaVO.getIdadeVitima())) {
                     denuncia.setIdadeVitima(new Integer(denunciaVO.getIdadeVitima()));
                 }
+                
+                denuncia.setSo(denunciaVO.getSo());
 
                 denuncia.setAgressor(denunciaVO.getAgressor());
 
@@ -145,7 +147,7 @@ public class DenunciaResource {
                 endereco.setEndereco(denunciaVO.getEndereco());
 
                 endereco.setNumero(denunciaVO.getNumero());
-
+                
                 if (!Utils.isNullOrEmpty(denunciaVO.getLatitude())) {
                     endereco.setLatitude(denunciaVO.getLatitude());
                 }

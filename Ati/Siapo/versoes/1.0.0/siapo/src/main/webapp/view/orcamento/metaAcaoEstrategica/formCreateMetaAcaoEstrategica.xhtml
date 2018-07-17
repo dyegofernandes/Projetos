@@ -15,23 +15,25 @@
                 <div class="row">
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="acaoEstrategica" value="* #{msg['metaAcaoEstrategica.acaoEstrategica']}:" />
-                        <h:selectOneMenu id="acaoEstrategica" value="#{metaAcaoEstrategicaMB.entity.acaoEstrategica}" converter="entityConverter" styleClass="form-control" >
+                        <p:autoComplete id="acaoEstrategica" value="#{metaAcaoEstrategicaMB.entity.acaoEstrategica}" 
+                                        completeMethod="#{acaoEstrategicaMB.autocomplete}" styleClass="uix-autocomplete" 
+                                        minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
+                                        var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"> 
                             <x:initializer/>
-                            <f:selectItem itemLabel="#{xmsg['select']}" />
-                            <f:selectItems value="#{findAllBean.get(classMB.acaoEstrategica)}" 
-                                           var="acaoEstrategica"
-                                           itemLabel="#{acaoEstrategica}"/>
-                        </h:selectOneMenu>
+                            <p:column> 
+                                <h:outputText value="#{p.codigo}"/>
+                            </p:column> 
+                            <p:column> 
+                                <h:outputText value="#{p.nome}"/>
+                            </p:column> 
+                        </p:autoComplete>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="programaPPA" value="* #{msg['metaProduto.programa.nome']}:" />
                         <x:initializer value="#{metaAcaoEstrategicaMB.entity.programaPPA.programaGov}" />
                         <p:autoComplete id="programaPPA" value="#{metaAcaoEstrategicaMB.entity.programaPPA}" 
-
                                         completeMethod="#{programaPPAMB.autocomplete}" styleClass="uix-autocomplete" 
-
-                                        minQueryLength="3" forceSelection="true" dropdown="true"
-
+                                        minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
                                         var="p" itemLabel="#{p.programaGov}" itemValue="#{p}" converter="entityConverter" > 
                             <x:initializer />
                             <p:column> 
@@ -43,54 +45,26 @@
                         </p:autoComplete>
 
                     </div>
-
-
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="receitasEstaduaisAplicacaoDespesaCorrente" value="Receitas Estaduais - Aplicação em Despesa Corrente:" />
+                        <x:inputNumber id="receitasEstaduaisAplicacaoDespesaCorrente" value="#{metaAcaoEstrategicaMB.entity.receitasEstaduaisAplicacaoDespesaCorrente}" styleClass="form-control" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="receitasEstaduaisAplicacaoDespesaCapital" value="Receitas Estaduais - Aplicação em Despesa Capital:" />
+                        <x:inputNumber id="receitasEstaduaisAplicacaoDespesaCapital" value="#{metaAcaoEstrategicaMB.entity.receitasEstaduaisAplicacaoDespesasCapital}" styleClass="form-control" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="outrasReceitasAplicacaoDespesaCorrente" value="Outras Receitas - Aplicação em Despesa Corrente:" />
+                        <x:inputNumber id="outrasReceitasAplicacaoDespesaCorrente" value="#{metaAcaoEstrategicaMB.entity.outrasReceitasAplicacaoDespesaCorrente}" styleClass="form-control" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="outrasReceitasAplicacaoDespesaCapital" value="Outras Receitas - Aplicação em Despesa Capital" />
+                        <x:inputNumber id="outrasReceitasAplicacaoDespesaCapital" value="#{metaAcaoEstrategicaMB.entity.outrasReceitasAplicacaoDespesaCapital}" styleClass="form-control" />
+                    </div>
                 </div>
             </div>
         </p:fieldset>
-        <p:fieldset legend="Valores">
-            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
-                         var="receita" rowIndexVar="index" id="dataTableMetaPPA" widgetVar="dataTableMetaPPAWidget" styleClass="table-responsive"
-                         value="#{metaAcaoEstrategicaMB.receitas}" >
-                <p:column styleClass="uix-datatable-index">
-                    <f:facet name="header">
-                        <h:outputText value="" />
-                    </f:facet>
-                    <h:outputText value="#{index+1}"/>
-                </p:column>
-                <p:column headerText="Nome Receita" >
-                    <f:facet name="header">
-                        <h:outputText value="Nome Receita" />
-                    </f:facet>
-                    <h:outputText value="#{receita.nome}"/>
-                </p:column>
 
-                <p:column headerText="Valor" style="text-align: right;" >
-                    <f:facet name="header">
-                        <h:outputText value="Valor" />
-                    </f:facet>
-                    <h:outputText value="#{receita.valor}">
-                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
-                    </h:outputText>
-                    <f:facet name="footer">
-                        <h:outputText value="#{x:sum(metaAcaoEstrategicaMB.receitas, 'valor')}" style="font-weight:bold">
-                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
-                        </h:outputText>
-                    </f:facet>
-
-                </p:column>
-                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
-                    <f:facet name="header">
-                        <h:outputText value="#{xmsg['actions']}"/>
-                    </f:facet>
-
-                    <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="@form" 
-                                     action="#{metaAcaoEstrategicaMB.removerReceita(receita)}" >
-                    </p:commandButton>
-                </p:column>
-            </p:dataTable>
-
-        </p:fieldset>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">
             <x:securityArea rolesAllowed="metaAcaoEstrategica.create">

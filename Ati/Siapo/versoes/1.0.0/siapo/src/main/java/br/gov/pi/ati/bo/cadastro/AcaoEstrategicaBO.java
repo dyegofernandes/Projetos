@@ -9,8 +9,6 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.modelo.cadastro.AcaoEstrategica;
 import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
-import br.gov.pi.ati.modelo.controleacesso.Usuario;
-import br.gov.pi.ati.util.SessaoUtils;
 import br.gov.pi.ati.util.Utils;
 import com.xpert.core.validation.UniqueFields;
 import com.xpert.persistence.query.Restrictions;
@@ -44,12 +42,10 @@ public class AcaoEstrategicaBO extends AbstractBusinessObject<AcaoEstrategica> {
         return true;
     }
 
-    public List<AcaoEstrategica> acaoPeloNomeEUnidades(String nome) {
+    public List<AcaoEstrategica> acaoPeloNomeEUnidades( List<UnidadeOrcamentaria> unidades, String nome) {
         Restrictions restrictions = new Restrictions();
 
-        Usuario usuarioAtual = SessaoUtils.getUser();
-
-        List<UnidadeOrcamentaria> unidadesDeAcesso = getDAO().getInitialized(usuarioAtual.getUnidadesDeAcesso());
+        List<UnidadeOrcamentaria> unidadesDeAcesso = getDAO().getInitialized(unidades);
 
         if (unidadesDeAcesso != null) {
             if (unidadesDeAcesso.size() > 0) {
@@ -60,7 +56,12 @@ public class AcaoEstrategicaBO extends AbstractBusinessObject<AcaoEstrategica> {
         restrictions.add("acao.ativo", true);
 
         if (!Utils.isNullOrEmpty(nome)) {
-            restrictions.like("acao.nome", nome);
+            if (Utils.ehInteiro(nome)) {
+                restrictions.like("acao.codigo", nome);
+            } else {
+                restrictions.like("acao.nome", nome);
+            }
+
         }
 
         return getDAO().getQueryBuilder().select("acao").from(AcaoEstrategica.class, "acao").leftJoinFetch("acao.unidadeOrcamentaria", "unidade")

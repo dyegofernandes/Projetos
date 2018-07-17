@@ -46,6 +46,8 @@ public class Filtros implements Serializable {
     private String nome;
 
     private String codigo;
+    
+    private Boolean ativo;
 
     public List<UnidadeOrcamentaria> getUnidadesOrcamentaria() {
         return unidadesOrcamentaria;
@@ -141,6 +143,14 @@ public class Filtros implements Serializable {
 
     public void setNaturezaDespesa(NaturezaDeDespesa naturezaDespesa) {
         this.naturezaDespesa = naturezaDespesa;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
     }
 
 }

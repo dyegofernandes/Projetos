@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="uix-center">
-                    <p:commandButton process="filtros @this" update="filtros dataTableDespesaPublica" action="#{despesaPublicaMB.buscar()}" value="Buscar" />
+                    <p:commandButton process="@form" update="@form" action="#{despesaPublicaMB.buscar()}" value="Buscar" />
                 </div>
             </p:fieldset>
 

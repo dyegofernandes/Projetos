@@ -12,6 +12,7 @@ import br.gov.pi.ati.modelo.cadastro.NaturezaDeDespesa;
 import br.gov.pi.ati.modelo.cadastro.Produto;
 import br.gov.pi.ati.modelo.cadastro.ProgramaDeGoverno;
 import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
+import br.gov.pi.ati.modelo.controleacesso.Usuario;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,18 +37,30 @@ public class Filtros implements Serializable {
     private FonteDeRecurso fonteDeRecurso;
     
     private NaturezaDeDespesa naturezaDespesa;
+    
+    private Usuario usuario;
 
     private Produto produto;
 
     private Date dataInicial;
 
     private Date dataFinal;
+    
+    private Date dataInicial2;
+
+    private Date dataFinal2;
 
     private String nome;
 
     private String codigo;
     
+    private String numProcesso;
+    
+    private String subElemento;
+    
     private Boolean ativo;
+    
+    private Boolean ativo2;
 
     public List<UnidadeOrcamentaria> getUnidadesOrcamentaria() {
         return unidadesOrcamentaria;
@@ -151,6 +164,54 @@ public class Filtros implements Serializable {
 
     public void setAtivo(Boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public String getNumProcesso() {
+        return numProcesso;
+    }
+
+    public void setNumProcesso(String numProcesso) {
+        this.numProcesso = numProcesso;
+    }
+
+    public Date getDataInicial2() {
+        return dataInicial2;
+    }
+
+    public void setDataInicial2(Date dataInicial2) {
+        this.dataInicial2 = dataInicial2;
+    }
+
+    public Date getDataFinal2() {
+        return dataFinal2;
+    }
+
+    public void setDataFinal2(Date dataFinal2) {
+        this.dataFinal2 = dataFinal2;
+    }
+
+    public String getSubElemento() {
+        return subElemento;
+    }
+
+    public void setSubElemento(String subElemento) {
+        this.subElemento = subElemento;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Boolean getAtivo2() {
+        return ativo2;
+    }
+
+    public void setAtivo2(Boolean ativo2) {
+        this.ativo2 = ativo2;
     }
 
 }

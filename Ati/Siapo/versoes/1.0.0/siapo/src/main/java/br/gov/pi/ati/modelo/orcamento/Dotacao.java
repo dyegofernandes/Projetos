@@ -41,11 +41,11 @@ public class Dotacao implements Serializable {
     @GeneratedValue(generator = "Dotacao")
     private Long id;
     
-    @ManyToOne
-    @JoinTable(name="depesapublica_dotacao",
-    joinColumns={@JoinColumn(name="dotacao_id")},
-    inverseJoinColumns={@JoinColumn(name="despesapublica_id")})
-    private DespesaPublica despesaPublica;
+//    @ManyToOne
+//    @JoinTable(name="depesapublica_dotacao",
+//    joinColumns={@JoinColumn(name="dotacao_id")},
+//    inverseJoinColumns={@JoinColumn(name="despesapublica_id")})
+//    private DespesaPublica despesaPublica;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private ExecucaoOrcamentaria execucaoOrcamentaria;
@@ -186,13 +186,13 @@ public class Dotacao implements Serializable {
         this.metaAcumulada = metaAcumulada;
     }
 
-    public DespesaPublica getDespesaPublica() {
-        return despesaPublica;
-    }
-
-    public void setDespesaPublica(DespesaPublica despesaPublica) {
-        this.despesaPublica = despesaPublica;
-    }
+//    public DespesaPublica getDespesaPublica() {
+//        return despesaPublica;
+//    }
+//
+//    public void setDespesaPublica(DespesaPublica despesaPublica) {
+//        this.despesaPublica = despesaPublica;
+//    }
 
     @Override
     public int hashCode() {

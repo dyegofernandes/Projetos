@@ -1,6 +1,7 @@
 package br.gov.pi.ati.modelo.controleacesso;
 
 import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
+import br.gov.pi.ati.modelo.orcamento.DespesaPublica;
 import br.gov.pi.ati.modelo.orcamento.Dotacao;
 import com.xpert.audit.NotAudited;
 import com.xpert.security.model.User;
@@ -74,7 +75,7 @@ public class Usuario implements Serializable, User {
     private Boolean senhaCadastrada;
 
     private Boolean autenticacaoLdap;
-    
+
     private Boolean homologar = Boolean.FALSE;
 
     @ManyToMany(targetEntity = UnidadeOrcamentaria.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
@@ -83,6 +84,10 @@ public class Usuario implements Serializable, User {
     @NotAudited
     @OneToMany(mappedBy = "responsavel")
     private List<Dotacao> dotacoes;
+
+    @NotAudited
+    @OneToMany(mappedBy = "responsavel")
+    private List<DespesaPublica> despesas;
 
     public Boolean getAutenticacaoLdap() {
         if (autenticacaoLdap == null) {
@@ -250,6 +255,14 @@ public class Usuario implements Serializable, User {
 
     public void setHomologar(Boolean homologar) {
         this.homologar = homologar;
+    }
+
+    public List<DespesaPublica> getDespesas() {
+        return despesas;
+    }
+
+    public void setDespesas(List<DespesaPublica> despesas) {
+        this.despesas = despesas;
     }
 
     @Override

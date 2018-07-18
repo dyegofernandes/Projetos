@@ -42,7 +42,6 @@ public class PedidoResource {
         Pedido pedidoTemp = pedidoBO.pedidoPeloCNPJouCpfEPedido(filtros.getPedidoID(), filtros.getCnpjCpf());
 
         try {
-
             if (pedidoTemp != null) {
                 if (pedidoTemp.getInicioAtendimento() == null) {
                     pedidoTemp.setInicioAtendimento(new Date());

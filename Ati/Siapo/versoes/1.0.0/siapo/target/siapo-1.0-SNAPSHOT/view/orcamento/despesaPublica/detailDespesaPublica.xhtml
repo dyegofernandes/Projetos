@@ -28,71 +28,7 @@
                 </div>
             </div>
         </p:fieldset>
-        <p:fieldset legend="Dotações">
-            <div class="container-fluid">
-                <div class="row">
-                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
-                                 var="dotacao" rowIndexVar="index" id="dataTableDotacao" widgetVar="dataTableDotacaoWidget" styleClass="table-responsive"
-                                 value="#{despesaPublicaMB.entity.dotacao}" >
-                        <x:initializer/>
-                        <p:column styleClass="uix-datatable-index">
-                            <h:outputText value="#{index+1}"/>
-                        </p:column>
-                        <p:column headerText="#{msg['dotacao.acaoOrcamentaria']}" sortBy="#{dotacao.acaoOrcamentaria.nome}"
-                                  >
-                            <f:facet name="header">
-                                <h:outputText value="#{msg['dotacao.acaoOrcamentaria']}" />
-                            </f:facet>
-                            <h:outputText value="#{dotacao.acaoOrcamentaria}">
-                                <x:initializer/>
-                            </h:outputText>
-                        </p:column>
-                        <p:column headerText="#{msg['dotacao.fonteDeRecurso']}" sortBy="#{dotacao.fonteDeRecurso.nome}"
-                                  >
-                            <f:facet name="header">
-                                <h:outputText value="#{msg['dotacao.fonteDeRecurso']}" />
-                            </f:facet>
-                            <h:outputText value="#{dotacao.fonteDeRecurso}">
-                                <x:initializer/>
-                            </h:outputText>
-                        </p:column>
-                        <p:column headerText="#{msg['dotacao.naturezaDaDespesa']}" sortBy="#{dotacao.naturezaDaDespesa.nome}"
-                                  >
-                            <f:facet name="header">
-                                <h:outputText value="#{msg['dotacao.naturezaDaDespesa']}" />
-                            </f:facet>
-                            <h:outputText value="#{dotacao.naturezaDaDespesa}">
-                                <x:initializer/>
-                            </h:outputText>
-                        </p:column>
-                        <p:column headerText="#{msg['dotacao.produtoLDO']}" sortBy="#{dotacao.produtoLDO.produto.nome}"
-                                  >
-                            <f:facet name="header">
-                                <h:outputText value="#{msg['dotacao.produtoLDO']}" />
-                            </f:facet>
-                            <h:outputText value="#{dotacao.produtoLDO.produto}">
-                                <x:initializer/>
-                            </h:outputText>
-                        </p:column>
-                        <p:column headerText="#{msg['dotacao.quantidadeRealizada']}" sortBy="#{dotacao.quantidadeRealizada}">
-                            <f:facet name="header">
-                                <h:outputText value="#{msg['dotacao.quantidadeRealizada']}" />
-                            </f:facet>
-                            <h:outputText value="#{dotacao.quantidadeRealizada}">
-                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column headerText="#{msg['dotacao.geraQuantificador']}" sortBy="#{dotacao.geraQuantificador}" style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="#{msg['dotacao.geraQuantificador']}" />
-                            </f:facet>
-                            <h:outputText value="#{dotacao.geraQuantificador}" converter ="yesNoConverter" />
-                        </p:column>
-                        
-                    </p:dataTable>
-                </div>
-            </div>
-        </p:fieldset>
+        
 
         <p:separator/>
         <div class="uix-center">

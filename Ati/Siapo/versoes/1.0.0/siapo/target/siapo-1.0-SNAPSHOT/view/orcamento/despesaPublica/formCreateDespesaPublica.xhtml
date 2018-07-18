@@ -19,6 +19,7 @@
                             <f:selectItems value="#{despesaPublicaMB.unidades}" 
                                            var="unidadeOrcamentaria"
                                            itemLabel="#{unidadeOrcamentaria}"/>
+                            <p:ajax process="@this" update="@form" listener="#{despesaPublicaMB.mu}"/>
                         </h:selectOneMenu>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
@@ -27,100 +28,304 @@
                             <p:ajax process="@this" update="descricaoDespesa" event="blur" listener="#{despesaPublicaMB.pegarDescricao()}"/>
                         </p:inputMask>
                     </div>
-                </div>
-                <div class="row">
+
                     <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="descricaoDespesa" value="* #{msg['despesaPublica.descricaoDespesa']} no Process:" />
                         <p:inputText id="descricaoDespesa" value="#{despesaPublicaMB.entity.descricaoDespesa}"  styleClass="form-control" readonly="true" 
                                      />
                     </div>
-                </div>
-                <div class="row">
                     <div class="form-group col-lg-8 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="resumoDespesa" value="* Resumo da Despesa:" />
                         <p:inputText id="resumoDespesa" value="#{despesaPublicaMB.entity.resumoDaDespesa}"  styleClass="form-control"
                                      required="true" requiredMessage="Resumo da Despesa é obrigatório!" maxlength="100"/>
                     </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataCadastro" value="* Data Cadastro:" />
+                        <p:inputText id="dataCadastro" value="#{despesaPublicaMB.entity.dataCadastro}"  styleClass="form-control"
+                                     readonly="true">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+                        </p:inputText>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Dados Dotação">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="acaoOrcamentaria" value="* #{msg['dotacao.acaoOrcamentaria']}:" />
+                        <p:autoComplete id="acaoOrcamentaria" value="#{despesaPublicaMB.acaoOrcamentaria}" 
+                                        completeMethod="#{despesaPublicaMB.autocompleteAcao}" styleClass="uix-autocomplete" 
+                                        minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
+                                        var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" 
+                                        placeholder="Filtrado por Unidade Orçamentária"> 
+                            <p:ajax event="itemSelect" process="@this" update="@form" listener="#{despesaPublicaMB.mudarAcaoOrcamentaria()}" />
+                            <p:column> 
+                                <h:outputText value="#{p}"/>
+                            </p:column> 
+                        </p:autoComplete>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="fonteDeRecurso" value="* #{msg['dotacao.fonteDeRecurso']}:" />
+                        <p:autoComplete id="fonteDeRecurso" value="#{despesaPublicaMB.fonte}" 
+                                        completeMethod="#{despesaPublicaMB.autocompleteFonte}" styleClass="uix-autocomplete" 
+                                        minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
+                                        var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" 
+                                        placeholder="Filtrado por Ação Orçamentária"> 
+                            <x:initializer/>
+                            <p:ajax event="itemSelect" process="@this" update="naturezaDaDespesa" listener="#{despesaPublicaMB.mudarFonteDeRecurso()}"/>
+                            <p:column> 
+                                <h:outputText value="#{p}"/>
+                            </p:column> 
+                        </p:autoComplete>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="naturezaDaDespesa" value="* #{msg['dotacao.naturezaDaDespesa']}:" />
+                        <p:autoComplete id="naturezaDaDespesa" value="#{despesaPublicaMB.entity.execucaoOrcamentaria}" 
+                                        completeMethod="#{despesaPublicaMB.autocompleteExecucaoNatureza}" styleClass="uix-autocomplete" 
+                                        minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
+                                        var="p" itemLabel="#{p.naturezaDaDespesa}" itemValue="#{p}" converter="entityConverter"  
+                                        placeholder="Filtrado por Fonte de Recurso"> 
+                            <p:ajax event="itemSelect" process="acaoOrcamentaria fonteDeRecurso @this" update="@form" />
+                            <x:initializer/>
+                            <p:column> 
+                                <h:outputText value="#{p.naturezaDaDespesa}"/>
+                            </p:column> 
+                        </p:autoComplete>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="subelemento" value="* SubElemento:" />
+                        <p:inputMask id="subelemento" value="#{despesaPublicaMB.entity.subelemento}"  styleClass="form-control"
+                                     mask="99"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dotacaoInicial" value="#{msg['naturezaDeDespesa.dotacaoInicial']}:" />
+                        <p:inputText id="dotacaoInicial" value="#{despesaPublicaMB.entity.execucaoOrcamentaria.dotacaoInicial}" styleClass="form-control" readonly="true">
+                            <x:initializer/>
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dotacaoAtualizada" value="#{msg['naturezaDeDespesa.dotacaoAtualizada']}:" />
+                        <p:inputText id="dotacaoAtualizada" value="#{despesaPublicaMB.entity.execucaoOrcamentaria.dotacaoAtualizada}" styleClass="form-control" readonly="true">
+                            <x:initializer/>
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="despesasEmpenhadas" value="#{msg['naturezaDeDespesa.despesasEmpenhadas']}:" />
+                        <p:inputText id="despesasEmpenhadas" value="#{despesaPublicaMB.entity.execucaoOrcamentaria.despesasEmpenhadas}" styleClass="form-control" readonly="true">
+                            <x:initializer/>
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="despesasLiquidadas" value="#{msg['naturezaDeDespesa.despesasLiquidadas']}:" />
+                        <p:inputText id="despesasLiquidadas" value="#{despesaPublicaMB.entity.execucaoOrcamentaria.despesasLiquidadas}" styleClass="form-control" readonly="true">
+                            <x:initializer/>
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="despesasPagas" value="#{msg['naturezaDeDespesa.despesasPagas']}:" />
+                        <p:inputText id="despesasPagas" value="#{despesaPublicaMB.entity.execucaoOrcamentaria.despesasPagas}" styleClass="form-control" readonly="true">
+                            <x:initializer/>
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="saldoDisponivel" value="#{msg['naturezaDeDespesa.saldoDisponivel']}:" />
+                        <p:inputText id="saldoDisponivel" value="#{despesaPublicaMB.entity.execucaoOrcamentaria.saldoDisponivel}" styleClass="form-control" readonly="true">
+                            <x:initializer/>
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </p:inputText>
+                    </div>
                 </div>
 
             </div>
         </p:fieldset>
-        <div class="uix-center">
-            <p:commandButton process="@form" update="formCreateDotacao" action="#{despesaPublicaMB.novoDotacao()}" value="Incluir Dotação" />
-        </div>
-        <p:fieldset legend="Dotações">
+        <p:fieldset legend="Programação Financeira" id="fieldProgramacao">
             <div class="container-fluid">
                 <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="mes" value="* #{msg['programacaoFinanceira.mes']}:" />
+                        <h:selectOneMenu id="mes" value="#{despesaPublicaMB.programacaoAdd.mes}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.meses)}" 
+                                           var="meses"
+                                           itemLabel="#{meses.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="ano" value="* #{msg['programacaoFinanceira.ano']}:" />
+                        <h:selectOneMenu id="ano" value="#{despesaPublicaMB.programacaoAdd.ano}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{despesaPublicaMB.anos}" 
+                                           var="anos"
+                                           itemLabel="#{anos}"/>
+                        </h:selectOneMenu>
+
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="valor" value="* #{msg['programacaoFinanceira.valor']}:" />
+                        <x:inputNumber id="valor" value="#{despesaPublicaMB.programacaoAdd.valor}" styleClass="form-control"/>
+                    </div>
+
+                </div>
+
+                <div class="uix-center">
+                    <p:commandButton process="fieldProgramacao @this" update="dataTableProgramacaoFinanceira fieldProgramacao" action="#{despesaPublicaMB.adicionarProgramacao()}" value="Incluir Programação Financeira" />
+                </div>
+                <div class="row">
                     <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
-                                 var="dotacao" rowIndexVar="index" id="dataTableDotacao" widgetVar="dataTableDotacaoWidget" styleClass="table-responsive"
-                                 value="#{despesaPublicaMB.dotacoes}" >
+                                 var="programacaoFinanceira" rowIndexVar="index" id="dataTableProgramacaoFinanceira" widgetVar="dataTableProgramacaoFinanceiraWidget" styleClass="table-responsive"
+                                 value="#{despesaPublicaMB.programacaoFinanceira}" >
                         <p:column styleClass="uix-datatable-index">
                             <h:outputText value="#{index+1}"/>
                         </p:column>
-                        <p:column headerText="#{msg['dotacao.acaoOrcamentaria']}" sortBy="#{dotacao.execucaoOrcamentaria.acaoOrcamentaria.nome}">
+                        <p:column headerText="#{msg['programacaoFinanceira.mes']}" sortBy="#{programacaoFinanceira.mes}">
                             <f:facet name="header">
-                                <h:outputText value="#{msg['dotacao.acaoOrcamentaria']}" />
+                                <h:outputText value="#{msg['programacaoFinanceira.mes']}" />
                             </f:facet>
-                            <h:outputText value="#{dotacao.execucaoOrcamentaria.acaoOrcamentaria}">
-                                <x:initializer/>
-                            </h:outputText>
+                            <h:outputText value="#{programacaoFinanceira.mes.descricao}"/>
+                            <f:facet name="footer">
+                                <h:outputText value="TOTAL EXERCÍCIO VINGENTE: " style="font-weight:bold"/>
+
+                                <h:outputText value="#{despesaPublicaMB.totalExercicioVingente}" style="font-weight:bold">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                            </f:facet>
                         </p:column>
-                        <p:column headerText="#{msg['dotacao.fonteDeRecurso']}" sortBy="#{dotacao.execucaoOrcamentaria.fonteDeRecurso.nome}">
+                        <p:column headerText="#{msg['programacaoFinanceira.ano']}" sortBy="#{programacaoFinanceira.ano}">
                             <f:facet name="header">
-                                <h:outputText value="#{msg['dotacao.fonteDeRecurso']}" />
+                                <h:outputText value="#{msg['programacaoFinanceira.ano']}" />
                             </f:facet>
-                            <h:outputText value="#{dotacao.execucaoOrcamentaria.fonteDeRecurso}">
-                                <x:initializer/>
-                            </h:outputText>
+                            <h:outputText value="#{programacaoFinanceira.ano}"/>
+                            <f:facet name="footer">
+                                <h:outputText value="TOTAL PRÓXIMO EXERCÍCIO: " style="font-weight:bold"/>
+
+                                <h:outputText value="#{despesaPublicaMB.totalProximoExercicio}" style="font-weight:bold">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                            </f:facet>
                         </p:column>
-                        <p:column headerText="#{msg['dotacao.naturezaDaDespesa']}" sortBy="#{dotacao.execucaoOrcamentaria.naturezaDaDespesa.nome}">
+                        <p:column headerText="#{msg['programacaoFinanceira.valor']}" sortBy="#{programacaoFinanceira.valor}"
+                                  style="text-align: right;">
                             <f:facet name="header">
-                                <h:outputText value="#{msg['dotacao.naturezaDaDespesa']}" />
+                                <h:outputText value="#{msg['programacaoFinanceira.valor']}" />
                             </f:facet>
-                            <h:outputText value="#{dotacao.execucaoOrcamentaria.naturezaDaDespesa}">
-                                <x:initializer/>
-                            </h:outputText>
-                        </p:column>
-                        <p:column headerText="#{msg['dotacao.produtoLDO']}" sortBy="#{dotacao.produtoLDO.produto.nome}">
-                            <f:facet name="header">
-                                <h:outputText value="#{msg['dotacao.produtoLDO']}" />
-                            </f:facet>
-                            <h:outputText value="#{dotacao.produtoLDO.produto}">
-                                <x:initializer/>
-                            </h:outputText>
-                        </p:column>
-                        <p:column headerText="#{msg['dotacao.quantidadeRealizada']}" sortBy="#{dotacao.quantidadeRealizada}">
-                            <f:facet name="header">
-                                <h:outputText value="#{msg['dotacao.quantidadeRealizada']}" />
-                            </f:facet>
-                            <h:outputText value="#{dotacao.quantidadeRealizada}">
+                            <h:outputText value="#{programacaoFinanceira.valor}">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                             </h:outputText>
-                        </p:column>
-                        <p:column headerText="#{msg['dotacao.geraQuantificador']}" sortBy="#{dotacao.geraQuantificador}" style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="#{msg['dotacao.geraQuantificador']}" />
+                            <f:facet name="footer">
+                                <h:outputText value="TOTAL ACUMULADO: " style="font-weight:bold"/>
+
+                                <h:outputText value="#{despesaPublicaMB.totalAcumulado}" style="font-weight:bold">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
                             </f:facet>
-                            <h:outputText value="#{dotacao.geraQuantificador}" converter ="yesNoConverter" />
                         </p:column>
                         <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
                             <f:facet name="header">
                                 <h:outputText value="#{xmsg['actions']}"/>
                             </f:facet>
-                            <p:commandButton process="@this" update="formDetailDotacao" action="#{despesaPublicaMB.detalharDotacao(dotacao)}" 
-                                             icon="ui-icon-zoomin" title="#{xmsg['detail']}" />
-                            <p:commandButton process="@this" update="formUpdateDotacao" action="#{despesaPublicaMB.editarDotacao(dotacao)}" 
-                                             icon="ui-icon-pencil" title="#{xmsg['edit']}" />
 
-                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="@form" 
-                                             action="#{despesaPublicaMB.removerDotacao(dotacao)}" >
-                                <x:confirmation message="#{xmsg['confirmDelete']} - #{dotacao}" />
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="dataTableProgramacaoFinanceira" 
+                                             action="#{despesaPublicaMB.removerProgramacao(programacaoFinanceira)}" >
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{programacaoFinanceira}" />
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>
                 </div>
             </div>
         </p:fieldset>
+        <p:fieldset legend="Produto LDO">
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="programa" value="Programa:" />
+                <p:inputText id="programa" value="#{despesaPublicaMB.entity.execucaoOrcamentaria.acaoOrcamentaria.programa.programaGov}" styleClass="form-control" readonly="true">
+                    <x:initializer/>
+                </p:inputText>
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="acaoEstrategica" value="Ação Estratégica:" />
+                <p:inputText id="acaoEstrategica" value="#{despesaPublicaMB.entity.execucaoOrcamentaria.acaoOrcamentaria.acaoEstrategica}" styleClass="form-control" readonly="true">
+                    <x:initializer/>
+                </p:inputText>
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="produtoLDO" value="* Produto:" />
+                <x:initializer value="#{despesaPublicaMB.entity.produtoLDO}"/>
+                <p:autoComplete id="produtoLDO" value="#{despesaPublicaMB.entity.produtoLDO}" 
+                                completeMethod="#{despesaPublicaMB.autocompleteProduto}" styleClass="uix-autocomplete" 
+                                minQueryLength="3" forceSelection="true" dropdown="true"
+                                var="p" itemLabel="#{p.produto}" itemValue="#{p}" converter="entityConverter"  > 
+                    <x:initializer/>
+
+                    <p:column> 
+                        <h:outputText value="#{p.produto}"/>
+                    </p:column> 
+
+                    <p:ajax event="itemSelect" process="@this acaoOrcamentaria" update="quantidadeMeta unidadeMedida" />
+                </p:autoComplete>
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="quantidadeMeta" value="Quantidade Meta:" />
+                <p:inputText id="quantidadeMeta" value="#{despesaPublicaMB.entity.produtoLDO.valorMeta}" styleClass="form-control" readonly="true">
+                    <x:initializer/>
+                </p:inputText>
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="unidadeMedida" value="Unidade de Medida:" />
+                <p:inputText id="unidadeMedida" value="#{despesaPublicaMB.entity.produtoLDO.unidadeMedida}" styleClass="form-control" readonly="true">
+                    <x:initializer/>
+                </p:inputText>
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="checkbox">
+                    <label>
+                        <h:selectBooleanCheckbox id="geraQuantificador" value="#{despesaPublicaMB.entity.geraQuantificador}" >
+                            <p:ajax process="@this" update="panelQuantidade" listener="#{despesaPublicaMB.desmarcaQuantificador()}"/>
+                        </h:selectBooleanCheckbox>
+                        #{msg['dotacao.geraQuantificador']}
+                    </label>
+                </div>
+                <h:outputText value="Esse processo de despesa é responsável por realizar meta física de produtos constantes no anexo de metas e prioridades da Lei de Diretrizes orçamentárias" styleClass="help-block"/>
+            </div>
+            <h:panelGroup id="panelQuantidade">
+                <h:panelGroup rendered="#{despesaPublicaMB.entity.geraQuantificador}">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="quantidadeRealizada" value="* #{msg['dotacao.quantidadeRealizada']}:" />
+                        <x:inputNumber id="quantidadeRealizada" value="#{despesaPublicaMB.entity.quantidadeRealizada}" styleClass="form-control"/>
+                    </div>
+                </h:panelGroup>
+            </h:panelGroup>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="cidades" value="* Municípios:" />
+                <p:selectCheckboxMenu id="cidades" value="#{despesaPublicaMB.cidades}" converter="entityConverter" styleClass="form-control"
+                                      filter="true" filterMatchMode="startsWith" label="Selecione o (s)  município (s)" >
+                    <f:selectItems value="#{municipioMB.autocomplete(null)}"
+                                   var="municipio"
+                                   itemLabel="#{municipio} - #{municipio.territorio.nome}">
+                    </f:selectItems>
+                </p:selectCheckboxMenu>
+            </div>
+            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <h:outputLabel for="responsavel" value="* Responsável pela Homologação:" />
+                <p:autoComplete id="responsavel" value="#{despesaPublicaMB.entity.responsavel}" 
+                                completeMethod="#{despesaPublicaMB.autocompleteUsuario}" styleClass="uix-autocomplete" 
+                                minQueryLength="3" forceSelection="true" dropdown="true"
+                                var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" 
+                                placeholder="Filtrado por Unidade Orçamentária"> 
+                    <p:column> 
+                        <h:outputText value="#{p}"/>
+                    </p:column> 
+                </p:autoComplete>
+            </div>
+
+        </p:fieldset>
+
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">
             <x:securityArea rolesAllowed="despesaPublica.create">
@@ -131,20 +336,6 @@
             </x:securityArea>
         </div>
     </h:form>
-    <p:dialog widgetVar="widgetNovo"  header="Incluir Dotação" appendTo="@(body)" 
-              modal="true" styleClass="uix-dialog-fluid" >
-        <ui:include src="formCreateDotacao.xhtml" />
-        <p:ajax event="close" update="formCreateDespesaPublica"  />
-    </p:dialog>
-    <p:dialog widgetVar="widgetEditar"  header="Editar Dotação" appendTo="@(body)" 
-              modal="true" styleClass="uix-dialog-fluid" >
-        <ui:include src="formUpdateDotacao.xhtml" />
-        <p:ajax event="close" update="formCreateDespesaPublica"  />
-    </p:dialog>
-    <p:dialog widgetVar="widgetDetail"  header="Visualizar Dotação" appendTo="@(body)" 
-              modal="true" styleClass="uix-dialog-fluid" >
-        <ui:include src="detailDotacao.xhtml" />
-        <p:ajax event="close" update="formCreateDespesaPublica"  />
-    </p:dialog>
+
 
 </ui:composition>

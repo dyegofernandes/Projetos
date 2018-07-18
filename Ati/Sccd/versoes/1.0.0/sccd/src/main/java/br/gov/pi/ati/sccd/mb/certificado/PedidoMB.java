@@ -99,7 +99,7 @@ public class PedidoMB extends AbstractBaseBean<Pedido> implements Serializable {
     }
 
     public void adicionar() {
-        if (itemAdd != null) {
+        if (itemAdd.getTipoCertificado() != null) {
             TipoCertificado tipoCertificaco = getDAO().getInitialized(itemAdd.getTipoCertificado());
             if (tipoCertificaco.getTipoPessoa() != null) {
                 if (!Utils.isNullOrEmpty(itemAdd.getCpfCnpjTitular())) {
@@ -131,7 +131,7 @@ public class PedidoMB extends AbstractBaseBean<Pedido> implements Serializable {
             } else {
                 FacesMessageUtils.error("Tipo de Pessoa é Obrigatório!");
             }
-        }else{
+        } else {
             FacesMessageUtils.error("Tipo de Certificado é Obrigatório!");
         }
     }

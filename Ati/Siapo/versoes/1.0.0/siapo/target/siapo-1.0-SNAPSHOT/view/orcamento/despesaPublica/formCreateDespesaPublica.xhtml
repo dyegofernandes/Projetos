@@ -19,7 +19,7 @@
                             <f:selectItems value="#{despesaPublicaMB.unidades}" 
                                            var="unidadeOrcamentaria"
                                            itemLabel="#{unidadeOrcamentaria}"/>
-                            <p:ajax process="@this" update="@form" listener="#{despesaPublicaMB.mu}"/>
+                            <p:ajax process="@this" update="@form" />
                         </h:selectOneMenu>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
@@ -59,7 +59,7 @@
                                         minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
                                         var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" 
                                         placeholder="Filtrado por Unidade Orçamentária"> 
-                            <p:ajax event="itemSelect" process="@this" update="@form" listener="#{despesaPublicaMB.mudarAcaoOrcamentaria()}" />
+                            <p:ajax event="itemSelect" process="@this unidadeOrcamentaria" update="@form" listener="#{despesaPublicaMB.mudarAcaoOrcamentaria()}" />
                             <p:column> 
                                 <h:outputText value="#{p}"/>
                             </p:column> 
@@ -73,7 +73,7 @@
                                         var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" 
                                         placeholder="Filtrado por Ação Orçamentária"> 
                             <x:initializer/>
-                            <p:ajax event="itemSelect" process="@this" update="naturezaDaDespesa" listener="#{despesaPublicaMB.mudarFonteDeRecurso()}"/>
+                            <p:ajax event="itemSelect" process="@this acaoOrcamentaria" update="naturezaDaDespesa" listener="#{despesaPublicaMB.mudarFonteDeRecurso()}"/>
                             <p:column> 
                                 <h:outputText value="#{p}"/>
                             </p:column> 
@@ -85,7 +85,7 @@
                                         completeMethod="#{despesaPublicaMB.autocompleteExecucaoNatureza}" styleClass="uix-autocomplete" 
                                         minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
                                         var="p" itemLabel="#{p.naturezaDaDespesa}" itemValue="#{p}" converter="entityConverter"  
-                                        placeholder="Filtrado por Fonte de Recurso"> 
+                                        placeholder="Filtrado por Ação Orçamentária e Fonte de Recurso"> 
                             <p:ajax event="itemSelect" process="acaoOrcamentaria fonteDeRecurso @this" update="@form" />
                             <x:initializer/>
                             <p:column> 
@@ -98,8 +98,7 @@
                         <p:inputMask id="subelemento" value="#{despesaPublicaMB.entity.subelemento}"  styleClass="form-control"
                                      mask="99"/>
                     </div>
-                </div>
-                <div class="row">
+
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="dotacaoInicial" value="#{msg['naturezaDeDespesa.dotacaoInicial']}:" />
                         <p:inputText id="dotacaoInicial" value="#{despesaPublicaMB.entity.execucaoOrcamentaria.dotacaoInicial}" styleClass="form-control" readonly="true">
@@ -142,8 +141,14 @@
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                         </p:inputText>
                     </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="comprometidoSiapo" value="Valor Comprometido SIAPO:" />
+                        <p:inputText id="comprometidoSiapo" value="#{despesaPublicaMB.entity.execucaoOrcamentaria.totalComprometidoSiapo}" styleClass="form-control" readonly="true">
+                            <x:initializer/>
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </p:inputText>
+                    </div>
                 </div>
-
             </div>
         </p:fieldset>
         <p:fieldset legend="Programação Financeira" id="fieldProgramacao">

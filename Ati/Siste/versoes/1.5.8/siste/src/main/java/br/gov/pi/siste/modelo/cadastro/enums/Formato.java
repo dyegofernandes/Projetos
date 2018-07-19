@@ -7,7 +7,7 @@ package br.gov.pi.siste.modelo.cadastro.enums;
 
 /**
  *
- * @author KillerBeeTwo
+ * @author Juniel
  */
 public enum Formato {
 

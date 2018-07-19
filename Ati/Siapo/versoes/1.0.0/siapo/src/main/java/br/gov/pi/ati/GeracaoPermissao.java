@@ -329,6 +329,7 @@ public class GeracaoPermissao {
         create(new Permissao("despesaPublica.list", "Despesas", "/view/orcamento/despesaPublica/listDespesaPublica.jsf", true), "loa");
         create(new Permissao("despesaPublica.audit", "Auditoria de Despesa Publica"), "despesaPublica");
         create(new Permissao("despesaPublica.delete", "Exclusão de Despesa Publica"), "despesaPublica");
+        create(new Permissao("despesaPublica.declaracao", "Gerar Declaração"), "despesaPublica");
 
         //Execucao Orcamentaria
         create(new Permissao("execucaoOrcamentaria", "Execução Orçamentária", false), "loa");

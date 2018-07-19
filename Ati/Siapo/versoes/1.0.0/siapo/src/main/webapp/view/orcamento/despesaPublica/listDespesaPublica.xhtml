@@ -63,12 +63,12 @@
                         </f:facet>
                         <h:outputText value="#{despesaPublica.numeroProcesso}"/>
                     </p:column>
-                    <p:column headerText="#{msg['despesaPublica.descricaoDespesa']}" sortBy="#{despesaPublica.descricaoDespesa}"
-                              filterBy="#{despesaPublica.descricaoDespesa}"   >
+                    <p:column headerText="#{msg['despesaPublica.descricaoDespesa']}" sortBy="#{despesaPublica.resumoDaDespesa}"
+                              filterBy="#{despesaPublica.resumoDaDespesa}"   >
                         <f:facet name="header">
                             <h:outputText value="#{msg['despesaPublica.descricaoDespesa']}" />
                         </f:facet>
-                        <h:outputText value="#{despesaPublica.descricaoDespesa}"/>
+                        <h:outputText value="#{despesaPublica.resumoDaDespesa}"/>
                     </p:column>
                     <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
                         <f:facet name="header">
@@ -88,6 +88,11 @@
                                              action="#{despesaPublicaMB.delete}" >
                                 <f:setPropertyActionListener value="#{despesaPublica.id}" target="#{despesaPublicaMB.id}" />
                                 <x:confirmation message="#{xmsg['confirmDelete']} - #{despesaPublica}" />
+                            </p:commandButton>
+                        </x:securityArea>
+                        <x:securityArea rolesAllowed="despesaPublica.declaracao">
+                            <p:commandButton icon="ui-icon-document" title="Gerar Gerar Declaração" ajax="false" action="#{despesaPublicaMB.gerarDeclaracao(despesaPublica)}" 
+                                             process="@form" update="@form" >                         
                             </p:commandButton>
                         </x:securityArea>
                     </p:column>

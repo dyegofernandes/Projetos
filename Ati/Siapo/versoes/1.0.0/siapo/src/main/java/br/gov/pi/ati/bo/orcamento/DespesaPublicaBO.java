@@ -2,12 +2,6 @@ package br.gov.pi.ati.bo.orcamento;
 
 import com.xpert.core.crud.AbstractBusinessObject;
 import br.gov.pi.ati.dao.orcamento.DespesaPublicaDAO;
-import br.gov.pi.ati.modelo.cadastro.AcaoEstrategica;
-import br.gov.pi.ati.modelo.cadastro.AcaoOrcamentaria;
-import br.gov.pi.ati.modelo.cadastro.FonteDeRecurso;
-import br.gov.pi.ati.modelo.cadastro.NaturezaDeDespesa;
-import br.gov.pi.ati.modelo.cadastro.Produto;
-import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
 import br.gov.pi.ati.modelo.cadastro.vos.Filtros;
 import com.xpert.core.validation.UniqueField;
 import com.xpert.core.exception.BusinessException;
@@ -15,6 +9,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.modelo.orcamento.DespesaPublica;
+import br.gov.pi.ati.modelo.orcamento.ProgramacaoFinanceira;
 import br.gov.pi.ati.util.Utils;
 import com.xpert.persistence.query.Restrictions;
 import javax.persistence.TemporalType;
@@ -41,6 +36,11 @@ public class DespesaPublicaBO extends AbstractBusinessObject<DespesaPublica> {
 
     @Override
     public void validate(DespesaPublica despesaPublica) throws BusinessException {
+        List<ProgramacaoFinanceira> programacoes = getDAO().getInitialized(despesaPublica.getProgramacaoFinanceira());
+
+        if (programacoes.size() < 1) {
+            throw new BusinessException("Programação financeira é obrigatória!");
+        }
     }
 
     @Override
@@ -72,7 +72,7 @@ public class DespesaPublicaBO extends AbstractBusinessObject<DespesaPublica> {
         if (filtros.getAtivo() != null) {
             restrictions.add("despesa.homologado", filtros.getAtivo());
         }
-        
+
         if (filtros.getAtivo2() != null) {
             restrictions.add("despesa.geraQuantificador", filtros.getAtivo2());
         }
@@ -88,7 +88,7 @@ public class DespesaPublicaBO extends AbstractBusinessObject<DespesaPublica> {
         if (filtros.getDataFinal() != null) {
             restrictions.lessEqualsThan("despesa.dataCadastro", filtros.getDataFinal(), TemporalType.DATE);
         }
-        
+
         if (filtros.getDataInicial2() != null) {
             restrictions.greaterEqualsThan("despesa.dataHomologacao", filtros.getDataInicial2(), TemporalType.DATE);
         }

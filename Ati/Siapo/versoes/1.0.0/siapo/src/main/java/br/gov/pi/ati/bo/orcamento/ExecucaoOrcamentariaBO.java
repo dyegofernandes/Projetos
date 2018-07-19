@@ -12,7 +12,6 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.modelo.orcamento.ExecucaoOrcamentaria;
 import br.gov.pi.ati.util.Utils;
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import com.xpert.persistence.query.Restrictions;
 import java.util.ArrayList;
 
@@ -38,6 +37,7 @@ public class ExecucaoOrcamentariaBO extends AbstractBusinessObject<ExecucaoOrcam
 
     @Override
     public void validate(ExecucaoOrcamentaria execucaoOrcamentaria) throws BusinessException {
+        
     }
 
     @Override

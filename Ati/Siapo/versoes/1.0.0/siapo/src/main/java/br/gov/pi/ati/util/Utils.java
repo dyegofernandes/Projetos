@@ -1,5 +1,9 @@
 package br.gov.pi.ati.util;
 
+import br.gov.pi.ati.modelo.cadastro.enums.Formato;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -107,5 +111,58 @@ public class Utils {
             }
         }
         return d;
+    }
+    
+    public String inserirCaractere(String input, int width, Formato formato) {
+
+        char ch = ' ';
+
+        if (formato == Formato.NUM) {
+            ch = '0';
+        }
+
+        String strPad = "";
+
+        if (input == null) {
+            input = "";
+        }
+
+        StringBuilder sb = new StringBuilder(input.trim());
+
+        if (formato == Formato.NUM) {
+            while (sb.length() < width) {
+                sb.insert(0, ch);
+            }
+            strPad = sb.toString();
+
+            if (strPad.length() > width) {
+
+                strPad = strPad.substring(0, width);
+            }
+        } else {
+            int total = sb.length() - 1;
+            while (sb.length() < width) {
+                sb.append(ch);
+            }
+            strPad = sb.toString();
+
+            if (strPad.length() > width) {
+
+                strPad = strPad.substring(0, width);
+            }
+        }
+
+        return strPad;
+    }
+    
+    public static String moeda(BigDecimal num) {
+        
+        if(num == null){
+            return null;
+        }
+        
+        NumberFormat formatter = new DecimalFormat("##,###,###,###,###,###,###,##0.00");
+
+        return formatter.format(num.doubleValue());
     }
 }

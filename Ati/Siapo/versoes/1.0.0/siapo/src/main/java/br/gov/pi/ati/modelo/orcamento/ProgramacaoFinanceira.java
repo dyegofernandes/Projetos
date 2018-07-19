@@ -20,7 +20,7 @@ import javax.persistence.SequenceGenerator;
  * @author Juniel
  */
 @Entity
-public class ProgramacaoFinanceira implements Serializable {
+public class ProgramacaoFinanceira implements Serializable, Comparable<ProgramacaoFinanceira> {
 
     @Id
     @SequenceGenerator(name = "ProgramacaoFinanceira", sequenceName = "programacaoFinanceira_id_seq")
@@ -91,6 +91,18 @@ public class ProgramacaoFinanceira implements Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int compareTo(ProgramacaoFinanceira o) {
+
+        int retorno = this.ano.compareTo(o.ano) ;//Se for descrescente multiplicar por * -1
+
+        if (retorno == 0) {
+            retorno = new Integer(this.mes.getNum()).compareTo(o.getMes().getNum());
+        }
+
+        return retorno;
     }
 
 }

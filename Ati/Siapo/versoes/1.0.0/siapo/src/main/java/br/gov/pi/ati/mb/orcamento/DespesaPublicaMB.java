@@ -12,7 +12,13 @@ import br.gov.pi.ati.bo.orcamento.MetaProdutoBO;
 import br.gov.pi.ati.modelo.cadastro.AcaoEstrategica;
 import br.gov.pi.ati.modelo.cadastro.AcaoOrcamentaria;
 import br.gov.pi.ati.modelo.cadastro.FonteDeRecurso;
+import br.gov.pi.ati.modelo.cadastro.Funcao;
 import br.gov.pi.ati.modelo.cadastro.Municipio;
+import br.gov.pi.ati.modelo.cadastro.NaturezaDeDespesa;
+import br.gov.pi.ati.modelo.cadastro.Orgao;
+import br.gov.pi.ati.modelo.cadastro.ProgramaDeGoverno;
+import br.gov.pi.ati.modelo.cadastro.ProgramaPPA;
+import br.gov.pi.ati.modelo.cadastro.SubFuncao;
 import br.gov.pi.ati.modelo.cadastro.Territorio;
 import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
 import br.gov.pi.ati.modelo.cadastro.vos.Filtros;
@@ -21,14 +27,28 @@ import br.gov.pi.ati.modelo.orcamento.DespesaPublica;
 import br.gov.pi.ati.modelo.orcamento.ExecucaoOrcamentaria;
 import br.gov.pi.ati.modelo.orcamento.MetaProduto;
 import br.gov.pi.ati.modelo.orcamento.ProgramacaoFinanceira;
+import br.gov.pi.ati.modelo.orcamento.vos.DespesaPublicaVO;
 import br.gov.pi.ati.util.SessaoUtils;
 import br.gov.pi.ati.util.Utils;
 import br.gov.pi.ati.webservice.process.ProcessBO;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.xpert.faces.utils.FacesJasper;
 import com.xpert.faces.utils.FacesMessageUtils;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -71,10 +91,11 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
     private List<Integer> anos;
 
     private FonteDeRecurso fonte;
-    
+
     private Integer anoAtual;
 
     private AcaoOrcamentaria acaoOrcamentaria;
+
     @Override
     public DespesaPublicaBO getBO() {
         return despesaPublicaBO;
@@ -112,18 +133,19 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
 
         if (getEntity().getId() != null) {
 //            dotacoes = getDAO().getInitialized(getEntity().getDotacao());
-            if(getEntity().getExecucaoOrcamentaria()!=null){
+            if (getEntity().getExecucaoOrcamentaria() != null) {
                 fonte = getDAO().getInitialized(getEntity().getExecucaoOrcamentaria().getFonteDeRecurso());
                 acaoOrcamentaria = getDAO().getInitialized(getEntity().getExecucaoOrcamentaria().getAcaoOrcamentaria());
             }
             cidades = getDAO().getInitialized(getEntity().getCidades());
             programacaoFinanceira = getDAO().getInitialized(getEntity().getProgramacaoFinanceira());
+            Collections.sort(programacaoFinanceira);
         }
     }
 
     @Override
     public void save() {
-        
+
         getEntity().setProgramacaoFinanceira(programacaoFinanceira);
         getEntity().setCidades(cidades);
         super.save();
@@ -349,6 +371,7 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
                         FacesMessageUtils.error("Programação com esse Mês e Ano já foram incluidos!");
                     } else {
                         programacaoFinanceira.add(programacaoAdd);
+                        Collections.sort(programacaoFinanceira);
                         programacaoAdd = new ProgramacaoFinanceira();
                     }
 
@@ -392,6 +415,11 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
         }
     }
 
+    public void mudarUnidadeOrcamentaria() {
+        getEntity().setExecucaoOrcamentaria(null);
+        getEntity().setProdutoLDO(null);
+    }
+
     public void mudarAcaoOrcamentaria() {
         getEntity().setExecucaoOrcamentaria(null);
         getEntity().setProdutoLDO(null);
@@ -418,11 +446,7 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
     }
 
     public List<ExecucaoOrcamentaria> autocompleteExecucaoNatureza(String nome) {
-        if (getEntity().getExecucaoOrcamentaria() != null) {
-            return execucaoBO.execucaoOrcamentariaNatureza(acaoOrcamentaria, fonte, nome);
-        }
-        return null;
-
+        return execucaoBO.execucaoOrcamentariaNatureza(acaoOrcamentaria, fonte, nome);
     }
 
     public List<AcaoOrcamentaria> autocompleteAcao(String nome) {
@@ -430,16 +454,11 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
     }
 
     public List<FonteDeRecurso> autocompleteFonte(String nome) {
-        if (getEntity().getExecucaoOrcamentaria() != null) {
-            return execucaoBO.execucaoOrcamentariaFonte(acaoOrcamentaria, nome);
-        }
-
-        return null;
-
+        return execucaoBO.execucaoOrcamentariaFonte(acaoOrcamentaria, nome);
     }
 
     public List<MetaProduto> autocompleteProduto(String nome) {
-        if (getEntity().getExecucaoOrcamentaria() != null) {
+        if (acaoOrcamentaria != null) {
             AcaoOrcamentaria acaoOrcamentariaTemp = getDAO().getInitialized(acaoOrcamentaria);
             AcaoEstrategica acaoTemp = getDAO().getInitialized(acaoOrcamentariaTemp.getAcaoEstrategica());
             return produtoBO.metaPelaAcaoEstrategica(acaoTemp, nome);
@@ -480,5 +499,96 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
         }
 
         return total;
+    }
+
+    public void gerarDeclaracao(DespesaPublica despesa) throws WriterException, IOException {
+        HashMap params = new HashMap();
+        String caminhoImg = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/images");
+
+        params.put("LOGO_ESTADO", caminhoImg.concat("/logGoverno.png"));
+
+        List<DespesaPublicaVO> despesasVO = new ArrayList<DespesaPublicaVO>();
+
+        DespesaPublicaVO despesaVO = new DespesaPublicaVO();
+
+        UnidadeOrcamentaria unidade = getDAO().getInitialized(despesa.getUnidadeOrcamentaria());
+        Orgao orgao = getDAO().getInitialized(unidade.getOrgao());
+        Usuario responsavel = getDAO().getInitialized(despesa.getResponsavel());
+        ExecucaoOrcamentaria execucao = getDAO().getInitialized(despesa.getExecucaoOrcamentaria());
+        FonteDeRecurso fonteTemp = getDAO().getInitialized(execucao.getFonteDeRecurso());
+        NaturezaDeDespesa natureza = getDAO().getInitialized(execucao.getNaturezaDaDespesa());
+        AcaoOrcamentaria acaoOrcamentariaTemp = getDAO().getInitialized(execucao.getAcaoOrcamentaria());
+        Funcao funcao = getDAO().getInitialized(acaoOrcamentariaTemp.getFuncao());
+        SubFuncao subFuncao = getDAO().getInitialized(acaoOrcamentariaTemp.getSubfuncao());
+        ProgramaPPA programaPPA = getDAO().getInitialized(acaoOrcamentariaTemp.getPrograma());
+        ProgramaDeGoverno programa = getDAO().getInitialized(programaPPA.getProgramaGov());
+
+        List<ProgramacaoFinanceira> programacoes = getDAO().getInitialized(despesa.getProgramacaoFinanceira());
+        List<ProgramacaoFinanceira> programacoesVingente = new ArrayList<ProgramacaoFinanceira>();
+        List<ProgramacaoFinanceira> programacoesProxima = new ArrayList<ProgramacaoFinanceira>();
+
+        Collections.sort(programacoes);
+        Integer ano = programacoes.get(0).getAno();
+
+        BigDecimal totalProximoExercicio = BigDecimal.ZERO;
+        BigDecimal totalExercicioVingente = BigDecimal.ZERO;
+
+        for (ProgramacaoFinanceira programacao : programacoes) {
+            if (ano.compareTo(programacao.getAno()) == 0) {
+                programacoesVingente.add(programacao);
+                totalExercicioVingente = totalExercicioVingente.add(programacao.getValor());
+            } else {
+                programacoesProxima.add(programacao);
+                totalProximoExercicio = totalProximoExercicio.add(programacao.getValor());
+            }
+        }
+
+        despesaVO.setQrCode(getQRCodeImage("Juniel Alves", 300, 300));
+
+        despesaVO.setAssinaturaQRCode("Assinado Eletronicamente por: ".concat(Utils.format("###.###.###-##", responsavel.getCpf()).concat(" - ").
+                concat(responsavel.getNome())).concat(" em ").concat(Utils.convertDateToString(despesa.getDataHomologacao(), "dd/MM/yyyy HH:mm:ss")));
+        despesaVO.setNumeroProcesso(despesa.getNumeroProcesso());
+        despesaVO.setResumoDespesa(despesa.getResumoDaDespesa());
+        despesaVO.setDotacaoPrimeiroMes(Utils.moeda(programacoesVingente.get(0).getValor()));
+        despesaVO.setTotalExercicioVingente(Utils.moeda(totalExercicioVingente));
+        despesaVO.setSomaTotalExercioVingente(Utils.moeda(execucao.getTotalComprometidoSiapo()));
+        despesaVO.setTotalProximoExercicio(Utils.moeda(totalProximoExercicio));
+        despesaVO.setCodigoOrgao(orgao.getCodigo());
+        despesaVO.setCodigoUnidade(unidade.getCodigo());
+        despesaVO.setCodigoFuncao(funcao.getCodigo());
+        despesaVO.setCodigoSubfuncao(subFuncao.getCodigo());
+        despesaVO.setCodigoPrograma(programa.getCodigo());
+        despesaVO.setCodigoAcao(acaoOrcamentariaTemp.getCodigo());
+        despesaVO.setCodigoNatureza(natureza.getCodigo());
+        despesaVO.setCodigoSubelemento(despesa.getSubelemento());
+        despesaVO.setCodigoFonte(fonteTemp.getCodigo());
+        despesaVO.setDotacaoInicial(Utils.moeda(execucao.getDotacaoInicial()));
+        despesaVO.setAlteracaoNaLoa(Utils.moeda(execucao.getAlteracaoNaLoa()));
+        despesaVO.setDespesasEmpenhadas(Utils.moeda(execucao.getDespesasEmpenhadas()));
+        despesaVO.setSaldoOrcamentariaDisponivel(Utils.moeda(execucao.getSaldoDisponivel()));
+        despesaVO.setNomeResponsavel(responsavel.getNome());
+        despesaVO.setCargoResponsavel(responsavel.getCargo());
+        despesaVO.setCpfResponsavel(Utils.format("###.###.###-##", responsavel.getCpf()));
+        despesaVO.setDataHomogacao(Utils.convertDateToString(despesa.getDataHomologacao(), "dd/MM/yyyy HH:mm:ss"));
+        despesaVO.setHomologado(despesa.isHomologado());
+
+        despesasVO.add(despesaVO);
+
+        FacesJasper.createJasperReport(despesasVO, params,
+                "/WEB-INF/report/declaracao.jasper", "Declaração".concat(".pdf"));
+
+    }
+
+    private InputStream getQRCodeImage(String text, int width, int height) throws WriterException, IOException {
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height);
+
+        ByteArrayOutputStream pngOutputStream = new ByteArrayOutputStream();
+        MatrixToImageWriter.writeToStream(bitMatrix, "PNG", pngOutputStream);
+        byte[] pngData = pngOutputStream.toByteArray();
+
+        InputStream input = new ByteArrayInputStream(pngData);
+
+        return input;
     }
 }

@@ -8,7 +8,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.bo.orcamento.MetaAcaoEstrategicaBO;
 import br.gov.pi.ati.modelo.cadastro.AcaoEstrategica;
-import br.gov.pi.ati.modelo.cadastro.UnidadeDeMedida;
 import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
 import br.gov.pi.ati.modelo.cadastro.vos.Filtros;
 import br.gov.pi.ati.modelo.controleacesso.Usuario;
@@ -81,6 +80,14 @@ public class MetaAcaoEstrategicaMB extends AbstractBaseBean<MetaAcaoEstrategica>
 
     public void setFiltros(Filtros filtros) {
         this.filtros = filtros;
+    }
+
+    public List<UnidadeOrcamentaria> getUnidades() {
+        return unidades;
+    }
+
+    public void setUnidades(List<UnidadeOrcamentaria> unidades) {
+        this.unidades = unidades;
     }
 
     public void buscar() {

@@ -76,6 +76,42 @@ public class ExecucaoOrcamentariaBO extends AbstractBusinessObject<ExecucaoOrcam
 
         return acoes;
     }
+    
+    public List<AcaoOrcamentaria> execucaoOrcamentariaAcaoOrcamentariaPorUnidades(List<UnidadeOrcamentaria> unidades, String nome) {
+        Restrictions restrictions = new Restrictions();
+
+        if (unidades == null) {
+            return null;
+        }else{
+            if(unidades.size()<1){
+                return null;
+            }
+        }
+
+        restrictions.in("unidade", unidades);
+
+        if (!Utils.isNullOrEmpty(nome)) {
+            if (Utils.ehInteiro(nome)) {
+                restrictions.like("acao.codigo", nome);
+            } else {
+                restrictions.like("acao.nome", nome);
+            }
+        }
+
+        List<ExecucaoOrcamentaria> execucoes = getDAO().getQueryBuilder().from(ExecucaoOrcamentaria.class, "execucao").leftJoinFetch("execucao.acaoOrcamentaria", "acao")
+                .leftJoinFetch("acao.unidadeOrcamentaria", "unidade").add(restrictions).orderBy("acao.codigo").getResultList();
+
+        List<AcaoOrcamentaria> acoes = new ArrayList<AcaoOrcamentaria>();
+
+        for (ExecucaoOrcamentaria execucoe : execucoes) {
+            if (!acoes.contains(execucoe.getAcaoOrcamentaria())) {
+                acoes.add(execucoe.getAcaoOrcamentaria());
+            }
+
+        }
+
+        return acoes;
+    }
 
     public List<FonteDeRecurso> execucaoOrcamentariaFonte(AcaoOrcamentaria acao, String nome) {
         Restrictions restrictions = new Restrictions();

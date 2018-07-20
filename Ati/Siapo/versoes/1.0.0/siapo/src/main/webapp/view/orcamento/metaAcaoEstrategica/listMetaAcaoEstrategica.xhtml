@@ -14,18 +14,16 @@
             <p:fieldset legend="Filtros de Busca" toggleable="true">
                 <div class="container-fluid">
                     <div class="row">
-                        <x:securityArea rolesAllowed="unidadeOrcamentaria.campo">
-                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                <h:outputLabel for="unidades" value="Unidade Orçamentária:" />
-                                <p:selectCheckboxMenu id="unidades" value="#{metaAcaoEstrategicaMB.filtros.unidadesOrcamentaria}" label="Selecione"
-                                                      filter="true" filterMatchMode="startsWith" converter="entityConverter" styleClass="form-control">
-                                    <x:initializer/>
-                                    <f:selectItems value="#{findAllBean.get(classMB.unidadeOrcamentaria)}"
-                                                   var="unidade"
-                                                   itemLabel="#{unidade}"/>
-                                </p:selectCheckboxMenu>
-                            </div>
-                        </x:securityArea>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="unidades" value="Unidade Orçamentária:" />
+                            <p:selectCheckboxMenu id="unidades" value="#{metaAcaoEstrategicaMB.filtros.unidadesOrcamentaria}" label="Selecione"
+                                                  filter="true" filterMatchMode="startsWith" converter="entityConverter" styleClass="form-control">
+                                <x:initializer/>
+                                <f:selectItems value="#{metaAcaoEstrategicaMB.unidades}"
+                                               var="unidade"
+                                               itemLabel="#{unidade}"/>
+                            </p:selectCheckboxMenu>
+                        </div>
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="programa" value="Programa:" />
                             <h:selectOneMenu id="programa" value="#{metaAcaoEstrategicaMB.filtros.programaDeGoverno}" converter="entityConverter" styleClass="form-control" >
@@ -60,7 +58,7 @@
                              var="metaAcaoEstrategica" rowIndexVar="index" id="dataTableMetaAcaoEstrategica" widgetVar="dataTableMetaAcaoEstrategicaWidget" styleClass="table-responsive"
                              value="#{metaAcaoEstrategicaMB.metas}"  >
 
-                    
+
                     <p:column styleClass="uix-datatable-index">
                         <f:facet name="header">
                             <h:outputText value="" />
@@ -107,7 +105,7 @@
                         <h:outputText value="#{metaAcaoEstrategica.programaPPA.programaGov.nome}">
                         </h:outputText>
                     </p:column>
-                    
+
                     <p:column headerText="Receitas Estaduais - Aplicação em Despesa Corrente" style="text-align: right;" sortBy="#{metaAcaoEstrategica.receitasEstaduaisAplicacaoDespesaCorrente}">
                         <f:facet name="header">
                             <h:outputText value="Receitas Estaduais - Aplicação em Despesa Corrente" />
@@ -185,7 +183,7 @@
                             </p:commandButton>
                         </x:securityArea>
                     </p:column>
-                    
+
                 </p:dataTable>
             </p:fieldset>
 

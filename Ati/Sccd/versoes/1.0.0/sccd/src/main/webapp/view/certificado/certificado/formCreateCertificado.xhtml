@@ -19,11 +19,8 @@
                                 <p:inputText id="clienteOutPut" value="#{certificadoMB.entity.cliente.cliente}" maxlength="250"  styleClass="form-control"  
                                              rendered="#{certificadoMB.entity.id!=null}" readonly="true"/>
                                 <p:autoComplete id="cliente" value="#{certificadoMB.entity.cliente}" 
-
                                                 completeMethod="#{contratoClienteMB.autocompleteAtivosPeloNomeDoCliente}" styleClass="uix-autocomplete" 
-
-                                                minQueryLength="3" forceSelection="true" dropdown="true"
-
+                                                minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
                                                 var="p" itemLabel="#{p.cliente}" itemValue="#{p}" converter="entityConverter" rendered="#{certificadoMB.entity.id==null}" > 
                                     <x:initializer/>
                                     <p:column> 
@@ -35,7 +32,6 @@
                                     <p:column> 
                                         <h:outputText value="#{p}"/>
                                     </p:column> 
-
                                     <p:ajax event="itemSelect" process="@this" update="pedido titular" listener="#{certificadoMB.pegarPedidos()}"/>
                                 </p:autoComplete>
 
@@ -46,15 +42,18 @@
                                              rendered="#{certificadoMB.entity.id!=null}" readonly="true">
                                     <x:initializer/>
                                 </p:inputText>
-                                <h:selectOneMenu id="pedido" value="#{certificadoMB.entity.pedido}" converter="entityConverter" styleClass="form-control" 
-                                                 rendered="#{certificadoMB.entity.id==null}">
+                                
+                                <p:autoComplete id="pedido" value="#{certificadoMB.entity.pedido}" 
+                                                completeMethod="#{certificadoMB.autocompletePedido}" styleClass="uix-autocomplete" 
+                                                minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
+                                                var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" 
+                                                rendered="#{certificadoMB.entity.id==null}" > 
                                     <x:initializer/>
-                                    <f:selectItem itemLabel="#{xmsg['select']}" />
-                                    <f:selectItems value="#{certificadoMB.pedidos}" 
-                                                   var="pedido"
-                                                   itemLabel="#{pedido}"/>
-                                    <p:ajax process="cliente @this" update="titular" listener="#{certificadoMB.pegarTitulares()}"/>
-                                </h:selectOneMenu>
+                                    <p:column> 
+                                        <h:outputText value="#{p}"/>
+                                    </p:column> 
+                                    <p:ajax event="itemSelect" process="cliente @this" update="titular" listener="#{certificadoMB.pegarTitulares()}"/>
+                                </p:autoComplete>
                             </div>
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="titular" value="* #{msg['certificado.titular']}:" />
@@ -69,7 +68,7 @@
                                     <f:selectItems value="#{certificadoMB.itensPedido}" 
                                                    var="titular"
                                                    itemLabel="#{titular}"/>
-                                    <p:ajax process="@this" update="@form"/>
+                                    <p:ajax process="@this pedido" update="@form"/>
                                 </h:selectOneMenu>
                             </div>
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">

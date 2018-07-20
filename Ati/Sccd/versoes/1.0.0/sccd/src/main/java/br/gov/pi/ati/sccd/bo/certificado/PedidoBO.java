@@ -110,4 +110,22 @@ public class PedidoBO extends AbstractBusinessObject<Pedido> {
 
     }
 
+    public List<Pedido> pedidoPeloProtocoloECliente(Cliente cliente, String protocolo) {
+        Restrictions restrictions = new Restrictions();
+
+        if (cliente == null) {
+            return null;
+        }
+
+        restrictions.add("cliente", cliente);
+
+        if (!Utils.isNullOrEmpty(protocolo)) {
+            restrictions.like("REPLACE(REPLACE(pedido.protocolo,'/',''),'.','')", protocolo);
+        }
+
+        return getDAO().getQueryBuilder().select("pedido").from(Pedido.class, "pedido")
+                .leftJoinFetch("pedido.cliente", "cliente").add(restrictions).getResultList();
+
+    }
+
 }

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="declaracao" pageWidth="595" pageHeight="842" columnWidth="483" leftMargin="70" rightMargin="42" topMargin="35" bottomMargin="56">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="112"/>
+	<property name="ireport.y" value="32"/>
 	<parameter name="LOGO_ESTADO" class="java.lang.String"/>
 	<field name="numeroProcesso" class="java.lang.String"/>
 	<field name="resumoDespesa" class="java.lang.String"/>
@@ -29,7 +29,6 @@
 	<field name="dataHomogacao" class="java.lang.String"/>
 	<field name="homologado" class="java.lang.Boolean"/>
 	<field name="dataCadastro" class="java.lang.String"/>
-	<field name="assinaturaQRCode" class="java.lang.String"/>
 	<field name="qrCode" class="java.io.InputStream"/>
 	<background>
 		<band height="751" splitType="Stretch">
@@ -156,84 +155,84 @@
 				<textFieldExpression><![CDATA["Informamos que a despesa prevista se refere a "+ $F{resumoDespesa}+", cujo valor do impacto mensal é de R$ "+$F{dotacaoPrimeiroMes}+" e no exercício vigente é de R$ "+$F{totalExercicioVingente}+", conforme classificação orçamentária e financeira, abaixo:"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="7" y="292" width="133" height="14"/>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="3" y="292" width="133" height="14"/>
 				<textElement markup="none">
 					<font fontName="SansSerif" isUnderline="true" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Classificação institucional:"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="253" y="292" width="125" height="14"/>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="240" y="292" width="100" height="14"/>
 				<textElement markup="none">
 					<font fontName="SansSerif" isUnderline="true" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Classificação institucional:"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="7" y="306" width="133" height="14"/>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="3" y="306" width="133" height="14"/>
 				<textElement markup="none">
 					<font fontName="SansSerif" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["1. Órgão Orçamentário:"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="7" y="320" width="133" height="14"/>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="3" y="320" width="133" height="14"/>
 				<textElement markup="none">
 					<font fontName="SansSerif" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["2. Unidade Orçamentária:"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="253" y="320" width="108" height="14"/>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="240" y="320" width="100" height="14"/>
 				<textElement markup="none">
 					<font fontName="SansSerif" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["2. Subfunção:"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="253" y="306" width="108" height="14"/>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="240" y="306" width="100" height="14"/>
 				<textElement markup="none">
 					<font fontName="SansSerif" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["1. Função:"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="7" y="337" width="133" height="14"/>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="3" y="337" width="133" height="14"/>
 				<textElement markup="none">
 					<font fontName="SansSerif" isUnderline="true" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Estrutura Programática:"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="253" y="337" width="108" height="14"/>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="240" y="337" width="118" height="14"/>
 				<textElement markup="none">
 					<font fontName="SansSerif" isUnderline="true" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Natureza da Despesa:"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="7" y="365" width="133" height="14"/>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="3" y="365" width="133" height="14"/>
 				<textElement markup="none">
 					<font fontName="SansSerif" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["2. Ação (Proj/Ativ/Op.Esp.):"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="7" y="351" width="133" height="14"/>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="3" y="351" width="133" height="14"/>
 				<textElement markup="none">
 					<font fontName="SansSerif" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["1. Programa:"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="253" y="351" width="108" height="14"/>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="240" y="351" width="100" height="14"/>
 				<textElement markup="none">
 					<font fontName="SansSerif" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Subelemento:"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="253" y="365" width="108" height="14"/>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="240" y="365" width="100" height="14"/>
 				<textElement markup="none">
 					<font fontName="SansSerif" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
@@ -296,7 +295,7 @@
 				<textElement textAlignment="Justified" markup="none">
 					<font fontName="Arial" isStrikeThrough="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA["5. Saldo Orçamentário disponível para novas contratações (E) E = A +ou – B – C – D:"+$F{saldoOrcamentariaDisponivel}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["5. Saldo Orçamentário disponível para novas contratações (E) E = A +ou – B – C – D: "+$F{saldoOrcamentariaDisponivel}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement positionType="Float" isPrintRepeatedValues="false" x="0" y="563" width="482" height="14"/>
@@ -328,68 +327,131 @@
 				<textFieldExpression><![CDATA["Nº DO PROCESSO: "+$F{numeroProcesso}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="140" y="306" width="100" height="14"/>
-				<textElement>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="136" y="306" width="20" height="13"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center">
 					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
 					<paragraph tabStopWidth="40"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{codigoOrgao}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{codigoOrgao}.substring(0,1)]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="140" y="319" width="100" height="14"/>
-				<textElement>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="136" y="319" width="20" height="14"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{codigoUnidade}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{codigoUnidade}.substring(2,3)]]></textFieldExpression>
 			</textField>
 			<textField pattern="">
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="361" y="306" width="108" height="14"/>
-				<textElement>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="358" y="305" width="20" height="14"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{codigoFuncao}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{codigoFuncao}.substring(0,1)]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="140" y="350" width="100" height="14"/>
-				<textElement>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="136" y="350" width="20" height="14"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{codigoPrograma}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{codigoPrograma}.substring(0,1)]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="140" y="364" width="100" height="14"/>
-				<textElement>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="136" y="364" width="20" height="14"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{codigoAcao}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{codigoAcao}.substring(0,1)]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="361" y="319" width="108" height="14"/>
-				<textElement>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="358" y="319" width="20" height="18"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center">
 					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{codigoSubfuncao}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{codigoSubfuncao}.substring(0,1)]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="361" y="337" width="108" height="14"/>
-				<textElement>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="358" y="337" width="20" height="14"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{codigoNatureza}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{codigoNatureza}.substring(0,1)]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="361" y="351" width="108" height="14"/>
-				<textElement>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="358" y="351" width="20" height="14"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{codigoSubelemento}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{codigoSubelemento}.substring(0,1)]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" isPrintRepeatedValues="false" x="361" y="365" width="100" height="14"/>
-				<textElement>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="358" y="365" width="20" height="14"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{codigoFonte}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{codigoFonte}.substring(0,1)]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement positionType="Float" isPrintRepeatedValues="false" x="7" y="652" width="469" height="14"/>
@@ -434,6 +496,259 @@
 				</textElement>
 				<text><![CDATA[DECLARAÇÃO DE ADEQUAÇÃO DA DESPESA]]></text>
 			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="156" y="306" width="20" height="13"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
+					<paragraph tabStopWidth="40"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoOrgao}.substring(1,2)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="156" y="319" width="20" height="14"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoUnidade}.substring(3,4)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="176" y="319" width="20" height="14"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoUnidade}.substring(4,5)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="156" y="350" width="20" height="14"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoPrograma}.substring(1,2)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="156" y="364" width="20" height="14"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoAcao}.substring(1,2)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="176" y="364" width="20" height="14"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoAcao}.substring(2,3)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="196" y="364" width="20" height="14"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoAcao}.substring(3,4)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="378" y="337" width="20" height="14"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoNatureza}.substring(1,2)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="398" y="337" width="20" height="14"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoNatureza}.substring(2,3)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="458" y="337" width="20" height="14"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoNatureza}.substring(5,6)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="438" y="337" width="20" height="14"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoNatureza}.substring(4,5)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="418" y="337" width="20" height="14"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoNatureza}.substring(3,4)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="378" y="351" width="20" height="14"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoSubelemento}.substring(1,2)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="378" y="319" width="20" height="18"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoSubfuncao}.substring(1,2)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="398" y="319" width="20" height="18"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoSubfuncao}.substring(2,3)]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="378" y="305" width="20" height="14"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoFuncao}.substring(1,2)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="378" y="365" width="20" height="14"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoFonte}.substring(1,2)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="398" y="365" width="20" height="14"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoFonte}.substring(2,3)]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 </jasperReport>

@@ -10,6 +10,7 @@ import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.bo.orcamento.MetaProdutoBO;
 import br.gov.pi.ati.modelo.cadastro.Produto;
 import br.gov.pi.ati.modelo.cadastro.Territorio;
+import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
 import br.gov.pi.ati.modelo.cadastro.vos.Filtros;
 import br.gov.pi.ati.modelo.controleacesso.Usuario;
 import br.gov.pi.ati.modelo.orcamento.Ldo;
@@ -50,6 +51,8 @@ public class MetaProdutoMB extends AbstractBaseBean<MetaProduto> implements Seri
     private List<MetaProduto> produdos;
 
     private Usuario usuarioAtual;
+    
+    private List<UnidadeOrcamentaria> unidades;
 
     @Override
     public MetaProdutoBO getBO() {
@@ -78,7 +81,8 @@ public class MetaProdutoMB extends AbstractBaseBean<MetaProduto> implements Seri
         territorioAdd = new Territorio();
 
         filtros = new Filtros();
-        filtros.setUnidadesOrcamentaria(getDAO().getInitialized(SessaoUtils.getUser().getUnidadesDeAcesso()));
+        unidades = getDAO().getInitialized(usuarioAtual.getUnidadesDeAcesso());
+        filtros.setUnidadesOrcamentaria(unidades);
 
         if (getEntity().getId() != null) {
             ldos = getDAO().getInitialized(getEntity().getLdos());
@@ -131,6 +135,14 @@ public class MetaProdutoMB extends AbstractBaseBean<MetaProduto> implements Seri
 
     public void setProdudos(List<MetaProduto> produdos) {
         this.produdos = produdos;
+    }
+
+    public List<UnidadeOrcamentaria> getUnidades() {
+        return unidades;
+    }
+
+    public void setUnidades(List<UnidadeOrcamentaria> unidades) {
+        this.unidades = unidades;
     }
 
     public void addLDO() {

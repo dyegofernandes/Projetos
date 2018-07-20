@@ -14,7 +14,6 @@ import java.io.Serializable;
  */
 public class DespesaPublicaVO implements Serializable {
 
-    private String assinaturaQRCode;
     private String numeroProcesso;
     private String resumoDespesa;
     private String dotacaoPrimeiroMes;
@@ -241,14 +240,6 @@ public class DespesaPublicaVO implements Serializable {
 
     public void setDataCadastro(String dataCadastro) {
         this.dataCadastro = dataCadastro;
-    }
-
-    public String getAssinaturaQRCode() {
-        return assinaturaQRCode;
-    }
-
-    public void setAssinaturaQRCode(String assinaturaQRCode) {
-        this.assinaturaQRCode = assinaturaQRCode;
     }
 
     public InputStream getQrCode() {

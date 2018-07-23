@@ -135,7 +135,7 @@
                         </p:inputText>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="saldoDisponivel" value="#{msg['naturezaDeDespesa.saldoDisponivel']}:" />
+                        <h:outputLabel for="saldoDisponivel" value="#{msg['naturezaDeDespesa.saldoDisponivel']} SIAFE PI:" />
                         <p:inputText id="saldoDisponivel" value="#{despesaPublicaMB.entity.execucaoOrcamentaria.saldoDisponivel}" styleClass="form-control" readonly="true">
                             <x:initializer/>
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
@@ -144,6 +144,13 @@
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="comprometidoSiapo" value="Valor Comprometido SIAPO:" />
                         <p:inputText id="comprometidoSiapo" value="#{despesaPublicaMB.entity.execucaoOrcamentaria.totalComprometidoSiapo}" styleClass="form-control" readonly="true">
+                            <x:initializer/>
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="saldoSiapo" value="Saldo Disponível SIAPO:" />
+                        <p:inputText id="saldoSiapo" value="#{despesaPublicaMB.entity.execucaoOrcamentaria.saldoDisponivelMenosComprometido}" styleClass="form-control" readonly="true">
                             <x:initializer/>
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                         </p:inputText>
@@ -198,7 +205,7 @@
                             <f:facet name="footer">
                                 <h:outputText value="TOTAL EXERCÍCIO VINGENTE: " style="font-weight:bold"/>
 
-                                <h:outputText value="#{despesaPublicaMB.totalExercicioVingente}" style="font-weight:bold">
+                                <h:outputText value="#{despesaPublicaMB.totalVingente}" style="font-weight:bold">
                                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                                 </h:outputText>
                             </f:facet>
@@ -211,7 +218,7 @@
                             <f:facet name="footer">
                                 <h:outputText value="TOTAL PRÓXIMO EXERCÍCIO: " style="font-weight:bold"/>
 
-                                <h:outputText value="#{despesaPublicaMB.totalProximoExercicio}" style="font-weight:bold">
+                                <h:outputText value="#{despesaPublicaMB.totalProximo}" style="font-weight:bold">
                                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                                 </h:outputText>
                             </f:facet>
@@ -259,34 +266,7 @@
                     <x:initializer/>
                 </p:inputText>
             </div>
-            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                <h:outputLabel for="produtoLDO" value="* Produto:" />
-                <x:initializer value="#{despesaPublicaMB.entity.produtoLDO}"/>
-                <p:autoComplete id="produtoLDO" value="#{despesaPublicaMB.entity.produtoLDO}" 
-                                completeMethod="#{despesaPublicaMB.autocompleteProduto}" styleClass="uix-autocomplete" 
-                                minQueryLength="3" forceSelection="true" dropdown="true"
-                                var="p" itemLabel="#{p.produto}" itemValue="#{p}" converter="entityConverter"  > 
-                    <x:initializer/>
 
-                    <p:column> 
-                        <h:outputText value="#{p.produto}"/>
-                    </p:column> 
-
-                    <p:ajax event="itemSelect" process="@this acaoOrcamentaria" update="quantidadeMeta unidadeMedida" />
-                </p:autoComplete>
-            </div>
-            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                <h:outputLabel for="quantidadeMeta" value="Quantidade Meta:" />
-                <p:inputText id="quantidadeMeta" value="#{despesaPublicaMB.entity.produtoLDO.valorMeta}" styleClass="form-control" readonly="true">
-                    <x:initializer/>
-                </p:inputText>
-            </div>
-            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                <h:outputLabel for="unidadeMedida" value="Unidade de Medida:" />
-                <p:inputText id="unidadeMedida" value="#{despesaPublicaMB.entity.produtoLDO.unidadeMedida}" styleClass="form-control" readonly="true">
-                    <x:initializer/>
-                </p:inputText>
-            </div>
             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                 <div class="checkbox">
                     <label>
@@ -298,12 +278,56 @@
                 </div>
                 <h:outputText value="Esse processo de despesa é responsável por realizar meta física de produtos constantes no anexo de metas e prioridades da Lei de Diretrizes orçamentárias" styleClass="help-block"/>
             </div>
+
+
             <h:panelGroup id="panelQuantidade">
                 <h:panelGroup rendered="#{despesaPublicaMB.entity.geraQuantificador}">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="produtoLDO" value="* Produto:" />
+                        <x:initializer value="#{despesaPublicaMB.entity.produtoLDO}"/>
+                        <p:autoComplete id="produtoLDO" value="#{despesaPublicaMB.entity.produtoLDO}" 
+                                        completeMethod="#{despesaPublicaMB.autocompleteProduto}" styleClass="uix-autocomplete" 
+                                        minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
+                                        var="p" itemLabel="#{p.produto}" itemValue="#{p}" converter="entityConverter"  
+                                        required="true" requiredMessage="Produto é Obrigatório!!"> 
+                            <x:initializer/>
+                            <p:column> 
+                                <h:outputText value="#{p.produto}"/>
+                            </p:column> 
+                            <p:ajax event="itemSelect" process="@this acaoOrcamentaria" update="quantidadeMeta unidadeMedida metaRealizada" />
+                        </p:autoComplete>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="unidadeMedida" value="Unidade de Medida:" />
+                        <p:inputText id="unidadeMedida" value="#{despesaPublicaMB.entity.produtoLDO.unidadeMedida}" styleClass="form-control" readonly="true">
+                            <x:initializer/>
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="quantidadeMeta" value="Quantidade Meta:" />
+                        <p:inputText id="quantidadeMeta" value="#{despesaPublicaMB.entity.produtoLDO.valorMeta}" styleClass="form-control" readonly="true">
+                            <x:initializer/>
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="metaRealizada" value="Meta Realizada:" />
+                        <p:inputText id="metaRealizada" value="#{despesaPublicaMB.entity.produtoLDO.metaRealizada}" styleClass="form-control" readonly="true">
+                            <x:initializer/>
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="gap" value="GAP:" />
+                        <p:inputText id="gap" value="#{despesaPublicaMB.entity.produtoLDO.gap}" styleClass="form-control" readonly="true">
+                            <x:initializer/>
+                        </p:inputText>
+                    </div>
+                    
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="quantidadeRealizada" value="* #{msg['dotacao.quantidadeRealizada']}:" />
                         <x:inputNumber id="quantidadeRealizada" value="#{despesaPublicaMB.entity.quantidadeRealizada}" styleClass="form-control"/>
                     </div>
+                    
+
                 </h:panelGroup>
             </h:panelGroup>
             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
@@ -334,7 +358,7 @@
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">
             <x:securityArea rolesAllowed="despesaPublica.create">
-                <p:commandButton process="@form" update="@form" action="#{despesaPublicaMB.save}" value="#{xmsg['save']}" />
+                <p:commandButton process="@form" update="@form" action="#{despesaPublicaMB.save}" value="Gerar Declaração de Adequação da Despesa" />
             </x:securityArea>
             <x:securityArea rolesAllowed="despesaPublica.audit">
                 <x:audit for="#{despesaPublicaMB.entity}"/>

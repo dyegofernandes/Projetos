@@ -338,7 +338,7 @@ public class GeracaoPermissao {
         create(new Permissao("execucaoOrcamentaria.audit", "Auditoria de Execução Orçamentária"), "execucaoOrcamentaria");
         create(new Permissao("execucaoOrcamentaria.delete", "Exclusão de Execução Orçamentária"), "execucaoOrcamentaria");
 
-        create(new Permissao("loa.homologacao", "Homologação", true), "loa");
+        create(new Permissao("loa.homologacao", "Homologação","/view/orcamento/despesaPublica/listHomologacao.jsf", true), "loa");
         create(new Permissao("loa.relatorios", "Relatórios", true), "loa");
         /*
          * Configuracao

@@ -68,7 +68,7 @@ public class DespesaPublica implements Serializable {
     private List<ProgramacaoFinanceira> programacaoFinanceira = new ArrayList<ProgramacaoFinanceira>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull
+//    @NotNull
     private MetaProduto produtoLDO;
 
     @NotNull

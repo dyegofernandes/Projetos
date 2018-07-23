@@ -1,0 +1,191 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['homologacao.list']}" />
+    <ui:define name="body">
+        <h:form id="formListDespesaPublica">
+            <x:modalMessages />
+
+            <p:fieldset legend="Filtros de Busca" id="filtros" toggleable="true">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="unidadeOrcamentaria" value="#{msg['despesaPublica.unidadeOrcamentaria']}:" />
+                            <p:selectCheckboxMenu id="unidadeOrcamentaria" value="#{homologacaoMB.filtros.unidadesOrcamentaria}" converter="entityConverter" styleClass="form-control"
+                                                  filter="true" filterMatchMode="startsWith" label="Selecione a (s) Unidade (s)" >
+                                <p:ajax event="change" process="@this" update="@form" />
+                                <f:selectItems value="#{homologacaoMB.unidades}"
+                                               var="unidade"
+                                               itemLabel="#{unidade}">
+                                </f:selectItems>
+                            </p:selectCheckboxMenu>
+
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="numeroProcesso" value="#{msg['despesaPublica.numeroProcesso']}:" />
+                            <p:inputMask id="numeroProcesso" value="#{homologacaoMB.filtros.codigo}" mask="aa.999.9.999999/99"  styleClass="form-control"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dataInicial" value="Data Inicial Cadastro:" />
+                            <p:calendar id="dataInicial" value="#{homologacaoMB.filtros.dataInicial}" 
+                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar" >
+                                <x:mask/>
+                            </p:calendar>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dataFinal" value="Data Final Cadastro:" />
+                            <p:calendar id="dataFinal" value="#{homologacaoMB.filtros.dataFinal}" 
+                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar" >
+                                <x:mask/>
+                            </p:calendar>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="acaoOrcamentaria" value="#{msg['dotacao.acaoOrcamentaria']}:" />
+                            <p:autoComplete id="acaoOrcamentaria" value="#{homologacaoMB.filtros.acaoOrcamentaria}" 
+                                            completeMethod="#{homologacaoMB.autocompleteAcaoFiltros}" styleClass="uix-autocomplete" 
+                                            minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
+                                            var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" 
+                                            placeholder="Filtrado por Unidade Orçamentária"> 
+                                <p:ajax event="itemSelect" process="@this unidadeOrcamentaria" update="@this"/>
+                                <p:column> 
+                                    <h:outputText value="#{p}"/>
+                                </p:column> 
+                            </p:autoComplete>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="fonteDeRecurso" value="#{msg['dotacao.fonteDeRecurso']}:" />
+                            <p:autoComplete id="fonteDeRecurso" value="#{homologacaoMB.filtros.fonteDeRecurso}" 
+                                            completeMethod="#{fonteDeRecursoMB.autocomplete}" styleClass="uix-autocomplete" 
+                                            minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
+                                            var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" > 
+                                <x:initializer/>
+                                <p:column> 
+                                    <h:outputText value="#{p}"/>
+                                </p:column> 
+                            </p:autoComplete>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="naturezaDaDespesa" value="#{msg['dotacao.naturezaDaDespesa']}:" />
+                            <p:autoComplete id="naturezaDaDespesa" value="#{homologacaoMB.filtros.naturezaDespesa}" 
+                                            completeMethod="#{naturezaDeDespesaMB.autocomplete}" styleClass="uix-autocomplete" 
+                                            minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
+                                            var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"> 
+                                <x:initializer/>
+                                <p:column> 
+                                    <h:outputText value="#{p}"/>
+                                </p:column> 
+                            </p:autoComplete>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="subelemento" value="SubElemento:" />
+                            <p:inputMask id="subelemento" value="#{homologacaoMB.filtros.subElemento}"  styleClass="form-control"
+                                         mask="99"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="uix-center">
+                    <p:commandButton process="@form" update="@form" action="#{homologacaoMB.buscar()}" value="Buscar" />
+                </div>
+            </p:fieldset>
+
+            <p:fieldset legend="Resultado da Consulta" id="resultado" toggleable="true">
+                <x:dataTableActions fileName="despesaPublica_export" target=":formListDespesaPublica:dataTableDespesaPublica"
+                                    widgetVar="dataTableDespesaPublicaWidget"  />
+
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="despesaPublica" rowIndexVar="index" id="dataTableDespesaPublica" widgetVar="dataTableDespesaPublicaWidget" styleClass="table-responsive"
+                             value="#{homologacaoMB.despesas}"  selection="#{homologacaoMB.despesasSelecionadas}" rowKey="despesaPublica.id">
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                    <p:column headerText="#{msg['despesaPublica.unidadeOrcamentaria']}" sortBy="#{despesaPublica.unidadeOrcamentaria}"
+                              >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['despesaPublica.unidadeOrcamentaria']}" />
+                        </f:facet>
+                        <h:outputText value="#{despesaPublica.unidadeOrcamentaria}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['despesaPublica.numeroProcesso']}" sortBy="#{despesaPublica.numeroProcesso}"
+                              >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['despesaPublica.numeroProcesso']}" />
+                        </f:facet>
+                        <h:outputText value="#{despesaPublica.numeroProcesso}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['despesaPublica.descricaoDespesa']}" sortBy="#{despesaPublica.resumoDaDespesa}"
+                              >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['despesaPublica.descricaoDespesa']}" />
+                        </f:facet>
+                        <h:outputText value="#{despesaPublica.resumoDaDespesa}"/>
+                    </p:column>
+                    <p:column headerText="Data Cadastro" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Data Cadastro" />
+                        </f:facet>
+                        <h:outputText value="#{despesaPublica.dataCadastro}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Ação Orçamentária" sortBy="#{despesaPublica.execucaoOrcamentaria.acaoOrcamentaria}"
+                              >
+                        <f:facet name="header">
+                            <h:outputText value="Ação Orçamentária" />
+                        </f:facet>
+                        <h:outputText value="#{despesaPublica.execucaoOrcamentaria.acaoOrcamentaria}"/>
+                    </p:column>
+                    <p:column headerText="Fonte de Recurso" sortBy="#{despesaPublica.execucaoOrcamentaria.fonteDeRecurso}"
+                              >
+                        <f:facet name="header">
+                            <h:outputText value="Fonte de Recurso" />
+                        </f:facet>
+                        <h:outputText value="#{despesaPublica.execucaoOrcamentaria.fonteDeRecurso}"/>
+                    </p:column>
+                    <p:column headerText="Natureza da Despesa" sortBy="#{despesaPublica.execucaoOrcamentaria.naturezaDaDespesa}"
+                              >
+                        <f:facet name="header">
+                            <h:outputText value="Natureza da Despesa" />
+                        </f:facet>
+                        <h:outputText value="#{despesaPublica.execucaoOrcamentaria.naturezaDaDespesa}"/>
+                    </p:column>
+                    <p:column headerText="Produto" sortBy="#{despesaPublica.produtoLDO.produto}"
+                              >
+                        <f:facet name="header">
+                            <h:outputText value="Produto" />
+                        </f:facet>
+                        <h:outputText value="#{despesaPublica.produtoLDO.produto}"/>
+                    </p:column>
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+                        <p:commandButton oncomplete="PF('widgetDespesaPublicaDetail').show();"  icon="ui-icon-zoomin" 
+                                         process="@form" update=":formDetailDespesaPublica" title="#{xmsg['detail']}" >
+                            <f:setPropertyActionListener value="#{despesaPublica}" target="#{homologacaoMB.entity}" />
+                        </p:commandButton>
+                        <x:securityArea rolesAllowed="despesaPublica.declaracao">
+                            <p:commandButton icon="ui-icon-document" title="Gerar Gerar Declaração" ajax="false" action="#{homologacaoMB.gerarDeclaracao(despesaPublica)}" 
+                                             process="@form" update="@form" >                         
+                            </p:commandButton>
+                        </x:securityArea>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+
+             
+        </h:form>
+
+        <p:dialog widgetVar="widgetDespesaPublicaDetail" header="#{msg['homologacao.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailHomologacao.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

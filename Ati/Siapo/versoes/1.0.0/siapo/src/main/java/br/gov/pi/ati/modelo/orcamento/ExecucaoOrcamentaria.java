@@ -8,13 +8,16 @@ package br.gov.pi.ati.modelo.orcamento;
 import br.gov.pi.ati.modelo.cadastro.AcaoOrcamentaria;
 import br.gov.pi.ati.modelo.cadastro.FonteDeRecurso;
 import br.gov.pi.ati.modelo.cadastro.NaturezaDeDespesa;
+import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
@@ -55,6 +58,10 @@ public class ExecucaoOrcamentaria implements Serializable {
     private BigDecimal saldoDisponivel = BigDecimal.ZERO;
     
     private BigDecimal totalComprometidoSiapo = BigDecimal.ZERO;
+    
+    @OneToMany(mappedBy = "execucaoOrcamentaria")
+    @NotAudited
+    private List<DespesaPublica> despesas;
     
     public Long getId() {
         return id;
@@ -195,6 +202,14 @@ public class ExecucaoOrcamentaria implements Serializable {
         }
         
         return valor;
+    }
+
+    public List<DespesaPublica> getDespesas() {
+        return despesas;
+    }
+
+    public void setDespesas(List<DespesaPublica> despesas) {
+        this.despesas = despesas;
     }
     
     @Override

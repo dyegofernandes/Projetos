@@ -94,6 +94,10 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
 
     private AcaoOrcamentaria acaoOrcamentaria;
 
+    private BigDecimal totalVingente = BigDecimal.ZERO;
+
+    private BigDecimal totalProximo = BigDecimal.ZERO;
+
     @Override
     public DespesaPublicaBO getBO() {
         return despesaPublicaBO;
@@ -137,6 +141,7 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
             }
             cidades = getDAO().getInitialized(getEntity().getCidades());
             programacaoFinanceira = getDAO().getInitialized(getEntity().getProgramacaoFinanceira());
+            calcularTotais();
             Collections.sort(programacaoFinanceira);
         }
     }
@@ -246,6 +251,22 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
         this.acaoOrcamentaria = acaoOrcamentaria;
     }
 
+    public BigDecimal getTotalVingente() {
+        return totalVingente;
+    }
+
+    public void setTotalVingente(BigDecimal totalVingente) {
+        this.totalVingente = totalVingente;
+    }
+
+    public BigDecimal getTotalProximo() {
+        return totalProximo;
+    }
+
+    public void setTotalProximo(BigDecimal totalProximo) {
+        this.totalProximo = totalProximo;
+    }
+
     public void adicionarProgramacao() {
         if (programacaoAdd.getMes() != null) {
             if (programacaoAdd.getAno() != null) {
@@ -255,6 +276,7 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
                     } else {
                         programacaoFinanceira.add(programacaoAdd);
                         Collections.sort(programacaoFinanceira);
+                        calcularTotais();
                         programacaoAdd = new ProgramacaoFinanceira();
                     }
 
@@ -354,35 +376,30 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
         return null;
     }
 
-    public BigDecimal getTotalExercicioVingente() {
-        BigDecimal total = BigDecimal.ZERO;
-
-        for (ProgramacaoFinanceira program : programacaoFinanceira) {
-            if (program.getAno().equals(anoAtual)) {
-                total = total.add(program.getValor());
+    private void calcularTotais() {
+        if (programacaoFinanceira != null) {
+            if (programacaoFinanceira.size() > 0) {
+                Integer primeiroAno = programacaoFinanceira.get(0).getAno();
+                for (ProgramacaoFinanceira program : programacaoFinanceira) {
+                    if (program.getAno().equals(primeiroAno)) {
+                        totalVingente = totalVingente.add(program.getValor());
+                    } else {
+                        totalProximo = totalProximo.add(program.getValor());
+                    }
+                }
             }
         }
-
-        return total;
-    }
-
-    public BigDecimal getTotalProximoExercicio() {
-        BigDecimal total = BigDecimal.ZERO;
-
-        for (ProgramacaoFinanceira program : programacaoFinanceira) {
-            if (!program.getAno().equals(anoAtual)) {
-                total = total.add(program.getValor());
-            }
-        }
-
-        return total;
     }
 
     public BigDecimal getTotalAcumulado() {
         BigDecimal total = BigDecimal.ZERO;
 
-        for (ProgramacaoFinanceira program : programacaoFinanceira) {
-            total = total.add(program.getValor());
+        if (totalVingente != null) {
+            total = total.add(totalVingente);
+        }
+
+        if (totalProximo != null) {
+            total = total.add(totalProximo);
         }
 
         return total;
@@ -393,6 +410,9 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
         String caminhoImg = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/images");
 
         params.put("LOGO_ESTADO", caminhoImg.concat("/logGoverno.png"));
+        if (!despesa.isHomologado()) {
+            params.put("RASCUNHO_IMAGEM", caminhoImg.concat("/rascunho.png"));
+        }
 
         List<DespesaPublicaVO> despesasVO = new ArrayList<DespesaPublicaVO>();
 

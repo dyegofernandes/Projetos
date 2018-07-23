@@ -2,12 +2,12 @@ package br.gov.pi.ati.util;
 
 import br.gov.pi.ati.modelo.cadastro.enums.Formato;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import javax.swing.text.MaskFormatter;
 
 public class Utils {
@@ -112,7 +112,7 @@ public class Utils {
         }
         return d;
     }
-    
+
     public String inserirCaractere(String input, int width, Formato formato) {
 
         char ch = ' ';
@@ -154,15 +154,18 @@ public class Utils {
 
         return strPad;
     }
-    
+
     public static String moeda(BigDecimal num) {
         
-        if(num == null){
-            return null;
+        Locale ptBr = new Locale("pt", "BR");
+        NumberFormat nf = NumberFormat.getCurrencyInstance(ptBr);
+
+        if (num == null) {
+            return nf.format(BigDecimal.ZERO);
         }
         
-        NumberFormat formatter = new DecimalFormat("##,###,###,###,###,###,###,##0.00");
+        String formatado = nf.format(num);
 
-        return formatter.format(num.doubleValue());
+        return formatado;
     }
 }

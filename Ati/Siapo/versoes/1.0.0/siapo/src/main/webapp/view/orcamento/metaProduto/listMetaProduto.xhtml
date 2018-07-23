@@ -128,6 +128,24 @@
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                         </h:outputText>
                     </p:column>
+                    <p:column headerText="Meta Realizada" sortBy="#{metaProduto.metaRealizada}"
+                              style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="Meta Realizada" />
+                        </f:facet>
+                        <h:outputText value="#{metaProduto.metaRealizada}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="GAP" sortBy="#{metaProduto.gap}"
+                              style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="GAP" />
+                        </f:facet>
+                        <h:outputText value="#{metaProduto.gap}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
                     <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
                         <f:facet name="header">
                             <h:outputText value="#{xmsg['actions']}"/>

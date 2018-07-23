@@ -50,12 +50,18 @@ public class MetaProduto implements Serializable {
     @NotNull
     private BigDecimal valorMeta;
 
+    private BigDecimal metaRealizada; //Se despesas estiver com status homologado=true
+
     @ManyToMany(targetEntity = Ldo.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<Ldo> ldos = new ArrayList<Ldo>();
 
     @OneToMany(mappedBy = "produtoLDO")
     @NotAudited
     private List<Dotacao> dotacoes;
+
+    @OneToMany(mappedBy = "produtoLDO")
+    @NotAudited
+    private List<DespesaPublica> despesasPublicas;
 
     public Long getId() {
         return id;
@@ -111,6 +117,36 @@ public class MetaProduto implements Serializable {
 
     public void setDotacoes(List<Dotacao> dotacoes) {
         this.dotacoes = dotacoes;
+    }
+
+    public List<DespesaPublica> getDespesasPublicas() {
+        return despesasPublicas;
+    }
+
+    public void setDespesasPublicas(List<DespesaPublica> despesasPublicas) {
+        this.despesasPublicas = despesasPublicas;
+    }
+
+    public BigDecimal getMetaRealizada() {
+        return metaRealizada;
+    }
+
+    public void setMetaRealizada(BigDecimal metaRealizada) {
+        this.metaRealizada = metaRealizada;
+    }
+
+    public BigDecimal getGap() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        if (valorMeta != null) {
+            valor = valor.add(valorMeta);
+        }
+
+        if (metaRealizada != null) {
+            valor = valor.subtract(metaRealizada);
+        }
+
+        return valor;
     }
 
     @Override

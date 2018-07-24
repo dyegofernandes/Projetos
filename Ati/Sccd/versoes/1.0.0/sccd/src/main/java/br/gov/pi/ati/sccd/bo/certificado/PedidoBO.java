@@ -103,7 +103,7 @@ public class PedidoBO extends AbstractBusinessObject<Pedido> {
         if (Utils.isNullOrEmpty(protocolo)) {
             return null;
         } else {
-            restrictions.add("REPLACE(REPLACE(pedido.protocolo,'/',''),'.','')", protocolo);
+            restrictions.add("REPLACE(REPLACE(REPLACE(pedido.protocolo,'/',''),'.',''),'-','')", protocolo);
         }
 
         return (Pedido) getDAO().getQueryBuilder().select("pedido").from(Pedido.class, "pedido").add(restrictions).getSingleResult();

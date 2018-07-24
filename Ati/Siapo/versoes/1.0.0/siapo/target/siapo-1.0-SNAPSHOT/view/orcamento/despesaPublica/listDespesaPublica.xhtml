@@ -163,6 +163,12 @@
                         </f:facet>
                         <h:outputText value="#{despesaPublica.produtoLDO.produto}"/>
                     </p:column>
+                    <p:column headerText="Homologado" style="text-align: center;" sortBy="#{despesaPublica.homologado}">
+                        <f:facet name="header">
+                            <h:outputText value="Homologado" />
+                        </f:facet>
+                        <h:outputText value="#{despesaPublica.homologado}" converter ="yesNoConverter" />
+                    </p:column>
                     <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
                         <f:facet name="header">
                             <h:outputText value="#{xmsg['actions']}"/>
@@ -172,13 +178,13 @@
                             <f:setPropertyActionListener value="#{despesaPublica}" target="#{despesaPublicaMB.entity}" />
                         </p:commandButton>
                         <x:securityArea rolesAllowed="despesaPublica.create">
-                            <p:button icon="ui-icon-pencil" outcome="createDespesaPublica" title="#{xmsg['edit']}">
+                            <p:button icon="ui-icon-pencil" outcome="createDespesaPublica" title="#{xmsg['edit']}" rendered="#{!despesaPublica.homologado}">
                                 <f:param name="id" value="#{despesaPublica.id}" />
                             </p:button>
                         </x:securityArea>
                         <x:securityArea rolesAllowed="despesaPublica.delete">
                             <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
-                                             action="#{despesaPublicaMB.delete}" >
+                                             action="#{despesaPublicaMB.delete}" rendered="#{!despesaPublica.homologado}">
                                 <f:setPropertyActionListener value="#{despesaPublica.id}" target="#{despesaPublicaMB.id}" />
                                 <x:confirmation message="#{xmsg['confirmDelete']} - #{despesaPublica}" />
                             </p:commandButton>

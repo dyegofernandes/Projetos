@@ -69,18 +69,22 @@ public class Filtros implements Serializable {
 
     private String cnhVitima;
 
+    private String racaVitima;
+
     private String cpfAgressor;
 
     private String rgAgressor;
 
     private String cnhAgressor;
 
+    private String racaAgressor;
+
     private FaixaEtaria faixaEtariaVitima = FaixaEtaria.TODAS;
 
     private FaixaEtaria faixaEtariaAgressor = FaixaEtaria.TODAS;
 
     private List<Unidade> unidadesAcesso = new ArrayList<Unidade>();
-    
+
     private String so;
 
     public Unidade getUnidade() {
@@ -305,6 +309,22 @@ public class Filtros implements Serializable {
 
     public void setSo(String so) {
         this.so = so;
+    }
+
+    public String getRacaVitima() {
+        return racaVitima;
+    }
+
+    public void setRacaVitima(String racaVitima) {
+        this.racaVitima = racaVitima;
+    }
+
+    public String getRacaAgressor() {
+        return racaAgressor;
+    }
+
+    public void setRacaAgressor(String racaAgressor) {
+        this.racaAgressor = racaAgressor;
     }
 
 }

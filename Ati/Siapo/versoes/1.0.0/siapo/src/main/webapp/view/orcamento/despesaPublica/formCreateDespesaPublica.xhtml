@@ -81,6 +81,7 @@
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="naturezaDaDespesa" value="* #{msg['dotacao.naturezaDaDespesa']}:" />
+                        <x:initializer value="#{despesaPublicaMB.entity.execucaoOrcamentaria.naturezaDaDespesa}"/>
                         <p:autoComplete id="naturezaDaDespesa" value="#{despesaPublicaMB.entity.execucaoOrcamentaria}" 
                                         completeMethod="#{despesaPublicaMB.autocompleteExecucaoNatureza}" styleClass="uix-autocomplete" 
                                         minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
@@ -89,7 +90,9 @@
                             <p:ajax event="itemSelect" process="acaoOrcamentaria fonteDeRecurso @this" update="@form" />
                             <x:initializer/>
                             <p:column> 
-                                <h:outputText value="#{p.naturezaDaDespesa}"/>
+                                <h:outputText value="#{p.naturezaDaDespesa}">
+
+                                </h:outputText>
                             </p:column> 
                         </p:autoComplete>
                     </div>
@@ -254,105 +257,110 @@
             </div>
         </p:fieldset>
         <p:fieldset legend="Produto LDO">
-            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                <h:outputLabel for="programa" value="Programa:" />
-                <p:inputText id="programa" value="#{despesaPublicaMB.entity.execucaoOrcamentaria.acaoOrcamentaria.programa.programaGov}" styleClass="form-control" readonly="true">
-                    <x:initializer/>
-                </p:inputText>
-            </div>
-            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                <h:outputLabel for="acaoEstrategica" value="Ação Estratégica:" />
-                <p:inputText id="acaoEstrategica" value="#{despesaPublicaMB.entity.execucaoOrcamentaria.acaoOrcamentaria.acaoEstrategica}" styleClass="form-control" readonly="true">
-                    <x:initializer/>
-                </p:inputText>
-            </div>
-
-            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                <div class="checkbox">
-                    <label>
-                        <h:selectBooleanCheckbox id="geraQuantificador" value="#{despesaPublicaMB.entity.geraQuantificador}" >
-                            <p:ajax process="@this" update="panelQuantidade" listener="#{despesaPublicaMB.desmarcaQuantificador()}"/>
-                        </h:selectBooleanCheckbox>
-                        #{msg['dotacao.geraQuantificador']}
-                    </label>
-                </div>
-                <h:outputText value="Esse processo de despesa é responsável por realizar meta física de produtos constantes no anexo de metas e prioridades da Lei de Diretrizes orçamentárias" styleClass="help-block"/>
-            </div>
-
-
-            <h:panelGroup id="panelQuantidade">
-                <h:panelGroup rendered="#{despesaPublicaMB.entity.geraQuantificador}">
+            <div class="container-fluid">
+                <div class="row">
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="produtoLDO" value="* Produto:" />
-                        <x:initializer value="#{despesaPublicaMB.entity.produtoLDO}"/>
-                        <p:autoComplete id="produtoLDO" value="#{despesaPublicaMB.entity.produtoLDO}" 
-                                        completeMethod="#{despesaPublicaMB.autocompleteProduto}" styleClass="uix-autocomplete" 
-                                        minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
-                                        var="p" itemLabel="#{p.produto}" itemValue="#{p}" converter="entityConverter"  
-                                        required="true" requiredMessage="Produto é Obrigatório!!"> 
+                        <h:outputLabel for="programa" value="Programa:" />
+                        <p:inputText id="programa" value="#{despesaPublicaMB.entity.execucaoOrcamentaria.acaoOrcamentaria.programa.programaGov}" styleClass="form-control" readonly="true">
+                            <x:initializer/>
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="acaoEstrategica" value="Ação Estratégica:" />
+                        <p:inputText id="acaoEstrategica" value="#{despesaPublicaMB.entity.execucaoOrcamentaria.acaoOrcamentaria.acaoEstrategica}" styleClass="form-control" readonly="true">
+                            <x:initializer/>
+                        </p:inputText>
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="geraQuantificador" value="#{despesaPublicaMB.entity.geraQuantificador}" >
+                                    <p:ajax process="@this" update="panelQuantidade" listener="#{despesaPublicaMB.desmarcaQuantificador()}"/>
+                                </h:selectBooleanCheckbox>
+                                #{msg['dotacao.geraQuantificador']}
+                            </label>
+                        </div>
+                        <h:outputText value="Esse processo de despesa é responsável por realizar meta física de produtos constantes no anexo de metas e prioridades da Lei de Diretrizes orçamentárias" styleClass="help-block"/>
+                    </div>
+
+
+                    <h:panelGroup id="panelQuantidade">
+                        <h:panelGroup rendered="#{despesaPublicaMB.entity.geraQuantificador}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="produtoLDO" value="* Produto:" />
+                                <x:initializer value="#{despesaPublicaMB.entity.produtoLDO.produto}"/>
+                                <p:autoComplete id="produtoLDO" value="#{despesaPublicaMB.entity.produtoLDO}" 
+                                                completeMethod="#{despesaPublicaMB.autocompleteProduto}" styleClass="uix-autocomplete" 
+                                                minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
+                                                var="p" itemLabel="#{p.produto}" itemValue="#{p}" converter="entityConverter"  
+                                                required="true" requiredMessage="Produto é Obrigatório!!"> 
+                                    <x:initializer/>
+                                    <p:column> 
+                                        <h:outputText value="#{p.produto}"/>
+                                    </p:column> 
+                                    <p:ajax event="itemSelect" process="@this acaoOrcamentaria" update="quantidadeMeta unidadeMedida metaRealizada" />
+                                </p:autoComplete>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="unidadeMedida" value="Unidade de Medida:" />
+                                <p:inputText id="unidadeMedida" value="#{despesaPublicaMB.entity.produtoLDO.unidadeMedida}" styleClass="form-control" readonly="true">
+                                    <x:initializer/>
+                                </p:inputText>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="quantidadeMeta" value="Quantidade Meta:" />
+                                <p:inputText id="quantidadeMeta" value="#{despesaPublicaMB.entity.produtoLDO.valorMeta}" styleClass="form-control" readonly="true">
+                                    <x:initializer/>
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </p:inputText>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="metaRealizada" value="Meta Realizada:" />
+                                <p:inputText id="metaRealizada" value="#{despesaPublicaMB.entity.produtoLDO.metaRealizada}" styleClass="form-control" readonly="true">
+                                    <x:initializer/>
+                                </p:inputText>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="gap" value="GAP:" />
+                                <p:inputText id="gap" value="#{despesaPublicaMB.entity.produtoLDO.gap}" styleClass="form-control" readonly="true">
+                                    <x:initializer/>
+                                </p:inputText>
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="quantidadeRealizada" value="* #{msg['dotacao.quantidadeRealizada']}:" />
+                                <x:inputNumber id="quantidadeRealizada" value="#{despesaPublicaMB.entity.quantidadeRealizada}" styleClass="form-control"/>
+                            </div>
+
+
+                        </h:panelGroup>
+                    </h:panelGroup>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cidades" value="* Municípios:" />
+                        <p:selectCheckboxMenu id="cidades" value="#{despesaPublicaMB.cidades}" converter="entityConverter" styleClass="form-control"
+                                              filter="true" filterMatchMode="startsWith" label="Selecione o (s)  município (s)" >
+                            <f:selectItems value="#{municipioMB.autocomplete(null)}"
+                                           var="municipio"
+                                           itemLabel="#{municipio} - #{municipio.territorio.nome}">
+                            </f:selectItems>
+                        </p:selectCheckboxMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="responsavel" value="* Responsável pela Homologação:" />
+                        <p:autoComplete id="responsavel" value="#{despesaPublicaMB.entity.responsavel}" 
+                                        completeMethod="#{despesaPublicaMB.autocompleteUsuario}" styleClass="uix-autocomplete" 
+                                        minQueryLength="3" forceSelection="true" dropdown="true"
+                                        var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" 
+                                        placeholder="Filtrado por Unidade Orçamentária"> 
                             <x:initializer/>
                             <p:column> 
-                                <h:outputText value="#{p.produto}"/>
+                                <h:outputText value="#{p}"/>
                             </p:column> 
-                            <p:ajax event="itemSelect" process="@this acaoOrcamentaria" update="quantidadeMeta unidadeMedida metaRealizada" />
                         </p:autoComplete>
                     </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="unidadeMedida" value="Unidade de Medida:" />
-                        <p:inputText id="unidadeMedida" value="#{despesaPublicaMB.entity.produtoLDO.unidadeMedida}" styleClass="form-control" readonly="true">
-                            <x:initializer/>
-                        </p:inputText>
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="quantidadeMeta" value="Quantidade Meta:" />
-                        <p:inputText id="quantidadeMeta" value="#{despesaPublicaMB.entity.produtoLDO.valorMeta}" styleClass="form-control" readonly="true">
-                            <x:initializer/>
-                        </p:inputText>
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="metaRealizada" value="Meta Realizada:" />
-                        <p:inputText id="metaRealizada" value="#{despesaPublicaMB.entity.produtoLDO.metaRealizada}" styleClass="form-control" readonly="true">
-                            <x:initializer/>
-                        </p:inputText>
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="gap" value="GAP:" />
-                        <p:inputText id="gap" value="#{despesaPublicaMB.entity.produtoLDO.gap}" styleClass="form-control" readonly="true">
-                            <x:initializer/>
-                        </p:inputText>
-                    </div>
-                    
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="quantidadeRealizada" value="* #{msg['dotacao.quantidadeRealizada']}:" />
-                        <x:inputNumber id="quantidadeRealizada" value="#{despesaPublicaMB.entity.quantidadeRealizada}" styleClass="form-control"/>
-                    </div>
-                    
-
-                </h:panelGroup>
-            </h:panelGroup>
-            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                <h:outputLabel for="cidades" value="* Municípios:" />
-                <p:selectCheckboxMenu id="cidades" value="#{despesaPublicaMB.cidades}" converter="entityConverter" styleClass="form-control"
-                                      filter="true" filterMatchMode="startsWith" label="Selecione o (s)  município (s)" >
-                    <f:selectItems value="#{municipioMB.autocomplete(null)}"
-                                   var="municipio"
-                                   itemLabel="#{municipio} - #{municipio.territorio.nome}">
-                    </f:selectItems>
-                </p:selectCheckboxMenu>
+                </div>
             </div>
-            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                <h:outputLabel for="responsavel" value="* Responsável pela Homologação:" />
-                <p:autoComplete id="responsavel" value="#{despesaPublicaMB.entity.responsavel}" 
-                                completeMethod="#{despesaPublicaMB.autocompleteUsuario}" styleClass="uix-autocomplete" 
-                                minQueryLength="3" forceSelection="true" dropdown="true"
-                                var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" 
-                                placeholder="Filtrado por Unidade Orçamentária"> 
-                    <p:column> 
-                        <h:outputText value="#{p}"/>
-                    </p:column> 
-                </p:autoComplete>
-            </div>
-
         </p:fieldset>
 
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>

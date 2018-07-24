@@ -29,10 +29,10 @@ public class GeracaoPermissao {
         create(new Permissao("cadastro", "Cadastro", true), "administracaoSistema");
 
         create(new Permissao("institucional", "Institucional", true), null);
-        create(new Permissao("sobreSeplan", "Sobre a Seplan", true), "institucional");
-        create(new Permissao("competencias", "Competências", true), "institucional");
-        create(new Permissao("organograma", "Organograma", true), "institucional");
-        create(new Permissao("legislacao", "Legislação", true), "institucional");
+        create(new Permissao("sobreSeplan", "Sobre a Seplan", "/view/institucional/sobreSeplan.jsf", true), "institucional");
+        create(new Permissao("competencias", "Competências", "/view/institucional/competencias.jsf",true), "institucional");
+        create(new Permissao("organograma", "Organograma","/view/institucional/organograma.jsf", true), "institucional");
+        create(new Permissao("legislacao", "Legislação", "/view/institucional/legislacao.jsf",true), "institucional");
 
         create(new Permissao("planejamento", "Planejamento Governamental", true), null);
         create(new Permissao("ppa", "PPA", true), "planejamento");
@@ -210,9 +210,10 @@ public class GeracaoPermissao {
         create(new Permissao("produto.audit", "Auditoria de Produto"), "produto");
         create(new Permissao("produto.delete", "Exclusão de Produto"), "produto");
 
-        create(new Permissao("compentenciaPPA", "Competencia PPA", false), "competencias");
+        create(new Permissao("cadastro.competencias", "Competências", true), "cadastro");
+        create(new Permissao("compentenciaPPA", "Competencia PPA", false), "cadastro.competencias");
         create(new Permissao("compentenciaPPA.create", "Cadastro de Competencia PPA", "/view/cadastro/compentenciaPPA/createCompentenciaPPA.jsf", false), "compentenciaPPA");
-        create(new Permissao("compentenciaPPA.list", "PPA", "/view/cadastro/compentenciaPPA/listCompentenciaPPA.jsf", true), "competencias");
+        create(new Permissao("compentenciaPPA.list", "PPA", "/view/cadastro/compentenciaPPA/listCompentenciaPPA.jsf", true), "cadastro.competencias");
         create(new Permissao("compentenciaPPA.audit", "Auditoria de Competencia PPA"), "compentenciaPPA");
         create(new Permissao("compentenciaPPA.delete", "Exclusão de Competencia PPA"), "compentenciaPPA");
 
@@ -338,7 +339,7 @@ public class GeracaoPermissao {
         create(new Permissao("execucaoOrcamentaria.audit", "Auditoria de Execução Orçamentária"), "execucaoOrcamentaria");
         create(new Permissao("execucaoOrcamentaria.delete", "Exclusão de Execução Orçamentária"), "execucaoOrcamentaria");
 
-        create(new Permissao("loa.homologacao", "Homologação","/view/orcamento/despesaPublica/listHomologacao.jsf", true), "loa");
+        create(new Permissao("loa.homologacao", "Homologação", "/view/orcamento/despesaPublica/listHomologacao.jsf", true), "loa");
         create(new Permissao("loa.relatorios", "Relatórios", true), "loa");
         /*
          * Configuracao

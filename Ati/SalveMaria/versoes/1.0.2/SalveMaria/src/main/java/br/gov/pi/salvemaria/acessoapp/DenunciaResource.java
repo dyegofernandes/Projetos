@@ -126,6 +126,10 @@ public class DenunciaResource {
                 denuncia.setSo(denunciaVO.getSo());
 
                 denuncia.setAgressor(denunciaVO.getAgressor());
+                
+                denuncia.setRacaVitima(denunciaVO.getRacaVitima());
+                
+                denuncia.setRacaAgressor(denunciaVO.getRacaAgressor());
 
                 if (!Utils.isNullOrEmpty(denunciaVO.getIdadeAgressor())) {
                     denuncia.setIdadeAgressor(new Integer(denunciaVO.getIdadeAgressor()));

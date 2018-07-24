@@ -5,15 +5,19 @@ import br.gov.pi.ati.dao.orcamento.ExecucaoOrcamentariaDAO;
 import br.gov.pi.ati.modelo.cadastro.AcaoOrcamentaria;
 import br.gov.pi.ati.modelo.cadastro.FonteDeRecurso;
 import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
+import br.gov.pi.ati.modelo.orcamento.DespesaPublica;
 import com.xpert.core.validation.UniqueField;
 import com.xpert.core.exception.BusinessException;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.gov.pi.ati.modelo.orcamento.ExecucaoOrcamentaria;
+import br.gov.pi.ati.modelo.orcamento.ProgramacaoFinanceira;
 import br.gov.pi.ati.util.Utils;
 import com.xpert.persistence.query.Restrictions;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  *
@@ -37,7 +41,7 @@ public class ExecucaoOrcamentariaBO extends AbstractBusinessObject<ExecucaoOrcam
 
     @Override
     public void validate(ExecucaoOrcamentaria execucaoOrcamentaria) throws BusinessException {
-        
+
     }
 
     @Override
@@ -76,14 +80,14 @@ public class ExecucaoOrcamentariaBO extends AbstractBusinessObject<ExecucaoOrcam
 
         return acoes;
     }
-    
+
     public List<AcaoOrcamentaria> execucaoOrcamentariaAcaoOrcamentariaPorUnidades(List<UnidadeOrcamentaria> unidades, String nome) {
         Restrictions restrictions = new Restrictions();
 
         if (unidades == null) {
             return null;
-        }else{
-            if(unidades.size()<1){
+        } else {
+            if (unidades.size() < 1) {
                 return null;
             }
         }
@@ -129,13 +133,13 @@ public class ExecucaoOrcamentariaBO extends AbstractBusinessObject<ExecucaoOrcam
                 restrictions.like("fonte.nome", nome);
             }
         }
-        
+
         List<ExecucaoOrcamentaria> execucoes = getDAO().getQueryBuilder().from(ExecucaoOrcamentaria.class, "execucao").leftJoinFetch("execucao.acaoOrcamentaria", "acao")
                 .leftJoinFetch("execucao.fonteDeRecurso", "fonte").add(restrictions).orderBy("fonte.codigo").getResultList();
 
         List<FonteDeRecurso> fontes = new ArrayList<FonteDeRecurso>();
         for (ExecucaoOrcamentaria execucoe : execucoes) {
-            if(!fontes.contains(execucoe.getFonteDeRecurso())){
+            if (!fontes.contains(execucoe.getFonteDeRecurso())) {
                 fontes.add(execucoe.getFonteDeRecurso());
             }
         }
@@ -167,6 +171,29 @@ public class ExecucaoOrcamentariaBO extends AbstractBusinessObject<ExecucaoOrcam
         return getDAO().getQueryBuilder().select("execucao").from(ExecucaoOrcamentaria.class, "execucao").leftJoin("execucao.acaoOrcamentaria", "acao")
                 .leftJoinFetch("execucao.fonteDeRecurso", "fonte").leftJoinFetch("execucao.naturezaDaDespesa", "natureza").add(restrictions)
                 .orderBy("natureza.codigo").getResultList();
+    }
+
+    public BigDecimal valorCompromentido(ExecucaoOrcamentaria execucao) {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DespesaPublica> despesas = getDAO().getInitialized(execucao.getDespesas());
+
+        for (DespesaPublica despesa : despesas) {
+            List<ProgramacaoFinanceira> programacoes = getDAO().getInitialized(despesa.getProgramacaoFinanceira());
+            if (programacoes != null) {
+                if (programacoes.size() > 0) {
+                    Collections.sort(programacoes);
+                    Integer anoVingente = programacoes.get(0).getAno();
+                    for (ProgramacaoFinanceira programacao : programacoes) {
+                        if (anoVingente.equals(programacao.getAno())) {
+                            valor = valor.add(programacao.getValor());
+                        }
+                    }
+                }
+            }
+        }
+
+        return valor;
     }
 
 }

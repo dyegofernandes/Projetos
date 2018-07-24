@@ -8,7 +8,7 @@
         <p:fieldset legend="#{xmsg['generalData']}">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div class="col-lg-8 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel value="#{msg['despesaPublica.unidadeOrcamentaria']}:" styleClass="control-label" /><br/>
                         <h:outputText value="#{despesaPublicaMB.entity.unidadeOrcamentaria}" styleClass="uix-content-detail">
                             <x:initializer/>
@@ -18,18 +18,246 @@
                         <h:outputLabel value="#{msg['despesaPublica.numeroProcesso']}:" styleClass="control-label" /><br/>
                         <h:outputText value="#{despesaPublicaMB.entity.numeroProcesso}" styleClass="uix-content-detail"/>
                     </div>
-
-                </div>
-                <div class="row">
                     <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel value="#{msg['despesaPublica.descricaoDespesa']}:" styleClass="control-label" /><br/>
                         <h:outputText value="#{despesaPublicaMB.entity.descricaoDespesa}" styleClass="uix-content-detail"/>
                     </div>
+                    <div class="col-lg-8 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Resumo da Despesa:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.entity.resumoDaDespesa}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Data Cadastro:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.entity.dataCadastro}" styleClass="uix-content-detail">
+                            <f:convertDateTime  pattern="dd/MM/yyyy HH:mm"/>
+                        </h:outputText>
+
+                    </div>
+                </div>
+
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Dados Dotação">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Ação Orçamentária:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.entity.execucaoOrcamentaria.acaoOrcamentaria}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Fonte de Recurso:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.entity.execucaoOrcamentaria.fonteDeRecurso}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Natureza da Despesa:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.entity.execucaoOrcamentaria.naturezaDaDespesa}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Subelemento:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.entity.subelemento}" styleClass="uix-content-detail"/>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['naturezaDeDespesa.dotacaoInicial']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.entity.execucaoOrcamentaria.dotacaoInicial}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['naturezaDeDespesa.dotacaoAtualizada']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.entity.execucaoOrcamentaria.dotacaoAtualizada}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['naturezaDeDespesa.despesasEmpenhadas']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.entity.execucaoOrcamentaria.despesasEmpenhadas}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['naturezaDeDespesa.despesasLiquidadas']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.entity.execucaoOrcamentaria.despesasLiquidadas}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['naturezaDeDespesa.saldoDisponivel']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.entity.execucaoOrcamentaria.saldoDisponivel}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Valor Comprometido SIAPO:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.entity.execucaoOrcamentaria.totalComprometidoSiapo}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Saldo Disponível SIAPO:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.entity.execucaoOrcamentaria.saldoDisponivelMenosComprometido}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </div>
                 </div>
             </div>
         </p:fieldset>
-        
+        <p:fieldset legend="Programação Financeira" id="fieldProgramacao">
+            <div class="container-fluid">
+                <div class="row">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="programacaoFinanceira" rowIndexVar="index" id="dataTableProgramacaoFinanceira" widgetVar="dataTableProgramacaoFinanceiraWidget" styleClass="table-responsive"
+                                 value="#{despesaPublicaMB.entity.programacaoFinanceira}" >
+                        <x:initializer/>
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['programacaoFinanceira.mes']}" sortBy="#{programacaoFinanceira.mes}">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['programacaoFinanceira.mes']}" />
+                            </f:facet>
+                            <h:outputText value="#{programacaoFinanceira.mes.descricao}"/>
 
+                        </p:column>
+                        <p:column headerText="#{msg['programacaoFinanceira.ano']}" sortBy="#{programacaoFinanceira.ano}">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['programacaoFinanceira.ano']}" />
+                            </f:facet>
+                            <h:outputText value="#{programacaoFinanceira.ano}"/>
+
+                        </p:column>
+                        <p:column headerText="#{msg['programacaoFinanceira.valor']}" sortBy="#{programacaoFinanceira.valor}"
+                                  style="text-align: right;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['programacaoFinanceira.valor']}" />
+                            </f:facet>
+                            <h:outputText value="#{programacaoFinanceira.valor}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>
+
+                        </p:column>
+
+                    </p:dataTable>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Produto LDO">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Programa:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.entity.execucaoOrcamentaria.acaoOrcamentaria.programa.programaGov}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Ação Estratégica:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.entity.execucaoOrcamentaria.acaoOrcamentaria.acaoEstrategica}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Gerar Quantificador:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.entity.geraQuantificador}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                    <h:panelGroup rendered="#{despesaPublicaMB.entity.geraQuantificador}">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="Produto:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{despesaPublicaMB.entity.produtoLDO.produto}" styleClass="uix-content-detail">
+                                <x:initializer/>
+                            </h:outputText>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="Unidade de Medida:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{despesaPublicaMB.entity.produtoLDO.unidadeMedida}" styleClass="uix-content-detail">
+                                <x:initializer/>
+                            </h:outputText>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="Quantidade Meta:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{despesaPublicaMB.entity.produtoLDO.valorMeta}" styleClass="uix-content-detail">
+                                <x:initializer/>
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="Meta Realizada:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{despesaPublicaMB.entity.produtoLDO.metaRealizada}" styleClass="uix-content-detail">
+                                <x:initializer/>
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="GAP:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{despesaPublicaMB.entity.produtoLDO.gap}" styleClass="uix-content-detail">
+                                <x:initializer/>
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['dotacao.quantidadeRealizada']}:" styleClass="control-label" /><br/>
+                            <h:outputText value="#{despesaPublicaMB.entity.quantidadeRealizada}" styleClass="uix-content-detail">
+                                <x:initializer/>
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>
+                        </div>
+
+                    </h:panelGroup>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Responsável pela Homologação:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{despesaPublicaMB.entity.responsavel}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>
+                    </div>
+                </div>
+                <div class="row">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="municipio" rowIndexVar="index" id="dataTableMunicipio" widgetVar="dataTableMunicipioWidget" styleClass="table-responsive"
+                                 value="#{despesaPublicaMB.entity.cidades}"  >
+                        <x:initializer/>
+                        <f:facet name="header">
+                                <h:outputText value="Lista de Municipio" />
+                            </f:facet>
+                        <p:column headerText="#{msg['municipio.codigo']}" sortBy="#{municipio.codigo}" >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['municipio.codigo']}" />
+                            </f:facet>
+                            <h:outputText value="#{municipio.codigo}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['municipio.nome']}" sortBy="#{municipio.nome}" >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['municipio.nome']}" />
+                            </f:facet>
+                            <h:outputText value="#{municipio.nome}"/>
+                        </p:column>
+                        <p:column headerText="Território" sortBy="#{municipio.territorio}" >
+                            <f:facet name="header">
+                                <h:outputText value="Território" />
+                            </f:facet>
+                            <h:outputText value="#{municipio.territorio}">
+                                <x:initializer/>
+                            </h:outputText>
+                                
+                        </p:column>
+                        
+                    </p:dataTable>
+                </div>
+            </div>
+
+        </p:fieldset>
         <p:separator/>
         <div class="uix-center">
             <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetDespesaPublicaDetail').hide()" />

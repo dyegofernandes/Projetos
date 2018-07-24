@@ -135,9 +135,10 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
         cidades = new ArrayList<Municipio>();
 
         if (getEntity().getId() != null) {
+            ExecucaoOrcamentaria execucaoTemp = getDAO().getInitialized(getEntity().getExecucaoOrcamentaria());
             if (getEntity().getExecucaoOrcamentaria() != null) {
-                fonte = getDAO().getInitialized(getEntity().getExecucaoOrcamentaria().getFonteDeRecurso());
-                acaoOrcamentaria = getDAO().getInitialized(getEntity().getExecucaoOrcamentaria().getAcaoOrcamentaria());
+                fonte = getDAO().getInitialized(execucaoTemp.getFonteDeRecurso());
+                acaoOrcamentaria = getDAO().getInitialized(execucaoTemp.getAcaoOrcamentaria());
             }
             cidades = getDAO().getInitialized(getEntity().getCidades());
             programacaoFinanceira = getDAO().getInitialized(getEntity().getProgramacaoFinanceira());
@@ -156,21 +157,27 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
 
     @Override
     public void postSave() {
-
-        if (getEntity().getId() != null) {
-            ExecucaoOrcamentaria execucao = getDAO().getInitialized(getEntity().getExecucaoOrcamentaria());
-            BigDecimal somaTotalSiapo = execucao.getTotalComprometidoSiapo();
-
-            somaTotalSiapo = somaTotalSiapo.add(getTotalAcumulado());
-
-            execucao.setTotalComprometidoSiapo(somaTotalSiapo);
-
-            execucaoBO.getDAO().saveOrMerge(execucao, true);
-        }
+        ExecucaoOrcamentaria execucao = getDAO().getInitialized(getEntity().getExecucaoOrcamentaria());
+        
+        BigDecimal valorComprometido = execucaoBO.valorCompromentido(execucao);
+        
+        execucao.setTotalComprometidoSiapo(valorComprometido);
+                
+        execucaoBO.getDAO().saveOrMerge(execucao, true);
 
         super.postSave();
     }
 
+    @Override
+    public void delete() {
+        super.delete(); 
+    }
+
+    @Override
+    public void postDelete() {
+        super.postDelete(); //To change body of generated methods, choose Tools | Templates.
+    }
+    
     public ProgramacaoFinanceira getProgramacaoAdd() {
         return programacaoAdd;
     }

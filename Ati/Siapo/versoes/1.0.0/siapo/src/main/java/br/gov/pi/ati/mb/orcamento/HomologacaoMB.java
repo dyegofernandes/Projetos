@@ -206,6 +206,7 @@ public class HomologacaoMB extends AbstractBaseBean<DespesaPublica> implements S
     }
 
     public void buscar() {
+        filtros.setAtivo(false);
         despesas = despesaPublicaBO.consultar(filtros);
         despesasSelecionadas = new ArrayList<DespesaPublica>();
     }
@@ -359,10 +360,15 @@ public class HomologacaoMB extends AbstractBaseBean<DespesaPublica> implements S
                 for (DespesaPublica despesa : despesasSelecionadas) {
                     despesa.setHomologado(true);
                     despesa.setDataHomologacao(new Date());
+                    
+                    if(despesa.getProdutoLDO()!=null){
+                        produtoBO.atualizarMetaRealizada(despesa);
+                    }
                     getDAO().saveOrMerge(despesa, true);
                 }
 
                 buscar();
+                FacesMessageUtils.info("Despesa (s) homologada (s) com Sucesso!!");
             } else {
                 FacesMessageUtils.error("Selecione uma ou mais Despesas para Homologação!");
             }

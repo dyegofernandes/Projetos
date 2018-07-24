@@ -45,10 +45,14 @@ public class DenunciaVO {
     private String vitima;
 
     private String idadeVitima;
+    
+    private String racaVitima;
 
     private String agressor;
 
     private String idadeAgressor;
+    
+    private String racaAgressor;
 
     private String demandante;
 
@@ -311,6 +315,22 @@ public class DenunciaVO {
 
     public void setSo(String so) {
         this.so = so;
+    }
+
+    public String getRacaVitima() {
+        return racaVitima;
+    }
+
+    public void setRacaVitima(String racaVitima) {
+        this.racaVitima = racaVitima;
+    }
+
+    public String getRacaAgressor() {
+        return racaAgressor;
+    }
+
+    public void setRacaAgressor(String racaAgressor) {
+        this.racaAgressor = racaAgressor;
     }
 
 }

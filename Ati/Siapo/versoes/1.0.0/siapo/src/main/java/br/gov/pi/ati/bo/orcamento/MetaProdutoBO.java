@@ -5,6 +5,7 @@ import br.gov.pi.ati.dao.orcamento.MetaProdutoDAO;
 import br.gov.pi.ati.modelo.cadastro.AcaoEstrategica;
 import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
 import br.gov.pi.ati.modelo.cadastro.vos.Filtros;
+import br.gov.pi.ati.modelo.orcamento.DespesaPublica;
 import com.xpert.core.validation.UniqueField;
 import com.xpert.core.exception.BusinessException;
 import java.util.List;
@@ -13,6 +14,7 @@ import javax.ejb.Stateless;
 import br.gov.pi.ati.modelo.orcamento.MetaProduto;
 import br.gov.pi.ati.util.Utils;
 import com.xpert.persistence.query.Restrictions;
+import java.math.BigDecimal;
 
 /**
  *
@@ -106,5 +108,35 @@ public class MetaProdutoBO extends AbstractBusinessObject<MetaProduto> {
 
         return getDAO().getQueryBuilder().selectDistinct("meta").from(MetaProduto.class, "meta").leftJoinFetch("meta.produto", "produto")
                 .leftJoinFetch("meta.metaAcao", "metaAcao").leftJoinFetch("metaAcao.acaoEstrategica", "acaoEstrategica").add(restrictions).orderBy("produto.nome").getResultList();
+    }
+
+    public BigDecimal metaRealizada(List<DespesaPublica> despesas) {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<DespesaPublica> despesasTemp = getDAO().getInitialized(despesas);
+
+        for (DespesaPublica despesa : despesasTemp) {
+            if (despesa.isHomologado()) {
+                valor = valor.add(despesa.getQuantidadeRealizada());
+            }
+        }
+
+        return valor;
+    }
+
+    public void atualizarMetaRealizada(DespesaPublica despesa) {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        valor = valor.add(despesa.getQuantidadeRealizada());
+
+        MetaProduto meta = getDAO().getInitialized(despesa.getProdutoLDO());
+
+        if (meta.getMetaRealizada() != null) {
+            valor = valor.add(meta.getMetaRealizada());
+        }
+
+        meta.setMetaRealizada(valor);
+
+        getDAO().saveOrMerge(meta, true);
     }
 }

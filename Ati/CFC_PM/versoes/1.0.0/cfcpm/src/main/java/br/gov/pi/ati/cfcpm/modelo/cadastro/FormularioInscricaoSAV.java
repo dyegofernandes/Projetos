@@ -42,6 +42,10 @@ public class FormularioInscricaoSAV implements Serializable {
 
     @Size(max = 256)
     @NotBlank
+    private String matricula;
+
+    @Size(max = 256)
+    @NotBlank
     private String identidade;
 
     @Size(max = 256)
@@ -84,7 +88,7 @@ public class FormularioInscricaoSAV implements Serializable {
     @NotNull
     private BigDecimal altura = BigDecimal.ZERO;
 
-    @NotNull
+//    @NotNull
     @Enumerated(EnumType.STRING)
     private CidadeSAV opcaoCidade;
 
@@ -222,6 +226,14 @@ public class FormularioInscricaoSAV implements Serializable {
 
     public void setSexo(Sexo sexo) {
         this.sexo = sexo;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
     }
 
     @Override

@@ -6,10 +6,14 @@
                  template="/template/mainTemplate.xhtml"
                  xmlns:x="http://xpert.com/faces">
 
-    <ui:param name="title" value="Competências" />
+    <ui:param name="title" value="COMPETÊNCIAS" />
     <ui:define name="body">
-        <h:form id="sobreSeplan" >
-           
+        <h:form id="competencia" >
+           <div class="container-fluid">
+                <div class="row">
+                    <h:outputText value="#{applicationMB.competencias}" escape="false" />
+                </div>
+            </div>
         </h:form>
     </ui:define>
 

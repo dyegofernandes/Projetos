@@ -103,6 +103,24 @@
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                     </h:outputText>
                 </p:column>
+                <p:column headerText="Total Comprometido SIAPO" sortBy="#{execucaoOrcamentaria.totalComprometidoSiapo}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="Total Comprometido SIAPO" />
+                    </f:facet>
+                    <h:outputText value="#{execucaoOrcamentaria.totalComprometidoSiapo}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Saldo Disponível SIAPO" sortBy="#{execucaoOrcamentaria.saldoDisponivelMenosComprometido}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="Saldo Disponível SIAPO" />
+                    </f:facet>
+                    <h:outputText value="#{execucaoOrcamentaria.saldoDisponivelMenosComprometido}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
                 <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
                     <f:facet name="header">
                         <h:outputText value="#{xmsg['actions']}"/>

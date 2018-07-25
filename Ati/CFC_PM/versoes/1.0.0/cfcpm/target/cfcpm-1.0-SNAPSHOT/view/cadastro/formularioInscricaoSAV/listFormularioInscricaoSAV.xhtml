@@ -29,6 +29,13 @@
                     </f:facet>
                     <h:outputText value="#{formularioInscricaoSAV.nome}"/>
                 </p:column>
+                <p:column headerText="#{msg['formularioInscricaoSAV.matricula']}" sortBy="#{formularioInscricaoSAV.matricula}"
+                    filterBy="#{formularioInscricaoSAV.matricula}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['formularioInscricaoSAV.matricula']}" />
+                    </f:facet>
+                    <h:outputText value="#{formularioInscricaoSAV.matricula}"/>
+                </p:column>
                 <p:column headerText="#{msg['formularioInscricaoSAV.identidade']}" sortBy="#{formularioInscricaoSAV.identidade}"
                     filterBy="#{formularioInscricaoSAV.identidade}"   >
                     <f:facet name="header">

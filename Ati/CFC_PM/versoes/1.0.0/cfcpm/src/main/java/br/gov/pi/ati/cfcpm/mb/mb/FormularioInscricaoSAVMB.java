@@ -1,6 +1,7 @@
 package br.gov.pi.ati.cfcpm.mb.mb;
 
 import br.gov.pi.ati.cfcpm.bo.cadastro.ArquivoBO;
+import br.gov.pi.ati.cfcpm.bo.cadastro.CabosAutorizadosBO;
 import java.io.Serializable;
 import com.xpert.core.crud.AbstractBaseBean;
 import javax.ejb.EJB;
@@ -8,14 +9,15 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.cfcpm.bo.cadastro.FormularioInscricaoSAVBO;
 import br.gov.pi.ati.cfcpm.modelo.cadastro.Arquivo;
+import br.gov.pi.ati.cfcpm.modelo.cadastro.CabosAutorizados;
 import br.gov.pi.ati.cfcpm.modelo.cadastro.FormularioInscricaoSAV;
 import br.gov.pi.ati.cfcpm.util.Utils;
 import com.xpert.faces.utils.FacesJasper;
+import com.xpert.faces.utils.FacesMessageUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import javax.faces.context.FacesContext;
 import org.bouncycastle.util.encoders.Base64;
@@ -35,8 +37,11 @@ public class FormularioInscricaoSAVMB extends AbstractBaseBean<FormularioInscric
     private FormularioInscricaoSAVBO formularioInscricaoSAVBO;
 
     @EJB
+    private CabosAutorizadosBO cabosBO;
+
+    @EJB
     private ArquivoBO arquivoBO;
-    
+
     @Override
     public FormularioInscricaoSAVBO getBO() {
         return formularioInscricaoSAVBO;
@@ -45,6 +50,13 @@ public class FormularioInscricaoSAVMB extends AbstractBaseBean<FormularioInscric
     @Override
     public String getDataModelOrder() {
         return "id";
+    }
+
+    @Override
+    public void save() {
+
+        super.save(); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     public void gerarPdf(FormularioInscricaoSAV formulario) {
@@ -93,5 +105,23 @@ public class FormularioInscricaoSAVMB extends AbstractBaseBean<FormularioInscric
 
     public void novo() {
         setEntity(new FormularioInscricaoSAV());
+    }
+
+    public void buscarCaboAutorizado() {
+        if (Utils.isNullOrEmpty(getEntity().getMatricula())) {
+            FacesMessageUtils.error("Informe a Matricula!!!");
+        } else {
+            CabosAutorizados cabo = cabosBO.cabosPelaMatricula(getEntity().getMatricula());
+
+            if (cabo != null) {
+                getEntity().setNome(cabo.getNome());
+                getEntity().setIdentidade(cabo.getIdentidade());
+            } else {
+                FacesMessageUtils.error("Servidor com a Matrícula ".concat(getEntity().getMatricula()).concat(" não está autorizada a fazer esse concurso!"));
+                getEntity().setMatricula(null);
+                getEntity().setNome(null);
+                getEntity().setIdentidade(null);
+            }
+        }
     }
 }

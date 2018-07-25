@@ -5,6 +5,7 @@ import br.gov.pi.ati.dao.orcamento.ExecucaoOrcamentariaDAO;
 import br.gov.pi.ati.modelo.cadastro.AcaoOrcamentaria;
 import br.gov.pi.ati.modelo.cadastro.FonteDeRecurso;
 import br.gov.pi.ati.modelo.cadastro.UnidadeOrcamentaria;
+import br.gov.pi.ati.modelo.cadastro.vos.Filtros;
 import br.gov.pi.ati.modelo.orcamento.DespesaPublica;
 import com.xpert.core.validation.UniqueField;
 import com.xpert.core.exception.BusinessException;
@@ -168,7 +169,7 @@ public class ExecucaoOrcamentariaBO extends AbstractBusinessObject<ExecucaoOrcam
             }
         }
 
-        return getDAO().getQueryBuilder().select("execucao").from(ExecucaoOrcamentaria.class, "execucao").leftJoin("execucao.acaoOrcamentaria", "acao")
+        return getDAO().getQueryBuilder().select("execucao").from(ExecucaoOrcamentaria.class, "execucao").leftJoinFetch("execucao.acaoOrcamentaria", "acao")
                 .leftJoinFetch("execucao.fonteDeRecurso", "fonte").leftJoinFetch("execucao.naturezaDaDespesa", "natureza").add(restrictions)
                 .orderBy("natureza.codigo").getResultList();
     }
@@ -194,6 +195,24 @@ public class ExecucaoOrcamentariaBO extends AbstractBusinessObject<ExecucaoOrcam
         }
 
         return valor;
+    }
+
+    public List<ExecucaoOrcamentaria> listar(Filtros filtros) {
+        Restrictions restrictions = new Restrictions();
+
+        if (filtros.getUnidadesOrcamentaria() == null) {
+            return null;
+        } else {
+            if (filtros.getUnidadesOrcamentaria().size() < 1) {
+                return null;
+            }
+        }
+
+        restrictions.in("unidade", filtros.getUnidadesOrcamentaria());
+
+        return getDAO().getQueryBuilder().select("execucao").from(ExecucaoOrcamentaria.class, "execucao").leftJoinFetch("execucao.acaoOrcamentaria", "acao")
+                .leftJoinFetch("acao.unidadeOrcamentaria", "unidade").leftJoinFetch("execucao.fonteDeRecurso", "fonte")
+                .leftJoinFetch("execucao.naturezaDaDespesa", "natureza").add(restrictions).orderBy("natureza.codigo").getResultList();
     }
 
 }

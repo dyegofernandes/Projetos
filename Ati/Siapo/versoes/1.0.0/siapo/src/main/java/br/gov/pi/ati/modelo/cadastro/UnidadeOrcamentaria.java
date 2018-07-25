@@ -28,7 +28,7 @@ import org.hibernate.validator.constraints.NotBlank;
 public class UnidadeOrcamentaria implements Serializable {
 
     @Id
-    @SequenceGenerator(name = "UnidadeOrcamentaria", sequenceName = "unidadeOrcamentaria_id_seq")
+    @SequenceGenerator(name = "UnidadeOrcamentaria", sequenceName = "unidadeorcamentaria_id_seq")
     @GeneratedValue(generator = "UnidadeOrcamentaria")
     private Long id;
 

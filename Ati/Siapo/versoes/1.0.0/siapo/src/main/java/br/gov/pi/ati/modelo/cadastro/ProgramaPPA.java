@@ -28,7 +28,7 @@ import javax.validation.constraints.NotNull;
 public class ProgramaPPA implements Serializable {
 
     @Id
-    @SequenceGenerator(name = "ProgramaPPA", sequenceName = "programaPPA_id_seq")
+    @SequenceGenerator(name = "ProgramaPPA", sequenceName = "programappa_id_seq")
     @GeneratedValue(generator = "ProgramaPPA")
     private Long id;
 

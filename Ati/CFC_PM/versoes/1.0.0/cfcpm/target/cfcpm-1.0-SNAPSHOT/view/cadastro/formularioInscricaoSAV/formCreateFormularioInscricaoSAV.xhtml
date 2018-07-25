@@ -17,6 +17,10 @@
                         <p:inputText id="nome" value="#{formularioInscricaoSAVMB.entity.nome}" maxlength="256"  styleClass="form-control"  />
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="matricula" value="* #{msg['formularioInscricaoSAV.matricula']}:" />
+                        <p:inputText id="matricula" value="#{formularioInscricaoSAVMB.entity.matricula}" maxlength="256"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="identidade" value="* #{msg['formularioInscricaoSAV.identidade']}:" />
                         <p:inputText id="identidade" value="#{formularioInscricaoSAVMB.entity.identidade}" maxlength="256"  styleClass="form-control"  />
                     </div>
@@ -64,15 +68,7 @@
                                            itemLabel="#{sexo.descricao}"/>
                         </h:selectOneMenu>
                     </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="opcaoCidade" value="* #{msg['formularioInscricaoSAV.opcaoCidade']}:" />
-                        <h:selectOneMenu id="opcaoCidade" value="#{formularioInscricaoSAVMB.entity.opcaoCidade}"  styleClass="form-control" >
-                            <f:selectItem itemLabel="#{xmsg['select']}" />
-                            <f:selectItems value="#{findAllBean.get(classMB.cidadeSAV)}" 
-                                           var="cidadeSAV"
-                                           itemLabel="#{cidadeSAV.descricao}"/>
-                        </h:selectOneMenu>
-                    </div>
+                    
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="situacao" value="* #{msg['formularioInscricaoSAV.situacao']}:" />
                         <h:selectOneMenu id="situacao" value="#{formularioInscricaoSAVMB.entity.situacao}"  styleClass="form-control" >

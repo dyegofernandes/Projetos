@@ -6,10 +6,14 @@
                  template="/template/mainTemplate.xhtml"
                  xmlns:x="http://xpert.com/faces">
 
-    <ui:param name="title" value="Organograma" />
+    <ui:param name="title" value="ORGANOGRAMA" />
     <ui:define name="body">
-        <h:form id="sobreSeplan" >
-           
+        <h:form id="organograma" >
+           <div class="container-fluid">
+                <div class="row">
+                    <h:outputText value="#{applicationMB.organograma}" escape="false" />
+                </div>
+            </div>
         </h:form>
     </ui:define>
 

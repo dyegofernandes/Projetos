@@ -1,0 +1,80 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['cabosAutorizados.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuCabosAutorizados.xhtml" />
+        <h:form id="formListCabosAutorizados">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="cabosAutorizados_export" target=":formListCabosAutorizados:dataTableCabosAutorizados"
+                                     widgetVar="dataTableCabosAutorizadosWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="cabosAutorizados" rowIndexVar="index" id="dataTableCabosAutorizados" widgetVar="dataTableCabosAutorizadosWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{cabosAutorizadosMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{cabosAutorizadosMB.dataModel.paginatorTemplate}"
+                         value="#{cabosAutorizadosMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['cabosAutorizados.matricula']}" sortBy="#{cabosAutorizados.matricula}"
+                    filterBy="#{cabosAutorizados.matricula}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cabosAutorizados.matricula']}" />
+                    </f:facet>
+                    <h:outputText value="#{cabosAutorizados.matricula}"/>
+                </p:column>
+                <p:column headerText="#{msg['cabosAutorizados.identidade']}" sortBy="#{cabosAutorizados.identidade}"
+                    filterBy="#{cabosAutorizados.identidade}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cabosAutorizados.identidade']}" />
+                    </f:facet>
+                    <h:outputText value="#{cabosAutorizados.identidade}"/>
+                </p:column>
+                <p:column headerText="#{msg['cabosAutorizados.nome']}" sortBy="#{cabosAutorizados.nome}"
+                    filterBy="#{cabosAutorizados.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['cabosAutorizados.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{cabosAutorizados.nome}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetCabosAutorizadosDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailCabosAutorizados" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{cabosAutorizados}" target="#{cabosAutorizadosMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="cabosAutorizados.create">
+                        <p:button icon="ui-icon-pencil" outcome="createCabosAutorizados" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{cabosAutorizados.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="cabosAutorizados.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{cabosAutorizadosMB.delete}" >
+                            <f:setPropertyActionListener value="#{cabosAutorizados.id}" target="#{cabosAutorizadosMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{cabosAutorizados}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="cabosAutorizados.audit">
+                    <x:auditDelete for="#{cabosAutorizadosMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetCabosAutorizadosDetail" header="#{msg['cabosAutorizados.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailCabosAutorizados.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

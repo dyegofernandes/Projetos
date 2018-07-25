@@ -7,30 +7,42 @@
                  template="/template/mainTemplate.xhtml"
                  xmlns:x="http://xpert.com/faces"
                  xmlns:security="http://java.sun.com/jsf/composite/xpert/components/security"
-                 xmlns:of="http://omnifaces.org/functions"
-                 >
+                 xmlns:of="http://omnifaces.org/functions">
 
-    <ui:param name="title" value="#{msg['bemVindo']}" />
     <ui:define name="body">  
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                    <h:panelGroup rendered="#{not empty sessaoUsuarioMB.atalhos}" >
-                        <ui:repeat var="permissao" value="#{sessaoUsuarioMB.atalhos}">
-                            <div class="panel panel-default panel-permissao">
-                                <div class="panel-body">
-                                    <h:link outcome="#{permissao.urlMenuVerificado}" styleClass="link-permissao" >
-                                        <h:outputText value="#{permissao.caminhoPermissao}" class="caminho-permissao"/>
-                                        <span class="nome-permissao">
-                                            <h:outputText value="#{permissao.nomeMenuVerificado}"/>
-                                        </span>
-                                    </h:link>
+        <h:form  id="formDashBoard">
+            <div style="height:100%;width: 100%">
+                <p:poll  interval="10" update="@form" />
+                <p:dashboard id="board" model="#{dashBoardMB.model}">
+                    <p:panel id="atalhos" header="Atalhos" >
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-2 col-sm-12 col-xs-12">
+                                    <h:panelGroup rendered="#{not empty sessaoUsuarioMB.atalhos}" >
+                                        <ui:repeat var="permissao" value="#{sessaoUsuarioMB.atalhos}">
+                                            <div class="panel panel-default panel-permissao">
+                                                <div class="panel-body">
+                                                    <h:link outcome="#{permissao.urlMenuVerificado}" styleClass="link-permissao" >
+                                                        <h:outputText value="#{permissao.caminhoPermissao}" class="caminho-permissao"/>
+                                                        <span class="nome-permissao">
+                                                            <h:outputText value="#{permissao.nomeMenuVerificado}"/>
+                                                        </span>
+                                                    </h:link>
+                                                </div>
+                                            </div>
+                                        </ui:repeat>
+                                    </h:panelGroup>
                                 </div>
                             </div>
-                        </ui:repeat>
-                    </h:panelGroup>
-                </div>
+                        </div>
+                    </p:panel>
+                    <p:panel id="execucao" header="Execução Orçamentária" >
+                        
+                    </p:panel>
+                </p:dashboard>
             </div>
-        </div>
+
+        </h:form>
+
     </ui:define>
 </ui:composition>

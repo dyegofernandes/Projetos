@@ -28,7 +28,7 @@ import org.hibernate.validator.constraints.NotBlank;
 public class AcaoOrcamentaria implements Serializable {
 
     @Id
-    @SequenceGenerator(name = "AcaoOrcamentaria", sequenceName = "acaoOrcamentaria_id_seq")
+    @SequenceGenerator(name = "AcaoOrcamentaria", sequenceName = "acaoorcamentaria_id_seq")
     @GeneratedValue(generator = "AcaoOrcamentaria")
     private Long id;
 

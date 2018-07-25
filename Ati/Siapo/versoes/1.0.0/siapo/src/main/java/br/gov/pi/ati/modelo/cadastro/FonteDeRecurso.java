@@ -31,7 +31,7 @@ import org.hibernate.validator.constraints.NotBlank;
 public class FonteDeRecurso implements Serializable {
 
     @Id
-    @SequenceGenerator(name = "FonteDeRecurso", sequenceName = "fonteDeRecurso_seq_id")
+    @SequenceGenerator(name = "FonteDeRecurso", sequenceName = "fontederecurso_seq_id")
     @GeneratedValue(generator = "FonteDeRecurso")
     private Long id;
 

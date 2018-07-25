@@ -8,8 +8,12 @@
 
     <ui:param name="title" value="Legislação" />
     <ui:define name="body">
-        <h:form id="sobreSeplan" >
-           
+        <h:form id="legislacao" >
+           <div class="container-fluid">
+                <div class="row">
+                    <h:outputText value="#{applicationMB.legislacao}" escape="false" />
+                </div>
+            </div>
         </h:form>
     </ui:define>
 

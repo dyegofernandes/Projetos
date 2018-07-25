@@ -1,5 +1,6 @@
 package br.gov.pi.ati.cfcpm.mb.padrao;
 
+import br.gov.pi.ati.cfcpm.modelo.cadastro.CabosAutorizados;
 import br.gov.pi.ati.cfcpm.modelo.cadastro.Arquivo;
 import br.gov.pi.ati.cfcpm.modelo.cadastro.FormularioInscricaoSAV;
 import br.gov.pi.ati.cfcpm.modelo.enums.CidadeSAV;
@@ -91,6 +92,10 @@ public class ClassMB {
 
     public Class getArquivo() {
         return Arquivo.class;
+    }
+
+    public Class getCabosAutorizados() {
+        return CabosAutorizados.class;
     }
 
 }

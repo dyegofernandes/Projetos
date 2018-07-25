@@ -29,7 +29,7 @@ import org.hibernate.validator.constraints.NotBlank;
 public class AcaoEstrategica implements Serializable {
 
     @Id
-    @SequenceGenerator(name = "AcaoEstrategica", sequenceName = "acaoEstrategica_id_seq")
+    @SequenceGenerator(name = "AcaoEstrategica", sequenceName = "acaoestrategica_id_seq")
     @GeneratedValue(generator = "AcaoEstrategica")
     private Long id;
 

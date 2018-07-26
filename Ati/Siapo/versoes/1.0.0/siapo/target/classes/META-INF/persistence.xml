@@ -3,8 +3,8 @@
     <persistence-unit name="siapoPU" transaction-type="JTA">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         
-        <!--<jta-data-source>jdbc/siapoDS</jta-data-source>-->
-        <jta-data-source>jdbc/siapoTeste</jta-data-source>
+        <jta-data-source>jdbc/siapoDS</jta-data-source>
+        <!--<jta-data-source>jdbc/siapoTeste</jta-data-source>-->
         
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>

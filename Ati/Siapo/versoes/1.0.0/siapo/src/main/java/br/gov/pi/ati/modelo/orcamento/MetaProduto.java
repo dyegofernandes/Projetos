@@ -6,6 +6,7 @@
 package br.gov.pi.ati.modelo.orcamento;
 
 import br.gov.pi.ati.modelo.cadastro.Produto;
+import br.gov.pi.ati.modelo.cadastro.Territorio;
 import br.gov.pi.ati.modelo.cadastro.UnidadeDeMedida;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
@@ -48,12 +49,18 @@ public class MetaProduto implements Serializable {
     private UnidadeDeMedida unidadeMedida;
 
     @NotNull
-    private BigDecimal valorMeta;
+    private Integer ano;
+
+    @NotNull
+    private BigDecimal metaPPA;
+
+    @NotNull
+    private BigDecimal metaLDO;
 
     private BigDecimal metaRealizada; //Se despesas estiver com status homologado=true
 
-    @ManyToMany(targetEntity = Ldo.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    private List<Ldo> ldos = new ArrayList<Ldo>();
+    @ManyToMany(targetEntity = Territorio.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    private List<Territorio> territorios = new ArrayList<Territorio>();
 
     @OneToMany(mappedBy = "produtoLDO")
     @NotAudited
@@ -95,20 +102,36 @@ public class MetaProduto implements Serializable {
         this.unidadeMedida = unidadeMedida;
     }
 
-    public BigDecimal getValorMeta() {
-        return valorMeta;
+    public Integer getAno() {
+        return ano;
     }
 
-    public void setValorMeta(BigDecimal valorMeta) {
-        this.valorMeta = valorMeta;
+    public void setAno(Integer ano) {
+        this.ano = ano;
     }
 
-    public List<Ldo> getLdos() {
-        return ldos;
+    public BigDecimal getMetaPPA() {
+        return metaPPA;
     }
 
-    public void setLdos(List<Ldo> ldos) {
-        this.ldos = ldos;
+    public void setMetaPPA(BigDecimal metaPPA) {
+        this.metaPPA = metaPPA;
+    }
+
+    public BigDecimal getMetaLDO() {
+        return metaLDO;
+    }
+
+    public void setMetaLDO(BigDecimal metaLDO) {
+        this.metaLDO = metaLDO;
+    }
+
+    public List<Territorio> getTerritorios() {
+        return territorios;
+    }
+
+    public void setTerritorios(List<Territorio> territorios) {
+        this.territorios = territorios;
     }
 
     public List<Dotacao> getDotacoes() {
@@ -138,8 +161,8 @@ public class MetaProduto implements Serializable {
     public BigDecimal getGap() {
         BigDecimal valor = BigDecimal.ZERO;
 
-        if (valorMeta != null) {
-            valor = valor.add(valorMeta);
+        if (metaLDO != null) {
+            valor = valor.add(metaLDO);
         }
 
         if (metaRealizada != null) {

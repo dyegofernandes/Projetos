@@ -34,7 +34,7 @@ DIRETORIA DE ENSINO, INSTRUÇÃO E PESQUISA]]></text>
 				<textElement textAlignment="Center">
 					<font isBold="true" isUnderline="true"/>
 				</textElement>
-				<text><![CDATA[PROCESSO SELETIVO DO SERVIÇO AUXILIAR VOLUNTÁRIO-PMPI-2018]]></text>
+				<text><![CDATA[CURSO PARA FORMAÇÃO DE SARGENTO-PMPI-2018]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="160" y="63" width="180" height="14"/>
@@ -61,23 +61,7 @@ DIRETORIA DE ENSINO, INSTRUÇÃO E PESQUISA]]></text>
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="318" splitType="Stretch">
-			<staticText>
-				<reportElement x="0" y="161" width="555" height="115"/>
-				<box leftPadding="4"/>
-				<textElement>
-					<font size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Documentação apresentada
-a) Cópia do RG e CPF
-b) Cópia do comprovante de quitação com Serviço Militar (candidatos do gênero masculino);
-c) Cópia do Título de Eleitor e comprovante de votação do último pleito eleitoral;
-d) Justiça Estadual Comum e Militar;
-e) Justiça Federal;
-f) Justiça Eleitoral;
-
-Obs: Declaro, para os devidos fins legais, que atendo aos requisitos estabelecidos no Edital N 001/2018/SAV/PMPI, bem como assumo total responsabilidade pelas informações prestadas nesta inscrição, tendo plena consciência de suas consequências legais, conforme prevê o caput do art. 299 do Código Penal.]]></text>
-			</staticText>
+		<band height="174" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="4" width="39" height="20"/>
 				<textElement>

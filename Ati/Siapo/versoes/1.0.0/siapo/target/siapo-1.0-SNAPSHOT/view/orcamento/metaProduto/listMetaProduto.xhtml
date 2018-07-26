@@ -119,13 +119,30 @@
                             <x:initializer/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="#{msg['metaProduto.valorMeta']}" sortBy="#{metaProduto.valorMeta}"
+                    <p:column headerText="#{msg['metaProduto.metaPPA']}" sortBy="#{metaProduto.metaPPA}"
                               style="text-align: right;">
                         <f:facet name="header">
-                            <h:outputText value="#{msg['metaProduto.valorMeta']}" />
+                            <h:outputText value="#{msg['metaProduto.metaPPA']}" />
                         </f:facet>
-                        <h:outputText value="#{metaProduto.valorMeta}">
+                        <h:outputText value="#{metaProduto.metaPPA}">
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['metaProduto.metaLDO']}" sortBy="#{metaProduto.metaLDO}"
+                              style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['metaProduto.metaLDO']}" />
+                        </f:facet>
+                        <h:outputText value="#{metaProduto.metaLDO}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['metaProduto.ano']}" sortBy="#{metaProduto.ano}"
+                              style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['metaProduto.ano']}" />
+                        </f:facet>
+                        <h:outputText value="#{metaProduto.ano}">
                         </h:outputText>
                     </p:column>
                     <p:column headerText="Meta Realizada" sortBy="#{metaProduto.metaRealizada}"

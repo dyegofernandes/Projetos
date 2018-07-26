@@ -6,7 +6,6 @@
 package br.gov.pi.ati.modelo.orcamento;
 
 import br.gov.pi.ati.modelo.cadastro.Produto;
-import br.gov.pi.ati.modelo.cadastro.Territorio;
 import br.gov.pi.ati.modelo.cadastro.UnidadeDeMedida;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
@@ -59,8 +58,8 @@ public class MetaProduto implements Serializable {
 
     private BigDecimal metaRealizada; //Se despesas estiver com status homologado=true
 
-    @ManyToMany(targetEntity = Territorio.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
-    private List<Territorio> territorios = new ArrayList<Territorio>();
+    @ManyToMany(targetEntity = TerritorioPPA.class, fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    private List<TerritorioPPA> territorios = new ArrayList<TerritorioPPA>();
 
     @OneToMany(mappedBy = "produtoLDO")
     @NotAudited
@@ -126,11 +125,11 @@ public class MetaProduto implements Serializable {
         this.metaLDO = metaLDO;
     }
 
-    public List<Territorio> getTerritorios() {
+    public List<TerritorioPPA> getTerritorios() {
         return territorios;
     }
 
-    public void setTerritorios(List<Territorio> territorios) {
+    public void setTerritorios(List<TerritorioPPA> territorios) {
         this.territorios = territorios;
     }
 

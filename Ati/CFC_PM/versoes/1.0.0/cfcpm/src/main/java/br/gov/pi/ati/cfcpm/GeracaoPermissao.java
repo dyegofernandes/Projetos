@@ -90,11 +90,11 @@ public class GeracaoPermissao {
         create(new Permissao("formularioDeInscricao.delete", "Exclusão de Formulario De Inscricao CFC"), "formularioDeInscricao");
 
         //Formulario Inscricao SAV
-        create(new Permissao("formularioInscricaoSAV", "Formulario Inscricao SAV", false), "formularioDeInscricao");
-        create(new Permissao("formularioInscricaoSAV.create", "Cadastro de Formulario Inscricao SAV", "/view/cadastro/formularioInscricaoSAV/createFormularioInscricaoSAV.jsf", false), "formularioInscricaoSAV");
-        create(new Permissao("formularioInscricaoSAV.list", "Formularios SAV", "/view/cadastro/formularioInscricaoSAV/listFormularioInscricaoSAV.jsf", true), "formularioDeInscricao");
-        create(new Permissao("formularioInscricaoSAV.audit", "Auditoria de Formulario Inscricao SAV"), "formularioInscricaoSAV");
-        create(new Permissao("formularioInscricaoSAV.delete", "Exclusão de Formulario Inscricao SAV"), "formularioInscricaoSAV");
+        create(new Permissao("formularioInscricaoSAV", "Formulario Inscricao CFS", false), "formularioDeInscricao");
+        create(new Permissao("formularioInscricaoSAV.create", "Cadastro de Formulario Inscricao CFS", "/view/cadastro/formularioInscricaoSAV/createFormularioInscricaoSAV.jsf", false), "formularioInscricaoSAV");
+        create(new Permissao("formularioInscricaoSAV.list", "Formularios CFS", "/view/cadastro/formularioInscricaoSAV/listFormularioInscricaoSAV.jsf", true), "formularioDeInscricao");
+        create(new Permissao("formularioInscricaoSAV.audit", "Auditoria de Formulario Inscricao CFS"), "formularioInscricaoSAV");
+        create(new Permissao("formularioInscricaoSAV.delete", "Exclusão de Formulario Inscricao CFS"), "formularioInscricaoSAV");
 
         //Arquivo
         create(new Permissao("arquivo", "Arquivo", false), "formularioDeInscricao");

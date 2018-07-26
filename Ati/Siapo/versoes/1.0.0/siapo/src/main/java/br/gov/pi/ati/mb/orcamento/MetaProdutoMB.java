@@ -16,6 +16,7 @@ import br.gov.pi.ati.modelo.controleacesso.Usuario;
 import br.gov.pi.ati.modelo.orcamento.Ldo;
 import br.gov.pi.ati.modelo.orcamento.MetaAcaoEstrategica;
 import br.gov.pi.ati.modelo.orcamento.MetaProduto;
+import br.gov.pi.ati.modelo.orcamento.TerritorioPPA;
 import br.gov.pi.ati.util.SessaoUtils;
 import com.xpert.faces.utils.FacesMessageUtils;
 import java.util.ArrayList;
@@ -40,18 +41,14 @@ public class MetaProdutoMB extends AbstractBaseBean<MetaProduto> implements Seri
 
     private Filtros filtros;
 
-    private List<Ldo> ldos;
+    private List<TerritorioPPA> territorios;
 
-    private Ldo ldoAdd;
-
-    private List<Territorio> territorios;
-
-    private Territorio territorioAdd;
+    private TerritorioPPA territorioAdd;
 
     private List<MetaProduto> produdos;
 
     private Usuario usuarioAtual;
-    
+
     private List<UnidadeOrcamentaria> unidades;
 
     @Override
@@ -66,7 +63,6 @@ public class MetaProdutoMB extends AbstractBaseBean<MetaProduto> implements Seri
 
     @Override
     public void save() {
-        getEntity().setLdos(ldos);
         super.save();
     }
 
@@ -74,19 +70,47 @@ public class MetaProdutoMB extends AbstractBaseBean<MetaProduto> implements Seri
     public void init() {
 
         usuarioAtual = SessaoUtils.getUser();
-        ldos = new ArrayList<Ldo>();
-        ldoAdd = new Ldo();
 
-        territorios = new ArrayList<Territorio>();
-        territorioAdd = new Territorio();
+        territorios = new ArrayList<TerritorioPPA>();
+        territorioAdd = new TerritorioPPA();
 
         filtros = new Filtros();
         unidades = getDAO().getInitialized(usuarioAtual.getUnidadesDeAcesso());
         filtros.setUnidadesOrcamentaria(unidades);
 
         if (getEntity().getId() != null) {
-            ldos = getDAO().getInitialized(getEntity().getLdos());
+            territorios = getDAO().getInitialized(getEntity().getTerritorios());
         }
+    }
+
+    public void addTerritorio() {
+        if (territorioAdd.getTerritorio() != null) {
+            if (territorioAdd.getValor() != null) {
+                if (territorioJahAdicionado(territorioAdd)) {
+                    FacesMessageUtils.error("Território já adicionado!");
+                } else {
+                    territorios.add(territorioAdd);
+                    territorioAdd = new TerritorioPPA();
+                }
+            } else {
+                FacesMessageUtils.error("Valor da meta do Território é obrigatório!");
+            }
+        } else {
+            FacesMessageUtils.error("Território é obrigatório!");
+        }
+    }
+
+    public void removerTerritorio(TerritorioPPA territorio) {
+        territorios.remove(territorio);
+    }
+
+    public boolean territorioJahAdicionado(TerritorioPPA territorio) {
+        for (TerritorioPPA territorioTemp : territorios) {
+            if (territorioTemp.getTerritorio().equals(territorio.getTerritorio())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Filtros getFiltros() {
@@ -97,35 +121,19 @@ public class MetaProdutoMB extends AbstractBaseBean<MetaProduto> implements Seri
         this.filtros = filtros;
     }
 
-    public List<Ldo> getLdos() {
-        return ldos;
-    }
-
-    public void setLdos(List<Ldo> ldos) {
-        this.ldos = ldos;
-    }
-
-    public Ldo getLdoAdd() {
-        return ldoAdd;
-    }
-
-    public void setLdoAdd(Ldo ldoAdd) {
-        this.ldoAdd = ldoAdd;
-    }
-
-    public List<Territorio> getTerritorios() {
+    public List<TerritorioPPA> getTerritorios() {
         return territorios;
     }
 
-    public void setTerritorios(List<Territorio> territorios) {
+    public void setTerritorios(List<TerritorioPPA> territorios) {
         this.territorios = territorios;
     }
 
-    public Territorio getTerritorioAdd() {
+    public TerritorioPPA getTerritorioAdd() {
         return territorioAdd;
     }
 
-    public void setTerritorioAdd(Territorio territorioAdd) {
+    public void setTerritorioAdd(TerritorioPPA territorioAdd) {
         this.territorioAdd = territorioAdd;
     }
 
@@ -143,44 +151,6 @@ public class MetaProdutoMB extends AbstractBaseBean<MetaProduto> implements Seri
 
     public void setUnidades(List<UnidadeOrcamentaria> unidades) {
         this.unidades = unidades;
-    }
-
-    public void addLDO() {
-        if (ldoAdd.getAno() != null) {
-            if (ldoAdd.getMeta() != null) {
-                if (ldoJahAdicionado(ldoAdd)) {
-                    FacesMessageUtils.error("O valor referente para o ano informado já foi adicionado!");
-                } else {
-                    if (territorios.size() > 0) {
-                        ldoAdd.setTerritorios(territorios);
-                        ldos.add(ldoAdd);
-                        ldoAdd = new Ldo();
-                        territorios = new ArrayList<Territorio>();
-                    } else {
-                        FacesMessageUtils.error("Selecione um ou mais territórios!");
-                    }
-
-                }
-
-            } else {
-                FacesMessageUtils.error("O valor do LDO é obrigatório!");
-            }
-        } else {
-            FacesMessageUtils.error("O ano do LDO é obrigatório!");
-        }
-    }
-
-    public void removerLDO(Ldo ldo) {
-        ldos.remove(ldo);
-    }
-
-    private boolean ldoJahAdicionado(Ldo ldo) {
-        for (Ldo ldo1 : ldos) {
-            if (ldo1.getAno().equals(ldo.getAno())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public List<MetaAcaoEstrategica> autocompleteMetaAcao(String nome) {

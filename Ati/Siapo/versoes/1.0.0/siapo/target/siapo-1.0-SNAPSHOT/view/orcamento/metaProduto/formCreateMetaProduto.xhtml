@@ -49,38 +49,49 @@
                         </p:autoComplete>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="valorMeta" value="* #{msg['metaProduto.valorMeta']}:" />
-                        <x:inputNumber id="valorMeta" value="#{metaProdutoMB.entity.valorMeta}" styleClass="form-control"/>
+                        <h:outputLabel for="metaPPA" value="* #{msg['metaProduto.metaPPA']}:" />
+                        <x:inputNumber id="metaPPA" value="#{metaProdutoMB.entity.metaPPA}" styleClass="form-control"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="metaLDO" value="* #{msg['metaProduto.metaLDO']}:" />
+                        <x:inputNumber id="metaLDO" value="#{metaProdutoMB.entity.metaLDO}" styleClass="form-control"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="ano" value="* #{msg['metaProduto.ano']}:" />
+                        <p:inputMask id="ano" value="#{metaProdutoMB.entity.ano}" mask="9999"  styleClass="form-control"  />
+
                     </div>
                 </div>
             </div>
         </p:fieldset>
-        <p:fieldset legend="LDOS">
+        <p:fieldset legend="Territorios">
             <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
-                         var="ldo" rowIndexVar="index" id="dataTableLDO" widgetVar="dataTableLDOWidget" styleClass="table-responsive"
-                         value="#{metaProdutoMB.ldos}" >
+                         var="territorio" rowIndexVar="index" id="dataTableTerritorio" widgetVar="dataTableTerritorioWidget" styleClass="table-responsive"
+                         value="#{metaProdutoMB.territorios}" >
                 <p:column styleClass="uix-datatable-index">
                     <f:facet name="header">
                         <h:outputText value="" />
                     </f:facet>
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="Ano" >
+                <p:column headerText="Territorio" >
                     <f:facet name="header">
-                        <h:outputText value="Ano" />
+                        <h:outputText value="Territorio" />
                     </f:facet>
-                    <h:outputText value="#{ldo.ano}"/>
+                    <h:outputText value="#{territorio.territorio}">
+                        <x:initializer/>
+                    </h:outputText>
                 </p:column>
 
-                <p:column headerText="Valor" style="text-align: right;" >
+                <p:column headerText="Valor Meta" style="text-align: right;" >
                     <f:facet name="header">
-                        <h:outputText value="Valor" />
+                        <h:outputText value="Valor Meta" />
                     </f:facet>
-                    <h:outputText value="#{ldo.meta}">
+                    <h:outputText value="#{territorio.valor}">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                     </h:outputText>
                     <f:facet name="footer">
-                        <h:outputText value="#{x:sum(metaProdutoMB.ldos, 'meta')}" style="font-weight:bold">
+                        <h:outputText value="#{x:sum(metaProdutoMB.territorios, 'valor')}" style="font-weight:bold">
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                         </h:outputText>
                     </f:facet>
@@ -92,7 +103,7 @@
                     </f:facet>
 
                     <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" update="@form" 
-                                     action="#{metaProdutoMB.removerLDO(ldo)}" >
+                                     action="#{metaProdutoMB.removerTerritorio(territorio)}" >
                     </p:commandButton>
                 </p:column>
             </p:dataTable>

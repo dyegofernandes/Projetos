@@ -12,7 +12,6 @@ import br.com.facilpagar.modelo.controleacesso.SituacaoUsuario;
 import br.com.facilpagar.modelo.controleacesso.Usuario;
 import br.com.facilpagar.modelo.dados.Cidade;
 import br.com.facilpagar.modelo.dados.Convenio;
-import br.com.facilpagar.modelo.dados.Franquia;
 import br.com.facilpagar.modelo.dados.Uf;
 import br.com.facilpagar.modelo.vos.FiltrosBusca;
 import br.com.facilpagar.util.SessaoUtils;

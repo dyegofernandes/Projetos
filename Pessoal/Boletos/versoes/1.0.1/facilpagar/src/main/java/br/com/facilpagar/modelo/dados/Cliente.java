@@ -99,7 +99,7 @@ public class Cliente implements Serializable {
 
     @Override
     public String toString() {
-        if (!Utils.isNullOrEmpty(cpf_cnpj) && !Utils.isNullOrEmpty(nome_fantasia)) {
+    /*    if (!Utils.isNullOrEmpty(cpf_cnpj) && !Utils.isNullOrEmpty(nome_fantasia)) {
             String pattern;
             if (cpf_cnpj.length() > 11) {
                 pattern = "##.###.###/####-##";
@@ -107,8 +107,8 @@ public class Cliente implements Serializable {
                 pattern = "###.###.###-##";
             }
             return Utils.format(pattern, cpf_cnpj).concat(" - ").concat(nome_fantasia);
-        }
-        return nome_fantasia; //To change body of generated methods, choose Tools | Templates.
+        }*/
+        return nome_fantasia; 
     }
 
     public Long getId() {

@@ -1,0 +1,48 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreatePedido" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="estoque" value="#{msg['pedido.estoque']}:" />
+                         <h:selectOneMenu id="estoque" value="#{pedidoMB.entity.estoque}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.estoque)}" 
+                                            var="estoque"
+                                            itemLabel="#{estoque}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="quantidade" value="#{msg['pedido.quantidade']}:" />
+                         <x:inputNumber id="quantidade" value="#{pedidoMB.entity.quantidade}" styleClass="form-control"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="precoUnitario" value="#{msg['pedido.precoUnitario']}:" />
+                         <x:inputNumber id="precoUnitario" value="#{pedidoMB.entity.precoUnitario}" styleClass="form-control"/>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="pedido.create">
+                <p:commandButton process="@form" update="@form" action="#{pedidoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="pedido.audit">
+                <x:audit for="#{pedidoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

@@ -61,6 +61,13 @@ public class Cidade implements Serializable {
     public String getNome() {
         return nome;
     }
+    
+    public String getNomeUf() {
+        if (uf != null)
+            return nome+"-"+uf.getSigla();
+        else
+            return nome;
+    }
 
     public void setNome(String nome) {
         this.nome = nome;

@@ -44,10 +44,6 @@ public class Franquia implements Serializable {
     @SequenceGenerator(schema = "dados", allocationSize = 1, name = "Franquia", sequenceName = "dados.seq_franquia_id")
     @GeneratedValue(generator = "Franquia")
     private Long id;
-    
-    @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dt_cadastro = new Date();
 
     @NotNull
     @Column(length = 20)
@@ -107,9 +103,6 @@ public class Franquia implements Serializable {
     @NotBlank
     private String localPagto = "EM QUALQUER AGENCIA BANCARIA ATÉ O VENCIMENTO";
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull
-    private Banco emissor;
 
     private BigDecimal comissao = new BigDecimal(6);
 
@@ -118,11 +111,6 @@ public class Franquia implements Serializable {
     private BigDecimal juros = new BigDecimal(0.1);
 
     private BigDecimal multa = new BigDecimal(2);
-    
-    @NotNull
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
-    private TipoRepasse tipoRepasse;
     
     private boolean ativo = false;
     
@@ -140,7 +128,7 @@ public class Franquia implements Serializable {
     
     @Override
     public String toString() {
-        if (!Utils.isNullOrEmpty(cpf_cnpj) && !Utils.isNullOrEmpty(nome_fantasia)) {
+/*        if (!Utils.isNullOrEmpty(cpf_cnpj) && !Utils.isNullOrEmpty(nome_fantasia)) {
             String pattern;
             if (cpf_cnpj.length() > 11) {
                 pattern = "##.###.###/####-##";
@@ -149,6 +137,7 @@ public class Franquia implements Serializable {
             }
             return Utils.format(pattern, cpf_cnpj).concat(" - ").concat(nome_fantasia);
         }
+        */
         return nome_fantasia; //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -158,14 +147,6 @@ public class Franquia implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Date getDt_cadastro() {
-        return dt_cadastro;
-    }
-
-    public void setDt_cadastro(Date dt_cadastro) {
-        this.dt_cadastro = dt_cadastro;
     }
 
     public TipoPessoa getTipo_pessoa() {
@@ -296,14 +277,6 @@ public class Franquia implements Serializable {
         this.localPagto = localPagto;
     }
 
-    public Banco getEmissor() {
-        return emissor;
-    }
-
-    public void setEmissor(Banco emissor) {
-        this.emissor = emissor;
-    }
-
     public BigDecimal getComissao() {
         return comissao;
     }
@@ -334,14 +307,6 @@ public class Franquia implements Serializable {
 
     public void setMulta(BigDecimal multa) {
         this.multa = multa;
-    }
-
-    public TipoRepasse getTipoRepasse() {
-        return tipoRepasse;
-    }
-
-    public void setTipoRepasse(TipoRepasse tipoRepasse) {
-        this.tipoRepasse = tipoRepasse;
     }
 
     public boolean isAtivo() {
@@ -397,6 +362,5 @@ public class Franquia implements Serializable {
         }
         return true;
     }
-    
     
 }

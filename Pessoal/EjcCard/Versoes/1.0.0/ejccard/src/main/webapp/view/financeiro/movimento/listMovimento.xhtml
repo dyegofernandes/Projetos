@@ -1,0 +1,94 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['movimento.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuMovimento.xhtml" />
+        <h:form id="formListMovimento">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="movimento_export" target=":formListMovimento:dataTableMovimento"
+                                     widgetVar="dataTableMovimentoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="movimento" rowIndexVar="index" id="dataTableMovimento" widgetVar="dataTableMovimentoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{movimentoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{movimentoMB.dataModel.paginatorTemplate}"
+                         value="#{movimentoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['movimento.caixa']}" sortBy="#{movimento.caixa}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['movimento.caixa']}" />
+                    </f:facet>
+                    <h:outputText value="#{movimento.caixa}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['movimento.dataLancamento']}" sortBy="#{movimento.dataLancamento}"
+                    filterBy="#{movimento.dataLancamento}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['movimento.dataLancamento']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{movimento.dataLancamento}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['movimento.tipoPagamento']}" sortBy="#{movimento.tipoPagamento}"
+                    filterBy="#{movimento.tipoPagamento}"  filterOptions="#{findAllBean.getSelect(classMB.tipoPagamento)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['movimento.tipoPagamento']}" />
+                    </f:facet>
+                    <h:outputText value="#{movimento.tipoPagamento}"/>
+                </p:column>
+                <p:column headerText="#{msg['movimento.ejcCard']}" sortBy="#{movimento.ejcCard}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['movimento.ejcCard']}" />
+                    </f:facet>
+                    <h:outputText value="#{movimento.ejcCard}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetMovimentoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailMovimento" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{movimento}" target="#{movimentoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="movimento.create">
+                        <p:button icon="ui-icon-pencil" outcome="createMovimento" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{movimento.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="movimento.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{movimentoMB.delete}" >
+                            <f:setPropertyActionListener value="#{movimento.id}" target="#{movimentoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{movimento}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="movimento.audit">
+                    <x:auditDelete for="#{movimentoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetMovimentoDetail" header="#{msg['movimento.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailMovimento.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

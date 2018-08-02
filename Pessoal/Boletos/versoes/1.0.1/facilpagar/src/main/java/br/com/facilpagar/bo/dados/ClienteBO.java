@@ -63,8 +63,6 @@ public class ClienteBO extends AbstractBusinessObject<Cliente> {
             return null;
         }
         
-        
-
         return getDAO().list(restrictions, "nome_fantasia");
     }
 
@@ -88,7 +86,7 @@ public class ClienteBO extends AbstractBusinessObject<Cliente> {
         }
 
         if (!Utils.isNullOrEmpty(filtros.getNome_fantasia())) {
-            restrictions.like("cliente.nome_fantisia", filtros.getNome_fantasia());
+            restrictions.like("cliente.nome_fantasia", filtros.getNome_fantasia());
         }
 
         if (filtros.getCidade() != null) {

@@ -1,0 +1,79 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['caixa.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuCaixa.xhtml" />
+        <h:form id="formListCaixa">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="caixa_export" target=":formListCaixa:dataTableCaixa"
+                                     widgetVar="dataTableCaixaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="caixa" rowIndexVar="index" id="dataTableCaixa" widgetVar="dataTableCaixaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{caixaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{caixaMB.dataModel.paginatorTemplate}"
+                         value="#{caixaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['caixa.abertura']}" sortBy="#{caixa.abertura}"
+                    filterBy="#{caixa.abertura}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['caixa.abertura']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{caixa.abertura}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['caixa.fechamento']}" sortBy="#{caixa.fechamento}"
+                    filterBy="#{caixa.fechamento}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['caixa.fechamento']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{caixa.fechamento}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetCaixaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailCaixa" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{caixa}" target="#{caixaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="caixa.create">
+                        <p:button icon="ui-icon-pencil" outcome="createCaixa" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{caixa.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="caixa.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{caixaMB.delete}" >
+                            <f:setPropertyActionListener value="#{caixa.id}" target="#{caixaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{caixa}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="caixa.audit">
+                    <x:auditDelete for="#{caixaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetCaixaDetail" header="#{msg['caixa.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailCaixa.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

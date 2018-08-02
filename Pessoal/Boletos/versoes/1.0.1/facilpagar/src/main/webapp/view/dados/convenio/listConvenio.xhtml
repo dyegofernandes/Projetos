@@ -53,7 +53,7 @@
                             </div>
                         </h:panelGroup>
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="estado" value="#{msg['cliente.uf']}:" />
+                            <h:outputLabel for="estado" value="#{msg['convenio.uf']}:" />
                             <h:selectOneMenu id="estado" value="#{convenioMB.filtros.estado}" converter="entityConverter" styleClass="form-control" >
                                 <x:initializer/>
                                 <f:selectItem itemLabel="#{xmsg['select']}" />
@@ -79,7 +79,19 @@
 
                         </div>
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="ativo" value="#{msg['cliente.ativo']}:" />
+                            <h:outputLabel for="categoria" value="#{msg['convenio.categoria']}:" />
+                            <h:selectOneMenu id="categoria" value="#{convenioMB.filtros.categoria}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.categoria)}" 
+                                               var="categoria"
+                                               itemLabel="#{categoria.nome}"/>
+                            </h:selectOneMenu>
+
+                        </div>
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="ativo" value="#{msg['convenio.ativo']}:" />
                             <h:selectOneMenu id="ativo" value="#{convenioMB.filtros.ativo}"  styleClass="form-control" >
                                 <f:selectItem itemLabel="#{xmsg['select']}" />
                                 <f:selectItems value="#{findAllBean.get(classMB.ativo)}" 

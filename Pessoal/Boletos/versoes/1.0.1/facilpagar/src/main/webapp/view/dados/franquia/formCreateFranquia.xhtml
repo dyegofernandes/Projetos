@@ -86,16 +86,6 @@
                          <p:inputText id="localPagto" value="#{franquiaMB.entity.localPagto}" maxlength="200"  styleClass="form-control"  />
                      </div>
                       <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="emissor" value="* #{msg['franquia.emissor']}:" />
-                         <h:selectOneMenu id="emissor" value="#{franquiaMB.entity.emissor}" converter="entityConverter" styleClass="form-control" >
-                             <x:initializer/>
-                             <f:selectItem itemLabel="#{xmsg['select']}" />
-                             <f:selectItems value="#{findAllBean.get(classMB.banco)}" 
-                                            var="banco"
-                                            itemLabel="#{banco}"/>
-                         </h:selectOneMenu>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                          <h:outputLabel for="comissao" value="#{msg['franquia.comissao']}:" />
                          <x:inputNumber id="comissao" value="#{franquiaMB.entity.comissao}" styleClass="form-control"/>
                      </div>
@@ -110,15 +100,6 @@
                       <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                          <h:outputLabel for="multa" value="#{msg['franquia.multa']}:" />
                          <x:inputNumber id="multa" value="#{franquiaMB.entity.multa}" styleClass="form-control"/>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="tipoRepasse" value="* #{msg['franquia.tipoRepasse']}:" />
-                         <h:selectOneMenu id="tipoRepasse" value="#{franquiaMB.entity.tipoRepasse}"  styleClass="form-control" >
-                             <f:selectItem itemLabel="#{xmsg['select']}" />
-                             <f:selectItems value="#{findAllBean.get(classMB.tipoRepasse)}" 
-                                            var="tipoRepasse"
-                                            itemLabel="#{tipoRepasse}"/>
-                         </h:selectOneMenu>
                      </div>
                       <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                          <div class="checkbox">

@@ -1,0 +1,86 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['pedido.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuPedido.xhtml" />
+        <h:form id="formListPedido">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="pedido_export" target=":formListPedido:dataTablePedido"
+                                     widgetVar="dataTablePedidoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="pedido" rowIndexVar="index" id="dataTablePedido" widgetVar="dataTablePedidoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{pedidoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{pedidoMB.dataModel.paginatorTemplate}"
+                         value="#{pedidoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['pedido.estoque']}" sortBy="#{pedido.estoque}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pedido.estoque']}" />
+                    </f:facet>
+                    <h:outputText value="#{pedido.estoque}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['pedido.quantidade']}" sortBy="#{pedido.quantidade}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pedido.quantidade']}" />
+                    </f:facet>
+                    <h:outputText value="#{pedido.quantidade}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['pedido.precoUnitario']}" sortBy="#{pedido.precoUnitario}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pedido.precoUnitario']}" />
+                    </f:facet>
+                    <h:outputText value="#{pedido.precoUnitario}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetPedidoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailPedido" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{pedido}" target="#{pedidoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="pedido.create">
+                        <p:button icon="ui-icon-pencil" outcome="createPedido" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{pedido.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="pedido.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{pedidoMB.delete}" >
+                            <f:setPropertyActionListener value="#{pedido.id}" target="#{pedidoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{pedido}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="pedido.audit">
+                    <x:auditDelete for="#{pedidoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetPedidoDetail" header="#{msg['pedido.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailPedido.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

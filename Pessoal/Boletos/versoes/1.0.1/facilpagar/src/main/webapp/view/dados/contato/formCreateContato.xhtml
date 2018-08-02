@@ -13,7 +13,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <x:securityArea rolesAllowed="convenio.campo">
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <h:outputLabel for="convenio" value="* #{msg['produto.convenio']}:" />
                             <p:autoComplete id="convenio" value="#{contatoMB.entity.convenio}" 
 
@@ -30,20 +30,50 @@
 
                         </div>
                     </x:securityArea>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
                         <h:outputLabel for="nome" value="* #{msg['contato.nome']}:" />
                         <p:inputText id="nome" value="#{contatoMB.entity.nome}" maxlength="50"  styleClass="form-control"  />
                     </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
                         <h:outputLabel for="email" value="#{msg['contato.email']}:" />
                         <p:inputText id="email" value="#{contatoMB.entity.email}" maxlength="50"  styleClass="form-control"  />
                     </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
                         <h:outputLabel for="telefones" value="#{msg['contato.telefones']}:" />
-                        <p:inputText id="telefones" value="#{contatoMB.entity.telefones}" maxlength="50"  styleClass="form-control"  />
+                        <p:inputText id="telefones" value="#{contatoMB.entity.telefones}" maxlength="100"  styleClass="form-control"  />
                     </div>
-
+                    <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dt_nascimento" value="Data de Nascimento:"/>
+                        <p:calendar id="dt_nascimento" value="#{contatoMB.entity.dt_nascimento}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <h:outputLabel for="conjuge" value="#{msg['contato.conjuge']}:" />
+                        <p:inputText id="conjuge" value="#{contatoMB.entity.conjuge}" maxlength="50"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dt_anivconjuge" value="Nascimento do Cônjuge :"/>
+                        <p:calendar id="dt_anivconjuge" value="#{contatoMB.entity.dt_anivconjuge}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">               
+                        <div class="checkbox">
+                            <p:selectBooleanCheckbox id="proprietario" value="#{contatoMB.entity.proprietario}" />
+                            <p:outputLabel for="proprietario" value="#{msg['contato.proprietario']}" />
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <p:selectBooleanCheckbox id="financeiro" value="#{contatoMB.entity.financeiro}" />
+                            <p:outputLabel for="financeiro" value="#{msg['contato.financeiro']}" />
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </p:fieldset>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>

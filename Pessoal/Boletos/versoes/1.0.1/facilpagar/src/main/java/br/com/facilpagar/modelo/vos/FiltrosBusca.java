@@ -6,6 +6,7 @@
 package br.com.facilpagar.modelo.vos;
 
 import br.com.facilpagar.modelo.dados.Banco;
+import br.com.facilpagar.modelo.dados.Categoria;
 import br.com.facilpagar.modelo.dados.Cidade;
 import br.com.facilpagar.modelo.dados.Cliente;
 import br.com.facilpagar.modelo.dados.Convenio;
@@ -79,6 +80,8 @@ public class FiltrosBusca implements Serializable {
     private String telefone;
 
     private String nome;
+
+    private Categoria categoria;
 
     private Ativo ativo;
 
@@ -334,6 +337,14 @@ public class FiltrosBusca implements Serializable {
 
     public void setFranquia(Franquia franquia) {
         this.franquia = franquia;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
 }

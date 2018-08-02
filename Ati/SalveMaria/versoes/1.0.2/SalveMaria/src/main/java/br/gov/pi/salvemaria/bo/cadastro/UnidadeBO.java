@@ -303,7 +303,7 @@ public class UnidadeBO extends AbstractBusinessObject<Unidade> {
                 if (veirficacaoPrimaria || (denuncia.getIdadeAgressor() != null && veirficacaoPrimaria)) {
                     return unidade1;
                 } else {
-
+                    //verificar se idades agressor e vitima são nulos
                     veirficacaoPrimaria = (denuncia.getIdadeVitima() >= 60 && tipoUnidadesVitimaAcima60Anos.contains(unidade1.getTipo()))
                             || (denuncia.getIdadeVitima() < 18 && tipoUnidadesVitimaMenor18Anos.contains(unidade1.getTipo()))
                             || (denuncia.getIdadeVitima() >= 18 && denuncia.getIdadeVitima() < 60 && tipoUnidadesVitimaEntre18E60Anos.contains(unidade1.getTipo()));

@@ -8,6 +8,9 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.com.facilpagar.modelo.dados.Categoria;
+import br.com.facilpagar.util.Utils;
+import com.xpert.core.validation.UniqueFields;
+import com.xpert.persistence.query.Restrictions;
 
 /**
  *
@@ -26,7 +29,7 @@ public class CategoriaBO extends AbstractBusinessObject<Categoria> {
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return null;
+        return new UniqueFields().add("nome");
     }
 
     @Override
@@ -36,6 +39,16 @@ public class CategoriaBO extends AbstractBusinessObject<Categoria> {
     @Override
     public boolean isAudit() {
         return true;
+    }
+    
+    public List<Categoria> listarCategoriaPeloNome(String nome) {
+        Restrictions restrictions = new Restrictions();
+
+        if (!Utils.isNullOrEmpty(nome)) {
+            restrictions.like("categoria.nome", nome);
+        }
+
+        return getDAO().getQueryBuilder().from(Categoria.class, "categoria").add(restrictions).orderBy("categoria.nome").getResultList();
     }
 
 }

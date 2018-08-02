@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.com.facilpagar.bo.dados.CategoriaBO;
 import br.com.facilpagar.modelo.dados.Categoria;
+import java.util.List;
 
 /**
  *
@@ -28,5 +29,9 @@ public class CategoriaMB extends AbstractBaseBean<Categoria> implements Serializ
     @Override
     public String getDataModelOrder() {
         return "id";
+    }
+    
+    public List<Categoria> autocomplete(String nome) {
+        return getBO().listarCategoriaPeloNome(nome);
     }
 }

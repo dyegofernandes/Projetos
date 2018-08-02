@@ -14,8 +14,16 @@
             <p:fieldset legend="Filtros de Busca">
                 <div class="container-fluid">
                     <div class="row">
+                        <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <h:outputLabel for="nome" value="#{msg['contato.nome']}:" />
+                            <p:inputText id="nome" value="#{contatoMB.filtros.nome}" maxlength="50"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <h:outputLabel for="email" value="#{msg['contato.email']}:" />
+                            <p:inputText id="email" value="#{contatoMB.filtros.email}" maxlength="50"  styleClass="form-control"  />
+                        </div>
                         <x:securityArea rendered="#{x:hasRole('franquia.campo')}" rolesAllowed="franquia.campo">
-                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 <h:outputLabel for="franquia" value="#{msg['contato.franquia']}:" />
                                 <h:selectOneMenu id="franquia" value="#{contatoMB.filtros.franquia}"  styleClass="form-control" 
                                                  converter="entityConverter">
@@ -29,7 +37,7 @@
                             </div>
                         </x:securityArea>
                         <x:securityArea rendered="#{x:hasRole('convenio.campo')}" rolesAllowed="convenio.campo">
-                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 <h:outputLabel for="convenio" value="#{msg['cliente.convenio']}:" />
                                 <h:selectOneMenu id="convenio" value="#{contatoMB.filtros.convenio}"  styleClass="form-control" 
                                                  converter="entityConverter">
@@ -41,14 +49,6 @@
 
                             </div>
                         </x:securityArea>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="nome" value="#{msg['contato.nome']}:" />
-                            <p:inputText id="nome" value="#{contatoMB.filtros.nome}" maxlength="50"  styleClass="form-control"  />
-                        </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel for="email" value="#{msg['contato.email']}:" />
-                            <p:inputText id="email" value="#{contatoMB.filtros.email}" maxlength="50"  styleClass="form-control"  />
-                        </div>
                     </div>
                 </div>
                 <div class="uix-center">
@@ -71,23 +71,6 @@
                         </f:facet>
                         <h:outputText value="#{index+1}"/>
                     </p:column>
-                    <p:column headerText="#{msg['contato.franquia']}" rendered="#{x:hasRole('franquia.coluna')}" 
-                              sortBy="#{contato.convenio.franquia.nome_fantasia}">
-                        <f:facet name="header">
-                            <h:outputText value="#{msg['cliente.franquia']}" />
-                        </f:facet>
-                        <h:outputText value="#{contato.convenio.franquia}">
-                            <x:initializer/>
-                        </h:outputText>
-                    </p:column>
-                    <p:column headerText="#{msg['contato.convenio']}" rendered="#{x:hasRole('convenio.coluna')}">
-                        <f:facet name="header">
-                            <h:outputText value="#{msg['contato.convenio']}" />
-                        </f:facet>
-                        <h:outputText value="#{contato.convenio}">
-                            <x:initializer/>
-                        </h:outputText>
-                    </p:column>
                     <p:column headerText="#{msg['contato.nome']}" >
                         <f:facet name="header">
                             <h:outputText value="#{msg['contato.nome']}" />
@@ -106,6 +89,23 @@
                         </f:facet>
                         <h:outputText value="#{contato.telefones}"/>
                     </p:column>
+                    <p:column headerText="#{msg['contato.convenio']}" rendered="#{x:hasRole('convenio.coluna')}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['contato.convenio']}" />
+                        </f:facet>
+                        <h:outputText value="#{contato.convenio}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['contato.franquia']}" rendered="#{x:hasRole('franquia.coluna')}" 
+                              sortBy="#{contato.convenio.franquia.nome_fantasia}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['cliente.franquia']}" />
+                        </f:facet>
+                        <h:outputText value="#{contato.convenio.franquia}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
                     <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
                         <f:facet name="header">
                             <h:outputText value="#{xmsg['actions']}"/>
@@ -114,6 +114,7 @@
                                          process="@form" update=":formDetailContato" title="#{xmsg['detail']}" >
                             <f:setPropertyActionListener value="#{contato}" target="#{contatoMB.entity}" />
                         </p:commandButton>
+
                         <x:securityArea rolesAllowed="contato.create">
                             <p:button icon="ui-icon-pencil" outcome="createContato" title="#{xmsg['edit']}">
                                 <f:param name="id" value="#{contato.id}" />

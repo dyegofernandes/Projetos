@@ -52,6 +52,12 @@
                     <h:outputText value="#{convenioMB.entity.cep}" styleClass="uix-content-detail"/>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['convenio.uf']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{convenioMB.entity.cidade.uf}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['convenio.cidade']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{convenioMB.entity.cidade}" styleClass="uix-content-detail">
                         <x:initializer/>
@@ -120,6 +126,12 @@
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['convenio.tipoRepasse']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{convenioMB.entity.tipoRepasse}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['convenio.categoria']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{convenioMB.entity.categoria}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['convenio.ativo']}:" styleClass="control-label" /><br/>

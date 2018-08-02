@@ -7,17 +7,11 @@
     <h:form id="formDetailFranquia" styleClass="uix-form-detail">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['franquia.dt_cadastro']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{franquiaMB.entity.dt_cadastro}" styleClass="uix-content-detail">
-                        <f:convertDateTime />
-                    </h:outputText>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['franquia.tipo_pessoa']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{franquiaMB.entity.tipo_pessoa}" styleClass="uix-content-detail"/>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['franquia.cpf_cnpj']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{franquiaMB.entity.cpf_cnpj}" styleClass="uix-content-detail"/>
                 </div>
@@ -25,97 +19,87 @@
                     <h:outputLabel value="#{msg['franquia.razao_social']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{franquiaMB.entity.razao_social}" styleClass="uix-content-detail"/>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['franquia.nome_fantasia']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{franquiaMB.entity.nome_fantasia}" styleClass="uix-content-detail"/>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['franquia.insc_est']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{franquiaMB.entity.insc_est}" styleClass="uix-content-detail"/>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['franquia.endereco']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{franquiaMB.entity.endereco}" styleClass="uix-content-detail"/>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['franquia.bairro']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{franquiaMB.entity.bairro}" styleClass="uix-content-detail"/>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['franquia.cep']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{franquiaMB.entity.cep}" styleClass="uix-content-detail"/>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['franquia.cidade']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{franquiaMB.entity.cidade}" styleClass="uix-content-detail">
                         <x:initializer/>
                     </h:outputText>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['franquia.email']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{franquiaMB.entity.email}" styleClass="uix-content-detail"/>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['franquia.fones']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{franquiaMB.entity.fones}" styleClass="uix-content-detail"/>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['franquia.banco']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{franquiaMB.entity.banco}" styleClass="uix-content-detail">
                         <x:initializer/>
                     </h:outputText>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['franquia.agencia']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{franquiaMB.entity.agencia}" styleClass="uix-content-detail"/>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['franquia.conta_corrente']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{franquiaMB.entity.conta_corrente}" styleClass="uix-content-detail"/>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['franquia.mensagem']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{franquiaMB.entity.mensagem}" styleClass="uix-content-detail"/>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['franquia.localPagto']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{franquiaMB.entity.localPagto}" styleClass="uix-content-detail"/>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['franquia.emissor']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{franquiaMB.entity.emissor}" styleClass="uix-content-detail">
-                        <x:initializer/>
-                    </h:outputText>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['franquia.comissao']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{franquiaMB.entity.comissao}" styleClass="uix-content-detail">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                     </h:outputText>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['franquia.desconto']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{franquiaMB.entity.desconto}" styleClass="uix-content-detail">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                     </h:outputText>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['franquia.juros']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{franquiaMB.entity.juros}" styleClass="uix-content-detail">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                     </h:outputText>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['franquia.multa']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{franquiaMB.entity.multa}" styleClass="uix-content-detail">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                     </h:outputText>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['franquia.tipoRepasse']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{franquiaMB.entity.tipoRepasse}" styleClass="uix-content-detail"/>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['franquia.ativo']}:" styleClass="control-label" /><br/>
                     <h:outputText value="#{franquiaMB.entity.ativo}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
                 </div>

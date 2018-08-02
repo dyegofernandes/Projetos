@@ -182,6 +182,16 @@
                         </h:selectOneMenu>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="categoria" value="* #{msg['convenio.categoria']}:" />
+                        <h:selectOneMenu id="categoria" value="#{convenioMB.entity.categoria}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.categoria)}" 
+                                           var="categoria"
+                                           itemLabel="#{categoria}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <div class="checkbox">
                             <label>
                                 <h:selectBooleanCheckbox id="ativo" value="#{convenioMB.entity.ativo}" />

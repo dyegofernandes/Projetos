@@ -1,0 +1,58 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailEjcCard" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['ejcCard.numero']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{ejcCardMB.entity.numero}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['ejcCard.cadastro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{ejcCardMB.entity.cadastro}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['ejcCard.validade']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{ejcCardMB.entity.validade}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['ejcCard.membro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{ejcCardMB.entity.membro}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['ejcCard.credito']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{ejcCardMB.entity.credito}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['ejcCard.debito']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{ejcCardMB.entity.debito}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['ejcCard.ativo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{ejcCardMB.entity.ativo}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetEjcCardDetail').hide()" />
+            <x:securityArea rolesAllowed="ejcCard.audit">
+                <x:audit for="#{ejcCardMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

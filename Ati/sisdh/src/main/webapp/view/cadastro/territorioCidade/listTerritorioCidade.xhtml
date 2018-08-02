@@ -1,0 +1,89 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['territorioCidade.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuTerritorioCidade.xhtml" />
+        <h:form id="formListTerritorioCidade">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="territorioCidade_export" target=":formListTerritorioCidade:dataTableTerritorioCidade"
+                                     widgetVar="dataTableTerritorioCidadeWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="territorioCidade" rowIndexVar="index" id="dataTableTerritorioCidade" widgetVar="dataTableTerritorioCidadeWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{territorioCidadeMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{territorioCidadeMB.dataModel.paginatorTemplate}"
+                         value="#{territorioCidadeMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['territorioCidade.nome']}" sortBy="#{territorioCidade.nome}"
+                    filterBy="#{territorioCidade.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['territorioCidade.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{territorioCidade.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['territorioCidade.baseMunicipal']}" sortBy="#{territorioCidade.baseMunicipal}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['territorioCidade.baseMunicipal']}" />
+                    </f:facet>
+                    <h:outputText value="#{territorioCidade.baseMunicipal}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['territorioCidade.latitude']}" sortBy="#{territorioCidade.latitude}"
+                    filterBy="#{territorioCidade.latitude}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['territorioCidade.latitude']}" />
+                    </f:facet>
+                    <h:outputText value="#{territorioCidade.latitude}"/>
+                </p:column>
+                <p:column headerText="#{msg['territorioCidade.longitude']}" sortBy="#{territorioCidade.longitude}"
+                    filterBy="#{territorioCidade.longitude}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['territorioCidade.longitude']}" />
+                    </f:facet>
+                    <h:outputText value="#{territorioCidade.longitude}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetTerritorioCidadeDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailTerritorioCidade" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{territorioCidade}" target="#{territorioCidadeMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="territorioCidade.create">
+                        <p:button icon="ui-icon-pencil" outcome="createTerritorioCidade" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{territorioCidade.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="territorioCidade.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{territorioCidadeMB.delete}" >
+                            <f:setPropertyActionListener value="#{territorioCidade.id}" target="#{territorioCidadeMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{territorioCidade}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="territorioCidade.audit">
+                    <x:auditDelete for="#{territorioCidadeMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetTerritorioCidadeDetail" header="#{msg['territorioCidade.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailTerritorioCidade.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

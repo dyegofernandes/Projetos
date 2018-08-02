@@ -1,0 +1,61 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateTerritorioBairro" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="nome" value="* #{msg['territorioBairro.nome']}:" />
+                         <p:inputText id="nome" value="#{territorioBairroMB.entity.nome}" maxlength="80"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="cidade" value="* #{msg['territorioBairro.cidade']}:" />
+                         <h:selectOneMenu id="cidade" value="#{territorioBairroMB.entity.cidade}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.cidade)}" 
+                                            var="cidade"
+                                            itemLabel="#{cidade}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="latitude" value="#{msg['territorioBairro.latitude']}:" />
+                         <p:inputText id="latitude" value="#{territorioBairroMB.entity.latitude}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="longitude" value="#{msg['territorioBairro.longitude']}:" />
+                         <p:inputText id="longitude" value="#{territorioBairroMB.entity.longitude}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel value="#{msg['territorioBairro.bairros']}:" />
+                         <h:selectManyCheckbox id="bairros" value="#{territorioBairroMB.entity.bairros}" converter="entityConverter" >
+                             <x:initializer/>
+                             <f:selectItems value="#{findAllBean.get(classMB.bairro)}" 
+                                            var="bairro"
+                                            itemLabel="#{bairro}"/>
+                         </h:selectManyCheckbox>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="territorioBairro.create">
+                <p:commandButton process="@form" update="@form" action="#{territorioBairroMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="territorioBairro.audit">
+                <x:audit for="#{territorioBairroMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

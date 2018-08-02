@@ -1,0 +1,80 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailUnidade" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['unidade.nome']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{unidadeMB.entity.nome}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['unidade.sigla']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{unidadeMB.entity.sigla}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['unidade.tipo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{unidadeMB.entity.tipo}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['unidade.faixaEtariaVitima']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{unidadeMB.entity.faixaEtariaVitima}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['unidade.faixaEtariaAgressor']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{unidadeMB.entity.faixaEtariaAgressor}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['unidade.centroLtdMaps']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{unidadeMB.entity.centroLtdMaps}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['unidade.centroLgtMaps']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{unidadeMB.entity.centroLgtMaps}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['unidade.zoomMaps']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{unidadeMB.entity.zoomMaps}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['unidade.circunscricao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{unidadeMB.entity.circunscricao}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['unidade.circunscricaoBairro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{unidadeMB.entity.circunscricaoBairro}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['unidade.endereco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{unidadeMB.entity.endereco}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['unidade.visualizarDenunciaNormal']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{unidadeMB.entity.visualizarDenunciaNormal}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['unidade.visualizarDenunciaPanico']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{unidadeMB.entity.visualizarDenunciaPanico}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetUnidadeDetail').hide()" />
+            <x:securityArea rolesAllowed="unidade.audit">
+                <x:audit for="#{unidadeMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

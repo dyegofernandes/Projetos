@@ -1,0 +1,74 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateEjcCard" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="numero" value="* #{msg['ejcCard.numero']}:" />
+                         <p:inputText id="numero" value="#{ejcCardMB.entity.numero}" maxlength="50"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="cadastro" value="* #{msg['ejcCard.cadastro']}:" />
+                         <p:calendar id="cadastro" value="#{ejcCardMB.entity.cadastro}" 
+                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                             <x:mask/>
+                         </p:calendar>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="validade" value="* #{msg['ejcCard.validade']}:" />
+                         <p:calendar id="validade" value="#{ejcCardMB.entity.validade}" 
+                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                             <x:mask/>
+                         </p:calendar>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="membro" value="* #{msg['ejcCard.membro']}:" />
+                         <h:selectOneMenu id="membro" value="#{ejcCardMB.entity.membro}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.membro)}" 
+                                            var="membro"
+                                            itemLabel="#{membro}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="credito" value="* #{msg['ejcCard.credito']}:" />
+                         <x:inputNumber id="credito" value="#{ejcCardMB.entity.credito}" styleClass="form-control"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="debito" value="* #{msg['ejcCard.debito']}:" />
+                         <x:inputNumber id="debito" value="#{ejcCardMB.entity.debito}" styleClass="form-control"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <div class="checkbox">
+                             <label>
+                                 <h:selectBooleanCheckbox id="ativo" value="#{ejcCardMB.entity.ativo}" />
+                                 #{msg['ejcCard.ativo']}
+                             </label>
+                         </div>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="ejcCard.create">
+                <p:commandButton process="@form" update="@form" action="#{ejcCardMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="ejcCard.audit">
+                <x:audit for="#{ejcCardMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

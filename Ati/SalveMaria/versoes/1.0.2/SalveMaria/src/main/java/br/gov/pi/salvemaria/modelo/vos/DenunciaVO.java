@@ -81,7 +81,7 @@ public class DenunciaVO {
     public DenunciaVO(Denuncia denuncia) {
         unidade = denuncia.getUnidade() != null ? denuncia.getUnidade().getNome() : null;
         dataDenuncia = Utils.convertDateToString(denuncia.getDataDenuncia(), "dd/MM/yyyy");
-        horaDenuncia = Utils.convertDateToString(denuncia.getHoraDenuncia(), "HH:mm");
+        horaDenuncia = Utils.convertDateToString(denuncia.getHoraDenuncia(), "HH:mm:ss");
         id = denuncia.getId();
         descricao = denuncia.getDescricao();
         observacao = denuncia.getObservacao();

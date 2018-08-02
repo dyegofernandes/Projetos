@@ -9,7 +9,6 @@ import br.gov.pi.salvemaria.bo.cadastro.BairroBO;
 import br.gov.pi.salvemaria.bo.cadastro.CidadeBO;
 import br.gov.pi.salvemaria.bo.cadastro.EstadoBO;
 import br.gov.pi.salvemaria.bo.cadastro.UnidadeBO;
-import br.gov.pi.salvemaria.bo.denuncia.ArquivoBO;
 import br.gov.pi.salvemaria.bo.denuncia.DenunciaBO;
 import br.gov.pi.salvemaria.modelo.cadastro.Bairro;
 import br.gov.pi.salvemaria.modelo.cadastro.Cidade;
@@ -62,9 +61,6 @@ public class DenunciaResource {
 
     @EJB
     private DenunciaBO denunciaBO;
-
-    @EJB
-    private ArquivoBO arquivoBO;
 
     @POST
     @Path("salvar")
@@ -121,6 +117,8 @@ public class DenunciaResource {
 
                 if (!Utils.isNullOrEmpty(denunciaVO.getIdadeVitima())) {
                     denuncia.setIdadeVitima(new Integer(denunciaVO.getIdadeVitima()));
+                }else{
+                    denuncia.setIdadeVitima(18);
                 }
                 
                 denuncia.setSo(denunciaVO.getSo());
@@ -133,7 +131,8 @@ public class DenunciaResource {
 
                 if (!Utils.isNullOrEmpty(denunciaVO.getIdadeAgressor())) {
                     denuncia.setIdadeAgressor(new Integer(denunciaVO.getIdadeAgressor()));
-
+                }else{
+                    denuncia.setIdadeAgressor(18);
                 }
 
                 if (!Utils.isNullOrEmpty(denunciaVO.getDemandante())) {
@@ -168,28 +167,6 @@ public class DenunciaResource {
                         denuncia.setDescricao("Denúncia feita através do preenchimento do Formulário no Celular!");
                     }
 
-//                    stringDeBusca = stringDeBusca.concat(denunciaVO.getEndereco() != null ? denunciaVO.getEndereco() : "").concat(", ")
-//                            .concat(denunciaVO.getNumero() != null ? denunciaVO.getNumero() : "").concat(", ")
-//                            .concat(denunciaVO.getBairro()).concat(",").concat(denunciaVO.getCidade()).concat(", ").concat(denunciaVO.getEstado());
-//
-//                    url = new URL("http://maps.googleapis.com/maps/api/geocode/json?address=BUSCA_PELO_VALOR".
-//                            replace("BUSCA_PELO_VALOR", stringDeBusca.replace(" ", "+")));
-//
-//                    String stringJson = Utils.pegarRetornoUrlGoogle(url);
-//
-//                    if (!Utils.isNullOrEmpty(stringJson)) {
-//                        JSONObject jsonObjTest = new JSONObject(stringJson);
-//
-//                        JSONArray jsonArray = jsonObjTest.getJSONArray("results");
-//
-//                        if (jsonArray.length() > 0) {
-//                            endereco.setLatitude(Utils.pegarLatitude(stringJson));
-//                            endereco.setLongitude(Utils.pegarLongitude(stringJson));
-//                        }
-//                    } else {
-//                        return Response.status(503).entity("Nenhum resultado encontrado para latitude e longitude informadados!").
-//                                header("CustomHeader", "CustomValue").build();
-//                    }
                 } else {
                     if (tipo == TipoDenuncia.PANICO) {
                         denuncia.setDescricao("Botão Pânico!! Latidude: ".concat(denunciaVO.getLatitude()).concat(" Longitude: ").concat(denunciaVO.getLongitude()));

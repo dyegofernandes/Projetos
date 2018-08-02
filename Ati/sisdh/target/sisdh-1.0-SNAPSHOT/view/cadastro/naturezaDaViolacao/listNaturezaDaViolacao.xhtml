@@ -1,0 +1,66 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['naturezaDaViolacao.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuNaturezaDaViolacao.xhtml" />
+        <h:form id="formListNaturezaDaViolacao">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="naturezaDaViolacao_export" target=":formListNaturezaDaViolacao:dataTableNaturezaDaViolacao"
+                                     widgetVar="dataTableNaturezaDaViolacaoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="naturezaDaViolacao" rowIndexVar="index" id="dataTableNaturezaDaViolacao" widgetVar="dataTableNaturezaDaViolacaoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{naturezaDaViolacaoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{naturezaDaViolacaoMB.dataModel.paginatorTemplate}"
+                         value="#{naturezaDaViolacaoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['naturezaDaViolacao.nome']}" sortBy="#{naturezaDaViolacao.nome}"
+                    filterBy="#{naturezaDaViolacao.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['naturezaDaViolacao.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{naturezaDaViolacao.nome}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetNaturezaDaViolacaoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailNaturezaDaViolacao" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{naturezaDaViolacao}" target="#{naturezaDaViolacaoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="naturezaDaViolacao.create">
+                        <p:button icon="ui-icon-pencil" outcome="createNaturezaDaViolacao" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{naturezaDaViolacao.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="naturezaDaViolacao.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{naturezaDaViolacaoMB.delete}" >
+                            <f:setPropertyActionListener value="#{naturezaDaViolacao.id}" target="#{naturezaDaViolacaoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{naturezaDaViolacao}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="naturezaDaViolacao.audit">
+                    <x:auditDelete for="#{naturezaDaViolacaoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetNaturezaDaViolacaoDetail" header="#{msg['naturezaDaViolacao.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailNaturezaDaViolacao.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

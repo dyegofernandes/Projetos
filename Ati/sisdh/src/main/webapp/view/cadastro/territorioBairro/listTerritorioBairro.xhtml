@@ -1,0 +1,89 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['territorioBairro.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuTerritorioBairro.xhtml" />
+        <h:form id="formListTerritorioBairro">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="territorioBairro_export" target=":formListTerritorioBairro:dataTableTerritorioBairro"
+                                     widgetVar="dataTableTerritorioBairroWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="territorioBairro" rowIndexVar="index" id="dataTableTerritorioBairro" widgetVar="dataTableTerritorioBairroWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{territorioBairroMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{territorioBairroMB.dataModel.paginatorTemplate}"
+                         value="#{territorioBairroMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['territorioBairro.nome']}" sortBy="#{territorioBairro.nome}"
+                    filterBy="#{territorioBairro.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['territorioBairro.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{territorioBairro.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['territorioBairro.cidade']}" sortBy="#{territorioBairro.cidade}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['territorioBairro.cidade']}" />
+                    </f:facet>
+                    <h:outputText value="#{territorioBairro.cidade}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['territorioBairro.latitude']}" sortBy="#{territorioBairro.latitude}"
+                    filterBy="#{territorioBairro.latitude}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['territorioBairro.latitude']}" />
+                    </f:facet>
+                    <h:outputText value="#{territorioBairro.latitude}"/>
+                </p:column>
+                <p:column headerText="#{msg['territorioBairro.longitude']}" sortBy="#{territorioBairro.longitude}"
+                    filterBy="#{territorioBairro.longitude}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['territorioBairro.longitude']}" />
+                    </f:facet>
+                    <h:outputText value="#{territorioBairro.longitude}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetTerritorioBairroDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailTerritorioBairro" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{territorioBairro}" target="#{territorioBairroMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="territorioBairro.create">
+                        <p:button icon="ui-icon-pencil" outcome="createTerritorioBairro" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{territorioBairro.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="territorioBairro.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{territorioBairroMB.delete}" >
+                            <f:setPropertyActionListener value="#{territorioBairro.id}" target="#{territorioBairroMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{territorioBairro}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="territorioBairro.audit">
+                    <x:auditDelete for="#{territorioBairroMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetTerritorioBairroDetail" header="#{msg['territorioBairro.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailTerritorioBairro.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,89 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['membro.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuMembro.xhtml" />
+        <h:form id="formListMembro">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="membro_export" target=":formListMembro:dataTableMembro"
+                                     widgetVar="dataTableMembroWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="membro" rowIndexVar="index" id="dataTableMembro" widgetVar="dataTableMembroWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{membroMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{membroMB.dataModel.paginatorTemplate}"
+                         value="#{membroMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['membro.equipe']}" sortBy="#{membro.equipe}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['membro.equipe']}" />
+                    </f:facet>
+                    <h:outputText value="#{membro.equipe}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['membro.nome']}" sortBy="#{membro.nome}"
+                    filterBy="#{membro.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['membro.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{membro.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['membro.nomeUsual']}" sortBy="#{membro.nomeUsual}"
+                    filterBy="#{membro.nomeUsual}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['membro.nomeUsual']}" />
+                    </f:facet>
+                    <h:outputText value="#{membro.nomeUsual}"/>
+                </p:column>
+                <p:column headerText="#{msg['membro.ativo']}" sortBy="#{membro.ativo}"
+                    filterBy="#{membro.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['membro.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{membro.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetMembroDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailMembro" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{membro}" target="#{membroMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="membro.create">
+                        <p:button icon="ui-icon-pencil" outcome="createMembro" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{membro.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="membro.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{membroMB.delete}" >
+                            <f:setPropertyActionListener value="#{membro.id}" target="#{membroMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{membro}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="membro.audit">
+                    <x:auditDelete for="#{membroMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetMembroDetail" header="#{msg['membro.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailMembro.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

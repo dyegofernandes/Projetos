@@ -115,12 +115,15 @@ public class ConvenioBO extends AbstractBusinessObject<Convenio> {
             restrictions.add("uf", filtros.getEstado());
         }
 
+        if (filtros.getCategoria() != null) {
+            restrictions.add("categoria", filtros.getCategoria());
+        }
+ 
         if (filtros.getAtivo() != null) {
             restrictions.add("convenio.ativo", filtros.getAtivo().isStatus());
         }
 
-        return getDAO().getQueryBuilder().from(Convenio.class, "convenio").leftJoinFetch("convenio.franquia", "franquia").leftJoinFetch("convenio.cidade", "cidade")
-                .leftJoinFetch("cidade.uf", "uf").add(restrictions).orderBy("uf, cidade, franquia, convenio.nome_fantasia").getResultList();
-    }
+        return getDAO().getQueryBuilder().from(Convenio.class, "convenio").leftJoinFetch("convenio.franquia", "franquia").leftJoinFetch("convenio.categoria","categoria").leftJoinFetch("convenio.cidade", "cidade")
+                .leftJoinFetch("cidade.uf", "uf").add(restrictions).orderBy("uf, cidade, franquia, convenio.nome_fantasia").getResultList();    }
 
 }

@@ -4,94 +4,128 @@
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
-    
-  
+
+
     <h:form id="formCreateMembro" >
         <p:fieldset legend="#{xmsg['generalData']}">
             <x:modalMessages/>
 
             <div class="container-fluid">
-                 <div class="row">
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="sede" value="* #{msg['membro.sede']}:" />
-                         <h:selectOneMenu id="sede" value="#{membroMB.entity.sede}" converter="entityConverter" styleClass="form-control" >
-                             <x:initializer/>
-                             <f:selectItem itemLabel="#{xmsg['select']}" />
-                             <f:selectItems value="#{findAllBean.get(classMB.sede)}" 
-                                            var="sede"
-                                            itemLabel="#{sede}"/>
-                         </h:selectOneMenu>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="nomeUsual" value="* #{msg['membro.nomeUsual']}:" />
-                         <p:inputText id="nomeUsual" value="#{membroMB.entity.nomeUsual}" maxlength="250"  styleClass="form-control"  />
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="nome" value="* #{msg['membro.nome']}:" />
-                         <p:inputText id="nome" value="#{membroMB.entity.nome}" maxlength="250"  styleClass="form-control"  />
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="codigo" value="* #{msg['membro.codigo']}:" />
-                         <p:inputText id="codigo" value="#{membroMB.entity.codigo}" maxlength="50"  styleClass="form-control"  />
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="dataCadastro" value="* #{msg['membro.dataCadastro']}:" />
-                         <p:calendar id="dataCadastro" value="#{membroMB.entity.dataCadastro}" 
-                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
-                             <x:mask/>
-                         </p:calendar>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="dataNascimento" value="* #{msg['membro.dataNascimento']}:" />
-                         <p:calendar id="dataNascimento" value="#{membroMB.entity.dataNascimento}" 
-                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
-                             <x:mask/>
-                         </p:calendar>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="sexo" value="* #{msg['membro.sexo']}:" />
-                         <h:selectOneMenu id="sexo" value="#{membroMB.entity.sexo}"  styleClass="form-control" >
-                             <f:selectItem itemLabel="#{xmsg['select']}" />
-                             <f:selectItems value="#{findAllBean.get(classMB.sexo)}" 
-                                            var="sexo"
-                                            itemLabel="#{sexo}"/>
-                         </h:selectOneMenu>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="estadoCivil" value="* #{msg['membro.estadoCivil']}:" />
-                         <h:selectOneMenu id="estadoCivil" value="#{membroMB.entity.estadoCivil}"  styleClass="form-control" >
-                             <f:selectItem itemLabel="#{xmsg['select']}" />
-                             <f:selectItems value="#{findAllBean.get(classMB.estadoCivil)}" 
-                                            var="estadoCivil"
-                                            itemLabel="#{estadoCivil}"/>
-                         </h:selectOneMenu>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="dataCasamento" value="#{msg['membro.dataCasamento']}:" />
-                         <p:calendar id="dataCasamento" value="#{membroMB.entity.dataCasamento}" 
-                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
-                             <x:mask/>
-                         </p:calendar>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="nomeConjuge" value="#{msg['membro.nomeConjuge']}:" />
-                         <p:inputText id="nomeConjuge" value="#{membroMB.entity.nomeConjuge}" maxlength="255"  styleClass="form-control"  />
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="quantidadeFilhos" value="#{msg['membro.quantidadeFilhos']}:" />
-                         <p:inputMask id="quantidadeFilhos" mask="9?99"  value="#{membroMB.entity.quantidadeFilhos}" styleClass="form-control" />
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <div class="checkbox">
-                             <label>
-                                 <h:selectBooleanCheckbox id="ativo" value="#{membroMB.entity.ativo}" />
-                                 #{msg['membro.ativo']}
-                             </label>
-                         </div>
-                     </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="sede" value="* #{msg['membro.sede']}:" />
+                        <p:inputText id="sede" value="#{membroMB.entity.sede}" maxlength="250"  styleClass="form-control"  readonly="true"
+                                     placeholder="Sede do Usuário Atual">
+                            <x:initializer/>
+                        </p:inputText>
 
-                 </div>
-             </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nomeUsual" value="* #{msg['membro.nomeUsual']}:" />
+                        <p:inputText id="nomeUsual" value="#{membroMB.entity.nomeUsual}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nome" value="* #{msg['membro.nome']}:" />
+                        <p:inputText id="nome" value="#{membroMB.entity.nome}" maxlength="250"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="codigo" value="* #{msg['membro.codigo']}:" />
+                        <p:inputMask id="codigo" value="#{membroMB.entity.codigo}" mask="9?99999999999999999"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataCadastro" value="* #{msg['membro.dataCadastro']}:" />
+                        <p:inputText id="dataCadastro" value="#{membroMB.entity.dataCadastro}" maxlength="250"  styleClass="form-control" readonly="true">
+                            <f:convertDateTime />
+                        </p:inputText>
+
+
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataNascimento" value="* #{msg['membro.dataNascimento']}:" />
+                        <p:calendar id="dataNascimento" value="#{membroMB.entity.dataNascimento}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="sexo" value="* #{msg['membro.sexo']}:" />
+                        <h:selectOneMenu id="sexo" value="#{membroMB.entity.sexo}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.sexo)}" 
+                                           var="sexo"
+                                           itemLabel="#{sexo.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="estadoCivil" value="* #{msg['membro.estadoCivil']}:" />
+                        <h:selectOneMenu id="estadoCivil" value="#{membroMB.entity.estadoCivil}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.estadoCivil)}" 
+                                           var="estadoCivil"
+                                           itemLabel="#{estadoCivil.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataCasamento" value="#{msg['membro.dataCasamento']}:" />
+                        <p:calendar id="dataCasamento" value="#{membroMB.entity.dataCasamento}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="nomeConjuge" value="#{msg['membro.nomeConjuge']}:" />
+                        <p:inputText id="nomeConjuge" value="#{membroMB.entity.nomeConjuge}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="quantidadeFilhos" value="#{msg['membro.quantidadeFilhos']}:" />
+                        <p:inputMask id="quantidadeFilhos" mask="9?99"  value="#{membroMB.entity.quantidadeFilhos}" styleClass="form-control" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="endereco" value="* #{msg['endereco.logradouro']}:" />
+                        <p:inputText id="endereco" value="#{membroMB.entity.endereco.logradouro}" maxlength="260"  styleClass="form-control"  >
+                            <x:initializer/>
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="numero" value="#{msg['endereco.numero']}:" />
+                        <p:inputText id="numero" value="#{membroMB.entity.endereco.numero}" maxlength="60"  styleClass="form-control"  >
+                            <x:initializer/>
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="complemento" value="#{msg['endereco.complemento']}:" />
+                        <p:inputText id="complemento" value="#{membroMB.entity.endereco.complemento}" maxlength="260"  styleClass="form-control"  >
+                            <x:initializer/>
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cep" value="#{msg['endereco.cep']}:" />
+                        <p:inputMask id="cep" value="#{membroMB.entity.endereco.cep}" mask="99999-999"  styleClass="form-control"  >
+                            <x:initializer/>
+                        </p:inputMask>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="bairro" value="* Bairro:" />
+                        <h:selectOneMenu id="bairro" value="#{membroMB.entity.endereco.bairro}" converter="entityConverter" 
+                                         styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.bairro)}" 
+                                           var="bairro"
+                                           itemLabel="#{bairro}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="ativo" value="#{membroMB.entity.ativo}" />
+                                #{msg['membro.ativo']}
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </p:fieldset>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">

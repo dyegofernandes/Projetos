@@ -15,6 +15,20 @@
 
                 <div class="container-fluid">
                     <div class="row">
+                        <div class="form-group col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <h:outputLabel for="sede" value="#{msg['membro.sede']}:" />
+                            <h:selectOneMenu id="sede" value="#{usuarioMB.entity.sede}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.sede)}" 
+                                               var="sede"
+                                               itemLabel="#{sede}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
 
                         <div class="form-group col-lg-6 col-md-12 col-sm-12 col-xs-12">
                             <h:outputLabel value="* #{msg['usuario.nome']}:" />

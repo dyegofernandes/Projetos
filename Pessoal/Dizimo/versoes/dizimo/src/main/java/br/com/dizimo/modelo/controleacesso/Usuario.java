@@ -1,5 +1,6 @@
 package br.com.dizimo.modelo.controleacesso;
 
+import br.com.dizimo.modelo.cadastro.Sede;
 import br.com.dizimo.modelo.financeiro.Caixa;
 import br.com.dizimo.modelo.financeiro.Dizimo;
 import com.xpert.audit.NotAudited;
@@ -20,6 +21,9 @@ public class Usuario implements Serializable, User {
     @SequenceGenerator(name = "Usuario", allocationSize = 1, sequenceName = "usuario_id_seq")
     @GeneratedValue(generator = "Usuario")
     private Long id;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Sede sede;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCadastro;
@@ -65,12 +69,8 @@ public class Usuario implements Serializable, User {
     private List<HistoricoSituacaoUsuario> historicosSituacao;
     
     @NotAudited
-    @OneToMany(mappedBy = "usuarioAbertura")
-    private List<Caixa> usuariosAbertura;
-    
-    @NotAudited
-    @OneToMany(mappedBy = "usuarioFechamento")
-    private List<Caixa> usuariosFechamento;
+    @OneToMany(mappedBy = "usuario")
+    private List<Caixa> caixas;
     
     @NotAudited
     @OneToMany(mappedBy = "usuario")
@@ -92,6 +92,14 @@ public class Usuario implements Serializable, User {
     @Override
     public boolean isActive() {
         return situacaoUsuario != null && situacaoUsuario.equals(SituacaoUsuario.ATIVO);
+    }
+
+    public Sede getSede() {
+        return sede;
+    }
+
+    public void setSede(Sede sede) {
+        this.sede = sede;
     }
 
     public Boolean getSenhaCadastrada() {
@@ -207,21 +215,14 @@ public class Usuario implements Serializable, User {
         this.perfis = perfis;
     }
 
-    public List<Caixa> getUsuariosAbertura() {
-        return usuariosAbertura;
+    public List<Caixa> getCaixas() {
+        return caixas;
     }
 
-    public void setUsuariosAbertura(List<Caixa> usuariosAbertura) {
-        this.usuariosAbertura = usuariosAbertura;
+    public void setCaixas(List<Caixa> caixas) {
+        this.caixas = caixas;
     }
 
-    public List<Caixa> getUsuariosFechamento() {
-        return usuariosFechamento;
-    }
-
-    public void setUsuariosFechamento(List<Caixa> usuariosFechamento) {
-        this.usuariosFechamento = usuariosFechamento;
-    }
 
     public List<Dizimo> getDizimos() {
         return dizimos;

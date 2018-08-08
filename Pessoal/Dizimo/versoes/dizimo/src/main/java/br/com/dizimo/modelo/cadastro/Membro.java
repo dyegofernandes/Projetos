@@ -7,6 +7,7 @@ package br.com.dizimo.modelo.cadastro;
 
 import br.com.dizimo.modelo.enums.EstadoCivil;
 import br.com.dizimo.modelo.enums.Sexo;
+import br.com.dizimo.util.Utils;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.CascadeType;
@@ -84,7 +85,10 @@ public class Membro implements Serializable, Comparable<Membro> {
 
     @Override
     public String toString() {
-        return nomeUsual; //To change body of generated methods, choose Tools | Templates.
+        if (!Utils.isNullOrEmpty(codigo) && !Utils.isNullOrEmpty(nome)) {
+            return codigo.concat(" - ").concat(nome);
+        }
+        return nome;
     }
 
     public Long getId() {

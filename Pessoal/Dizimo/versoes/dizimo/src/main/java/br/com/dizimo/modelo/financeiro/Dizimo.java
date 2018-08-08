@@ -33,7 +33,7 @@ public class Dizimo implements Serializable {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull(message = "Só pode cadastrar um dizimo se existir um caixa aberto!!")
+    @NotNull(message = "Um Dízimo só pode ser cadastrado se existir um Caixa aberto!!")
     private Caixa caixa;
 
     @ManyToOne(fetch = FetchType.LAZY)

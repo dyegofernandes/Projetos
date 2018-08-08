@@ -20,20 +20,15 @@
                     </h:outputText>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['caixa.usuarioAbertura']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{caixaMB.entity.usuarioAbertura}" styleClass="uix-content-detail">
+                    <h:outputLabel value="#{msg['caixa.usuario']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{caixaMB.entity.usuario}" styleClass="uix-content-detail">
                         <x:initializer/>
                     </h:outputText>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['caixa.usuarioFechamento']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{caixaMB.entity.usuarioFechamento}" styleClass="uix-content-detail">
-                        <x:initializer/>
-                    </h:outputText>
-                </div>
+                
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['caixa.status']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{caixaMB.entity.status}" styleClass="uix-content-detail"/>
+                    <h:outputText value="#{caixaMB.entity.status.descricao}" styleClass="uix-content-detail"/>
                 </div>
            </div>
          </div>

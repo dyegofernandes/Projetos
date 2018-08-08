@@ -7,6 +7,7 @@ package br.com.dizimo.modelo.financeiro;
 
 import br.com.dizimo.modelo.controleacesso.Usuario;
 import br.com.dizimo.modelo.enums.StatusCaixa;
+import br.com.dizimo.util.Utils;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
@@ -35,21 +36,26 @@ public class Caixa implements Serializable {
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
-    private Date abertura;
+    private Date abertura = new Date();
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechamento;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
-    private Usuario usuarioAbertura;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Usuario usuarioFechamento;
+    private Usuario usuario;
 
     @NotNull
     @Enumerated(EnumType.STRING)
     private StatusCaixa status = StatusCaixa.ABERTO;
+
+    @Override
+    public String toString() {
+        if (abertura != null && status != null) {
+            return Utils.convertDateToString(abertura, "dd/MM/yyyy HH:mm").concat(" - ").concat(status.getDescricao());
+        }
+        return Utils.convertDateToString(abertura, "dd/MM/yyyy HH:mm");
+    }
 
     public Long getId() {
         return id;
@@ -75,28 +81,20 @@ public class Caixa implements Serializable {
         this.fechamento = fechamento;
     }
 
-    public Usuario getUsuarioAbertura() {
-        return usuarioAbertura;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setUsuarioAbertura(Usuario usuarioAbertura) {
-        this.usuarioAbertura = usuarioAbertura;
-    }
-
-    public Usuario getUsuarioFechamento() {
-        return usuarioFechamento;
-    }
-
-    public void setUsuarioFechamento(Usuario usuarioFechamento) {
-        this.usuarioFechamento = usuarioFechamento;
-    }
-
-    public StatusCaixa getStatus() {
-        return status;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public void setStatus(StatusCaixa status) {
         this.status = status;
+    }
+
+    public StatusCaixa getStatus() {
+        return status;
     }
 
     @Override

@@ -4,60 +4,48 @@
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
-    
-  
+
+
     <h:form id="formCreateCaixa" >
         <p:fieldset legend="#{xmsg['generalData']}">
             <x:modalMessages/>
 
             <div class="container-fluid">
-                 <div class="row">
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="abertura" value="* #{msg['caixa.abertura']}:" />
-                         <p:calendar id="abertura" value="#{caixaMB.entity.abertura}" 
-                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
-                             <x:mask/>
-                         </p:calendar>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="fechamento" value="#{msg['caixa.fechamento']}:" />
-                         <p:calendar id="fechamento" value="#{caixaMB.entity.fechamento}" 
-                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
-                             <x:mask/>
-                         </p:calendar>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="usuarioAbertura" value="* #{msg['caixa.usuarioAbertura']}:" />
-                         <h:selectOneMenu id="usuarioAbertura" value="#{caixaMB.entity.usuarioAbertura}" converter="entityConverter" styleClass="form-control" >
-                             <x:initializer/>
-                             <f:selectItem itemLabel="#{xmsg['select']}" />
-                             <f:selectItems value="#{findAllBean.get(classMB.usuario)}" 
-                                            var="usuario"
-                                            itemLabel="#{usuario}"/>
-                         </h:selectOneMenu>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="usuarioFechamento" value="#{msg['caixa.usuarioFechamento']}:" />
-                         <h:selectOneMenu id="usuarioFechamento" value="#{caixaMB.entity.usuarioFechamento}" converter="entityConverter" styleClass="form-control" >
-                             <x:initializer/>
-                             <f:selectItem itemLabel="#{xmsg['select']}" />
-                             <f:selectItems value="#{findAllBean.get(classMB.usuario)}" 
-                                            var="usuario"
-                                            itemLabel="#{usuario}"/>
-                         </h:selectOneMenu>
-                     </div>
-                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                         <h:outputLabel for="status" value="* #{msg['caixa.status']}:" />
-                         <h:selectOneMenu id="status" value="#{caixaMB.entity.status}"  styleClass="form-control" >
-                             <f:selectItem itemLabel="#{xmsg['select']}" />
-                             <f:selectItems value="#{findAllBean.get(classMB.statusCaixa)}" 
-                                            var="statusCaixa"
-                                            itemLabel="#{statusCaixa}"/>
-                         </h:selectOneMenu>
-                     </div>
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="status" value="* #{msg['caixa.status']}:" />
+                        <h:selectOneMenu id="status" value="#{caixaMB.entity.status}"  styleClass="form-control" >
+                            <f:selectItems value="#{caixaMB.situacoes}" 
+                                           var="statusCaixa"
+                                           itemLabel="#{statusCaixa.descricao}"/>
+                            <p:ajax process="@this" update="@form" listener="#{caixaMB.mudarStatus()}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="abertura" value="* #{msg['caixa.abertura']}:" />
+                        <p:inputText id="abertura" value="#{caixaMB.entity.abertura}" maxlength="50"  styleClass="form-control"  readonly="true"  >
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="fechamento" value="#{msg['caixa.fechamento']}:" />
+                        <p:inputText id="fechamento" value="#{caixaMB.entity.fechamento}" maxlength="50"  styleClass="form-control"  readonly="true"
+                                     placeholder="Caixa continua aberto.">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="usuario" value="* #{msg['caixa.usuario']}:" />
+                        <p:inputText id="usuario" value="#{caixaMB.entity.usuario}" maxlength="150"  styleClass="form-control"  
+                                     readonly="true">
+                            <x:initializer/>
+                        </p:inputText>
+                    </div>
 
-                 </div>
-             </div>
+
+
+                </div>
+            </div>
         </p:fieldset>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">

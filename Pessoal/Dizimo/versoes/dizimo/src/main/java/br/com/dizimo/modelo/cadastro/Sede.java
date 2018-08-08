@@ -5,6 +5,7 @@
  */
 package br.com.dizimo.modelo.cadastro;
 
+import br.com.dizimo.modelo.controleacesso.Usuario;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.List;
@@ -56,13 +57,17 @@ public class Sede implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL)
     @NotNull
-    private Endereco endereco;
+    private Endereco endereco = new Endereco();
     
     private boolean ativo = true;
 
     @NotAudited
     @OneToMany(mappedBy = "sedePai")
     private List<Sede> sedeFilhas;
+    
+    @NotAudited
+    @OneToMany(mappedBy = "sede")
+    private List<Usuario> usuarios;
 
     @Override
     public String toString() {
@@ -147,6 +152,14 @@ public class Sede implements Serializable {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
     }
 
     @Override

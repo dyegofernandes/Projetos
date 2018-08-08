@@ -42,30 +42,22 @@
                         <f:convertDateTime />
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{msg['caixa.usuarioAbertura']}" sortBy="#{caixa.usuarioAbertura}"
+                <p:column headerText="#{msg['caixa.usuario']}" sortBy="#{caixa.usuario}"
                        >
                     <f:facet name="header">
-                        <h:outputText value="#{msg['caixa.usuarioAbertura']}" />
+                        <h:outputText value="#{msg['caixa.usuario']}" />
                     </f:facet>
-                    <h:outputText value="#{caixa.usuarioAbertura}">
+                    <h:outputText value="#{caixa.usuario}">
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{msg['caixa.usuarioFechamento']}" sortBy="#{caixa.usuarioFechamento}"
-                       >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['caixa.usuarioFechamento']}" />
-                    </f:facet>
-                    <h:outputText value="#{caixa.usuarioFechamento}">
-                        <x:initializer/>
-                    </h:outputText>
-                </p:column>
+                
                 <p:column headerText="#{msg['caixa.status']}" sortBy="#{caixa.status}"
                     filterBy="#{caixa.status}"  filterOptions="#{findAllBean.getSelect(classMB.statusCaixa)}" >
                     <f:facet name="header">
                         <h:outputText value="#{msg['caixa.status']}" />
                     </f:facet>
-                    <h:outputText value="#{caixa.status}"/>
+                    <h:outputText value="#{caixa.status.descricao}"/>
                 </p:column>
                 <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
                     <f:facet name="header">

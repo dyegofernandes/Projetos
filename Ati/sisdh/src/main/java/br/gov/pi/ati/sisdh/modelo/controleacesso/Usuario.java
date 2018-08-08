@@ -1,5 +1,7 @@
 package br.gov.pi.ati.sisdh.modelo.controleacesso;
 
+import br.gov.pi.ati.sisdh.modelo.cadastro.Orgao;
+import br.gov.pi.ati.sisdh.modelo.cadastro.Unidade;
 import com.xpert.audit.NotAudited;
 import com.xpert.security.model.User;
 import java.io.Serializable;
@@ -18,6 +20,12 @@ public class Usuario implements Serializable, User {
     @SequenceGenerator(name = "Usuario", allocationSize = 1, sequenceName = "usuario_id_seq")
     @GeneratedValue(generator = "Usuario")
     private Long id;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Orgao orgao;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Unidade unidade;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCadastro;
@@ -26,7 +34,7 @@ public class Usuario implements Serializable, User {
     private String nome;
 
     @Size(max = 16)
-    @NotBlank
+//    @NotBlank
     private String cpf;
 
     @NotBlank
@@ -93,6 +101,22 @@ public class Usuario implements Serializable, User {
     @Override
     public boolean isActive() {
         return situacaoUsuario != null && situacaoUsuario.equals(SituacaoUsuario.ATIVO);
+    }
+
+    public Orgao getOrgao() {
+        return orgao;
+    }
+
+    public void setOrgao(Orgao orgao) {
+        this.orgao = orgao;
+    }
+
+    public Unidade getUnidade() {
+        return unidade;
+    }
+
+    public void setUnidade(Unidade unidade) {
+        this.unidade = unidade;
     }
 
     public Boolean getSenhaCadastrada() {

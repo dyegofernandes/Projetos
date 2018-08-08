@@ -1,0 +1,73 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['identidadeDeGenero.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuIdentidadeDeGenero.xhtml" />
+        <h:form id="formListIdentidadeDeGenero">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="identidadeDeGenero_export" target=":formListIdentidadeDeGenero:dataTableIdentidadeDeGenero"
+                                     widgetVar="dataTableIdentidadeDeGeneroWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="identidadeDeGenero" rowIndexVar="index" id="dataTableIdentidadeDeGenero" widgetVar="dataTableIdentidadeDeGeneroWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{identidadeDeGeneroMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{identidadeDeGeneroMB.dataModel.paginatorTemplate}"
+                         value="#{identidadeDeGeneroMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['identidadeDeGenero.nome']}" sortBy="#{identidadeDeGenero.nome}"
+                    filterBy="#{identidadeDeGenero.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['identidadeDeGenero.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{identidadeDeGenero.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['identidadeDeGenero.ativo']}" sortBy="#{identidadeDeGenero.ativo}"
+                    filterBy="#{identidadeDeGenero.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['identidadeDeGenero.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{identidadeDeGenero.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetIdentidadeDeGeneroDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailIdentidadeDeGenero" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{identidadeDeGenero}" target="#{identidadeDeGeneroMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="identidadeDeGenero.create">
+                        <p:button icon="ui-icon-pencil" outcome="createIdentidadeDeGenero" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{identidadeDeGenero.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="identidadeDeGenero.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{identidadeDeGeneroMB.delete}" >
+                            <f:setPropertyActionListener value="#{identidadeDeGenero.id}" target="#{identidadeDeGeneroMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{identidadeDeGenero}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="identidadeDeGenero.audit">
+                    <x:auditDelete for="#{identidadeDeGeneroMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetIdentidadeDeGeneroDetail" header="#{msg['identidadeDeGenero.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailIdentidadeDeGenero.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

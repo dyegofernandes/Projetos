@@ -7,9 +7,10 @@ package br.gov.pi.ati.sisdh.modelo.cadastro.enums;
 
 /**
  *
- * @author killerbee
+ * @author Juniel
  */
 public enum Sexo {
+    INTER_SEXUAL("Intersexual"),
     MASCULINO("Masculino"),
     FENININO("Feminino");
     

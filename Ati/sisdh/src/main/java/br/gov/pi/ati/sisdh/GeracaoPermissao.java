@@ -22,18 +22,11 @@ public class GeracaoPermissao {
     public void generate() {
         create(new Permissao("cadastro", "Cadastro", false), null);
 //Orgao
-        create(new Permissao("orgao", "Orgão", true), "cadastro");
-        create(new Permissao("orgao.create", "Cadastro de Órgão", "/view/cadastro/Orgao/orgao/createOrgao.jsf", false), "orgao");
-        create(new Permissao("orgao.list", "Órgãos", "/view/cadastro/Orgao/orgao/listOrgao.jsf", true), "cadastro");
+        create(new Permissao("orgao", "Orgão - Menu", false), "cadastro");
+        create(new Permissao("orgao.create", "Cadastro de Órgão", "/view/cadastro/orgao/createOrgao.jsf", false), "orgao");
+        create(new Permissao("orgao.list", "Órgãos", "/view/cadastro/orgao/listOrgao.jsf", true), "cadastro");
         create(new Permissao("orgao.audit", "Auditoria de Órgão"), "orgao");
         create(new Permissao("orgao.delete", "Exclusão de Órgão"), "orgao");
-
-        //Denuncia
-        create(new Permissao("denuncia", "Denuncia", false), "cadastro");
-        create(new Permissao("denuncia.create", "Cadastro de Denuncia", "/view/cadastro/Denuncia/denuncia/createDenuncia.jsf", false), "denuncia");
-        create(new Permissao("denuncia.list", "Consulta de Denuncia", "/view/cadastro/Denuncia/denuncia/listDenuncia.jsf", true), "cadastro");
-        create(new Permissao("denuncia.audit", "Auditoria de Denuncia"), "denuncia");
-        create(new Permissao("denuncia.delete", "Exclusão de Denuncia"), "denuncia");
 
 //Unidade
         create(new Permissao("unidade", "Unidade", false), "cadastro");
@@ -50,7 +43,7 @@ public class GeracaoPermissao {
         create(new Permissao("cidade.delete", "Exclusão de Cidade"), "cidade");
 
 //Estado
-        create(new Permissao("estado", "Estado", true), "cadastro");
+        create(new Permissao("estado", "Estado", false), "cadastro");
         create(new Permissao("estado.create", "Cadastro de Estado", "/view/cadastro/estado/createEstado.jsf", false), "estado");
         create(new Permissao("estado.list", "Estados", "/view/cadastro/estado/listEstado.jsf", true), "cadastro");
         create(new Permissao("estado.audit", "Auditoria de Estado"), "estado");
@@ -76,7 +69,7 @@ public class GeracaoPermissao {
 //Bairro
         create(new Permissao("bairro", "Bairro", false), "cadastro");
         create(new Permissao("bairro.create", "Cadastro de Bairro", "/view/cadastro/bairro/createBairro.jsf", false), "bairro");
-        create(new Permissao("bairro.list", "Consulta de Bairro", "/view/cadastro/bairro/listBairro.jsf", true), "cadastro");
+        create(new Permissao("bairro.list", "Bairros", "/view/cadastro/bairro/listBairro.jsf", true), "cadastro");
         create(new Permissao("bairro.audit", "Auditoria de Bairro"), "bairro");
         create(new Permissao("bairro.delete", "Exclusão de Bairro"), "bairro");
 
@@ -96,10 +89,25 @@ public class GeracaoPermissao {
         create(new Permissao("grupoDeViolacao.audit", "Auditoria de Grupo De Violação"), "grupoDeViolacao");
         create(new Permissao("grupoDeViolacao.delete", "Exclusão de Grupo De Violação"), "grupoDeViolacao");
 
+//        //Identidade De Genero
+//        create(new Permissao("identidadeDeGenero", "Identidade De Genero", false), "cadastro");
+//        create(new Permissao("identidadeDeGenero.create", "Cadastro de Identidade De Genero", "/view/cadastro/identidadeDeGenero/createIdentidadeDeGenero.jsf", false), "identidadeDeGenero");
+//        create(new Permissao("identidadeDeGenero.list", "Identidades de Genero", "/view/cadastro/identidadeDeGenero/listIdentidadeDeGenero.jsf", true), "cadastro");
+//        create(new Permissao("identidadeDeGenero.audit", "Auditoria de Identidade De Genero"), "identidadeDeGenero");
+//        create(new Permissao("identidadeDeGenero.delete", "Exclusão de Identidade De Genero"), "identidadeDeGenero");
+//
+////Orientacao Sexual
+//        create(new Permissao("orientacaoSexual", "Orientacao Sexual", false), "cadastro");
+//        create(new Permissao("orientacaoSexual.create", "Cadastro de Orientacao Sexual", "/view/cadastro/orientacaoSexual/createOrientacaoSexual.jsf", false), "orientacaoSexual");
+//        create(new Permissao("orientacaoSexual.list", "Orientações Sexuais", "/view/cadastro/orientacaoSexual/listOrientacaoSexual.jsf", true), "cadastro");
+//        create(new Permissao("orientacaoSexual.audit", "Auditoria de Orientacao Sexual"), "orientacaoSexual");
+//        create(new Permissao("orientacaoSexual.delete", "Exclusão de Orientacao Sexual"), "orientacaoSexual");
+
+        create(new Permissao("menu_denuncia", "Denúncia", true), null);
         //Denuncia
-        create(new Permissao("denuncia", "Denúncia", true), null);
+        create(new Permissao("denuncia", "Denúncia", false), "menu_denuncia");
         create(new Permissao("denuncia.create", "Cadastro de Denuncia", "/view/denuncia/denuncia/createDenuncia.jsf", false), "denuncia");
-        create(new Permissao("denuncia.list", "Denúncias", "/view/denuncia/denuncia/listDenuncia.jsf", true), "denuncia");
+        create(new Permissao("denuncia.list", "Denúncias", "/view/denuncia/denuncia/listDenuncia.jsf", true), "menu_denuncia");
         create(new Permissao("denuncia.audit", "Auditoria de Denuncia"), "denuncia");
         create(new Permissao("denuncia.delete", "Exclusão de Denuncia"), "denuncia");
         /**

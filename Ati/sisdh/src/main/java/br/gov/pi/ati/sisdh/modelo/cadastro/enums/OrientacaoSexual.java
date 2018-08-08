@@ -16,7 +16,9 @@ public enum OrientacaoSexual {
     LESBICA("Lésbica"),
     GAY("Gay"),
     BISSEXUAL("Bissexual"),
-    PREFERE_NAO_RESPONDER("Prefere não responder");
+    PREFERE_NAO_RESPONDER("Prefere não responder"),
+    ASSEXUAL("Assexual"),
+    PAMSEXUAL("Pamsexual");
     
 
     private OrientacaoSexual(String descricao) {

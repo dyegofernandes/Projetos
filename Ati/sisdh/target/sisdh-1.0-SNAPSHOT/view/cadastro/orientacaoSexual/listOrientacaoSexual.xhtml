@@ -1,0 +1,73 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['orientacaoSexual.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuOrientacaoSexual.xhtml" />
+        <h:form id="formListOrientacaoSexual">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="orientacaoSexual_export" target=":formListOrientacaoSexual:dataTableOrientacaoSexual"
+                                     widgetVar="dataTableOrientacaoSexualWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="orientacaoSexual" rowIndexVar="index" id="dataTableOrientacaoSexual" widgetVar="dataTableOrientacaoSexualWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{orientacaoSexualMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{orientacaoSexualMB.dataModel.paginatorTemplate}"
+                         value="#{orientacaoSexualMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['orientacaoSexual.nome']}" sortBy="#{orientacaoSexual.nome}"
+                    filterBy="#{orientacaoSexual.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['orientacaoSexual.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{orientacaoSexual.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['orientacaoSexual.ativo']}" sortBy="#{orientacaoSexual.ativo}"
+                    filterBy="#{orientacaoSexual.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['orientacaoSexual.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{orientacaoSexual.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetOrientacaoSexualDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailOrientacaoSexual" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{orientacaoSexual}" target="#{orientacaoSexualMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="orientacaoSexual.create">
+                        <p:button icon="ui-icon-pencil" outcome="createOrientacaoSexual" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{orientacaoSexual.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="orientacaoSexual.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{orientacaoSexualMB.delete}" >
+                            <f:setPropertyActionListener value="#{orientacaoSexual.id}" target="#{orientacaoSexualMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{orientacaoSexual}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="orientacaoSexual.audit">
+                    <x:auditDelete for="#{orientacaoSexualMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetOrientacaoSexualDetail" header="#{msg['orientacaoSexual.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailOrientacaoSexual.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

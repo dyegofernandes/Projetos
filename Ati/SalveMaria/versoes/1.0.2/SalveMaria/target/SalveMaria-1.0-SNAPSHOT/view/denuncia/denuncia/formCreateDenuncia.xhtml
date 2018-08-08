@@ -13,6 +13,20 @@
                 <p:fieldset legend="#{xmsg['generalData']} da Denúncia: #{denunciaMB.entity.id}">
                     <div class="container-fluid">
                         <div class="row">
+                            <x:securityArea rolesAllowed="campos.unidade">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="unidade" value="* Unidade:" />
+                                    <h:selectOneMenu id="unidade" value="#{denunciaMB.entity.unidade}" converter="entityConverter" styleClass="form-control" 
+                                                     required="true" requiredMessage="Unidade é obrigatória!!!">
+                                        <x:initializer/>
+                                        <f:selectItem itemLabel="#{xmsg['select']}" />
+                                        <f:selectItems value="#{findAllBean.get(classMB.unidade)}" 
+                                                       var="unidade"
+                                                       itemLabel="#{unidade} - #{unidade.sigla}"/>
+                                    </h:selectOneMenu>
+                                </div>
+                            </x:securityArea>
+                           
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="descricao" value="* #{msg['denuncia.descricao']}:" />
                                 <p:inputText id="descricao" value="#{denunciaMB.entity.descricao}" maxlength="80"  styleClass="form-control"  

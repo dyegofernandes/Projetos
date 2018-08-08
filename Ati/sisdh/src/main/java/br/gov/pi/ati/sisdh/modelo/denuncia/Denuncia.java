@@ -10,6 +10,8 @@ import br.gov.pi.ati.sisdh.modelo.cadastro.Endereco;
 import br.gov.pi.ati.sisdh.modelo.cadastro.GrupoDeViolacao;
 import br.gov.pi.ati.sisdh.modelo.cadastro.NaturezaDaViolacao;
 import br.gov.pi.ati.sisdh.modelo.cadastro.Unidade;
+import br.gov.pi.ati.sisdh.modelo.cadastro.enums.IdentidadeGenero;
+import br.gov.pi.ati.sisdh.modelo.cadastro.enums.OrientacaoSexual;
 import br.gov.pi.ati.sisdh.modelo.cadastro.enums.Raca;
 import br.gov.pi.ati.sisdh.modelo.cadastro.enums.Sexo;
 import br.gov.pi.ati.sisdh.modelo.cadastro.enums.Situacao;
@@ -27,6 +29,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -71,7 +74,7 @@ public class Denuncia implements Serializable, Comparable<Denuncia> {
     @Size(max = 480)
     private String relatoDoDenunciante;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @NotNull
     private Endereco enderecoDenuncia = new Endereco();
 
@@ -94,6 +97,12 @@ public class Denuncia implements Serializable, Comparable<Denuncia> {
 
     @Size(max = 50)
     private String telefoneVitima;
+    
+    @Enumerated(EnumType.STRING)
+    private OrientacaoSexual orientacaoSexualVitima;
+    
+    @Enumerated(EnumType.STRING)
+    private IdentidadeGenero identidadeDeGeneroVitima;
 
     @Size(max = 250)
     @NotBlank
@@ -114,9 +123,15 @@ public class Denuncia implements Serializable, Comparable<Denuncia> {
 
     @Size(max = 50)
     private String telefoneSuspeito;
+    
+     @Enumerated(EnumType.STRING)
+    private OrientacaoSexual orientacaoSexualSuspeito;
+    
+    @Enumerated(EnumType.STRING)
+    private IdentidadeGenero identidadeDeGeneroSuspeito;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull
+    @NotNull(message = "Só pode cadastrar uma Denúncia usuários que estiverem ligados a uma Unidade!!")
     private Unidade unidadeOrigem;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -361,6 +376,38 @@ public class Denuncia implements Serializable, Comparable<Denuncia> {
 
     public void setUnidadeResponsavel(Unidade unidadeResponsavel) {
         this.unidadeResponsavel = unidadeResponsavel;
+    }
+
+    public OrientacaoSexual getOrientacaoSexualVitima() {
+        return orientacaoSexualVitima;
+    }
+
+    public void setOrientacaoSexualVitima(OrientacaoSexual orientacaoSexualVitima) {
+        this.orientacaoSexualVitima = orientacaoSexualVitima;
+    }
+
+    public IdentidadeGenero getIdentidadeDeGeneroVitima() {
+        return identidadeDeGeneroVitima;
+    }
+
+    public void setIdentidadeDeGeneroVitima(IdentidadeGenero identidadeDeGeneroVitima) {
+        this.identidadeDeGeneroVitima = identidadeDeGeneroVitima;
+    }
+
+    public OrientacaoSexual getOrientacaoSexualSuspeito() {
+        return orientacaoSexualSuspeito;
+    }
+
+    public void setOrientacaoSexualSuspeito(OrientacaoSexual orientacaoSexualSuspeito) {
+        this.orientacaoSexualSuspeito = orientacaoSexualSuspeito;
+    }
+
+    public IdentidadeGenero getIdentidadeDeGeneroSuspeito() {
+        return identidadeDeGeneroSuspeito;
+    }
+
+    public void setIdentidadeDeGeneroSuspeito(IdentidadeGenero identidadeDeGeneroSuspeito) {
+        this.identidadeDeGeneroSuspeito = identidadeDeGeneroSuspeito;
     }
 
     @Override

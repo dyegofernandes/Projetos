@@ -56,10 +56,6 @@ public class Endereco implements Serializable {
 
     private String longitude;
 
-    @NotAudited
-    @OneToMany(mappedBy = "endereco")
-    private List<Denuncia> denuncia;
-
     @Override
     public String toString() {
         return logradouro;
@@ -130,14 +126,6 @@ public class Endereco implements Serializable {
 
     public void setLongitude(String longitude) {
         this.longitude = longitude;
-    }
-
-    public List<Denuncia> getDenuncia() {
-        return denuncia;
-    }
-
-    public void setDenuncia(List<Denuncia> denuncia) {
-        this.denuncia = denuncia;
     }
 
     public String getPontoDeReferencia() {

@@ -46,13 +46,8 @@ public class TerritorioCidade implements Serializable {
 
     private String longitude;
 
-   
     @ManyToMany(targetEntity = Cidade.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     private List<Cidade> cidades = new ArrayList<Cidade>();
-
-    @NotAudited
-    @OneToMany(mappedBy = "territorioCidade")
-    private List<Unidade> unidades;
 
     public Long getId() {
         return id;
@@ -84,14 +79,6 @@ public class TerritorioCidade implements Serializable {
 
     public void setCidades(List<Cidade> cidades) {
         this.cidades = cidades;
-    }
-
-    public List<Unidade> getUnidades() {
-        return unidades;
-    }
-
-    public void setUnidades(List<Unidade> unidades) {
-        this.unidades = unidades;
     }
 
     @Override
@@ -138,4 +125,3 @@ public class TerritorioCidade implements Serializable {
     }
 
 }
-

@@ -11,6 +11,8 @@ import br.gov.pi.salvemaria.modelo.cadastro.Bairro;
 import br.gov.pi.salvemaria.modelo.cadastro.CircunscricaoBairro;
 import com.xpert.faces.utils.FacesMessageUtils;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -50,7 +52,7 @@ public class Circunscricao_BairroMB extends AbstractBaseBean<CircunscricaoBairro
 
         if (getEntity().getId() != null) {
             bairros = bairroBO.getDAO().getInitialized(getEntity().getBairros());
-
+            Collections.sort(bairros);
             bairroPorCidade();
         }
     }
@@ -69,6 +71,7 @@ public class Circunscricao_BairroMB extends AbstractBaseBean<CircunscricaoBairro
                 FacesMessageUtils.error("A cidade já foi adicionada na lista!");
             } else {
                 bairros.add(bairroAdd);
+                Collections.sort(bairros);
                 bairroAdd = new Bairro();
             }
         }

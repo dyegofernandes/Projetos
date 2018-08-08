@@ -22,6 +22,15 @@
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
+                <p:column headerText="Órgão" sortBy="#{unidade.orgao.nome}"
+                    filterBy="#{unidade.orgao.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Órgão" />
+                    </f:facet>
+                    <h:outputText value="#{unidade.orgao}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
                 <p:column headerText="#{msg['unidade.nome']}" sortBy="#{unidade.nome}"
                     filterBy="#{unidade.nome}"   >
                     <f:facet name="header">
@@ -36,91 +45,9 @@
                     </f:facet>
                     <h:outputText value="#{unidade.sigla}"/>
                 </p:column>
-                <p:column headerText="#{msg['unidade.tipo']}" sortBy="#{unidade.tipo}"
-                    filterBy="#{unidade.tipo}"  filterOptions="#{findAllBean.getSelect(classMB.tipoUnidade)}" >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['unidade.tipo']}" />
-                    </f:facet>
-                    <h:outputText value="#{unidade.tipo}"/>
-                </p:column>
-                <p:column headerText="#{msg['unidade.faixaEtariaVitima']}" sortBy="#{unidade.faixaEtariaVitima}"
-                    filterBy="#{unidade.faixaEtariaVitima}"  filterOptions="#{findAllBean.getSelect(classMB.faixaEtaria)}" >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['unidade.faixaEtariaVitima']}" />
-                    </f:facet>
-                    <h:outputText value="#{unidade.faixaEtariaVitima}"/>
-                </p:column>
-                <p:column headerText="#{msg['unidade.faixaEtariaAgressor']}" sortBy="#{unidade.faixaEtariaAgressor}"
-                    filterBy="#{unidade.faixaEtariaAgressor}"  filterOptions="#{findAllBean.getSelect(classMB.faixaEtaria)}" >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['unidade.faixaEtariaAgressor']}" />
-                    </f:facet>
-                    <h:outputText value="#{unidade.faixaEtariaAgressor}"/>
-                </p:column>
-                <p:column headerText="#{msg['unidade.centroLtdMaps']}" sortBy="#{unidade.centroLtdMaps}"
-                       style="text-align: right;">
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['unidade.centroLtdMaps']}" />
-                    </f:facet>
-                    <h:outputText value="#{unidade.centroLtdMaps}">
-                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="#{msg['unidade.centroLgtMaps']}" sortBy="#{unidade.centroLgtMaps}"
-                       style="text-align: right;">
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['unidade.centroLgtMaps']}" />
-                    </f:facet>
-                    <h:outputText value="#{unidade.centroLgtMaps}">
-                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="#{msg['unidade.zoomMaps']}" sortBy="#{unidade.zoomMaps}"
-                    filterBy="#{unidade.zoomMaps}"   >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['unidade.zoomMaps']}" />
-                    </f:facet>
-                    <h:outputText value="#{unidade.zoomMaps}"/>
-                </p:column>
-                <p:column headerText="#{msg['unidade.circunscricao']}" sortBy="#{unidade.circunscricao}"
-                       >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['unidade.circunscricao']}" />
-                    </f:facet>
-                    <h:outputText value="#{unidade.circunscricao}">
-                        <x:initializer/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="#{msg['unidade.circunscricaoBairro']}" sortBy="#{unidade.circunscricaoBairro}"
-                       >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['unidade.circunscricaoBairro']}" />
-                    </f:facet>
-                    <h:outputText value="#{unidade.circunscricaoBairro}">
-                        <x:initializer/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="#{msg['unidade.endereco']}" sortBy="#{unidade.endereco}"
-                       >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['unidade.endereco']}" />
-                    </f:facet>
-                    <h:outputText value="#{unidade.endereco}"/>
-                </p:column>
-                <p:column headerText="#{msg['unidade.visualizarDenunciaNormal']}" sortBy="#{unidade.visualizarDenunciaNormal}"
-                    filterBy="#{unidade.visualizarDenunciaNormal}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['unidade.visualizarDenunciaNormal']}" />
-                    </f:facet>
-                    <h:outputText value="#{unidade.visualizarDenunciaNormal}" converter ="yesNoConverter" />
-                </p:column>
-                <p:column headerText="#{msg['unidade.visualizarDenunciaPanico']}" sortBy="#{unidade.visualizarDenunciaPanico}"
-                    filterBy="#{unidade.visualizarDenunciaPanico}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['unidade.visualizarDenunciaPanico']}" />
-                    </f:facet>
-                    <h:outputText value="#{unidade.visualizarDenunciaPanico}" converter ="yesNoConverter" />
-                </p:column>
+                
+               
+                
                 <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
                     <f:facet name="header">
                         <h:outputText value="#{xmsg['actions']}"/>

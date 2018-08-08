@@ -5,7 +5,6 @@
  */
 package br.gov.pi.ati.sisdh.modelo.cadastro;
 
-import br.gov.pi.ati.sisdh.modelo.controleacesso.Usuario;
 import br.gov.pi.ati.sisdh.modelo.formulario.AtaDeReuniao;
 import br.gov.pi.ati.sisdh.modelo.formulario.FormAcessoConteudo;
 import br.gov.pi.ati.sisdh.modelo.formulario.FormCriacaoEmail;
@@ -69,6 +68,10 @@ public class Orgao implements Serializable {
 
     @NotAudited
     @OneToMany(mappedBy = "orgao")
+    private List<Unidade> unidades;
+
+    @NotAudited
+    @OneToMany(mappedBy = "orgao")
     private List<FormAcessoConteudo> formsAcessoConteudo;
 
     @NotAudited
@@ -90,7 +93,6 @@ public class Orgao implements Serializable {
     @NotAudited
     @OneToMany(mappedBy = "orgao")
     private List<RelatorioDeVisita> visitas;
-
 
     public Long getId() {
         return id;
@@ -212,7 +214,13 @@ public class Orgao implements Serializable {
         this.ativo = ativo;
     }
 
+    public List<Unidade> getUnidades() {
+        return unidades;
+    }
 
+    public void setUnidades(List<Unidade> unidades) {
+        this.unidades = unidades;
+    }
 
     @Override
     public int hashCode() {
@@ -241,4 +249,3 @@ public class Orgao implements Serializable {
         return sigla.concat(" - ").concat(nome);
     }
 }
-

@@ -9,6 +9,7 @@ import br.gov.pi.ati.sisdh.modelo.denuncia.Denuncia;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -20,6 +21,7 @@ import org.hibernate.validator.constraints.NotBlank;
  *
  * @author Juniel
  */
+@Entity
 public class GrupoDeViolacao implements Serializable {
 
     @Id
@@ -27,7 +29,7 @@ public class GrupoDeViolacao implements Serializable {
     @GeneratedValue(generator = "GrupoDeViolacao")
     private Long id;
 
-    @Size(max = 50)
+    @Size(max = 250)
     @NotBlank
     private String nome;
 

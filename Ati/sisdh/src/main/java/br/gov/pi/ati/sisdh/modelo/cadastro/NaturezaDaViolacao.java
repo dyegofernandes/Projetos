@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package br.gov.pi.ati.sisdh.modelo.cadastro;
 
 import br.gov.pi.ati.sisdh.modelo.denuncia.Denuncia;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -20,6 +22,7 @@ import org.hibernate.validator.constraints.NotBlank;
  *
  * @author Juniel
  */
+@Entity
 public class NaturezaDaViolacao implements Serializable {
 
     @Id
@@ -27,7 +30,7 @@ public class NaturezaDaViolacao implements Serializable {
     @GeneratedValue(generator = "NaturezaDaViolacao")
     private Long id;
 
-    @Size(max = 50)
+    @Size(max = 250)
     @NotBlank
     private String nome;
 
@@ -54,6 +57,14 @@ public class NaturezaDaViolacao implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public List<Denuncia> getDenuncias() {
+        return denuncias;
+    }
+
+    public void setDenuncias(List<Denuncia> denuncias) {
+        this.denuncias = denuncias;
     }
 
     @Override

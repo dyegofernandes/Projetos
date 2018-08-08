@@ -1,0 +1,115 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['dizimo.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuDizimo.xhtml" />
+        <h:form id="formListDizimo">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="dizimo_export" target=":formListDizimo:dataTableDizimo"
+                                     widgetVar="dataTableDizimoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="dizimo" rowIndexVar="index" id="dataTableDizimo" widgetVar="dataTableDizimoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{dizimoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{dizimoMB.dataModel.paginatorTemplate}"
+                         value="#{dizimoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['dizimo.caixa']}" sortBy="#{dizimo.caixa}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['dizimo.caixa']}" />
+                    </f:facet>
+                    <h:outputText value="#{dizimo.caixa}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['dizimo.membro']}" sortBy="#{dizimo.membro}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['dizimo.membro']}" />
+                    </f:facet>
+                    <h:outputText value="#{dizimo.membro}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['dizimo.dataDevolucao']}" sortBy="#{dizimo.dataDevolucao}"
+                    filterBy="#{dizimo.dataDevolucao}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['dizimo.dataDevolucao']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{dizimo.dataDevolucao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['dizimo.dataCadastro']}" sortBy="#{dizimo.dataCadastro}"
+                    filterBy="#{dizimo.dataCadastro}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['dizimo.dataCadastro']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{dizimo.dataCadastro}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['dizimo.valor']}" sortBy="#{dizimo.valor}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['dizimo.valor']}" />
+                    </f:facet>
+                    <h:outputText value="#{dizimo.valor}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['dizimo.usuario']}" sortBy="#{dizimo.usuario}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['dizimo.usuario']}" />
+                    </f:facet>
+                    <h:outputText value="#{dizimo.usuario}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetDizimoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailDizimo" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{dizimo}" target="#{dizimoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="dizimo.create">
+                        <p:button icon="ui-icon-pencil" outcome="createDizimo" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{dizimo.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="dizimo.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{dizimoMB.delete}" >
+                            <f:setPropertyActionListener value="#{dizimo.id}" target="#{dizimoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{dizimo}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="dizimo.audit">
+                    <x:auditDelete for="#{dizimoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetDizimoDetail" header="#{msg['dizimo.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailDizimo.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,52 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailDenuncia" styleClass="uix-form-detail">
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Unidade Origem:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{denunciaMB.entity.unidadeOrigem}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Descrição atendimento:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{denunciaMB.entity.descricaoAtendimento}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['denuncia.dataDenuncia']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{denunciaMB.entity.dataDenuncia}" styleClass="uix-content-detail">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                        </h:outputText>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="Dados Vítima">
+
+        </p:fieldset>
+        <p:fieldset legend="Dados Agressor">
+
+        </p:fieldset>
+
+
+
+
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetDenunciaDetail').hide()" />
+            <x:securityArea rolesAllowed="denuncia.audit">
+                <x:audit for="#{denunciaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

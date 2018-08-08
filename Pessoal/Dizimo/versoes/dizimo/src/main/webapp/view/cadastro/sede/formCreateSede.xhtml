@@ -1,0 +1,68 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateSede" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="sedePai" value="#{msg['sede.sedePai']}:" />
+                         <h:selectOneMenu id="sedePai" value="#{sedeMB.entity.sedePai}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.sede)}" 
+                                            var="sede"
+                                            itemLabel="#{sede}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="nomeFantasia" value="* #{msg['sede.nomeFantasia']}:" />
+                         <p:inputText id="nomeFantasia" value="#{sedeMB.entity.nomeFantasia}" maxlength="250"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="razaoSocial" value="* #{msg['sede.razaoSocial']}:" />
+                         <p:inputText id="razaoSocial" value="#{sedeMB.entity.razaoSocial}" maxlength="250"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="cnpj" value="* #{msg['sede.cnpj']}:" />
+                         <p:inputText id="cnpj" value="#{sedeMB.entity.cnpj}" maxlength="50"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="telefones" value="#{msg['sede.telefones']}:" />
+                         <p:inputText id="telefones" value="#{sedeMB.entity.telefones}" maxlength="250"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="emails" value="#{msg['sede.emails']}:" />
+                         <p:inputText id="emails" value="#{sedeMB.entity.emails}" maxlength="250"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <div class="checkbox">
+                             <label>
+                                 <h:selectBooleanCheckbox id="ativo" value="#{sedeMB.entity.ativo}" />
+                                 #{msg['sede.ativo']}
+                             </label>
+                         </div>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="sede.create">
+                <p:commandButton process="@form" update="@form" action="#{sedeMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="sede.audit">
+                <x:audit for="#{sedeMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

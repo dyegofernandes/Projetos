@@ -10,11 +10,12 @@ package br.gov.pi.ati.sisdh.modelo.cadastro.enums;
  * @author Juniel
  */
 public enum IdentidadeGenero {
-    HOMEM("Homem"),
-    MULHER("Mulher"),
-    TS_MASC("TS Masc."),
-    TS_FEM("TS Fem."),
-    TRAVESTI("Travesti");
+    HOMEM("Homem CIS"),
+    MULHER("Mulher CIS"),
+    TS_MASC("Homem Transexual"),
+    TS_FEM("Mulher Transexual"),
+    TRAVESTI("Travesti"),
+    NAO_BINARIO("Travesti");
     
 
     private IdentidadeGenero(String descricao) {

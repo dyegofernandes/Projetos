@@ -33,26 +33,25 @@ public class TerritorioBairro implements Serializable {
     @SequenceGenerator(name = "TerritorioBairro", sequenceName = "seq_territorio_bairro")
     @GeneratedValue(generator = "TerritorioBairro")
     private Long id;
-    
+
     @Size(max = 80)
     @NotBlank
     private String nome;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     private Cidade cidade;
-    
+
     private String latitude;
-    
+
     private String longitude;
 
     @ManyToMany(targetEntity = Bairro.class, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     private List<Bairro> bairros = new ArrayList<Bairro>();
-    
-    @NotAudited
-    @OneToMany(mappedBy = "territorioBairro")
-    private List<Unidade> unidades;
 
+//    @NotAudited
+//    @OneToMany(mappedBy = "territorioBairro")
+//    private List<Unidade> unidades;
     public Long getId() {
         return id;
     }
@@ -85,17 +84,9 @@ public class TerritorioBairro implements Serializable {
         this.bairros = bairros;
     }
 
-    public List<Unidade> getUnidades() {
-        return unidades;
-    }
-
-    public void setUnidades(List<Unidade> unidades) {
-        this.unidades = unidades;
-    }
-
     @Override
     public String toString() {
-        return nome; 
+        return nome;
     }
 
     public String getLatitude() {
@@ -135,7 +126,5 @@ public class TerritorioBairro implements Serializable {
         }
         return true;
     }
-    
-    
-}
 
+}

@@ -8,12 +8,36 @@
                  >
     <h:form>
         <x:modalMessages/>
-
         <p:tabView>
             <p:tab title="#{msg['dadosGerais']}">
-
-
                 <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <h:outputLabel for="orgao" value="Órgão" />
+                            <h:selectOneMenu id="orgao" value="#{usuarioMB.entity.orgao}" converter="entityConverter" styleClass="form-control" 
+                                             >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.orgao)}" 
+                                               var="orgao"
+                                               itemLabel="#{orgao}"/>
+                                <p:ajax process="@this" update="@form" />
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <h:outputLabel for="unidade" value="Unidade:" />
+                            <x:initializer value="#{usuarioMB.entity.orgao.unidades}"/>
+                            <h:selectOneMenu id="unidade" value="#{usuarioMB.entity.unidade}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{usuarioMB.entity.orgao.unidades}" 
+                                               var="unidade"
+                                               itemLabel="#{unidade}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
                     <div class="row">
 
                         <div class="form-group col-lg-6 col-md-12 col-sm-12 col-xs-12">
@@ -25,7 +49,7 @@
                     <div class="row">
 
                         <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
-                            <h:outputLabel value="* #{msg['usuario.cpf']}:" />
+                            <h:outputLabel value="#{msg['usuario.cpf']}:" />
                             <x:cpf value="#{usuarioMB.entity.cpf}" styleClass="form-control" />
                         </div>
 

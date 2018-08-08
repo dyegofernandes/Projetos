@@ -12,7 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -25,7 +24,7 @@ import org.hibernate.validator.constraints.NotBlank;
  * @author Juniel
  */
 @Entity
-public class Bairro implements Serializable {
+public class Bairro implements Serializable , Comparable<Bairro>{
 
     @Id
     @SequenceGenerator(name = "Bairro", sequenceName = "seq_bairro")
@@ -120,6 +119,11 @@ public class Bairro implements Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int compareTo(Bairro o) {
+        return this.nome.compareTo(o.nome);
     }
 
 }

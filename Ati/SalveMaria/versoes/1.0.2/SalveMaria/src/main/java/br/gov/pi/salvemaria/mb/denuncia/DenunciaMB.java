@@ -82,7 +82,7 @@ public class DenunciaMB extends AbstractBaseBean<Denuncia> implements Serializab
 
     @Override
     public void init() {
-        
+
         usuarioAtual = SessaoUtils.getUser();
 
         denuncias = new ArrayList<Denuncia>();
@@ -104,16 +104,18 @@ public class DenunciaMB extends AbstractBaseBean<Denuncia> implements Serializab
     @Override
     public void save() {
 
-        if ((situacaoTemp == Situacao.NOVA) && getEntity().getSituacao() == Situacao.DENUNCIA_SUBMETIDA) {
-            getEntity().setDataAtendimento(new Date());
-            getEntity().setHoraAtendimento(new Date());
-        }
+        if (situacaoTemp != getEntity().getSituacao()) {
+            if ((situacaoTemp == Situacao.NOVA) && getEntity().getSituacao() == Situacao.DENUNCIA_SUBMETIDA) {
+                getEntity().setDataAtendimento(new Date());
+                getEntity().setHoraAtendimento(new Date());
+            }
 
-        if (situacaoTemp == Situacao.DENUNCIA_SUBMETIDA && (getEntity().getSituacao() == Situacao.DENUNCIA_NEGATIVADA
-                || getEntity().getSituacao() == Situacao.DENUNCIA_POSITIVADA || getEntity().getSituacao() == Situacao.TROTE)
-                || getEntity().getSituacao() == Situacao.DENUNCIA_POSITIVADA_SEM) {
-            getEntity().setDataDeFechamento(new Date());
-            getEntity().setHoraDeFechamento(new Date());
+            if (situacaoTemp == Situacao.DENUNCIA_SUBMETIDA && (getEntity().getSituacao() == Situacao.DENUNCIA_NEGATIVADA
+                    || getEntity().getSituacao() == Situacao.DENUNCIA_POSITIVADA || getEntity().getSituacao() == Situacao.TROTE)
+                    || getEntity().getSituacao() == Situacao.DENUNCIA_POSITIVADA_SEM) {
+                getEntity().setDataDeFechamento(new Date());
+                getEntity().setHoraDeFechamento(new Date());
+            }
         }
 
         getEntity().setEndereco(endereco);
@@ -124,9 +126,9 @@ public class DenunciaMB extends AbstractBaseBean<Denuncia> implements Serializab
 
     @Override
     public void postSave() {
-        setEntity(new Denuncia());
-        endereco = new Endereco();
-        arquivos = new ArrayList<Arquivo>();
+//        setEntity(new Denuncia());
+//        endereco = new Endereco();
+//        arquivos = new ArrayList<Arquivo>();
     }
 
     public StreamedContent download(Arquivo arquivo) throws IOException {
@@ -242,16 +244,11 @@ public class DenunciaMB extends AbstractBaseBean<Denuncia> implements Serializab
                 situacoes.remove(Situacao.DENUNCIA_NEGATIVADA);
                 situacoes.remove(Situacao.DENUNCIA_POSITIVADA);
                 situacoes.remove(Situacao.DENUNCIA_POSITIVADA_SEM);
-                situacoes.remove(Situacao.NOVA);
+//                situacoes.remove(Situacao.NOVA);
                 situacoes.remove(Situacao.TROTE);
             } else {
-                if (getEntity().getSituacao() == Situacao.DENUNCIA_SUBMETIDA) {
-                    situacoes.remove(Situacao.DENUNCIA_SUBMETIDA);
-                    situacoes.remove(Situacao.NOVA);
-                } else {
-                    situacoes.remove(Situacao.DENUNCIA_SUBMETIDA);
-                    situacoes.remove(Situacao.NOVA);
-                }
+                situacoes.remove(Situacao.NOVA);
+
             }
         } else {
             situacoes.remove(Situacao.DENUNCIA_NEGATIVADA);

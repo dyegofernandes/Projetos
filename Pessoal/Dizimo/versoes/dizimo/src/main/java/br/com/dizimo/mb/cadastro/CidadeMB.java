@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.com.dizimo.bo.cadastro.CidadeBO;
 import br.com.dizimo.modelo.cadastro.Cidade;
+import java.util.List;
 
 /**
  *
@@ -28,5 +29,9 @@ public class CidadeMB extends AbstractBaseBean<Cidade> implements Serializable {
     @Override
     public String getDataModelOrder() {
         return "id";
+    }
+    
+    public List<Cidade> autocomplete(String nome){
+        return getBO().cidadePeloNome(nome);
     }
 }

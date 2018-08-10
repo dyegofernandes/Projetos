@@ -84,14 +84,14 @@
                     <f:facet name="header">
                         <h:outputText value="#{msg['membro.sexo']}" />
                     </f:facet>
-                    <h:outputText value="#{membro.sexo}"/>
+                    <h:outputText value="#{membro.sexo.descricao}"/>
                 </p:column>
                 <p:column headerText="#{msg['membro.estadoCivil']}" sortBy="#{membro.estadoCivil}"
                     filterBy="#{membro.estadoCivil}"  filterOptions="#{findAllBean.getSelect(classMB.estadoCivil)}" >
                     <f:facet name="header">
                         <h:outputText value="#{msg['membro.estadoCivil']}" />
                     </f:facet>
-                    <h:outputText value="#{membro.estadoCivil}"/>
+                    <h:outputText value="#{membro.estadoCivil.descricao}"/>
                 </p:column>
                 <p:column headerText="#{msg['membro.dataCasamento']}" sortBy="#{membro.dataCasamento}"
                     filterBy="#{membro.dataCasamento}"   style="text-align: center;">

@@ -8,6 +8,8 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.com.dizimo.modelo.cadastro.Estado;
+import br.com.dizimo.util.Utils;
+import com.xpert.persistence.query.Restrictions;
 
 /**
  *
@@ -18,7 +20,7 @@ public class EstadoBO extends AbstractBusinessObject<Estado> {
 
     @EJB
     private EstadoDAO estadoDAO;
-    
+
     @Override
     public EstadoDAO getDAO() {
         return estadoDAO;
@@ -36,6 +38,17 @@ public class EstadoBO extends AbstractBusinessObject<Estado> {
     @Override
     public boolean isAudit() {
         return true;
+    }
+
+    public List<Estado> estadoPeloNome(String nome) {
+        Restrictions restrictions = new Restrictions();
+
+        if (!Utils.isNullOrEmpty(nome)) {
+            restrictions.add("estado.nome", nome);
+        }
+
+        return getDAO().getQueryBuilder().select("estado").from(Estado.class, "estado").leftJoin("estado.pais", "pais")
+                .add(restrictions).orderBy("estado.nome").getResultList();
     }
 
 }

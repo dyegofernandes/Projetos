@@ -8,6 +8,8 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.com.dizimo.modelo.cadastro.Cidade;
+import br.com.dizimo.util.Utils;
+import com.xpert.persistence.query.Restrictions;
 
 /**
  *
@@ -36,6 +38,17 @@ public class CidadeBO extends AbstractBusinessObject<Cidade> {
     @Override
     public boolean isAudit() {
         return true;
+    }
+    
+    public List<Cidade> cidadePeloNome(String nome) {
+        Restrictions restrictions = new Restrictions();
+
+        if (!Utils.isNullOrEmpty(nome)) {
+            restrictions.add("cidade.nome", nome);
+        }
+
+        return getDAO().getQueryBuilder().select("cidade").from(Cidade.class, "cidade").leftJoin("cidade.estado", "estado")
+                .add(restrictions).orderBy("cidade.nome").getResultList();
     }
 
 }

@@ -131,6 +131,14 @@ public class DenunciaMB extends AbstractBaseBean<Denuncia> implements Serializab
 //        arquivos = new ArrayList<Arquivo>();
     }
 
+    @Override
+    public void postDelete() {
+        buscar();
+        super.postDelete(); 
+    }
+    
+    
+
     public StreamedContent download(Arquivo arquivo) throws IOException {
 
         if (arquivo instanceof HibernateProxy) {

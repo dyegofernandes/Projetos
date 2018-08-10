@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.com.dizimo.bo.cadastro.BairroBO;
 import br.com.dizimo.modelo.cadastro.Bairro;
+import java.util.List;
 
 /**
  *
@@ -28,5 +29,9 @@ public class BairroMB extends AbstractBaseBean<Bairro> implements Serializable {
     @Override
     public String getDataModelOrder() {
         return "id";
+    }
+    
+    public List<Bairro> autocomplete(String nome){
+        return getBO().bairroPeloNome(nome);
     }
 }

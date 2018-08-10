@@ -106,14 +106,25 @@
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="bairro" value="* Bairro:" />
-                        <h:selectOneMenu id="bairro" value="#{membroMB.entity.endereco.bairro}" converter="entityConverter" 
-                                         styleClass="form-control" >
-                            <x:initializer/>
-                            <f:selectItem itemLabel="#{xmsg['select']}" />
-                            <f:selectItems value="#{findAllBean.get(classMB.bairro)}" 
-                                           var="bairro"
-                                           itemLabel="#{bairro}"/>
-                        </h:selectOneMenu>
+                        <div class="input-group">
+                            <p:autoComplete id="bairro" value="#{membroMB.entity.endereco.bairro}" 
+                                            completeMethod="#{bairroMB.autocomplete}" styleClass="uix-autocomplete" 
+                                            minQueryLength="3" forceSelection="true" dropdown="true"  scrollHeight="400"
+                                            var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"  > 
+                                <x:initializer/>
+                                <p:column> 
+                                    <h:outputText value="#{p}"/>
+                                </p:column> 
+                            </p:autoComplete>
+                            
+                            <span class="input-group-btn">
+                                <p:commandButton process="@this" icon="ui-icon-plusthick" oncomplete="PF('widgetBairroCreate').show();"
+                                                 label="Cadastrar Bairro" style="font-size: 18px;">
+                                    <f:setPropertyActionListener value="widgetBairroCreate" target="#{bairroMB.dialog}" />
+                                </p:commandButton>
+                            </span>
+                        </div>
+
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <div class="checkbox">
@@ -121,7 +132,9 @@
                                 <h:selectBooleanCheckbox id="ativo" value="#{membroMB.entity.ativo}" />
                                 #{msg['membro.ativo']}
                             </label>
+
                         </div>
+                        <h:outputText value="#{msg['usuario.superUsuarioInfo']}" styleClass="help-block"/>
                     </div>
 
                 </div>
@@ -137,5 +150,10 @@
             </x:securityArea>
         </div>
     </h:form>
+    <p:dialog widgetVar="widgetBairroCreate" header="Cadastrar Bairro" appendTo="@(body)" 
+              modal="true" styleClass="uix-dialog-fluid" >
+        <ui:include src="/view/cadastro/bairro/formCreateBairro.xhtml" />
+        <p:ajax event="close" update=":formCreateMembro:bairro" listener="#{findAllBean.setReload(true)}"/>
+    </p:dialog>
 
 </ui:composition>

@@ -8,8 +8,10 @@ package br.com.dizimo.modelo.financeiro;
 import br.com.dizimo.modelo.controleacesso.Usuario;
 import br.com.dizimo.modelo.enums.StatusCaixa;
 import br.com.dizimo.util.Utils;
+import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -17,6 +19,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -48,6 +52,11 @@ public class Caixa implements Serializable {
     @NotNull
     @Enumerated(EnumType.STRING)
     private StatusCaixa status = StatusCaixa.ABERTO;
+
+    @NotAudited
+    @OneToMany(mappedBy = "caixa")
+    @OrderBy("dataDevolucao")
+    private List<Dizimo> dizimos;
 
     @Override
     public String toString() {
@@ -95,6 +104,14 @@ public class Caixa implements Serializable {
 
     public StatusCaixa getStatus() {
         return status;
+    }
+
+    public List<Dizimo> getDizimos() {
+        return dizimos;
+    }
+
+    public void setDizimos(List<Dizimo> dizimos) {
+        this.dizimos = dizimos;
     }
 
     @Override

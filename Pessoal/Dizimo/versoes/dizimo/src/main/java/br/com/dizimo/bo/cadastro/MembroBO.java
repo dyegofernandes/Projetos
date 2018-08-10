@@ -47,9 +47,11 @@ public class MembroBO extends AbstractBusinessObject<Membro> {
 
         Sede sedeTemp = getDAO().getInitialized(sede);
 
-        if (sedeTemp != null) {
-            restrictions.add("sede", sedeTemp);
+        if (sedeTemp == null) {
+            return null;
         }
+
+        restrictions.add("sede", sedeTemp);
 
         if (!Utils.isNullOrEmpty(nome)) {
             if (Utils.ehInteiro(nome)) {

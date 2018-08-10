@@ -10,5 +10,5 @@ package br.com.dizimo.constante;
  */
 public class ConstantesURL {
 
-    public static final String URL_APLICACAO = "http://localhost:8080/dizimo";
+    public static final String URL_APLICACAO = "http://198.58.122.98:8080/dizimo";
 }

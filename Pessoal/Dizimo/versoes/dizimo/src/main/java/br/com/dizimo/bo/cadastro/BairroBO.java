@@ -8,6 +8,8 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.com.dizimo.modelo.cadastro.Bairro;
+import br.com.dizimo.util.Utils;
+import com.xpert.persistence.query.Restrictions;
 
 /**
  *
@@ -18,7 +20,7 @@ public class BairroBO extends AbstractBusinessObject<Bairro> {
 
     @EJB
     private BairroDAO bairroDAO;
-    
+
     @Override
     public BairroDAO getDAO() {
         return bairroDAO;
@@ -36,6 +38,17 @@ public class BairroBO extends AbstractBusinessObject<Bairro> {
     @Override
     public boolean isAudit() {
         return true;
+    }
+
+    public List<Bairro> bairroPeloNome(String nome) {
+        Restrictions restrictions = new Restrictions();
+
+        if (!Utils.isNullOrEmpty(nome)) {
+            restrictions.add("bairro.nome", nome);
+        }
+
+        return getDAO().getQueryBuilder().select("bairro").from(Bairro.class, "bairro").leftJoin("bairro.cidade", "cidade")
+                .add(restrictions).orderBy("bairro.nome").getResultList();
     }
 
 }

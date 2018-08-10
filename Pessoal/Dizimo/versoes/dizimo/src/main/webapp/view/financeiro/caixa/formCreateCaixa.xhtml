@@ -7,9 +7,8 @@
 
 
     <h:form id="formCreateCaixa" >
+        <x:modalMessages autoUpdate="true"/>
         <p:fieldset legend="#{xmsg['generalData']}">
-            <x:modalMessages/>
-
             <div class="container-fluid">
                 <div class="row">
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
@@ -46,6 +45,56 @@
 
                 </div>
             </div>
+        </p:fieldset>
+        <p:fieldset legend="Movimentos">
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="dizimo" rowIndexVar="index" id="dataTableDizimo" widgetVar="dataTableDizimoWidget" styleClass="table-responsive"
+                         value="#{caixaMB.entity.dizimos}" >
+                <x:initializer/>
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['dizimo.dataCadastro']}" sortBy="#{dizimo.dataCadastro}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['dizimo.dataCadastro']}" />
+                    </f:facet>
+                    <h:outputText value="#{dizimo.dataCadastro}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['dizimo.membro']}" sortBy="#{dizimo.membro}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['dizimo.membro']}" />
+                    </f:facet>
+                    <h:outputText value="#{dizimo.membro}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['dizimo.dataDevolucao']}" sortBy="#{dizimo.dataDevolucao}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['dizimo.dataDevolucao']}" />
+                    </f:facet>
+                    <h:outputText value="#{dizimo.dataDevolucao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="#{msg['dizimo.valor']}" sortBy="#{dizimo.valor}" style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['dizimo.valor']}" />
+                    </f:facet>
+                    <h:outputText value="#{dizimo.valor}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{x:sum(caixaMB.entity.dizimos, 'valor')}" style="text-align: right; font-weight:bold;">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+
+            </p:dataTable>
         </p:fieldset>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div class="uix-center">

@@ -89,6 +89,27 @@ section.conteudo h1.page-header  span{vertical-align: middle;}
 .login-wraper .login-body{margin: 10px auto;padding: 15px 0 10px}
 .login-wraper .login-body .input-append,.login-wraper .login-body .input-prepend {width: 350px;}
 .login-wraper .login-body input[type=text],.login-wraper .login-body input[type=password]{width: 100%}
+ul li.ui-menuitem-active>a{
+    background-image: none !important;
+    background-color:red !important;    
+}
+
+li ul li.ui-menuitem-active>a{
+    background-image: none !important;
+    background-color:red !important;    
+}
+/*.ui-button, button.ui-button.ui-state-default, .ui-button.ui-state-default{
+    background:  #E7F1E7;
+    border-color: #008000;
+    color: #000;
+}
+
+button.ui-button.ui-state-active{ 
+    background:  #BED09B; 
+    border-color: #008000; 
+    color: #000; 
+}*/
+
 @media (max-width: 600px) {
     .login-wraper {width: auto;height: auto;margin: 10% auto;}
 }

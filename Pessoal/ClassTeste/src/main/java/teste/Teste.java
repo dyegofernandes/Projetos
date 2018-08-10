@@ -20,7 +20,7 @@ public class Teste {
     
     public static void main(String[] args) {
        
-        System.out.println(moeda(new BigDecimal("1000000.00")));
+        System.out.println("20180101000001".substring(0, 8));
     }
     public static String moeda(BigDecimal num) {
 

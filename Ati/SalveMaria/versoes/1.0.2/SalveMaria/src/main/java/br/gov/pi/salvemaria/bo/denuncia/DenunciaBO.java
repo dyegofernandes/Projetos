@@ -59,18 +59,6 @@ public class DenunciaBO extends AbstractBusinessObject<Denuncia> {
     }
 
     @Override
-    public void save(Denuncia object) throws BusinessException {
-        Endereco endereco = getDAO().getInitialized(object.getEndereco());
-        Bairro bairro = getDAO().getInitialized(endereco.getBairro());
-        Unidade unidade = unidadeBO.unidadePeloBairro(bairro, object.getTipo(),
-                object.getIdadeVitima(), object.getIdadeAgressor());
-
-        object.setUnidade(unidade);
-
-        super.save(object);
-    }
-
-    @Override
     public void validate(Denuncia denuncia) throws BusinessException {
         if (denuncia.getId() == null && denuncia.getTipo() == TipoDenuncia.PANICO) {
             throw new BusinessException("Denúnca do tipo Pânico só pode ser criada pelo Aplicativo!");

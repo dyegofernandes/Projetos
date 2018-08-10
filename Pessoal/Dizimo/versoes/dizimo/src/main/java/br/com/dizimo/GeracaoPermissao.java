@@ -90,30 +90,32 @@ public class GeracaoPermissao {
         create(new Permissao("sede.list", "Consulta de Sede", "/view/cadastro/sede/listSede.jsf", true), "sede");
         create(new Permissao("sede.audit", "Auditoria de Sede"), "sede");
         create(new Permissao("sede.delete", "Exclusão de Sede"), "sede");
+        
+        create(new Permissao("basico", "Básico", true), "cadastro");
 
 //Bairro
-        create(new Permissao("bairro", "Bairro", true), "cadastro");
+        create(new Permissao("bairro", "Bairro", true), "basico");
         create(new Permissao("bairro.create", "Cadastro de Bairro", "/view/cadastro/bairro/createBairro.jsf", true), "bairro");
         create(new Permissao("bairro.list", "Consulta de Bairro", "/view/cadastro/bairro/listBairro.jsf", true), "bairro");
         create(new Permissao("bairro.audit", "Auditoria de Bairro"), "bairro");
         create(new Permissao("bairro.delete", "Exclusão de Bairro"), "bairro");
 
 //Estado
-        create(new Permissao("estado", "Estado", true), "cadastro");
+        create(new Permissao("estado", "Estado", true), "basico");
         create(new Permissao("estado.create", "Cadastro de Estado", "/view/cadastro/estado/createEstado.jsf", true), "estado");
         create(new Permissao("estado.list", "Consulta de Estado", "/view/cadastro/estado/listEstado.jsf", true), "estado");
         create(new Permissao("estado.audit", "Auditoria de Estado"), "estado");
         create(new Permissao("estado.delete", "Exclusão de Estado"), "estado");
 
 //Cidade
-        create(new Permissao("cidade", "Cidade", true), "cadastro");
+        create(new Permissao("cidade", "Cidade", true), "basico");
         create(new Permissao("cidade.create", "Cadastro de Cidade", "/view/cadastro/cidade/createCidade.jsf", true), "cidade");
         create(new Permissao("cidade.list", "Consulta de Cidade", "/view/cadastro/cidade/listCidade.jsf", true), "cidade");
         create(new Permissao("cidade.audit", "Auditoria de Cidade"), "cidade");
         create(new Permissao("cidade.delete", "Exclusão de Cidade"), "cidade");
 
 //Pais
-        create(new Permissao("pais", "Pais", true), "cadastro");
+        create(new Permissao("pais", "Pais", true), "basico");
         create(new Permissao("pais.create", "Cadastro de Pais", "/view/cadastro/pais/createPais.jsf", true), "pais");
         create(new Permissao("pais.list", "Consulta de Pais", "/view/cadastro/pais/listPais.jsf", true), "pais");
         create(new Permissao("pais.audit", "Auditoria de Pais"), "pais");

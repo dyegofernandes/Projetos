@@ -36,7 +36,7 @@ public class Cidade implements Serializable {
     @NotBlank(message = "O nome da Cidade é Obrigatório!")
     private String nome;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     private Estado estado;
 
@@ -50,9 +50,6 @@ public class Cidade implements Serializable {
     @NotAudited
     @OneToMany(mappedBy = "baseMunicipal")
     private List<TerritorioCidade> bases_municipais;
-
- 
-
 
     public Long getId() {
         return id;

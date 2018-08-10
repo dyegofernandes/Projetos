@@ -8,6 +8,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.com.dizimo.modelo.cadastro.Pastoral;
+import com.xpert.core.validation.UniqueFields;
 
 /**
  *
@@ -18,7 +19,7 @@ public class PastoralBO extends AbstractBusinessObject<Pastoral> {
 
     @EJB
     private PastoralDAO pastoralDAO;
-    
+
     @Override
     public PastoralDAO getDAO() {
         return pastoralDAO;
@@ -26,7 +27,7 @@ public class PastoralBO extends AbstractBusinessObject<Pastoral> {
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return null;
+        return new UniqueFields().add("nome");
     }
 
     @Override

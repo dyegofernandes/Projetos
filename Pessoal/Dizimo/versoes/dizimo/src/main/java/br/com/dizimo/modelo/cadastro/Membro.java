@@ -7,9 +7,12 @@ package br.com.dizimo.modelo.cadastro;
 
 import br.com.dizimo.modelo.enums.EstadoCivil;
 import br.com.dizimo.modelo.enums.Sexo;
+import br.com.dizimo.modelo.financeiro.Dizimo;
 import br.com.dizimo.util.Utils;
+import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -18,7 +21,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -82,6 +87,11 @@ public class Membro implements Serializable, Comparable<Membro> {
     private Integer quantidadeFilhos;
 
     private boolean ativo = true;
+
+    @NotAudited
+    @OneToMany(mappedBy = "membro")
+    @OrderBy("dataDevolucao")
+    private List<Dizimo> dizimos;
 
     @Override
     public String toString() {
@@ -203,6 +213,14 @@ public class Membro implements Serializable, Comparable<Membro> {
         this.quantidadeFilhos = quantidadeFilhos;
     }
 
+    public List<Dizimo> getDizimos() {
+        return dizimos;
+    }
+
+    public void setDizimos(List<Dizimo> dizimos) {
+        this.dizimos = dizimos;
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -226,8 +244,16 @@ public class Membro implements Serializable, Comparable<Membro> {
     }
 
     @Override
-    public int compareTo(Membro o) {
-        return this.nomeUsual.compareTo(o.nomeUsual);
+    public int compareTo(Membro other) {
+
+        if (this.nome == null && other.nome != null) {
+            return -1;
+        } else if (this.nome != null && other.nome == null) {
+            return 1;
+        }
+
+        return this.nome.compareToIgnoreCase(other.nome);
+
     }
 
 }

@@ -18,7 +18,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import javax.faces.context.FacesContext;
@@ -67,7 +66,8 @@ public class DenunciaMB extends AbstractBaseBean<Denuncia> implements Serializab
 
         if (getEntity().getId() != null) {
             arquivos = getBO().getDAO().getInitialized(getEntity().getArquivos());
-        }else{
+        } else {
+            getEntity().setNumeroDenuncia(getBO().gerarCodigo());
             Unidade unidadeOrigem = getDAO().getInitialized(usuarioAtual.getUnidade());
             getEntity().setUnidadeOrigem(unidadeOrigem);
         }
@@ -75,6 +75,9 @@ public class DenunciaMB extends AbstractBaseBean<Denuncia> implements Serializab
 
     @Override
     public void save() {
+        if (getEntity().getId() == null) {
+            getEntity().setNumeroDenuncia(getBO().gerarCodigo());
+        }
         getEntity().setArquivos(arquivos);
         super.save(); //To change body of generated methods, choose Tools | Templates.
     }

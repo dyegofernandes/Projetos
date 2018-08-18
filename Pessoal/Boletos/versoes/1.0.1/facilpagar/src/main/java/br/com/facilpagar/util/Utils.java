@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 import javax.swing.text.MaskFormatter;
 
@@ -488,5 +489,35 @@ public class Utils {
         }
         return strPad;
     }
-    
+
+    public static Long diferencaEntreDadas(Date dataInicial, Date dataFinal) {
+
+        if (dataInicial == null) {
+            return 0L;
+        }
+
+        Calendar dataInicialTemp = Calendar.getInstance();
+        dataInicialTemp.setTime(dataInicial);
+
+        Calendar dataFinalTemp = Calendar.getInstance();
+
+        if (dataFinal != null) {
+            dataFinalTemp.setTime(dataFinal);
+        } else {
+            dataFinalTemp.setTime(new Date());
+        }
+
+        Long milisegundos = (dataFinalTemp.getTimeInMillis() - dataInicialTemp.getTimeInMillis());
+
+        return (milisegundos / 60000);
+    }
+
+    public static Date somarDataComSegundos(Date date, Long segundos) {
+        Calendar dataInicialTemp = Calendar.getInstance();
+        dataInicialTemp.setTime(date);
+
+        dataInicialTemp.add(GregorianCalendar.SECOND, segundos.intValue());
+        
+        return dataInicialTemp.getTime();
+    }
 }

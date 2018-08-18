@@ -50,7 +50,7 @@ public class Contato implements Serializable {
     private String telefones;
     
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dt_nascimento = new Date();
+    private Date dt_nascimento;
     
     private boolean proprietario = false;
     
@@ -60,7 +60,7 @@ public class Contato implements Serializable {
     private String conjuge;
     
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dt_anivconjuge = new Date();
+    private Date dt_anivconjuge;
     
 
     @Override

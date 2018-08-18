@@ -62,20 +62,29 @@ public class Membro implements Serializable, Comparable<Membro> {
     @OneToOne(cascade = CascadeType.ALL)
     @NotNull
     private Endereco endereco = new Endereco();
+    
+    @Size(max = 250)
+    private String emails;
+    
+    @Size(max = 250)
+    private String telefones;
 
     @NotNull
     @Temporal(TemporalType.DATE)
     private Date dataCadastro = new Date();
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataAtualizacao;
 
-    @NotNull
+//    @NotNull
     @Temporal(TemporalType.DATE)
     private Date dataNascimento;
 
-    @NotNull
+//    @NotNull
     @Enumerated(EnumType.STRING)
     private Sexo sexo;
 
-    @NotNull
+//    @NotNull
     @Enumerated(EnumType.STRING)
     private EstadoCivil estadoCivil;
 
@@ -92,6 +101,10 @@ public class Membro implements Serializable, Comparable<Membro> {
     @OneToMany(mappedBy = "membro")
     @OrderBy("dataDevolucao")
     private List<Dizimo> dizimos;
+    
+    @NotAudited
+    @OneToMany(mappedBy = "membro")
+    private List<MembroAtaReuniao> membrosAtaReunioes;
 
     @Override
     public String toString() {
@@ -197,6 +210,14 @@ public class Membro implements Serializable, Comparable<Membro> {
         this.nomeConjuge = nomeConjuge;
     }
 
+    public Date getDataAtualizacao() {
+        return dataAtualizacao;
+    }
+
+    public void setDataAtualizacao(Date dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
+    }
+
     public boolean isAtivo() {
         return ativo;
     }
@@ -219,6 +240,30 @@ public class Membro implements Serializable, Comparable<Membro> {
 
     public void setDizimos(List<Dizimo> dizimos) {
         this.dizimos = dizimos;
+    }
+
+    public List<MembroAtaReuniao> getMembrosAtaReunioes() {
+        return membrosAtaReunioes;
+    }
+
+    public void setMembrosAtaReunioes(List<MembroAtaReuniao> membrosAtaReunioes) {
+        this.membrosAtaReunioes = membrosAtaReunioes;
+    }
+
+    public String getEmails() {
+        return emails;
+    }
+
+    public void setEmails(String emails) {
+        this.emails = emails;
+    }
+
+    public String getTelefones() {
+        return telefones;
+    }
+
+    public void setTelefones(String telefones) {
+        this.telefones = telefones;
     }
 
     @Override

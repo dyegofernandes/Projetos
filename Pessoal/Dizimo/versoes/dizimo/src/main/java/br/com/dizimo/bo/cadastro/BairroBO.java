@@ -44,7 +44,7 @@ public class BairroBO extends AbstractBusinessObject<Bairro> {
         Restrictions restrictions = new Restrictions();
 
         if (!Utils.isNullOrEmpty(nome)) {
-            restrictions.add("bairro.nome", nome);
+            restrictions.like("bairro.nome", nome);
         }
 
         return getDAO().getQueryBuilder().select("bairro").from(Bairro.class, "bairro").leftJoin("bairro.cidade", "cidade")

@@ -9,25 +9,20 @@
     <h:form id="formCreateCliente" >
         <p:fieldset legend="#{xmsg['generalData']}">
             <x:modalMessages/>
-
             <div class="container-fluid">
                 <div class="row">
+                    <x:initializer value="#{clienteMB.entity.convenio}"/>
                     <x:securityArea rolesAllowed="convenio.campo">
                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <h:outputLabel for="convenio" value="* #{msg['cliente.convenio']}:" />
                             <p:autoComplete id="convenio" value="#{clienteMB.entity.convenio}" 
-
                                             completeMethod="#{convenioMB.autocomplete}" styleClass="uix-autocomplete" 
-
                                             minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
-
                                             var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" > 
-                                <x:initializer/>
                                 <p:column> 
                                     <h:outputText value="#{p}"/>
                                 </p:column> 
                             </p:autoComplete>
-
                         </div>
                     </x:securityArea>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
@@ -40,30 +35,30 @@
                         </h:selectOneMenu>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="cnpj" value="#{msg['cliente.cnpj']}:" rendered="#{clienteMB.entity.tipo_pessoa.num eq 1}" />
-                        <h:outputLabel for="cpf" value="#{msg['cliente.cpf']}:" rendered="#{clienteMB.entity.tipo_pessoa.num eq 2}" />
-                        <x:cnpj id="cpf_cnpj" value="#{clienteMB.entity.cpf_cnpj}"  styleClass="form-control"  rendered="#{clienteMB.entity.tipo_pessoa.num eq 1}" />
-                        <x:cpf id="cpf" value="#{clienteMB.entity.cpf_cnpj}"  styleClass="form-control"  rendered="#{clienteMB.entity.tipo_pessoa.num eq 2}" />
+                        <h:outputLabel for="cnpj" value="#{msg['cliente.cnpj']}:" rendered="#{clienteMB.entity.tipo_pessoa.num eq 2}" />
+                        <h:outputLabel for="cpf" value="#{msg['cliente.cpf']}:" rendered="#{clienteMB.entity.tipo_pessoa.num eq 1}" />
+                        <x:cnpj id="cnpj" value="#{clienteMB.entity.cpf_cnpj}"  styleClass="form-control"  rendered="#{clienteMB.entity.tipo_pessoa.num eq 2}" />
+                        <x:cpf id="cpf" value="#{clienteMB.entity.cpf_cnpj}"  styleClass="form-control"  rendered="#{clienteMB.entity.tipo_pessoa.num eq 1}" />
                     </div>
 
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="completo_razao_social" value="* #{msg['cliente.razao_social']}:" rendered="#{clienteMB.entity.tipo_pessoa.num eq 1}"/>
-                        <h:outputLabel for="completo_razao_social" value="* #{msg['cliente.nome_completo']}:" rendered="#{clienteMB.entity.tipo_pessoa.num eq 2}"/>
+                        <h:outputLabel for="completo_razao_social" value="* #{msg['cliente.razao_social']}:" rendered="#{clienteMB.entity.tipo_pessoa.num eq 2}"/>
+                        <h:outputLabel for="completo_razao_social" value="* #{msg['cliente.nome_completo']}:" rendered="#{clienteMB.entity.tipo_pessoa.num eq 1}"/>
                         <p:inputText id="completo_razao_social" value="#{clienteMB.entity.completo_razao_social}" maxlength="100"  styleClass="form-control"  />
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="nome_fantasia" value="* #{msg['cliente.nome_fantasia']}:" rendered="#{clienteMB.entity.tipo_pessoa.num eq 1}"/>
-                        <h:outputLabel for="nome_fantasia" value="* #{msg['cliente.apelido']}:" rendered="#{clienteMB.entity.tipo_pessoa.num eq 2}"/>
+                        <h:outputLabel for="nome_fantasia" value="* #{msg['cliente.nome_fantasia']}:" rendered="#{clienteMB.entity.tipo_pessoa.num eq 2}"/>
+                        <h:outputLabel for="nome_fantasia" value="* #{msg['cliente.apelido']}:" rendered="#{clienteMB.entity.tipo_pessoa.num eq 1}"/>
                         <p:inputText id="nome_fantasia" value="#{clienteMB.entity.nome_fantasia}" maxlength="100"  styleClass="form-control"  />
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="insc_est_rg" value="#{msg['cliente.insc_est']}:" rendered="#{clienteMB.entity.tipo_pessoa.num eq 1}"/>
-                        <h:outputLabel for="insc_est_rg" value="#{msg['cliente.rg']}:" rendered="#{clienteMB.entity.tipo_pessoa.num eq 2}"/>
+                        <h:outputLabel for="insc_est_rg" value="#{msg['cliente.insc_est']}:" rendered="#{clienteMB.entity.tipo_pessoa.num eq 2}"/>
+                        <h:outputLabel for="insc_est_rg" value="#{msg['cliente.rg']}:" rendered="#{clienteMB.entity.tipo_pessoa.num eq 1}"/>
                         <p:inputText id="insc_est_rg" value="#{clienteMB.entity.insc_est_rg}" maxlength="15"  styleClass="form-control"  />
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="dt_nascimento" value="* Data de Fundação:" rendered="#{clienteMB.entity.tipo_pessoa.num eq 1}"/>
-                        <h:outputLabel for="dt_nascimento" value="* #{msg['cliente.dt_nascimento']}:" rendered="#{clienteMB.entity.tipo_pessoa.num eq 2}"/>
+                        <h:outputLabel for="dt_nascimento" value="Data de Fundação:" rendered="#{clienteMB.entity.tipo_pessoa.num eq 2}"/>
+                        <h:outputLabel for="dt_nascimento" value="#{msg['cliente.dt_nascimento']}:" rendered="#{clienteMB.entity.tipo_pessoa.num eq 1}"/>
                         <p:calendar id="dt_nascimento" value="#{clienteMB.entity.dt_nascimento}" 
                                     showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
                             <x:mask/>

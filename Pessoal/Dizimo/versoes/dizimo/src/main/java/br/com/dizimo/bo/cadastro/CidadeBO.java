@@ -44,7 +44,7 @@ public class CidadeBO extends AbstractBusinessObject<Cidade> {
         Restrictions restrictions = new Restrictions();
 
         if (!Utils.isNullOrEmpty(nome)) {
-            restrictions.add("cidade.nome", nome);
+            restrictions.like("cidade.nome", nome);
         }
 
         return getDAO().getQueryBuilder().select("cidade").from(Cidade.class, "cidade").leftJoin("cidade.estado", "estado")

@@ -29,7 +29,7 @@ public class ProdutoMB extends AbstractBaseBean<Produto> implements Serializable
     @EJB
     private ConvenioBO convenioBO;
 
-    private Usuario usuarioAtual = SessaoUtils.getUser();
+    private Usuario usuarioAtual ;
 
     private List<Produto> produtos;
 
@@ -49,6 +49,7 @@ public class ProdutoMB extends AbstractBaseBean<Produto> implements Serializable
 
     @Override
     public void init() {
+        usuarioAtual = SessaoUtils.getUser();
         produtos = new ArrayList<Produto>();
         filtros = new FiltrosBusca();
         filtros.setFranquia(getDAO().getInitialized(usuarioAtual.getFranquia()));
@@ -62,6 +63,10 @@ public class ProdutoMB extends AbstractBaseBean<Produto> implements Serializable
 
     public List<Produto> autocomplete(String nome) {
         return getBO().produtosPeloNomeEConvenio(nome, usuarioAtual.getConvenio());
+    }
+    
+    public List<Convenio> autocompleteConvenios(String nome){
+        return convenioBO.conveniosPeloNomeOrCnpjOuCpfEFranquia(usuarioAtual.getFranquia(), nome);
     }
 
     public FiltrosBusca getFiltros() {

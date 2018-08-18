@@ -8,7 +8,6 @@ package br.com.facilpagar.modelo.dados;
 import br.com.facilpagar.modelo.controleacesso.Usuario;
 import br.com.facilpagar.modelo.enums.TipoPessoa;
 import br.com.facilpagar.modelo.enums.TipoRepasse;
-import br.com.facilpagar.util.Utils;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -124,9 +123,9 @@ public class Convenio implements Serializable {
 
     private BigDecimal desconto = BigDecimal.ZERO;
 
-    private BigDecimal juros = new BigDecimal(0.1);
+    private BigDecimal juros = new BigDecimal(0.0332);
 
-    private BigDecimal multa = new BigDecimal(2);
+    private BigDecimal multa = new BigDecimal(10);
 
     @NotNull
     @Column(length = 20)

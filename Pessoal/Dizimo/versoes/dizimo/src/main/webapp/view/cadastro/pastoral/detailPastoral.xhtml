@@ -5,24 +5,90 @@
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
     <h:form id="formDetailPastoral" styleClass="uix-form-detail">
-        <div class="container-fluid">
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['pastoral.sede']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{pastoralMB.entity.sede}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['pastoral.nome']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{pastoralMB.entity.nome}" styleClass="uix-content-detail"/>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['pastoral.ativo']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{pastoralMB.entity.ativo}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <p:fieldset legend="#{msg['pastoral.membros']}">
+            
             <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['pastoral.sede']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{pastoralMB.entity.sede}" styleClass="uix-content-detail">
+                <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="membro" rowIndexVar="index" id="dataTableMembro" widgetVar="dataTableMembroWidget" styleClass="table-responsive"
+                                 value="#{pastoralMB.entity.membros}" >
                         <x:initializer/>
-                    </h:outputText>
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['membro.codigo']}" sortBy="#{membro.codigo}">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['membro.codigo']}" />
+                            </f:facet>
+                            <h:outputText value="#{membro.codigo}"/>
+                        </p:column>
+
+                        <p:column headerText="#{msg['membro.nome']}" sortBy="#{membro.nome}">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['membro.nome']}" />
+                            </f:facet>
+                            <h:outputText value="#{membro.nome}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['membro.nomeUsual']}" sortBy="#{membro.nomeUsual}">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['membro.nomeUsual']}" />
+                            </f:facet>
+                            <h:outputText value="#{membro.nomeUsual}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['membro.dataNascimento']}" sortBy="#{membro.dataNascimento}" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['membro.dataNascimento']}" />
+                            </f:facet>
+                            <h:outputText value="#{membro.dataNascimento}">
+                                <f:convertDateTime />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{msg['membro.dataCasamento']}" sortBy="#{membro.dataCasamento}" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['membro.dataCasamento']}" />
+                            </f:facet>
+                            <h:outputText value="#{membro.dataCasamento}">
+                                <f:convertDateTime />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{msg['membro.sexo']}" sortBy="#{membro.sexo}"  >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['membro.sexo']}" />
+                            </f:facet>
+                            <h:outputText value="#{membro.sexo.descricao}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['membro.estadoCivil']}" sortBy="#{membro.estadoCivil}"  >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['membro.estadoCivil']}" />
+                            </f:facet>
+                            <h:outputText value="#{membro.estadoCivil.descricao}"/>
+                        </p:column>
+
+                        
+                    </p:dataTable>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['pastoral.nome']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{pastoralMB.entity.nome}" styleClass="uix-content-detail"/>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['pastoral.ativo']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{pastoralMB.entity.ativo}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
-                </div>
-           </div>
-         </div>
+            </div>
+        </p:fieldset>
         <p:separator/>
         <div class="uix-center">
             <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetPastoralDetail').hide()" />

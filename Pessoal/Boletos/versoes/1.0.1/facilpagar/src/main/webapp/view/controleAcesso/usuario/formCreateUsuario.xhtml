@@ -11,15 +11,13 @@
 
         <p:tabView>
             <p:tab title="#{msg['dadosGerais']}">
-
-
                 <div class="container-fluid">
                     <div class="row">
                         <x:securityArea rolesAllowed="franquia.campo">
                             <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel for="franquia" value="#{msg['usuario.franquia']}:" />
                                 <h:selectOneMenu id="franquia" value="#{usuarioMB.entity.franquia}"  styleClass="form-control"
-                                                converter="entityConverter" >
+                                                 converter="entityConverter" >
                                     <x:initializer/>
                                     <f:selectItem itemLabel="#{xmsg['select']}" />
                                     <f:selectItems value="#{findAllBean.get(classMB.franquia)}" 
@@ -34,10 +32,11 @@
                     <div class="row">
                         <x:securityArea rolesAllowed="convenio.campo">
                             <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <x:initializer/>
+
                                 <h:outputLabel for="convenio" value="#{msg['usuario.convenio']}:" />
                                 <h:selectOneMenu id="convenio" value="#{usuarioMB.entity.convenio}"  styleClass="form-control" 
                                                  converter="entityConverter">
+                                    <x:initializer/>
                                     <f:selectItem itemLabel="#{xmsg['select']}" />
                                     <f:selectItems value="#{usuarioMB.convenios}" 
                                                    var="convenio"
@@ -46,7 +45,6 @@
                             </div>
                         </x:securityArea>
                     </div>
-
                     <div class="row">
 
                         <div class="form-group col-lg-6 col-md-12 col-sm-12 col-xs-12">

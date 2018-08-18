@@ -5,7 +5,9 @@
  */
 package br.com.facilpagar.modelo.dados;
 
+import br.com.facilpagar.util.Utils;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -59,10 +61,14 @@ public class Sistema implements Serializable {
     @Size(max = 50)
     @NotBlank
     private String numeroCarteira_BB;
-    
+
     @Size(max = 50)
     @NotBlank
     private String numeroVariacaoCarteira_BB;
+
+    @Size(max = 10)
+    @NotBlank
+    private String chaveUsuario_BB;
 
     @Column(columnDefinition = "Text")
     @NotBlank
@@ -234,6 +240,23 @@ public class Sistema implements Serializable {
 
     public void setNumeroVariacaoCarteira_BB(String numeroVariacaoCarteira_BB) {
         this.numeroVariacaoCarteira_BB = numeroVariacaoCarteira_BB;
+    }
+
+    public String getChaveUsuario_BB() {
+        return chaveUsuario_BB;
+    }
+
+    public void setChaveUsuario_BB(String chaveUsuario_BB) {
+        this.chaveUsuario_BB = chaveUsuario_BB;
+    }
+
+    public Long getTempoRestante() {
+        if (dataGeracaoToken != null) {
+            System.out.println(Utils.somarDataComSegundos(dataGeracaoToken, tempoValidadeEmSegundos_BB));
+            return Utils.diferencaEntreDadas(new Date(), Utils.somarDataComSegundos(dataGeracaoToken, tempoValidadeEmSegundos_BB));
+        }
+
+        return 0L;
     }
 
     @Override

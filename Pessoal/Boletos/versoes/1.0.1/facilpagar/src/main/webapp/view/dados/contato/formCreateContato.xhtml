@@ -12,22 +12,18 @@
 
             <div class="container-fluid">
                 <div class="row">
+                    <x:initializer value="#{contatoMB.entity.convenio}"/>
                     <x:securityArea rolesAllowed="convenio.campo">
                         <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <h:outputLabel for="convenio" value="* #{msg['produto.convenio']}:" />
                             <p:autoComplete id="convenio" value="#{contatoMB.entity.convenio}" 
-
                                             completeMethod="#{convenioMB.autocomplete}" styleClass="uix-autocomplete" 
-
-                                            minQueryLength="3" forceSelection="true" dropdown="true"
-
+                                            minQueryLength="3" forceSelection="true" dropdown="true" scrollHeight="400"
                                             var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter" > 
-                                <x:initializer/>
                                 <p:column> 
                                     <h:outputText value="#{p}"/>
                                 </p:column> 
                             </p:autoComplete>
-
                         </div>
                     </x:securityArea>
                     <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">

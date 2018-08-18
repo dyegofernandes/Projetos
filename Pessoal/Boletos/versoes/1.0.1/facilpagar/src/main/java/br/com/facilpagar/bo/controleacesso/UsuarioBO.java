@@ -182,7 +182,7 @@ public class UsuarioBO extends AbstractBusinessObject<Usuario> {
             }
         }
 
-        return getDAO().getQueryBuilder().from(Usuario.class, "usuario").leftJoinFetch("usuario.convenio", "convenio")
+        return getDAO().getQueryBuilder().select("usuario").from(Usuario.class, "usuario").leftJoinFetch("usuario.convenio", "convenio")
                 .leftJoinFetch("usuario.franquia", "franquia").add(restrictions).orderBy("usuario.nome").getResultList();
     }
 }

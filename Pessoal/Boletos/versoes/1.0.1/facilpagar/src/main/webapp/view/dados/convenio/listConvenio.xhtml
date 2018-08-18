@@ -41,14 +41,14 @@
                         </div>
                         <h:panelGroup rendered="#{convenioMB.filtros.tipoPessoa!=null}">
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                <h:outputLabel for="cpf" value="#{msg['convenio.cpf']}:" rendered="#{convenioMB.filtros.tipoPessoa.num eq 2}" />
-                                <h:outputLabel for="cnpj" value="#{msg['convenio.cnpj']}:" rendered="#{convenioMB.filtros.tipoPessoa.num eq 1}" />
-                                <x:cpf id="cnpj" value="#{convenioMB.filtros.cpf_cnpj}"  styleClass="form-control" rendered="#{convenioMB.filtros.tipoPessoa.num eq 2}" />
-                                <x:cnpj id="cpf" value="#{convenioMB.filtros.cpf_cnpj}"  styleClass="form-control" rendered="#{convenioMB.filtros.tipoPessoa.num eq 1}"  />
+                                <h:outputLabel for="cpf" value="#{msg['convenio.cpf']}:" rendered="#{convenioMB.filtros.tipoPessoa.num eq 1}" />
+                                <h:outputLabel for="cnpj" value="#{msg['convenio.cnpj']}:" rendered="#{convenioMB.filtros.tipoPessoa.num eq 2}" />
+                                <x:cpf id="cpf" value="#{convenioMB.filtros.cpf_cnpj}"  styleClass="form-control" rendered="#{convenioMB.filtros.tipoPessoa.num eq 1}" />
+                                <x:cnpj id="cnpj" value="#{convenioMB.filtros.cpf_cnpj}"  styleClass="form-control" rendered="#{convenioMB.filtros.tipoPessoa.num eq 2}"  />
                             </div>
                             <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                <h:outputLabel for="nome_fantasia" value="#{msg['convenio.nome_fantasia']}:" rendered="#{convenioMB.filtros.tipoPessoa.num eq 1}"/>
-                                <h:outputLabel for="nome_fantasia" value="#{msg['convenio.apelido']}:" rendered="#{convenioMB.filtros.tipoPessoa.num eq 2}"/>
+                                <h:outputLabel for="nome_fantasia" value="#{msg['convenio.nome_fantasia']}:" rendered="#{convenioMB.filtros.tipoPessoa.num eq 2}"/>
+                                <h:outputLabel for="nome_fantasia" value="#{msg['convenio.apelido']}:" rendered="#{convenioMB.filtros.tipoPessoa.num eq 1}"/>
                                 <p:inputText id="nome_fantasia" value="#{convenioMB.filtros.nome_fantasia}" maxlength="100"  styleClass="form-control"  />
                             </div>
                         </h:panelGroup>

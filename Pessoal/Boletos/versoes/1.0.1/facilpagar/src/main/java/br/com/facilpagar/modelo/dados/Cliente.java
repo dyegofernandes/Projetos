@@ -6,7 +6,6 @@
 package br.com.facilpagar.modelo.dados;
 
 import br.com.facilpagar.modelo.enums.TipoPessoa;
-import br.com.facilpagar.util.Utils;
 import com.xpert.audit.NotAudited;
 import java.io.Serializable;
 import java.util.Date;
@@ -65,7 +64,6 @@ public class Cliente implements Serializable {
     @Size(max = 15)
     private String insc_est_rg;
 
-    @NotNull
     @Temporal(TemporalType.DATE)
     private Date dt_nascimento;
 

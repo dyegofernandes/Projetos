@@ -11,8 +11,8 @@ package br.com.facilpagar.modelo.enums;
  */
 public enum TipoPessoa {
 
-    PJ(1, "Jurídica"),
-    PF(2, "Física");
+    PF(1, "Física"),
+    PJ(2, "Jurídica"),;
 
     private TipoPessoa(int num, String descricao) {
         this.descricao = descricao;

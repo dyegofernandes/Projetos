@@ -60,7 +60,7 @@ public class ConvenioMB extends AbstractBaseBean<Convenio> implements Serializab
             ufFilter = getDAO().getInitialized(cidadeTemp.getUf());
         }
 
-        if (getEntity() == null) {
+        if (getEntity().getId() == null) {
             getEntity().setFranquia(usuarioAtual.getFranquia());
         }
     }

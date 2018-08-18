@@ -313,7 +313,7 @@
                             </p:commandButton>
                         </x:securityArea>
                         <x:securityArea rolesAllowed="boleto.segundaVia">
-                            <p:commandButton icon="ui-icon-document" title="Segunda Via" ajax="false" action="#{boletoMB.gerarBoleto(boleto)}" 
+                            <p:commandButton icon="ui-icon-document" title="Segunda Via" ajax="false" action="#{boletoMB.gerarBoletoBB(boleto)}" 
                                              process="@form" update="@form" rendered="#{boleto.situacao.num eq 1}">                         
                             </p:commandButton>
                         </x:securityArea>

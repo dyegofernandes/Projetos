@@ -21,6 +21,18 @@
 
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataCadastro" value="* #{msg['membro.dataCadastro']}:" />
+                        <p:inputText id="dataCadastro" value="#{membroMB.entity.dataCadastro}" maxlength="250"  styleClass="form-control" readonly="true">
+                            <f:convertDateTime />
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataAtualizacao" value="#{msg['membro.dataAtualizacao']}:" />
+                        <p:inputText id="dataAtualizacao" value="#{membroMB.entity.dataAtualizacao}" maxlength="250"  styleClass="form-control" readonly="true">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                        </p:inputText>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="nomeUsual" value="* #{msg['membro.nomeUsual']}:" />
                         <p:inputText id="nomeUsual" value="#{membroMB.entity.nomeUsual}" maxlength="250"  styleClass="form-control"  />
                     </div>
@@ -32,14 +44,7 @@
                         <h:outputLabel for="codigo" value="* #{msg['membro.codigo']}:" />
                         <p:inputMask id="codigo" value="#{membroMB.entity.codigo}" mask="9?99999999999999999"  styleClass="form-control"  />
                     </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="dataCadastro" value="* #{msg['membro.dataCadastro']}:" />
-                        <p:inputText id="dataCadastro" value="#{membroMB.entity.dataCadastro}" maxlength="250"  styleClass="form-control" readonly="true">
-                            <f:convertDateTime />
-                        </p:inputText>
 
-
-                    </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="dataNascimento" value="* #{msg['membro.dataNascimento']}:" />
                         <p:calendar id="dataNascimento" value="#{membroMB.entity.dataNascimento}" 
@@ -113,10 +118,10 @@
                                             var="p" itemLabel="#{p}" itemValue="#{p}" converter="entityConverter"  > 
                                 <x:initializer/>
                                 <p:column> 
-                                    <h:outputText value="#{p}"/>
+                                    <h:outputText value="#{p.nome}"/>
                                 </p:column> 
                             </p:autoComplete>
-                            
+
                             <span class="input-group-btn">
                                 <p:commandButton process="@this" icon="ui-icon-plusthick" oncomplete="PF('widgetBairroCreate').show();"
                                                  label="Cadastrar Bairro" style="font-size: 18px;">
@@ -127,6 +132,14 @@
 
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="telefones" value="#{msg['membro.telefones']}:" />
+                        <p:inputText id="telefones" value="#{membroMB.entity.telefones}" maxlength="250"  styleClass="form-control"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="emails" value="#{msg['membro.emails']}:" />
+                        <p:inputText id="emails" value="#{membroMB.entity.emails}" maxlength="250"  styleClass="form-control"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <div class="checkbox">
                             <label>
                                 <h:selectBooleanCheckbox id="ativo" value="#{membroMB.entity.ativo}" />
@@ -134,7 +147,7 @@
                             </label>
 
                         </div>
-                        <h:outputText value="#{msg['usuario.superUsuarioInfo']}" styleClass="help-block"/>
+                        <h:outputText value="Desmarque para membros inativos!" styleClass="help-block"/>
                     </div>
 
                 </div>

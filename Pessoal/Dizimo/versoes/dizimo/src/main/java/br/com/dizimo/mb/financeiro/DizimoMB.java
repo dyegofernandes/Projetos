@@ -13,6 +13,7 @@ import br.com.dizimo.modelo.controleacesso.Usuario;
 import br.com.dizimo.modelo.financeiro.Caixa;
 import br.com.dizimo.modelo.financeiro.Dizimo;
 import br.com.dizimo.util.SessaoUtils;
+import com.xpert.persistence.query.JoinBuilder;
 import java.util.List;
 
 /**
@@ -41,7 +42,15 @@ public class DizimoMB extends AbstractBaseBean<Dizimo> implements Serializable {
 
     @Override
     public String getDataModelOrder() {
-        return "id";
+        return "dizimo.dataDevolucao, membro.nome";
+    }
+    
+    @Override
+    public JoinBuilder getDataModelJoinBuilder() {
+        return new JoinBuilder("dizimo")
+                .leftJoinFetch("dizimo.caixa", "caixa")
+                .leftJoinFetch("dizimo.membro", "membro")
+                .leftJoinFetch("dizimo.usuario", "usuario");
     }
 
     @Override

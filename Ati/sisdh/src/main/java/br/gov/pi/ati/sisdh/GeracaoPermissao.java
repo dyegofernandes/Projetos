@@ -102,11 +102,11 @@ public class GeracaoPermissao {
 //        create(new Permissao("orientacaoSexual.list", "Orientações Sexuais", "/view/cadastro/orientacaoSexual/listOrientacaoSexual.jsf", true), "cadastro");
 //        create(new Permissao("orientacaoSexual.audit", "Auditoria de Orientacao Sexual"), "orientacaoSexual");
 //        create(new Permissao("orientacaoSexual.delete", "Exclusão de Orientacao Sexual"), "orientacaoSexual");
-
         create(new Permissao("menu_denuncia", "Denúncia", true), null);
         //Denuncia
         create(new Permissao("denuncia", "Denúncia", false), "menu_denuncia");
         create(new Permissao("denuncia.create", "Cadastro de Denuncia", "/view/denuncia/denuncia/createDenuncia.jsf", false), "denuncia");
+        create(new Permissao("denuncia.monitoring", "Monitoramento", "/view/denuncia/denuncia/monitoramento.jsf", true), "menu_denuncia");
         create(new Permissao("denuncia.list", "Denúncias", "/view/denuncia/denuncia/listDenuncia.jsf", true), "menu_denuncia");
         create(new Permissao("denuncia.audit", "Auditoria de Denuncia"), "denuncia");
         create(new Permissao("denuncia.delete", "Exclusão de Denuncia"), "denuncia");

@@ -12,7 +12,7 @@
             <x:modalMessages/>
 
             <x:dataTableActions fileName="dizimo_export" target=":formListDizimo:dataTableDizimo"
-                                     widgetVar="dataTableDizimoWidget"  />
+                                widgetVar="dataTableDizimoWidget"  />
 
             <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                          var="dizimo" rowIndexVar="index" id="dataTableDizimo" widgetVar="dataTableDizimoWidget" styleClass="table-responsive"
@@ -23,7 +23,7 @@
                     <h:outputText value="#{index+1}"/>
                 </p:column>
                 <p:column headerText="#{msg['dizimo.dataCadastro']}" sortBy="#{dizimo.dataCadastro}"
-                    filterBy="#{dizimo.dataCadastro}"   style="text-align: center;">
+                          filterBy="#{dizimo.dataCadastro}"   style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['dizimo.dataCadastro']}" />
                         <x:dateFilter/>
@@ -33,11 +33,20 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{msg['dizimo.caixa']}" sortBy="#{dizimo.caixa}"
-                       >
+                          >
                     <f:facet name="header">
                         <h:outputText value="#{msg['dizimo.caixa']}" />
                     </f:facet>
                     <h:outputText value="#{dizimo.caixa}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Código" sortBy="#{dizimo.membro.codigo}"
+                          filterBy="#{dizimo.membro.codigo}">
+                    <f:facet name="header">
+                        <h:outputText value="Código" />
+                    </f:facet>
+                    <h:outputText value="#{dizimo.membro.codigo}">
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
@@ -46,12 +55,12 @@
                     <f:facet name="header">
                         <h:outputText value="#{msg['dizimo.membro']}" />
                     </f:facet>
-                    <h:outputText value="#{dizimo.membro}">
+                    <h:outputText value="#{dizimo.membro.nome}">
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="#{msg['dizimo.dataDevolucao']}" sortBy="#{dizimo.dataDevolucao}"
-                    filterBy="#{dizimo.dataDevolucao}"   style="text-align: center;">
+                          filterBy="#{dizimo.dataDevolucao}"   style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['dizimo.dataDevolucao']}" />
                         <x:dateFilter/>
@@ -60,22 +69,18 @@
                         <f:convertDateTime />
                     </h:outputText>
                 </p:column>
-                
+
                 <p:column headerText="#{msg['dizimo.valor']}" sortBy="#{dizimo.valor}"
-                       style="text-align: right;">
+                          style="text-align: right;">
                     <f:facet name="header">
                         <h:outputText value="#{msg['dizimo.valor']}" />
                     </f:facet>
                     <h:outputText value="#{dizimo.valor}">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                     </h:outputText>
-                    <f:facet name="footer">
-                        <h:outputText value="#{x:sum(dizimoMB.dataModel, 'valor')}" style="text-align: right; font-weight:bold;">
-                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-                        </h:outputText>
-                    </f:facet>
+                    
                 </p:column>
-                
+
                 <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
                     <f:facet name="header">
                         <h:outputText value="#{xmsg['actions']}"/>
@@ -107,7 +112,7 @@
 
         <p:dialog widgetVar="widgetDizimoDetail" header="#{msg['dizimo.detail']}" appendTo="@(body)" 
                   modal="true" styleClass="uix-dialog-fluid" >
-                  <ui:include src="detailDizimo.xhtml" />
+            <ui:include src="detailDizimo.xhtml" />
         </p:dialog>
     </ui:define>
 </ui:composition>

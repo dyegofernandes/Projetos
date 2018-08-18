@@ -44,7 +44,7 @@ public class EstadoBO extends AbstractBusinessObject<Estado> {
         Restrictions restrictions = new Restrictions();
 
         if (!Utils.isNullOrEmpty(nome)) {
-            restrictions.add("estado.nome", nome);
+            restrictions.like("estado.nome", nome);
         }
 
         return getDAO().getQueryBuilder().select("estado").from(Estado.class, "estado").leftJoin("estado.pais", "pais")

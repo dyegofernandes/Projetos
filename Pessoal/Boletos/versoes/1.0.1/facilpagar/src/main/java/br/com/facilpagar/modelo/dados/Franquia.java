@@ -23,6 +23,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -103,7 +104,6 @@ public class Franquia implements Serializable {
     @NotBlank
     private String localPagto = "EM QUALQUER AGENCIA BANCARIA ATÉ O VENCIMENTO";
 
-
     private BigDecimal comissao = new BigDecimal(6);
 
     private BigDecimal desconto = BigDecimal.ZERO;
@@ -116,6 +116,7 @@ public class Franquia implements Serializable {
     
     @NotAudited
     @OneToMany(mappedBy = "franquia")
+    @OrderBy("nome_fantasia")
     private List<Convenio> convenios;
     
     @NotAudited

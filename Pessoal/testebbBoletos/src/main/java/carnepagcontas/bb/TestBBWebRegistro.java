@@ -30,7 +30,7 @@ import org.apache.http.util.EntityUtils;
 public class TestBBWebRegistro {
 
     private static String getToken() {
-        return "SggxR8LS5S0NgxuCC8VaFDyYWA4RAqGzmWnMSJJwdaRd5eJ0jbx1y_suTMxTrWDoHrUiamT7zDJKhaUqpWFnVQ.dtIIaP0iIO3BJEy-_L9dRdbXjGLtKqRsxmslHY4KgPZNbNQrzHiJk7OP7uuJzCEjEf7eZ21t-o9AJYWX5R7ynTBDUGcWy8WXOwiwkGYMivhs1o07XnXmT-viJqW1W2mvjzoxtkzcR_MqQlRAi93EtfOXeiTjCCQdWMIu5DKQxeOWpjPCGAfXFwg9gvNc8hFTXngGnh-C9fJrQNX3o6BYEdEB_9d9sV-hqRFdAGzq1RTTDivzTHanz8yBYxAo1AiIB5_oo9bM_EQ4IuJByJlpNyAEhbEcY-qCnwNRZWHoDJdcQBmdSe4S4cKmgfMBzPrCa2S2Lk6F0JFXK3VW3aE6bEvIim9meALsW5_Mclqx1lFz1fcfcyZFcwC5OPkP9BLJyCF4ggonmD-a92aopqG_cF9JVB0XGCUXscikTDazJuOacMnfzZY8eRlviVdteDcAkf5MLtx5nCxcP012BXG0gshJT7IY31Eccx1JMb377p405Y4oojLQqWDFmQIuGy2iCtoV3wnAFJ-ulfN676SgX3uTBvp7_FeSgn1STlREPXM9aypjPcNbiYu13Xa5L3usRBJqBsX-ViTLgaUBht6yCBhMp-EyEDcCfJy3oOMH1TViNhUpVdGgCduFi_LZksc3Y4XkB1kYlFt1payH23H2zg.e70RtHWBTSpQGFaKw5YNgpgPlVnDm8tM7ePXoGKUabJerAQBmhHdUsp9ByKtZzQkFC6kpJWsFAgwrFs51PRfQA";
+        return "gAjf3j18XWm8D-tEf68BhC-8TwRDBSrCXbiKBoL-sLuoo-MLGv2Je3kTLKT6XbuginOdJDGki4ZV7QCwxNFGDw.5vBpw2hn5gZzB3POUkdWa6umfJDLzWEmwil3hxlzoYyKTa1qFCYmCilnRC0YwYexbDsyTsS12Mon9-WNJMX892mi5MamR0-5jUqwXAX3QOzxj7nEBcmItt_8qqCA3KVc-lsToc5Gc-44KtvKKyEkcqQ5sKAmnftk_M-qBarsx5QDAV6XS2D2Hxiv9WVJKpnXbTvwnQGBvLoMOncM6XiPjzElTQ8zwmN4jzECBAPi790gkklceZ4pR_28ndvjJlSSse0LD9twmmOonOOoAuEIJ0WXZ5APHOvUpw3fSyPd4LfWBUkQI5LDoEplSpGqenKByQ1ZPhkhIaPdcqI3DRuNhuxgB3dLl35NQkb7_nGvyjiYLuZ9bPrs3qge-bToYpIWnBOk8u8dlUoPVy9lWtMDqER0DB9n7bpPIffTnXlh258vvJfQBkwKi72EqjFOeMcAMH2nsSI0lptnnD6lEISKPGTvM7eJ2Bfev3P658U8sSzPTq9Uh8N8Qxcpfz1oHJCumWpL_FdIu0zLtdpHWFbfBsmvi-6dyVQ-JMzgrRmEnCSCR8i1gqBmqsxpIdSBP7K_nXFs7yPy0Qd_eBhJed-dWf4UWYFpPq4SGHtjDM1KsElA7-MviV1YsfbAtMheXz1VX2b_N5YastuTSx5IIe-gLA.R1FOzUvpJ2x80MPOkReq00SzqGmSsn0hs7SxRMTnuXiQeeWz87whPmDlQVWyIVMXWfEJqtJm9HsrDNxTwdvsqA";
     }
 
     public static void main(String[] args) throws Exception {
@@ -88,19 +88,6 @@ public class TestBBWebRegistro {
         marshaller.marshal(requisicao, envioBuffer);
         String reqEnvioXML = new String(envioBuffer.toByteArray(), "utf-8");
 
-//        Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-//        marshaller.marshal(requisicao, document);
-//        
-//        SOAPMessage soapMessage = MessageFactory.newInstance().createMessage();
-//        soapMessage.addNamespaceDeclaration("sch", "http://www.tibco.com/schemas/bws_registro_cbr/Recursos/XSD/Schema.xsd");
-//        soapMessage.getSOAPBody().addDocument(document);
-//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-//        soapMessage.writeTo(outputStream);
-//        String output = new String(outputStream.toByteArray(), "utf-8");
-//        
-//        output = output.replace("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>", "");
-//        output = output.replaceAll("SOAP-ENV", "soapenv");
-//        System.out.println("output : " + output);
         reqEnvioXML = reqEnvioXML.replace("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>", "");
         reqEnvioXML = reqEnvioXML.replace("xmlns:sch=\"http://www.tibco.com/schemas/bws_registro_cbr/Recursos/XSD/Schema.xsd\"", "");
 
@@ -141,16 +128,6 @@ public class TestBBWebRegistro {
         // Getting the response body.
         String responseBody = EntityUtils.toString(response.getEntity());
 
-//        
-//        SSLSocketFactory sslsf = new SSLSocketFactory(new TrustStrategy() {
-//
-//            public boolean isTrusted(
-//                    final X509Certificate[] chain, String authType) throws CertificateException {
-//                // Oh, I am easy...
-//                return true;
-//            }
-//
-//        });
         System.out.println("response : " + response.getStatusLine());
         System.out.println("response : " + responseBody);
 
@@ -165,49 +142,10 @@ public class TestBBWebRegistro {
         JAXBElement<Resposta> je = unmarshaller.unmarshal(xsr,
                 Resposta.class);
 
-//        Resposta resposta = (Resposta) unmarshaller.unmarshal(xsr);
         System.out.println("Last Name:- " + je.getValue().getCodigoRetornoPrograma());
 
-//        RegistroCobrancaServiceServiceagentLocator locator = new RegistroCobrancaServiceServiceagentLocator();
-//        System.setProperty("javax.net.ssl.keyStore", "/home/ricardo/.keystore");
-//        System.setProperty("javax.net.ssl.keyStore", "/media/ricardo/Dados/Workspace/Criativa/test-apis/jssecacerts");
-//        System.setProperty("javax.net.ssl.keyStorePassword", "12345678");
-//        
-//        AxisProperties.setProperty("org.apache.axis.components.net.SecureSocketFactory", "RegistroTituloCobranca"); 
-//        AxisProperties.setProperty("keystore", "/media/ricardo/Dados/TEMP/testes-java/webservice-bb/keystore.jks"); 
-//        AxisProperties.setProperty("keystorePassword", "12345678"); 
-//        AxisProperties.setProperty("keystoreType", "JKS"); 
-//        
-//        locator.getRegistroCobrancaEndpoint().registroTituloCobranca(parameters);
+
     }
 
-//    private static HttpClientConnectionManager buildTrustConnection() {
-//        SSLContext sslContext = SSLContext.getInstance("SSL");
-//
-//        // set up a TrustManager that trusts everything
-//        sslContext.init(null, new TrustManager[] { new X509TrustManager() {
-//            public X509Certificate[] getAcceptedIssuers() {
-//                System.out.println("getAcceptedIssuers =============");
-//                return null;
-//            }
-//
-//            public void checkClientTrusted( X509Certificate[] certs ,
-//                    String authType ) {
-//                System.out.println("checkClientTrusted =============");
-//            }
-//
-//            public void checkServerTrusted( X509Certificate[] certs ,
-//                    String authType ) {
-//                System.out.println("checkServerTrusted =============");
-//            }
-//        } }, new SecureRandom());
-//
-//        SSLSocketFactory sf = new SSLSocketFactory(sslContext);
-//        Scheme httpsScheme = new Scheme("https", 443, sf);
-//        SchemeRegistry schemeRegistry = new SchemeRegistry();
-//        schemeRegistry.register(httpsScheme);
-//
-//        // apache HttpClient version >4.2 should use BasicClientConnectionManager
-//        ClientConnectionManager cm = new SingleClientConnManager(schemeRegistry);
-//    }
+
 }

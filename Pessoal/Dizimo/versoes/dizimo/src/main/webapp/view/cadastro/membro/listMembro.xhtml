@@ -69,6 +69,16 @@
                         <f:convertDateTime />
                     </h:outputText>
                 </p:column>
+                <p:column headerText="#{msg['membro.dataAtualizacao']}" sortBy="#{membro.dataAtualizacao}"
+                    filterBy="#{membro.dataAtualizacao}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['membro.dataAtualizacao']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{membro.dataAtualizacao}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                    </h:outputText>
+                </p:column>
                 <p:column headerText="#{msg['membro.dataNascimento']}" sortBy="#{membro.dataNascimento}"
                     filterBy="#{membro.dataNascimento}"   style="text-align: center;">
                     <f:facet name="header">

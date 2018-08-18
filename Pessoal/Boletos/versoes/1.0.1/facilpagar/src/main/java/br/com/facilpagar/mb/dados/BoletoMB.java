@@ -191,7 +191,7 @@ public class BoletoMB extends AbstractBaseBean<Boleto> implements Serializable {
                 if (event.getNewStep().equals("editar")) {
                     nomeBotaoAvancar = "Confirmar";
                     nomeBotaoVoltar = "Voltar";
-                    parcelarBoleto();
+                    parcelaFixaBoleto();
                     confirmar = false;
                 } else {
                     if (event.getNewStep().equals("imprimir")) {
@@ -303,7 +303,51 @@ public class BoletoMB extends AbstractBaseBean<Boleto> implements Serializable {
         }
     }
 
-    public void gerarBoleto(Boleto boleto) {
+    private void parcelaFixaBoleto() {
+        boletos = new ArrayList<Boleto>();
+
+        Convenio convenio = getDAO().getInitialized(getEntity().getConvenio());
+        BigDecimal valorParcela = getEntity().getVl_nominal();
+        Calendar vencimento = Calendar.getInstance();
+
+        BigDecimal desconto = Utils.calcularPorcentagem(convenio.getDesconto(), valorParcela);
+        BigDecimal juros = Utils.calcularPorcentagem(convenio.getJuros(), valorParcela);
+        BigDecimal multa = Utils.calcularPorcentagem(convenio.getMulta(), valorParcela);
+        for (int i = 0; i < getEntity().getQtd_total_parcela(); i++) {
+
+            Boleto boletoTemp = new Boleto();
+            boletoTemp.setConvenio(getEntity().getConvenio());
+            boletoTemp.setProduto(getEntity().getProduto());
+            boletoTemp.setCliente(getEntity().getCliente());
+            boletoTemp.setDt_criacao(new Date());
+
+            boletoTemp.setInstrucao_exclusiva(getEntity().getInstrucao_exclusiva());
+
+            boletoTemp.setBanco(convenio.getEmissor());
+            boletoTemp.setTiporepasse(convenio.getTipoRepasse());
+            boletoTemp.setVl_tarifa(convenio.getComissao());
+
+            vencimento.setTime(getEntity().getDt_vencimento());
+            vencimento.add(Calendar.MONTH, i);
+            boletoTemp.setDt_vencimento(vencimento.getTime());
+            boletoTemp.setDt_impressao(new Date());
+
+            boletoTemp.setNr_parcela(i + 1);
+            boletoTemp.setQtd_total_parcela(getEntity().getQtd_total_parcela());
+
+            boletoTemp.setVl_nominal(valorParcela);
+            boletoTemp.setVl_desconto(desconto);
+            boletoTemp.setVl_juros(juros);
+            boletoTemp.setVl_multa(multa);
+
+            boletoTemp.setReferentea("Referente à parcela " + boletoTemp.getNr_parcela() + "/" + boletoTemp.getQtd_total_parcela());
+
+            boletos.add(boletoTemp);
+
+        }
+    }
+    
+    public void gerarBoletoSicob(Boleto boleto) {
 
         HashMap params = new HashMap();
         String caminhoImg = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/images");
@@ -326,8 +370,32 @@ public class BoletoMB extends AbstractBaseBean<Boleto> implements Serializable {
         FacesJasper.createJasperReport(boletosTemp, params,
                 "/WEB-INF/report/boletos/boletoSicoob.jasper", "Boleto" + ".pdf");
     }
+    
+    public void gerarBoletoBB(Boleto boleto) {
 
-    public void gerarBoletos() {
+        HashMap params = new HashMap();
+        String caminhoImg = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/images");
+
+        params.put("LOGO_SICOOB", caminhoImg.concat("/bb-logo.png"));
+
+        List<BoletoVO> boletosTemp = new ArrayList<BoletoVO>();
+        Convenio convenio = getDAO().getInitialized(boleto.getConvenio());
+        Cliente cliente = getDAO().getInitialized(boleto.getCliente());
+        Cidade cidade = getDAO().getInitialized(cliente.getCidade());
+        Uf estado = getDAO().getInitialized(cidade.getUf());
+
+        BoletoVO boletoTemp = new BoletoVO(convenio.toString(), boleto.getNossonumero().toString(), boleto.getNossonumero(), boleto.getDt_vencimento(),
+                boleto.getVl_nominal(), boleto.getVl_multa(), boleto.getVl_desconto(), boleto.getVl_juros(), cliente.toString(), convenio.getLocalPagto(),
+                boleto.getDt_criacao(), boleto.getInstrucao_exclusiva(), boleto.getReferentea() + " - 2º Via ",
+                (cliente.getEndereco() + ", " + cliente.getBairro() + ", " + cidade.getNome() + "-" + estado.getSigla()),
+                getBO().linhaEditavel(boleto.getCb()), boleto.getCb());
+        boletosTemp.add(boletoTemp);
+
+        FacesJasper.createJasperReport(boletosTemp, params,
+                "/WEB-INF/report/boletos/boletobb.jasper", "Boleto" + ".pdf");
+    }
+
+    public void gerarBoletosSicoob() {
 
         HashMap params = new HashMap();
         String caminhoImg = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/images");
@@ -352,6 +420,33 @@ public class BoletoMB extends AbstractBaseBean<Boleto> implements Serializable {
 
         FacesJasper.createJasperReport(boletosTemp, params,
                 "/WEB-INF/report/boletos/boletoSicoob.jasper", "Boleto" + ".pdf");
+    }
+    
+    public void gerarBoletosBB() {
+
+        HashMap params = new HashMap();
+        String caminhoImg = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/images");
+
+        params.put("LOGO_SICOOB", caminhoImg.concat("/bb-logo.png"));
+
+        List<BoletoVO> boletosTemp = new ArrayList<BoletoVO>();
+
+        for (Boleto boleto : boletos) {
+            Convenio convenio = getDAO().getInitialized(boleto.getConvenio());
+            Cliente cliente = getDAO().getInitialized(boleto.getCliente());
+            Cidade cidade = getDAO().getInitialized(cliente.getCidade());
+            Uf estado = getDAO().getInitialized(cidade.getUf());
+
+            BoletoVO boletoTemp = new BoletoVO(convenio.toString(), boleto.getNossonumero().toString(), boleto.getNossonumero(), boleto.getDt_vencimento(),
+                    boleto.getVl_nominal(), boleto.getVl_multa(), boleto.getVl_desconto(), boleto.getVl_juros(), cliente.toString(), convenio.getLocalPagto(),
+                    boleto.getDt_criacao(), boleto.getInstrucao_exclusiva(), boleto.getReferentea(),
+                    (cliente.getEndereco() + ", " + cliente.getBairro() + ", " + cidade.getNome() + "-" + estado.getSigla()),
+                    getBO().linhaEditavel(boleto.getCb()), boleto.getCb());
+            boletosTemp.add(boletoTemp);
+        }
+
+        FacesJasper.createJasperReport(boletosTemp, params,
+                "/WEB-INF/report/boletos/boletobb.jasper", "Boleto" + ".pdf");
     }
 
     public void cancelarBoleto(Boleto boleto) {
@@ -389,7 +484,13 @@ public class BoletoMB extends AbstractBaseBean<Boleto> implements Serializable {
         return cidadeBO.listarCidadePeloNomeEEstado(filtros.getEstado(), nome);
     }
 
-    public String valorParcela(BigDecimal valorTotal, Integer parcelas) {
+    /**
+     *
+     * @param valorTotal
+     * @param parcelas
+     * @return
+     */
+    public String valorParcelaDivide(BigDecimal valorTotal, Integer parcelas) {
         if (valorTotal != null && parcelas != null) {
             if (parcelas > 0) {
                 BigDecimal resultado = valorTotal.divide(new BigDecimal(parcelas), 2, RoundingMode.DOWN);
@@ -401,6 +502,20 @@ public class BoletoMB extends AbstractBaseBean<Boleto> implements Serializable {
         }
         return "";
     }
+    
+    public String valorParcela(BigDecimal valorTotal, Integer parcelas) {
+        if (valorTotal != null && parcelas != null) {
+            if (parcelas > 0) {
+                BigDecimal resultado = valorTotal;
+                return parcelas.toString().concat("x de R$ ").concat(Utils.moeda(resultado));
+            } else {
+                FacesMessageUtils.error("O número de parcelas deve ser maior que Zero!");
+                return "";
+            }
+        }
+        return "";
+    }
+
 
     public void pegarConveniosFiltros() {
         conveniosFiltros = new ArrayList<Convenio>();

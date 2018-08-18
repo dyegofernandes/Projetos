@@ -77,6 +77,10 @@
                         <h:outputLabel for="tempo" value="Tempo de Validade (segundos):" />
                         <p:inputText id="tempo" value="#{sistemaMB.entity.tempoValidadeEmSegundos_BB}"   styleClass="form-control"  readonly="true" />
                     </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tempoRestante" value="Tempo Restante do Token (minutos):" />
+                        <p:inputText id="tempoRestante" value="#{sistemaMB.entity.tempoRestante}"   styleClass="form-control"  readonly="true" />
+                    </div>
                     <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="obs" value="* #{msg['sistema.observacao']}:" />
                         <p:inputText id="obs" value="#{sistemaMB.entity.observacaoToken_BB}"   styleClass="form-control"  readonly="true"/>

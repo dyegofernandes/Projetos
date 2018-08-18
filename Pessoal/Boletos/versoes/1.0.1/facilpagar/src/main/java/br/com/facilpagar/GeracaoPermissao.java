@@ -33,25 +33,25 @@ public class GeracaoPermissao {
         create(new Permissao("controleAcesso", "Controle de Acesso", true), "administracaoSistema");
 
         //Permissao
-        create(new Permissao("permissao", "Permissão", false), "controleAcesso");
-        create(new Permissao("permissao.create", "Cadastro de Permissão", "/view/controleAcesso/permissao/createPermissao.jsf", false), "permissao");
-        create(new Permissao("permissao.list", "Permissões", "/view/controleAcesso/permissao/listPermissao.jsf", true), "controleAcesso");
+        create(new Permissao("permissao", "Permissão", true), "controleAcesso");
+        create(new Permissao("permissao.create", "Cadastro", "/view/controleAcesso/permissao/createPermissao.jsf", true), "permissao");
+        create(new Permissao("permissao.list", "Consulta", "/view/controleAcesso/permissao/listPermissao.jsf", true), "permissao");
         create(new Permissao("permissao.audit", "Auditoria de Permissão"), "permissao");
         create(new Permissao("permissao.delete", "Exclusão de Permissão"), "permissao");
         create(new Permissao("permissao.ativacao", "Ativação de Permissão"), "permissao");
         create(new Permissao("permissao.inativacao", "Inativação de Permissão"), "permissao");
 
         //Usuario
-        create(new Permissao("usuario", "Usuário", false), "controleAcesso");
-        create(new Permissao("usuario.create", "Cadastro de Usuário", "/view/controleAcesso/usuario/createUsuario.jsf", false), "usuario");
-        create(new Permissao("usuario.list", "Usuários", "/view/controleAcesso/usuario/listUsuario.jsf", true), "controleAcesso");
+        create(new Permissao("usuario", "Usuário", true), "controleAcesso");
+        create(new Permissao("usuario.create", "Cadastro", "/view/controleAcesso/usuario/createUsuario.jsf", true), "usuario");
+        create(new Permissao("usuario.list", "Consulta", "/view/controleAcesso/usuario/listUsuario.jsf", true), "usuario");
         create(new Permissao("usuario.audit", "Auditoria de Usuário"), "usuario");
         create(new Permissao("usuario.delete", "Exclusão de Usuário"), "usuario");
 
         //Perfil
-        create(new Permissao("perfil", "Perfil", false), "controleAcesso");
-        create(new Permissao("perfil.create", "Cadastro de Perfil", "/view/controleAcesso/perfil/createPerfil.jsf", false), "perfil");
-        create(new Permissao("perfil.list", "Perfis", "/view/controleAcesso/perfil/listPerfil.jsf", true), "controleAcesso");
+        create(new Permissao("perfil", "Perfil", true), "controleAcesso");
+        create(new Permissao("perfil.create", "Cadastro", "/view/controleAcesso/perfil/createPerfil.jsf", true), "perfil");
+        create(new Permissao("perfil.list", "Consulta", "/view/controleAcesso/perfil/listPerfil.jsf", true), "perfil");
         create(new Permissao("perfil.audit", "Auditoria de Perfil"), "perfil");
         create(new Permissao("perfil.delete", "Exclusão de Perfil"), "perfil");
 
@@ -69,83 +69,83 @@ public class GeracaoPermissao {
         create(new Permissao("email", "Email", true), "administracaoSistema");
 
         //Modelo email
-        create(new Permissao("modeloEmail", "Modelo de Email", false), "email");
-        create(new Permissao("modeloEmail.create", "Cadastro de Modelo de Email", "/view/email/modeloEmail/createModeloEmail.jsf", false), "modeloEmail");
-        create(new Permissao("modeloEmail.list", "Modelos de Email", "/view/email/modeloEmail/listModeloEmail.jsf", true), "email");
+        create(new Permissao("modeloEmail", "Modelo de Email", true), "email");
+        create(new Permissao("modeloEmail.create", "Cadastro", "/view/email/modeloEmail/createModeloEmail.jsf", true), "modeloEmail");
+        create(new Permissao("modeloEmail.list", "Consulta", "/view/email/modeloEmail/listModeloEmail.jsf", true), "modeloEmail");
         create(new Permissao("modeloEmail.audit", "Auditoria de Modelo de Email"), "modeloEmail");
         create(new Permissao("modeloEmail.delete", "Exclusão de Modelo de Email"), "modeloEmail");
 
         //Configuracao email
-        create(new Permissao("configuracaoEmail", "Configuração de Email", false), "email");
-        create(new Permissao("configuracaoEmail.create", "Cadastro de Configuração de Email", "/view/email/configuracaoEmail/createConfiguracaoEmail.jsf", false), "configuracaoEmail");
-        create(new Permissao("configuracaoEmail.list", "Configurações de Email", "/view/email/configuracaoEmail/listConfiguracaoEmail.jsf", true), "email");
-        create(new Permissao("configuracaoEmail.audit", "Auditoria de Configuração de Email"), "configuracaoEmail");
+        create(new Permissao("configuracaoEmail", "Configuração de Email", true), "email");
+        create(new Permissao("configuracaoEmail.create", "Cadastro", "/view/email/configuracaoEmail/createConfiguracaoEmail.jsf", true), "configuracaoEmail");
+        create(new Permissao("configuracaoEmail.list", "Consulta", "/view/email/configuracaoEmail/listConfiguracaoEmail.jsf", true), "configuracaoEmail");
+        create(new Permissao("configuracaoEmail.audit", "Auditoria"), "configuracaoEmail");
         create(new Permissao("configuracaoEmail.delete", "Exclusão de Configuração de Email"), "configuracaoEmail");
 
         create(new Permissao("cadastros", "Cadastros", true), null);
 
         //Produto
-        create(new Permissao("produto", "Produto", false), "cadastros");
-        create(new Permissao("produto.create", "Cadastro de Produto/Serviço", "/view/dados/produto/createProduto.jsf", false), "produto");
-        create(new Permissao("produto.list", "Produtos/Serviços", "/view/dados/produto/listProduto.jsf", true), "cadastros");
+        create(new Permissao("produto", "Produto", true), "cadastros");
+        create(new Permissao("produto.create", "Cadastro", "/view/dados/produto/createProduto.jsf", true), "produto");
+        create(new Permissao("produto.list", "Consulta", "/view/dados/produto/listProduto.jsf", true), "produto");
         create(new Permissao("produto.audit", "Auditoria de Produto/Serviço"), "produto");
         create(new Permissao("produto.delete", "Exclusão de Produto/Serviço"), "produto");
 
 //Banco
-        create(new Permissao("banco", "Banco", false), "cadastros");
-        create(new Permissao("banco.create", "Cadastro de Banco", "/view/dados/banco/createBanco.jsf", false), "banco");
-        create(new Permissao("banco.list", "Bancos", "/view/dados/banco/listBanco.jsf", true), "cadastros");
+        create(new Permissao("banco", "Banco", true), "cadastros");
+        create(new Permissao("banco.create", "Cadastro", "/view/dados/banco/createBanco.jsf", true), "banco");
+        create(new Permissao("banco.list", "Consulta", "/view/dados/banco/listBanco.jsf", true), "banco");
         create(new Permissao("banco.audit", "Auditoria de Banco"), "banco");
         create(new Permissao("banco.delete", "Exclusão de Banco"), "banco");
 
 //Contato
-        create(new Permissao("contato", "Contato", false), "cadastros");
-        create(new Permissao("contato.create", "Cadastro de Contato", "/view/dados/contato/createContato.jsf", false), "contato");
-        create(new Permissao("contato.list", "Contatos", "/view/dados/contato/listContato.jsf", true), "cadastros");
+        create(new Permissao("contato", "Contato", true), "cadastros");
+        create(new Permissao("contato.create", "Cadastro", "/view/dados/contato/createContato.jsf", true), "contato");
+        create(new Permissao("contato.list", "Consulta", "/view/dados/contato/listContato.jsf", true), "contato");
         create(new Permissao("contato.audit", "Auditoria de Contato"), "contato");
         create(new Permissao("contato.delete", "Exclusão de Contato"), "contato");
 
 //Cidade
-        create(new Permissao("cidade", "Cidade", false), "cadastros");
-        create(new Permissao("cidade.create", "Cadastro de Cidade", "/view/dados/cidade/createCidade.jsf", false), "cidade");
-        create(new Permissao("cidade.list", "Cidades", "/view/dados/cidade/listCidade.jsf", true), "cadastros");
+        create(new Permissao("cidade", "Cidade", true), "cadastros");
+        create(new Permissao("cidade.create", "Cadastro", "/view/dados/cidade/createCidade.jsf", true), "cidade");
+        create(new Permissao("cidade.list", "Consulta", "/view/dados/cidade/listCidade.jsf", true), "cidade");
         create(new Permissao("cidade.audit", "Auditoria de Cidade"), "cidade");
         create(new Permissao("cidade.delete", "Exclusão de Cidade"), "cidade");
 
         //Uf
-        create(new Permissao("uf", "Estado", false), "cadastros");
-        create(new Permissao("uf.create", "Cadastro de Estado", "/view/dados/uf/createUf.jsf", false), "uf");
-        create(new Permissao("uf.list", "Estados", "/view/dados/uf/listUf.jsf", true), "cadastros");
+        create(new Permissao("uf", "Estado", true), "cadastros");
+        create(new Permissao("uf.create", "Cadastro", "/view/dados/uf/createUf.jsf", true), "uf");
+        create(new Permissao("uf.list", "Consulta", "/view/dados/uf/listUf.jsf", true), "uf");
         create(new Permissao("uf.audit", "Auditoria de Estado"), "uf");
         create(new Permissao("uf.delete", "Exclusão de Estado"), "uf");
 
         //Sistema
-        create(new Permissao("sistema", "Configurações Sistema", false), "administracaoSistema");
-        create(new Permissao("sistema.create", "Cadastro de Configurações Sistema", "/view/dados/sistema/createSistema.jsf", false), "sistema");
-        create(new Permissao("sistema.list", "Configurações Sistema", "/view/dados/sistema/listSistema.jsf", true), "administracaoSistema");
+        create(new Permissao("sistema", "Configurações Sistema", true), "administracaoSistema");
+        create(new Permissao("sistema.create", "Cadastro", "/view/dados/sistema/createSistema.jsf", true), "sistema");
+        create(new Permissao("sistema.list", "Consulta", "/view/dados/sistema/listSistema.jsf", true), "sistema");
         create(new Permissao("sistema.audit", "Auditoria de Configurações Sistema"), "sistema");
         create(new Permissao("sistema.delete", "Exclusão de Configurações Sistema"), "sistema");
 
 //Cliente
-        create(new Permissao("cliente", "Cliente", false), "cadastros");
-        create(new Permissao("cliente.create", "Cadastro de Cliente", "/view/dados/cliente/createCliente.jsf", false), "cliente");
-        create(new Permissao("cliente.list", "Clientes", "/view/dados/cliente/listCliente.jsf", true), "cadastros");
+        create(new Permissao("cliente", "Cliente", true), "cadastros");
+        create(new Permissao("cliente.create", "Cadastro", "/view/dados/cliente/createCliente.jsf", true), "cliente");
+        create(new Permissao("cliente.list", "Consulta", "/view/dados/cliente/listCliente.jsf", true), "cliente");
         create(new Permissao("cliente.audit", "Auditoria de Cliente"), "cliente");
         create(new Permissao("cliente.delete", "Exclusão de Cliente"), "cliente");
 
         //Franquia
-        create(new Permissao("franquia", "Franquia", false), "cadastros");
-        create(new Permissao("franquia.create", "Cadastro de Franquia", "/view/dados/franquia/createFranquia.jsf", false), "franquia");
-        create(new Permissao("franquia.list", "Franquias", "/view/dados/franquia/listFranquia.jsf", true), "cadastros");
+        create(new Permissao("franquia", "Franquia", true), "cadastros");
+        create(new Permissao("franquia.create", "Cadastro", "/view/dados/franquia/createFranquia.jsf", true), "franquia");
+        create(new Permissao("franquia.list", "Consulta", "/view/dados/franquia/listFranquia.jsf", true), "franquia");
         create(new Permissao("franquia.audit", "Auditoria de Franquia"), "franquia");
         create(new Permissao("franquia.delete", "Exclusão de Franquia"), "franquia");
         create(new Permissao("franquia.coluna", "Visualizar coluna de Franquia nas Tabelas"), "franquia");
         create(new Permissao("franquia.campo", "Campo Franquia nas Telas"), "franquia");
 
 //Convenio
-        create(new Permissao("convenio", "Convenio", false), "cadastros");
-        create(new Permissao("convenio.create", "Cadastro de Convênio", "/view/dados/convenio/createConvenio.jsf", false), "convenio");
-        create(new Permissao("convenio.list", "Convênios", "/view/dados/convenio/listConvenio.jsf", true), "cadastros");
+        create(new Permissao("convenio", "Convênio", true), "cadastros");
+        create(new Permissao("convenio.create", "Cadastro", "/view/dados/convenio/createConvenio.jsf", true), "convenio");
+        create(new Permissao("convenio.list", "Consulta", "/view/dados/convenio/listConvenio.jsf", true), "convenio");
         create(new Permissao("convenio.audit", "Auditoria de Convênio"), "convenio");
         create(new Permissao("convenio.delete", "Exclusão de Convênio"), "convenio");
         create(new Permissao("convenio.coluna", "Visualizar coluna de Convenio nas Tabelas"), "convenio");
@@ -171,9 +171,9 @@ public class GeracaoPermissao {
         create(new Permissao("deposito.delete", "Exclusão de Depósito"), "deposito");
 
         //Categoria
-        create(new Permissao("categoria", "Categoria", false), "cadastros");
-        create(new Permissao("categoria.create", "Cadastro de Categoria", "/view/dados/categoria/createCategoria.jsf", false), "categoria");
-        create(new Permissao("categoria.list", "Categorias", "/view/dados/categoria/listCategoria.jsf", true), "cadastros");
+        create(new Permissao("categoria", "Categoria", true), "cadastros");
+        create(new Permissao("categoria.create", "Cadastro", "/view/dados/categoria/createCategoria.jsf", true), "categoria");
+        create(new Permissao("categoria.list", "Consulta", "/view/dados/categoria/listCategoria.jsf", true), "categoria");
         create(new Permissao("categoria.audit", "Auditoria de Categoria"), "categoria");
         create(new Permissao("categoria.delete", "Exclusão de Categoria"), "categoria");
 

@@ -5,33 +5,86 @@
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces">
     <h:form id="formDetailCaixa" styleClass="uix-form-detail">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['caixa.abertura']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{caixaMB.entity.abertura}" styleClass="uix-content-detail">
-                        <f:convertDateTime />
-                    </h:outputText>
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['caixa.abertura']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{caixaMB.entity.abertura}" styleClass="uix-content-detail">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['caixa.fechamento']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{caixaMB.entity.fechamento}" styleClass="uix-content-detail">
+                            <f:convertDateTime />
+                        </h:outputText>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['caixa.usuario']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{caixaMB.entity.usuario}" styleClass="uix-content-detail">
+                            <x:initializer/>
+                        </h:outputText>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="#{msg['caixa.status']}:" styleClass="control-label" /><br/>
+                        <h:outputText value="#{caixaMB.entity.status.descricao}" styleClass="uix-content-detail"/>
+                    </div>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['caixa.fechamento']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{caixaMB.entity.fechamento}" styleClass="uix-content-detail">
-                        <f:convertDateTime />
+            </div>
+        </p:fieldset>
+
+        <p:fieldset legend="Movimentos">
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="dizimo" rowIndexVar="index" id="dataTableDizimo" widgetVar="dataTableDizimoWidget" styleClass="table-responsive"
+                         value="#{caixaMB.entity.dizimos}" >
+                <x:initializer/>
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['dizimo.dataCadastro']}" sortBy="#{dizimo.dataCadastro}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['dizimo.dataCadastro']}" />
+                    </f:facet>
+                    <h:outputText value="#{dizimo.dataCadastro}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
                     </h:outputText>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['caixa.usuario']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{caixaMB.entity.usuario}" styleClass="uix-content-detail">
+                </p:column>
+                <p:column headerText="#{msg['dizimo.membro']}" sortBy="#{dizimo.membro}"
+                          >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['dizimo.membro']}" />
+                    </f:facet>
+                    <h:outputText value="#{dizimo.membro}">
                         <x:initializer/>
                     </h:outputText>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <h:outputLabel value="#{msg['caixa.status']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{caixaMB.entity.status.descricao}" styleClass="uix-content-detail"/>
-                </div>
-           </div>
-         </div>
+                </p:column>
+                <p:column headerText="#{msg['dizimo.dataDevolucao']}" sortBy="#{dizimo.dataDevolucao}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['dizimo.dataDevolucao']}" />
+                    </f:facet>
+                    <h:outputText value="#{dizimo.dataDevolucao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="#{msg['dizimo.valor']}" sortBy="#{dizimo.valor}" style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['dizimo.valor']}" />
+                    </f:facet>
+                    <h:outputText value="#{dizimo.valor}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{x:sum(caixaMB.entity.dizimos, 'valor')}" style="text-align: right; font-weight:bold;">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+
+            </p:dataTable>
+        </p:fieldset>
         <p:separator/>
         <div class="uix-center">
             <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetCaixaDetail').hide()" />

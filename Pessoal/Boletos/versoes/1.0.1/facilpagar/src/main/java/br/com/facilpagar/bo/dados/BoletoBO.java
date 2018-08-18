@@ -9,13 +9,50 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.com.facilpagar.modelo.dados.Boleto;
+import br.com.facilpagar.modelo.dados.Cidade;
+import br.com.facilpagar.modelo.dados.Cliente;
 import br.com.facilpagar.modelo.dados.Convenio;
+import br.com.facilpagar.modelo.dados.Sistema;
+import br.com.facilpagar.modelo.dados.Uf;
+import br.com.facilpagar.modelo.dados.vos.ArquivoBancoVO;
+import br.com.facilpagar.modelo.dados.vos.RespostaArquivoBancoVO;
 import br.com.facilpagar.modelo.vos.FiltrosBusca;
 import br.com.facilpagar.util.Utils;
 import com.xpert.core.validation.UniqueFields;
 import com.xpert.persistence.query.Restrictions;
+import java.io.IOException;
 import java.util.Date;
 import javax.persistence.TemporalType;
+
+import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.transform.stream.StreamSource;
+
+import org.apache.axis.utils.ByteArrayOutputStream;
+import org.apache.http.HttpHeaders;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.http.ssl.TrustStrategy;
+import org.apache.http.util.EntityUtils;
 
 /**
  *
@@ -26,6 +63,9 @@ public class BoletoBO extends AbstractBusinessObject<Boleto> {
 
     @EJB
     private BoletoDAO boletoDAO;
+
+    @EJB
+    private SistemaBO sistemaBO;
 
     @Override
     public BoletoDAO getDAO() {
@@ -137,8 +177,8 @@ public class BoletoBO extends AbstractBusinessObject<Boleto> {
     public List<Boleto> listar(FiltrosBusca filtros) {
 
         Restrictions restrictions = new Restrictions();
-        
-        if(filtros.getFranquia()!=null){
+
+        if (filtros.getFranquia() != null) {
             restrictions.add("franquia", filtros.getFranquia());
         }
 
@@ -199,14 +239,94 @@ public class BoletoBO extends AbstractBusinessObject<Boleto> {
                 .leftJoinFetch("convenio.franquia", "franquia").leftJoinFetch("boleto.banco", "banco").leftJoinFetch("convenio.cidade", "cidade")
                 .leftJoinFetch("cidade.uf", "uf").add(restrictions).orderBy("uf, cidade, boleto.convenio, boleto.dt_vencimento").getResultList();
     }
+
     /**
-     * 
+     *
      * @param convenio
      * @return boletos vencidos, a vencer e pagos em um mês.
      */
-    public Long numeroBoletos(Convenio convenio){
+    public Long numeroBoletos(Convenio convenio) {
         Long numero = 0L;
-        
+
         return numero;
+    }
+
+    public RespostaArquivoBancoVO registrarBoleto(Boleto boleto, String token) throws JAXBException, UnsupportedEncodingException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException, XMLStreamException, IOException {
+
+        Cliente clienteTemp = getDAO().getInitialized(boleto.getCliente());
+
+        Sistema sistema = sistemaBO.getDAO().unique("id", 1);
+
+        Cidade cidade = getDAO().getInitialized(clienteTemp.getCidade());
+
+        Uf estado = getDAO().getInitialized(cidade.getUf());
+
+        ArquivoBancoVO arquivoEnvio = new ArquivoBancoVO(sistema, boleto, clienteTemp, cidade.getNome(), estado.getSigla());
+
+        JAXBContext envioContext = JAXBContext.newInstance(ArquivoBancoVO.class);
+        Marshaller marshaller = envioContext.createMarshaller();
+
+        ByteArrayOutputStream envioBuffer = new ByteArrayOutputStream();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        marshaller.marshal(arquivoEnvio, envioBuffer);
+        String reqEnvioXML = new String(envioBuffer.toByteArray(), "utf-8");
+
+        reqEnvioXML = reqEnvioXML.replace("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>", "");
+        reqEnvioXML = reqEnvioXML.replace("xmlns:sch=\"http://www.tibco.com/schemas/bws_registro_cbr/Recursos/XSD/Schema.xsd\"", "");
+
+        String soap = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n"
+                + "xmlns:sch=\"http://www.tibco.com/schemas/bws_registro_cbr/Recursos/XSD/Schema.xsd\">\n"
+                + "<soapenv:Header/>\n"
+                + "<soapenv:Body>";
+
+        soap += reqEnvioXML;
+
+        soap += "</soapenv:Body>\n"
+                + "</soapenv:Envelope>";
+
+        System.out.println("request: " + soap);
+
+        HttpClientBuilder builder = HttpClientBuilder.create();
+        builder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE);
+
+        SSLContextBuilder contextBuilder = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
+            public boolean isTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+                return true;
+            }
+        });
+
+        builder.setSSLContext(contextBuilder.build());
+
+        HttpClient client = builder.build();
+        HttpPost request = new HttpPost("https://cobranca.homologa.bb.com.br:7101/registrarBoleto");
+        request.setHeader(HttpHeaders.CONTENT_TYPE, "text/xml");
+        request.setHeader("SOAPACTION", "registrarBoleto");
+        request.setHeader("Authorization", "Bearer " + token);
+
+        StringEntity entity = new StringEntity(soap, "utf-8");
+        request.setEntity(entity);
+
+        HttpResponse response = client.execute(request);
+
+        // Getting the response body.
+        String responseBody = EntityUtils.toString(response.getEntity());
+
+        System.out.println("response : " + response.getStatusLine());
+        System.out.println("response : " + responseBody);
+
+        XMLInputFactory xif = XMLInputFactory.newFactory();
+        StreamSource streamSource = new StreamSource(new StringReader(responseBody));
+        XMLStreamReader xsr = xif.createXMLStreamReader(streamSource);
+
+        JAXBContext jaxbContext = JAXBContext.newInstance(ArquivoBancoVO.class);
+
+        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+        JAXBElement<RespostaArquivoBancoVO> je = unmarshaller.unmarshal(xsr,
+                RespostaArquivoBancoVO.class);
+
+        System.out.println("Last Name:- " + je.getValue().getCodigoRetornoPrograma());
+
+        return null;
     }
 }

@@ -10,6 +10,7 @@ import br.com.dizimo.modelo.controleacesso.Usuario;
 import br.com.dizimo.modelo.enums.StatusCaixa;
 import br.com.dizimo.modelo.financeiro.Caixa;
 import br.com.dizimo.util.SessaoUtils;
+import com.xpert.persistence.query.JoinBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -43,7 +44,13 @@ public class CaixaMB extends AbstractBaseBean<Caixa> implements Serializable {
 
     @Override
     public String getDataModelOrder() {
-        return "id";
+        return "caixa.abertura";
+    }
+    
+    @Override
+    public JoinBuilder getDataModelJoinBuilder() {
+        return new JoinBuilder("caixa")
+                .leftJoinFetch("caixa.usuario", "usuario");
     }
 
     @Override

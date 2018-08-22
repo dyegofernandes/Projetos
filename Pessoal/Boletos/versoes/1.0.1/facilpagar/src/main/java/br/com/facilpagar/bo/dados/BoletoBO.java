@@ -2,6 +2,8 @@ package br.com.facilpagar.bo.dados;
 
 import com.xpert.core.crud.AbstractBusinessObject;
 import br.com.facilpagar.dao.dados.BoletoDAO;
+import br.com.facilpagar.mb.dados.SistemaMB;
+import br.com.facilpagar.modelo.controleacesso.Usuario;
 import br.com.facilpagar.modelo.dados.Banco;
 import com.xpert.core.validation.UniqueField;
 import com.xpert.core.exception.BusinessException;
@@ -13,11 +15,14 @@ import br.com.facilpagar.modelo.dados.Cidade;
 import br.com.facilpagar.modelo.dados.Cliente;
 import br.com.facilpagar.modelo.dados.Convenio;
 import br.com.facilpagar.modelo.dados.Sistema;
+import br.com.facilpagar.modelo.dados.TokenBB;
 import br.com.facilpagar.modelo.dados.Uf;
 import br.com.facilpagar.modelo.dados.vos.ArquivoBancoVO;
 import br.com.facilpagar.modelo.dados.vos.RespostaArquivoBancoVO;
 import br.com.facilpagar.modelo.vos.FiltrosBusca;
 import br.com.facilpagar.util.Utils;
+import br.com.facilpagar.util.bb.TestBBWebRegistro;
+import br.com.facilpagar.webservices.bancoDoBrasil.homologacao.com.tibco.schemas.bws_registro_cbr.recursos.xsd.schema.Resposta;
 import com.xpert.core.validation.UniqueFields;
 import com.xpert.persistence.query.Restrictions;
 import java.io.IOException;
@@ -31,6 +36,8 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -53,6 +60,8 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.TrustStrategy;
 import org.apache.http.util.EntityUtils;
+import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
+import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 
 /**
  *
@@ -74,7 +83,7 @@ public class BoletoBO extends AbstractBusinessObject<Boleto> {
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return new UniqueFields().add("nossonumero").add("cb");
+        return new UniqueFields().add("nossonumero").add("codigobarras");
     }
 
     @Override
@@ -118,21 +127,21 @@ public class BoletoBO extends AbstractBusinessObject<Boleto> {
         return stringBuilder.insert(4, dv).toString();
     }
 
-    public String linhaEditavel(String cb) {
+    public String linhaEditavel(String codigobarras) {
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        String codigoBanco = cb.substring(0, 4);
-        String codigoMoeda = cb.substring(3, 4);
-        String dv11 = cb.substring(4, 5);
-        String fatorVencimento = cb.substring(5, 9);
-        String valorNominal = cb.substring(9, 19);
-        String carteira = cb.substring(19, 20);
-        String codigoCoper = cb.substring(20, 24);
-        String modalidade = cb.substring(24, 26);
-        String codigoCliente = cb.substring(26, 33);
-        String numeroTitulo = cb.substring(33, 41);
-        String parcela = cb.substring(41, 44);
+        String codigoBanco = codigobarras.substring(0, 4);
+        String codigoMoeda = codigobarras.substring(3, 4);
+        String dv11 = codigobarras.substring(4, 5);
+        String fatorVencimento = codigobarras.substring(5, 9);
+        String valorNominal = codigobarras.substring(9, 19);
+        String carteira = codigobarras.substring(19, 20);
+        String codigoCoper = codigobarras.substring(20, 24);
+        String modalidade = codigobarras.substring(24, 26);
+        String codigoCliente = codigobarras.substring(26, 33);
+        String numeroTitulo = codigobarras.substring(33, 41);
+        String parcela = codigobarras.substring(41, 44);
 
         stringBuilder.append(codigoBanco);
         stringBuilder.append(codigoMoeda);
@@ -251,82 +260,30 @@ public class BoletoBO extends AbstractBusinessObject<Boleto> {
         return numero;
     }
 
-    public RespostaArquivoBancoVO registrarBoleto(Boleto boleto, String token) throws JAXBException, UnsupportedEncodingException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException, XMLStreamException, IOException {
+    public void registrarBoleto(Boleto boleto, Usuario usuario) throws JAXBException, UnsupportedEncodingException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException, XMLStreamException, IOException, OAuthSystemException, OAuthProblemException {
+
+        Usuario usuarioTemp = getDAO().getInitialized(usuario);
+        TokenBB tokenBB = getDAO().getInitialized(usuarioTemp.getTokenBB());
+
+        if (tokenBB != null) {
+            if (tokenBB.getTempoRestante() < 5) {
+                sistemaBO.gerarToken(usuarioTemp);
+            }
+        } else {
+            sistemaBO.gerarToken(usuarioTemp);
+        }
 
         Cliente clienteTemp = getDAO().getInitialized(boleto.getCliente());
 
-        Sistema sistema = sistemaBO.getDAO().unique("id", 1);
+        Sistema sistema = sistemaBO.getDAO().unique("ativo", true);
 
         Cidade cidade = getDAO().getInitialized(clienteTemp.getCidade());
 
         Uf estado = getDAO().getInitialized(cidade.getUf());
+        
+        tokenBB = getDAO().getInitialized(usuarioTemp.getTokenBB());
 
-        ArquivoBancoVO arquivoEnvio = new ArquivoBancoVO(sistema, boleto, clienteTemp, cidade.getNome(), estado.getSigla());
-
-        JAXBContext envioContext = JAXBContext.newInstance(ArquivoBancoVO.class);
-        Marshaller marshaller = envioContext.createMarshaller();
-
-        ByteArrayOutputStream envioBuffer = new ByteArrayOutputStream();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        marshaller.marshal(arquivoEnvio, envioBuffer);
-        String reqEnvioXML = new String(envioBuffer.toByteArray(), "utf-8");
-
-        reqEnvioXML = reqEnvioXML.replace("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>", "");
-        reqEnvioXML = reqEnvioXML.replace("xmlns:sch=\"http://www.tibco.com/schemas/bws_registro_cbr/Recursos/XSD/Schema.xsd\"", "");
-
-        String soap = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n"
-                + "xmlns:sch=\"http://www.tibco.com/schemas/bws_registro_cbr/Recursos/XSD/Schema.xsd\">\n"
-                + "<soapenv:Header/>\n"
-                + "<soapenv:Body>";
-
-        soap += reqEnvioXML;
-
-        soap += "</soapenv:Body>\n"
-                + "</soapenv:Envelope>";
-
-        System.out.println("request: " + soap);
-
-        HttpClientBuilder builder = HttpClientBuilder.create();
-        builder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE);
-
-        SSLContextBuilder contextBuilder = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
-            public boolean isTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-                return true;
-            }
-        });
-
-        builder.setSSLContext(contextBuilder.build());
-
-        HttpClient client = builder.build();
-        HttpPost request = new HttpPost("https://cobranca.homologa.bb.com.br:7101/registrarBoleto");
-        request.setHeader(HttpHeaders.CONTENT_TYPE, "text/xml");
-        request.setHeader("SOAPACTION", "registrarBoleto");
-        request.setHeader("Authorization", "Bearer " + token);
-
-        StringEntity entity = new StringEntity(soap, "utf-8");
-        request.setEntity(entity);
-
-        HttpResponse response = client.execute(request);
-
-        // Getting the response body.
-        String responseBody = EntityUtils.toString(response.getEntity());
-
-        System.out.println("response : " + response.getStatusLine());
-        System.out.println("response : " + responseBody);
-
-        XMLInputFactory xif = XMLInputFactory.newFactory();
-        StreamSource streamSource = new StreamSource(new StringReader(responseBody));
-        XMLStreamReader xsr = xif.createXMLStreamReader(streamSource);
-
-        JAXBContext jaxbContext = JAXBContext.newInstance(ArquivoBancoVO.class);
-
-        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-
-        JAXBElement<RespostaArquivoBancoVO> je = unmarshaller.unmarshal(xsr,
-                RespostaArquivoBancoVO.class);
-
-        System.out.println("Last Name:- " + je.getValue().getCodigoRetornoPrograma());
-
-        return null;
+        Resposta resposta = TestBBWebRegistro.registrar(sistema, boleto, clienteTemp, cidade.getNome(), estado.getSigla(), tokenBB.getToken_BB());
+    
     }
 }

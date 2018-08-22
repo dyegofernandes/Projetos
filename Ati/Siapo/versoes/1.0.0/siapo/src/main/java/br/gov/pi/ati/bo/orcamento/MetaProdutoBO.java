@@ -89,11 +89,11 @@ public class MetaProdutoBO extends AbstractBusinessObject<MetaProduto> {
             restrictions.like("produto.nome", nome);
         }
 
-        return getDAO().getQueryBuilder().from(MetaProduto.class, "meta").leftJoinFetch("meta.produto", "produto")
+        return getDAO().getQueryBuilder().selectDistinct("meta").from(MetaProduto.class, "meta").leftJoinFetch("meta.produto", "produto")
                 .leftJoinFetch("produto.unidadeOrcamentaria", "unidadeOrcamentaria").add(restrictions).orderBy("produto.nome").getResultList();
     }
 
-    public List<MetaProduto> metaPelaAcaoEstrategica(AcaoEstrategica acao, String nome) {
+    public List<MetaProduto> metaPelaAcaoEstrategica(AcaoEstrategica acao, String nome, Integer ano) {
         Restrictions restrictions = new Restrictions();
 
         if (acao == null) {
@@ -101,6 +101,10 @@ public class MetaProdutoBO extends AbstractBusinessObject<MetaProduto> {
         }
 
         restrictions.add("acaoEstrategica", acao);
+
+        if (ano != null) {
+            restrictions.add("meta.ano", ano);
+        }
 
         if (!Utils.isNullOrEmpty(nome)) {
             restrictions.like("produto.nome", nome);

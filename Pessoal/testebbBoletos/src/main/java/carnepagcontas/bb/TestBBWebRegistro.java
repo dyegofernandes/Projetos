@@ -30,7 +30,7 @@ import org.apache.http.util.EntityUtils;
 public class TestBBWebRegistro {
 
     private static String getToken() {
-        return "gAjf3j18XWm8D-tEf68BhC-8TwRDBSrCXbiKBoL-sLuoo-MLGv2Je3kTLKT6XbuginOdJDGki4ZV7QCwxNFGDw.5vBpw2hn5gZzB3POUkdWa6umfJDLzWEmwil3hxlzoYyKTa1qFCYmCilnRC0YwYexbDsyTsS12Mon9-WNJMX892mi5MamR0-5jUqwXAX3QOzxj7nEBcmItt_8qqCA3KVc-lsToc5Gc-44KtvKKyEkcqQ5sKAmnftk_M-qBarsx5QDAV6XS2D2Hxiv9WVJKpnXbTvwnQGBvLoMOncM6XiPjzElTQ8zwmN4jzECBAPi790gkklceZ4pR_28ndvjJlSSse0LD9twmmOonOOoAuEIJ0WXZ5APHOvUpw3fSyPd4LfWBUkQI5LDoEplSpGqenKByQ1ZPhkhIaPdcqI3DRuNhuxgB3dLl35NQkb7_nGvyjiYLuZ9bPrs3qge-bToYpIWnBOk8u8dlUoPVy9lWtMDqER0DB9n7bpPIffTnXlh258vvJfQBkwKi72EqjFOeMcAMH2nsSI0lptnnD6lEISKPGTvM7eJ2Bfev3P658U8sSzPTq9Uh8N8Qxcpfz1oHJCumWpL_FdIu0zLtdpHWFbfBsmvi-6dyVQ-JMzgrRmEnCSCR8i1gqBmqsxpIdSBP7K_nXFs7yPy0Qd_eBhJed-dWf4UWYFpPq4SGHtjDM1KsElA7-MviV1YsfbAtMheXz1VX2b_N5YastuTSx5IIe-gLA.R1FOzUvpJ2x80MPOkReq00SzqGmSsn0hs7SxRMTnuXiQeeWz87whPmDlQVWyIVMXWfEJqtJm9HsrDNxTwdvsqA";
+        return "LWC33ZKQg4YtzeMByft6-43PEQsIrJz7xXauGbNbYtDwNkbGDkb7rmxmOmYsHzkET_nCjgJVWJbGvjgtZhLVuw.6RIYRwVIynaTTFPIcDd6OsMinKPlsdnblh75y0qIxO7W1JXJ6fwGDqkxjZiwlUVDu2gX80On79AR_LZw4ty6sOU6N_AFZOVRtWNZUTCFkHnXlsRd1H-2DIenl5mi5_2kKePYNgFTPSMmemFmYzemLdpQiaGzKV0IWHSQoZ8SrVbB0aGHVGwsXcWiOiP-JRggeiJQ8iWwvdR87PjAOwVL5JTwd6-8vUuTEezVTWS7ORssgCZeoTkpnNUpfGL5yJlYM-GfywWXpE-gRpKWm-HrAmzxpD9T9Kuw8KMpUIc197iBOdDylSodmi01CyunrL1g_SWoE2Tss07-9ocjFAzqZ8Ub4vHmRPKiWo5xCg1WrEcz6mbZA4kGdqkcC0LevSgyPHDsOGbwB_B7C7i_vjMBw1wb_jIr2OB2i8qjBulurI9les5H6Dj9BsK7IjYfVdOR-Zfq-Tus9vQx7dsM3NbD2iz1AsWar3OJ41xd8wbnVHeY92MK4BaoPxsfMbs4ByiBGqAdq2odBv2nSBeM_EnCvaMgZEqzTHcikTJkOk680GwlFTHGBukJ78S-6HafRDPGn4ndBOaUVntMz0ueb_tIjA3rOkWovwSM9BDXMkWXLMqRMozvkJd3xynPt8Yo7k7szuA8eD9PY8U9hD34DDns4Q.LKb6thcmfL4HLHcVwX2LaB5M1Eir6AK9d7xbBlVgtyGBBgihv6AM5Vik3wZo7tddTdtIS-ucOBRWhttz2JNjqA";
     }
 
     public static void main(String[] args) throws Exception {
@@ -128,8 +128,12 @@ public class TestBBWebRegistro {
         // Getting the response body.
         String responseBody = EntityUtils.toString(response.getEntity());
 
-        System.out.println("response : " + response.getStatusLine());
-        System.out.println("response : " + responseBody);
+        System.out.println("response 1: " + response.getStatusLine());
+        System.out.println("response 2: " + response.getEntity());
+        System.out.println("response 3: " + responseBody);
+        
+        
+    
 
         XMLInputFactory xif = XMLInputFactory.newFactory();
         StreamSource streamSource = new StreamSource(new StringReader(responseBody));
@@ -138,11 +142,15 @@ public class TestBBWebRegistro {
         JAXBContext jaxbContext = JAXBContext.newInstance(Resposta.class);
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-        
-        JAXBElement<Resposta> je = unmarshaller.unmarshal(xsr,
-                Resposta.class);
+   
+        Resposta resposta = new Resposta();
 
-        System.out.println("Last Name:- " + je.getValue().getCodigoRetornoPrograma());
+        JAXBElement<Resposta> je = (JAXBElement<Resposta>) unmarshaller.unmarshal(xsr,
+                Resposta.class);
+        
+         resposta = (Resposta) je.getValue();
+
+        System.out.println("Last Name:- " + resposta.getCodigoRetornoPrograma());
 
 
     }

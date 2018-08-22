@@ -1,18 +1,19 @@
 package br.com.facilpagar.bo.dados;
 
+import br.com.facilpagar.dao.controleacesso.UsuarioDAO;
 import com.xpert.core.crud.AbstractBusinessObject;
 import br.com.facilpagar.dao.dados.SistemaDAO;
+import br.com.facilpagar.modelo.controleacesso.Usuario;
 import com.xpert.core.validation.UniqueField;
 import com.xpert.core.exception.BusinessException;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.com.facilpagar.modelo.dados.Sistema;
-import br.com.facilpagar.util.Utils;
+import br.com.facilpagar.modelo.dados.TokenBB;
 import com.xpert.core.validation.UniqueFields;
 import com.xpert.persistence.query.Restriction;
 import java.util.Base64;
-import java.util.Calendar;
 import java.util.Date;
 import org.apache.oltu.oauth2.client.OAuthClient;
 import org.apache.oltu.oauth2.client.URLConnectionClient;
@@ -31,6 +32,9 @@ public class SistemaBO extends AbstractBusinessObject<Sistema> {
     
     @EJB
     private SistemaDAO sistemaDAO;
+    
+    @EJB
+    private UsuarioDAO usuarioBO;
     
     @Override
     public SistemaDAO getDAO() {
@@ -57,7 +61,12 @@ public class SistemaBO extends AbstractBusinessObject<Sistema> {
         return true;
     }
     
-    public void gerarToken(Sistema sistema) throws OAuthSystemException, OAuthProblemException {
+    public void gerarToken(Usuario usuario) throws OAuthSystemException, OAuthProblemException {
+        Usuario usuarioTemp = getDAO().getInitialized(usuario);
+        TokenBB token = new TokenBB();
+        
+        Sistema sistema = getDAO().unique("ativo", true);
+        
         OAuthClientRequest request = OAuthClientRequest.tokenLocation(sistema.getTokenRequestURL_BB())
                 .setGrantType(GrantType.CLIENT_CREDENTIALS)
                 .setClientId(sistema.getClienteID_BB())
@@ -79,18 +88,16 @@ public class SistemaBO extends AbstractBusinessObject<Sistema> {
         Long expiresIn = oAuthResponse.getExpiresIn();
         
         if (oAuthResponse.getResponseCode() == 200) {
-            sistema.setToken_BB(accessToken);
-            sistema.setObservacaoToken_BB("Token gerado correntamente na data: ".concat(Utils.convertDateToString(new Date(), "dd/MM/yyy HH:mm")).concat(", válido por: ").concat(expiresIn + " segundos."));
-            sistema.setDataGeracaoToken(new Date());
-            sistema.setTempoValidadeEmSegundos_BB(expiresIn);
-        } else {
-            sistema.setToken_BB(null);
-            sistema.setObservacaoToken_BB("Erro na geração do Token com seguinte retorno de Código: " + oAuthResponse.getResponseCode());
-            sistema.setDataGeracaoToken(null);
-            sistema.setTempoValidadeEmSegundos_BB(null);
-        }
+            token.setToken_BB(accessToken);
+            token.setDataGeracaoToken(new Date());
+            token.setTempoValidadeEmSegundos_BB(expiresIn);
+            
+            usuarioTemp.setTokenBB(token);
+           
+            usuarioBO.saveOrMerge(usuarioTemp, true);
+        } 
         
-        getDAO().saveOrMerge(sistema, true);
+        
     }
     
 }

@@ -59,12 +59,12 @@
                         <x:initializer/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{msg['boleto.cb']}" sortBy="#{boleto.cb}"
-                          filterBy="#{boleto.cb}"   >
+                <p:column headerText="#{msg['boleto.codigobarras']}" sortBy="#{boleto.cb}"
+                          filterBy="#{boleto.codigobarras}"   >
                     <f:facet name="header">
-                        <h:outputText value="#{msg['boleto.cb']}" />
+                        <h:outputText value="#{msg['boleto.codigobarras']}" />
                     </f:facet>
-                    <h:outputText value="#{boleto.cb}"/>
+                    <h:outputText value="#{boleto.codigobarras}"/>
                 </p:column>
                 <p:column headerText="#{msg['boleto.tiporepasse']}" sortBy="#{boleto.tiporepasse}"
                           filterBy="#{boleto.tiporepasse}"  filterOptions="#{findAllBean.getSelect(classMB.tipoRepasse)}" >

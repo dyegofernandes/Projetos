@@ -2,6 +2,7 @@ package br.com.facilpagar.modelo.controleacesso;
 
 import br.com.facilpagar.modelo.dados.Convenio;
 import br.com.facilpagar.modelo.dados.Franquia;
+import br.com.facilpagar.modelo.dados.TokenBB;
 import com.xpert.audit.NotAudited;
 import com.xpert.security.model.User;
 import java.io.Serializable;
@@ -75,7 +76,10 @@ public class Usuario implements Serializable, User {
     private Boolean emailCadastroEnviado;
 
     private Boolean senhaCadastrada;
-
+    
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private TokenBB tokenBB = new TokenBB();
+    
     public Usuario() {
         senhaCadastrada = false;
         emailCadastroEnviado = false;
@@ -156,6 +160,14 @@ public class Usuario implements Serializable, User {
 
     public void setDataCadastro(Date dataCadastro) {
         this.dataCadastro = dataCadastro;
+    }
+
+    public TokenBB getTokenBB() {
+        return tokenBB;
+    }
+
+    public void setTokenBB(TokenBB tokenBB) {
+        this.tokenBB = tokenBB;
     }
 
     public String getMatricula() {

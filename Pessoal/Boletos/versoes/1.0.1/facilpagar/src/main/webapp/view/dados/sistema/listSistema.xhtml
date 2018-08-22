@@ -22,30 +22,7 @@
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
-                <p:column headerText="Data/Hora da Geração Token:" sortBy="#{sistema.dataGeracaoToken}"
-                          filterBy="#{sistema.dataGeracaoToken}"   style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value="Data/Hora da Geração Token:" />
-                        <x:dateFilter/>
-                    </f:facet>
-                    <h:outputText value="#{sistema.dataGeracaoToken}">
-                        <f:convertDateTime />
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="#{msg['sistema.observacao']}" sortBy="#{sistema.observacaoToken_BB}"
-                          filterBy="#{sistema.observacaoToken_BB}"   >
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['sistema.observacao']}" />
-                    </f:facet>
-                    <h:outputText value="#{sistema.observacaoToken_BB}"/>
-                </p:column>
-                <p:column headerText="Tempo Restante Token (minutos)" sortBy="#{sistema.tempoRestante}"
-                          filterBy="#{sistema.tempoRestante}"   style="text-align: center;">
-                    <f:facet name="header">
-                        <h:outputText value="Tempo Restante Token (minutos)" />
-                    </f:facet>
-                    <h:outputText value="#{sistema.tempoRestante}"/>
-                </p:column>
+                
                 <p:column headerText="#{msg['sistema.ativo']}" sortBy="#{sistema.ativo}"
                           filterBy="#{sistema.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
                     <f:facet name="header">

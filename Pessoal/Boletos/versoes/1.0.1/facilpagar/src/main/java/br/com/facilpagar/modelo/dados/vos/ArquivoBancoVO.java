@@ -63,22 +63,22 @@ public class ArquivoBancoVO implements Serializable {
         this.codigoTipoJuroMora = "1"; //1
         this.valorJuroMoraTitulo = boleto.getVl_juros().toString();//boleto.vl_juros as numeric(3,2)
         this.codigoTipoMulta = "1";//1
-        this.dataMultaTitulo = null;//boleto.dt_vencimento+1,'DD.MM.YYYY'
+        this.dataMultaTitulo = Utils.convertDateToString(Utils.addDiaParaUmaData(boleto.getDt_vencimento(), 1), "dd.MM.yyyy");//boleto.dt_vencimento+1,'DD.MM.YYYY'
         this.valorMultaTitulo = boleto.getVl_multa().toString();//boleto.vl_multa as numeric(15,2)
         this.codigoAceiteTitulo = "N";//N
         this.codigoTipoTitulo = "2";//2
         this.textoDescricaoTipoTitulo = "DM";//DM
         this.indicadorPermissaoRecebimentoParcial = "N";//N
-        this.textoNumeroTituloCliente = null;//'000'||sistema.numeroconvenio_bb||lpad(cast(boleto.nossonumero as varchar(10)),10,'0')
-        this.codigoTipoInscricaoPagador = null;//cliente.tipo_pessoa.num
-        this.numeroInscricaoPagador = null; //cliente.cpf_cnpj
-        this.nomePagador = null;//substring(cliente.completo_razao_social,1,60)
-        this.textoEnderecoPagador = null;//coalesce(trim(cliente.endereco),'Não informado') 
-        this.numeroCepPagador = null;//coalesce(REGEXP_REPLACE(c.cep,'[-]','','g'),'00000000')
-        this.nomeMunicipioPagador = null;//coalesce(cliente.cidade.nome,'Não Informado')
-        this.nomeBairroPagador = null;//coalesce(c.bairro,'Não Informado')
-        this.siglaUfPagador = null; //coalesce(cliente.cidade.uf.sigla,'NN')
-        this.codigoChaveUsuario = null;//sistema.chaveusuario_bb
+        this.textoNumeroTituloCliente = "000".concat(sistema.getNumeroConvenio_BB().concat(Utils.lpadTo(boleto.getNossonumero().toString(), 10, '0')));//'000'||sistema.numeroconvenio_bb||lpad(cast(boleto.nossonumero as varchar(10)),10,'0')
+        this.codigoTipoInscricaoPagador = cliente.getTipo_pessoa().getNum() + "";//cliente.tipo_pessoa.num
+        this.numeroInscricaoPagador = cliente.getCpf_cnpj(); //cliente.cpf_cnpj
+        this.nomePagador = cliente.getCompleto_razao_social().length() <= 60 ? cliente.getCompleto_razao_social() : cliente.getCompleto_razao_social().substring(1, 60);//substring(cliente.completo_razao_social,1,60)
+        this.textoEnderecoPagador = Utils.isNullOrEmpty(cliente.getEndereco()) ? cliente.getEndereco() : "Não informado";//coalesce(trim(cliente.endereco),'Não informado') 
+        this.numeroCepPagador = cliente.getCep().replace("-", "");//coalesce(REGEXP_REPLACE(c.cep,'[-]','','g'),'00000000')
+        this.nomeMunicipioPagador = Utils.isNullOrEmpty(cidade) ? cidade : "Não Informado";//coalesce(cliente.cidade.nome,'Não Informado')
+        this.nomeBairroPagador = Utils.isNullOrEmpty(cliente.getBairro()) ? cliente.getBairro() : "Não Informado";//coalesce(c.bairro,'Não Informado')
+        this.siglaUfPagador = Utils.isNullOrEmpty(estado) ? estado : "NN"; //coalesce(cliente.cidade.uf.sigla,'NN')
+        this.codigoChaveUsuario = sistema.getChaveUsuario_BB();//sistema.chaveusuario_bb
         this.codigoTipoCanalSolicitacao = "5";//5
     }
 

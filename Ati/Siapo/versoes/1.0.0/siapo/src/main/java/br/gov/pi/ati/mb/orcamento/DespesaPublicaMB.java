@@ -158,11 +158,11 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
     @Override
     public void postSave() {
         ExecucaoOrcamentaria execucao = getDAO().getInitialized(getEntity().getExecucaoOrcamentaria());
-        
+
         BigDecimal valorComprometido = execucaoBO.valorCompromentido(execucao);
-        
+
         execucao.setTotalComprometidoSiapo(valorComprometido);
-                
+
         execucaoBO.getDAO().saveOrMerge(execucao, true);
 
         super.postSave();
@@ -170,14 +170,14 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
 
     @Override
     public void delete() {
-        super.delete(); 
+        super.delete();
     }
 
     @Override
     public void postDelete() {
         super.postDelete(); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     public ProgramacaoFinanceira getProgramacaoAdd() {
         return programacaoAdd;
     }
@@ -377,7 +377,7 @@ public class DespesaPublicaMB extends AbstractBaseBean<DespesaPublica> implement
         if (acaoOrcamentaria != null) {
             AcaoOrcamentaria acaoOrcamentariaTemp = getDAO().getInitialized(acaoOrcamentaria);
             AcaoEstrategica acaoTemp = getDAO().getInitialized(acaoOrcamentariaTemp.getAcaoEstrategica());
-            return produtoBO.metaPelaAcaoEstrategica(acaoTemp, nome);
+            return produtoBO.metaPelaAcaoEstrategica(acaoTemp, nome, anoAtual);
         }
 
         return null;

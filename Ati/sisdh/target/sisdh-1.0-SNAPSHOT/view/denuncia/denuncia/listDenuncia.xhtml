@@ -27,9 +27,7 @@
 
                 <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                              var="denuncia" rowIndexVar="index" id="dataTableDenuncia" widgetVar="dataTableDenunciaWidget" styleClass="table-responsive"
-                             currentPageReportTemplate="#{denunciaMB.dataModel.currentPageReportTemplate}"
-                             paginatorTemplate="#{denunciaMB.dataModel.paginatorTemplate}"
-                             value="#{denunciaMB.dataModel}" lazy="true">
+                             value="#{denunciaMB.denuncias}" lazy="true">
                     <p:column styleClass="uix-datatable-index">
                         <f:facet name="header">
                             <h:outputText value="" />

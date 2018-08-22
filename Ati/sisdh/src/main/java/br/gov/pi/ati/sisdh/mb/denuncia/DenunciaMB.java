@@ -6,6 +6,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.sisdh.bo.denuncia.DenunciaBO;
+import br.gov.pi.ati.sisdh.modelo.FiltroVO;
 import br.gov.pi.ati.sisdh.modelo.cadastro.Unidade;
 import br.gov.pi.ati.sisdh.modelo.controleacesso.Usuario;
 import br.gov.pi.ati.sisdh.modelo.denuncia.Arquivo;
@@ -45,6 +46,24 @@ public class DenunciaMB extends AbstractBaseBean<Denuncia> implements Serializab
     private List<Arquivo> arquivos;
 
     private List<Denuncia> denuncias;
+    
+    private FiltroVO filtros;
+
+    public FiltroVO getFiltros() {
+        return filtros;
+    }
+
+    public void setFiltros(FiltroVO filtros) {
+        this.filtros = filtros;
+    }
+
+    public List<Denuncia> getDenuncias() {
+        return denuncias;
+    }
+
+    public void setDenuncias(List<Denuncia> denuncias) {
+        this.denuncias = denuncias;
+    }
 
     @Override
     public DenunciaBO getBO() {
@@ -63,12 +82,15 @@ public class DenunciaMB extends AbstractBaseBean<Denuncia> implements Serializab
         denuncias = new ArrayList<Denuncia>();
 
         arquivos = new ArrayList<Arquivo>();
+        
+        filtros = new FiltroVO();
 
         if (getEntity().getId() != null) {
             arquivos = getBO().getDAO().getInitialized(getEntity().getArquivos());
         } else {
             getEntity().setNumeroDenuncia(getBO().gerarCodigo());
             Unidade unidadeOrigem = getDAO().getInitialized(usuarioAtual.getUnidade());
+            filtros.getUnidades().add(unidadeOrigem);
             getEntity().setUnidadeOrigem(unidadeOrigem);
         }
     }
@@ -133,6 +155,9 @@ public class DenunciaMB extends AbstractBaseBean<Denuncia> implements Serializab
 //        denuncias.add(new DenunciaVO(denuncia));
         FacesJasper.createJasperReport(denuncias, params,
                 "/WEB-INF/report/formularioDenuncia.jasper", "Denuncia ".concat(denuncia.getId() + "") + ".pdf");
-
+    }
+    
+    public void buscar(){
+        denuncias = denunciaBO.consultar(filtros);
     }
 }

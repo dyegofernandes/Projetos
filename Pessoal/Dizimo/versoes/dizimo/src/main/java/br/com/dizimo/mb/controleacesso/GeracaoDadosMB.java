@@ -27,4 +27,8 @@ public class GeracaoDadosMB implements Serializable {
             FacesMessageUtils.fatal("Um erro aconteceu na geração. Erro: " + ex.getMessage() + ". Mais detalhes no log.");
         }
     }
+
+    public void updateSequences() {
+        geracaoDadosSistema.updateSequences();
+    }
 }

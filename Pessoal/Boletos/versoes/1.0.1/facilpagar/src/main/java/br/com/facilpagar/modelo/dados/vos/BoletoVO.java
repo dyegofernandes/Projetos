@@ -80,7 +80,7 @@ public class BoletoVO implements Serializable {
         this.codigoBarras = codigoBarras; //boleto.cb
         this.referenteA = referenteA; // boleto.referentea
         this.enderecoPagador = enderecoPagador; //cliente. endereco cliente.bairro CEP:cliente.cep cidade.nome-uf.sigla
-        this.linhaDigitavel = linhaDigitavel; // calculada a partir de boleto.cb
+        this.linhaDigitavel = linhaDigitavel; // calculada a partir de ou obtida do BB
         this.juros = Utils.moeda(juros);
         this.jurosTexto = juros.compareTo(BigDecimal.ZERO) > 0 ? "Juros R$: ".concat(Utils.moeda(juros)) : "";
     }

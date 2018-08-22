@@ -9,12 +9,14 @@ import br.gov.pi.ati.sisdh.modelo.cadastro.Bairro;
 import br.gov.pi.ati.sisdh.modelo.cadastro.Cidade;
 import br.gov.pi.ati.sisdh.modelo.cadastro.GrupoDeViolacao;
 import br.gov.pi.ati.sisdh.modelo.cadastro.NaturezaDaViolacao;
+import br.gov.pi.ati.sisdh.modelo.cadastro.Unidade;
 import br.gov.pi.ati.sisdh.modelo.cadastro.enums.OrientacaoSexual;
 import br.gov.pi.ati.sisdh.modelo.cadastro.enums.Raca;
 import br.gov.pi.ati.sisdh.modelo.cadastro.enums.Sexo;
 import br.gov.pi.ati.sisdh.modelo.cadastro.enums.Situacao;
 import br.gov.pi.ati.sisdh.modelo.controleacesso.Usuario;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,42 +24,47 @@ import java.util.List;
  *
  * @author Juniel
  */
-public class FiltroVO implements Serializable{
+public class FiltroVO implements Serializable {
+
     private String codigo;
-    
+
     private String numero;
-    
-    private Usuario usuario; 
-    
+
+    private Usuario usuario;
+
     private Date dataInicial1;
-    
+
     private Date dataFinal1;
-    
+
     private Date dataInicial2;
-    
+
     private Date dataFinal2;
-    
+
     private GrupoDeViolacao grupoDeViolacao;
-    
-    private List<NaturezaDaViolacao> naturezaDaViolacoes;
-    
+
+    private List<NaturezaDaViolacao> naturezaDaViolacoes = new ArrayList<NaturezaDaViolacao>();
+
     private Cidade cidade;
-    
+
     private Bairro bairro;
-    
+
     private Sexo sexoDaVitima;
-    
+
     private Sexo sexoDaSuspeito;
-    
+
     private Raca racaoCorDaVitima;
+
+    private Raca racaoCorDaSuspeito;
+
+    private OrientacaoSexual orientacaoSexualVitima;
+
+    private OrientacaoSexual orientacaoSexualSuspeito;
+
+    private List<Unidade> unidades = new ArrayList<Unidade>();
     
-     private Raca racaoCorDaSuspeito;
-     
-     private OrientacaoSexual orientacaoSexualVitima;
-     
-     private OrientacaoSexual orientacaoSexualSuspeito;
-     
-     private Situacao situacao;
+    private List<Unidade> unidadesResponsaveis = new ArrayList<Unidade>();
+
+    private Situacao situacao;
 
     public String getCodigo() {
         return codigo;
@@ -202,6 +209,21 @@ public class FiltroVO implements Serializable{
     public void setSituacao(Situacao situacao) {
         this.situacao = situacao;
     }
-     
-     
+
+    public List<Unidade> getUnidades() {
+        return unidades;
+    }
+
+    public void setUnidades(List<Unidade> unidades) {
+        this.unidades = unidades;
+    }
+
+    public List<Unidade> getUnidadesResponsaveis() {
+        return unidadesResponsaveis;
+    }
+
+    public void setUnidadesResponsaveis(List<Unidade> unidadesResponsaveis) {
+        this.unidadesResponsaveis = unidadesResponsaveis;
+    }
+
 }

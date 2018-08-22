@@ -57,34 +57,11 @@
                         <h:outputLabel for="clienteSecret_BB" value="* #{msg['sistema.clienteSecret_BB']}:" />
                         <p:inputText id="clienteSecret_BB" value="#{sistemaMB.entity.clienteSecret_BB}"  styleClass="form-control"  />
                     </div>
-                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group col-lg-8 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="urlRegistrarBoleto_BB" value="#{msg['sistema.urlRegistrarBoleto_BB']}:" />
                         <p:inputText id="urlRegistrarBoleto_BB" value="#{sistemaMB.entity.urlRegistrarBoleto_BB}"   styleClass="form-control"  />
                     </div>
-                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="token_BB" value="#{msg['sistema.token_BB']}:" />
-                        <p:inputText id="token_BB" value="#{sistemaMB.entity.token_BB}"   styleClass="form-control"  readonly="true" />
-                    </div>
-
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="dataGeracao" value="Data/Hora da Geração Token:" />
-                        <p:calendar id="dataGeracao" value="#{sistemaMB.entity.dataGeracaoToken}" 
-                                    showOn="button" pattern="dd/MM/yyyy HH:mm" styleClass="uix-calendar"  readonly="true" >
-                            <x:mask/>
-                        </p:calendar>
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="tempo" value="Tempo de Validade (segundos):" />
-                        <p:inputText id="tempo" value="#{sistemaMB.entity.tempoValidadeEmSegundos_BB}"   styleClass="form-control"  readonly="true" />
-                    </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="tempoRestante" value="Tempo Restante do Token (minutos):" />
-                        <p:inputText id="tempoRestante" value="#{sistemaMB.entity.tempoRestante}"   styleClass="form-control"  readonly="true" />
-                    </div>
-                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="obs" value="* #{msg['sistema.observacao']}:" />
-                        <p:inputText id="obs" value="#{sistemaMB.entity.observacaoToken_BB}"   styleClass="form-control"  readonly="true"/>
-                    </div>
+                    
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <div class="checkbox">
                             <label>
@@ -92,6 +69,7 @@
                                 #{msg['sistema.ativo']}
                             </label>
                         </div>
+                        Só pode existir uma configuração de sistema ativa
                     </div>
 
                 </div>

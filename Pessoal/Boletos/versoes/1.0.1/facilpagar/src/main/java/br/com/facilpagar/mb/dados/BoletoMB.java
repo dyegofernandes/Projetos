@@ -24,14 +24,23 @@ import br.com.facilpagar.util.SessaoUtils;
 import br.com.facilpagar.util.Utils;
 import com.xpert.faces.utils.FacesJasper;
 import com.xpert.faces.utils.FacesMessageUtils;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import javax.faces.context.FacesContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.stream.XMLStreamException;
+import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
+import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.primefaces.event.FlowEvent;
 
 /**
@@ -105,7 +114,7 @@ public class BoletoMB extends AbstractBaseBean<Boleto> implements Serializable {
         if (getEntity().getId() == null) {
             getEntity().setNossonumero(getBO().proximoNossoNumero());
         }
-        getEntity().setCb(getBO().getCodigoDeBarrasSicoob(getEntity()));
+        getEntity().setCodigobarras(getBO().getCodigoDeBarrasSicoob(getEntity()));
         super.save();
     }
 
@@ -173,7 +182,7 @@ public class BoletoMB extends AbstractBaseBean<Boleto> implements Serializable {
         this.conveniosFiltros = conveniosFiltros;
     }
 
-    public String onFlowProcess(FlowEvent event) {
+    public String onFlowProcess(FlowEvent event) throws JAXBException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException, XMLStreamException, IOException, UnsupportedEncodingException, OAuthSystemException, OAuthProblemException {
 
         if (confirmar) {
             setEntity(new Boleto());
@@ -198,8 +207,7 @@ public class BoletoMB extends AbstractBaseBean<Boleto> implements Serializable {
                         nomeBotaoVoltar = "Gerar Novos Boletos";
                         for (Boleto boleto : boletos) {
                             boleto.setNossonumero(getBO().proximoNossoNumero());
-                            boleto.setCb(getBO().getCodigoDeBarrasSicoob(boleto));
-                            getDAO().saveOrMerge(boleto, true);
+                            getBO().registrarBoleto(boleto, usuarioAtual);                            
                         }
                         confirmar = true;
                     }
@@ -346,7 +354,7 @@ public class BoletoMB extends AbstractBaseBean<Boleto> implements Serializable {
 
         }
     }
-    
+
     public void gerarBoletoSicob(Boleto boleto) {
 
         HashMap params = new HashMap();
@@ -364,13 +372,13 @@ public class BoletoMB extends AbstractBaseBean<Boleto> implements Serializable {
                 boleto.getVl_nominal(), boleto.getVl_multa(), boleto.getVl_desconto(), boleto.getVl_juros(), cliente.toString(), convenio.getLocalPagto(),
                 boleto.getDt_criacao(), boleto.getInstrucao_exclusiva(), boleto.getReferentea() + " - 2º Via ",
                 (cliente.getEndereco() + ", " + cliente.getBairro() + ", " + cidade.getNome() + "-" + estado.getSigla()),
-                getBO().linhaEditavel(boleto.getCb()), boleto.getCb());
+                getBO().linhaEditavel(boleto.getCodigobarras()), boleto.getCodigobarras());
         boletosTemp.add(boletoTemp);
 
         FacesJasper.createJasperReport(boletosTemp, params,
                 "/WEB-INF/report/boletos/boletoSicoob.jasper", "Boleto" + ".pdf");
     }
-    
+
     public void gerarBoletoBB(Boleto boleto) {
 
         HashMap params = new HashMap();
@@ -388,7 +396,7 @@ public class BoletoMB extends AbstractBaseBean<Boleto> implements Serializable {
                 boleto.getVl_nominal(), boleto.getVl_multa(), boleto.getVl_desconto(), boleto.getVl_juros(), cliente.toString(), convenio.getLocalPagto(),
                 boleto.getDt_criacao(), boleto.getInstrucao_exclusiva(), boleto.getReferentea() + " - 2º Via ",
                 (cliente.getEndereco() + ", " + cliente.getBairro() + ", " + cidade.getNome() + "-" + estado.getSigla()),
-                getBO().linhaEditavel(boleto.getCb()), boleto.getCb());
+                getBO().linhaEditavel(boleto.getCodigobarras()), boleto.getCodigobarras());
         boletosTemp.add(boletoTemp);
 
         FacesJasper.createJasperReport(boletosTemp, params,
@@ -414,14 +422,14 @@ public class BoletoMB extends AbstractBaseBean<Boleto> implements Serializable {
                     boleto.getVl_nominal(), boleto.getVl_multa(), boleto.getVl_desconto(), boleto.getVl_juros(), cliente.toString(), convenio.getLocalPagto(),
                     boleto.getDt_criacao(), boleto.getInstrucao_exclusiva(), boleto.getReferentea(),
                     (cliente.getEndereco() + ", " + cliente.getBairro() + ", " + cidade.getNome() + "-" + estado.getSigla()),
-                    getBO().linhaEditavel(boleto.getCb()), boleto.getCb());
+                    getBO().linhaEditavel(boleto.getCodigobarras()), boleto.getCodigobarras());
             boletosTemp.add(boletoTemp);
         }
 
         FacesJasper.createJasperReport(boletosTemp, params,
                 "/WEB-INF/report/boletos/boletoSicoob.jasper", "Boleto" + ".pdf");
     }
-    
+
     public void gerarBoletosBB() {
 
         HashMap params = new HashMap();
@@ -441,7 +449,7 @@ public class BoletoMB extends AbstractBaseBean<Boleto> implements Serializable {
                     boleto.getVl_nominal(), boleto.getVl_multa(), boleto.getVl_desconto(), boleto.getVl_juros(), cliente.toString(), convenio.getLocalPagto(),
                     boleto.getDt_criacao(), boleto.getInstrucao_exclusiva(), boleto.getReferentea(),
                     (cliente.getEndereco() + ", " + cliente.getBairro() + ", " + cidade.getNome() + "-" + estado.getSigla()),
-                    getBO().linhaEditavel(boleto.getCb()), boleto.getCb());
+                    getBO().linhaEditavel(boleto.getCodigobarras()), boleto.getCodigobarras());
             boletosTemp.add(boletoTemp);
         }
 
@@ -502,7 +510,7 @@ public class BoletoMB extends AbstractBaseBean<Boleto> implements Serializable {
         }
         return "";
     }
-    
+
     public String valorParcela(BigDecimal valorTotal, Integer parcelas) {
         if (valorTotal != null && parcelas != null) {
             if (parcelas > 0) {
@@ -515,7 +523,6 @@ public class BoletoMB extends AbstractBaseBean<Boleto> implements Serializable {
         }
         return "";
     }
-
 
     public void pegarConveniosFiltros() {
         conveniosFiltros = new ArrayList<Convenio>();

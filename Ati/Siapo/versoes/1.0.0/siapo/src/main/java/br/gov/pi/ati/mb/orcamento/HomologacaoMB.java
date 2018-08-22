@@ -78,6 +78,8 @@ public class HomologacaoMB extends AbstractBaseBean<DespesaPublica> implements S
     private BigDecimal totalVigente = BigDecimal.ZERO;
 
     private BigDecimal totalProximo = BigDecimal.ZERO;
+    
+     private Integer anoAtual;
 
     @Override
     public DespesaPublicaBO getBO() {
@@ -92,7 +94,7 @@ public class HomologacaoMB extends AbstractBaseBean<DespesaPublica> implements S
     @Override
     public void init() {
         filtros = new Filtros();
-
+        
         usuarioAtual = SessaoUtils.getUser();
 
         filtros.setUsuario(usuarioAtual);
@@ -235,7 +237,7 @@ public class HomologacaoMB extends AbstractBaseBean<DespesaPublica> implements S
         if (filtros.getAcaoOrcamentaria() != null) {
             AcaoOrcamentaria acaoOrcamentariaTemp = getDAO().getInitialized(filtros.getAcaoOrcamentaria());
             AcaoEstrategica acaoTemp = getDAO().getInitialized(acaoOrcamentariaTemp.getAcaoEstrategica());
-            return produtoBO.metaPelaAcaoEstrategica(acaoTemp, nome);
+            return produtoBO.metaPelaAcaoEstrategica(acaoTemp, nome, anoAtual);
         }
 
         return null;
@@ -360,8 +362,8 @@ public class HomologacaoMB extends AbstractBaseBean<DespesaPublica> implements S
                 for (DespesaPublica despesa : despesasSelecionadas) {
                     despesa.setHomologado(true);
                     despesa.setDataHomologacao(new Date());
-                    
-                    if(despesa.getProdutoLDO()!=null){
+
+                    if (despesa.getProdutoLDO() != null) {
                         produtoBO.atualizarMetaRealizada(despesa);
                     }
                     getDAO().saveOrMerge(despesa, true);

@@ -14,7 +14,8 @@ public enum TipoDeAcesso {
     PIAUI_CONECTADO("Piauí Conectado"),
     LINK_IT("Link It"),
     LINK_OI("Link Oi"),
-    LINK_ATI("Link Ati");
+    LINK_ATI("Link Ati"),
+    SEDUC("SEDUC");
 
     private TipoDeAcesso(String descricao) {
         this.descricao = descricao;

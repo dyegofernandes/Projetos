@@ -59,11 +59,12 @@
                              value="#{metaAcaoEstrategicaMB.metas}"  >
 
 
-                    <p:column styleClass="uix-datatable-index">
+                    <p:column headerText="ID" sortBy="#{metaAcaoEstrategica.id}" rendered="#{x:hasRole('usuario.colunaId')}"> 
                         <f:facet name="header">
-                            <h:outputText value="" />
+                            <h:outputText value="ID" />
                         </f:facet>
-                        <h:outputText value="#{index+1}"/>
+                        <h:outputText value="#{metaAcaoEstrategica.id}">
+                        </h:outputText>
                     </p:column>
                     <p:column headerText="#{msg['acaoEstrategica.unidadeOrcamentaria.nome']}" sortBy="#{metaAcaoEstrategica.acaoEstrategica.unidadeOrcamentaria.nome}"
                               >

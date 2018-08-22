@@ -32,7 +32,7 @@ public class Usuario implements Serializable, User {
     private String nome;
 
     @Size(max = 16)
-    @NotBlank
+//    @NotBlank
     private String cpf;
 
     @NotBlank

@@ -35,14 +35,6 @@ public class SistemaMB extends AbstractBaseBean<Sistema> implements Serializable
 
     @Override
     public void postSave() {
-        try {
-            getBO().gerarToken(getEntity());
-        } catch (OAuthSystemException ex) {
-            Logger.getLogger(SistemaMB.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (OAuthProblemException ex) {
-            Logger.getLogger(SistemaMB.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
         super.postSave();
     }
 

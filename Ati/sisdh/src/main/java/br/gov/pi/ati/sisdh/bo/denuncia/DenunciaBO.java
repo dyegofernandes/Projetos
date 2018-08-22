@@ -82,8 +82,22 @@ public class DenunciaBO extends AbstractBusinessObject<Denuncia> {
         if (filtros.getDataFinal1() != null) {
             restrictions.lessEqualsThan("denuncia.dataDenuncia", filtros.getDataFinal1(), TemporalType.DATE);
         }
-        
-        
+
+        if (filtros.getUnidades().size() > 0) {
+            restrictions.in("unidadeOrigem", filtros.getUnidades());
+        }
+
+        if (filtros.getUnidades().size() > 0) {
+            restrictions.in("unidadeResponsavel", filtros.getUnidades());
+        }
+
+        if (filtros.getNaturezaDaViolacoes().size() > 0) {
+            restrictions.in("naturezaDaViolacao", filtros.getNaturezaDaViolacoes());
+        }
+
+        if (filtros.getSituacao() != null) {
+            restrictions.add("denuncia.situacao", filtros.getSituacao());
+        }
 
         return getDAO().getQueryBuilder().select("denuncia").from(Denuncia.class, "denuncia").leftJoinFetch("denuncia.grupoDeViolacao", "grupoDeViolacao")
                 .leftJoinFetch("denuncia.naturezaDaViolacao", "naturezaDaViolacao").leftJoinFetch("denuncia.enderecoDenuncia", "endereco")

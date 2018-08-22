@@ -11,6 +11,8 @@
         <h:form id="formListDizimo">
             <x:modalMessages/>
 
+            <p:remoteCommand process="@this" update=":formListDizimo:dataTableDizimo:sumDizimo"           
+                             name="updateSomatorio"/>
             <x:dataTableActions fileName="dizimo_export" target=":formListDizimo:dataTableDizimo"
                                 widgetVar="dataTableDizimoWidget"  />
 
@@ -19,6 +21,9 @@
                          currentPageReportTemplate="#{dizimoMB.dataModel.currentPageReportTemplate}"
                          paginatorTemplate="#{dizimoMB.dataModel.paginatorTemplate}"
                          value="#{dizimoMB.dataModel}" lazy="true" >
+                <p:ajax event="sort" oncomplete="updateSomatorio()" />
+                <p:ajax event="page" oncomplete="updateSomatorio()" />
+                <p:ajax event="filter" oncomplete="updateSomatorio()" />
                 <p:column styleClass="uix-datatable-index">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
@@ -78,7 +83,11 @@
                     <h:outputText value="#{dizimo.valor}">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                     </h:outputText>
-                    
+                    <f:facet name="footer">
+                        <h:outputText value="#{x:sum(dizimoMB.dataModel, 'dizimo.valor')}" id="sumDizimo" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                    </f:facet>
                 </p:column>
 
                 <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">

@@ -462,6 +462,20 @@ public class Utils {
 
         return (milisegundos / 86400000);
     }
+    
+    public static Date addDiaParaUmaData(Date data, int dias){
+        if(data==null){
+            return null;
+        }
+        
+        Calendar dataTemp = Calendar.getInstance();
+        
+        dataTemp.setTime(data);
+        
+        dataTemp.add(dias, Calendar.DAY_OF_WEEK);
+        
+        return dataTemp.getTime();
+    }
 
     public static Long fatorVencimento(Date vencimento) {
         Calendar inicio = Calendar.getInstance();

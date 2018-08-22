@@ -13,19 +13,22 @@
             <p:tab title="Maker">
 
                 <x:maker managedBean="br.com.dizimo.mb"   
-                          businessObject="br.com.dizimo.bo"   
-                          dao="br.com.dizimo.dao"   
-                          daoImpl="br.com.dizimo.dao.impl"   
-                          baseDAO="br.com.dizimo.application.BaseDAOImpl"   
-                          viewPath="/view"
-                          resourceBundle="msg"   
-                          template="/template/mainTemplate.xhtml"/>  
+                         businessObject="br.com.dizimo.bo"   
+                         dao="br.com.dizimo.dao"   
+                         daoImpl="br.com.dizimo.dao.impl"   
+                         baseDAO="br.com.dizimo.application.BaseDAOImpl"   
+                         viewPath="/view"
+                         resourceBundle="msg"   
+                         template="/template/mainTemplate.xhtml"/>  
 
             </p:tab>
             <p:tab title="Geração de Dados">
                 <h:form>
                     <p:messages/>
                     <p:commandButton action="#{geracaoDadosMB.gerarDados}" value="Gerar Dados" update="@form" process="@this"/>
+                    <p:commandButton action="#{geracaoDadosMB.updateSequences}" 
+                                     value="Update Sequences"
+                                     update="@form" process="@this"/>
                 </h:form>
             </p:tab>
         </p:tabView>

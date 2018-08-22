@@ -6,6 +6,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.gov.pi.ati.sisdh.bo.denuncia.DenunciaBO;
+import br.gov.pi.ati.sisdh.modelo.FiltroVO;
 import br.gov.pi.ati.sisdh.modelo.cadastro.Unidade;
 import br.gov.pi.ati.sisdh.modelo.controleacesso.Usuario;
 import br.gov.pi.ati.sisdh.modelo.denuncia.Arquivo;
@@ -45,6 +46,16 @@ public class MonitoramentoMB extends AbstractBaseBean<Denuncia> implements Seria
     private List<Arquivo> arquivos;
 
     private List<Denuncia> denuncias;
+    
+    private FiltroVO filtros;
+
+    public FiltroVO getFiltros() {
+        return filtros;
+    }
+
+    public void setFiltros(FiltroVO filtros) {
+        this.filtros = filtros;
+    }
 
     @Override
     public DenunciaBO getBO() {
@@ -63,6 +74,8 @@ public class MonitoramentoMB extends AbstractBaseBean<Denuncia> implements Seria
         denuncias = new ArrayList<Denuncia>();
 
         arquivos = new ArrayList<Arquivo>();
+        
+        filtros = new FiltroVO();
 
         if (getEntity().getId() != null) {
             arquivos = getBO().getDAO().getInitialized(getEntity().getArquivos());
@@ -134,5 +147,17 @@ public class MonitoramentoMB extends AbstractBaseBean<Denuncia> implements Seria
         FacesJasper.createJasperReport(denuncias, params,
                 "/WEB-INF/report/formularioDenuncia.jasper", "Denuncia ".concat(denuncia.getId() + "") + ".pdf");
 
+    }
+
+    public List<Denuncia> getDenuncias() {
+        return denuncias;
+    }
+
+    public void setDenuncias(List<Denuncia> denuncias) {
+        this.denuncias = denuncias;
+    }
+    
+    public void buscar(){
+        denuncias = denunciaBO.consultar(filtros);
     }
 }

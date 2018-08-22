@@ -3,6 +3,8 @@ package br.com.dizimo;
 import br.com.dizimo.dao.DAO;
 import br.com.dizimo.modelo.controleacesso.*;
 import com.xpert.persistence.dao.BaseDAO;
+import com.xpert.persistence.utils.PostgreSQLSequenceUpdater;
+import com.xpert.persistence.utils.SequenceUpdater;
 import com.xpert.utils.Encryption;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -107,4 +109,8 @@ public class GeracaoDadosSistema {
         }
     }
 
+    public void updateSequences() {
+        SequenceUpdater sequenceUpdater = new PostgreSQLSequenceUpdater(dao.getEntityManager());
+        sequenceUpdater.updateSequences();
+    }
 }

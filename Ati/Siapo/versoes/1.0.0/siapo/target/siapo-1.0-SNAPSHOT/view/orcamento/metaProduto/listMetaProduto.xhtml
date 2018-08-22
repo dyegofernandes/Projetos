@@ -52,8 +52,13 @@
                 <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
                              var="metaProduto" rowIndexVar="index" id="dataTableMetaProduto" widgetVar="dataTableMetaProdutoWidget" styleClass="table-responsive"
                              value="#{metaProdutoMB.produdos}"  >
-                    <p:column styleClass="uix-datatable-index">
-                        <h:outputText value="#{index+1}"/>
+                    <p:column headerText="ID" sortBy="#{metaProduto.id}">
+                        <f:facet name="header">
+                            <h:outputText value="ID" />
+                        </f:facet>
+                        <h:outputText value="#{metaProduto.id}">
+                            <x:initializer/>
+                        </h:outputText>
                     </p:column>
 
                     <p:column headerText="#{msg['metaProduto.acaoEstrategica.unidadeOrcamentaria.codigo']}" sortBy="#{metaProduto.metaAcao.acaoEstrategica.unidadeOrcamentaria.codigo}"
@@ -109,6 +114,13 @@
                         <h:outputText value="#{metaProduto.produto}">
                             <x:initializer/>
                         </h:outputText>
+                    </p:column>
+                    <p:column headerText="Ano" sortBy="#{metaProduto.ano}"
+                              >
+                        <f:facet name="header">
+                            <h:outputText value="Ano" />
+                        </f:facet>
+                        <h:outputText value="#{metaProduto.ano}"/>
                     </p:column>
                     <p:column headerText="#{msg['metaProduto.unidadeMedida']}" sortBy="#{metaProduto.unidadeMedida}"
                               >

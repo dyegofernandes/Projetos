@@ -81,6 +81,7 @@ public class GeracaoPermissao {
         create(new Permissao("usuario.list", "Consulta de Usuário", "/view/controleAcesso/usuario/listUsuario.jsf", true), "usuario");
         create(new Permissao("usuario.audit", "Auditoria de Usuário"), "usuario");
         create(new Permissao("usuario.delete", "Exclusão de Usuário"), "usuario");
+        create(new Permissao("usuario.colunaId", "Coluna ID"), "usuario");
 
         //Perfil
         create(new Permissao("perfil", "Perfil", true), "controleAcesso");

@@ -7,203 +7,136 @@
                  xmlns:x="http://xpert.com/faces">
     <ui:param name="title" value="Monitoramento de Denúncias" />
     <ui:define name="body">
-        <script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?libraries=places&amp;key=#{constantesMB.chaveApiGoogleMaps}'/>
-
         <h:form id="formMonitoramento" styleClass="uix-form-detail">
             <x:modalMessages autoUpdate="true"/>
-            <div class="container-fluid">
-                <p:poll id="pool" interval="300" update="panelMonitoramento" process="@this" listener="#{monitoramentoMB.adicionarMarcacao()}"/>
-                <p:panel id="panelMonitoramento">
-                    <div class="row">
+            <p:poll id="pool" interval="300" update="@form" process="@this" />
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="denuncia" rowIndexVar="index" id="dataTableDenuncia" widgetVar="dataTableDenunciaWidget" styleClass="table-responsive"
+                             value="#{monitoramentoMB.denuncias}" >
+                    <p:column styleClass="uix-datatable-index">
+                        <f:facet name="header">
+                            <h:outputText value="" />
+                        </f:facet>
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column headerText="Unidade Origem" sortBy="#{denuncia.unidadeOrigem}">
+                        <f:facet name="header">
+                            <h:outputText value="Unidade Origem" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.unidadeOrigem}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>  
+                    <p:column headerText="Unidade Responsável" sortBy="#{denuncia.unidadeResponsavel}">
+                        <f:facet name="header">
+                            <h:outputText value="Unidade Responsável" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.unidadeResponsavel}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>  
+                    <p:column styleClass="Número Denúncia" sortBy="#{denuncia.numeroDenuncia}">
+                        <f:facet name="header">
+                            <h:outputText value="Número Denúncia" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.numeroDenuncia}"/>
+                    </p:column>
+                    <p:column styleClass="Protocolo" sortBy="#{denuncia.protocolo}">
+                        <f:facet name="header">
+                            <h:outputText value="Protocolo" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.protocolo}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['denuncia.dataDenuncia']}" style="text-align: center;" sortBy="#{denuncia.dataDenuncia}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['denuncia.dataDenuncia']}" />                
+                        </f:facet>
+                        <h:outputText value="#{denuncia.dataDenuncia}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                        </h:outputText>
+                    </p:column>
 
-                        <div class="form-group col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                            <p:gmap widgetVar="w_gmap" center="#{monitoramentoMB.entity.unidade!=null ? monitoramentoMB.entity.unidade.centroLtdMaps : '-5.08921'},#{monitoramentoMB.entity.unidade!=null ? monitoramentoMB.entity.unidade.centroLgtMaps: '-42.8016'}" 
-                                    zoom="#{monitoramentoMB.entity.unidade!=null ? monitoramentoMB.entity.unidade.zoomMaps : '7'}" type="ROADMAP" styleClass="gmap" 
-                                    style="width:100%;height:480px" model="#{monitoramentoMB.simpleModel}" />
-                        </div>
-                        <div class="form-group col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                            <div class="row">
-                                <p:dataTable var="denuncia" emptyMessage="#{xmsg['noRecordFound']}" styleClass="table-responsive" rows="3"
-                                             value="#{monitoramentoMB.denunciasPanico}" lazy="false" rowStyleClass="#{denuncia.tipo.num eq 1?'amarelo':'vermelho'}"
-                                             rendered="#{monitoramentoMB.denunciaPanico}">
-                                    <f:facet name="header">
-                                        <h:outputText value="Relação de Denúncias Botão Pânico" />
-                                    </f:facet>
-                                    <p:column headerText="Código">
-                                        <f:facet name="header">
-                                            <h:outputText value="Código" />
-                                        </f:facet>
-                                        <h:outputText value="#{denuncia.id}" />
-                                    </p:column>
-                                    <p:column headerText="Unidade" >
-                                        <f:facet name="header">
-                                            <h:outputText value="Unidade" />
-                                        </f:facet>
-                                        <h:outputText value="#{denuncia.unidade.sigla}">
-                                            <x:initializer/>
-                                        </h:outputText>
-                                    </p:column> 
-                                    <p:column headerText="Endereço" >
-                                        <f:facet name="header">
-                                            <h:outputText value="Endereço" />
-                                        </f:facet>
-                                        <h:outputText value="#{denuncia.endereco}">
-                                            <x:initializer/>
-                                        </h:outputText>
-                                    </p:column>
+                    <p:column headerText="#{msg['denuncia.endereco']}" sortBy="#{denuncia.endereco.logradouro}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['denuncia.endereco']}" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.endereco.logradouro}, #{denuncia.endereco.numero}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['denuncia.endereco.bairro']}" sortBy="#{denuncia.endereco.bairro}">
+                        <f:facet name="header">
+                            <h:outputText value="Bairro" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.endereco.bairro}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['denuncia.endereco.bairro.cidade']}" sortBy="#{denuncia.endereco.bairro.cidade.nome}">
+                        <f:facet name="header">
+                            <h:outputText value="Cidade" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.endereco.bairro.cidade}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Grupo de Violação" sortBy="#{denuncia.grupoDeViolacao}">
+                        <f:facet name="header">
+                            <h:outputText value="Grupo de Violação" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.grupoDeViolacao}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Natureza da Violação" sortBy="#{denuncia.naturezaDaViolacao}">
+                        <f:facet name="header">
+                            <h:outputText value="Natureza da Violação" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.naturezaDaViolacao}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Nome da Vítima" sortBy="#{denuncia.nomeVitima}">
+                        <f:facet name="header">
+                            <h:outputText value="Nome da Vítima" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.nomeVitima}"/>
+                    </p:column>
+                    <p:column headerText="Situação" sortBy="#{denuncia.situacao}">
+                        <f:facet name="header">
+                            <h:outputText value="Situação" />
+                        </f:facet>
+                        <h:outputText value="#{denuncia.situacao.descricao}"/>
+                    </p:column>
 
-                                    <p:column headerText="Bairro" >
-                                        <f:facet name="header">
-                                            <h:outputText value="Bairro" />
-                                        </f:facet>
-                                        <h:outputText value="#{denuncia.endereco.bairro}">
-                                            <x:initializer/>
-                                        </h:outputText>
-                                    </p:column>
-                                    <p:column headerText="Cidade" >
-                                        <f:facet name="header">
-                                            <h:outputText value="Cidade" />
-                                        </f:facet>
-                                        <h:outputText value="#{denuncia.endereco.bairro.cidade}">
-                                            <x:initializer/>
-                                        </h:outputText>
-                                    </p:column> 
-                                    <p:column headerText="Data" style="text-align: center;">
-                                        <f:facet name="header">
-                                            <h:outputText value="Data" />
-                                        </f:facet>
-                                        <h:outputText value="#{denuncia.dataDenuncia}">
-                                            <f:convertDateTime />
-                                        </h:outputText>
-                                    </p:column>
-                                    <p:column headerText="Hora" style="text-align: center;">
-                                        <f:facet name="header">
-                                            <h:outputText value="Hora" />
-                                        </f:facet>
-                                        <h:outputText value="#{denuncia.horaDenuncia}"/>
-                                    </p:column>
-                                    <p:column headerText="Tempo Atend.(Min)" style="text-align: center;">
-                                        <f:facet name="header">
-                                            <h:outputText value="Tempo Atend." />
-                                        </f:facet>
-                                        <h:outputText value="#{denuncia.tempoAtendimento}"/>
-                                    </p:column>
-
-                                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
-
-                                        <p:commandButton icon="ui-icon-circle-check" process="@this" update="@form" title="Atender a Denúncia" 
-                                                         action="#{monitoramentoMB.atenderDenuncia(denuncia)}" ajax="false" >
-                                            <x:download oncomplete="atualizarTabela()"/> 
-                                        </p:commandButton>
-
-
-                                    </p:column>
-
-                                </p:dataTable>
-                            </div>
-                            <div class="row">
-
-                                <p:dataTable var="denuncia" emptyMessage="#{xmsg['noRecordFound']}" styleClass="table-responsive" rows="3"
-                                             value="#{monitoramentoMB.denunciasNormal}" lazy="false" rowStyleClass="#{denuncia.tipo.num eq 1?'amarelo':'vermelho'}"
-                                             rendered="#{monitoramentoMB.denunciaSigilosa}">
-                                    <f:facet name="header">
-                                        <h:outputText value="Relação de Denúncias Normais" />
-                                    </f:facet>
-                                    <p:column headerText="Código">
-                                        <f:facet name="header">
-                                            <h:outputText value="Código" />
-                                        </f:facet>
-                                        <h:outputText value="#{denuncia.id}" />
-                                    </p:column>
-                                    <p:column headerText="Unidade" >
-                                        <f:facet name="header">
-                                            <h:outputText value="Unidade" />
-                                        </f:facet>
-                                        <h:outputText value="#{denuncia.unidade.sigla}">
-                                            <x:initializer/>
-                                        </h:outputText>
-                                    </p:column> 
-                                    <p:column headerText="Endereço" >
-                                        <f:facet name="header">
-                                            <h:outputText value="Endereço" />
-                                        </f:facet>
-                                        <h:outputText value="#{denuncia.endereco}">
-                                            <x:initializer/>
-                                        </h:outputText>
-                                    </p:column>
-
-                                    <p:column headerText="Bairro" >
-                                        <f:facet name="header">
-                                            <h:outputText value="Bairro" />
-                                        </f:facet>
-                                        <h:outputText value="#{denuncia.endereco.bairro}">
-                                            <x:initializer/>
-                                        </h:outputText>
-                                    </p:column>
-                                    <p:column headerText="Cidade" >
-                                        <f:facet name="header">
-                                            <h:outputText value="Cidade" />
-                                        </f:facet>
-                                        <h:outputText value="#{denuncia.endereco.bairro.cidade}">
-                                            <x:initializer/>
-                                        </h:outputText>
-                                    </p:column> 
-                                    <p:column headerText="Data" style="text-align: center;">
-                                        <f:facet name="header">
-                                            <h:outputText value="Data" />
-                                        </f:facet>
-                                        <h:outputText value="#{denuncia.dataDenuncia}">
-                                            <f:convertDateTime />
-                                        </h:outputText>
-                                    </p:column>
-                                    <p:column headerText="Hora" style="text-align: center;">
-                                        <f:facet name="header">
-                                            <h:outputText value="Hora" />
-                                        </f:facet>
-                                        <h:outputText value="#{denuncia.horaDenuncia}"/>
-                                    </p:column>
-                                    <p:column headerText="Tempo Atend." style="text-align: center;">
-                                        <f:facet name="header">
-                                            <h:outputText value="Tempo Atend." />
-                                        </f:facet>
-                                        <h:outputText value="#{denuncia.tempoAtendimento}"/>
-                                    </p:column>
-
-                                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
-
-                                        <p:commandButton icon="ui-icon-circle-check" process="@this" update="@form" title="Atender a Denúncia" 
-                                                         action="#{monitoramentoMB.atenderDenuncia(denuncia)}" ajax="false" >
-                                            <x:download oncomplete="atualizarTabela()"/> 
-                                        </p:commandButton>
-
-
-                                    </p:column>
-
-                                </p:dataTable>
-                            </div>
-                        </div>
-
-                    </div>
-                </p:panel>
-                <div class="row">
-
-                </div>
-            </div>
-            <p:remoteCommand update="panelMonitoramento" process="@this" name="atualizarTabela" />
+                    <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                        <f:facet name="header">
+                            <h:outputText value="#{xmsg['actions']}"/>
+                        </f:facet>
+                        <p:commandButton oncomplete="PF('widgetDenunciaDetail').show();"  icon="ui-icon-zoomin" 
+                                         process="@form" update=":formDetailDenuncia" title="#{xmsg['detail']}" >
+                            <f:setPropertyActionListener value="#{denuncia}" target="#{denunciaMB.entity}" />
+                        </p:commandButton>
+                        <x:securityArea rolesAllowed="denuncia.create">
+                            <p:button icon="ui-icon-pencil" outcome="createDenuncia" title="#{xmsg['edit']}">
+                                <f:param name="id" value="#{denuncia.id}" />
+                            </p:button>
+                        </x:securityArea>
+                        <x:securityArea rolesAllowed="denuncia.delete">
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                             action="#{denunciaMB.delete}" >
+                                <f:setPropertyActionListener value="#{denuncia.id}" target="#{denunciaMB.id}" />
+                                <x:confirmation message="#{xmsg['confirmDelete']} - #{denuncia}" />
+                            </p:commandButton>
+                        </x:securityArea>
+                        <x:securityArea rolesAllowed="denuncia.create">
+                            <p:commandButton icon="ui-icon-document" title="Gerar PDF" ajax="false" action="#{denunciaMB.gerarPdf(denuncia)}" 
+                                             process="@form" update="@form" >                         
+                            </p:commandButton>
+                        </x:securityArea>
+                    </p:column>
+                </p:dataTable>
         </h:form>
 
-        <audio id="audio-alerta" preload="auto">
-            <source src="#{request.contextPath}/sons/sirene.mp3" type="audio/mpeg"/>
-            <source src="#{request.contextPath}/sons/sirene.ogg" type="audio/ogg"/>
-        </audio>
-        <p:dialog widgetVar="widgetDenunciaEditar" header="Editar Denúncia" appendTo="@(body)" 
-                  modal="true" styleClass="uix-dialog-fluid" >
-            <ui:include src="formCreateDenunciaDialog.xhtml" />
-        </p:dialog>
-        <p:dialog widgetVar="widgetDetailMaps" modal="true" appendTo="@(body)" header="Denúncia - Rota"
-                  styleClass="uix-dialog-fluid">
-            <ui:include src="detailMapsComRota.xhtml"  />
-        </p:dialog>
+        
     </ui:define>
 
 </ui:composition>

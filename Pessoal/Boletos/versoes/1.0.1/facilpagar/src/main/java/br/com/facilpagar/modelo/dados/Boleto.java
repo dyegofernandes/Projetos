@@ -58,7 +58,10 @@ public class Boleto implements Serializable {
 
     @Size(max = 44)
     @NotBlank
-    private String cb;
+    private String codigobarras;
+    
+    @Size(max = 47)
+    private String linhadigitavel;
 
     @NotNull
     @Column(length = 20)
@@ -177,12 +180,20 @@ public class Boleto implements Serializable {
         this.banco = banco;
     }
 
-    public String getCb() {
-        return cb;
+    public String getCodigobarras() {
+        return codigobarras;
     }
 
-    public void setCb(String cb) {
-        this.cb = cb;
+    public void setCodigobarras(String cb) {
+        this.codigobarras = cb;
+    }
+
+    public String getLinhadigitavel() {
+        return linhadigitavel;
+    }
+
+    public void setLinhadigitavel(String linhadigitavel) {
+        this.linhadigitavel = linhadigitavel;
     }
 
     public TipoRepasse getTiporepasse() {

@@ -61,6 +61,8 @@ public class Filtros implements Serializable {
     private Boolean ativo;
     
     private Boolean ativo2;
+    
+    private Integer ano;
 
     public List<UnidadeOrcamentaria> getUnidadesOrcamentaria() {
         return unidadesOrcamentaria;
@@ -212,6 +214,14 @@ public class Filtros implements Serializable {
 
     public void setAtivo2(Boolean ativo2) {
         this.ativo2 = ativo2;
+    }
+
+    public Integer getAno() {
+        return ano;
+    }
+
+    public void setAno(Integer ano) {
+        this.ano = ano;
     }
 
 }
